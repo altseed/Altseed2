@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.12)
+
+# solution name
+project(Altseed)
+
+# specify multithread
+if (MSVC)
+    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_DEBUG            "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_MINSIZEREL       "${CMAKE_C_FLAGS_MINSIZEREL}")
+    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_RELEASE          "${CMAKE_C_FLAGS_RELEASE}")
+    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_RELWITHDEBINFO   "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG          "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_MINSIZEREL     "${CMAKE_CXX_FLAGS_MINSIZEREL}")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE        "${CMAKE_CXX_FLAGS_RELEASE}")
+    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+endif (MSVC)
+
+# specify project type
+set(CMAKE_CONFIGURATION_TYPES Debug Release)
+
+# specify destionation directories
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/DEBUG")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/DEBUG")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
+
+# specify C# framework
+set(CMAKE_DOTNET_TARGET_FRAMEWORK_VERSION v4.6.1)
+
+# add directories
+add_subdirectory(core)
+
+# specify a startup project
+# set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT CSharpCaller)
+
