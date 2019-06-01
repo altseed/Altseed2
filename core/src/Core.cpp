@@ -8,4 +8,6 @@ bool Core::Initialize() { return false; }
 
 void Core::Terminate() {}
 
+std::shared_ptr<Core>& Core::GetInstance() { return instance; }
+
 }  // namespace altseed

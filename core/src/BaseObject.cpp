@@ -1,4 +1,5 @@
 ﻿#include "BaseObject.h"
+#include "Core.h"
 
 namespace altseed {
 
