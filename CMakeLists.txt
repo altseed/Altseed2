@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.12)
 # solution name
 project(Altseed)
 
+# option
+option(BUILD_TEST "build test" OFF)
+
 # specify multithread
 if (MSVC)
     string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_DEBUG            "${CMAKE_C_FLAGS_DEBUG}")
@@ -28,6 +31,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
 set(CMAKE_DOTNET_TARGET_FRAMEWORK_VERSION v4.6.1)
 
 # add directories
+add_subdirectory(thirdparty)
 add_subdirectory(core)
 
 # specify a startup project

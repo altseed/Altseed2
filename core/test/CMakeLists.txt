@@ -3,15 +3,12 @@ cmake_minimum_required(VERSION 3.10)
 enable_language(CXX)
 
 # set files
-set(core_files
-    Core.h
+set(core_test_files
     Core.cpp
-    BaseObject.h
-    BaseObject.cpp
 )
 
 # specify project filters
-foreach(FILE ${core_files}) 
+foreach(FILE ${core_test_files}) 
     # Get the directory of the source file
     get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
 
@@ -39,13 +36,12 @@ endforeach()
 
 
 # create dll
-add_library(Altseed_Core
-    SHARED
-    ${core_files}
+add_executable(Altseed_Core_Test
+    ${core_test_files}
 )
 
-# export all functions to out of dll for testing
-SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+target_include_directories(Altseed_Core_Test PRIVATE ../src)
+target_link_libraries(Altseed_Core_Test PRIVATE Altseed_Core gtest)
 
 # make c++17 enabled
-SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES CXX_STANDARD 17)
+SET_TARGET_PROPERTIES(Altseed_Core_Test PROPERTIES CXX_STANDARD 17)
