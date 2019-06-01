@@ -7,6 +7,18 @@
 - cmake
 - git
 
+## サブモジュール取得
+
+```
+git submodule update --init
+```
+
+もしくは、
+
+```
+TortoiseGit -> Submodule Update -> OK
+```
+
 ## プロジェクト生成
 
 ### Windows
