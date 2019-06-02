@@ -34,6 +34,13 @@ set(CMAKE_DOTNET_TARGET_FRAMEWORK_VERSION v4.6.1)
 add_subdirectory(thirdparty)
 add_subdirectory(core)
 
+# specify filters
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+if(BUILD_TEST)
+    set_target_properties (gtest PROPERTIES FOLDER thirdparty)
+endif()
+
 # specify a startup project
 # set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT CSharpCaller)
 
