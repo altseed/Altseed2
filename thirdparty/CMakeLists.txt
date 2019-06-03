@@ -9,3 +9,5 @@ if(BUILD_TEST)
     endif()
     add_subdirectory(googletest EXCLUDE_FROM_ALL)
 endif()
+
+add_subdirectory(glfw EXCLUDE_FROM_ALL)
