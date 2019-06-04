@@ -1,4 +1,5 @@
 ﻿#include "Core.h"
+#include "BaseObject.h"
 
 namespace altseed {
 
@@ -11,8 +12,8 @@ bool Core::Initialize() {
 
 void Core::Terminate() {
     // dispose objects
-    for (auto item : Core::instance->baseObjects) {
-        delete item;
+    while (!Core::instance->baseObjects.empty()) {
+        delete *Core::instance->baseObjects.begin();
     }
 
     Core::instance = nullptr;

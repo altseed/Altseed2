@@ -9,6 +9,9 @@ BaseObject::BaseObject() {
     core_->Register(this);
 }
 
-BaseObject::~BaseObject() { core_->Unregister(this); }
+BaseObject::~BaseObject() {
+    core_->Unregister(this);
+    core_ = nullptr;
+}
 
 }  // namespace altseed
