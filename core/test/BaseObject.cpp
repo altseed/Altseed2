@@ -52,3 +52,15 @@ TEST(BaseObject, Async) {
 
     asd::Core::Terminate();
 }
+
+TEST(BaseObject, DisposeInOtherThreadAfterTerminate) {
+    EXPECT_TRUE(asd::Core::Initialize());
+
+    auto baseObject = new asd::BaseObject();
+
+    asd::Core::Terminate();
+
+    std::thread thread1([baseObject]() -> void { baseObject->Release(); });
+
+    thread1.join();
+}
