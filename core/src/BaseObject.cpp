@@ -3,8 +3,7 @@
 
 namespace altseed {
 
-BaseObject::BaseObject() {
-    reference_ = 1;
+BaseObject::BaseObject() : reference_(1) {
     core_ = Core::GetInstance();
     core_->Register(this);
 }
@@ -12,6 +11,7 @@ BaseObject::BaseObject() {
 BaseObject::~BaseObject() {
     core_->Unregister(this);
     core_ = nullptr;
+    reference_ = 0;
 }
 
 }  // namespace altseed
