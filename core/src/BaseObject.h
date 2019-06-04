@@ -22,11 +22,14 @@ public:
     virtual ~BaseObject();
 
     //! Increase a reference counter
-    int32_t AddRef() { return ++reference_; }
+    int32_t AddRef() {
+        std::atomic_fetch_add_explicit(&reference_, 1, std::memory_order_consume);
+        return reference_;
+    }
 
     //! Decrease a reference counter
     int32_t Release() {
-        if (--reference_ == 0) {
+        if (std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume) == 1) {
             delete this;
             return 0;
         }
