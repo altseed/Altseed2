@@ -6,18 +6,6 @@ project(Altseed)
 # option
 option(BUILD_TEST "build test" OFF)
 
-# specify multithread
-if (MSVC)
-    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_DEBUG            "${CMAKE_C_FLAGS_DEBUG}")
-    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_MINSIZEREL       "${CMAKE_C_FLAGS_MINSIZEREL}")
-    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_RELEASE          "${CMAKE_C_FLAGS_RELEASE}")
-    string(REPLACE "/MD" "/MT" CMAKE_C_FLAGS_RELWITHDEBINFO   "${CMAKE_C_FLAGS_RELWITHDEBINFO}")
-    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG          "${CMAKE_CXX_FLAGS_DEBUG}")
-    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_MINSIZEREL     "${CMAKE_CXX_FLAGS_MINSIZEREL}")
-    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE        "${CMAKE_CXX_FLAGS_RELEASE}")
-    string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
-endif (MSVC)
-
 # specify project type
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
