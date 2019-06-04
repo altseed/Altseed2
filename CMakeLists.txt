@@ -37,6 +37,8 @@ add_subdirectory(core)
 # specify filters
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+set_target_properties (glfw PROPERTIES FOLDER thirdparty)
+
 if(BUILD_TEST)
     set_target_properties (gtest PROPERTIES FOLDER thirdparty)
 endif()
