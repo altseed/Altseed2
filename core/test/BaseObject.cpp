@@ -44,7 +44,7 @@ TEST(BaseObject, Async) {
     thread1.join();
     thread2.join();
 
-    EXPECT_EQ(baseObject->GetRef(), 100001);
+    EXPECT_EQ(baseObject->GetRef(), 10001);
 
     for (int i = 0; i < 10001; i++) {
         baseObject->Release();
