@@ -22,13 +22,19 @@ private:
 
 public:
     //! register a base object
-    void Register(BaseObject* o) { throw "Unimplemented"; }
+    void Register(BaseObject* o) {
+        std::lock_guard<std::mutex> lock(baseObjectMtx_);
+        baseObjects.insert(o);
+    }
 
     //! unregister a base object
-    void Unregister(BaseObject* o) { throw "Unimplemented"; }
+    void Unregister(BaseObject* o) {
+        std::lock_guard<std::mutex> lock(baseObjectMtx_);
+        baseObjects.erase(o);
+    }
 
-	//! get the number of base objects
-	int32_t GetBaseObjectCount() const { throw "Unimplemented"; }
+    //! get the number of base objects
+    int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
 
     //! Initialize core and create a singleton
     static bool Initialize();
