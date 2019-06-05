@@ -11,10 +11,10 @@ bool Core::Initialize() {
 }
 
 void Core::Terminate() {
-    // dispose objects
-    while (!Core::instance->baseObjects.empty()) {
-        delete *Core::instance->baseObjects.begin();
-    }
+	// notify terminating to objects
+    for (auto obj : Core::instance->baseObjects) {
+        obj->OnTerminating();
+	}
 
     Core::instance = nullptr;
 }

@@ -11,7 +11,6 @@ BaseObject::BaseObject() : reference_(1) {
 BaseObject::~BaseObject() {
     core_->Unregister(this);
     core_ = nullptr;
-    reference_ = 0;
 }
 
 }  // namespace altseed

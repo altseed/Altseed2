@@ -38,6 +38,8 @@ public:
 
     //! Get current reference counter
     int32_t GetRef() const { return reference_; }
+
+    virtual void OnTerminating() {}
 };
 
 }  // namespace altseed
