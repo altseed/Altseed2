@@ -1,29 +1,29 @@
 
-## •K{
+## å¿…é ˆ
 
 ### Windows
 
-- VisualStudio(2019ˆÈ~)
+- VisualStudio(2019ä»¥é™)
 - cmake
 - git
 
-## ƒTƒuƒ‚ƒWƒ…[ƒ‹Žæ“¾
+## ã‚µãƒ–ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å–å¾—
 
 ```
 git submodule update --init
 ```
 
-‚à‚µ‚­‚ÍA
+ã‚‚ã—ãã¯ã€
 
 ```
 TortoiseGit -> Submodule Update -> OK
 ```
 
-## ƒvƒƒWƒFƒNƒg¶¬
+## ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 
 ### Windows
 
-‰º‹L‚ÌƒXƒNƒŠƒvƒg‚ðŽÀs‚µ‚Ü‚·B
+ä¸‹è¨˜ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
 
 - 32bit
 
