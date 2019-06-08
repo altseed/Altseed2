@@ -44,5 +44,9 @@ add_executable(Altseed_Core_Test
 target_include_directories(Altseed_Core_Test PRIVATE ../src)
 target_link_libraries(Altseed_Core_Test PRIVATE Altseed_Core gtest)
 
+# test for Window
+target_link_libraries(Altseed_Core_Test PRIVATE glfw)
+
+
 # make c++17 enabled
 SET_TARGET_PROPERTIES(Altseed_Core_Test PROPERTIES CXX_STANDARD 17)
