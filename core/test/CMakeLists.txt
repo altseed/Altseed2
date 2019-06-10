@@ -6,6 +6,7 @@ enable_language(CXX)
 set(core_test_files
     BaseObject.cpp
     Core.cpp
+    Window.cpp
 )
 
 # specify project filters
