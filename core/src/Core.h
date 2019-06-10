@@ -10,6 +10,11 @@ namespace altseed {
 
 class BaseObject;
 
+struct CoreOption {
+    bool IsFullscreenMode = false;
+    bool IsResizable = false;
+};
+
 class Core {
 private:
     static std::shared_ptr<Core> instance;
@@ -37,7 +42,7 @@ public:
     int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
 
     //! Initialize core and create a singleton
-    static bool Initialize();
+    static bool Initialize(char16_t* title, int32_t width, int32_t height, const CoreOption& option);
 
     //! Terminate core and dispose the singleton
     static void Terminate();
