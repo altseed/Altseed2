@@ -6,7 +6,7 @@
 namespace asd = altseed;
 
 TEST(Window, Base) {
-    EXPECT_TRUE(asd::Core::Initialize());
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
 
     int i = 0;
     while (asd::Window::GetInstance()->DoEvent() || i < 1000) {
