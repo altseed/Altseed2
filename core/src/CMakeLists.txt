@@ -8,10 +8,8 @@ set(core_files
     Core.cpp
     BaseObject.h
     BaseObject.cpp
-    Window/WindowModule.h
-    Window/WindowModule.cpp
-    Window/WindowObject.h
-    Window/WindowObject.cpp
+    Window/Window.h
+    Window/Window.cpp
 )
 
 # specify project filters
