@@ -137,8 +137,8 @@ class Keyboard {
 private:
     std::shared_ptr<Window> window;
 
-    std::array<bool, 122> currentState;
-    std::array<bool, 122> oldState;
+    std::array<bool, static_cast<int>(Keys::MAX)> currentState;
+    std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
 public:
     Keyboard();
