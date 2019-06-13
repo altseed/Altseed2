@@ -10,6 +10,9 @@ set(core_files
     BaseObject.cpp
     Window/Window.h
     Window/Window.cpp
+    Input/ButtonState.h
+    Input/Keyboard.h
+    Input/Keyboard.cpp
 )
 
 # specify project filters
