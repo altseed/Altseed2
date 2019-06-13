@@ -22,12 +22,13 @@ private:
     GLFWwindow* mainWindow_;
     std::vector<GLFWwindow*> subWindows;
 
+	char16_t* title;
 public:
     static bool Initialize(const WindowInitializationParameter& parameter);
 
     static void Terminate();
 
-    static std::shared_ptr<Window> GetInstance() { return instance; }
+    static std::shared_ptr<Window>& GetInstance();
 
     void SetTitle(const char16_t* title);
 
