@@ -9,7 +9,7 @@ TEST(Window, Base) {
     EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
 
     int i = 0;
-    while (asd::Window::GetInstance()->DoEvent() || i < 1000) {
+    while (asd::Window::GetInstance()->DoEvent() && i < 1000) {
         asd::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
         int32_t w, h;
         asd::Window::GetInstance()->GetSize(w, h);
