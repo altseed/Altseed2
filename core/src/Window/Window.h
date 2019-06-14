@@ -22,7 +22,8 @@ private:
     GLFWwindow* mainWindow_;
     std::vector<GLFWwindow*> subWindows;
 
-	char16_t* title;
+    char16_t* title;
+
 public:
     static bool Initialize(const WindowInitializationParameter& parameter);
 
