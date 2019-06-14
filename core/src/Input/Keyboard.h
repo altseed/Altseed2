@@ -135,17 +135,18 @@ enum class Keys : int32_t {
 
 class Keyboard {
 private:
+    static std::shared_ptr<Keyboard> instance;
     std::shared_ptr<Window> window;
 
     std::array<bool, static_cast<int>(Keys::MAX)> currentState;
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
 public:
-    Keyboard();
+    static bool Intialize(Window* window);
 
-    ~Keyboard();
+	static void Terminate();
 
-    bool Intialize(Window* window);
+    static std::shared_ptr<Keyboard>& GetInstance();
 
     void RefleshKeyStates();
 
