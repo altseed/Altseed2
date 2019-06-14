@@ -49,7 +49,7 @@ add_library(Altseed_Core
     ${core_files}
 )
 
-target_link_libraries(Altseed_Core PRIVATE glfw)
+target_link_libraries(Altseed_Core PRIVATE glfw spdlog)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

@@ -26,6 +26,7 @@ add_subdirectory(core)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set_target_properties (glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 
 if(BUILD_TEST)
     set_target_properties (gtest PROPERTIES FOLDER thirdparty)
