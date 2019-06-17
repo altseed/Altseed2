@@ -22,8 +22,6 @@
 
 namespace altseed {
 
-
-
 std::shared_ptr<Window> Window::instance = nullptr;
 
 // http://hasenpfote36.blogspot.jp/2016/09/stdcodecvt.html
@@ -70,7 +68,7 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
         glfwTerminate();
         return false;
     }
-	//memolize title to get later
+    // memolize title to get later
     GetInstance()->Window::title = parameter.Title;
 
     glfwSwapInterval(1);
