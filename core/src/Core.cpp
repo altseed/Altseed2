@@ -1,6 +1,7 @@
-﻿#include "Core.h"
+#include "Core.h"
 #include "BaseObject.h"
 #include "Window/Window.h"
+#include "Input/Keyboard.h"
 
 namespace altseed {
 
@@ -16,6 +17,8 @@ bool Core::Initialize(char16_t* title, int32_t width, int32_t height, const Core
     windowParameter.IsFullscreenMode = option.IsFullscreenMode;
     windowParameter.IsResizable = option.IsResizable;
     Window::Initialize(windowParameter);
+    
+    Keyboard::Intialize(Window::GetInstance());
 
     return Core::instance != nullptr;
 }
@@ -33,4 +36,12 @@ void Core::Terminate() {
 
 std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 
+bool Core::DoEvent(){
+    
+    altseed::Keyboard::GetInstance()->RefleshKeyStates();
+    
+    return altseed::Window::GetInstance()->DoEvent();
+}
+
 }  // namespace altseed
+

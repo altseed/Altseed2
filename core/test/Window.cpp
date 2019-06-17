@@ -6,7 +6,9 @@
 namespace asd = altseed;
 
 TEST(Window, Base) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    char16_t s16[] = u"test";
+
+    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
 
     int i = 0;
     while (asd::Window::GetInstance()->DoEvent() && i < 1000) {

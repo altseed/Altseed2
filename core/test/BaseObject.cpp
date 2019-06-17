@@ -1,4 +1,4 @@
-﻿#include <BaseObject.h>
+#include <BaseObject.h>
 #include <Core.h>
 #include <gtest/gtest.h>
 #include <thread>
@@ -6,7 +6,9 @@
 namespace asd = altseed;
 
 TEST(BaseObject, Basic) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    char16_t s16[] = u"test";
+
+    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
     EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), 0);
 
     auto baseObject = new asd::BaseObject();
@@ -25,7 +27,8 @@ TEST(BaseObject, Basic) {
 }
 
 TEST(BaseObject, Async) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    char16_t s16[] = u"test";
+    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
 
     auto baseObject = new asd::BaseObject();
 
@@ -54,7 +57,8 @@ TEST(BaseObject, Async) {
 }
 
 TEST(BaseObject, DisposeInOtherThreadAfterTerminate) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    char16_t s16[] = u"test";
+    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
 
     auto baseObject = new asd::BaseObject();
 

@@ -7,6 +7,7 @@ set(core_test_files
     BaseObject.cpp
     Core.cpp
     Window.cpp
+    Keyboard.cpp
 )
 
 # specify project filters
