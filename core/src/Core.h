@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -49,5 +49,7 @@ public:
 
     //! Get instance
     static std::shared_ptr<Core>& GetInstance();
+    
+    bool DoEvent();
 };
 }  // namespace altseed

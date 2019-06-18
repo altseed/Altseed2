@@ -137,7 +137,9 @@ class Keyboard {
 private:
     static std::shared_ptr<Keyboard> instance;
     std::shared_ptr<Window> window;
-
+    
+    static const int keyCodes[(int)Keys::MAX + 1];
+    
     std::array<bool, static_cast<int>(Keys::MAX)> currentState;
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
@@ -148,6 +150,12 @@ public:
 
     static std::shared_ptr<Keyboard>& GetInstance();
 
+    static bool Intialize(std::shared_ptr<Window>& window);
+    
+    static void Terminate(){}
+    
+    static std::shared_ptr<Keyboard>& GetInstance();
+    
     void RefleshKeyStates();
 
     ButtonState GetKeyState(Keys key) const;

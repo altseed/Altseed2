@@ -34,3 +34,6 @@ build/
 *.app
 /.vs
 /.vscode
+
+# Mac
+.DS_Store
