@@ -144,16 +144,10 @@ private:
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
 public:
-    static bool Intialize(Window* window);
-
-	static void Terminate();
-
-    static std::shared_ptr<Keyboard>& GetInstance();
-
     static bool Intialize(std::shared_ptr<Window>& window);
-    
+
     static void Terminate(){}
-    
+
     static std::shared_ptr<Keyboard>& GetInstance();
     
     void RefleshKeyStates();
