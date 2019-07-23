@@ -6,6 +6,7 @@ project(Altseed)
 # option
 option(BUILD_TEST "build test" OFF)
 option(SANITIZE_ENABLED "make sanitize enabled" OFF)
+
 # specify project type
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
@@ -30,7 +31,8 @@ add_subdirectory(core)
 # specify filters
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set_target_properties (glfw PROPERTIES FOLDER thirdparty)
+# set_target_properties (glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 
 if(BUILD_TEST)

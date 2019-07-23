@@ -13,6 +13,8 @@ set(core_files
     Input/ButtonState.h
     Input/Keyboard.h
     Input/Keyboard.cpp
+    Input/Mouse.h
+    Input/Mouse.cpp
 )
 
 # specify project filters
@@ -49,7 +51,23 @@ add_library(Altseed_Core
     ${core_files}
 )
 
-target_link_libraries(Altseed_Core PRIVATE glfw spdlog)
+target_include_directories(Altseed_Core PRIVATE ${THIRDPARTY_INCLUDES})
+
+target_link_libraries(
+    Altseed_Core
+    PRIVATE
+    spdlog
+    debug glfw3d
+    optimized glfw3)
+
+target_link_directories(
+    Altseed_Core
+    PRIVATE
+    ${THIRDPARTY_LIBRARY_DIRECTORIES})
+
+add_dependencies(
+    Altseed_Core
+    ExternalProject_glfw)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

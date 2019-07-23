@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <array>
+#include <functional>
 #include "../Window/Window.h"
 #include "ButtonState.h"
 

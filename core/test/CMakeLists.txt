@@ -42,11 +42,26 @@ add_executable(Altseed_Core_Test
     ${core_test_files}
 )
 
-target_include_directories(Altseed_Core_Test PRIVATE ../src)
-target_link_libraries(Altseed_Core_Test PRIVATE Altseed_Core gtest)
+target_include_directories(
+    Altseed_Core_Test 
+    PRIVATE
+    ../src
+    ${THIRDPARTY_INCLUDES})
 
-# test for Window
-target_link_libraries(Altseed_Core_Test PRIVATE glfw)
+target_link_libraries(
+    Altseed_Core_Test
+    PRIVATE
+    Altseed_Core
+    gtest
+    debug glfw3d
+    optimized glfw3)
+
+target_link_directories(
+    Altseed_Core_Test
+    PRIVATE
+     ${THIRDPARTY_LIBRARY_DIRECTORIES})
+
+add_dependencies(Altseed_Core_Test ExternalProject_glfw)
 
 
 # make c++17 enabled
