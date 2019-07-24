@@ -1,7 +1,9 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+
 #include <array>
+
 #include "../Window/Window.h"
 #include "ButtonState.h"
 
@@ -137,19 +139,19 @@ class Keyboard {
 private:
     static std::shared_ptr<Keyboard> instance;
     std::shared_ptr<Window> window;
-    
+
     static const int keyCodes[(int)Keys::MAX + 1];
-    
+
     std::array<bool, static_cast<int>(Keys::MAX)> currentState;
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
 public:
     static bool Intialize(std::shared_ptr<Window>& window);
 
-    static void Terminate(){}
+    static void Terminate() {}
 
     static std::shared_ptr<Keyboard>& GetInstance();
-    
+
     void RefleshKeyStates();
 
     ButtonState GetKeyState(Keys key) const;
