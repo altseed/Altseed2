@@ -42,14 +42,14 @@ public:
     int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
 
     //! Initialize core and create a singleton
-    static bool Initialize(char16_t* title, int32_t width, int32_t height, const CoreOption& option);
+    static bool Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option);
 
     //! Terminate core and dispose the singleton
     static void Terminate();
 
     //! Get instance
     static std::shared_ptr<Core>& GetInstance();
-    
+
     bool DoEvent();
 };
 }  // namespace altseed
