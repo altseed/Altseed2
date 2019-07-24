@@ -149,14 +149,7 @@ void Keyboard::RefleshKeyStates() {
 }
 ButtonState Keyboard::GetKeyState(Keys key) const {
     int index = (int32_t)key;
-    if (currentState[index] && oldState[index])
-        return ButtonState::Hold;
-    else if (!currentState[index] && oldState[index])
-        return ButtonState::Release;
-    else if (currentState[index] && !oldState[index])
-        return ButtonState::Push;
-    else
-        return ButtonState::Free;
+    return static_cast<ButtonState>((currentState[index] ? 1 : 0) | (oldState[index] ? 2 : 0));
 }
 
 std::shared_ptr<Keyboard>& Keyboard::GetInstance() { return instance; }
