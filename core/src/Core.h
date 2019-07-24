@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+
 #include <memory>
 #include <mutex>
 #include <set>
@@ -49,7 +50,7 @@ public:
 
     //! Get instance
     static std::shared_ptr<Core>& GetInstance();
-    
+
     bool DoEvent();
 };
 }  // namespace altseed
