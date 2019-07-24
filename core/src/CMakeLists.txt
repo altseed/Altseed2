@@ -51,8 +51,6 @@ add_library(Altseed_Core
     ${core_files}
 )
 
-target_include_directories(Altseed_Core PRIVATE ${THIRDPARTY_INCLUDES})
-
 target_link_libraries(
     Altseed_Core
     PRIVATE
@@ -60,11 +58,20 @@ target_link_libraries(
     debug glfw3d
     optimized glfw3)
 
+# to use external projects
+target_include_directories(
+    Altseed_Core 
+    PRIVATE 
+    ${THIRDPARTY_INCLUDES})
+
+# to use external projects
 target_link_directories(
     Altseed_Core
     PRIVATE
     ${THIRDPARTY_LIBRARY_DIRECTORIES})
 
+# specify dependencies about external projects. 
+# It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed_Core
     ExternalProject_glfw)

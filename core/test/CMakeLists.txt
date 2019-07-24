@@ -45,8 +45,7 @@ add_executable(Altseed_Core_Test
 target_include_directories(
     Altseed_Core_Test 
     PRIVATE
-    ../src
-    ${THIRDPARTY_INCLUDES})
+    ../src)
 
 target_link_libraries(
     Altseed_Core_Test
@@ -56,12 +55,23 @@ target_link_libraries(
     debug glfw3d
     optimized glfw3)
 
+# to use external projects
+target_include_directories(
+    Altseed_Core_Test
+    PRIVATE 
+    ${THIRDPARTY_INCLUDES})
+
+# to use external projects
 target_link_directories(
     Altseed_Core_Test
     PRIVATE
-     ${THIRDPARTY_LIBRARY_DIRECTORIES})
+    ${THIRDPARTY_LIBRARY_DIRECTORIES})
 
-add_dependencies(Altseed_Core_Test ExternalProject_glfw)
+# specify dependencies about external projects. 
+# It is required to use external projects in addition of target_link_libraries
+add_dependencies(
+    Altseed_Core_Test
+    ExternalProject_glfw)
 
 
 # make c++17 enabled
