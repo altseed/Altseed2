@@ -35,6 +35,7 @@ set_target_properties (ExternalProject_zlib PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libpng PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libzip PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (hidapi PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 
 if(BUILD_TEST)

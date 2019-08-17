@@ -1,0 +1,1 @@
+This project is based on https://github.com/signal11/hidapi

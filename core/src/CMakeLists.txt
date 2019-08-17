@@ -55,6 +55,7 @@ target_link_libraries(
     Altseed_Core
     PRIVATE
     spdlog
+    hidapi
     debug glfw3d
     optimized glfw3
     debug zip
@@ -62,7 +63,7 @@ target_link_libraries(
     debug libpng16_staticd
     optimized libpng16_static
     debug zlibstaticd
-    optimized zlibstatic    
+    optimized zlibstatic
     )
 
 # to use external projects

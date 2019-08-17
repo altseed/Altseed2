@@ -86,14 +86,11 @@ ExternalProject_Add(
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/glfw/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/glfw/lib)
 
+# hidapi
+add_subdirectory(hidapi EXCLUDE_FROM_ALL)
+
 # spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
-
-# zlib
-
-# libpng
-
-# libzip
 
 # assign valiables into the parent scope
 set(THIRDPARTY_INCLUDES ${THIRDPARTY_INCLUDES} PARENT_SCOPE)
