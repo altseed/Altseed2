@@ -10,3 +10,12 @@
 [submodule "thirdparty/LLGI"]
 	path = thirdparty/LLGI
 	url = https://github.com/altseed/LLGI
+[submodule "thirdparty/libpng"]
+	path = thirdparty/libpng
+	url = https://github.com/glennrp/libpng
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = https://github.com/madler/zlib
+[submodule "thirdparty/libzip"]
+	path = thirdparty/libzip
+	url = https://github.com/nih-at/libzip.git

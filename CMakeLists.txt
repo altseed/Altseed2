@@ -31,7 +31,9 @@ add_subdirectory(core)
 # specify filters
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# set_target_properties (glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_zlib PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_libpng PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_libzip PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 

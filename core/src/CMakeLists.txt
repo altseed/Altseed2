@@ -56,7 +56,14 @@ target_link_libraries(
     PRIVATE
     spdlog
     debug glfw3d
-    optimized glfw3)
+    optimized glfw3
+    debug zip
+    optimized zip
+    debug libpng16_staticd
+    optimized libpng16_static
+    debug zlibstaticd
+    optimized zlibstatic    
+    )
 
 # to use external projects
 target_include_directories(
@@ -74,7 +81,10 @@ target_link_directories(
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed_Core
-    ExternalProject_glfw)
+    ExternalProject_glfw
+    ExternalProject_zlip
+    ExternalProject_libpng
+    ExternalProject_libzip)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

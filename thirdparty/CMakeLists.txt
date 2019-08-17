@@ -13,6 +13,61 @@ if(BUILD_TEST)
     add_subdirectory(googletest EXCLUDE_FROM_ALL)
 endif()
 
+# zlib
+ExternalProject_Add(
+    ExternalProject_zlib
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/zlib
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/zlib
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/zlib
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DASM686=off
+                    -DAMD64=off
+)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib)
+
+# libpng
+ExternalProject_Add(
+    ExternalProject_libpng
+    DEPENDS         ExternalProject_zlib
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libpng
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/libpng
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/libpng
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
+                    -DPNG_BUILD_ZLIB=ON
+                    -DPNG_SHARED=OFF
+                    -DPNG_TESTS=OFF
+)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/lib)
+
+# libzip
+ExternalProject_Add(
+    ExternalProject_libzip
+    DEPENDS         ExternalProject_zlib
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libzip
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/libzip
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/libzip
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/libzip
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
+                    -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DBUILD_TOOLS=OFF
+                    -DBUILD_REGRESS=OFF
+                    -DBUILD_EXAMPLES=OFF
+                    -DBUILD_DOC=OFF
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/libzip/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/libzip/lib)
+
 # glfw
 ExternalProject_Add(
     ExternalProject_glfw
@@ -33,6 +88,12 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/g
 
 # spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
+
+# zlib
+
+# libpng
+
+# libzip
 
 # assign valiables into the parent scope
 set(THIRDPARTY_INCLUDES ${THIRDPARTY_INCLUDES} PARENT_SCOPE)
