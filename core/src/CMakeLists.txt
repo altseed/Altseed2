@@ -15,6 +15,9 @@ set(core_files
     Input/Keyboard.cpp
     Input/Mouse.h
     Input/Mouse.cpp
+    IO/File.h
+    IO/StaticFile.h
+    IO/StreamFile.h
 )
 
 # specify project filters
