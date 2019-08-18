@@ -12,11 +12,11 @@ namespace altseed {
 enum class Keys : int32_t {
     Unknown,
     Space,  ///< Space
-    Apostrophe,  ///< ： (` in US )
-    Comma,  ///< ，
-    Minus,  ///< －
-    Period,  ///< ．
-    Slash,  ///< ／
+    Apostrophe,  ///< : (` in US )
+    Comma,  ///< ,
+    Minus,  ///< -
+    Period,  ///< .
+    Slash,  ///< /
     Num0,  ///< 0
     Num1,  ///< 1
     Num2,  ///< 2
@@ -27,8 +27,8 @@ enum class Keys : int32_t {
     Num7,  ///< 7
     Num8,  ///< 8
     Num9,  ///< 9
-    Semicolon,  ///< ；
-    Equal,  ///< ＾ (＝ in US )
+    Semicolon,  ///< ;
+    Equal,  ///< ^ (= in US )
     A,  ///< A
     B,  ///< B
     C,  ///< C
@@ -55,9 +55,9 @@ enum class Keys : int32_t {
     X,  ///< X
     Y,  ///< Y
     Z,  ///< Z
-    LeftBracket,  ///< @ (［ in US )
-    Backslash,  ///< ] (＼ in US )
-    RightBracket,  ///< [ (］ in US )
+    LeftBracket,  ///< @ ([ in US )
+    Backslash,  ///< ] (\ in US )
+    RightBracket,  ///< [ (] in US )
     GraveAccent,  ///< Hankaku/Zenkaku
     World1,
     World2,
@@ -115,13 +115,13 @@ enum class Keys : int32_t {
     Keypad7,  ///< Numpad7
     Keypad8,  ///< Numpad8
     Keypad9,  ///< Numpad9
-    KeypadDecimal,  ///< Numpad．
-    KeypadDivide,  ///< Numpad／
-    KeypadMultiply,  ///< Numpad＊
-    KeypadSubstract,  ///< Numpad－
-    KeypadAdd,  ///< Numpad＋
+    KeypadDecimal,  ///< Numpad.
+    KeypadDivide,  ///< Numpad/
+    KeypadMultiply,  ///< Numpad*
+    KeypadSubstract,  ///< Numpad-
+    KeypadAdd,  ///< Numpad+
     KeypadEnter,  ///< NumpadEnter
-    KeypadEqual,  ///< Numpad＝
+    KeypadEqual,  ///< Numpad=
     LeftShift,  ///< Left-Shift
     LeftControl,  ///< Left-Ctrl
     LeftAlt,  ///< Left-Alt
