@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <vector>
+#include "FileRoot.h"
 #include "StaticFile.h"
 #include "StreamFile.h"
 
@@ -9,6 +11,8 @@ namespace altseed {
 class File {
 private:
     static std::shared_ptr<File> instance;
+
+	std::vector<std::shared_ptr<FileRoot>> m_roots;
 
 public:
     static bool Initialize();

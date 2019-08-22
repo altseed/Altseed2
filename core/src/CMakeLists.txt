@@ -16,8 +16,15 @@ set(core_files
     Input/Mouse.h
     Input/Mouse.cpp
     IO/File.h
+    IO/File.cpp
+    IO/PackFile.h
     IO/StaticFile.h
+    IO/StaticFile.cpp
     IO/StreamFile.h
+    IO/StreamFile.cpp
+    IO/FileRoot.h
+    IO/BaseFileReader.h
+    IO/PackFileReader.h
 )
 
 # specify project filters
