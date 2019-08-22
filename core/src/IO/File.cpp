@@ -5,8 +5,6 @@ bool File::Initialize() { return false; }
 
 void File::Terminate() {}
 
-std::shared_ptr<File>& File::GetInstance() { return instance; }
-
 StaticFile* File::CreateStaticFile(const char16_t* path) { return nullptr; }
 
 StreamFile* File::CreateStreamFile(const char16_t* path) { return nullptr; }

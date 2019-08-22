@@ -19,8 +19,6 @@ public:
 
     static void Terminate();
 
-    static std::shared_ptr<File>& GetInstance();
-
     StaticFile* CreateStaticFile(const char16_t* path);
 
     StreamFile* CreateStreamFile(const char16_t* path);
