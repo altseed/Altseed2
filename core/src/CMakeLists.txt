@@ -8,6 +8,7 @@ set(core_files
     Core.cpp
     BaseObject.h
     BaseObject.cpp
+    Common/Int8Array.h
     Window/Window.h
     Window/Window.cpp
     Input/ButtonState.h
