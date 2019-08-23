@@ -19,13 +19,17 @@ set(core_files
     IO/File.h
     IO/File.cpp
     IO/PackFile.h
+    IO/PackFile.cpp
     IO/StaticFile.h
     IO/StaticFile.cpp
     IO/StreamFile.h
     IO/StreamFile.cpp
     IO/FileRoot.h
+    IO/FileRoot.cpp
     IO/BaseFileReader.h
+    IO/BaseFileReader.cpp
     IO/PackFileReader.h
+    IO/PackFileReader.cpp
 )
 
 # specify project filters
