@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include "../Common/Int8Array.h"
 #include "../BaseObject.h"
 
 namespace altseed {
@@ -16,7 +16,7 @@ public:
     StaticFile();
     virtual ~StaticFile();
 
-    std::vector<uint8_t>& GetBuffer() const;
+    Int8Array& GetBuffer() const;
 
     char16_t* GetPath() const;
 

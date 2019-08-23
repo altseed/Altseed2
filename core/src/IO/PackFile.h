@@ -18,6 +18,6 @@ public:
     virtual ~PackFile();
 
 	zip_file* Load(const std::wstring& path);
-    bool GetIsExist(const std::wstring& path);
+    bool Exists(const std::wstring& path);
 };
 }  // namespace altseed
