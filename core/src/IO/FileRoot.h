@@ -8,9 +8,15 @@ namespace altseed {
 class FileRoot {
 private:
     PackFile* m_packFile;
-    std::wstring m_path;
+    std::u16string m_path;
 
 public:
-    FileRoot(const std::wstring& path);
+    FileRoot(const std::u16string& path);
+    FileRoot(const std::u16string& path, PackFile* packFile);
+    ~FileRoot();
+
+    std::u16string& GetPath();
+    PackFile* GetPackFile();
+    bool IsPack();
 };
 }  // namespace altseed
