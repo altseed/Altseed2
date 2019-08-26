@@ -14,50 +14,50 @@ public:
     class ResourceInfomation {
     private:
         RESOURCE* m_resourcePtr;
-        std::wstring m_path;
+        std::u16string m_path;
         time_t m_modifiedTime;
 
     public:
-        ResourceContainer(RESOURCE* resource, std::wstring path) {
+        ResourceInfomation(RESOURCE* resource, std::u16string path) {
             m_resourcePtr = resource;
             m_path = path;
             m_modifiedTime = GetModifiedTime(path);
         }
 
         RESOURCE* GetResourcePtr() { return m_resourcePtr; }
-        const std::wstring& GetPath() { return m_path; }
+        const std::u16string& GetPath() { return m_path; }
         const time_t GetModifiedTime() { return m_modifiedTime; }
     };
 
 private:
-    std::map<std::wstring, std::shared_ptr<ResourceInfomation>> resources;
+    std::map<std::u16string, std::shared_ptr<ResourceInfomation>> resources;
 
 public:
     ResourceContainer() {}
 
-    const std::map<std::wstring, std::shared_ptr<ResourceInfomation>>& GetAllResouces() { return resources; }
+    const std::map<std::u16string, std::shared_ptr<ResourceInfomation>>& GetAllResouces() { return resources; }
 
-    RESOURCE* Get(const std::wstring key) {
+    RESOURCE* Get(const std::u16string key) {
         if (resources.count(key) > 0) return resources[key]->GetResourcePtr();
         return nullptr;
     }
 
-    void Register(const std::wstring path, std::shared_ptr<ResourceInfomation> resource) { resources[path] = resource; }
+    void Register(const std::u16string path, std::shared_ptr<ResourceInfomation> resource) { resources[path] = resource; }
 
-    void Unregister(const std::wstring path) { resources.erase(path); }
+    void Unregister(const std::u16string path) { resources.erase(path); }
 
-    void Reload(const std::function<ResourceInfomation(std::wstring)> reloadFunc) {
+    void Reload(const std::function<ResourceInfomation(std::u16string)> reloadFunc) {
         for (auto resource : resources) {
             auto path = resource.second->GetPath();
             auto time = GetModifiedTime(path);
 
-			if (resource.second->GetModifiedTime() == time) continue;
+            if (resource.second->GetModifiedTime() == time) continue;
 
-			resources[resource.first] = reloadFunc(path);
+            resources[resource.first] = reloadFunc(path);
         }
     }
 
-    static time_t GetModifiedTime(const std::wstring path) {
+    static time_t GetModifiedTime(const std::u16string path) {
         std::filesystem::path p = path;
         std::error_code ec;
         auto ftime = std::filesystem::last_write_time(p, &ec);

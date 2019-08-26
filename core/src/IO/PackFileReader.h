@@ -10,7 +10,7 @@ private:
     zip_file* m_zipFile;
 
 public:
-    PackFileReader(zip_file* zipFile, const std::wstring& path);
+    PackFileReader(zip_file* zipFile, const std::u16string& path);
     virtual ~PackFileReader();
 
     int GetSize();

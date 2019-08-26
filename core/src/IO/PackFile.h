@@ -8,16 +8,16 @@ namespace altseed {
 class PackFile : public BaseObject {
 private:
     zip* m_zip;
-    std::wstring m_password;
+    std::u16string m_password;
     bool m_isUsePassword;
-    std::wstring m_path;
+    std::u16string m_path;
 
 public:
-    PackFile(const std::wstring& path);
-    PackFile(const std::wstring& path, const std::wstring& password);
+    PackFile(const std::u16string& path);
+    PackFile(const std::u16string& path, const std::u16string& password);
     virtual ~PackFile();
 
-	zip_file* Load(const std::wstring& path);
-    bool Exists(const std::wstring& path);
+	zip_file* Load(const std::u16string& path);
+    bool Exists(const std::u16string& path);
 };
 }  // namespace altseed

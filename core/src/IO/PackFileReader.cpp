@@ -1,7 +1,7 @@
 #include "PackFileReader.h"
 
 namespace altseed {
-PackFileReader::PackFileReader(zip_file* zipFile, const std::wstring& path) : BaseFileReader(path) {}
+PackFileReader::PackFileReader(zip_file* zipFile, const std::u16string& path) : BaseFileReader(path) {}
 PackFileReader::~PackFileReader() {}
 int PackFileReader::GetSize() { return 0; }
 void PackFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, int64_t globalPos) {}

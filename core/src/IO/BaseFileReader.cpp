@@ -1,7 +1,7 @@
 #include "BaseFileReader.h"
 
 namespace altseed {
-BaseFileReader::BaseFileReader(const std::wstring& path) : BaseObject() {}
+BaseFileReader::BaseFileReader(const std::u16string& path) : BaseObject() {}
 BaseFileReader::~BaseFileReader() {}
 int BaseFileReader::GetSize() { return 0; }
 void BaseFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, int64_t globalPos) {}

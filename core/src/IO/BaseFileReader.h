@@ -15,14 +15,14 @@ private:
 protected:
     int64_t m_position;
     int64_t m_length;
-    std::wstring m_path;
+    std::u16string m_path;
 
 public:
-    BaseFileReader(const std::wstring& path);
+    BaseFileReader(const std::u16string& path);
     virtual ~BaseFileReader();
 
     int64_t GetPosition() const { return m_position; }
-    const std::wstring& GetFullPath() const { return m_path; }
+    const std::u16string& GetFullPath() const { return m_path; }
 
     virtual int GetSize();
 
