@@ -19,3 +19,6 @@
 [submodule "thirdparty/libzip"]
 	path = thirdparty/libzip
 	url = https://github.com/nih-at/libzip.git
+[submodule "TestData"]
+	path = TestData
+	url = https://github.com/altseed/TestData.git
