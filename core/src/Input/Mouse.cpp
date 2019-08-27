@@ -27,7 +27,7 @@ bool Mouse::Intialize(std::shared_ptr<Window>& window) {
 
     glfwSetScrollCallback((GLFWwindow*)window->GetNativeWindow(), GetWheelInternal);
 
-    return false;
+    return true;
 }
 
 std::shared_ptr<Mouse>& Mouse::GetInstance() { return instance; }

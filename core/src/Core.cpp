@@ -1,6 +1,7 @@
 #include "Core.h"
 
 #include "BaseObject.h"
+#include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Window/Window.h"
@@ -18,11 +19,28 @@ bool Core::Initialize(char16_t* title, int32_t width, int32_t height, const Core
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = option.IsFullscreenMode;
     windowParameter.IsResizable = option.IsResizable;
-    Window::Initialize(windowParameter);
+    if (!Window::Initialize(windowParameter)) {
+        Core::instance = nullptr;
+        return false;
+    }
 
-    Keyboard::Intialize(Window::GetInstance());
+    if (!Keyboard::Intialize(Window::GetInstance()))
+    {
+        Core::instance = nullptr;
+        return false;
+    }
 
-    Mouse::Intialize(Window::GetInstance());
+    if (!Mouse::Intialize(Window::GetInstance()))
+    {
+        Core::instance = nullptr;
+        return false;
+    }
+
+    if (!File::Initialize())
+    {
+        Core::instance = nullptr;
+        return false;
+    }
 
     return Core::instance != nullptr;
 }
