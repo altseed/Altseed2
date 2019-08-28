@@ -9,7 +9,7 @@ namespace altseed {
 
 std::shared_ptr<Core> Core::instance = nullptr;
 
-bool Core::Initialize(char16_t* title, int32_t width, int32_t height, const CoreOption& option) {
+bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option) {
     Core::instance = std::make_shared<Core>();
 
     WindowInitializationParameter windowParameter;

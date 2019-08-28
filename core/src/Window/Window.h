@@ -8,7 +8,7 @@
 namespace altseed {
 
 struct WindowInitializationParameter {
-    char16_t* Title;
+    std::u16string Title;
     int32_t WindowWidth = 0;
     int32_t WindowHeight = 0;
     bool IsFullscreenMode = false;
@@ -22,7 +22,7 @@ private:
     GLFWwindow* mainWindow_;
     std::vector<GLFWwindow*> subWindows;
 
-    char16_t* title;
+    std::u16string title_;
 
 public:
     static bool Initialize(const WindowInitializationParameter& parameter);
@@ -33,7 +33,7 @@ public:
 
     void SetTitle(const char16_t* title);
 
-    char16_t* GetTitle() const;
+    const char16_t* GetTitle() const;
 
     void SetSize(int32_t width, int32_t height);
 
