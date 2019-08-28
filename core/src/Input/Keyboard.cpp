@@ -135,7 +135,7 @@ bool Keyboard::Intialize(std::shared_ptr<Window>& window) {
     instance->currentState.fill(false);
     instance->oldState.fill(false);
 
-    return false;
+    return true;
 }
 
 void Keyboard::RefleshKeyStates() {

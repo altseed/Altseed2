@@ -8,6 +8,8 @@ set(core_files
     Core.cpp
     BaseObject.h
     BaseObject.cpp
+    Common/Int8Array.h
+    Common/ResourceContainer.h
     Window/Window.h
     Window/Window.cpp
     Input/ButtonState.h
@@ -15,6 +17,20 @@ set(core_files
     Input/Keyboard.cpp
     Input/Mouse.h
     Input/Mouse.cpp
+    IO/File.h
+    IO/File.cpp
+    IO/PackFile.h
+    IO/PackFile.cpp
+    IO/StaticFile.h
+    IO/StaticFile.cpp
+    IO/StreamFile.h
+    IO/StreamFile.cpp
+    IO/FileRoot.h
+    IO/FileRoot.cpp
+    IO/BaseFileReader.h
+    IO/BaseFileReader.cpp
+    IO/PackFileReader.h
+    IO/PackFileReader.cpp
 )
 
 # specify project filters
