@@ -72,7 +72,8 @@ target_link_directories(
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed_Core_Test
-    ExternalProject_glfw)
+    ExternalProject_glfw
+    TestData)
 
 
 # make c++17 enabled

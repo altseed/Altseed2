@@ -16,6 +16,20 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/DEBUG")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
 
+if(BUILD_TEST)
+    find_package(PythonInterp 3)
+
+    add_custom_target(TestData
+        SOURCES TestData.dummy
+    )
+
+    add_custom_command(
+        OUTPUT TestData.dummy
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
+    )
+endif()
+
 # sanitize for Debug
 if(SANITIZE_ENABLED)
     set(CMAKE_CXX_FLAGS " -fsanitize=undefined,address" ${CMAKE_CXX_FLAGS})
