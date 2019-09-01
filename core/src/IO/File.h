@@ -38,6 +38,14 @@ public:
     void ClearRootDirectories();
 
     bool Exists(const char16_t* path) const;
+
+    bool Pack(const char16_t* path) const;
+
+    bool Pack(const char16_t* path, const char16_t* password) const;
+
+private:
+
+	bool Pack_Imp(zip_t* zipPtr, const std::u16string& path) const;
 };
 
 }  // namespace altseed
