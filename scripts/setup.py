@@ -9,5 +9,7 @@ if len(argvs) < 3:
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-if not os.path.exists(argvs[2] + '/TestData'):
-    shutil.copytree(argvs[1], argvs[2] + '/TestData')
+if os.path.exists(argvs[2] + '/TestData'):
+    shutil.rmtree(argvs[2] + '/TestData')
+
+shutil.copytree(argvs[1], argvs[2] + '/TestData', ignore=shutil.ignore_patterns(".git"))
