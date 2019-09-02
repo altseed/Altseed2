@@ -29,19 +29,19 @@ public:
 
     StreamFile* CreateStreamFile(const char16_t* path);
 
-    void AddRootDirectory(const char16_t* path);
+    bool AddRootDirectory(const char16_t* path);
 
-    void AddRootPackageWithPassword(const char16_t* path, const char16_t* password);
+    bool AddRootPackageWithPassword(const char16_t* path, const char16_t* password);
 
-    void AddRootPackage(const char16_t* path);
+    bool AddRootPackage(const char16_t* path);
 
     void ClearRootDirectories();
 
     bool Exists(const char16_t* path) const;
 
-    bool Pack(const char16_t* path) const;
+    bool Pack(const char16_t* srcPath, const char16_t* dstPath) const;
 
-    bool Pack(const char16_t* path, const char16_t* password) const;
+    bool Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
 
 private:
 

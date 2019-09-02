@@ -1,19 +1,14 @@
 #include "PackFile.h"
+#include "../Common/StringHelper.h"
 
 namespace altseed {
 
-PackFile::PackFile(const std::u16string& path) { m_path = path; }
+PackFile::PackFile(zip_t* zipPtr) : m_zip(zipPtr) {}
 
-PackFile::PackFile(const std::u16string& path, const std::u16string& password) {}
+PackFile::~PackFile() { zip_close(m_zip); }
 
-PackFile::~PackFile() {}
+zip_file* PackFile::Load(const std::u16string& path) { return nullptr; }
 
-zip_file* PackFile::Load(const std::u16string& path) { 
-	return nullptr; 
-}
-
-bool PackFile::Exists(const std::u16string& path) { 
-	return false; 
-}
+bool PackFile::Exists(const std::u16string& path) { return zip_name_locate(m_zip, utf16_to_utf8(path).c_str(), ZIP_FL_ENC_GUESS) != -1; }
 
 }  // namespace altseed
