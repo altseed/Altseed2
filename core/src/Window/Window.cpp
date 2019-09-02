@@ -55,7 +55,7 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
         return false;
     }
     // memolize title to get later
-    GetInstance()->Window::title = parameter.Title;
+    GetInstance()->title_ = parameter.Title;
 
     glfwSwapInterval(1);
 
@@ -77,12 +77,12 @@ void Window::Terminate() {
 }
 
 void Window::SetTitle(const char16_t* title) {
-    Window::title = (char16_t*)title;
+    title_ = title;
     auto titleUTF8 = utf16_to_utf8(title);
     glfwSetWindowTitle(GetInstance()->mainWindow_, titleUTF8.c_str());
 }
 
-char16_t* Window::GetTitle() const { return Window::title; }
+const char16_t* Window::GetTitle() const { return title_.c_str(); }
 
 void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInstance()->mainWindow_, width, height); }
 
