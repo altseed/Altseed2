@@ -140,7 +140,8 @@ private:
     static std::shared_ptr<Keyboard> instance;
     std::shared_ptr<Window> window;
 
-    static const int keyCodes[(int)Keys::MAX + 1];
+	//! because of msvc bug, it cannot use Keys::MAX
+    static const int keyCodes[122];
 
     std::array<bool, static_cast<int>(Keys::MAX)> currentState;
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;

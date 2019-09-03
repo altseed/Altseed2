@@ -27,6 +27,7 @@ TEST(File, FileRoot) {
 	// clear root
     asd::File::GetInstance()->ClearRootDirectories();
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"TestData/IO/test.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"TestData/IO/../IO/test.txt"));
     EXPECT_FALSE(asd::File::GetInstance()->Exists(u"space test.txt"));
     EXPECT_FALSE(asd::File::GetInstance()->Exists(u"全角 テスト.txt"));
     EXPECT_FALSE(asd::File::GetInstance()->Exists(u"全角　テスト.txt"));
