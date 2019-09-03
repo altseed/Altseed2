@@ -13,7 +13,7 @@ public:
     PackFile(zip_t* zipPtr);
     virtual ~PackFile();
 
-	zip_file* Load(const std::u16string& path);
+	zip_file_t* Load(const std::u16string& path);
     bool Exists(const std::u16string& path);
 };
 }  // namespace altseed

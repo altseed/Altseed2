@@ -13,12 +13,9 @@ public:
     PackFileReader(zip_file* zipFile, const std::u16string& path);
     virtual ~PackFileReader();
 
-    int GetSize();
+    int64_t GetSize() override;
 
-    void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, int64_t globalPos = 0) override;
-    uint32_t ReadUInt32(int64_t globalPos = 0) override;
-    uint64_t ReadUInt64(int64_t globalPos = 0) override;
-    void ReadAllBytes(std::vector<uint8_t>& buffer, int64_t globalPos = 0) override;
+    void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) override;
 
     void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin) override;
 };
