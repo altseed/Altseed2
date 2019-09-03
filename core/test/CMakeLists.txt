@@ -72,8 +72,13 @@ target_link_directories(
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed_Core_Test
-    ExternalProject_glfw)
+    ExternalProject_glfw
+    TestData)
 
 
 # make c++17 enabled
 SET_TARGET_PROPERTIES(Altseed_Core_Test PROPERTIES CXX_STANDARD 17)
+
+ if (MSVC)
+    set_target_properties(Altseed_Core_Test PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/$(Configuration)")
+endif()
