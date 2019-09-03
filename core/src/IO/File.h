@@ -45,7 +45,7 @@ public:
 
 private:
 
-	bool Pack_Imp(zip_t* zipPtr, const std::u16string& path) const;
+	bool Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;
 };
 
 }  // namespace altseed

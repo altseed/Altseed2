@@ -100,12 +100,12 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t
         return false;
     }
 
-    auto res = Pack_Imp(zip_, srcPath);
+    auto res = Pack_Imp(zip_, srcPath, true);
     zip_close(zip_);
     return res;
 }
 
-bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path) const {
+bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) const {
     std::stack<std::u16string> children;
 
     std::u16string current;
@@ -132,10 +132,13 @@ bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path) const {
                 zip_source_t* zipSource;
                 zip_error error;
                 if ((zipSource = zip_source_buffer_create(buffer, size, 1, &error)) == nullptr) return false;
-                if (zip_file_add(zipPtr, utf16_to_utf8(zipPath).c_str(), zipSource, ZIP_FL_ENC_UTF_8) == -1) {
+
+                zip_int64_t index;
+                if ((index = zip_file_add(zipPtr, utf16_to_utf8(zipPath).c_str(), zipSource, ZIP_FL_ENC_UTF_8)) == -1) {
                     zip_source_free(zipSource);
-					return false;
+                    return false;
                 }
+                if (isEncrypt) zip_file_set_encryption(zipPtr, index, ZIP_EM_AES_256, nullptr);
             }
         }
     }
