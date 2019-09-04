@@ -48,4 +48,6 @@ void PackFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
     }
 }
 
+bool PackFileReader::GetIsInPackage() const { return true; }
+
 }  // namespace altseed

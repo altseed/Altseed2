@@ -32,5 +32,7 @@ public:
     void ReadAllBytes(std::vector<uint8_t>& buffer);
 
     virtual void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin);
+
+	virtual bool GetIsInPackage() const;
 };
 }  // namespace altseed

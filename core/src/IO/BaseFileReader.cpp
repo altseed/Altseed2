@@ -9,4 +9,5 @@ uint32_t BaseFileReader::ReadUInt32() { return uint32_t(); }
 uint64_t BaseFileReader::ReadUInt64() { return uint64_t(); }
 void BaseFileReader::ReadAllBytes(std::vector<uint8_t>& buffer) { ReadBytes(buffer, GetSize()); }
 void BaseFileReader::Seek(const int64_t offset, const SeekOrigin origin) {}
+bool BaseFileReader::GetIsInPackage() const { return false; }
 }  // namespace altseed

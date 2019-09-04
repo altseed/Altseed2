@@ -18,5 +18,7 @@ public:
     void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) override;
 
     void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin) override;
+
+	bool GetIsInPackage() const override;
 };
 }  // namespace altseed
