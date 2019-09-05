@@ -23,8 +23,11 @@ void File::Terminate() { instance = nullptr; }
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
 StaticFile* File::CreateStaticFile(const char16_t* path) {
-    auto cache = m_staticFileCache.Get(path);
-    if (cache != nullptr) return cache;
+    StaticFile* cache = (StaticFile*)m_staticFileCache.Get(path);
+    if (cache != nullptr) {
+        cache->AddRef();
+        return cache;
+    }
 
     BaseFileReader* reader = nullptr;
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
@@ -45,11 +48,10 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
 
     if (reader == nullptr) return nullptr;
 
-	auto res = new StaticFile(reader);
+    auto res = new StaticFile(reader);
 
-	m_staticFileCache.Register(path, std::make_shared<ResourceContainer<StaticFile>::ResourceInfomation>(res, path));
-
-	return res;
+    m_staticFileCache.Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+    return res;
 }
 
 StreamFile* File::CreateStreamFile(const char16_t* path) { return nullptr; }
@@ -132,6 +134,16 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t
     auto res = Pack_Imp(zip_, srcPath, true);
     zip_close(zip_);
     return res;
+}
+
+void File::ClearCache() {
+    m_staticFileCache.Clear();
+    m_streamFileCache.Clear();
+}
+
+void File::Reload() {
+    m_staticFileCache.Reload();
+    m_streamFileCache.Reload();
 }
 
 bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) const {

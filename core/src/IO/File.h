@@ -15,8 +15,8 @@ private:
 
     std::vector<std::shared_ptr<FileRoot>> m_roots;
 
-    ResourceContainer<StaticFile> m_staticFileCache;
-    ResourceContainer<StreamFile> m_streamFileCache;
+    ResourceContainer m_staticFileCache;
+    ResourceContainer m_streamFileCache;
 
 public:
     static bool Initialize();
@@ -42,6 +42,10 @@ public:
     bool Pack(const char16_t* srcPath, const char16_t* dstPath) const;
 
     bool Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
+
+	void ClearCache();
+
+	void Reload();
 
 private:
 

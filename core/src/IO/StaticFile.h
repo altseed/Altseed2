@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "../Common/Int8Array.h"
+#include "../Common/Resource.h"
 #include "../BaseObject.h"
 #include "BaseFileReader.h"
 
@@ -9,7 +10,7 @@ namespace altseed {
 
 class File;
 
-class StaticFile : public BaseObject {
+class StaticFile : public Resource {
 private:
     std::shared_ptr<File> file_;
     BaseFileReader* m_fileReader;
@@ -28,6 +29,8 @@ public:
     int32_t GetSize();
 
     bool GetIsInPackage() const;
+
+	bool Reload() override;
 };
 
 }  // namespace altseed
