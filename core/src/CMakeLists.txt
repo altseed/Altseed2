@@ -101,7 +101,7 @@ target_link_directories(
 add_dependencies(
     Altseed_Core
     ExternalProject_glfw
-    ExternalProject_zlip
+    ExternalProject_zlib
     ExternalProject_libpng
     ExternalProject_libzip)
 
