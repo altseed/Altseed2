@@ -17,7 +17,7 @@ int64_t PackFileReader::GetSize() {
 }
 
 void PackFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) {
-    if (m_position + count >= GetSize() || count < 0) {
+    if (m_position + count > GetSize() || count < 0) {
         buffer.resize(0);
         buffer.clear();
         return;

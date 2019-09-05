@@ -15,18 +15,18 @@ public:
     private:
         RESOURCE* m_resourcePtr;
         std::u16string m_path;
-        time_t m_modifiedTime;
+        std::filesystem::file_time_type m_modifiedTime;
 
     public:
         ResourceInfomation(RESOURCE* resource, std::u16string path) {
             m_resourcePtr = resource;
             m_path = path;
-            m_modifiedTime = GetModifiedTime(path);
+            m_modifiedTime = ResourceContainer<RESOURCE>::GetModifiedTime(path);
         }
 
         RESOURCE* GetResourcePtr() { return m_resourcePtr; }
         const std::u16string& GetPath() { return m_path; }
-        const time_t GetModifiedTime() { return m_modifiedTime; }
+        const std::filesystem::file_time_type GetModifiedTime() { return m_modifiedTime; }
     };
 
 private:
@@ -51,21 +51,22 @@ public:
             auto path = resource.second->GetPath();
             auto time = GetModifiedTime(path);
 
-            if (resource.second->GetModifiedTime() == time) continue;
+            if (resource.second->GetModifiedTime() > time) continue;
 
             resources[resource.first] = reloadFunc(path);
         }
     }
 
-    static time_t GetModifiedTime(const std::u16string path) {
-        std::filesystem::path p = path;
+    static std::filesystem::file_time_type GetModifiedTime(const std::u16string path) {
+        std::filesystem::path p(path);
         std::error_code ec;
-        auto ftime = std::filesystem::last_write_time(p, &ec);
+        auto ftime = std::filesystem::last_write_time(p, ec);
         if (ec.value() != 0) {
             // TODO: log failure to get time
-            return 0;
+            return std::filesystem::file_time_type::min();
         }
-        return decltype(ftime)::clock::to_time_t(ftime);
+        return ftime;
     }
 };
+
 }  // namespace altseed

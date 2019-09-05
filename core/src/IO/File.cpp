@@ -4,6 +4,7 @@
 #include <fstream>
 #include <stack>
 #include "../Common/StringHelper.h"
+#include "PackFileReader.h"
 namespace altseed {
 
 std::shared_ptr<File> File::instance = nullptr;
@@ -21,7 +22,35 @@ void File::Terminate() { instance = nullptr; }
 
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
-StaticFile* File::CreateStaticFile(const char16_t* path) { return nullptr; }
+StaticFile* File::CreateStaticFile(const char16_t* path) {
+    auto cache = m_staticFileCache.Get(path);
+    if (cache != nullptr) return cache;
+
+    BaseFileReader* reader = nullptr;
+    for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
+        if ((*i)->IsPack()) {
+            if ((*i)->GetPackFile()->Exists(path)) {
+                auto zipFile = (*i)->GetPackFile()->Load(path);
+                if (zipFile == nullptr) {
+                    // TODO: log failure to get zip_file
+                    continue;
+                }
+                reader = new PackFileReader(zipFile, path);
+                break;
+            }
+        } else if (std::filesystem::is_regular_file((*i)->GetPath() + path)) {
+            reader = new BaseFileReader(path);
+        }
+    }
+
+    if (reader == nullptr) return nullptr;
+
+	auto res = new StaticFile(reader);
+
+	m_staticFileCache.Register(path, std::make_shared<ResourceContainer<StaticFile>::ResourceInfomation>(res, path));
+
+	return res;
+}
 
 StreamFile* File::CreateStreamFile(const char16_t* path) { return nullptr; }
 

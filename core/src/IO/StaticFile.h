@@ -13,12 +13,13 @@ class StaticFile : public BaseObject {
 private:
     std::shared_ptr<File> file_;
     BaseFileReader* m_fileReader;
+    Int8Array m_buffer;
 
 public:
     StaticFile(BaseFileReader* reader);
     virtual ~StaticFile();
 
-    Int8Array& GetBuffer() const;
+    const Int8Array& GetBuffer() const;
 
     const char16_t* GetPath() const;
 
