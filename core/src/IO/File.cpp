@@ -185,7 +185,6 @@ bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) c
                     zip_source_free(zipSource);
                     return false;
                 }
-                zip_set_file_compression(zipPtr, index, ZIP_CM_STORE, 1);
             }
         }
     }
