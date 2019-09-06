@@ -1,7 +1,18 @@
 #include "PackFileReader.h"
+#include <algorithm>
+#include <iterator>
 
 namespace altseed {
-PackFileReader::PackFileReader(zip_file* zipFile, const std::u16string& path) : BaseFileReader(path), m_zipFile(zipFile) {}
+PackFileReader::PackFileReader(zip_file* zipFile, const std::u16string& path, const zip_stat_t* stat)
+    : BaseFileReader(path), m_zipFile(zipFile), m_isUseBuffer(false) {
+    if (stat != nullptr) {
+        m_length = stat->size;
+        m_buffer.resize(m_length);
+        zip_fread(m_zipFile, reinterpret_cast<char*>(&m_buffer[0]), m_length);
+        m_isUseBuffer = true;
+        delete stat;
+    }
+}
 
 PackFileReader::~PackFileReader() { zip_fclose(m_zipFile); }
 
@@ -23,6 +34,8 @@ void PackFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count
         return;
     }
 
+    if (m_isUseBuffer) std::copy(m_buffer.begin() + m_position, m_buffer.begin() + m_position + count, std::back_inserter(buffer));
+
     buffer.resize(count);
     zip_fread(m_zipFile, reinterpret_cast<char*>(&buffer[0]), count);
 
@@ -32,16 +45,16 @@ void PackFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count
 void PackFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
     switch (origin) {
         case SeekOrigin::Begin:
-            zip_fseek(m_zipFile, offset, SEEK_SET);
+            if (!m_isUseBuffer) zip_fseek(m_zipFile, offset, SEEK_SET);
             m_position = offset;
             break;
         case SeekOrigin::Current:
-            zip_fseek(m_zipFile, offset, SEEK_CUR);
+            if (!m_isUseBuffer) zip_fseek(m_zipFile, offset, SEEK_CUR);
             m_position += offset;
             break;
         case SeekOrigin::End:
-            zip_fseek(m_zipFile, offset, SEEK_CUR);
-            m_position = zip_ftell(m_zipFile);
+            if (!m_isUseBuffer) zip_fseek(m_zipFile, offset, SEEK_CUR);
+            m_position = GetSize();
             break;
         default:
             break;

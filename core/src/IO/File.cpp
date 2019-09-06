@@ -38,7 +38,9 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
                     // TODO: log failure to get zip_file
                     continue;
                 }
-                reader = new PackFileReader(zipFile, path);
+                zip_stat_t* stat = nullptr;
+                if ((*i)->GetPackFile()->GetIsUsePassword()) stat = (*i)->GetPackFile()->GetZipStat(path);
+                reader = new PackFileReader(zipFile, path, stat);
                 break;
             }
         } else if (std::filesystem::is_regular_file((*i)->GetPath() + path)) {
@@ -74,7 +76,7 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
         return false;
     }
 
-    m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_)));
+    m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_, true)));
     return true;
 }
 
@@ -179,7 +181,11 @@ bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) c
                     zip_source_free(zipSource);
                     return false;
                 }
-                if (isEncrypt) zip_file_set_encryption(zipPtr, index, ZIP_EM_AES_256, nullptr);
+                if (isEncrypt && zip_file_set_encryption(zipPtr, index, ZIP_EM_AES_256, nullptr) == -1) {
+                    zip_source_free(zipSource);
+                    return false;
+                }
+                zip_set_file_compression(zipPtr, index, ZIP_CM_STORE, 1);
             }
         }
     }

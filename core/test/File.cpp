@@ -1,6 +1,7 @@
 #include <Core.h>
 #include <IO/File.h>
 #include <gtest/gtest.h>
+#include <zip.h>
 #include <string>
 #include <vector>
 
