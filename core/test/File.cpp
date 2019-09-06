@@ -40,6 +40,8 @@ TEST(File, FileRoot) {
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"space test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"全角 テスト.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"全角　テスト.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"testDir/test.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test dir/test.txt"));
 
     asd::File::GetInstance()->ClearRootDirectories();
 
@@ -49,6 +51,8 @@ TEST(File, FileRoot) {
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"space test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"全角 テスト.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"全角　テスト.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"testDir/test.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test dir/test.txt"));
 
     asd::Core::Terminate();
 }
