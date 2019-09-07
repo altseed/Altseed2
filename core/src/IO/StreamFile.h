@@ -29,6 +29,8 @@ public:
 
     int32_t GetTempBufferSize();
 
+    bool GetIsInPackage() const;
+
 	bool Reload() override;
 };
 

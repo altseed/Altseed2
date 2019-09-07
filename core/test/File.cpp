@@ -104,3 +104,67 @@ TEST(File, StaticFile) {
 
     asd::Core::Terminate();
 }
+
+TEST(File, StreamFile) {
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+
+    // pack files
+    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
+    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
+
+    // add package
+    EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
+
+    // create static file, and compare no-package and package without password
+    asd::StreamFile* test = nullptr;
+    EXPECT_NE(test = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_FALSE(test->GetIsInPackage());
+    asd::StreamFile* testPack = nullptr;
+    EXPECT_NE(testPack = asd::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
+    EXPECT_TRUE(testPack->GetIsInPackage());
+    EXPECT_EQ(test->GetSize(), testPack->GetSize());
+    EXPECT_EQ(test->GetTempBufferSize(), 0);
+    EXPECT_EQ(testPack->GetTempBufferSize(), 0);
+    for (size_t i = 0; i < test->GetSize(); i++) {
+        EXPECT_EQ(test->Read(1), 1);
+        EXPECT_EQ(testPack->Read(1), 1);
+        EXPECT_EQ(test->GetTempBufferSize(), i + 1);
+        EXPECT_EQ(testPack->GetTempBufferSize(), i + 1);
+        EXPECT_EQ(test->GetTempBuffer(), test->GetTempBuffer());
+	}
+
+    // add package
+    EXPECT_TRUE(asd::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
+
+    // cache test
+    asd::StreamFile* testCache = nullptr;
+    EXPECT_NE(testCache = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_FALSE(testCache->GetIsInPackage());
+    EXPECT_EQ(test, testCache);
+
+    // clear cache
+    asd::File::GetInstance()->ClearCache();
+
+    asd::StreamFile* testPack2 = nullptr;
+    EXPECT_NE(testPack2 = asd::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
+    EXPECT_TRUE(testPack2->GetIsInPackage());
+    EXPECT_NE(testPack, testPack2);
+    EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
+
+    // create static file, and compare no-package and package with password
+    asd::StreamFile* test3 = nullptr;
+    EXPECT_NE(test3 = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/pack/test.txt"), nullptr);
+    EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
+    EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
+    EXPECT_EQ(test3->GetTempBufferSize(), 0);
+    EXPECT_EQ(testPack2->GetTempBufferSize(), 0);
+    for (size_t i = 0; i < test3->GetSize(); i++) {
+        EXPECT_EQ(test3->Read(1), 1);
+        EXPECT_EQ(testPack2->Read(1), 1);
+        EXPECT_EQ(test3->GetTempBufferSize(), i + 1);
+        EXPECT_EQ(testPack2->GetTempBufferSize(), i + 1);
+        EXPECT_EQ(test3->GetTempBuffer(), testPack2->GetTempBuffer());
+    }
+
+    asd::Core::Terminate();
+}

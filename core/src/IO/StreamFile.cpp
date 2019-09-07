@@ -11,7 +11,7 @@ int32_t StreamFile::GetSize() const { return m_fileReader->GetSize(); }
 int32_t StreamFile::GetCurrentPosition() const { return m_fileReader->GetPosition(); }
 
 int32_t StreamFile::Read(int32_t size) {
-    if (GetCurrentPosition() == GetSize() - 1) return 0;
+    if (GetCurrentPosition() == GetSize()) return 0;
 
     std::vector<uint8_t> buffer;
     int readSize = size;
@@ -28,6 +28,8 @@ int32_t StreamFile::Read(int32_t size) {
 Int8Array& StreamFile::GetTempBuffer() { return m_buffer; }
 
 int32_t StreamFile::GetTempBufferSize() { return m_buffer.size(); }
+
+bool StreamFile::GetIsInPackage() const { return m_fileReader->GetIsInPackage(); }
 
 bool StreamFile::Reload() {
     if (m_fileReader->GetIsInPackage()) return false;
