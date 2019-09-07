@@ -3,7 +3,7 @@ namespace altseed {
 FileRoot::FileRoot(const std::u16string& path) : m_packFile(nullptr), m_path(path) {
     if (m_path.back() != u'\\' && m_path.back() != u'/') m_path += u'/';
 }
-FileRoot::FileRoot(const std::u16string& path, PackFile* packFile) : m_packFile(packFile), m_path(path) { }
+FileRoot::FileRoot(const std::u16string& path, PackFile* packFile) : m_packFile(packFile), m_path(path) {}
 FileRoot::~FileRoot() {
     if (IsPack()) m_packFile->Release();
 }

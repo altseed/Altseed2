@@ -10,6 +10,7 @@ set(core_files
     BaseObject.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
+    Common/Resource.h
     Common/StringHelper.h
     Window/Window.h
     Window/Window.cpp

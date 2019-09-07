@@ -9,17 +9,20 @@ class PackFileReader : public BaseFileReader {
 private:
     zip_file* m_zipFile;
 
+    // ! libzip can not zip_ftell and zip_fseek to packed file with password
+    std::vector<uint8_t> m_buffer;
+    bool m_isUseBuffer;
+
 public:
-    PackFileReader(zip_file* zipFile, const std::u16string& path);
+    PackFileReader(zip_file* zipFile, const std::u16string& path, const zip_stat_t* stat = nullptr);
     virtual ~PackFileReader();
 
-    int GetSize();
+    int64_t GetSize() override;
 
-    void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, int64_t globalPos = 0) override;
-    uint32_t ReadUInt32(int64_t globalPos = 0) override;
-    uint64_t ReadUInt64(int64_t globalPos = 0) override;
-    void ReadAllBytes(std::vector<uint8_t>& buffer, int64_t globalPos = 0) override;
+    void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) override;
 
     void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin) override;
+
+    bool GetIsInPackage() const override;
 };
 }  // namespace altseed

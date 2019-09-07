@@ -6,27 +6,34 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "../Common/Resource.h"
 
 namespace altseed {
-template <class RESOURCE>
 class ResourceContainer {
 public:
     class ResourceInfomation {
     private:
-        RESOURCE* m_resourcePtr;
+        Resource* m_resourcePtr;
         std::u16string m_path;
-        time_t m_modifiedTime;
+        std::filesystem::file_time_type m_modifiedTime;
 
     public:
-        ResourceInfomation(RESOURCE* resource, std::u16string path) {
+        ResourceInfomation(Resource* resource, std::u16string path) {
             m_resourcePtr = resource;
             m_path = path;
-            m_modifiedTime = GetModifiedTime(path);
+            m_modifiedTime = ResourceContainer::GetModifiedTime(path);
         }
 
-        RESOURCE* GetResourcePtr() { return m_resourcePtr; }
+        Resource* GetResourcePtr() { return m_resourcePtr; }
+
         const std::u16string& GetPath() { return m_path; }
-        const time_t GetModifiedTime() { return m_modifiedTime; }
+
+        const std::filesystem::file_time_type GetModifiedTime() { return m_modifiedTime; }
+
+        bool Reload(std::filesystem::file_time_type time) {
+            m_modifiedTime = time;
+            return m_resourcePtr->Reload();
+        }
     };
 
 private:
@@ -37,35 +44,52 @@ public:
 
     const std::map<std::u16string, std::shared_ptr<ResourceInfomation>>& GetAllResouces() { return resources; }
 
-    RESOURCE* Get(const std::u16string key) {
+    Resource* Get(const std::u16string key) {
         if (resources.count(key) > 0) return resources[key]->GetResourcePtr();
         return nullptr;
     }
 
-    void Register(const std::u16string path, std::shared_ptr<ResourceInfomation> resource) { resources[path] = resource; }
+    void Register(const std::u16string path, std::shared_ptr<ResourceInfomation> resource) {
+        resources[path] = resource;
+        resource->GetResourcePtr()->AddRef();
+    }
 
-    void Unregister(const std::u16string path) { resources.erase(path); }
+    void Unregister(const std::u16string path) {
+        if (resources.count(path) == 0) return;
+        resources[path]->GetResourcePtr()->Release();
+        resources.erase(path);
+    }
 
-    void Reload(const std::function<ResourceInfomation(std::u16string)> reloadFunc) {
+    void Clear() {
+        for (auto resource : resources) {
+            resource.second->GetResourcePtr()->Release();
+        }
+        resources.clear();
+    }
+
+    void Reload() {
         for (auto resource : resources) {
             auto path = resource.second->GetPath();
             auto time = GetModifiedTime(path);
 
-            if (resource.second->GetModifiedTime() == time) continue;
+            if (resource.second->GetModifiedTime() < time) continue;
 
-            resources[resource.first] = reloadFunc(path);
+            if (!resources[resource.first]->Reload(time)) {
+                // TODO: log failure to reload
+            }
         }
     }
 
-    static time_t GetModifiedTime(const std::u16string path) {
-        std::filesystem::path p = path;
+    static std::filesystem::file_time_type GetModifiedTime(const std::u16string path) {
+        std::filesystem::path p(path);
         std::error_code ec;
-        auto ftime = std::filesystem::last_write_time(p, &ec);
+        auto ftime = std::filesystem::last_write_time(p, ec);
         if (ec.value() != 0) {
             // TODO: log failure to get time
-            return 0;
+            return std::filesystem::file_time_type::min();
         }
-        return decltype(ftime)::clock::to_time_t(ftime);
+        return ftime;
     }
 };
+
 }  // namespace altseed
