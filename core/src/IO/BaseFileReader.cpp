@@ -23,14 +23,11 @@ int64_t BaseFileReader::GetSize() {
 void BaseFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) {
     const auto size = GetSize();
 
-    if (!count) {
+    if (m_position + count > GetSize() || count < 0) {
         buffer.resize(0);
         buffer.clear();
         return;
     }
-
-    assert(0 <= count && count <= size);
-    assert((m_position + count) <= size);
 
     buffer.resize(count);
     m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
