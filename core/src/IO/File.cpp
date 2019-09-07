@@ -56,7 +56,39 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
     return res;
 }
 
-StreamFile* File::CreateStreamFile(const char16_t* path) { return nullptr; }
+StreamFile* File::CreateStreamFile(const char16_t* path) {
+    StreamFile* cache = (StreamFile*)m_streamFileCache.Get(path);
+    if (cache != nullptr) {
+        cache->AddRef();
+        return cache;
+    }
+
+	BaseFileReader* reader = nullptr;
+    for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
+        if ((*i)->IsPack()) {
+            if ((*i)->GetPackFile()->Exists(path)) {
+                auto zipFile = (*i)->GetPackFile()->Load(path);
+                if (zipFile == nullptr) {
+                    // TODO: log failure to get zip_file
+                    continue;
+                }
+                zip_stat_t* stat = nullptr;
+                if ((*i)->GetPackFile()->GetIsUsePassword()) stat = (*i)->GetPackFile()->GetZipStat(path);
+                reader = new PackFileReader(zipFile, path, stat);
+                break;
+            }
+        } else if (std::filesystem::is_regular_file((*i)->GetPath() + path)) {
+            reader = new BaseFileReader(path);
+        }
+    }
+
+	if (reader == nullptr) return nullptr;
+
+    auto res = new StreamFile(reader);
+
+    m_streamFileCache.Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+    return res;
+}
 
 bool File::AddRootDirectory(const char16_t* path) {
     if (!std::filesystem::is_directory(path)) return false;
