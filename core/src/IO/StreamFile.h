@@ -13,8 +13,9 @@ class StreamFile : public Resource {
 private:
     std::shared_ptr<File> file_;
 
-	Int8Array m_buffer;
+    Int8Array m_buffer;
     BaseFileReader* m_fileReader;
+
 public:
     StreamFile(BaseFileReader* reader);
     virtual ~StreamFile();
@@ -31,7 +32,7 @@ public:
 
     bool GetIsInPackage() const;
 
-	bool Reload() override;
+    bool Reload() override;
 };
 
 }  // namespace altseed

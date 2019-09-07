@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
+#include "../BaseObject.h"
 #include "../Common/Int8Array.h"
 #include "../Common/Resource.h"
-#include "../BaseObject.h"
 #include "BaseFileReader.h"
 
 namespace altseed {
@@ -30,7 +30,7 @@ public:
 
     bool GetIsInPackage() const;
 
-	bool Reload() override;
+    bool Reload() override;
 };
 
 }  // namespace altseed

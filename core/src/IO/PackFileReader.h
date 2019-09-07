@@ -9,7 +9,7 @@ class PackFileReader : public BaseFileReader {
 private:
     zip_file* m_zipFile;
 
-	// ! libzip can not zip_ftell and zip_fseek to packed file with password
+    // ! libzip can not zip_ftell and zip_fseek to packed file with password
     std::vector<uint8_t> m_buffer;
     bool m_isUseBuffer;
 
@@ -23,6 +23,6 @@ public:
 
     void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin) override;
 
-	bool GetIsInPackage() const override;
+    bool GetIsInPackage() const override;
 };
 }  // namespace altseed

@@ -33,6 +33,6 @@ public:
 
     virtual void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin);
 
-	virtual bool GetIsInPackage() const;
+    virtual bool GetIsInPackage() const;
 };
 }  // namespace altseed

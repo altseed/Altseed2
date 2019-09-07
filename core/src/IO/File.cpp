@@ -63,7 +63,7 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
         return cache;
     }
 
-	BaseFileReader* reader = nullptr;
+    BaseFileReader* reader = nullptr;
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) {
@@ -82,7 +82,7 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
         }
     }
 
-	if (reader == nullptr) return nullptr;
+    if (reader == nullptr) return nullptr;
 
     auto res = new StreamFile(reader);
 
