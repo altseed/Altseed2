@@ -17,11 +17,7 @@ const Int8Array& StaticFile::GetBuffer() const { return m_buffer; }
 
 const char16_t* StaticFile::GetPath() const { return m_fileReader->GetFullPath().c_str(); }
 
-void* StaticFile::GetData() const {
-    std::vector<uint8_t> buffer;
-    m_fileReader->ReadAllBytes(buffer);
-    return buffer.data();
-}
+const void* StaticFile::GetData() const { return m_buffer.data(); }
 
 int32_t StaticFile::GetSize() { return m_fileReader->GetSize(); }
 

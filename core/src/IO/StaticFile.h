@@ -24,7 +24,7 @@ public:
 
     const char16_t* GetPath() const;
 
-    void* GetData() const;
+    const void* GetData() const;
 
     int32_t GetSize();
 
