@@ -131,7 +131,7 @@ TEST(File, StreamFile) {
         EXPECT_EQ(test->GetTempBufferSize(), i + 1);
         EXPECT_EQ(testPack->GetTempBufferSize(), i + 1);
         EXPECT_EQ(test->GetTempBuffer(), test->GetTempBuffer());
-	}
+    }
 
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
@@ -165,6 +165,100 @@ TEST(File, StreamFile) {
         EXPECT_EQ(testPack2->GetTempBufferSize(), i + 1);
         EXPECT_EQ(test3->GetTempBuffer(), testPack2->GetTempBuffer());
     }
+
+    asd::Core::Terminate();
+}
+
+TEST(File, Zenkaku) {
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+
+    // pack files
+    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
+
+    // add package
+    EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
+
+    asd::StaticFile* test1 = nullptr;
+    asd::StaticFile* test2 = nullptr;
+    asd::StaticFile* testPack1 = nullptr;
+    asd::StaticFile* testPack2 = nullptr;
+
+    test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角 テスト.txt");
+    test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角　テスト.txt");
+    testPack1 = asd::File::GetInstance()->CreateStaticFile(u"全角 テスト.txt");
+    testPack2 = asd::File::GetInstance()->CreateStaticFile(u"全角　テスト.txt");
+
+    EXPECT_NE(test1, nullptr);
+    EXPECT_NE(test2, nullptr);
+	EXPECT_NE(testPack1, nullptr);
+    EXPECT_NE(testPack2, nullptr);
+
+    EXPECT_NE(test1->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(test2->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(testPack1->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(testPack2->GetBuffer(), asd::Int8Array());
+
+    asd::Core::Terminate();
+}
+
+TEST(File, StaticFileAsync) {
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+
+    // pack files
+    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
+
+    // add package
+    EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
+
+    // create static file, and compare no-package and package without password
+    asd::StaticFile* test1 = nullptr;
+    asd::StaticFile* test2 = nullptr;
+    asd::StaticFile* test3 = nullptr;
+    asd::StaticFile* test4 = nullptr;
+    asd::StaticFile* testCache = nullptr;
+    asd::StaticFile* testPack1 = nullptr;
+    asd::StaticFile* testPack2 = nullptr;
+    asd::StaticFile* testPack3 = nullptr;
+    asd::StaticFile* testPack4 = nullptr;
+    asd::StaticFile* testPackCache = nullptr;
+
+    std::thread thread1([&]() -> void {
+        test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
+        test3 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角 テスト.txt");
+        testPack1 = asd::File::GetInstance()->CreateStaticFile(u"test.txt");
+        testPack3 = asd::File::GetInstance()->CreateStaticFile(u"全角 テスト.txt");
+        testCache = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
+    });
+
+    std::thread thread2([&]() -> void {
+        test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/space test.txt");
+        test4 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角　テスト.txt");
+        testPack2 = asd::File::GetInstance()->CreateStaticFile(u"space test.txt");
+        testPack4 = asd::File::GetInstance()->CreateStaticFile(u"全角　テスト.txt");
+        testPackCache = asd::File::GetInstance()->CreateStaticFile(u"space test.txt");
+    });
+
+    thread1.join();
+    thread2.join();
+
+    EXPECT_NE(test1, nullptr);
+    EXPECT_NE(test2, nullptr);
+    EXPECT_NE(test3, nullptr);
+    EXPECT_NE(test4, nullptr);
+    EXPECT_NE(testCache, nullptr);
+    EXPECT_NE(testPack1, nullptr);
+    EXPECT_NE(testPack2, nullptr);
+    EXPECT_NE(testPack3, nullptr);
+    EXPECT_NE(testPack4, nullptr);
+    EXPECT_NE(testPackCache, nullptr);
+
+    EXPECT_EQ(testCache, test1);
+    EXPECT_EQ(testPackCache, testPack2);
+
+    EXPECT_EQ(test1->GetBuffer(), testPack1->GetBuffer());
+    EXPECT_EQ(test2->GetBuffer(), testPack2->GetBuffer());
+    EXPECT_EQ(test3->GetBuffer(), testPack3->GetBuffer());
+    EXPECT_EQ(test4->GetBuffer(), testPack4->GetBuffer());
 
     asd::Core::Terminate();
 }
