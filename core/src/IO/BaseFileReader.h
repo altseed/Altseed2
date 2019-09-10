@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <mutex>
 #include <vector>
 #include "../BaseObject.h"
 
@@ -16,6 +17,7 @@ protected:
     int64_t m_position;
     int64_t m_length;
     std::u16string m_path;
+    std::recursive_mutex m_readerMtx;
 
 public:
     BaseFileReader(const std::u16string& path);

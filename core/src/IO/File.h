@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 #include <vector>
 #include "../Common/ResourceContainer.h"
 #include "FileRoot.h"
@@ -17,6 +18,10 @@ private:
 
     ResourceContainer m_staticFileCache;
     ResourceContainer m_streamFileCache;
+
+    std::mutex m_rootMtx;
+    std::mutex m_staticFileMtx;
+    std::mutex m_streamFileMtx;
 
 public:
     static bool Initialize();

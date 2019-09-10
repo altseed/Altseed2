@@ -12,6 +12,7 @@ std::shared_ptr<File> File::instance = nullptr;
 bool File::Initialize() {
     instance = std::make_shared<File>();
 
+    std::lock_guard<std::mutex> lock(instance->m_rootMtx);
     // add default file root
     instance->m_roots.push_back(std::make_shared<FileRoot>(u"."));
 
@@ -23,6 +24,8 @@ void File::Terminate() { instance = nullptr; }
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
 StaticFile* File::CreateStaticFile(const char16_t* path) {
+    std::lock_guard<std::mutex> lock(m_staticFileMtx);
+
     StaticFile* cache = (StaticFile*)m_staticFileCache.Get(path);
     if (cache != nullptr) {
         cache->AddRef();
@@ -57,6 +60,8 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
 }
 
 StreamFile* File::CreateStreamFile(const char16_t* path) {
+    std::lock_guard<std::mutex> lock(m_streamFileMtx);
+
     StreamFile* cache = (StreamFile*)m_streamFileCache.Get(path);
     if (cache != nullptr) {
         cache->AddRef();
@@ -92,6 +97,7 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
 
 bool File::AddRootDirectory(const char16_t* path) {
     if (!std::filesystem::is_directory(path)) return false;
+    std::lock_guard<std::mutex> lock(m_rootMtx);
     m_roots.push_back(std::make_shared<FileRoot>(path));
     return true;
 }
@@ -108,6 +114,7 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
         return false;
     }
 
+    std::lock_guard<std::mutex> lock(m_rootMtx);
     m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_, true)));
     return true;
 }
@@ -119,11 +126,13 @@ bool File::AddRootPackage(const char16_t* path) {
     zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
     if (zip_ == nullptr) return false;
 
+    std::lock_guard<std::mutex> lock(m_rootMtx);
     m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_)));
     return true;
 }
 
 void File::ClearRootDirectories() {
+    std::lock_guard<std::mutex> lock(m_rootMtx);
     m_roots.clear();
 
     // add default file root

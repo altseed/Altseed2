@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include "../Common/Resource.h"
 
@@ -38,6 +39,7 @@ public:
 
 private:
     std::map<std::u16string, std::shared_ptr<ResourceInfomation>> resources;
+    std::mutex resourceMtx_;
 
 public:
     ResourceContainer() {}
@@ -50,13 +52,17 @@ public:
     }
 
     void Register(const std::u16string path, std::shared_ptr<ResourceInfomation> resource) {
-        resources[path] = resource;
+        {
+            std::lock_guard<std::mutex> lock(resourceMtx_);
+            resources[path] = resource;
+        }
         resource->GetResourcePtr()->AddRef();
     }
 
     void Unregister(const std::u16string path) {
         if (resources.count(path) == 0) return;
         resources[path]->GetResourcePtr()->Release();
+        std::lock_guard<std::mutex> lock(resourceMtx_);
         resources.erase(path);
     }
 
@@ -64,6 +70,7 @@ public:
         for (auto resource : resources) {
             resource.second->GetResourcePtr()->Release();
         }
+        std::lock_guard<std::mutex> lock(resourceMtx_);
         resources.clear();
     }
 
