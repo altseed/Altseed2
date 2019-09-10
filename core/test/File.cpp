@@ -190,7 +190,7 @@ TEST(File, Zenkaku) {
 
     EXPECT_NE(test1, nullptr);
     EXPECT_NE(test2, nullptr);
-	EXPECT_NE(testPack1, nullptr);
+    EXPECT_NE(testPack1, nullptr);
     EXPECT_NE(testPack2, nullptr);
 
     EXPECT_NE(test1->GetBuffer(), asd::Int8Array());
