@@ -7,22 +7,23 @@ trigger:
 - master
 
 jobs:
-  pool:
-    vmImage: 'ubuntu-latest'
+  - job: Linux
+    pool:
+      vmImage: 'ubuntu-latest'
 
-  steps:
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          git submodule update --init
-          git lfs install
-          git lfs pull
+    steps:
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            git submodule update --init
+            git lfs install
+            git lfs pull
 
-    - task: CMake@1
-      inputs:
-        cmakeArgs: '.. -DBUILD_TEST=ON'
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '.. -DBUILD_TEST=ON'
 
-    - task: CMake@1
-      inputs:
-        cmakeArgs: '--build . --config Release'
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '--build . --config Release'
