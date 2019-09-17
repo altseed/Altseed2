@@ -16,7 +16,7 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
-            sudo add-apt-repository ppa:george-edison55/cmake-3.x
+            sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main'
             sudo apt update
             sudo apt install cmake
             git submodule update --init
