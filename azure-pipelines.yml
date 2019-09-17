@@ -6,10 +6,23 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+  pool:
+    vmImage: 'ubuntu-latest'
 
-steps:
-- script: |
-    make
-  displayName: 'make'
+  steps:
+    - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            git submodule update --init
+            git lfs install
+            git lfs pull
+
+    - task: CMake@1
+      inputs:
+        cmakeArgs: '.. -DBUILD_TEST=ON'
+
+    - task: CMake@1
+      inputs:
+        cmakeArgs: '--build . --config Release'
