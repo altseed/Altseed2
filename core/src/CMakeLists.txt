@@ -74,6 +74,7 @@ target_link_libraries(
     PRIVATE
     spdlog
     hidapi
+	LLGI
     debug glfw3d
     optimized glfw3
     debug zip

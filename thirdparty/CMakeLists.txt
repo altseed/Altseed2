@@ -92,6 +92,13 @@ add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 # spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 
+# LLGI
+set(BUILD_TEST_TEMP ${BUILD_TEST})
+set(BUILD_TEST OFF)
+add_subdirectory(LLGI)
+set(BUILD_TEST ${BUILD_TEST_TEMP})
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/LLGI/src)
+
 # stb
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/stb)
 
