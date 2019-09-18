@@ -1,10 +1,26 @@
 #include "File.h"
 #include <zip.h>
-#include <filesystem>
+
 #include <fstream>
 #include <stack>
 #include "../Common/StringHelper.h"
 #include "PackFileReader.h"
+
+#if defined(_WIN32) || defined(__APPLE__)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+
+#if __GNUC__ >= 8
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+
+#endif
+
 namespace altseed {
 
 std::shared_ptr<File> File::instance = nullptr;
@@ -46,7 +62,7 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
                 reader = new PackFileReader(zipFile, path, stat);
                 break;
             }
-        } else if (std::filesystem::is_regular_file((*i)->GetPath() + path)) {
+        } else if (fs::is_regular_file((*i)->GetPath() + path)) {
             reader = new BaseFileReader(path);
         }
     }
@@ -82,7 +98,7 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
                 reader = new PackFileReader(zipFile, path, stat);
                 break;
             }
-        } else if (std::filesystem::is_regular_file((*i)->GetPath() + path)) {
+        } else if (fs::is_regular_file((*i)->GetPath() + path)) {
             reader = new BaseFileReader(path);
         }
     }
@@ -96,14 +112,14 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
 }
 
 bool File::AddRootDirectory(const char16_t* path) {
-    if (!std::filesystem::is_directory(path)) return false;
+    if (!fs::is_directory(path)) return false;
     std::lock_guard<std::mutex> lock(m_rootMtx);
     m_roots.push_back(std::make_shared<FileRoot>(path));
     return true;
 }
 
 bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* password) {
-    if (!std::filesystem::is_regular_file(path)) return false;
+    if (!fs::is_regular_file(path)) return false;
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
@@ -120,7 +136,7 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
 }
 
 bool File::AddRootPackage(const char16_t* path) {
-    if (!std::filesystem::is_regular_file(path)) return false;
+    if (!fs::is_regular_file(path)) return false;
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
@@ -143,7 +159,7 @@ bool File::Exists(const char16_t* path) const {
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) return true;
-        } else if (std::filesystem::is_regular_file((*i)->GetPath() + path))
+        } else if (fs::is_regular_file((*i)->GetPath() + path))
             return true;
     }
 
@@ -151,7 +167,7 @@ bool File::Exists(const char16_t* path) const {
 }
 
 bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
-    if (!std::filesystem::is_directory(srcPath)) return false;
+    if (!fs::is_directory(srcPath)) return false;
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(dstPath).c_str(), ZIP_TRUNCATE | ZIP_CREATE, &error);
@@ -163,7 +179,7 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
 }
 
 bool File::Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
-    if (!std::filesystem::is_directory(srcPath)) return false;
+    if (!fs::is_directory(srcPath)) return false;
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(dstPath).c_str(), ZIP_TRUNCATE | ZIP_CREATE, &error);
@@ -199,18 +215,18 @@ bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) c
         current = children.top();
         children.pop();
 
-        for (const std::filesystem::directory_entry& i : std::filesystem::directory_iterator(current)) {
+        for (const fs::directory_entry& i : fs::directory_iterator(current)) {
             std::u16string zipPath = i.path().generic_u16string();
             zipPath.erase(0, path.size());
 
-            if (std::filesystem::is_directory(i)) {
+            if (fs::is_directory(i)) {
                 if (zip_dir_add(zipPtr, utf16_to_utf8(zipPath).c_str(), ZIP_FL_ENC_UTF_8) == -1) return false;
                 children.push(i.path().generic_u16string());
-            } else if (std::filesystem::is_regular_file(i)) {
+            } else if (fs::is_regular_file(i)) {
                 std::ifstream file(i.path(), std::ios::binary);
                 if (!file.is_open()) return false;
 
-                int size = std::filesystem::file_size(i.path());
+                int size = fs::file_size(i.path());
                 char* buffer = new char[size];
                 file.read(buffer, size);
                 zip_source_t* zipSource;
