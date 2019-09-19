@@ -39,6 +39,8 @@ bool StreamFile::Reload() {
     m_buffer.clear();
 
     m_fileReader = new BaseFileReader(path);
+
+    return true;
 }
 
 }  // namespace altseed

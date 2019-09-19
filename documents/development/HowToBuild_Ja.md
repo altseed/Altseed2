@@ -7,6 +7,16 @@
 - cmake
 - git
 
+### Linux
+
+- gcc
+
+#### Ubuntu
+
+```
+libudev-dev
+```
+
 ## サブモジュール取得
 
 ```
