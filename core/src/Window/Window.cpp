@@ -39,7 +39,12 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
 #endif
 
     // common window setting
+
+#if defined(_WIN32) || defined(__APPLE__)
+    // x11 requires gl to show an window (temp)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+#endif
+
     glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, parameter.IsResizable ? GL_TRUE : GL_FALSE);
 
@@ -64,6 +69,11 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
     glfwSwapInterval(0);
 
     glfwSetWindowUserPointer(GetInstance()->mainWindow_, &GetInstance());
+
+#ifdef __linux__
+    // x11 requires interval to show an window (temp)
+    glfwSwapInterval(1);
+#endif
 
     return true;
 }
@@ -105,6 +115,12 @@ bool Window::DoEvent() {
     }
 
     glfwPollEvents();
+
+#ifdef __linux__
+    // x11 requires swap to show an window (temp)
+    glfwSwapBuffers(GetInstance()->mainWindow_);
+#endif
+
     return true;
 }
 
