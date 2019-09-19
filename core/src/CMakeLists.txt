@@ -103,6 +103,8 @@ else()
         png16
         z
         stdc++fs
+        ssl
+        crypto
         )
 
 endif()
