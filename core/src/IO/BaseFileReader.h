@@ -3,6 +3,9 @@
 #include <fstream>
 #include <mutex>
 #include <vector>
+#include <string>
+#include <string>
+
 #include "../BaseObject.h"
 
 namespace altseed {

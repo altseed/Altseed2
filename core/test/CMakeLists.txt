@@ -8,6 +8,7 @@ set(core_test_files
     Core.cpp
     Window.cpp
     File.cpp
+    Graphics.cpp
 )
 
 # specify project filters

@@ -6,6 +6,22 @@
 #include <memory>
 #include <mutex>
 #include <string>
+
+#if defined(_WIN32) || defined(__APPLE__)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+
+#if __GNUC__ >= 8
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+
+#endif
+
 #include "../Common/Resource.h"
 
 #if defined(_WIN32) || defined(__APPLE__)

@@ -33,6 +33,8 @@ set(core_files
     IO/BaseFileReader.cpp
     IO/PackFileReader.h
     IO/PackFileReader.cpp
+	Graphics/Graphics.h
+	Graphics/Graphics.cpp
 )
 
 # specify project filters
@@ -79,11 +81,42 @@ target_link_libraries(
     optimized glfw3
     debug zip
     optimized zip
-    debug libpng16_staticd
-    optimized libpng16_static
-    debug zlibstaticd
-    optimized zlibstatic
     )
+
+if (MSVC OR APPLE)
+
+    target_link_libraries(
+        Altseed_Core
+        PRIVATE
+        debug libpng16_staticd
+        optimized libpng16_static
+        debug zlibstaticd
+        optimized zlibstatic
+        )
+
+else()
+
+    find_package(X11 REQUIRED)
+    target_link_libraries(Altseed_Core PRIVATE ${X11_LIBRARIES})
+
+    target_link_libraries(
+        Altseed_Core
+        PRIVATE
+        png16
+        z
+        stdc++fs
+        ssl
+        crypto
+        )
+
+endif()
+
+if(MSVC)
+
+else()
+	find_package(Threads REQUIRED)
+	target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 # to use external projects
 target_include_directories(

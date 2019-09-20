@@ -7,6 +7,17 @@
 - cmake
 - git
 
+### Linux
+
+- gcc
+
+#### Ubuntu
+
+```
+libudev-dev
+libssl-dev # to save and load a package with a password
+```
+
 ## サブモジュール取得
 
 ```

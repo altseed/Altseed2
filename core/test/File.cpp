@@ -1,9 +1,10 @@
-#include <Core.h>
+ï»¿#include <Core.h>
 #include <IO/File.h>
 #include <gtest/gtest.h>
 #include <zip.h>
 #include <string>
 #include <vector>
+#include <thread>
 
 namespace asd = altseed;
 
@@ -23,23 +24,23 @@ TEST(File, FileRoot) {
     // directory root
     EXPECT_FALSE(asd::File::GetInstance()->Exists(u"test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"space test.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp ƒeƒXƒg.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp@ƒeƒXƒg.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt"));
 
     // clear root
     asd::File::GetInstance()->ClearRootDirectories();
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"TestData/IO/test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"TestData/IO/../IO/test.txt"));
     EXPECT_FALSE(asd::File::GetInstance()->Exists(u"space test.txt"));
-    EXPECT_FALSE(asd::File::GetInstance()->Exists(u"‘SŠp ƒeƒXƒg.txt"));
-    EXPECT_FALSE(asd::File::GetInstance()->Exists(u"‘SŠp@ƒeƒXƒg.txt"));
+    EXPECT_FALSE(asd::File::GetInstance()->Exists(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt"));
+    EXPECT_FALSE(asd::File::GetInstance()->Exists(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt"));
 
     // pack file root
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"space test.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp ƒeƒXƒg.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp@ƒeƒXƒg.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"testDir/test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test dir/test.txt"));
 
@@ -49,8 +50,8 @@ TEST(File, FileRoot) {
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"space test.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp ƒeƒXƒg.txt"));
-    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"‘SŠp@ƒeƒXƒg.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt"));
+    EXPECT_TRUE(asd::File::GetInstance()->Exists(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"testDir/test.txt"));
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"test dir/test.txt"));
 
@@ -183,10 +184,10 @@ TEST(File, Zenkaku) {
     asd::StaticFile* testPack1 = nullptr;
     asd::StaticFile* testPack2 = nullptr;
 
-    test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/‘SŠp ƒeƒXƒg.txt");
-    test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/‘SŠp@ƒeƒXƒg.txt");
-    testPack1 = asd::File::GetInstance()->CreateStaticFile(u"‘SŠp ƒeƒXƒg.txt");
-    testPack2 = asd::File::GetInstance()->CreateStaticFile(u"‘SŠp@ƒeƒXƒg.txt");
+    test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt");
+    test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt");
+    testPack1 = asd::File::GetInstance()->CreateStaticFile(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt");
+    testPack2 = asd::File::GetInstance()->CreateStaticFile(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt");
 
     EXPECT_NE(test1, nullptr);
     EXPECT_NE(test2, nullptr);
@@ -224,17 +225,17 @@ TEST(File, StaticFileAsync) {
 
     std::thread thread1([&]() -> void {
         test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
-        test3 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/‘SŠp ƒeƒXƒg.txt");
+        test3 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt");
         testPack1 = asd::File::GetInstance()->CreateStaticFile(u"test.txt");
-        testPack3 = asd::File::GetInstance()->CreateStaticFile(u"‘SŠp ƒeƒXƒg.txt");
+        testPack3 = asd::File::GetInstance()->CreateStaticFile(u"å…¨è§’ ãƒ†ã‚¹ãƒˆ.txt");
         testCache = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
     });
 
     std::thread thread2([&]() -> void {
         test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/space test.txt");
-        test4 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/‘SŠp@ƒeƒXƒg.txt");
+        test4 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt");
         testPack2 = asd::File::GetInstance()->CreateStaticFile(u"space test.txt");
-        testPack4 = asd::File::GetInstance()->CreateStaticFile(u"‘SŠp@ƒeƒXƒg.txt");
+        testPack4 = asd::File::GetInstance()->CreateStaticFile(u"å…¨è§’ã€€ãƒ†ã‚¹ãƒˆ.txt");
         testPackCache = asd::File::GetInstance()->CreateStaticFile(u"space test.txt");
     });
 
