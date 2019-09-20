@@ -24,6 +24,7 @@ jobs:
             git lfs install
             git lfs pull
             sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev
+            sudo apt -y install libssl-dev
 
       - task: CMake@1
         inputs:
