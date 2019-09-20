@@ -33,6 +33,8 @@ set(core_files
     IO/BaseFileReader.cpp
     IO/PackFileReader.h
     IO/PackFileReader.cpp
+	Graphics/Graphics.h
+	Graphics/Graphics.cpp
 )
 
 # specify project filters
