@@ -1,13 +1,27 @@
 #pragma once
 
 #include <chrono>
-#include <filesystem>
 #include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <string>
 #include "../Common/Resource.h"
+
+#if defined(_WIN32) || defined(__APPLE__)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+
+#if __GNUC__ >= 8
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+
+#endif
 
 namespace altseed {
 class ResourceContainer {
@@ -16,7 +30,7 @@ public:
     private:
         Resource* m_resourcePtr;
         std::u16string m_path;
-        std::filesystem::file_time_type m_modifiedTime;
+        fs::file_time_type m_modifiedTime;
 
     public:
         ResourceInfomation(Resource* resource, std::u16string path) {
@@ -29,9 +43,9 @@ public:
 
         const std::u16string& GetPath() { return m_path; }
 
-        const std::filesystem::file_time_type GetModifiedTime() { return m_modifiedTime; }
+        const fs::file_time_type GetModifiedTime() { return m_modifiedTime; }
 
-        bool Reload(std::filesystem::file_time_type time) {
+        bool Reload(fs::file_time_type time) {
             m_modifiedTime = time;
             return m_resourcePtr->Reload();
         }
@@ -87,13 +101,13 @@ public:
         }
     }
 
-    static std::filesystem::file_time_type GetModifiedTime(const std::u16string path) {
-        std::filesystem::path p(path);
+    static fs::file_time_type GetModifiedTime(const std::u16string path) {
+        fs::path p(path);
         std::error_code ec;
-        auto ftime = std::filesystem::last_write_time(p, ec);
+        auto ftime = fs::last_write_time(p, ec);
         if (ec.value() != 0) {
             // TODO: log failure to get time
-            return std::filesystem::file_time_type::min();
+            return fs::file_time_type::min();
         }
         return ftime;
     }
