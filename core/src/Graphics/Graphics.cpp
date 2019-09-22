@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "Sprite.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
@@ -8,17 +9,6 @@
 #endif
 
 #endif
-
-#include <LLGI.CommandList.h>
-#include <LLGI.Compiler.h>
-#include <LLGI.ConstantBuffer.h>
-#include <LLGI.Graphics.h>
-#include <LLGI.IndexBuffer.h>
-#include <LLGI.PipelineState.h>
-#include <LLGI.Platform.h>
-#include <LLGI.Shader.h>
-#include <LLGI.Texture.h>
-#include <LLGI.VertexBuffer.h>
 
 namespace altseed {
 
@@ -40,8 +30,8 @@ bool Graphics::Intialize(LLGI::DeviceType deviceType) {
     instance->sfMemoryPool_ = instance->graphics_->CreateSingleFrameMemoryPool(1024 * 1024, 128);
     instance->commandList_ = instance->graphics_->CreateCommandList(instance->sfMemoryPool_);
 
-    instance->vb = instance->graphics_->CreateVertexBuffer(sizeof(SimpleVertex) * 4);
-    instance->ib = instance->graphics_->CreateIndexBuffer(2, 6);
+    instance->vb = instance->graphics_->CreateVertexBuffer(sizeof(SimpleVertex) * 1024);
+    instance->ib = instance->graphics_->CreateIndexBuffer(2, 1024);
 
     auto compiler = LLGI::CreateCompiler(deviceType);
 
@@ -80,33 +70,6 @@ bool Graphics::Intialize(LLGI::DeviceType deviceType) {
         instance->ps_ = instance->graphics_->CreateShader(data_ps.data(), data_ps.size());
     }
 
-    auto vb_buf = (SimpleVertex*)instance->vb->Lock();
-    vb_buf[0].Pos = LLGI::Vec3F(-0.5, 0.5, 0.5);
-    vb_buf[1].Pos = LLGI::Vec3F(0.5, 0.5, 0.5);
-    vb_buf[2].Pos = LLGI::Vec3F(0.5, -0.5, 0.5);
-    vb_buf[3].Pos = LLGI::Vec3F(-0.5, -0.5, 0.5);
-
-    vb_buf[0].UV = LLGI::Vec2F(0.0f, 0.0f);
-    vb_buf[1].UV = LLGI::Vec2F(1.0f, 0.0f);
-    vb_buf[2].UV = LLGI::Vec2F(1.0f, 1.0f);
-    vb_buf[3].UV = LLGI::Vec2F(0.0f, 1.0f);
-
-    vb_buf[0].Color = LLGI::Color8();
-    vb_buf[1].Color = LLGI::Color8();
-    vb_buf[2].Color = LLGI::Color8();
-    vb_buf[3].Color = LLGI::Color8();
-
-    instance->vb->Unlock();
-
-    auto ib_buf = (uint16_t*)instance->ib->Lock();
-    ib_buf[0] = 0;
-    ib_buf[1] = 1;
-    ib_buf[2] = 2;
-    ib_buf[3] = 0;
-    ib_buf[4] = 2;
-    ib_buf[5] = 3;
-    instance->ib->Unlock();
-
     return true;
 }
 
@@ -122,6 +85,8 @@ bool Graphics::Update() {
     color.G = 0;
     color.B = 0;
     color.A = 255;
+
+    UpdateBuffers();
 
     auto renderPass = instance->graphics_->GetCurrentScreen(color, true);
     auto renderPassPipelineState = LLGI::CreateSharedPtr(renderPass->CreateRenderPassPipelineState());
@@ -149,7 +114,7 @@ bool Graphics::Update() {
     commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), 0);
     commandList_->SetIndexBuffer(ib);
     commandList_->SetPipelineState(pips[renderPassPipelineState].get());
-    commandList_->Draw(2);
+    commandList_->Draw(PrimitiveCount);
     commandList_->EndRenderPass();
     commandList_->End();
 
@@ -159,7 +124,7 @@ bool Graphics::Update() {
 
     count++;
 
-	return true;
+    return true;
 }
 
 void Graphics::Terminate() {
@@ -173,5 +138,40 @@ void Graphics::Terminate() {
     LLGI::SafeRelease(instance->graphics_);
     LLGI::SafeRelease(instance->platform_);
     instance = nullptr;
+}
+
+void Graphics::UpdateBuffers() {
+    std::array<LLGI::Vec2F, 4> UVs = {LLGI::Vec2F(0.0f, 0.0f), LLGI::Vec2F(1.0f, 0.0f), LLGI::Vec2F(1.0f, 1.0f), LLGI::Vec2F(0.0f, 1.0f)};
+    auto vb_buf = reinterpret_cast<SimpleVertex*>(vb->Lock());
+    auto ib_buf = reinterpret_cast<uint16_t*>(ib->Lock());
+
+    int vb_idx = 0;
+    int ib_idx = 0;
+    PrimitiveCount = 0;
+
+    // TODO: check size of buffers
+    for (int i = 0; i < Sprites.size(); i++) {
+        auto s = Sprites[i];
+        auto v = s->GetVertex();
+
+        for (int j = 0; j < 4; j++) {
+            vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
+            vb_buf[vb_idx + j].UV = UVs[j];
+            vb_buf[vb_idx + j].Color = LLGI::Color8();
+        }
+
+        ib_buf[ib_idx + 0] = vb_idx + 0;
+        ib_buf[ib_idx + 1] = vb_idx + 1;
+        ib_buf[ib_idx + 2] = vb_idx + 2;
+        ib_buf[ib_idx + 3] = vb_idx + 0;
+        ib_buf[ib_idx + 4] = vb_idx + 2;
+        ib_buf[ib_idx + 5] = vb_idx + 3;
+        vb_idx += 4;
+        ib_idx += 6;
+        PrimitiveCount += 2;
+    }
+
+    ib->Unlock();
+    vb->Unlock();
 }
 }  // namespace altseed

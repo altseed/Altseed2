@@ -17,6 +17,8 @@
 
 namespace altseed {
 
+class Sprite;
+
 struct SimpleVertex {
     LLGI::Vec3F Pos;
     LLGI::Vec2F UV;
@@ -37,17 +39,22 @@ private:
     LLGI::Shader* ps_;
     LLGI::Shader* vs_;
 
-	LLGI::IndexBuffer* ib;
+    LLGI::IndexBuffer* ib;
     LLGI::VertexBuffer* vb;
+
+    void UpdateBuffers();
+    int PrimitiveCount = 0;
 
 public:
     static bool Intialize(LLGI::DeviceType deviceType = LLGI::DeviceType::Default /*std::shared_ptr<Window>& window*/);
-    
-	static std::shared_ptr<Graphics>& GetInstance();
-    
-	bool Update();
+
+    static std::shared_ptr<Graphics>& GetInstance();
+
+    bool Update();
 
     static void Terminate();
+
+    std::vector<std::shared_ptr<Sprite>> Sprites;
 
 private:
     const char* HlslVSCode = R"(

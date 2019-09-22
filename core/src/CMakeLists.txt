@@ -35,6 +35,8 @@ set(core_files
     IO/PackFileReader.cpp
 	Graphics/Graphics.h
 	Graphics/Graphics.cpp
+	Graphics/Sprite.h
+	Graphics/Sprite.cpp
 )
 
 # specify project filters
