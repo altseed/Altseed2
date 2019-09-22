@@ -64,6 +64,7 @@ ExternalProject_Add(
                     -DBUILD_EXAMPLES=OFF
                     -DBUILD_DOC=OFF
                     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=true
+                    -DENABLE_BZIP2=OFF
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/libzip/include)
