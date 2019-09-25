@@ -19,7 +19,7 @@ public:
 
     static void Terminate();
 
-    static std::shared_ptr<Resources>& GetInstance() { return instance; }
+    static std::shared_ptr<Resources>& GetInstance();
 
     const std::shared_ptr<ResourceContainer>& GetResourceContainer(ResourceType type);
 

@@ -4,6 +4,7 @@
 #include <mutex>
 #include <vector>
 #include "../Common/ResourceContainer.h"
+#include "../Common/Resources.h"
 #include "FileRoot.h"
 #include "StaticFile.h"
 #include "StreamFile.h"
@@ -14,17 +15,16 @@ class File {
 private:
     static std::shared_ptr<File> instance;
 
-    std::vector<std::shared_ptr<FileRoot>> m_roots;
+    std::shared_ptr<Resources> m_resources;
 
-    ResourceContainer m_staticFileCache;
-    ResourceContainer m_streamFileCache;
+    std::vector<std::shared_ptr<FileRoot>> m_roots;
 
     std::mutex m_rootMtx;
     std::mutex m_staticFileMtx;
     std::mutex m_streamFileMtx;
 
 public:
-    static bool Initialize();
+    static bool Initialize(std::shared_ptr<Resources> resources);
 
     static void Terminate();
 
@@ -48,12 +48,8 @@ public:
 
     bool Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
 
-    void ClearCache();
-
-    void Reload();
-
 private:
-    bool Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;
+    bool MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;
 };
 
 }  // namespace altseed
