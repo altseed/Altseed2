@@ -108,16 +108,18 @@ bool Graphics::Update() {
 
         pips[renderPassPipelineState] = LLGI::CreateSharedPtr(pip);
     }
-
     commandList_->Begin();
     commandList_->BeginRenderPass(renderPass);
-    commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), 0);
-    commandList_->SetIndexBuffer(ib);
-    commandList_->SetPipelineState(pips[renderPassPipelineState].get());
-    commandList_->Draw(PrimitiveCount);
+    for (auto& g : Groups) {
+        commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), g.second.vb_offset * sizeof(SimpleVertex));
+        commandList_->SetIndexBuffer(ib);
+        commandList_->SetPipelineState(pips[renderPassPipelineState].get());
+        commandList_->SetTexture(
+                g.first, LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Nearest, 0, LLGI::ShaderStageType::Pixel);
+        commandList_->Draw(g.second.sprites.size() * 2);
+    }
     commandList_->EndRenderPass();
     commandList_->End();
-
     graphics_->Execute(commandList_);
 
     platform_->Present();
@@ -146,32 +148,59 @@ void Graphics::UpdateBuffers() {
     auto ib_buf = reinterpret_cast<uint16_t*>(ib->Lock());
 
     int vb_idx = 0;
-    int ib_idx = 0;
-    PrimitiveCount = 0;
+    int maxPrimitiveCount = 0;
 
-    // TODO: check size of buffers
+    Groups.clear();
     for (int i = 0; i < Sprites.size(); i++) {
-        auto s = Sprites[i];
-        auto v = s->GetVertex();
+        Groups[Sprites[i]->GetTexture()].sprites.push_back(Sprites[i]);
+    }
 
-        for (int j = 0; j < 4; j++) {
-            vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
-            vb_buf[vb_idx + j].UV = UVs[j];
-            vb_buf[vb_idx + j].Color = LLGI::Color8();
+    for (auto& g : Groups) {
+        g.second.vb_offset = vb_idx;
+
+        // TODO: check size of buffers
+        for (int i = 0; i < g.second.sprites.size(); i++) {
+            auto s = g.second.sprites[i];
+            auto v = s->GetVertex();
+
+            for (int j = 0; j < 4; j++) {
+                vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
+                vb_buf[vb_idx + j].UV = UVs[j];
+                vb_buf[vb_idx + j].Color = LLGI::Color8();
+            }
+
+            vb_idx += 4;
         }
+        maxPrimitiveCount = std::max<int>(maxPrimitiveCount, g.second.sprites.size());
+    }
 
-        ib_buf[ib_idx + 0] = vb_idx + 0;
-        ib_buf[ib_idx + 1] = vb_idx + 1;
-        ib_buf[ib_idx + 2] = vb_idx + 2;
-        ib_buf[ib_idx + 3] = vb_idx + 0;
-        ib_buf[ib_idx + 4] = vb_idx + 2;
-        ib_buf[ib_idx + 5] = vb_idx + 3;
-        vb_idx += 4;
-        ib_idx += 6;
-        PrimitiveCount += 2;
+    for (int i = 0; i < maxPrimitiveCount; i++) {
+        ib_buf[i * 6 + 0] = i * 4 + 0;
+        ib_buf[i * 6 + 1] = i * 4 + 1;
+        ib_buf[i * 6 + 2] = i * 4 + 2;
+        ib_buf[i * 6 + 3] = i * 4 + 0;
+        ib_buf[i * 6 + 4] = i * 4 + 2;
+        ib_buf[i * 6 + 5] = i * 4 + 3;
     }
 
     ib->Unlock();
     vb->Unlock();
 }
+
+LLGI::Texture* Graphics::CreateDameyTexture(uint8_t b) {
+    auto texture = graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false);
+
+    auto texture_buf = (LLGI::Color8*)texture->Lock();
+    for (int y = 0; y < 256; y++) {
+        for (int x = 0; x < 256; x++) {
+            texture_buf[x + y * 256].R = x;
+            texture_buf[x + y * 256].G = y;
+            texture_buf[x + y * 256].B = b;
+            texture_buf[x + y * 256].A = 255;
+        }
+    }
+    texture->Unlock();
+    return texture;
+}
+
 }  // namespace altseed

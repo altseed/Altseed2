@@ -26,7 +26,11 @@ struct SimpleVertex {
 };
 
 class Graphics {
-private:
+    struct DrawGroup {
+        int vb_offset;
+        std::vector<std::shared_ptr<Sprite>> sprites;
+    };
+
     static std::shared_ptr<Graphics> instance;
     int count;  // temp
 
@@ -42,8 +46,8 @@ private:
     LLGI::IndexBuffer* ib;
     LLGI::VertexBuffer* vb;
 
+    std::unordered_map<LLGI::Texture*, DrawGroup> Groups;
     void UpdateBuffers();
-    int PrimitiveCount = 0;
 
 public:
     static bool Intialize(LLGI::DeviceType deviceType = LLGI::DeviceType::Default /*std::shared_ptr<Window>& window*/);
@@ -55,6 +59,7 @@ public:
     static void Terminate();
 
     std::vector<std::shared_ptr<Sprite>> Sprites;
+    LLGI::Texture* CreateDameyTexture(uint8_t b);
 
 private:
     const char* HlslVSCode = R"(
