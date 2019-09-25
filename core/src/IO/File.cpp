@@ -59,8 +59,7 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
                     // TODO: log failure to get zip_file
                     continue;
                 }
-                zip_stat_t* stat = nullptr;
-                if ((*i)->GetPackFile()->GetIsUsePassword()) stat = (*i)->GetPackFile()->GetZipStat(path);
+                zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
                 reader = new PackFileReader(zipFile, path, stat);
                 break;
             }
@@ -92,7 +91,7 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) {
                 auto zipFile = (*i)->GetPackFile()->Load(path);
-                if (zipFile == nullptr) {
+                if (zipFile == nullptr || (*i)->GetPackFile()->GetZipStat(path)->comp_method != ZIP_CM_STORE) {
                     // TODO: log failure to get zip_file
                     continue;
                 }
@@ -236,7 +235,6 @@ bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt
                     zip_source_free(zipSource);
                     return false;
                 }
-                zip_set_file_compression(zipPtr, index, ZIP_CM_STORE, 1);
             }
         }
     }
