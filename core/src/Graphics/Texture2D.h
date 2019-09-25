@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <tuple>
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
 
@@ -20,6 +21,8 @@ public:
     virtual ~Texture2D();
 
 	bool Reload() override;
+
+	std::tuple<int32_t, int32_t> GetSize() { return std::make_tuple(m_width, m_height); }
 
     static Texture2D* Load(const char16_t* path);
 };

@@ -33,7 +33,7 @@ Texture2D* Texture2D::Load(const char16_t* path) {
     int32_t w, h, channel;
     uint8_t* data = (uint8_t*)stbi_load_from_memory((stbi_uc*)file->GetData(), file->GetSize(), &w, &h, &channel, 0);
 
-    if (data != nullptr) {
+    if (data == nullptr) {
         return nullptr;
     }
 
