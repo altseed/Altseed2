@@ -42,6 +42,9 @@ Texture2D* Texture2D::Load(const char16_t* path) {
     auto res = new Texture2D(resources, data, w, h);
     resources->GetResourceContainer(ResourceType::Texture2D)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
-    return res;
+    
+	delete[] data;
+
+	return res;
 }
 }  // namespace altseed
