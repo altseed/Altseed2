@@ -3,6 +3,7 @@
 #include <IO/File.h>
 #include <gtest/gtest.h>
 #include <string>
+#include <thread>
 
 namespace asd = altseed;
 
