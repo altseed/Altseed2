@@ -5,6 +5,8 @@
 #include "../IO/File.h"
 
 namespace altseed {
+std::map<std::u16string, std::shared_ptr<std::mutex>> Texture2D::mtxs;
+
 Texture2D::Texture2D(std::shared_ptr<Resources> resources, uint8_t* data, int32_t width, int32_t height) {
     m_width = width;
     m_height = height;
@@ -18,6 +20,9 @@ Texture2D::~Texture2D() {}
 bool Texture2D::Reload() { return false; }
 
 Texture2D* Texture2D::Load(const char16_t* path) {
+    if (mtxs.count(path) == 0) mtxs[path] = std::make_shared<std::mutex>();
+    std::lock_guard<std::mutex> lock(*mtxs[path]);
+
     auto resources = Resources::GetInstance();
     Texture2D* cache = (Texture2D*)resources->GetResourceContainer(ResourceType::Texture2D)->Get(path);
     if (cache != nullptr) {
@@ -42,9 +47,9 @@ Texture2D* Texture2D::Load(const char16_t* path) {
     auto res = new Texture2D(resources, data, w, h);
     resources->GetResourceContainer(ResourceType::Texture2D)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
-    
-	delete[] data;
 
-	return res;
+    delete[] data;
+
+    return res;
 }
 }  // namespace altseed
