@@ -22,13 +22,13 @@ namespace altseed {
         [2,0][2,1][2,2][2,3]
         [3,0][3,1][3,2][3,3]
 */
-struct Matrix44 {
+struct Matrix44F {
 private:
 public:
     /**
             @brief	オブジェクトを生成し、単位行列で初期化する。
     */
-    Matrix44();
+    Matrix44F();
 
     /**
             @brief	行列の値
@@ -39,25 +39,25 @@ public:
             @brief	単位行列を設定する。
             @return	このインスタンスへの参照
     */
-    Matrix44& SetIdentity();
+    Matrix44F& SetIdentity();
 
     /**
             @brief	転置行列を設定する。
             @return	このインスタンスへの参照
     */
-    Matrix44& SetTransposed();
+    Matrix44F& SetTransposed();
 
     /**
             @brief	逆行列を設定する。
             @return	このインスタンスへの参照
     */
-    Matrix44& SetInverted();
+    Matrix44F& SetInverted();
 
     /**
             @brief	逆行列を取得する。
             @return	逆行列
     */
-    Matrix44 GetInverted() const;
+    Matrix44F GetInverted() const;
 
     /**
             @brief	カメラ行列(右手系)を設定する。
@@ -66,7 +66,7 @@ public:
             @param	up	カメラの上方向
             @return	このインスタンスへの参照
     */
-    Matrix44& SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
+    Matrix44F& SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
 
     /**
             @brief	カメラ行列(左手系)を設定する。
@@ -75,7 +75,7 @@ public:
             @param	up	カメラの上方向
             @return	このインスタンスへの参照
     */
-    Matrix44& SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
+    Matrix44F& SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
 
     /**
             @brief	射影行列(右手系)を設定する。
@@ -85,7 +85,7 @@ public:
             @param	zf	最遠距離
             @return	このインスタンスへの参照
     */
-    Matrix44& SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf);
+    Matrix44F& SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf);
 
     /**
             @brief	OpenGL用射影行列(右手系)を設定する。
@@ -95,7 +95,7 @@ public:
             @param	zf	最遠距離
             @return	このインスタンスへの参照
     */
-    Matrix44& SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf);
+    Matrix44F& SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf);
 
     /**
             @brief	射影行列(左手系)を設定する。
@@ -105,7 +105,7 @@ public:
             @param	zf	最遠距離
             @return	このインスタンスへの参照
     */
-    Matrix44& SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf);
+    Matrix44F& SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf);
 
     /**
             @brief	正射影行列(右手系)を設定する。
@@ -115,7 +115,7 @@ public:
             @param	zf	最遠距離
             @return	このインスタンスへの参照
     */
-    Matrix44& SetOrthographicRH(float width, float height, float zn, float zf);
+    Matrix44F& SetOrthographicRH(float width, float height, float zn, float zf);
 
     /**
             @brief	正射影行列(左手系)を設定する。
@@ -125,7 +125,7 @@ public:
             @param	zf	最遠距離
             @return	このインスタンスへの参照
     */
-    Matrix44& SetOrthographicLH(float width, float height, float zn, float zf);
+    Matrix44F& SetOrthographicLH(float width, float height, float zn, float zf);
 
     /**
             @brief	並行移動行列を設定する。
@@ -134,28 +134,28 @@ public:
             @param	z	Z方向移動量
             @return	このインスタンスへの参照
     */
-    Matrix44& SetTranslation(float x, float y, float z);
+    Matrix44F& SetTranslation(float x, float y, float z);
 
     /**
             @brief	X軸回転行列(右手)を設定する。
             @param	angle	X軸回転量(ラジアン)
             @return	このインスタンスへの参照
     */
-    Matrix44& SetRotationX(float angle);
+    Matrix44F& SetRotationX(float angle);
 
     /**
             @brief	Y軸回転行列(右手)を設定する。
             @param	angle	Y軸回転量(ラジアン)
             @return	このインスタンスへの参照
     */
-    Matrix44& SetRotationY(float angle);
+    Matrix44F& SetRotationY(float angle);
 
     /**
             @brief	Z軸回転行列(右手)を設定する。
             @param	angle	Z軸回転量(ラジアン)
             @return	このインスタンスへの参照
     */
-    Matrix44& SetRotationZ(float angle);
+    Matrix44F& SetRotationZ(float angle);
 
     /**
     @brief	任意軸の反時計回転行列(右手)を設定する。
@@ -163,7 +163,7 @@ public:
     @param	angle	回転量(ラジアン)
     @return	このインスタンスへの参照
     */
-    Matrix44& SetRotationAxis(const Vector3DF& axis, float angle);
+    Matrix44F& SetRotationAxis(const Vector3DF& axis, float angle);
 
     /**
     @brief	クオータニオンを元に回転行列(右手)を設定する。
@@ -173,7 +173,7 @@ public:
     @param	w	クオータニオン
     @return	このインスタンスへの参照
     */
-    Matrix44& SetQuaternion(float x, float y, float z, float w);
+    Matrix44F& SetQuaternion(float x, float y, float z, float w);
 
     /**
     @brief	拡大行列を設定する。
@@ -182,7 +182,7 @@ public:
     @param	z	Z方向拡大率
     @return	このインスタンスへの参照
     */
-    Matrix44& SetScale(float x, float y, float z);
+    Matrix44F& SetScale(float x, float y, float z);
 
     /**
     @brief	行列でベクトルを変形させる。
@@ -198,7 +198,7 @@ public:
     */
     Vector4DF Transform4D(const Vector4DF& in) const;
 
-    Matrix44 operator*(const Matrix44& right) const;
+    Matrix44F operator*(const Matrix44F& right) const;
 
     Vector3DF operator*(const Vector3DF& right) const;
 
@@ -211,7 +211,7 @@ public:
             @param	in2	行列2
             @return	出力先の参照
     */
-    static Matrix44& Mul(Matrix44& o, const Matrix44& in1, const Matrix44& in2);
+    static Matrix44F& Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2);
 };
 
 //----------------------------------------------------------------------------------

@@ -2,17 +2,9 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <cstring>
 
 namespace altseed {
-struct Vector2DF;
-struct Vector2DI;
-struct Vector3DF;
-struct Vector4DF;
-struct Matrix43;
-struct Matrix44;
-struct RectF;
-struct RectI;
-
 /**
         @brief	Å‘å’læ“¾
 */
