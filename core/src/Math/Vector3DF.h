@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MathTemplate.h"
+#include "Vector3DI.h"
 
 namespace altseed {
 /**
@@ -158,5 +159,10 @@ public:
     @return v1‚Æv2‚Ì‹——£
     */
     static float Distance(const Vector3DF& v1, const Vector3DF& v2);
+    /**
+    @brief	Vector3DIŒ^‚É•ÏŠ·‚·‚éB
+    @return	Vector3DIŒ^
+	*/
+    Vector3DI To3DI() const;
 };
 }  // namespace altseed
