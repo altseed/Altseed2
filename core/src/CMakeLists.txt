@@ -11,6 +11,8 @@ set(core_files
     Common/Int8Array.h
     Common/ResourceContainer.h
     Common/Resource.h
+    Common/Resources.h
+    Common/Resources.cpp
     Common/StringHelper.h
     Window/Window.h
     Window/Window.cpp
@@ -35,6 +37,10 @@ set(core_files
     IO/PackFileReader.cpp
 	Graphics/Graphics.h
 	Graphics/Graphics.cpp
+	Graphics/Sprite.h
+	Graphics/Sprite.cpp
+	Graphics/Texture2D.h
+	Graphics/Texture2D.cpp
 )
 
 # specify project filters

@@ -24,20 +24,22 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
-    if (!Keyboard::Intialize(Window::GetInstance()))
-    {
+    if (!Keyboard::Intialize(Window::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }
 
-    if (!Mouse::Intialize(Window::GetInstance()))
-    {
+    if (!Mouse::Intialize(Window::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }
 
-    if (!File::Initialize())
-    {
+    if (!Resources::Initialize()) {
+        Core::instance = nullptr;
+        return false;
+    }
+
+    if (!File::Initialize(Resources::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }

@@ -9,6 +9,7 @@ set(core_test_files
     Window.cpp
     File.cpp
     Graphics.cpp
+    Texture2D.cpp
 )
 
 # specify project filters

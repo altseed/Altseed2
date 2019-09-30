@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "Sprite.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
@@ -8,17 +9,6 @@
 #endif
 
 #endif
-
-#include <LLGI.CommandList.h>
-#include <LLGI.Compiler.h>
-#include <LLGI.ConstantBuffer.h>
-#include <LLGI.Graphics.h>
-#include <LLGI.IndexBuffer.h>
-#include <LLGI.PipelineState.h>
-#include <LLGI.Platform.h>
-#include <LLGI.Shader.h>
-#include <LLGI.Texture.h>
-#include <LLGI.VertexBuffer.h>
 
 namespace altseed {
 
@@ -40,8 +30,8 @@ bool Graphics::Intialize(LLGI::DeviceType deviceType) {
     instance->sfMemoryPool_ = instance->graphics_->CreateSingleFrameMemoryPool(1024 * 1024, 128);
     instance->commandList_ = instance->graphics_->CreateCommandList(instance->sfMemoryPool_);
 
-    instance->vb = instance->graphics_->CreateVertexBuffer(sizeof(SimpleVertex) * 4);
-    instance->ib = instance->graphics_->CreateIndexBuffer(2, 6);
+    instance->vb = instance->graphics_->CreateVertexBuffer(sizeof(SimpleVertex) * 1024);
+    instance->ib = instance->graphics_->CreateIndexBuffer(2, 1024);
 
     auto compiler = LLGI::CreateCompiler(deviceType);
 
@@ -80,33 +70,6 @@ bool Graphics::Intialize(LLGI::DeviceType deviceType) {
         instance->ps_ = instance->graphics_->CreateShader(data_ps.data(), data_ps.size());
     }
 
-    auto vb_buf = (SimpleVertex*)instance->vb->Lock();
-    vb_buf[0].Pos = LLGI::Vec3F(-0.5, 0.5, 0.5);
-    vb_buf[1].Pos = LLGI::Vec3F(0.5, 0.5, 0.5);
-    vb_buf[2].Pos = LLGI::Vec3F(0.5, -0.5, 0.5);
-    vb_buf[3].Pos = LLGI::Vec3F(-0.5, -0.5, 0.5);
-
-    vb_buf[0].UV = LLGI::Vec2F(0.0f, 0.0f);
-    vb_buf[1].UV = LLGI::Vec2F(1.0f, 0.0f);
-    vb_buf[2].UV = LLGI::Vec2F(1.0f, 1.0f);
-    vb_buf[3].UV = LLGI::Vec2F(0.0f, 1.0f);
-
-    vb_buf[0].Color = LLGI::Color8();
-    vb_buf[1].Color = LLGI::Color8();
-    vb_buf[2].Color = LLGI::Color8();
-    vb_buf[3].Color = LLGI::Color8();
-
-    instance->vb->Unlock();
-
-    auto ib_buf = (uint16_t*)instance->ib->Lock();
-    ib_buf[0] = 0;
-    ib_buf[1] = 1;
-    ib_buf[2] = 2;
-    ib_buf[3] = 0;
-    ib_buf[4] = 2;
-    ib_buf[5] = 3;
-    instance->ib->Unlock();
-
     return true;
 }
 
@@ -122,6 +85,8 @@ bool Graphics::Update() {
     color.G = 0;
     color.B = 0;
     color.A = 255;
+
+    UpdateBuffers();
 
     auto renderPass = instance->graphics_->GetCurrentScreen(color, true);
     auto renderPassPipelineState = LLGI::CreateSharedPtr(renderPass->CreateRenderPassPipelineState());
@@ -143,23 +108,25 @@ bool Graphics::Update() {
 
         pips[renderPassPipelineState] = LLGI::CreateSharedPtr(pip);
     }
-
     commandList_->Begin();
     commandList_->BeginRenderPass(renderPass);
-    commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), 0);
-    commandList_->SetIndexBuffer(ib);
-    commandList_->SetPipelineState(pips[renderPassPipelineState].get());
-    commandList_->Draw(2);
+    for (auto& g : Groups) {
+        commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), g.second.vb_offset * sizeof(SimpleVertex));
+        commandList_->SetIndexBuffer(ib);
+        commandList_->SetPipelineState(pips[renderPassPipelineState].get());
+        commandList_->SetTexture(
+                g.first, LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Nearest, 0, LLGI::ShaderStageType::Pixel);
+        commandList_->Draw(g.second.sprites.size() * 2);
+    }
     commandList_->EndRenderPass();
     commandList_->End();
-
     graphics_->Execute(commandList_);
 
     platform_->Present();
 
     count++;
 
-	return true;
+    return true;
 }
 
 void Graphics::Terminate() {
@@ -174,4 +141,66 @@ void Graphics::Terminate() {
     LLGI::SafeRelease(instance->platform_);
     instance = nullptr;
 }
+
+void Graphics::UpdateBuffers() {
+    std::array<LLGI::Vec2F, 4> UVs = {LLGI::Vec2F(0.0f, 0.0f), LLGI::Vec2F(1.0f, 0.0f), LLGI::Vec2F(1.0f, 1.0f), LLGI::Vec2F(0.0f, 1.0f)};
+    auto vb_buf = reinterpret_cast<SimpleVertex*>(vb->Lock());
+    auto ib_buf = reinterpret_cast<uint16_t*>(ib->Lock());
+
+    int vb_idx = 0;
+    int maxPrimitiveCount = 0;
+
+    Groups.clear();
+    for (int i = 0; i < Sprites.size(); i++) {
+        Groups[Sprites[i]->GetTexture()].sprites.push_back(Sprites[i]);
+    }
+
+    for (auto& g : Groups) {
+        g.second.vb_offset = vb_idx;
+
+        // TODO: check size of buffers
+        for (int i = 0; i < g.second.sprites.size(); i++) {
+            auto s = g.second.sprites[i];
+            auto v = s->GetVertex();
+
+            for (int j = 0; j < 4; j++) {
+                vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
+                vb_buf[vb_idx + j].UV = UVs[j];
+                vb_buf[vb_idx + j].Color = LLGI::Color8();
+            }
+
+            vb_idx += 4;
+        }
+        maxPrimitiveCount = std::max<int>(maxPrimitiveCount, g.second.sprites.size());
+    }
+
+    for (int i = 0; i < maxPrimitiveCount; i++) {
+        ib_buf[i * 6 + 0] = i * 4 + 0;
+        ib_buf[i * 6 + 1] = i * 4 + 1;
+        ib_buf[i * 6 + 2] = i * 4 + 2;
+        ib_buf[i * 6 + 3] = i * 4 + 0;
+        ib_buf[i * 6 + 4] = i * 4 + 2;
+        ib_buf[i * 6 + 5] = i * 4 + 3;
+    }
+
+    ib->Unlock();
+    vb->Unlock();
+}
+
+LLGI::Texture* Graphics::CreateDameyTexture(uint8_t b) {
+    auto texture = graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false);
+
+    auto texture_buf = (LLGI::Color8*)texture->Lock();
+    for (int y = 0; y < 256; y++) {
+        for (int x = 0; x < 256; x++) {
+            texture_buf[x + y * 256].R = x;
+            texture_buf[x + y * 256].G = y;
+            texture_buf[x + y * 256].B = b;
+            texture_buf[x + y * 256].A = 255;
+        }
+    }
+    texture->Unlock();
+    return texture;
+}
+
 }  // namespace altseed

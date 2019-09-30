@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <vector>
 
@@ -17,6 +18,8 @@
 
 namespace altseed {
 
+class Sprite;
+
 struct SimpleVertex {
     LLGI::Vec3F Pos;
     LLGI::Vec2F UV;
@@ -24,7 +27,11 @@ struct SimpleVertex {
 };
 
 class Graphics {
-private:
+    struct DrawGroup {
+        int vb_offset;
+        std::vector<std::shared_ptr<Sprite>> sprites;
+    };
+
     static std::shared_ptr<Graphics> instance;
     int count;  // temp
 
@@ -37,17 +44,23 @@ private:
     LLGI::Shader* ps_;
     LLGI::Shader* vs_;
 
-	LLGI::IndexBuffer* ib;
+    LLGI::IndexBuffer* ib;
     LLGI::VertexBuffer* vb;
+
+    std::unordered_map<LLGI::Texture*, DrawGroup> Groups;
+    void UpdateBuffers();
 
 public:
     static bool Intialize(LLGI::DeviceType deviceType = LLGI::DeviceType::Default /*std::shared_ptr<Window>& window*/);
-    
-	static std::shared_ptr<Graphics>& GetInstance();
-    
-	bool Update();
+
+    static std::shared_ptr<Graphics>& GetInstance();
+
+    bool Update();
 
     static void Terminate();
+
+    std::vector<std::shared_ptr<Sprite>> Sprites;
+    LLGI::Texture* CreateDameyTexture(uint8_t b);
 
 private:
     const char* HlslVSCode = R"(
