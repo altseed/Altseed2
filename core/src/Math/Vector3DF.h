@@ -162,7 +162,7 @@ public:
     /**
     @brief	Vector3DIŒ^‚É•ÏŠ·‚·‚éB
     @return	Vector3DIŒ^
-	*/
+        */
     Vector3DI To3DI() const;
 };
 }  // namespace altseed

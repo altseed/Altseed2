@@ -122,10 +122,10 @@ public:
     */
     static float Distance(const Vector4DF& v1, const Vector4DF& v2);
 
-   /**
-    @brief	Vector4DIŒ^‚É•ÏŠ·‚·‚éB
-    @return	Vector4DIŒ^
-	*/
+    /**
+     @brief	Vector4DIŒ^‚É•ÏŠ·‚·‚éB
+     @return	Vector4DIŒ^
+         */
     Vector4DI To4DI() const;
 };
 }  // namespace altseed

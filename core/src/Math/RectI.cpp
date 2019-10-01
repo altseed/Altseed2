@@ -1,5 +1,5 @@
-#include "RectF.h"
 #include "RectI.h"
+#include "RectF.h"
 #include "Vector2DI.h"
 
 using namespace std;
@@ -29,4 +29,4 @@ array<Vector2DI, 4> RectI::GetVertexes() const {
 bool RectI::operator==(const RectI& other) const { return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height; }
 
 RectF RectI::ToF() const { return RectF(X, Y, Width, Height); }
-}  // namespace asd
+}  // namespace altseed

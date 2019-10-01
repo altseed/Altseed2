@@ -29,4 +29,4 @@ array<Vector2DF, 4> RectF::GetVertexes() const {
 bool RectF::operator!=(const RectF& right) { return X != right.X || Y != right.Y || Width != right.Width || Height != right.Height; }
 
 RectI RectF::ToI() const { return RectI((int32_t)X, (int32_t)Y, (int32_t)Width, (int32_t)Height); }
-}  // namespace asd
+}  // namespace altseed

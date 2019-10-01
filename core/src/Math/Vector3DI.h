@@ -86,7 +86,6 @@ public:
         return Vector3DF(X / length, Y / length, Z / length);
     }
 
-
     /**
     @brief	内積を取得する。
     @param	v1	v1ベクトル

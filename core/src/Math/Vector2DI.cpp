@@ -1,5 +1,5 @@
-#include "Vector2DF.h"
 #include "Vector2DI.h"
+#include "Vector2DF.h"
 
 namespace altseed {
 Vector2DI::Vector2DI() : X(0), Y(0) {}
