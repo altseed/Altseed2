@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MathTemplate.h"
+#include "Vector4DF.h"
 
 namespace altseed {
 /**
@@ -96,7 +97,7 @@ public:
     @param	v2	v2ベクトル
     @return 内積v1・v2
     */
-    static float Dot(const Vector4DI& v1, const Vector4DI& v2);
+    static int32_t Dot(const Vector4DI& v1, const Vector4DI& v2);
 
     /**
     @brief	2点間の距離を取得する。

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MathTemplate.h"
+#include "Vector3DF.h"
 
 namespace altseed {
 /**
@@ -92,7 +93,7 @@ public:
     @param	v2	v2ベクトル
     @return 内積v1・v2
     */
-    static float Dot(const Vector3DI& v1, const Vector3DI& v2);
+    static int32_t Dot(const Vector3DI& v1, const Vector3DI& v2);
 
     /**
     @brief	外積を取得する。
