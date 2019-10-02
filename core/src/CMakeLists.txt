@@ -40,7 +40,32 @@ set(core_files
 	Graphics/Sprite.h
 	Graphics/Sprite.cpp
 	Graphics/Texture2D.h
-	Graphics/Texture2D.cpp
+    Graphics/Texture2D.cpp
+    Math/MathTemplate.h
+    Math/Matrix33F.cpp
+    Math/Matrix33F.h
+    Math/Matrix33I.cpp
+    Math/Matrix33I.h
+    Math/Matrix44F.cpp
+    Math/Matrix44F.h
+    Math/Matrix44I.cpp
+    Math/Matrix44I.h
+    Math/RectF.cpp
+    Math/RectF.h
+    Math/RectI.cpp
+    Math/RectI.h
+    Math/Vector2DF.cpp
+    Math/Vector2DF.h
+    Math/Vector2DI.cpp
+    Math/Vector2DI.h
+    Math/Vector3DF.cpp
+    Math/Vector3DF.h
+    Math/Vector3DI.cpp
+    Math/Vector3DI.h
+    Math/Vector4DF.cpp
+    Math/Vector4DF.h
+    Math/Vector4DI.cpp
+    Math/Vector4DI.h
 )
 
 # specify project filters
