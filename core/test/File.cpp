@@ -88,7 +88,7 @@ TEST(File, StaticFile) {
     EXPECT_EQ(test, testCache);
 
     // clear cache
-    asd::File::GetInstance()->ClearCache();
+    asd::Resources::GetInstance()->Clear();
 
     asd::StaticFile* testPack2 = nullptr;
     EXPECT_NE(testPack2 = asd::File::GetInstance()->CreateStaticFile(u"test.txt"), nullptr);
@@ -144,7 +144,7 @@ TEST(File, StreamFile) {
     EXPECT_EQ(test, testCache);
 
     // clear cache
-    asd::File::GetInstance()->ClearCache();
+    asd::Resources::GetInstance()->Clear();
 
     asd::StreamFile* testPack2 = nullptr;
     EXPECT_NE(testPack2 = asd::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);

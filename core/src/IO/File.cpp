@@ -25,8 +25,10 @@ namespace altseed {
 
 std::shared_ptr<File> File::instance = nullptr;
 
-bool File::Initialize() {
+bool File::Initialize(std::shared_ptr<Resources> resources) {
     instance = std::make_shared<File>();
+
+    instance->m_resources = resources;
 
     std::lock_guard<std::mutex> lock(instance->m_rootMtx);
     // add default file root
@@ -42,7 +44,7 @@ std::shared_ptr<File>& File::GetInstance() { return instance; }
 StaticFile* File::CreateStaticFile(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_staticFileMtx);
 
-    StaticFile* cache = (StaticFile*)m_staticFileCache.Get(path);
+    StaticFile* cache = (StaticFile*)m_resources->GetResourceContainer(ResourceType::StaticFile)->Get(path);
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -57,8 +59,7 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
                     // TODO: log failure to get zip_file
                     continue;
                 }
-                zip_stat_t* stat = nullptr;
-                if ((*i)->GetPackFile()->GetIsUsePassword()) stat = (*i)->GetPackFile()->GetZipStat(path);
+                zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
                 reader = new PackFileReader(zipFile, path, stat);
                 break;
             }
@@ -71,14 +72,15 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
 
     auto res = new StaticFile(reader);
 
-    m_staticFileCache.Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+    m_resources->GetResourceContainer(ResourceType::StaticFile)
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
     return res;
 }
 
 StreamFile* File::CreateStreamFile(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
-    StreamFile* cache = (StreamFile*)m_streamFileCache.Get(path);
+    StreamFile* cache = (StreamFile*)m_resources->GetResourceContainer(ResourceType::StreamFile)->Get(path);
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -89,13 +91,13 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) {
                 auto zipFile = (*i)->GetPackFile()->Load(path);
-                if (zipFile == nullptr) {
+                zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
+                if (zipFile == nullptr || stat == nullptr || stat->comp_method != ZIP_CM_STORE) {
+                    if (stat != nullptr) delete stat;
                     // TODO: log failure to get zip_file
                     continue;
                 }
-                zip_stat_t* stat = nullptr;
-                if ((*i)->GetPackFile()->GetIsUsePassword()) stat = (*i)->GetPackFile()->GetZipStat(path);
-                reader = new PackFileReader(zipFile, path, stat);
+                reader = new PackFileReader(zipFile, path, (*i)->GetPackFile()->GetIsUsePassword() ? stat : nullptr);
                 break;
             }
         } else if (fs::is_regular_file((*i)->GetPath() + path)) {
@@ -107,7 +109,8 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
 
     auto res = new StreamFile(reader);
 
-    m_streamFileCache.Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+    m_resources->GetResourceContainer(ResourceType::StreamFile)
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
     return res;
 }
 
@@ -173,7 +176,7 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
     zip_t* zip_ = zip_open(utf16_to_utf8(dstPath).c_str(), ZIP_TRUNCATE | ZIP_CREATE, &error);
     if (zip_ == nullptr) return false;
 
-    auto res = Pack_Imp(zip_, srcPath);
+    auto res = MakePackage(zip_, srcPath);
     zip_close(zip_);
     return res;
 }
@@ -190,22 +193,12 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t
         return false;
     }
 
-    auto res = Pack_Imp(zip_, srcPath, true);
+    auto res = MakePackage(zip_, srcPath, true);
     zip_close(zip_);
     return res;
 }
 
-void File::ClearCache() {
-    m_staticFileCache.Clear();
-    m_streamFileCache.Clear();
-}
-
-void File::Reload() {
-    m_staticFileCache.Reload();
-    m_streamFileCache.Reload();
-}
-
-bool File::Pack_Imp(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) const {
+bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt) const {
     std::stack<std::u16string> children;
 
     std::u16string current;
