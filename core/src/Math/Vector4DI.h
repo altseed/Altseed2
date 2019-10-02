@@ -53,15 +53,6 @@ public:
     */
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
-	
-    /**
-    @brief	このベクトルの単位ベクトルを取得する。
-    */
-    Vector4DF GetNormal() {
-        float length = GetLength();
-        return Vector4DF(X / length, Y / length, Z / length, W / length);
-    }
-
     bool operator==(const Vector4DI& o);
     bool operator!=(const Vector4DI& o);
 

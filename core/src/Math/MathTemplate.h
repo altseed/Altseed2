@@ -5,6 +5,16 @@
 #include <cstring>
 
 namespace altseed {
+struct Vector2DF;
+struct Vector2DI;
+struct Vector3DF;
+struct Vector3DI;
+struct Vector4DF;
+struct Vector4DI;
+struct Matrix33;
+struct Matrix44;
+struct RectF;
+struct RectI;
 /**
         @brief	Å‘å’læ“¾
 */
