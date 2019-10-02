@@ -45,18 +45,13 @@ public:
     Matrix33I GetInverted();
 
     /**
-            @brief	平行移動の行列を設定する。
-	*/
+    @brief	平行移動の行列を設定する。
+        */
     Matrix33I& SetTranslation(int32_t x, int32_t y);
 
     /**
-    @brief	回転行列を設定する。
-    */
-    Matrix33I& SetRotation(int32_t angle);
-
-    /**
-            @brief	拡大・縮小行列を設定する。
-    */
+@brief	拡大・縮小行列を設定する。
+*/
     Matrix33I& SetScale(int32_t x, int32_t y);
 
     /**
@@ -80,4 +75,4 @@ public:
 
     Vector3DI operator*(const Vector3DI& right);
 };
-}  // namespace asd
+}  // namespace altseed

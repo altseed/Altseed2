@@ -79,14 +79,6 @@ public:
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z; }
 
     /**
-    @brief	このベクトルの単位ベクトルを取得する。
-    */
-    Vector3DF GetNormal() {
-        float length = GetLength();
-        return Vector3DF(X / length, Y / length, Z / length);
-    }
-
-    /**
     @brief	内積を取得する。
     @param	v1	v1ベクトル
     @param	v2	v2ベクトル

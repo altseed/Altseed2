@@ -53,6 +53,7 @@ public:
     */
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
+	
     /**
     @brief	このベクトルの単位ベクトルを取得する。
     */
@@ -106,10 +107,10 @@ public:
     */
     static float Distance(const Vector4DI& v1, const Vector4DI& v2);
 
-    /**
-    @brief	Vector4DF型に変換する。
-    @return	Vector4DF型
-    */
+	/**
+	@brief	Vector4DF型に変換する。
+	@return	Vector4DF型
+	*/
     Vector4DF To4DF() const;
 };
 }  // namespace altseed
