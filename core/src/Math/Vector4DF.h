@@ -5,56 +5,56 @@
 
 namespace altseed {
 /**
-@brief	4ŸŒ³ƒxƒNƒgƒ‹
+@brief	4æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
 */
 struct Vector4DF {
 public:
     /**
-    @brief	X¬•ª
+    @brief	Xæˆåˆ†
     */
     float X;
 
     /**
-    @brief	Y¬•ª
+    @brief	Yæˆåˆ†
     */
     float Y;
 
     /**
-    @brief	Z¬•ª
+    @brief	Zæˆåˆ†
     */
     float Z;
 
     /**
-    @brief	W¬•ª
+    @brief	Wæˆåˆ†
     */
     float W;
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     Vector4DF();
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    @param	x	X¬•ª
-    @param	y	Y¬•ª
-    @param	z	Z¬•ª
-    @param	w	W¬•ª
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    @param	x	Xæˆåˆ†
+    @param	y	Yæˆåˆ†
+    @param	z	Zæˆåˆ†
+    @param	w	Wæˆåˆ†
     */
     Vector4DF(float x, float y, float z, float w);
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetLength() const { return sqrt(GetSquaredLength()); }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğİ’è‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’è¨­å®šã™ã‚‹ã€‚
     */
     void SetLength(float value) {
         float length = GetLength();
@@ -62,7 +62,7 @@ public:
     }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’PˆÊƒxƒNƒgƒ‹‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     Vector4DF GetNormal() {
         float length = GetLength();
@@ -70,7 +70,7 @@ public:
     }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’PˆÊƒxƒNƒgƒ‹‰»‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«åŒ–ã™ã‚‹ã€‚
     */
     void Normalize() {
         float length = GetLength();
@@ -107,24 +107,24 @@ public:
     Vector4DF& operator/=(const float& o);
 
     /**
-    @brief	“àÏ‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return “àÏv1Ev2
+    @brief	å†…ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return å†…ç©v1ãƒ»v2
     */
     static float Dot(const Vector4DF& v1, const Vector4DF& v2);
 
     /**
-    @brief	2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return v1‚Æv2‚Ì‹——£
+    @brief	2ç‚¹é–“ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return v1ã¨v2ã®è·é›¢
     */
     static float Distance(const Vector4DF& v1, const Vector4DF& v2);
 
     /**
-     @brief	Vector4DIŒ^‚É•ÏŠ·‚·‚éB
-     @return	Vector4DIŒ^
+     @brief	Vector4DIå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+     @return	Vector4DIå‹
          */
     Vector4DI To4DI() const;
 };

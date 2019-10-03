@@ -6,44 +6,44 @@
 namespace altseed {
 
 /**
-        @brief	2ŸŒ³ƒxƒNƒgƒ‹
+        @brief	2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
         */
 struct Vector2DF {
 public:
     /**
-            @brief	X¬•ª
+            @brief	Xæˆåˆ†
             */
     float X;
 
     /**
-            @brief	Y¬•ª
+            @brief	Yæˆåˆ†
             */
     float Y;
 
     /**
-            @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+            @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
             */
     Vector2DF();
 
     /**
-            @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-            @param	x	X¬•ª
-            @param	y	Y¬•ª
+            @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+            @param	x	Xæˆåˆ†
+            @param	y	Yæˆåˆ†
     */
     Vector2DF(float x, float y);
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetLength() const { return sqrt(GetSquaredLength()); }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetSquaredLength() const { return X * X + Y * Y; }
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğİ’è‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’è¨­å®šã™ã‚‹ã€‚
     */
     void SetLength(float value) {
         float length = GetLength();
@@ -51,7 +51,7 @@ public:
     }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’PˆÊƒxƒNƒgƒ‹‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     Vector2DF GetNormal() {
         float length = GetLength();
@@ -59,7 +59,7 @@ public:
     }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’PˆÊƒxƒNƒgƒ‹‰»‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«åŒ–ã™ã‚‹ã€‚
     */
     void Normalize() {
         float length = GetLength();
@@ -67,13 +67,13 @@ public:
     }
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚ÌŒü‚«‚ğŒÊ“x–@‚Åæ“¾‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å‘ãã‚’å¼§åº¦æ³•ã§å–å¾—ã™ã‚‹ã€‚
     */
     float GetRadian() const { return atan2(Y, X); }
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚ÌŒü‚«‚ğŒÊ“x–@‚Åİ’è‚·‚éB
-            @note ‘å‚«‚³‚ğˆÛ‚µ‚½‚Ü‚ÜAŒü‚«‚ğ•ÏX‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å‘ãã‚’å¼§åº¦æ³•ã§è¨­å®šã™ã‚‹ã€‚
+            @note å¤§ãã•ã‚’ç¶­æŒã—ãŸã¾ã¾ã€å‘ãã‚’å¤‰æ›´ã™ã‚‹ã€‚
     */
     void SetRadian(float value) {
         float length = GetLength();
@@ -83,12 +83,12 @@ public:
     }
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚ÌŒü‚«‚ğ“x”–@‚Åæ“¾‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å‘ãã‚’åº¦æ•°æ³•ã§å–å¾—ã™ã‚‹ã€‚
     */
     float GetDegree() const { return RadianToDegree(atan2(Y, X)); }
 
     /**
-            @brief	‚±‚ÌƒxƒNƒgƒ‹‚ÌŒü‚«‚ğ“x”–@‚Åİ’è‚·‚éB
+            @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å‘ãã‚’åº¦æ•°æ³•ã§è¨­å®šã™ã‚‹ã€‚
     */
     void SetDegree(float value) {
         float length = GetLength();
@@ -131,26 +131,26 @@ public:
     Vector2DF& operator/=(float right);
 
     /**
-            @brief	“àÏ‚ğæ“¾‚·‚éB
-            @param	v1	v1ƒxƒNƒgƒ‹
-            @param	v2	v2ƒxƒNƒgƒ‹
-            @return “àÏv1Ev2
+            @brief	å†…ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+            @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+            @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+            @return å†…ç©v1ãƒ»v2
     */
     static float Dot(const Vector2DF& v1, const Vector2DF& v2) { return v1.X * v2.X + v1.Y * v2.Y; }
 
     /**
-    @brief	ŠOÏ‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return ŠOÏv1~v2
+    @brief	å¤–ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return å¤–ç©v1Ã—v2
     */
     static float Cross(const Vector2DF& v1, const Vector2DF& v2) { return v1.X * v2.Y - v1.Y * v2.X; }
 
     /**
-    @brief	2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return v1‚Æv2‚Æ‚Ì‹——£
+    @brief	2ç‚¹é–“ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return v1ã¨v2ã¨ã®è·é›¢
     */
     static float Distance(const Vector2DF& v1, const Vector2DF& v2) {
         float dx = v1.X - v2.X;
@@ -159,40 +159,40 @@ public:
     }
 
     /**
-    @brief	‰ÁZ‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
+    @brief	åŠ ç®—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
     @return v1+v2
     */
     static Vector2DF Add(Vector2DF v1, Vector2DF v2) { return Vector2DF(v1.X + v2.X, v1.Y + v2.Y); }
 
     /**
-    @brief	Œ¸Z‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
+    @brief	æ¸›ç®—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
     @return v1-v2
     */
     static Vector2DF Subtract(Vector2DF v1, Vector2DF v2) { return Vector2DF(v1.X - v2.X, v1.Y - v2.Y); }
 
     /**
-    @brief	œZ‚·‚éB
-    @param	v1	’l1
-    @param	v2	’l2
+    @brief	é™¤ç®—ã™ã‚‹ã€‚
+    @param	v1	å€¤1
+    @param	v2	å€¤2
     @return	v1/v2
     */
     static Vector2DF Divide(const Vector2DF& v1, const Vector2DF& v2) { return Vector2DF(v1.X / v2.X, v1.Y / v2.Y); }
 
     /**
-    @brief	ƒXƒJƒ‰[‚ÅœZ‚·‚éB
-    @param	v1	’l1
-    @param	v2	’l2
+    @brief	ã‚¹ã‚«ãƒ©ãƒ¼ã§é™¤ç®—ã™ã‚‹ã€‚
+    @param	v1	å€¤1
+    @param	v2	å€¤2
     @return	v1/v2
     */
     static Vector2DF DivideByScalar(const Vector2DF& v1, float v2) { return Vector2DF(v1.X / v2, v1.Y / v2); }
 
     /**
-            @brief	Vector2DIŒ^‚É•ÏŠ·‚·‚éB
-            @return	Vector2DIŒ^
+            @brief	Vector2DIå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+            @return	Vector2DIå‹
     */
     Vector2DI To2DI() const;
 };

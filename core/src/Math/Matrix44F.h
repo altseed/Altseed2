@@ -15,9 +15,9 @@ namespace altseed {
 //----------------------------------------------------------------------------------
 
 /**
-        @brief	4~4s—ñ‚ğ•\‚·\‘¢‘Ì
+        @brief	4Ã—4è¡Œåˆ—ã‚’è¡¨ã™æ§‹é€ ä½“
         @note
-        M * V[x,y,z,1] ‚ÌŒ`<BR>
+        M * V[x,y,z,1] ã®å½¢<BR>
         [0,0][0,1][0,2][0,3]
         [1,0][1,1][1,2][1,3]
         [2,0][2,1][2,2][2,3]
@@ -27,175 +27,175 @@ struct Matrix44F {
 private:
 public:
     /**
-            @brief	ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µA’PˆÊs—ñ‚Å‰Šú‰»‚·‚éB
+            @brief	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã€å˜ä½è¡Œåˆ—ã§åˆæœŸåŒ–ã™ã‚‹ã€‚
     */
     Matrix44F();
 
     /**
-            @brief	s—ñ‚Ì’l
+            @brief	è¡Œåˆ—ã®å€¤
     */
     float Values[4][4];
 
     /**
-            @brief	’PˆÊs—ñ‚ğİ’è‚·‚éB
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	å˜ä½è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetIdentity();
 
     /**
-            @brief	“]’us—ñ‚ğİ’è‚·‚éB
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	è»¢ç½®è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetTransposed();
 
     /**
-            @brief	‹ts—ñ‚ğİ’è‚·‚éB
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	é€†è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetInverted();
 
     /**
-            @brief	‹ts—ñ‚ğæ“¾‚·‚éB
-            @return	‹ts—ñ
+            @brief	é€†è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹ã€‚
+            @return	é€†è¡Œåˆ—
     */
     Matrix44F GetInverted() const;
 
     /**
-            @brief	ƒJƒƒ‰s—ñ(‰EèŒn)‚ğİ’è‚·‚éB
-            @param	eye	ƒJƒƒ‰‚ÌˆÊ’u
-            @param	at	ƒJƒƒ‰‚Ì’‹“_
-            @param	up	ƒJƒƒ‰‚Ìã•ûŒü
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	ã‚«ãƒ¡ãƒ©è¡Œåˆ—(å³æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	eye	ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+            @param	at	ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+            @param	up	ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
 
     /**
-            @brief	ƒJƒƒ‰s—ñ(¶èŒn)‚ğİ’è‚·‚éB
-            @param	eye	ƒJƒƒ‰‚ÌˆÊ’u
-            @param	at	ƒJƒƒ‰‚Ì’‹“_
-            @param	up	ƒJƒƒ‰‚Ìã•ûŒü
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	ã‚«ãƒ¡ãƒ©è¡Œåˆ—(å·¦æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	eye	ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+            @param	at	ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+            @param	up	ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
 
     /**
-            @brief	Ë‰es—ñ(‰EèŒn)‚ğİ’è‚·‚éB
-            @param	ovY	Y•ûŒü‚Ö‚Ì‹–ìŠp(ƒ‰ƒWƒAƒ“)
-            @param	aspect	‰æ–Ê‚ÌƒAƒXƒyƒNƒg”ä
-            @param	zn	Å‹ß‹——£
-            @param	zf	Å‰“‹——£
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	å°„å½±è¡Œåˆ—(å³æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	ovY	Yæ–¹å‘ã¸ã®è¦–é‡è§’(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @param	aspect	ç”»é¢ã®ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
+            @param	zn	æœ€è¿‘è·é›¢
+            @param	zf	æœ€é è·é›¢
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf);
 
     /**
-            @brief	OpenGL—pË‰es—ñ(‰EèŒn)‚ğİ’è‚·‚éB
-            @param	ovY	Y•ûŒü‚Ö‚Ì‹–ìŠp(ƒ‰ƒWƒAƒ“)
-            @param	aspect	‰æ–Ê‚ÌƒAƒXƒyƒNƒg”ä
-            @param	zn	Å‹ß‹——£
-            @param	zf	Å‰“‹——£
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	OpenGLç”¨å°„å½±è¡Œåˆ—(å³æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	ovY	Yæ–¹å‘ã¸ã®è¦–é‡è§’(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @param	aspect	ç”»é¢ã®ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
+            @param	zn	æœ€è¿‘è·é›¢
+            @param	zf	æœ€é è·é›¢
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf);
 
     /**
-            @brief	Ë‰es—ñ(¶èŒn)‚ğİ’è‚·‚éB
-            @param	ovY	Y•ûŒü‚Ö‚Ì‹–ìŠp(ƒ‰ƒWƒAƒ“)
-            @param	aspect	‰æ–Ê‚ÌƒAƒXƒyƒNƒg”ä
-            @param	zn	Å‹ß‹——£
-            @param	zf	Å‰“‹——£
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	å°„å½±è¡Œåˆ—(å·¦æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	ovY	Yæ–¹å‘ã¸ã®è¦–é‡è§’(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @param	aspect	ç”»é¢ã®ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
+            @param	zn	æœ€è¿‘è·é›¢
+            @param	zf	æœ€é è·é›¢
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf);
 
     /**
-            @brief	³Ë‰es—ñ(‰EèŒn)‚ğİ’è‚·‚éB
-            @param	width	‰¡•
-            @param	height	c•
-            @param	zn	Å‹ß‹——£
-            @param	zf	Å‰“‹——£
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	æ­£å°„å½±è¡Œåˆ—(å³æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	width	æ¨ªå¹…
+            @param	height	ç¸¦å¹…
+            @param	zn	æœ€è¿‘è·é›¢
+            @param	zf	æœ€é è·é›¢
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetOrthographicRH(float width, float height, float zn, float zf);
 
     /**
-            @brief	³Ë‰es—ñ(¶èŒn)‚ğİ’è‚·‚éB
-            @param	width	‰¡•
-            @param	height	c•
-            @param	zn	Å‹ß‹——£
-            @param	zf	Å‰“‹——£
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	æ­£å°„å½±è¡Œåˆ—(å·¦æ‰‹ç³»)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	width	æ¨ªå¹…
+            @param	height	ç¸¦å¹…
+            @param	zn	æœ€è¿‘è·é›¢
+            @param	zf	æœ€é è·é›¢
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetOrthographicLH(float width, float height, float zn, float zf);
 
     /**
-            @brief	•ÀsˆÚ“®s—ñ‚ğİ’è‚·‚éB
-            @param	x	X•ûŒüˆÚ“®—Ê
-            @param	y	Y•ûŒüˆÚ“®—Ê
-            @param	z	Z•ûŒüˆÚ“®—Ê
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	ä¸¦è¡Œç§»å‹•è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	x	Xæ–¹å‘ç§»å‹•é‡
+            @param	y	Yæ–¹å‘ç§»å‹•é‡
+            @param	z	Zæ–¹å‘ç§»å‹•é‡
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetTranslation(float x, float y, float z);
 
     /**
-            @brief	X²‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-            @param	angle	X²‰ñ“]—Ê(ƒ‰ƒWƒAƒ“)
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	Xè»¸å›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	angle	Xè»¸å›è»¢é‡(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetRotationX(float angle);
 
     /**
-            @brief	Y²‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-            @param	angle	Y²‰ñ“]—Ê(ƒ‰ƒWƒAƒ“)
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	Yè»¸å›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	angle	Yè»¸å›è»¢é‡(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetRotationY(float angle);
 
     /**
-            @brief	Z²‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-            @param	angle	Z²‰ñ“]—Ê(ƒ‰ƒWƒAƒ“)
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	Zè»¸å›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	angle	Zè»¸å›è»¢é‡(ãƒ©ã‚¸ã‚¢ãƒ³)
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetRotationZ(float angle);
 
     /**
-    @brief	”CˆÓ²‚Ì”½Œv‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-    @param	axis	²
-    @param	angle	‰ñ“]—Ê(ƒ‰ƒWƒAƒ“)
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	ä»»æ„è»¸ã®åæ™‚è¨ˆå›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+    @param	axis	è»¸
+    @param	angle	å›è»¢é‡(ãƒ©ã‚¸ã‚¢ãƒ³)
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetRotationAxis(const Vector3DF& axis, float angle);
 
     /**
-    @brief	ƒNƒI[ƒ^ƒjƒIƒ“‚ğŒ³‚É‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-    @param	x	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	y	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	z	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	w	ƒNƒI[ƒ^ƒjƒIƒ“
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’å…ƒã«å›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+    @param	x	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	y	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	z	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	w	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetQuaternion(float x, float y, float z, float w);
 
     /**
-    @brief	Šg‘ås—ñ‚ğİ’è‚·‚éB
-    @param	x	X•ûŒüŠg‘å—¦
-    @param	y	Y•ûŒüŠg‘å—¦
-    @param	z	Z•ûŒüŠg‘å—¦
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	æ‹¡å¤§è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+    @param	x	Xæ–¹å‘æ‹¡å¤§ç‡
+    @param	y	Yæ–¹å‘æ‹¡å¤§ç‡
+    @param	z	Zæ–¹å‘æ‹¡å¤§ç‡
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44F& SetScale(float x, float y, float z);
 
     /**
-    @brief	s—ñ‚ÅƒxƒNƒgƒ‹‚ğ•ÏŒ`‚³‚¹‚éB
-    @param	in	•ÏŒ`‘OƒxƒNƒgƒ‹
-    @return	•ÏŒ`ŒãƒxƒNƒgƒ‹
+    @brief	è¡Œåˆ—ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰å½¢ã•ã›ã‚‹ã€‚
+    @param	in	å¤‰å½¢å‰ãƒ™ã‚¯ãƒˆãƒ«
+    @return	å¤‰å½¢å¾Œãƒ™ã‚¯ãƒˆãƒ«
     */
     Vector3DF Transform3D(const Vector3DF& in) const;
 
     /**
-    @brief	s—ñ‚ÅƒxƒNƒgƒ‹‚ğ•ÏŒ`‚³‚¹‚éB
-    @param	in	•ÏŒ`‘OƒxƒNƒgƒ‹
-    @return	•ÏŒ`ŒãƒxƒNƒgƒ‹
+    @brief	è¡Œåˆ—ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰å½¢ã•ã›ã‚‹ã€‚
+    @param	in	å¤‰å½¢å‰ãƒ™ã‚¯ãƒˆãƒ«
+    @return	å¤‰å½¢å¾Œãƒ™ã‚¯ãƒˆãƒ«
     */
     Vector4DF Transform4D(const Vector4DF& in) const;
 
@@ -206,11 +206,11 @@ public:
     Vector4DF operator*(const Vector4DF& right) const;
 
     /**
-            @brief	æZ‚ğs‚¤B
-            @param	o	o—Íæ
-            @param	in1	s—ñ1
-            @param	in2	s—ñ2
-            @return	o—Íæ‚ÌQÆ
+            @brief	ä¹—ç®—ã‚’è¡Œã†ã€‚
+            @param	o	å‡ºåŠ›å…ˆ
+            @param	in1	è¡Œåˆ—1
+            @param	in2	è¡Œåˆ—2
+            @return	å‡ºåŠ›å…ˆã®å‚ç…§
     */
     static Matrix44F& Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2);
 };

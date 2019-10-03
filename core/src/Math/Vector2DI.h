@@ -5,7 +5,7 @@
 namespace altseed {
 
 /**
-@brief	2ŸŒ³ƒxƒNƒgƒ‹(®”)
+@brief	2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«(æ•´æ•°)
 */
 struct Vector2DI {
 public:
@@ -20,12 +20,12 @@ public:
     int32_t Y;
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     Vector2DI();
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     Vector2DI(int32_t x, int32_t y);
 
@@ -60,15 +60,15 @@ public:
     Vector2DI& operator/=(int32_t right);
 
     /**
-    @brief	Vector2DFŒ^‚É•ÏŠ·‚·‚éB
-    @return	Vector2DFŒ^
+    @brief	Vector2DFå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+    @return	Vector2DFå‹
     */
     Vector2DF To2DF() const;
 
     /**
-    @brief	ƒXƒJƒ‰[‚ÅœZ‚·‚éB
-    @param	v1	’l1
-    @param	v2	’l2
+    @brief	ã‚¹ã‚«ãƒ©ãƒ¼ã§é™¤ç®—ã™ã‚‹ã€‚
+    @param	v1	å€¤1
+    @param	v2	å€¤2
     @return	v1/v2
     */
     static Vector2DI DivideByScalar(const Vector2DI& v1, float v2);

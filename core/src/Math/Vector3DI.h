@@ -5,35 +5,35 @@
 
 namespace altseed {
 /**
-        @brief	3ŸŒ³ƒxƒNƒgƒ‹
+        @brief	3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
 */
 struct Vector3DI {
 public:
     /**
-            @brief	X¬•ª
+            @brief	Xæˆåˆ†
     */
     int32_t X;
 
     /**
-            @brief	Y¬•ª
+            @brief	Yæˆåˆ†
     */
     int32_t Y;
 
     /**
-            @brief	Z¬•ª
+            @brief	Zæˆåˆ†
     */
     int32_t Z;
 
     /**
-            @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+            @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     Vector3DI();
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    @param	x	X¬•ª
-    @param	y	Y¬•ª
-    @param	z	Z¬•ª
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    @param	x	Xæˆåˆ†
+    @param	y	Yæˆåˆ†
+    @param	z	Zæˆåˆ†
     */
     Vector3DI(int32_t x, int32_t y, int32_t z);
 
@@ -69,76 +69,76 @@ public:
     Vector3DI& operator/=(const int32_t& o);
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetLength() const { return sqrt(GetSquaredLength()); }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z; }
 
     /**
-    @brief	“àÏ‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return “àÏv1Ev2
+    @brief	å†…ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return å†…ç©v1ãƒ»v2
     */
     static int32_t Dot(const Vector3DI& v1, const Vector3DI& v2);
 
     /**
-    @brief	ŠOÏ‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return ŠOÏv1~v2
+    @brief	å¤–ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return å¤–ç©v1Ã—v2
     @note
-    ‰Eè‚Ìew‚ªv1Al·‚µw‚ªv2‚Æ‚µ‚½‚Æ‚«A’†w‚Ì•ûŒü‚ğ•Ô‚·B
+    å³æ‰‹ã®è¦ªæŒ‡ãŒv1ã€äººå·®ã—æŒ‡ãŒv2ã¨ã—ãŸã¨ãã€ä¸­æŒ‡ã®æ–¹å‘ã‚’è¿”ã™ã€‚
     */
     static Vector3DI Cross(const Vector3DI& v1, const Vector3DI& v2);
 
     /**
-    @brief	‰ÁZ‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
+    @brief	åŠ ç®—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
     @return v1+v2
     */
     static Vector3DI Add(Vector3DI v1, Vector3DI v2) { return Vector3DI(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z); }
 
     /**
-    @brief	Œ¸Z‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
+    @brief	æ¸›ç®—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
     @return v1-v2
     */
     static Vector3DI Subtract(Vector3DI v1, Vector3DI v2);
 
     /**
-    @brief	œZ‚·‚éB
-    @param	v1	’l1
-    @param	v2	’l2
+    @brief	é™¤ç®—ã™ã‚‹ã€‚
+    @param	v1	å€¤1
+    @param	v2	å€¤2
     @return	v1/v2
     */
     static Vector3DI Divide(const Vector3DI& v1, const Vector3DI& v2) { return Vector3DI(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z); }
 
     /**
-    @brief	ƒXƒJƒ‰[‚ÅœZ‚·‚éB
-    @param	v1	’l1
-    @param	v2	’l2
+    @brief	ã‚¹ã‚«ãƒ©ãƒ¼ã§é™¤ç®—ã™ã‚‹ã€‚
+    @param	v1	å€¤1
+    @param	v2	å€¤2
     @return	v1/v2
     */
     static Vector3DI DivideByScalar(const Vector3DI& v1, float v2) { return Vector3DI(v1.X / v2, v1.Y / v2, v1.Z / v2); }
 
     /**
-    @brief	2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return v1‚Æv2‚Ì‹——£
+    @brief	2ç‚¹é–“ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return v1ã¨v2ã®è·é›¢
     */
     static float Distance(const Vector3DI& v1, const Vector3DI& v2);
 
     /**
-            @brief	Vector3DFŒ^‚É•ÏŠ·‚·‚éB
-            @return	Vector3DFŒ^
+            @brief	Vector3DFå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+            @return	Vector3DFå‹
     */
     Vector3DF To3DF() const;
 };

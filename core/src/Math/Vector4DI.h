@@ -5,51 +5,51 @@
 
 namespace altseed {
 /**
-@brief	4ŸŒ³ƒxƒNƒgƒ‹
+@brief	4æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
 */
 struct Vector4DI {
 public:
     /**
-    @brief	X¬•ª
+    @brief	Xæˆåˆ†
     */
     int32_t X;
 
     /**
-    @brief	Y¬•ª
+    @brief	Yæˆåˆ†
     */
     int32_t Y;
 
     /**
-    @brief	Z¬•ª
+    @brief	Zæˆåˆ†
     */
     int32_t Z;
 
     /**
-    @brief	W¬•ª
+    @brief	Wæˆåˆ†
     */
     int32_t W;
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     Vector4DI();
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    @param	x	X¬•ª
-    @param	y	Y¬•ª
-    @param	z	Z¬•ª
-    @param	w	W¬•ª
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    @param	x	Xæˆåˆ†
+    @param	y	Yæˆåˆ†
+    @param	z	Zæˆåˆ†
+    @param	w	Wæˆåˆ†
     */
     Vector4DI(int32_t x, int32_t y, int32_t z, int32_t w);
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     float GetLength() const { return sqrt(GetSquaredLength()); }
 
     /**
-    @brief	‚±‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚éB
+    @brief	ã“ã®ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹ã€‚
     */
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
@@ -83,24 +83,24 @@ public:
     Vector4DI& operator/=(const int32_t& o);
 
     /**
-    @brief	“àÏ‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return “àÏv1Ev2
+    @brief	å†…ç©ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return å†…ç©v1ãƒ»v2
     */
     static int32_t Dot(const Vector4DI& v1, const Vector4DI& v2);
 
     /**
-    @brief	2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚éB
-    @param	v1	v1ƒxƒNƒgƒ‹
-    @param	v2	v2ƒxƒNƒgƒ‹
-    @return v1‚Æv2‚Ì‹——£
+    @brief	2ç‚¹é–“ã®è·é›¢ã‚’å–å¾—ã™ã‚‹ã€‚
+    @param	v1	v1ãƒ™ã‚¯ãƒˆãƒ«
+    @param	v2	v2ãƒ™ã‚¯ãƒˆãƒ«
+    @return v1ã¨v2ã®è·é›¢
     */
     static float Distance(const Vector4DI& v1, const Vector4DI& v2);
 
 	/**
-	@brief	Vector4DFŒ^‚É•ÏŠ·‚·‚éB
-	@return	Vector4DFŒ^
+	@brief	Vector4DFå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+	@return	Vector4DFå‹
 	*/
     Vector4DF To4DF() const;
 };

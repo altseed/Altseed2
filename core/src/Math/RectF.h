@@ -6,74 +6,74 @@
 
 namespace altseed {
 /**
-@brief	’·•ûŒ`(•‚“®¬”“_)‚Ì\‘¢‘Ì
+@brief	é•·æ–¹å½¢(æµ®å‹•å°æ•°ç‚¹)ã®æ§‹é€ ä½“
 */
 struct RectF {
 public:
     /**
-    @brief	¶ãXÀ•W
+    @brief	å·¦ä¸ŠXåº§æ¨™
     */
     float X;
 
     /**
-    @brief	¶ãYÀ•W
+    @brief	å·¦ä¸ŠYåº§æ¨™
     */
     float Y;
 
     /**
-    @brief	‰¡•
+    @brief	æ¨ªå¹…
     */
     float Width;
 
     /**
-    @brief	c•
+    @brief	ç¸¦å¹…
     */
     float Height;
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     */
     RectF();
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    @param	x	¶ãXÀ•W
-    @param	y	¶ãYÀ•W
-    @param	width	‰¡•
-    @param	height	c•
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    @param	x	å·¦ä¸ŠXåº§æ¨™
+    @param	y	å·¦ä¸ŠYåº§æ¨™
+    @param	width	æ¨ªå¹…
+    @param	height	ç¸¦å¹…
     */
     RectF(float x, float y, float width, float height);
 
     /**
-    @brief	ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    @param	position	¶ãÀ•W
-    @param	size	‘å‚«‚³
+    @brief	ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    @param	position	å·¦ä¸Šåº§æ¨™
+    @param	size	å¤§ãã•
     */
     RectF(Vector2DF position, Vector2DF size);
 
     /**
-    @brief	¶ãÀ•W‚ğæ“¾‚·‚éB
-    @return	¶ãÀ•W
+    @brief	å·¦ä¸Šåº§æ¨™ã‚’å–å¾—ã™ã‚‹ã€‚
+    @return	å·¦ä¸Šåº§æ¨™
     */
     Vector2DF GetPosition() const;
 
     /**
-    @brief	‘å‚«‚³‚ğæ“¾‚·‚éB
-    @return	‘å‚«‚³
+    @brief	å¤§ãã•ã‚’å–å¾—ã™ã‚‹ã€‚
+    @return	å¤§ãã•
     */
     Vector2DF GetSize() const;
 
     /**
-    @brief	l‹÷‚ÌÀ•W‚ğ(X,Y)A(X+Width,Y)A(X+Width,Y+Height)A(X,Y+Height)‚Ì‡‚É”z—ñ‚Æ‚µ‚Äæ“¾‚·‚éB
-    @return	À•W
+    @brief	å››éš…ã®åº§æ¨™ã‚’(X,Y)ã€(X+Width,Y)ã€(X+Width,Y+Height)ã€(X,Y+Height)ã®é †ã«é…åˆ—ã¨ã—ã¦å–å¾—ã™ã‚‹ã€‚
+    @return	åº§æ¨™
     */
     std::array<Vector2DF, 4> GetVertexes() const;
 
     bool operator!=(const RectF& right);
 
     /**
-    @brief	RectIŒ^‚É•ÏŠ·‚·‚éB
-    @return	RectIŒ^
+    @brief	RectIå‹ã«å¤‰æ›ã™ã‚‹ã€‚
+    @return	RectIå‹
     */
     RectI ToI() const;
 };

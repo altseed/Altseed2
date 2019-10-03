@@ -4,7 +4,7 @@
 
 namespace altseed {
 /**
-        @brief	3~3s—ñ‚ğ•\‚·\‘¢‘ÌB
+        @brief	3Ã—3è¡Œåˆ—ã‚’è¡¨ã™æ§‹é€ ä½“ã€‚
         @note
         [0,0][0,1]
         [1,0][1,1]
@@ -12,64 +12,64 @@ namespace altseed {
 struct Matrix33I {
 public:
     /**
-            @brief	ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µA’PˆÊs—ñ‚Å‰Šú‰»‚·‚éB
+            @brief	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã€å˜ä½è¡Œåˆ—ã§åˆæœŸåŒ–ã™ã‚‹ã€‚
     */
     Matrix33I();
 
     /**
-            @brief	s—ñ‚Ì’l
+            @brief	è¡Œåˆ—ã®å€¤
     */
     int32_t Values[3][3];
 
     /**
-            @brief	’PˆÊs—ñ‚ğİ’è‚·‚éB
+            @brief	å˜ä½è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
     */
     Matrix33I& SetIdentity();
 
     /**
-    @brief	“]’us—ñ‚ğİ’è‚·‚éB
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	è»¢ç½®è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix33I& SetTransposed();
 
     /**
-    @brief	‹ts—ñ‚ğİ’è‚·‚éB
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	é€†è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix33I& SetInverted();
 
     /**
-    @brief	‹ts—ñ‚ğæ“¾‚·‚éB
-    @return	‹ts—ñ
+    @brief	é€†è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹ã€‚
+    @return	é€†è¡Œåˆ—
     */
     Matrix33I GetInverted();
 
     /**
-    @brief	•½sˆÚ“®‚Ìs—ñ‚ğİ’è‚·‚éB
+    @brief	å¹³è¡Œç§»å‹•ã®è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
         */
     Matrix33I& SetTranslation(int32_t x, int32_t y);
 
     /**
-@brief	Šg‘åEk¬s—ñ‚ğİ’è‚·‚éB
+@brief	æ‹¡å¤§ãƒ»ç¸®å°è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
 */
     Matrix33I& SetScale(int32_t x, int32_t y);
 
     /**
-    @brief	s—ñ‚ÅƒxƒNƒgƒ‹‚ğ•ÏŒ`‚³‚¹‚éB
-    @param	in	•ÏŒ`‘OƒxƒNƒgƒ‹
-    @return	•ÏŒ`ŒãƒxƒNƒgƒ‹
+    @brief	è¡Œåˆ—ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰å½¢ã•ã›ã‚‹ã€‚
+    @param	in	å¤‰å½¢å‰ãƒ™ã‚¯ãƒˆãƒ«
+    @return	å¤‰å½¢å¾Œãƒ™ã‚¯ãƒˆãƒ«
     */
     Vector2DI Transform2D(const Vector2DI& in) const;
 
     /**
-    @brief	s—ñ‚ÅƒxƒNƒgƒ‹‚ğ•ÏŒ`‚³‚¹‚éB
-    @param	in	•ÏŒ`‘OƒxƒNƒgƒ‹
-    @return	•ÏŒ`ŒãƒxƒNƒgƒ‹
+    @brief	è¡Œåˆ—ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰å½¢ã•ã›ã‚‹ã€‚
+    @param	in	å¤‰å½¢å‰ãƒ™ã‚¯ãƒˆãƒ«
+    @return	å¤‰å½¢å¾Œãƒ™ã‚¯ãƒˆãƒ«
     */
     Vector3DI Transform3D(const Vector3DI& in) const;
 
     /**
-    @brief	3~3s—ñ‚ÌŠ|‚¯Z‚ğŒvZ‚·‚éB
+    @brief	3Ã—3è¡Œåˆ—ã®æ›ã‘ç®—ã‚’è¨ˆç®—ã™ã‚‹ã€‚
             */
     Matrix33I operator*(const Matrix33I& right);
 

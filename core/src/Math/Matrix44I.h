@@ -14,9 +14,9 @@ namespace altseed {
 //----------------------------------------------------------------------------------
 
 /**
-        @brief	4~4s—ñ‚ğ•\‚·\‘¢‘Ì
+        @brief	4Ã—4è¡Œåˆ—ã‚’è¡¨ã™æ§‹é€ ä½“
         @note
-        M * V[x,y,z,1] ‚ÌŒ`<BR>
+        M * V[x,y,z,1] ã®å½¢<BR>
         [0,0][0,1][0,2][0,3]
         [1,0][1,1][1,2][1,3]
         [2,0][2,1][2,2][2,3]
@@ -26,59 +26,59 @@ struct Matrix44I {
 private:
 public:
     /**
-            @brief	ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µA’PˆÊs—ñ‚Å‰Šú‰»‚·‚éB
+            @brief	ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã€å˜ä½è¡Œåˆ—ã§åˆæœŸåŒ–ã™ã‚‹ã€‚
     */
     Matrix44I();
 
     /**
-            @brief	s—ñ‚Ì’l
+            @brief	è¡Œåˆ—ã®å€¤
     */
     int32_t Values[4][4];
 
     /**
-            @brief	’PˆÊs—ñ‚ğİ’è‚·‚éB
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	å˜ä½è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44I& SetIdentity();
 
     /**
-            @brief	“]’us—ñ‚ğİ’è‚·‚éB
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	è»¢ç½®è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44I& SetTransposed();
 
     /**
-            @brief	•ÀsˆÚ“®s—ñ‚ğİ’è‚·‚éB
-            @param	x	X•ûŒüˆÚ“®—Ê
-            @param	y	Y•ûŒüˆÚ“®—Ê
-            @param	z	Z•ûŒüˆÚ“®—Ê
-            @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+            @brief	ä¸¦è¡Œç§»å‹•è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+            @param	x	Xæ–¹å‘ç§»å‹•é‡
+            @param	y	Yæ–¹å‘ç§»å‹•é‡
+            @param	z	Zæ–¹å‘ç§»å‹•é‡
+            @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44I& SetTranslation(int32_t x, int32_t y, int32_t z);
 
     /**
-    @brief	ƒNƒI[ƒ^ƒjƒIƒ“‚ğŒ³‚É‰ñ“]s—ñ(‰Eè)‚ğİ’è‚·‚éB
-    @param	x	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	y	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	z	ƒNƒI[ƒ^ƒjƒIƒ“
-    @param	w	ƒNƒI[ƒ^ƒjƒIƒ“
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’å…ƒã«å›è»¢è¡Œåˆ—(å³æ‰‹)ã‚’è¨­å®šã™ã‚‹ã€‚
+    @param	x	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	y	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	z	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @param	w	ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44I& SetQuaternion(int32_t x, int32_t y, int32_t z, int32_t w);
 
     /**
-    @brief	Šg‘ås—ñ‚ğİ’è‚·‚éB
-    @param	x	X•ûŒüŠg‘å—¦
-    @param	y	Y•ûŒüŠg‘å—¦
-    @param	z	Z•ûŒüŠg‘å—¦
-    @return	‚±‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚ÌQÆ
+    @brief	æ‹¡å¤§è¡Œåˆ—ã‚’è¨­å®šã™ã‚‹ã€‚
+    @param	x	Xæ–¹å‘æ‹¡å¤§ç‡
+    @param	y	Yæ–¹å‘æ‹¡å¤§ç‡
+    @param	z	Zæ–¹å‘æ‹¡å¤§ç‡
+    @return	ã“ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®å‚ç…§
     */
     Matrix44I& SetScale(int32_t x, int32_t y, int32_t z);
 
     /**
-    @brief	s—ñ‚ÅƒxƒNƒgƒ‹‚ğ•ÏŒ`‚³‚¹‚éB
-    @param	in	•ÏŒ`‘OƒxƒNƒgƒ‹
-    @return	•ÏŒ`ŒãƒxƒNƒgƒ‹
+    @brief	è¡Œåˆ—ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰å½¢ã•ã›ã‚‹ã€‚
+    @param	in	å¤‰å½¢å‰ãƒ™ã‚¯ãƒˆãƒ«
+    @return	å¤‰å½¢å¾Œãƒ™ã‚¯ãƒˆãƒ«
     */
     Vector4DI Transform4D(const Vector4DI& in) const;
 
@@ -87,11 +87,11 @@ public:
     Vector4DI operator*(const Vector4DI& right) const;
 
     /**
-            @brief	æZ‚ğs‚¤B
-            @param	o	o—Íæ
-            @param	in1	s—ñ1
-            @param	in2	s—ñ2
-            @return	o—Íæ‚ÌQÆz
+            @brief	ä¹—ç®—ã‚’è¡Œã†ã€‚
+            @param	o	å‡ºåŠ›å…ˆ
+            @param	in1	è¡Œåˆ—1
+            @param	in2	è¡Œåˆ—2
+            @return	å‡ºåŠ›å…ˆã®å‚ç…§z
     */
     static Matrix44I& Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& in2);
 };
