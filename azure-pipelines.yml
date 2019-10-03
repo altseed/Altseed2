@@ -20,7 +20,7 @@ jobs:
             chmod +x cmakeinstall.sh
             sudo ./cmakeinstall.sh --prefix=/usr/local --exclude-subdir
             rm cmakeinstall.sh
-            git submodule update --init
+            git submodule update --init --recursive
             git lfs install
             git lfs pull
             sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev
