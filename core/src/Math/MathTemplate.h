@@ -16,7 +16,7 @@ struct Matrix44;
 struct RectF;
 struct RectI;
 /**
-        @brief	�ő�l�擾
+        @brief	最大値取得
 */
 template <typename T, typename U>
 T Max(T t, U u) {
@@ -27,7 +27,7 @@ T Max(T t, U u) {
 }
 
 /**
-        @brief	�ŏ��l�擾
+        @brief	最小値取得
 */
 template <typename T, typename U>
 T Min(T t, U u) {
@@ -38,7 +38,7 @@ T Min(T t, U u) {
 }
 
 /**
-        @brief	�͈͓��l�擾
+        @brief	範囲内値取得
 */
 template <typename T, typename U, typename V>
 T Clamp(T t, U max_, V min_) {
