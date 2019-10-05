@@ -1,23 +1,15 @@
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 #include "Matrix44F.h"
 #include "Vector3DF.h"
 #include "Vector4DF.h"
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 namespace altseed {
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F::Matrix44F() { SetIdentity(); }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetIdentity() {
     memset(Values, 0, sizeof(float) * 16);
     Values[0][0] = 1.0f;
@@ -27,9 +19,7 @@ Matrix44F& Matrix44F::SetIdentity() {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetTransposed() {
     for (int32_t c = 0; c < 4; c++) {
         for (int32_t r = c; r < 4; r++) {
@@ -42,9 +32,7 @@ Matrix44F& Matrix44F::SetTransposed() {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetInverted() {
     auto e = 0.00001f;
 
@@ -65,7 +53,7 @@ Matrix44F& Matrix44F::SetInverted() {
     float a43 = this->Values[3][2];
     float a44 = this->Values[3][3];
 
-    /* s—ñ®‚ÌŒvZ */
+    /* ï¿½sï¿½ñ®‚ÌŒvï¿½Z */
     float b11 = +a22 * (a33 * a44 - a43 * a34) - a23 * (a32 * a44 - a42 * a34) + a24 * (a32 * a43 - a42 * a33);
     float b12 = -a12 * (a33 * a44 - a43 * a34) + a13 * (a32 * a44 - a42 * a34) - a14 * (a32 * a43 - a42 * a33);
     float b13 = +a12 * (a23 * a44 - a43 * a24) - a13 * (a22 * a44 - a42 * a24) + a14 * (a22 * a43 - a42 * a23);
@@ -86,7 +74,7 @@ Matrix44F& Matrix44F::SetInverted() {
     float b43 = -a11 * (a22 * a43 - a42 * a23) + a12 * (a21 * a43 - a41 * a23) - a13 * (a21 * a42 - a41 * a22);
     float b44 = +a11 * (a22 * a33 - a32 * a23) - a12 * (a21 * a33 - a31 * a23) + a13 * (a21 * a32 - a31 * a22);
 
-    // s—ñ®‚Ì‹t”‚ğ‚©‚¯‚é
+    // ï¿½sï¿½ñ®‚Ì‹tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     float Det = (a11 * b11) + (a12 * b21) + (a13 * b31) + (a14 * b41);
     if ((-e <= Det) && (Det <= +e)) {
         return *this;
@@ -114,20 +102,16 @@ Matrix44F& Matrix44F::SetInverted() {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F Matrix44F::GetInverted() const {
     Matrix44F o = (*this);
     o.SetInverted();
     return o;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up) {
-    // F=³–ÊAR=‰E•ûŒüAU=ã•ûŒü
+    // F=ï¿½ï¿½ï¿½ÊAR=ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½AU=ï¿½ï¿½ï¿½ï¿½ï¿½
     Vector3DF F = Vector3DF::Subtract(eye, at).GetNormal();
     Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
     Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
@@ -154,11 +138,9 @@ Matrix44F& Matrix44F::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, con
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up) {
-    // F=³–ÊAR=‰E•ûŒüAU=ã•ûŒü
+    // F=ï¿½ï¿½ï¿½ÊAR=ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½AU=ï¿½ï¿½ï¿½ï¿½ï¿½
     Vector3DF F = Vector3DF::Subtract(at, eye).GetNormal();
     Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
     Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
@@ -185,9 +167,7 @@ Matrix44F& Matrix44F::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, con
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf) {
     float yScale = 1 / tanf(ovY / 2);
     float xScale = yScale / aspect;
@@ -214,9 +194,7 @@ Matrix44F& Matrix44F::SetPerspectiveFovRH(float ovY, float aspect, float zn, flo
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf) {
     float yScale = 1 / tanf(ovY / 2);
     float xScale = yScale / aspect;
@@ -245,9 +223,7 @@ Matrix44F& Matrix44F::SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float 
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf) {
     float yScale = 1 / tanf(ovY / 2);
     float xScale = yScale / aspect;
@@ -274,9 +250,7 @@ Matrix44F& Matrix44F::SetPerspectiveFovLH(float ovY, float aspect, float zn, flo
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetOrthographicRH(float width, float height, float zn, float zf) {
     Values[0][0] = 2 / width;
     Values[1][0] = 0;
@@ -300,9 +274,7 @@ Matrix44F& Matrix44F::SetOrthographicRH(float width, float height, float zn, flo
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetOrthographicLH(float width, float height, float zn, float zf) {
     Values[0][0] = 2 / width;
     Values[1][0] = 0;
@@ -326,9 +298,7 @@ Matrix44F& Matrix44F::SetOrthographicLH(float width, float height, float zn, flo
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetTranslation(float x, float y, float z) {
     SetIdentity();
     Values[0][3] = x;
@@ -337,9 +307,7 @@ Matrix44F& Matrix44F::SetTranslation(float x, float y, float z) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetRotationX(float angle) {
     float c, s;
     SinCos(angle, s, c);
@@ -366,9 +334,7 @@ Matrix44F& Matrix44F::SetRotationX(float angle) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetRotationY(float angle) {
     float c, s;
     SinCos(angle, s, c);
@@ -395,9 +361,7 @@ Matrix44F& Matrix44F::SetRotationY(float angle) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetRotationZ(float angle) {
     float c, s;
     SinCos(angle, s, c);
@@ -424,9 +388,7 @@ Matrix44F& Matrix44F::SetRotationZ(float angle) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetRotationAxis(const Vector3DF& axis, float angle) {
     const float c = cosf(angle);
     const float s = sinf(angle);
@@ -450,9 +412,7 @@ Matrix44F& Matrix44F::SetRotationAxis(const Vector3DF& axis, float angle) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetQuaternion(float x, float y, float z, float w) {
     float xx = x * x;
     float yy = y * y;
@@ -486,9 +446,7 @@ Matrix44F& Matrix44F::SetQuaternion(float x, float y, float z, float w) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::SetScale(float x, float y, float z) {
     memset(Values, 0, sizeof(float) * 16);
     Values[0][0] = x;
@@ -498,9 +456,7 @@ Matrix44F& Matrix44F::SetScale(float x, float y, float z) {
     return *this;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Vector3DF Matrix44F::Transform3D(const Vector3DF& in) const {
     float values[4];
 
@@ -519,9 +475,7 @@ Vector3DF Matrix44F::Transform3D(const Vector3DF& in) const {
     return o;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Vector4DF Matrix44F::Transform4D(const Vector4DF& in) const {
     float values[4];
 
@@ -541,28 +495,20 @@ Vector4DF Matrix44F::Transform4D(const Vector4DF& in) const {
     return o;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F Matrix44F::operator*(const Matrix44F& right) const {
     Matrix44F o_;
     Mul(o_, *this, right);
     return o_;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Vector3DF Matrix44F::operator*(const Vector3DF& right) const { return Transform3D(right); }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Vector4DF Matrix44F::operator*(const Vector4DF& right) const { return Transform4D(right); }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 Matrix44F& Matrix44F::Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2) {
     Matrix44F _in1 = in1;
     Matrix44F _in2 = in2;
@@ -579,10 +525,5 @@ Matrix44F& Matrix44F::Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& i
     return o;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 }  // namespace asd
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------

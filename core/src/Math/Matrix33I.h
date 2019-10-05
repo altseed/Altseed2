@@ -11,19 +11,13 @@ namespace altseed {
         */
 struct Matrix33I {
 public:
-    /**
-            @brief	オブジェクトを生成し、単位行列で初期化する。
-    */
+
     Matrix33I();
 
-    /**
-            @brief	行列の値
-    */
+
     int32_t Values[3][3];
 
-    /**
-            @brief	単位行列を設定する。
-    */
+
     Matrix33I& SetIdentity();
 
     /**
@@ -44,14 +38,10 @@ public:
     */
     Matrix33I GetInverted();
 
-    /**
-    @brief	平行移動の行列を設定する。
-        */
+
     Matrix33I& SetTranslation(int32_t x, int32_t y);
 
-    /**
-@brief	拡大・縮小行列を設定する。
-*/
+    
     Matrix33I& SetScale(int32_t x, int32_t y);
 
     /**
@@ -68,9 +58,7 @@ public:
     */
     Vector3DI Transform3D(const Vector3DI& in) const;
 
-    /**
-    @brief	3×3行列の掛け算を計算する。
-            */
+
     Matrix33I operator*(const Matrix33I& right);
 
     Vector3DI operator*(const Vector3DI& right);
