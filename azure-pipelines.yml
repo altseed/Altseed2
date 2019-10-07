@@ -26,7 +26,8 @@ jobs:
             sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev
             sudo apt -y install libssl-dev
             sudo apt -y install libglu1-mesa-dev mesa-common-dev
-
+            sudo apt -y install libvulkan-dev
+            
       - task: CMake@1
         inputs:
           cmakeArgs: '.. -DBUILD_TEST=ON'
