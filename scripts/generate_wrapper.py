@@ -12,7 +12,33 @@ with SeekOrigin as enum:
 
 Bytes = cbg.Class('altseed', 'ByteBuffer')
 
+ResourceType = cbg.Enum('altseed', 'ResourceType')
+with ResourceType as enum:
+    enum.add('StaticFile')
+    enum.add('StreamFile')
+    enum.add('Texture2D')
+    enum.add('MAX')
+
+ResourceContainer = cbg.Class('altseed', 'ResourceContainer')
+
 Resources = cbg.Class('altseed', 'Resources')
+with Resources as class_:
+    with class_.add_func('Initialize') as func:
+        func.is_static = True
+        func.return_type = bool
+    with class_.add_func('Terminate') as func:
+        func.is_static = True
+    with class_.add_func('GetInstance') as func:
+        func.is_static = True
+        func.return_type = Resources
+    with class_.add_func('GetResourceContainer') as func:
+        func.add_arg(ResourceType, 'type')
+        func.return_type = ResourceContainer
+    with class_.add_func('GetResourcesCount') as func:
+        func.add_arg(ResourceType, 'type')
+        func.return_type = int
+    class_.add_func('Clear')
+    class_.add_func('Reload')
 
 BaseFileReader = cbg.Class('altseed', 'BaseFileReader')
 with BaseFileReader as class_:
@@ -396,22 +422,20 @@ with Texture2D as class_:
         func.is_static = True
 
 # サポートされない型
-# char16_t*, u16string は wchar_t* として扱われることになる
-# int32_t, int64_t, int8_t などは int として扱われることになる
+# u16string は const char16_t* として扱われることになる
+# int64_t, int8_t などは int32_t として扱われることになる
 # int8_t*, vector<int8_t> に対しては仮に Bytes クラスとおいている
 # void* に対しては仮に VoidPtr クラスとおいている
-# std::vector<uint8_t>&; BaseFileReader
 # double; Mouse; floatとして扱われる
 # double& 引数; Mouse
 # std::function<void(double, double)>; Mouse
 # フィールドはサポートされない; Graphics
 # std::vector<std::shared_ptr<Sprite>>; Graphics
-# std::shared_ptr<Graphics>&; Graphics
 # LLGI::DeviceType; Graphics
 # std::array<LLGI::Vec2F, 4>; Sprite
 # LLGI::Vec2F; Sprite
-# std::shard_ptr<*>; 様々な場所
 # std::tuple<int32_t, int32_t>; Texture2D
+# shared_ptrを使わずポインタで直接インスタンスを受け渡している場所
 
 # define
 define = cbg.Define()
