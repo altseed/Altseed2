@@ -2,11 +2,13 @@
 
 #include <memory>
 
-#include "Graphics/Graphics.h"
+#include <Core.h>
 #include "Graphics/Sprite.h"
 
+namespace asd = altseed;
+
 TEST(Grapgics, Initialize) {
-    EXPECT_TRUE(altseed::Graphics::Intialize());
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 

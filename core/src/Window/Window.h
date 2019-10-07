@@ -39,9 +39,7 @@ public:
 
     void GetSize(int32_t& width, int32_t& height);
 
-    void* GetHandle() const;
-
-    void* GetNativeWindow() const { return mainWindow_; }
+    GLFWwindow* GetNativeWindow() const { return mainWindow_; }
 
     bool DoEvent();
 

@@ -16,11 +16,11 @@ std::shared_ptr<Graphics> Graphics::instance = nullptr;
 
 std::shared_ptr<Graphics>& Graphics::GetInstance() { return instance; }
 
-bool Graphics::Intialize(LLGI::DeviceType deviceType) {
+bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType) {
     instance = std::make_shared<Graphics>();
 
-    instance->platform_ = LLGI::CreatePlatform(deviceType);
-    LLGI::SafeAddRef(instance->platform_);
+    instance->llgiWindow = std::make_shared<LLGIWindow>(window->GetNativeWindow());
+    instance->platform_ = LLGI::CreatePlatform(deviceType, instance->llgiWindow.get());
     if (instance->platform_ == nullptr) return false;
 
     instance->graphics_ = instance->platform_->CreateGraphics();
@@ -88,8 +88,8 @@ bool Graphics::Update() {
 
     UpdateBuffers();
 
-    auto renderPass = instance->graphics_->GetCurrentScreen(color, true);
-    auto renderPassPipelineState = LLGI::CreateSharedPtr(renderPass->CreateRenderPassPipelineState());
+    auto renderPass = instance->platform_->GetCurrentScreen(color, true);
+    auto renderPassPipelineState = LLGI::CreateSharedPtr(instance->graphics_->CreateRenderPassPipelineState(renderPass));
     if (pips.count(renderPassPipelineState) == 0) {
         auto pip = graphics_->CreatePiplineState();
         pip->VertexLayouts[0] = LLGI::VertexLayoutFormat::R32G32B32_FLOAT;

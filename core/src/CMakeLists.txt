@@ -41,6 +41,8 @@ set(core_files
 	Graphics/Sprite.cpp
 	Graphics/Texture2D.h
     Graphics/Texture2D.cpp
+    Graphics/LLGIWindow.h
+    Graphics/LLGIWindow.cpp
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h

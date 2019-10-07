@@ -1,10 +1,11 @@
 #pragma once
 
 #include <map>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
+#include <LLGI.Base.h>
 #include <LLGI.CommandList.h>
 #include <LLGI.Compiler.h>
 #include <LLGI.ConstantBuffer.h>
@@ -15,6 +16,9 @@
 #include <LLGI.Shader.h>
 #include <LLGI.Texture.h>
 #include <LLGI.VertexBuffer.h>
+
+#include "../Window/Window.h"
+#include "LLGIWindow.h"
 
 namespace altseed {
 
@@ -33,6 +37,7 @@ class Graphics {
     };
 
     static std::shared_ptr<Graphics> instance;
+    std::shared_ptr<LLGIWindow> llgiWindow;
     int count;  // temp
 
     std::map<std::shared_ptr<LLGI::RenderPassPipelineState>, std::shared_ptr<LLGI::PipelineState>> pips;
@@ -51,7 +56,7 @@ class Graphics {
     void UpdateBuffers();
 
 public:
-    static bool Intialize(LLGI::DeviceType deviceType = LLGI::DeviceType::Default /*std::shared_ptr<Window>& window*/);
+    static bool Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType = LLGI::DeviceType::Default);
 
     static std::shared_ptr<Graphics>& GetInstance();
 
