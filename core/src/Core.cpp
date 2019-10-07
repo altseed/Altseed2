@@ -60,6 +60,11 @@ void Core::Terminate() {
     }
 
     Window::Terminate();
+	Keyboard::Terminate();
+    Mouse::Terminate();
+	Resources::Terminate();
+	File::Terminate();
+	Graphics::Terminate();
 
     Core::instance = nullptr;
 }
