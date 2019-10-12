@@ -43,6 +43,10 @@ set(core_files
     Graphics/Texture2D.cpp
     Graphics/LLGIWindow.h
     Graphics/LLGIWindow.cpp
+    Graphics/Shader.h
+    Graphics/Shader.cpp
+    Graphics/Material.h
+    Graphics/Material.cpp
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h

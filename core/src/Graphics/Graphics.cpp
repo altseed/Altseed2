@@ -1,4 +1,5 @@
 #include "Graphics.h"
+
 #include "Sprite.h"
 
 #ifdef _WIN32
@@ -19,8 +20,9 @@ std::shared_ptr<Graphics>& Graphics::GetInstance() { return instance; }
 bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType) {
     instance = std::make_shared<Graphics>();
 
-    instance->llgiWindow = std::make_shared<LLGIWindow>(window->GetNativeWindow());
-    instance->platform_ = LLGI::CreatePlatform(deviceType, instance->llgiWindow.get());
+    instance->window_ = window;
+    instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
+    instance->platform_ = LLGI::CreatePlatform(deviceType, instance->llgiWindow_.get());
     if (instance->platform_ == nullptr) return false;
 
     instance->graphics_ = instance->platform_->CreateGraphics();
@@ -28,47 +30,15 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
     if (instance->graphics_ == nullptr) return false;
 
     instance->sfMemoryPool_ = instance->graphics_->CreateSingleFrameMemoryPool(1024 * 1024, 128);
-    instance->commandList_ = instance->graphics_->CreateCommandList(instance->sfMemoryPool_);
+    for (int i = 0; i < instance->commandLists_.size(); i++)
+        instance->commandLists_[i] = instance->graphics_->CreateCommandList(instance->sfMemoryPool_);
 
     instance->vb = instance->graphics_->CreateVertexBuffer(sizeof(SimpleVertex) * 1024);
     instance->ib = instance->graphics_->CreateIndexBuffer(2, 1024);
 
-    auto compiler = LLGI::CreateCompiler(deviceType);
+    instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
-    std::vector<LLGI::DataStructure> data_vs;
-    std::vector<LLGI::DataStructure> data_ps;
-
-    if (compiler == nullptr) {
-        return false;
-    } else {
-        LLGI::CompilerResult result_vs;
-        LLGI::CompilerResult result_ps;
-
-        if (instance->platform_->GetDeviceType() == LLGI::DeviceType::DirectX12) {
-            compiler->Compile(result_vs, instance->HlslVSCode, LLGI::ShaderStageType::Vertex);
-            assert(result_vs.Message == "");
-            compiler->Compile(result_ps, instance->HlslPSCode, LLGI::ShaderStageType::Pixel);
-            assert(result_ps.Message == "");
-        } else
-            return false;
-
-        for (auto& b : result_vs.Binary) {
-            LLGI::DataStructure d;
-            d.Data = b.data();
-            d.Size = b.size();
-            data_vs.push_back(d);
-        }
-
-        for (auto& b : result_ps.Binary) {
-            LLGI::DataStructure d;
-            d.Data = b.data();
-            d.Size = b.size();
-            data_ps.push_back(d);
-        }
-
-        instance->vs_ = instance->graphics_->CreateShader(data_vs.data(), data_vs.size());
-        instance->ps_ = instance->graphics_->CreateShader(data_ps.data(), data_ps.size());
-    }
+    instance->vs_ = instance->CreateShader(instance->HlslVSCode, LLGI::ShaderStageType::Vertex);
 
     return true;
 }
@@ -101,26 +71,28 @@ bool Graphics::Update() {
         pip->VertexLayoutCount = 3;
 
         pip->Culling = LLGI::CullingMode::DoubleSide;
-        pip->SetShader(LLGI::ShaderStageType::Vertex, vs_);
-        pip->SetShader(LLGI::ShaderStageType::Pixel, ps_);
+        pip->SetShader(LLGI::ShaderStageType::Vertex, vs_->Get());
+        pip->SetShader(LLGI::ShaderStageType::Pixel, Sprites[0]->GetMaterial()->GetShader()->Get());
         pip->SetRenderPassPipelineState(renderPassPipelineState.get());
         pip->Compile();
 
         pips[renderPassPipelineState] = LLGI::CreateSharedPtr(pip);
     }
-    commandList_->Begin();
-    commandList_->BeginRenderPass(renderPass);
+    auto commandList = commandLists_[count % commandLists_.size()];
+    commandList->Begin();
+    commandList->BeginRenderPass(renderPass);
+
     for (auto& g : Groups) {
-        commandList_->SetVertexBuffer(vb, sizeof(SimpleVertex), g.second.vb_offset * sizeof(SimpleVertex));
-        commandList_->SetIndexBuffer(ib);
-        commandList_->SetPipelineState(pips[renderPassPipelineState].get());
-        commandList_->SetTexture(
-                g.first, LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Nearest, 0, LLGI::ShaderStageType::Pixel);
-        commandList_->Draw(g.second.sprites.size() * 2);
+        commandList->SetVertexBuffer(vb, sizeof(SimpleVertex), g.second.vb_offset * sizeof(SimpleVertex));
+        commandList->SetIndexBuffer(ib);
+        commandList->SetPipelineState(pips[renderPassPipelineState].get());
+        commandList->SetTexture(
+                g.first.get(), LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Nearest, 0, LLGI::ShaderStageType::Pixel);
+        commandList->Draw(g.second.sprites.size() * 2);
     }
-    commandList_->EndRenderPass();
-    commandList_->End();
-    graphics_->Execute(commandList_);
+    commandList->EndRenderPass();
+    commandList->End();
+    graphics_->Execute(commandList);
 
     platform_->Present();
 
@@ -132,9 +104,7 @@ bool Graphics::Update() {
 void Graphics::Terminate() {
     instance->graphics_->WaitFinish();
     LLGI::SafeRelease(instance->sfMemoryPool_);
-    LLGI::SafeRelease(instance->commandList_);
-    LLGI::SafeRelease(instance->vs_);
-    LLGI::SafeRelease(instance->ps_);
+    for (int i = 0; i < instance->commandLists_.size(); i++) LLGI::SafeRelease(instance->commandLists_[i]);
     LLGI::SafeRelease(instance->ib);
     LLGI::SafeRelease(instance->vb);
     LLGI::SafeRelease(instance->graphics_);
@@ -161,7 +131,7 @@ void Graphics::UpdateBuffers() {
         // TODO: check size of buffers
         for (int i = 0; i < g.second.sprites.size(); i++) {
             auto s = g.second.sprites[i];
-            auto v = s->GetVertex();
+            auto v = s->GetVertex(llgiWindow_->GetWindowSize());
 
             for (int j = 0; j < 4; j++) {
                 vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
@@ -187,8 +157,33 @@ void Graphics::UpdateBuffers() {
     vb->Unlock();
 }
 
-LLGI::Texture* Graphics::CreateDameyTexture(uint8_t b) {
-    auto texture = graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false);
+std::shared_ptr<Shader> Graphics::CreateShader(const char* code, LLGI::ShaderStageType shaderStageType) {
+    if (instance->compiler_ == nullptr) return nullptr;
+
+    std::vector<LLGI::DataStructure> data;
+    LLGI::CompilerResult result;
+
+    if (instance->platform_->GetDeviceType() == LLGI::DeviceType::DirectX12) {
+        instance->compiler_->Compile(result, code, shaderStageType);
+        assert(result.Message == "");
+    } else
+        return nullptr;
+
+    for (auto& b : result.Binary) {
+        LLGI::DataStructure d;
+        d.Data = b.data();
+        d.Size = b.size();
+        data.push_back(d);
+    }
+
+    auto obj = std::make_shared<Shader>();
+    obj->SetShaderBinary(instance->graphics_->CreateShader(data.data(), data.size()));
+
+    return obj;
+}
+
+std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
+    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false));
 
     auto texture_buf = (LLGI::Color8*)texture->Lock();
     for (int y = 0; y < 256; y++) {
