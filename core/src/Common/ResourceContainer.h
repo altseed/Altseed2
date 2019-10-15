@@ -121,10 +121,12 @@ public:
         fs::path p(path);
         std::error_code ec;
         auto ftime = fs::last_write_time(p, ec);
+#ifndef _WIN32
         if (ec.value() != 0) {
             // TODO: log failure to get time
             return fs::file_time_type::min();
         }
+#endif
         return ftime;
     }
 };
