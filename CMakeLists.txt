@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
+if(CMAKE_GENERATOR STREQUAL Xcode)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "" FORCE)
+endif()
+
 # solution name
 project(Altseed)
 

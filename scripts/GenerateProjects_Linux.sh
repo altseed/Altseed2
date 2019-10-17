@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo set current directory
 cd `dirname $0`
 
