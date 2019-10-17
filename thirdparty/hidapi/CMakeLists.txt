@@ -16,7 +16,7 @@ if(WIN32)
 
 elseif(APPLE)
     add_library(hidapi STATIC
-        windows/hid.c
+        mac/hid.c
     )
 else()
     add_library(hidapi STATIC
