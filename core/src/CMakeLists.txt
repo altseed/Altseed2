@@ -120,7 +120,7 @@ target_link_libraries(
     optimized zip
     )
 
-if (MSVC OR APPLE)
+if (MSVC)
 
     target_link_libraries(
         Altseed_Core
@@ -130,6 +130,35 @@ if (MSVC OR APPLE)
         debug zlibstaticd
         optimized zlibstatic
         )
+
+elseif(APPLE)
+
+    find_library(COCOA_FRAMEWORK Cocoa)
+    find_library(IOKIT_FRAMEWORK IOKit)
+    find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+    find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(METAL_LIBRARY Metal)
+    find_library(APPKIT_LIBRARY AppKit)
+    find_library(METALKIT_LIBRARY MetalKit)
+    find_library(QUARTZ_CORE_LIBRARY QuartzCore)
+
+    target_link_libraries(
+        Altseed_Core
+        PRIVATE
+        z
+        debug png16d
+        optimized png16
+        
+        ${COCOA_FRAMEWORK}
+        ${IOKIT_FRAMEWORK}
+        ${CORE_FOUNDATION_FRAMEWORK}
+        ${CORE_VIDEO_FRAMEWORK}
+        ${APPKIT_LIBRARY}
+        ${METAL_LIBRARY}
+        ${METALKIT_LIBRARY}
+        ${QUARTZ_CORE_LIBRARY}
+    )
 
 else()
 
