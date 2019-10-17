@@ -16,6 +16,15 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
+            wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+            sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.1.121-xenial.list http://packages.lunarg.com/vulkan/1.1.121/lunarg-vulkan-1.1.121-xenial.list
+            sudo apt update
+            sudo apt install vulkan-sdk
+            
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
             curl -sL https://cmake.org/files/v3.15/cmake-3.15.3-Linux-x86_64.sh -o cmakeinstall.sh
             chmod +x cmakeinstall.sh
             sudo ./cmakeinstall.sh --prefix=/usr/local --exclude-subdir
