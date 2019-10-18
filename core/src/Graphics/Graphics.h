@@ -76,6 +76,7 @@ public:
 
     std::vector<std::shared_ptr<Sprite>> Sprites;
     std::shared_ptr<LLGI::Texture> CreateDameyTexture(uint8_t b);
+    std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
 
     std::shared_ptr<Shader> CreateShader(const char* code, LLGI::ShaderStageType shaderStageType = LLGI::ShaderStageType::Pixel);
 

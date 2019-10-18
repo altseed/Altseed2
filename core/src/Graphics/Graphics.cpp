@@ -184,7 +184,6 @@ std::shared_ptr<Shader> Graphics::CreateShader(const char* code, LLGI::ShaderSta
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
     std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false));
-
     auto texture_buf = (LLGI::Color8*)texture->Lock();
     for (int y = 0; y < 256; y++) {
         for (int x = 0; x < 256; x++) {
@@ -192,6 +191,34 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
             texture_buf[x + y * 256].G = y;
             texture_buf[x + y * 256].B = b;
             texture_buf[x + y * 256].A = 255;
+        }
+    }
+    texture->Unlock();
+    return texture;
+}
+
+std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel) {
+    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(LLGI::Vec2I(width, height), true, false));
+    if (texture == nullptr) return nullptr;
+
+    auto texture_buf = (LLGI::Color8*)texture->Lock();
+    if (channel == 4) {
+        for (int32_t y = 0; y < height; y++) {
+            for (int32_t x = 0; x < width; x++) {
+                texture_buf[x + y * width].R = data[4 * (x + y * width)];
+                texture_buf[x + y * width].G = data[4 * (x + y * width) + 1];
+                texture_buf[x + y * width].B = data[4 * (x + y * width) + 2];
+                texture_buf[x + y * width].A = data[4 * (x + y * width) + 3];
+            }
+        }
+    } else if (channel == 3) {
+        for (int32_t y = 0; y < height; y++) {
+            for (int32_t x = 0; x < width; x++) {
+                texture_buf[x + y * width].R = data[3 * (x + y * width)];
+                texture_buf[x + y * width].G = data[3 * (x + y * width) + 1];
+                texture_buf[x + y * width].B = data[3 * (x + y * width) + 2];
+                texture_buf[x + y * width].A = 255;
+            }
         }
     }
     texture->Unlock();

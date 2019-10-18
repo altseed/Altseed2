@@ -123,8 +123,11 @@ public:
         auto ftime = fs::last_write_time(p, ec);
 #ifndef _WIN32
         if (ec.value() != 0) {
+#ifndef _WIN32
+
             // TODO: log failure to get time
             return fs::file_time_type::min();
+#endif
         }
 #endif
         return ftime;
