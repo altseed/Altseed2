@@ -8,6 +8,7 @@ set(core_files
     Core.cpp
     BaseObject.h
     BaseObject.cpp
+    Wrapper.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
     Common/Resource.h
