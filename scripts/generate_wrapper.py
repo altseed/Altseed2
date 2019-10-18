@@ -8,11 +8,11 @@ from bindings import define
 sharedObjectGenerator = cbg.SharedObjectGenerator(define)
 
 sharedObjectGenerator.header = '''
-#include "HelloWorld.h"
+// #include "wrapper.h"
 '''
 
-sharedObjectGenerator.func_name_create_and_add_shared_ptr = 'HelloWorld::CreateAndAddSharedPtr'
-sharedObjectGenerator.func_name_add_and_get_shared_ptr = 'HelloWorld::AddAndGetSharedPtr'
+sharedObjectGenerator.func_name_create_and_add_shared_ptr = 'Altseed::CreateAndAddSharedPtr'
+sharedObjectGenerator.func_name_add_and_get_shared_ptr = 'Altseed::AddAndGetSharedPtr'
 
-sharedObjectGenerator.output_path = 'test.cpp'
+sharedObjectGenerator.output_path = 'Wrapper.cpp'
 sharedObjectGenerator.generate()

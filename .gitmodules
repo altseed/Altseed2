@@ -22,3 +22,6 @@
 [submodule "TestData"]
 	path = TestData
 	url = https://github.com/altseed/TestData.git
+[submodule "scripts/cbg"]
+	path = scripts/cbg
+	url = https://github.com/altseed/CppBindingGenerator.git
