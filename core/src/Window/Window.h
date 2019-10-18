@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include "../Common/PlatformIncludes.h"
+
 #include <memory>
 #include <string>
 #include <vector>
