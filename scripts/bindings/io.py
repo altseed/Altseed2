@@ -1,8 +1,8 @@
-import cbg
+from . import CppBindingGenerator as cbg
 import ctypes
 import sys
 
-from bindings.common import *
+from .common import *
 
 BaseFileReader = cbg.Class('altseed', 'BaseFileReader')
 with BaseFileReader as class_:

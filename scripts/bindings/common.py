@@ -1,21 +1,21 @@
-import cbg
+from . import CppBindingGenerator as cbg
 
 VoidPtr = cbg.Class('altseed', 'VoidPtr')
 
 SeekOrigin = cbg.Enum('altseed', 'SeekOrigin')
-with SeekOrigin as enum:
-    enum.add('Begin')
-    enum.add('Current')
-    enum.add('End')
+with SeekOrigin as enum_:
+    enum_.add('Begin')
+    enum_.add('Current')
+    enum_.add('End')
 
 Bytes = cbg.Class('altseed', 'ByteBuffer')
 
 ResourceType = cbg.Enum('altseed', 'ResourceType')
-with ResourceType as enum:
-    enum.add('StaticFile')
-    enum.add('StreamFile')
-    enum.add('Texture2D')
-    enum.add('MAX')
+with ResourceType as enum_:
+    enum_.add('StaticFile')
+    enum_.add('StreamFile')
+    enum_.add('Texture2D')
+    enum_.add('MAX')
 
 ResourceContainer = cbg.Class('altseed', 'ResourceContainer')
 

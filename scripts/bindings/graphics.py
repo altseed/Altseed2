@@ -1,8 +1,8 @@
-import cbg
+﻿from . import CppBindingGenerator as cbg
 import ctypes
 
-from bindings.common import *
-from bindings.io import *
+from .common import *
+from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 

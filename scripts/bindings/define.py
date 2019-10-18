@@ -1,10 +1,10 @@
-import cbg
+﻿from . import CppBindingGenerator as cbg
 import ctypes
 import sys
 
-from bindings.io import *
-from bindings.input import *
-from bindings.graphics import *
+from .io import *
+from .input import *
+from .graphics import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる

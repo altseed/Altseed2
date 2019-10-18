@@ -25,3 +25,6 @@
 [submodule "scripts/cbg"]
 	path = scripts/cbg
 	url = https://github.com/altseed/CppBindingGenerator.git
+[submodule "scripts/bindings/CppBindingGenerator"]
+	path = scripts/bindings/CppBindingGenerator
+	url = https://github.com/altseed/CppBindingGenerator.git

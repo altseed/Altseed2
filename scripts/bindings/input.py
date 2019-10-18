@@ -1,7 +1,6 @@
+﻿from . import CppBindingGenerator as cbg
 
-import cbg
-
-from bindings.common import *
+from .common import *
 
 ButtonState = cbg.Enum('altseed', 'ButtonState')
 with ButtonState as enum:

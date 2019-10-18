@@ -1,2 +1,1 @@
-import cbg
-from bindings.define import define
+from .define import define
