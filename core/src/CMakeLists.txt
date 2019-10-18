@@ -173,6 +173,8 @@ else()
         stdc++fs
         ssl
         crypto
+        X11
+        X11-xcb
         )
 
 endif()
