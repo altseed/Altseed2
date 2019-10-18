@@ -23,4 +23,5 @@
 #ifdef __linux__
 #undef Always
 #undef None
+#undef Bool
 #endif
