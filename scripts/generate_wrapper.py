@@ -8,7 +8,7 @@ if __name__ == '__main__':
     sharedObjectGenerator = cbg.SharedObjectGenerator(define)
 
     sharedObjectGenerator.header = '''
-    #include "Input/Keyboad.h"
+    #include "Input/Keyboard.h"
     '''
 
     sharedObjectGenerator.func_name_create_and_add_shared_ptr = 'Altseed::CreateAndAddSharedPtr'
