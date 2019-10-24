@@ -42,4 +42,31 @@ public:
     virtual void OnTerminating() {}
 };
 
+template <typename T>
+struct ReferenceDeleter {
+    void operator()(T* p) {
+        if (p != nullptr) {
+            p->Release();
+            p = nullptr;
+        }
+    }
+};
+
+template <class T>
+std::shared_ptr<T> CreateAndAddSharedPtr(T* p) {
+    if (p == nullptr) return nullptr;
+
+    p->AddRef();
+    return std::shared_ptr<T>(p, ReferenceDeleter<T>());
+}
+
+template <class T>
+T* AddAndGetSharedPtr(std::shared_ptr<T> sp) {
+    auto p = sp.get();
+    if (p == nullptr) return nullptr;
+
+    p->AddRef();
+    return p;
+}
+
 }  // namespace altseed

@@ -8,7 +8,7 @@ with SeekOrigin as enum_:
     enum_.add('Current')
     enum_.add('End')
 
-Bytes = cbg.Class('altseed', 'ByteBuffer')
+ByteBuffer = cbg.Class('altseed', 'ByteBuffer')
 
 ResourceType = cbg.Enum('altseed', 'ResourceType')
 with ResourceType as enum_:
@@ -37,3 +37,6 @@ with Resources as class_:
         func.return_type = int
     class_.add_func('Clear')
     class_.add_func('Reload')
+
+
+Vector2DI = cbg.Struct('altseed', 'Vector2DI')

@@ -37,7 +37,7 @@ struct SimpleVertex {
     LLGI::Color8 Color;
 };
 
-class Graphics {
+class Graphics : public BaseObject {
     struct DrawGroup {
         int vb_offset;
         std::vector<std::shared_ptr<Sprite>> sprites;

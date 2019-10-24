@@ -25,7 +25,15 @@ from .graphics import *
 # define
 define = cbg.Define()
 
+define.structs.append(Vector2DI)
+
+# input
 define.enums.append(Keys)
+
+# graphics
+define.enums.append(DeviceType)
+define.classes.append(Graphics)
+define.classes.append(Texture2D)
 
 #define.classes.append(BaseFileReader)
 #define.classes.append(StreamFile)
@@ -35,10 +43,9 @@ define.enums.append(Keys)
 #define.classes.append(FileRoot)
 #define.classes.append(PackFileReader)
 #define.classes.append(Bytes)
-#define.classes.append(Resources)
+
 #define.classes.append(ZipPtr)
 #define.classes.append(ZipFilePtr)
 #define.classes.append(ZipStatPtr)
 
 #define.enums.append(SeekOrigin)
-#define.enums.append(ResourceType)

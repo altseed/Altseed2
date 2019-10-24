@@ -23,9 +23,43 @@
 #endif
 
 
-    #include "Input/Keyboard.h"
+#include "Input/Keyboard.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Texture2D.h"
+
     
 extern "C" {
+
+CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetInstance() {
+    std::shared_ptr<altseed::Graphics> cbg_ret = altseed::Graphics::GetInstance();
+    return (void*)altseed::AddAndGetSharedPtr<altseed::Graphics>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Graphics*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Reload(void* cbg_self) {
+    auto cbg_self_ = (altseed::Texture2D*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->Reload();
+    return cbg_ret;
+}
+
+CBGEXPORT altseed::Vector2DI CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
+    auto cbg_self_ = (altseed::Texture2D*)(cbg_self);
+
+    altseed::Vector2DI cbg_ret = cbg_self_->GetSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Texture2D*)(cbg_self);
+
+    cbg_self_->Release();
+}
 
 
 }
