@@ -36,11 +36,11 @@ set(core_files
     IO/BaseFileReader.cpp
     IO/PackFileReader.h
     IO/PackFileReader.cpp
-	Graphics/Graphics.h
-	Graphics/Graphics.cpp
-	Graphics/Sprite.h
-	Graphics/Sprite.cpp
-	Graphics/Texture2D.h
+    Graphics/Graphics.h
+    Graphics/Graphics.cpp
+    Graphics/Sprite.h
+    Graphics/Sprite.cpp
+    Graphics/Texture2D.h
     Graphics/Texture2D.cpp
     Graphics/LLGIWindow.h
     Graphics/LLGIWindow.cpp
@@ -114,7 +114,7 @@ target_link_libraries(
     PRIVATE
     spdlog
     hidapi
-	LLGI
+    LLGI
     debug glfw3d
     optimized glfw3
     debug zip
@@ -206,7 +206,9 @@ add_dependencies(
     ExternalProject_glfw
     ExternalProject_zlib
     ExternalProject_libpng
-    ExternalProject_libzip)
+    ExternalProject_libzip
+    ExternalProject_glslang
+    ExternalProject_SPIRV-Cross)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
