@@ -91,15 +91,12 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/g
 # glslang
 ExternalProject_Add(
     ExternalProject_glslang
-    DEPENDS         ExternalProject_glslang
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/glslang
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/glslang
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/glslang
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
-                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/include
-                    -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/lib
                     -DBUILD_SHARED_LIBS=OFF
                     -DBUILD_TEST=OFF
                     -DENABLE_PCH=OFF
@@ -111,15 +108,12 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/g
 # SPIRV
 ExternalProject_Add(
     ExternalProject_SPIRV-Cross
-    DEPENDS         ExternalProject_SPIRV-Cross
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/SPIRV-Cross
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/SPIRV-Cross
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
-                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross/include
-                    -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross/lib
                     -DBUILD_SHARED_LIBS=OFF
                     -DBUILD_TEST=OFF
 )

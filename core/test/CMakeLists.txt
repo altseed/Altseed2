@@ -54,13 +54,33 @@ target_link_libraries(
     Altseed_Core_Test
     PRIVATE
     Altseed_Core
-    gtest
+    gtest)
+
+
+
+if (MSVC)
+
+target_link_libraries(
+    Altseed_Core_Test
+    PRIVATE
     debug glfw3d
     optimized glfw3)
 
-if (MSVC)
 elseif(APPLE)
+
+target_link_libraries(
+    Altseed_Core_Test
+    PRIVATE
+    debug glfw3d
+    optimized glfw3)
+
 else()
+
+target_link_libraries(
+    Altseed_Core_Test
+    PRIVATE
+    glfw3)
+
     find_package(X11 REQUIRED)
     target_link_libraries(Altseed_Core_Test PRIVATE ${X11_LIBRARIES})
 endif()

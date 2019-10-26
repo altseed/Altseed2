@@ -115,10 +115,7 @@ target_link_libraries(
     spdlog
     hidapi
     LLGI
-    debug glfw3d
-    optimized glfw3
-    debug zip
-    optimized zip
+    zip
     )
 
 if (MSVC)
@@ -130,7 +127,9 @@ if (MSVC)
         optimized libpng16_static
         debug zlibstaticd
         optimized zlibstatic
-        )
+        debug glfw3d
+        optimized glfw3
+    )
 
 elseif(APPLE)
 
@@ -150,7 +149,8 @@ elseif(APPLE)
         z
         debug png16d
         optimized png16
-        
+        debug glfw3d
+        optimized glfw3
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
         ${CORE_FOUNDATION_FRAMEWORK}
@@ -169,6 +169,7 @@ else()
     target_link_libraries(
         Altseed_Core
         PRIVATE
+        glfw3
         png16
         z
         stdc++fs
