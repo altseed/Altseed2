@@ -27,6 +27,11 @@ define = cbg.Define()
 
 define.structs.append(Vector2DI)
 
+# common
+define.classes.append(Int8Array)
+define.enums.append(ResourceType)
+define.classes.append(Resources)
+
 # input
 define.enums.append(Keys)
 
@@ -35,17 +40,8 @@ define.enums.append(DeviceType)
 define.classes.append(Graphics)
 define.classes.append(Texture2D)
 
-#define.classes.append(BaseFileReader)
-#define.classes.append(StreamFile)
-#define.classes.append(StaticFile)
-#define.classes.append(File)
-#define.classes.append(PackFile)
-#define.classes.append(FileRoot)
-#define.classes.append(PackFileReader)
-#define.classes.append(Bytes)
+# io
 
-#define.classes.append(ZipPtr)
-#define.classes.append(ZipFilePtr)
-#define.classes.append(ZipStatPtr)
-
-#define.enums.append(SeekOrigin)
+define.classes.append(StreamFile)
+define.classes.append(StaticFile)
+define.classes.append(File)
