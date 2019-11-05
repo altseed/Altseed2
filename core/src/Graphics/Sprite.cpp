@@ -2,12 +2,15 @@
 
 namespace altseed {
 
-Sprite::Sprite(LLGI::Vec2F position, LLGI::Vec2F size, LLGI::Texture* texture) : Position(position), Size(size), Texture(texture) {}
+Sprite::Sprite() {}
 
-std::array<LLGI::Vec2F, 4> Sprite::GetVertex() {
-    return std::array<LLGI::Vec2F, 4>{Position,
-                                      LLGI::Vec2F(Position.X + Size.X, Position.Y),
-                                      LLGI::Vec2F(Position.X + Size.X, Position.Y + Size.Y),
-                                      LLGI::Vec2F(Position.X, Position.Y + Size.Y)};
+std::array<LLGI::Vec2F, 4> Sprite::GetVertex(LLGI::Vec2I windowSize) {
+    return std::array<LLGI::Vec2F, 4>{
+            LLGI::Vec2F(position_.X, position_.Y),
+            LLGI::Vec2F(position_.X + size_.X, position_.Y),
+            LLGI::Vec2F(position_.X + size_.X, position_.Y + size_.Y),
+            LLGI::Vec2F(position_.X, position_.Y + size_.Y),
+    };
 }
+
 }  // namespace altseed

@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
+if(CMAKE_GENERATOR STREQUAL Xcode)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "" FORCE)
+endif()
+
 # solution name
 project(Altseed)
 
@@ -49,6 +53,9 @@ set_target_properties (ExternalProject_zlib PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libpng PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libzip PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_glslang PROPERTIES FOLDER thirdparty)
+set_target_properties (ExternalProject_SPIRV-Cross PROPERTIES FOLDER thirdparty)
+
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 set_target_properties (LLGI PROPERTIES FOLDER thirdparty)

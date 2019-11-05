@@ -98,13 +98,6 @@ void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInsta
 
 void Window::GetSize(int32_t& width, int32_t& height) { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
 
-void* Window::GetHandle() const {
-#ifdef _WIN32
-    return glfwGetWin32Window(GetInstance()->mainWindow_);
-#else
-    return nullptr;
-#endif
-}
 
 bool Window::DoEvent() {
     if (GetInstance()->mainWindow_ == nullptr) return false;

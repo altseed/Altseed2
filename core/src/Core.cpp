@@ -5,6 +5,7 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Window/Window.h"
+#include "Graphics/Graphics.h"
 
 namespace altseed {
 
@@ -44,6 +45,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
+	if(!Graphics::Initialize(Window::GetInstance())){
+        Core::instance = nullptr;
+        return false;
+	}
+
     return Core::instance != nullptr;
 }
 
@@ -54,6 +60,11 @@ void Core::Terminate() {
     }
 
     Window::Terminate();
+	Keyboard::Terminate();
+    Mouse::Terminate();
+	Resources::Terminate();
+	File::Terminate();
+	Graphics::Terminate();
 
     Core::instance = nullptr;
 }

@@ -1,38 +1,76 @@
+#include "Graphics/Graphics.h"
+
+#include <Core.h>
 #include <gtest/gtest.h>
 
 #include <memory>
 
-#include "Graphics/Graphics.h"
 #include "Graphics/Sprite.h"
 
-TEST(Grapgics, Initialize) {
-    EXPECT_TRUE(altseed::Graphics::Intialize());
+namespace asd = altseed;
+
+TEST(Graphics, Initialize) {
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 
-    auto t1 = altseed::Graphics::GetInstance()->CreateDameyTexture(0);
-    auto t2 = altseed::Graphics::GetInstance()->CreateDameyTexture(255);
+    auto instance = altseed::Graphics::GetInstance();
 
-    auto s1 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(-0.5, -0.5), LLGI::Vec2F(0.3, 0.3), t1);
-    auto s2 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(-0.5, 0.0), LLGI::Vec2F(0.3, 0.3), t2);
-    auto s3 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(-0.5, 0.5), LLGI::Vec2F(0.3, 0.3), t1);
-    auto s4 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.0, -0.5), LLGI::Vec2F(0.3, 0.3), t2);
-    auto s5 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.0, 0.0), LLGI::Vec2F(0.3, 0.3), t1);
-    auto s6 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.0, 0.5), LLGI::Vec2F(0.3, 0.3), t2);
-    auto s7 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.5, -0.5), LLGI::Vec2F(0.3, 0.3), t1);
-    auto s8 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.5, 0.0), LLGI::Vec2F(0.3, 0.3), t2);
-    auto s9 = std::make_shared<altseed::Sprite>(LLGI::Vec2F(0.5, 0.5), LLGI::Vec2F(0.3, 0.3), t1);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s1);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s2);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s3);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s4);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s5);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s6);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s7);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s8);
-    altseed::Graphics::GetInstance()->Sprites.push_back(s9);
+    auto t1 = instance->CreateDameyTexture(0);
+    auto t2 = instance->CreateDameyTexture(255);
 
-    while (count++ < 1000) EXPECT_TRUE(altseed::Graphics::GetInstance()->Update());
+    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto material = std::make_shared<altseed::Material>();
+    material->SetShader(shader);
+
+    {
+        int c = 0;
+        for (int x = 0; x <= 3; x++) {
+            for (int y = 0; y <= 3; y++) {
+                auto sprite = std::make_shared<altseed::Sprite>();
+                sprite->SetMaterial(material);
+                sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
+                sprite->SetSize(asd::Vector2DF(80, 80));
+                sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
+                instance->Sprites.push_back(sprite);
+            }
+        }
+    }
+
+    while (count++ < 1000 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+
+    altseed::Graphics::Terminate();
+}
+
+TEST(Graphics, Texture) {
+    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
+
+    int count = 0;
+
+    auto instance = altseed::Graphics::GetInstance();
+
+    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    auto t2 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+
+    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto material = std::make_shared<altseed::Material>();
+    material->SetShader(shader);
+
+    {
+        int c = 0;
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                auto sprite = std::make_shared<altseed::Sprite>();
+                sprite->SetMaterial(material);
+                sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
+                sprite->SetSize(asd::Vector2DF(80, 80));
+                sprite->SetTexture(c++ % 2 == 0 ? t1->GetNativeTexture() : t2->GetNativeTexture());
+                instance->Sprites.push_back(sprite);
+            }
+        }
+    }
+
+    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
     altseed::Graphics::Terminate();
 }

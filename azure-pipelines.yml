@@ -7,11 +7,40 @@ trigger:
 - master
 
 jobs:
+  - job: Windows
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            git submodule update --init
+            git lfs install
+            git lfs pull
+
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '.. -G "Visual Studio 15 2017" -DBUILD_TEST=ON'
+
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '--build . --config Release'
+
   - job: Linux
     pool:
       vmImage: 'ubuntu-16.04'
 
     steps:
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+            sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.1.121-xenial.list http://packages.lunarg.com/vulkan/1.1.121/lunarg-vulkan-1.1.121-xenial.list
+            sudo apt update
+            sudo apt -y install vulkan-sdk
+            
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -26,7 +55,7 @@ jobs:
             sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev
             sudo apt -y install libssl-dev
             sudo apt -y install libglu1-mesa-dev mesa-common-dev
-
+            
       - task: CMake@1
         inputs:
           cmakeArgs: '.. -DBUILD_TEST=ON'

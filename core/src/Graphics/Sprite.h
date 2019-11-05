@@ -1,19 +1,33 @@
 #pragma once
+
 #include <array>
+#include <memory>
+
 #include "Graphics.h"
 
 namespace altseed {
 class Sprite {
 private:
-    LLGI::Vec2F Position;
-    LLGI::Vec2F Size;
-    LLGI::Texture* Texture;
+    Vector2DF position_;
+    Vector2DF size_;
+    std::shared_ptr<LLGI::Texture> texture_;
+    std::shared_ptr<Material> material_;
 
 public:
-    Sprite(LLGI::Vec2F position, LLGI::Vec2F size, LLGI::Texture* texture);
-    LLGI::Vec2F GetPosition() const { return Position; }
-    LLGI::Vec2F GetSize() const { return Size; }
-    std::array<LLGI::Vec2F, 4> GetVertex();
-    LLGI::Texture* GetTexture() { return Texture; }
+    Sprite();
+
+    std::array<LLGI::Vec2F, 4> GetVertex(LLGI::Vec2I windowSize);
+
+    void SetPosition(Vector2DF position) { position_ = position; }
+    Vector2DF GetPosition() const { return position_; }
+
+    void SetSize(Vector2DF size) { size_ = size; }
+    Vector2DF GetSize() const { return size_; }
+
+    void SetMaterial(std::shared_ptr<Material>& material) { material_ = material; }
+    std::shared_ptr<Material> GetMaterial() const { return material_; }
+
+    void SetTexture(std::shared_ptr<LLGI::Texture>& Texture) { texture_ = Texture; }
+    std::shared_ptr<LLGI::Texture> GetTexture() const { return texture_; }
 };
 }  // namespace altseed

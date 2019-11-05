@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include "../Common/PlatformIncludes.h"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -39,9 +40,7 @@ public:
 
     void GetSize(int32_t& width, int32_t& height);
 
-    void* GetHandle() const;
-
-    void* GetNativeWindow() const { return mainWindow_; }
+    GLFWwindow* GetNativeWindow() const { return mainWindow_; }
 
     bool DoEvent();
 

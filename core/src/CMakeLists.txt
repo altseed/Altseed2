@@ -8,6 +8,7 @@ set(core_files
     Core.cpp
     BaseObject.h
     BaseObject.cpp
+    Wrapper.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
     Common/Resource.h
@@ -35,12 +36,43 @@ set(core_files
     IO/BaseFileReader.cpp
     IO/PackFileReader.h
     IO/PackFileReader.cpp
-	Graphics/Graphics.h
-	Graphics/Graphics.cpp
-	Graphics/Sprite.h
-	Graphics/Sprite.cpp
-	Graphics/Texture2D.h
-	Graphics/Texture2D.cpp
+    Graphics/Graphics.h
+    Graphics/Graphics.cpp
+    Graphics/Sprite.h
+    Graphics/Sprite.cpp
+    Graphics/Texture2D.h
+    Graphics/Texture2D.cpp
+    Graphics/LLGIWindow.h
+    Graphics/LLGIWindow.cpp
+    Graphics/Shader.h
+    Graphics/Shader.cpp
+    Graphics/Material.h
+    Graphics/Material.cpp
+    Math/MathTemplate.h
+    Math/Matrix33F.cpp
+    Math/Matrix33F.h
+    Math/Matrix33I.cpp
+    Math/Matrix33I.h
+    Math/Matrix44F.cpp
+    Math/Matrix44F.h
+    Math/Matrix44I.cpp
+    Math/Matrix44I.h
+    Math/RectF.cpp
+    Math/RectF.h
+    Math/RectI.cpp
+    Math/RectI.h
+    Math/Vector2DF.cpp
+    Math/Vector2DF.h
+    Math/Vector2DI.cpp
+    Math/Vector2DI.h
+    Math/Vector3DF.cpp
+    Math/Vector3DF.h
+    Math/Vector3DI.cpp
+    Math/Vector3DI.h
+    Math/Vector4DF.cpp
+    Math/Vector4DF.h
+    Math/Vector4DI.cpp
+    Math/Vector4DI.h
 )
 
 # specify project filters
@@ -82,14 +114,11 @@ target_link_libraries(
     PRIVATE
     spdlog
     hidapi
-	LLGI
-    debug glfw3d
-    optimized glfw3
-    debug zip
-    optimized zip
+    LLGI
+    zip
     )
 
-if (MSVC OR APPLE)
+if (MSVC)
 
     target_link_libraries(
         Altseed_Core
@@ -98,7 +127,39 @@ if (MSVC OR APPLE)
         optimized libpng16_static
         debug zlibstaticd
         optimized zlibstatic
-        )
+        debug glfw3d
+        optimized glfw3
+    )
+
+elseif(APPLE)
+
+    find_library(COCOA_FRAMEWORK Cocoa)
+    find_library(IOKIT_FRAMEWORK IOKit)
+    find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+    find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(METAL_LIBRARY Metal)
+    find_library(APPKIT_LIBRARY AppKit)
+    find_library(METALKIT_LIBRARY MetalKit)
+    find_library(QUARTZ_CORE_LIBRARY QuartzCore)
+
+    target_link_libraries(
+        Altseed_Core
+        PRIVATE
+        z
+        debug png16d
+        optimized png16
+        debug glfw3d
+        optimized glfw3
+        ${COCOA_FRAMEWORK}
+        ${IOKIT_FRAMEWORK}
+        ${CORE_FOUNDATION_FRAMEWORK}
+        ${CORE_VIDEO_FRAMEWORK}
+        ${APPKIT_LIBRARY}
+        ${METAL_LIBRARY}
+        ${METALKIT_LIBRARY}
+        ${QUARTZ_CORE_LIBRARY}
+    )
 
 else()
 
@@ -108,11 +169,14 @@ else()
     target_link_libraries(
         Altseed_Core
         PRIVATE
+        glfw3
         png16
         z
         stdc++fs
         ssl
         crypto
+        X11
+        X11-xcb
         )
 
 endif()
@@ -143,7 +207,9 @@ add_dependencies(
     ExternalProject_glfw
     ExternalProject_zlib
     ExternalProject_libpng
-    ExternalProject_libzip)
+    ExternalProject_libzip
+    ExternalProject_glslang
+    ExternalProject_SPIRV-Cross)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
