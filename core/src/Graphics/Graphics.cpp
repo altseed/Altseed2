@@ -50,6 +50,23 @@ bool Graphics::Update() {
 
     count++;
 
+    auto vsConsts = instance->sfMemoryPool_->CreateConstantBuffer(sizeof(VSConstants));
+    {
+        auto vsConstsBuf = static_cast<VSConstants*>(vsConsts->Lock());
+        ZeroMemory(vsConstsBuf, sizeof(VSConstants));
+        for (int i = 0; i < 4; i++) {
+            vsConstsBuf->View[i + i * 4] = 1.0f;
+            vsConstsBuf->Projection[i + i * 4] = 1.0f;
+        }
+
+        auto windowSize = llgiWindow_->GetWindowSize();
+        vsConstsBuf->Projection[0 + 0 * 4] = 2.0 / windowSize.X;
+        vsConstsBuf->Projection[1 + 1 * 4] = -2.0 / windowSize.Y;
+        vsConstsBuf->Projection[0 + 3 * 4] = -1.0f;
+        vsConstsBuf->Projection[1 + 3 * 4] = +1.0f;
+        vsConsts->Unlock();
+    }
+
     LLGI::Color8 color;
     color.R = count % 255;
     color.G = 0;
@@ -88,6 +105,7 @@ bool Graphics::Update() {
         commandList->SetPipelineState(pips[renderPassPipelineState].get());
         commandList->SetTexture(
                 g.first.get(), LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Nearest, 0, LLGI::ShaderStageType::Pixel);
+        commandList->SetConstantBuffer(vsConsts, LLGI::ShaderStageType::Vertex);
         commandList->Draw(g.second.sprites.size() * 2);
     }
     commandList->EndRenderPass();
@@ -95,6 +113,7 @@ bool Graphics::Update() {
     graphics_->Execute(commandList);
 
     platform_->Present();
+    LLGI::SafeRelease(vsConsts);
 
     count++;
 
@@ -198,7 +217,10 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
 }
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel) {
-    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(LLGI::Vec2I(width, height), true, false));
+    LLGI::TextureInitializationParameter params;
+    params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
+    params.Size = LLGI::Vec2I(width, height);
+    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(params));
     if (texture == nullptr) return nullptr;
 
     auto texture_buf = (LLGI::Color8*)texture->Lock();
@@ -222,6 +244,14 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
         }
     }
     texture->Unlock();
+    return texture;
+}
+std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int32_t height) {
+    LLGI::RenderTextureInitializationParameter params;
+    params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
+    params.Size = LLGI::Vec2I(width, height);
+    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateRenderTexture(params));
+    if (texture == nullptr) return nullptr;
     return texture;
 }
 

@@ -10,9 +10,8 @@ std::map<std::u16string, std::shared_ptr<std::mutex>> Texture2D::mtxs;
 
 Texture2D::Texture2D(
         std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, uint8_t* data, int32_t width, int32_t height) {
-    m_width = width;
-    m_height = height;
-    for (int32_t i = 0; i < m_width * m_height; i++) {
+    size_ = Vector2DI(width, height);
+    for (int32_t i = 0; i < size_.X * size_.Y; i++) {
         m_buffer.push_back(data[i]);
     }
     m_resources = resources;

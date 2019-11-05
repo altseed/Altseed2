@@ -31,6 +31,11 @@ class Sprite;
 class Shader;
 class Material;
 
+struct VSConstants {
+    float View[16];
+    float Projection[16];
+};
+
 struct SimpleVertex {
     LLGI::Vec3F Pos;
     LLGI::Vec2F UV;
@@ -77,10 +82,17 @@ public:
     std::vector<std::shared_ptr<Sprite>> Sprites;
     std::shared_ptr<LLGI::Texture> CreateDameyTexture(uint8_t b);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
+    std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height);
 
     std::shared_ptr<Shader> CreateShader(const char* code, LLGI::ShaderStageType shaderStageType = LLGI::ShaderStageType::Pixel);
 
     const char* HlslVSCode = R"(
+cbuffer Consts : register(b0)
+{
+  float4x4 matView;
+  float4x4 matProjection;
+};
+
 struct VS_INPUT{
     float3 Position : POSITION0;
 	float2 UV : UV0;
@@ -94,8 +106,12 @@ struct VS_OUTPUT{
     
 VS_OUTPUT main(VS_INPUT input){
     VS_OUTPUT output;
-        
-    output.Position = float4(input.Position, 1.0f);
+    float4 pos = float4(input.Position, 1.0f);
+
+    pos = mul(pos, matView);
+    pos = mul(pos, matProjection);
+
+    output.Position = pos;
 	output.UV = input.UV;
     output.Color = input.Color;
         
