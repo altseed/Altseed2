@@ -18,7 +18,10 @@ Texture2D::Texture2D(
     m_texture = texture;
 }
 
-Texture2D::~Texture2D() { LLGI::SafeRelease(m_texture); }
+Texture2D::~Texture2D() {
+    m_resources = nullptr;
+    m_texture = nullptr;
+}
 
 bool Texture2D::Reload() { return false; }
 

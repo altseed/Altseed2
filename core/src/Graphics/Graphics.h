@@ -30,6 +30,7 @@ namespace altseed {
 class Sprite;
 class Shader;
 class Material;
+class Camera;
 
 struct VSConstants {
     std::array<float, 16> View;
@@ -67,7 +68,10 @@ class Graphics : public BaseObject {
     LLGI::VertexBuffer* vb;
 
     std::unordered_map<std::shared_ptr<LLGI::Texture>, DrawGroup> Groups;
-    void UpdateBuffers();
+
+    LLGI::ConstantBuffer* SendConstantBuffer(Camera* camera);
+    void UpdateGroups();
+    void Render(Camera* camera, LLGI::CommandList* commandList);
 
 public:
     static bool Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType = LLGI::DeviceType::Default);
@@ -80,9 +84,11 @@ public:
     static void Terminate();
 
     std::vector<std::shared_ptr<Sprite>> Sprites;
+    std::vector<std::shared_ptr<Camera>> Cameras;
     std::shared_ptr<LLGI::Texture> CreateDameyTexture(uint8_t b);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
     std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height);
+    std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
 
     std::shared_ptr<Shader> CreateShader(const char* code, LLGI::ShaderStageType shaderStageType = LLGI::ShaderStageType::Pixel);
 

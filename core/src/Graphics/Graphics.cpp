@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
+#include "Camera.h"
 #include "Sprite.h"
 
 #ifdef _WIN32
@@ -50,34 +51,39 @@ bool Graphics::Update() {
 
     count++;
 
-    auto vsConsts = instance->sfMemoryPool_->CreateConstantBuffer(sizeof(VSConstants));
-    {
-        auto vsConstsBuf = static_cast<VSConstants*>(vsConsts->Lock());
-        vsConstsBuf->Projection.fill(0);
-        vsConstsBuf->View.fill(0);
+    UpdateGroups();
+    auto commandList = commandLists_[count % commandLists_.size()];
 
-        for (int i = 0; i < 4; i++) {
-            vsConstsBuf->View[i + i * 4] = 1.0f;
-            vsConstsBuf->Projection[i + i * 4] = 1.0f;
-        }
+    commandList->Begin();
+    for (auto& c : Cameras) {
+        Render(c.get(), commandList);
+    }
+    Render(nullptr, commandList);
+    commandList->End();
+    graphics_->Execute(commandList);
 
-        auto windowSize = llgiWindow_->GetWindowSize();
-        vsConstsBuf->Projection[0 + 0 * 4] = 2.0 / windowSize.X;
-        vsConstsBuf->Projection[1 + 1 * 4] = -2.0 / windowSize.Y;
-        vsConstsBuf->Projection[0 + 3 * 4] = -1.0f;
-        vsConstsBuf->Projection[1 + 3 * 4] = +1.0f;
-        vsConsts->Unlock();
+    platform_->Present();
+
+    return true;
+}
+
+void Graphics::Render(Camera* camera, LLGI::CommandList* commandList) {
+    auto vsConsts = SendConstantBuffer(camera);
+
+    LLGI::RenderPass* renderPass;
+    if (camera == nullptr) {
+        LLGI::Color8 color;
+        color.R = count % 255;
+        color.G = 0;
+        color.B = 0;
+        color.A = 255;
+        renderPass = instance->platform_->GetCurrentScreen(color, true);
+
+    } else {
+        renderPass = camera->GetRenderPass();
     }
 
-    LLGI::Color8 color;
-    color.R = count % 255;
-    color.G = 0;
-    color.B = 0;
-    color.A = 255;
-
-    UpdateBuffers();
-
-    auto renderPass = instance->platform_->GetCurrentScreen(color, true);
+    commandList->BeginRenderPass(renderPass);
     auto renderPassPipelineState = LLGI::CreateSharedPtr(instance->graphics_->CreateRenderPassPipelineState(renderPass));
     if (pips.count(renderPassPipelineState) == 0) {
         auto pip = graphics_->CreatePiplineState();
@@ -97,9 +103,6 @@ bool Graphics::Update() {
 
         pips[renderPassPipelineState] = LLGI::CreateSharedPtr(pip);
     }
-    auto commandList = commandLists_[count % commandLists_.size()];
-    commandList->Begin();
-    commandList->BeginRenderPass(renderPass);
 
     for (auto& g : Groups) {
         commandList->SetVertexBuffer(vb, sizeof(SimpleVertex), g.second.vb_offset * sizeof(SimpleVertex));
@@ -111,15 +114,8 @@ bool Graphics::Update() {
         commandList->Draw(g.second.sprites.size() * 2);
     }
     commandList->EndRenderPass();
-    commandList->End();
-    graphics_->Execute(commandList);
 
-    platform_->Present();
     LLGI::SafeRelease(vsConsts);
-
-    count++;
-
-    return true;
 }
 
 void Graphics::Terminate() {
@@ -133,7 +129,34 @@ void Graphics::Terminate() {
     instance = nullptr;
 }
 
-void Graphics::UpdateBuffers() {
+LLGI::ConstantBuffer* Graphics::SendConstantBuffer(Camera* camera) {
+    auto vsConsts = instance->sfMemoryPool_->CreateConstantBuffer(sizeof(VSConstants));
+    if (camera == nullptr) {
+        auto vsConstsBuf = static_cast<VSConstants*>(vsConsts->Lock());
+
+        vsConstsBuf->Projection.fill(0);
+        vsConstsBuf->View.fill(0);
+
+        for (int64_t i = 0; i < 4; i++) {
+            vsConstsBuf->View[i * 4 + i] = 1.0f;
+            vsConstsBuf->Projection[i * 4 + i] = 1.0f;
+        }
+        auto windowSize = llgiWindow_->GetWindowSize();
+        vsConstsBuf->Projection[0 * 4 + 0] = 2.0 / windowSize.X;
+        vsConstsBuf->Projection[1 * 4 + 1] = -2.0 / windowSize.Y;
+        vsConstsBuf->Projection[3 * 4 + 0] = -1.0f;
+        vsConstsBuf->Projection[3 * 4 + 1] = +1.0f;
+        vsConsts->Unlock();
+    } else {
+        auto vsConstsBuf = static_cast<VSConstants*>(vsConsts->Lock());
+        vsConstsBuf->Projection = camera->GetProjectionMatrix();
+        vsConstsBuf->View = camera->GetViewMatrix();
+        vsConsts->Unlock();
+    }
+    return vsConsts;
+}
+
+void Graphics::UpdateGroups() {
     std::array<LLGI::Vec2F, 4> UVs = {LLGI::Vec2F(0.0f, 0.0f), LLGI::Vec2F(1.0f, 0.0f), LLGI::Vec2F(1.0f, 1.0f), LLGI::Vec2F(0.0f, 1.0f)};
     auto vb_buf = reinterpret_cast<SimpleVertex*>(vb->Lock());
     auto ib_buf = reinterpret_cast<uint16_t*>(ib->Lock());
@@ -251,6 +274,7 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
     texture->Unlock();
     return texture;
 }
+
 std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int32_t height) {
     LLGI::RenderTextureInitializationParameter params;
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
@@ -258,6 +282,10 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int3
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateRenderTexture(params));
     if (texture == nullptr) return nullptr;
     return texture;
+}
+
+std::shared_ptr<LLGI::RenderPass> Graphics::CreateRenderPass(LLGI::Texture* renderTexture) {
+    return LLGI::CreateSharedPtr(graphics_->CreateRenderPass((const LLGI::Texture**)&renderTexture, 1, nullptr));
 }
 
 }  // namespace altseed

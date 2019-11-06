@@ -16,11 +16,10 @@ private:
     static std::map<std::u16string, std::shared_ptr<std::mutex>> mtxs;
 
     std::shared_ptr<Resources> m_resources = nullptr;
-
     std::vector<uint8_t> m_buffer;
-    std::shared_ptr<LLGI::Texture> m_texture = nullptr;
 
 protected:
+    std::shared_ptr<LLGI::Texture> m_texture = nullptr;
     Vector2DI size_;
     Texture2D(){};
 
