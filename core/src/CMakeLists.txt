@@ -48,6 +48,10 @@ set(core_files
     Graphics/Shader.cpp
     Graphics/Material.h
     Graphics/Material.cpp
+    Graphics/Font.h
+    Graphics/Font.cpp
+    Graphics/Color.h
+    Graphics/Color.cpp
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h
