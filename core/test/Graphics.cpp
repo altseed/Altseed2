@@ -9,7 +9,7 @@
 
 namespace asd = altseed;
 
-TEST(Grapgics, Initialize) {
+TEST(Graphics, Initialize) {
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
@@ -42,15 +42,18 @@ TEST(Grapgics, Initialize) {
     altseed::Graphics::Terminate();
 }
 
-TEST(Grapgics, Texture) {
+TEST(Graphics, Texture) {
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 
     auto instance = altseed::Graphics::GetInstance();
 
-    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     auto t2 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+
+	EXPECT_TRUE(t1 != nullptr);
+    EXPECT_TRUE(t2 != nullptr);
 
     auto shader = instance->CreateShader(instance->HlslPSCode);
     auto material = std::make_shared<altseed::Material>();
@@ -58,8 +61,8 @@ TEST(Grapgics, Texture) {
 
     {
         int c = 0;
-        for (int x = 0; x <= 3; x++) {
-            for (int y = 0; y <= 3; y++) {
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
                 auto sprite = std::make_shared<altseed::Sprite>();
                 sprite->SetMaterial(material);
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
@@ -70,7 +73,7 @@ TEST(Grapgics, Texture) {
         }
     }
 
-    while (count++ < 1000 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
     altseed::Graphics::Terminate();
 }
