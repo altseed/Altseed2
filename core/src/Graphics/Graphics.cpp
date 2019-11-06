@@ -202,7 +202,11 @@ std::shared_ptr<Shader> Graphics::CreateShader(const char* code, LLGI::ShaderSta
 }
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
-    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(LLGI::Vec2I(256, 256), false, false));
+
+	LLGI::TextureInitializationParameter texParam;
+    texParam.Size = LLGI::Vec2I(256, 256);
+
+    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(texParam));
     auto texture_buf = (LLGI::Color8*)texture->Lock();
     for (int y = 0; y < 256; y++) {
         for (int x = 0; x < 256; x++) {
