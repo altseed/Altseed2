@@ -10,6 +10,7 @@ set(core_test_files
     File.cpp
     Graphics.cpp
     Texture2D.cpp
+    Font.cpp
 )
 
 # specify project filters
