@@ -49,8 +49,11 @@ TEST(Graphics, Texture) {
 
     auto instance = altseed::Graphics::GetInstance();
 
-    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     auto t2 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+
+	EXPECT_TRUE(t1 != nullptr);
+    EXPECT_TRUE(t2 != nullptr);
 
     auto shader = instance->CreateShader(instance->HlslPSCode);
     auto material = std::make_shared<altseed::Material>();

@@ -32,8 +32,8 @@ class Shader;
 class Material;
 
 struct VSConstants {
-    float View[16];
-    float Projection[16];
+    std::array<float, 16> View;
+    std::array<float, 16> Projection;
 };
 
 struct SimpleVertex {

@@ -53,7 +53,9 @@ bool Graphics::Update() {
     auto vsConsts = instance->sfMemoryPool_->CreateConstantBuffer(sizeof(VSConstants));
     {
         auto vsConstsBuf = static_cast<VSConstants*>(vsConsts->Lock());
-        ZeroMemory(vsConstsBuf, sizeof(VSConstants));
+        vsConstsBuf->Projection.fill(0);
+        vsConstsBuf->View.fill(0);
+
         for (int i = 0; i < 4; i++) {
             vsConstsBuf->View[i + i * 4] = 1.0f;
             vsConstsBuf->Projection[i + i * 4] = 1.0f;
@@ -202,11 +204,10 @@ std::shared_ptr<Shader> Graphics::CreateShader(const char* code, LLGI::ShaderSta
 }
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
-
-	LLGI::TextureInitializationParameter texParam;
+    LLGI::TextureInitializationParameter texParam;
     texParam.Size = LLGI::Vec2I(256, 256);
 
-    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(texParam));
+    std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(texParam));
     auto texture_buf = (LLGI::Color8*)texture->Lock();
     for (int y = 0; y < 256; y++) {
         for (int x = 0; x < 256; x++) {
@@ -224,7 +225,7 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
     LLGI::TextureInitializationParameter params;
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
     params.Size = LLGI::Vec2I(width, height);
-    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateTexture(params));
+    std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(params));
     if (texture == nullptr) return nullptr;
 
     auto texture_buf = (LLGI::Color8*)texture->Lock();
@@ -254,7 +255,7 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int3
     LLGI::RenderTextureInitializationParameter params;
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
     params.Size = LLGI::Vec2I(width, height);
-    std::shared_ptr<LLGI::Texture> texture(graphics_->CreateRenderTexture(params));
+    std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateRenderTexture(params));
     if (texture == nullptr) return nullptr;
     return texture;
 }
