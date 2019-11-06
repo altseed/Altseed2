@@ -83,7 +83,7 @@ Font* Font::LoadStaticFont(const char16_t* path) { return nullptr; }
 
 bool Font::Reload() { return false; }
 
-void* Font::AddGlyphTexture(const char16_t character) {
+void Font::AddGlyphTexture(const char16_t character) {
     int32_t c_x1, c_y1, c_x2, c_y2;
     stbtt_GetCodepointBitmapBox(&fontinfo_, character, scale_, scale_, &c_x1, &c_y1, &c_x2, &c_y2);
 
@@ -93,15 +93,15 @@ void* Font::AddGlyphTexture(const char16_t character) {
     int32_t h = ascent_ - descent_;
 
     uint8_t* raw = new uint8_t[w * h];
-    stbtt_MakeCodepointBitmap(&fontinfo_, raw + ascent_ + c_y1, c_x2 - c_x1, c_y2 - c_y1, w, scale_, scale_, character);
+    stbtt_MakeCodepointBitmap(&fontinfo_, raw + (ascent_ + c_y1) * w, c_x2 - c_x1, c_y2 - c_y1, w, scale_, scale_, character);
 
     uint8_t* bitmap = new uint8_t[w * h * 4];
     for (int32_t y = 0; y < h; y++) {
         for (int32_t x = 0; x < w; x++) {
-            bitmap[4 * (x + y * w)] = color_.R * raw[x + y * w];
-            bitmap[4 * (x + y * w) + 1] = color_.G * raw[x + y * w];
-            bitmap[4 * (x + y * w) + 2] = color_.B * raw[x + y * w];
-            bitmap[4 * (x + y * w) + 3] = color_.A * raw[x + y * w];
+            bitmap[4 * (x + y * w)] = (uint8_t)(color_.R * raw[x + y * w] / 255.0);
+            bitmap[4 * (x + y * w) + 1] = (uint8_t)(color_.G * raw[x + y * w] / 255.0);
+            bitmap[4 * (x + y * w) + 2] = (uint8_t)(color_.B * raw[x + y * w] / 255.0);
+            bitmap[4 * (x + y * w) + 3] = (uint8_t)(color_.A * raw[x + y * w] / 255.0);
         }
     }
 

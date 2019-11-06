@@ -1,9 +1,9 @@
 #pragma once
 
+#define STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 #include <map>
 #include <memory>
-#define STB_TRUETYPE_IMPLEMENTATION
 #include "../Common/Resource.h"
 #include "../IO/StaticFile.h"
 #include "../Math/Vector2DI.h"
@@ -36,7 +36,7 @@ public:
 
     Texture2D* GetGlyphTexture(const char16_t character);
 
-	int32_t GetKerning(const char16_t c1, const char16_t c2);
+    int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
     static Font* LoadDynamicFont(const char16_t* path, int32_t size, Color color);
@@ -45,6 +45,6 @@ public:
     bool Reload() override;
 
 private:
-    void* AddGlyphTexture(const char16_t character);
+    void AddGlyphTexture(const char16_t character);
 };
 }  // namespace altseed
