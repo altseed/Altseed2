@@ -26,19 +26,19 @@ TEST(Font, Basic) {
 
     char16_t* text = u"‚±‚ñ‚É‚¿‚ÍI Hello World";
     asd::Vector2DF position(100, 100);
-    position -= asd::Vector2DF(font->GetSize() / 2, font->GetSize() / 2);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
         auto glyph = font->GetGlyph(text[i]);
         if (glyph == nullptr) continue;
 
+        auto tempPosition = position + glyph->GetOffset().To2DF();
         auto sprite = std::make_shared<asd::Sprite>();
         sprite->SetMaterial(material);
         sprite->SetTexture(glyph->GetNativeTexture());
-        sprite->SetPosition(position);
+        sprite->SetPosition(tempPosition);
         sprite->SetSize(glyph->GetSize().To2DF());
         position += asd::Vector2DF(glyph->GetGlyphWidth(), 0);
 
-		if (i != std::char_traits<char16_t>::length(text) - 1) position += asd::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
+        if (i != std::char_traits<char16_t>::length(text) - 1) position += asd::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
         instance->Sprites.push_back(sprite);
     }
 

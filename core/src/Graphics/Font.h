@@ -74,8 +74,20 @@ float4 main(PS_INPUT input) : SV_TARGET
 { 
 	float4 c;
 	c = txt.Sample(smp, input.UV);
-	c.a = 255;
-	return c;
+
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - 0.5) * 255);
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + 0.5);
+	if (c.r > 1)
+	{
+		return float4(1, 1, 1, 1);
+	}
+	if (c.r > 0) 
+	{
+		c += 0.5;
+		c = input.Color + c * c.a;
+		return c;
+	} 
+	return (float)0;
 }
 )";
 
