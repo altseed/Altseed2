@@ -20,22 +20,23 @@ TEST(Font, Basic) {
 
     auto font = asd::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, asd::Color(255, 0, 0, 255));
 
-    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto shader = instance->CreateShader(asd::Font::HlslCode);
     auto material = std::make_shared<asd::Material>();
     material->SetShader(shader);
 
     char16_t* text = u"‚±‚ñ‚É‚¿‚ÍI Hello World";
     asd::Vector2DF position(100, 100);
+    position -= asd::Vector2DF(font->GetSize() / 2, font->GetSize() / 2);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
-        auto texture = font->GetGlyphTexture(text[i]);
-        if (texture == nullptr) continue;
+        auto glyph = font->GetGlyph(text[i]);
+        if (glyph == nullptr) continue;
 
         auto sprite = std::make_shared<asd::Sprite>();
         sprite->SetMaterial(material);
-        sprite->SetTexture(texture->GetNativeTexture());
+        sprite->SetTexture(glyph->GetNativeTexture());
         sprite->SetPosition(position);
-        sprite->SetSize(texture->GetSize().To2DF());
-        position += asd::Vector2DF(texture->GetSize().X, 0);
+        sprite->SetSize(glyph->GetSize().To2DF());
+        position += asd::Vector2DF(glyph->GetGlyphWidth(), 0);
 
 		if (i != std::char_traits<char16_t>::length(text) - 1) position += asd::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
         instance->Sprites.push_back(sprite);
