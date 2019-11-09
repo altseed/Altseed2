@@ -248,10 +248,11 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
     LLGI::TextureInitializationParameter params;
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
     params.Size = LLGI::Vec2I(width, height);
+
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(params));
     if (texture == nullptr) return nullptr;
-
-    auto texture_buf = (LLGI::Color8*)texture->Lock();
+   
+	auto texture_buf = (LLGI::Color8*)texture->Lock();
     if (channel == 4) {
         for (int32_t y = 0; y < height; y++) {
             for (int32_t x = 0; x < width; x++) {
@@ -270,7 +271,17 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
                 texture_buf[x + y * width].A = 255;
             }
         }
-    }
+    } else if (channel == 1) {
+        for (int32_t y = 0; y < height; y++) {
+            for (int32_t x = 0; x < width; x++) {
+                texture_buf[x + y * width].R = data[x + y * width];
+                texture_buf[x + y * width].G = data[x + y * width];
+                texture_buf[x + y * width].B = data[x + y * width];
+                texture_buf[x + y * width].A = 255;
+            }
+        }
+	}
+
     texture->Unlock();
     return texture;
 }

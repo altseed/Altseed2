@@ -138,7 +138,6 @@ float4 main(PS_INPUT input) : SV_TARGET
 { 
 	float4 c;
 	c = txt.Sample(smp, input.UV);
-	c.a = 255;
 	return c;
 }
 )";

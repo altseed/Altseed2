@@ -5,6 +5,16 @@
 
 namespace altseed {
 
+Glyph::Glyph(
+        std::shared_ptr<Resources>& resources,
+        std::shared_ptr<LLGI::Texture>& texture,
+        uint8_t* data,
+        int32_t width,
+        int32_t height,
+        Vector2DI offset,
+        int32_t glyphWidth)
+    : Texture2D(resources, texture, data, width, height), offset_(offset), glyphWidth_(glyphWidth) {}
+
 Font::Font(std::shared_ptr<Resources>& resources, StaticFile* file, stbtt_fontinfo fontinfo, int32_t size, Color color)
     : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
@@ -21,11 +31,11 @@ Font::~Font() {
     }
 }
 
-Texture2D* Font::GetGlyphTexture(const char16_t character) {
-    if (glyphTextures_.count(character)) return glyphTextures_[character];
+Glyph* Font::GetGlyph(const char16_t character) {
+    if (glyphs_.count(character)) return glyphs_[character];
 
-    AddGlyphTexture(character);
-    return glyphTextures_[character];
+    AddGlyph(character);
+    return glyphs_[character];
 }
 
 int32_t Font::GetKerning(const char16_t c1, const char16_t c2) {
@@ -43,13 +53,13 @@ Vector2DI Font::CalcTextureSize(const char16_t* text, WritingDirection direction
             continue;
         }
 
-        auto texture = GetGlyphTexture(text[i]);
-        if (texture != nullptr) w += texture->GetSize().X;
+        auto glyph = GetGlyph(text[i]);
+        if (glyph != nullptr) w += glyph->GetGlyphWidth();
 
         if (isEnableKerning && i != std::char_traits<char16_t>::length(text) - 1) w += GetKerning(text[i], text[i + 1]);
     }
 
-	int32_t h = (ascent_ - descent_) * l;
+    int32_t h = (ascent_ - descent_) * l;
     return direction == WritingDirection::Horizontal ? Vector2DI(w, h) : Vector2DI(h, w);
 }
 
@@ -83,31 +93,23 @@ Font* Font::LoadStaticFont(const char16_t* path) { return nullptr; }
 
 bool Font::Reload() { return false; }
 
-void Font::AddGlyphTexture(const char16_t character) {
-    int32_t c_x1, c_y1, c_x2, c_y2;
-    stbtt_GetCodepointBitmapBox(&fontinfo_, character, scale_, scale_, &c_x1, &c_y1, &c_x2, &c_y2);
+void Font::AddGlyph(const char16_t character) {
+    Vector2DI offset;
+    int32_t w, h, glyphW;
 
-    int32_t w;
-    stbtt_GetCodepointHMetrics(&fontinfo_, character, &w, 0);
-    w *= scale_;
-    int32_t h = ascent_ - descent_;
-
-    uint8_t* raw = new uint8_t[w * h];
-    stbtt_MakeCodepointBitmap(&fontinfo_, raw + (ascent_ + c_y1) * w, c_x2 - c_x1, c_y2 - c_y1, w, scale_, scale_, character);
-
-    uint8_t* bitmap = new uint8_t[w * h * 4];
-    for (int32_t y = 0; y < h; y++) {
-        for (int32_t x = 0; x < w; x++) {
-            bitmap[4 * (x + y * w)] = (uint8_t)(color_.R * raw[x + y * w] / 255.0);
-            bitmap[4 * (x + y * w) + 1] = (uint8_t)(color_.G * raw[x + y * w] / 255.0);
-            bitmap[4 * (x + y * w) + 2] = (uint8_t)(color_.B * raw[x + y * w] / 255.0);
-            bitmap[4 * (x + y * w) + 3] = (uint8_t)(color_.A * raw[x + y * w] / 255.0);
-        }
+    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, GetSize() / 2, 128, 1, &w, &h, &offset.X, &offset.Y);
+    if (data == nullptr) {
+        glyphs_[character] = nullptr;
+        return;
     }
 
-    auto llgiTexture = Graphics::GetInstance()->CreateTexture(bitmap, w, h, 4);
-    Texture2D* texture = new Texture2D(std::shared_ptr<Resources>(), llgiTexture, bitmap, w, h);
+    stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
+    glyphW *= scale_;
 
-    glyphTextures_[character] = texture;
+    auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, 1);
+    Glyph* glyph = new Glyph(std::shared_ptr<Resources>(nullptr), llgiTexture, data, w, h, offset, glyphW);
+
+    glyphs_[character] = glyph;
 }
+
 }  // namespace altseed

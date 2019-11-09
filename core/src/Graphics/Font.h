@@ -13,6 +13,24 @@
 namespace altseed {
 enum class WritingDirection : int32_t { Vertical, Horizontal };
 
+class Glyph : public Texture2D {
+private:
+    Vector2DI offset_;
+    int32_t glyphWidth_;
+
+public:
+    Glyph(std::shared_ptr<Resources>& resources,
+          std::shared_ptr<LLGI::Texture>& texture,
+          uint8_t* data,
+          int32_t width,
+          int32_t height,
+          Vector2DI offset,
+          int32_t glyphWidth);
+
+    Vector2DI GetOffset() { return offset_; }
+    int32_t GetGlyphWidth() { return glyphWidth_; }
+};
+
 class Font : public Resource {
 private:
     std::shared_ptr<Resources> resources_;
@@ -25,6 +43,7 @@ private:
     Color color_;
     StaticFile* file_;
 
+    std::map<char16_t, Glyph*> glyphs_;
     std::map<char16_t, Texture2D*> glyphTextures_;
 
 public:
@@ -34,7 +53,7 @@ public:
     Color GetColor() { return color_; }
     int32_t GetSize() { return size_; }
 
-    Texture2D* GetGlyphTexture(const char16_t character);
+    Glyph* GetGlyph(const char16_t character);
 
     int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
@@ -42,9 +61,39 @@ public:
     static Font* LoadDynamicFont(const char16_t* path, int32_t size, Color color);
     static Font* LoadStaticFont(const char16_t* path);
 
+    static inline const char* HlslPSCode = R"(
+Texture2D txt : register(t8);
+SamplerState smp : register(s8);
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+	float2  UV : UV0;
+    float4  Color    : COLOR0;
+};
+float4 main(PS_INPUT input) : SV_TARGET 
+{ 
+	float4 c;
+	c = txt.Sample(smp, input.UV);
+
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - 0.5) * 255);
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + 0.5);
+	if (c.r > 1)
+	{
+		return float4(1, 1, 1, 1);
+	}
+	if (c.r > 0) 
+	{
+		c += 0.5;
+		c = input.Color + c * c.a;
+		return c;
+	} 
+	return (float)0;
+}
+)";
+
     bool Reload() override;
 
 private:
-    void AddGlyphTexture(const char16_t character);
+    void AddGlyph(const char16_t character);
 };
 }  // namespace altseed
