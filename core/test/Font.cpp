@@ -20,7 +20,7 @@ TEST(Font, Basic) {
 
     auto font = asd::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, asd::Color(255, 0, 0, 255));
 
-    auto shader = instance->CreateShader(asd::Font::HlslCode);
+    auto shader = instance->CreateShader(asd::Font::HlslPSCode);
     auto material = std::make_shared<asd::Material>();
     material->SetShader(shader);
 

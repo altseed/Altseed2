@@ -61,7 +61,23 @@ public:
     static Font* LoadDynamicFont(const char16_t* path, int32_t size, Color color);
     static Font* LoadStaticFont(const char16_t* path);
 
-	static const char* HlslCode;
+    static inline const char* HlslPSCode = R"(
+Texture2D txt : register(t8);
+SamplerState smp : register(s8);
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+	float2  UV : UV0;
+    float4  Color    : COLOR0;
+};
+float4 main(PS_INPUT input) : SV_TARGET 
+{ 
+	float4 c;
+	c = txt.Sample(smp, input.UV);
+	c.a = 255;
+	return c;
+}
+)";
 
     bool Reload() override;
 
