@@ -1,4 +1,4 @@
-#include "Graphics/Graphics.h"
+ï»¿#include "Graphics/Graphics.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -20,11 +20,11 @@ TEST(Font, Basic) {
 
     auto font = asd::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, asd::Color(255, 0, 0, 255));
 
-    auto shader = instance->CreateShader(asd::Font::HlslPSCode);
+    auto shader = instance->CreateShader(font->HlslPSCode);
     auto material = std::make_shared<asd::Material>();
     material->SetShader(shader);
 
-    char16_t* text = u"‚±‚ñ‚É‚¿‚ÍI Hello World";
+    char16_t* text = u"ã“ã‚“ã«ã¡ã¯ï¼ Hello World";
     asd::Vector2DF position(100, 100);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
         auto glyph = font->GetGlyph(text[i]);

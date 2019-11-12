@@ -107,7 +107,7 @@ void Font::AddGlyph(const char16_t character) {
     glyphW *= scale_;
 
     auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, 1);
-    Glyph* glyph = new Glyph(std::shared_ptr<Resources>(nullptr), llgiTexture, data, w, h, offset, glyphW);
+    Glyph* glyph = new Glyph(Resources::GetInstance(), llgiTexture, data, w, h, offset, glyphW);
 
     glyphs_[character] = glyph;
 }

@@ -61,7 +61,7 @@ public:
     static Font* LoadDynamicFont(const char16_t* path, int32_t size, Color color);
     static Font* LoadStaticFont(const char16_t* path);
 
-    static inline const char* HlslPSCode = R"(
+    const char* HlslPSCode = R"(
 Texture2D txt : register(t8);
 SamplerState smp : register(s8);
 struct PS_INPUT
