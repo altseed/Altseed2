@@ -88,7 +88,9 @@ TEST(Graphics, Camera) {
 
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
-    auto cam = std::make_shared<asd::Camera>(asd::Vector2DI(40, 40), asd::Vector2DI(256, 256));
+    auto cam = std::make_shared<asd::Camera>();
+    auto rt = std::make_shared<asd::RenderTexture>(asd::Vector2DI(256, 256));
+    cam->SetTarget(rt);
     instance->Cameras.push_back(cam);
 
     EXPECT_TRUE(t1 != nullptr);
@@ -118,7 +120,7 @@ TEST(Graphics, Camera) {
         sprite->SetMaterial(material);
         sprite->SetPosition(asd::Vector2DF(900, 100));
         sprite->SetSize(asd::Vector2DF(256, 256));
-        sprite->SetTexture(cam->GetNativeTexture());
+        sprite->SetTexture(cam->GetTarget()->GetNativeTexture());
         instance->Sprites.push_back(sprite);
     }
 

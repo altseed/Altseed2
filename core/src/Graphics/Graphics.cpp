@@ -56,7 +56,7 @@ bool Graphics::Update() {
 
     commandList->Begin();
     for (auto& c : Cameras) {
-        Render(c.get(), commandList);
+        if (c->GetTarget() != nullptr) Render(c.get(), commandList);
     }
     Render(nullptr, commandList);
     commandList->End();
@@ -80,7 +80,7 @@ void Graphics::Render(Camera* camera, LLGI::CommandList* commandList) {
         renderPass = instance->platform_->GetCurrentScreen(color, true);
 
     } else {
-        renderPass = camera->GetRenderPass();
+        renderPass = camera->GetTarget()->GetRenderPass();
     }
 
     commandList->BeginRenderPass(renderPass);
@@ -251,8 +251,8 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
 
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(params));
     if (texture == nullptr) return nullptr;
-   
-	auto texture_buf = (LLGI::Color8*)texture->Lock();
+
+    auto texture_buf = (LLGI::Color8*)texture->Lock();
     if (channel == 4) {
         for (int32_t y = 0; y < height; y++) {
             for (int32_t x = 0; x < width; x++) {
@@ -280,7 +280,7 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
                 texture_buf[x + y * width].A = 255;
             }
         }
-	}
+    }
 
     texture->Unlock();
     return texture;

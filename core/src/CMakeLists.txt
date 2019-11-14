@@ -54,6 +54,8 @@ set(core_files
     Graphics/Font.cpp
     Graphics/Color.h
     Graphics/Color.cpp
+    Graphics/RenderTexture.h
+    Graphics/RenderTexture.cpp
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h
