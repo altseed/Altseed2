@@ -1,4 +1,4 @@
-#include "Core.h"
+﻿#include "Core.h"
 
 #include "BaseObject.h"
 #include "IO/File.h"

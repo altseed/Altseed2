@@ -1,4 +1,4 @@
-#include "PackFile.h"
+﻿#include "PackFile.h"
 #include "../Common/StringHelper.h"
 
 namespace altseed {

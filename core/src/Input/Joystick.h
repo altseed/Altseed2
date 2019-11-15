@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <stdio.h>
 #include <array>
@@ -86,7 +86,7 @@ namespace altseed {
         
         Window*        window = nullptr;
 
-//        hid_write 用
+//        hid_write ç”¨
         uint8_t globalCount;
         
         std::array<JoystickType, MAX_JOYSTICKS_NUM>        types;

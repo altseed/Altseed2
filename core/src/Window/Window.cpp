@@ -1,4 +1,4 @@
-#include "Window.h"
+﻿#include "Window.h"
 #include "../Common/StringHelper.h"
 
 #include <codecvt>

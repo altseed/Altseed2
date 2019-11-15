@@ -1,4 +1,4 @@
-#include "PackFileReader.h"
+﻿#include "PackFileReader.h"
 #include <algorithm>
 #include <iterator>
 

@@ -1,4 +1,4 @@
-#include "Vector4DI.h"
+﻿#include "Vector4DI.h"
 
 namespace altseed {
 Vector4DI::Vector4DI() : X(0), Y(0), Z(0), W(0) {}

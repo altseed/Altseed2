@@ -1,4 +1,4 @@
-#include "FileRoot.h"
+﻿#include "FileRoot.h"
 namespace altseed {
 FileRoot::FileRoot(const std::u16string& path) : m_packFile(nullptr), m_path(path) {
     if (m_path.back() != u'\\' && m_path.back() != u'/') m_path += u'/';

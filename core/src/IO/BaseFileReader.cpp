@@ -1,4 +1,4 @@
-#include "BaseFileReader.h"
+﻿#include "BaseFileReader.h"
 #include <assert.h>
 #include "../Common/StringHelper.h"
 

@@ -1,4 +1,4 @@
-#include "Material.h"
+﻿#include "Material.h"
 
 // hogehoge
 #include <glslang/Public/ShaderLang.h>
