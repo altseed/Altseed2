@@ -12,7 +12,7 @@ if len(sys.argv) == 2:
 if root[(len(root) - 1):len(root)] != "/":
     root += "/"
 
-extensions = { "cpp", "h" }
+extensions = [ "cpp", "h" ]
 for ext in extensions:
     for path in glob.glob(root + "**/*." + ext, recursive=True):
         text = ""
