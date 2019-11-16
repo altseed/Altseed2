@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <zip.h>
 #include "BaseFileReader.h"

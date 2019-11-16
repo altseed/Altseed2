@@ -1,4 +1,4 @@
-
+﻿
 
 #if defined(_M_X86) && defined(__x86__)
 #include <emmintrin.h>

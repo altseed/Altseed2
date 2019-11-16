@@ -1,4 +1,4 @@
-#include "RectI.h"
+﻿#include "RectI.h"
 #include "RectF.h"
 #include "Vector2DI.h"
 

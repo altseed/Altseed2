@@ -1,4 +1,4 @@
-#include "Vector2DF.h"
+﻿#include "Vector2DF.h"
 #include "Vector2DI.h"
 
 namespace altseed {

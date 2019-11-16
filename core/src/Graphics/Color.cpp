@@ -1,4 +1,4 @@
-#include "Color.h"
+﻿#include "Color.h"
 
 namespace altseed {
 Color::Color() : A(255), R(255), G(255), B(255) {}

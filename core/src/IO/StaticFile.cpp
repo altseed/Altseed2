@@ -1,4 +1,4 @@
-#include "StaticFile.h"
+﻿#include "StaticFile.h"
 #include <vector>
 #include "File.h"
 
