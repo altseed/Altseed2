@@ -220,7 +220,9 @@ bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt
                 if (!file.is_open()) return false;
 
                 int size = fs::file_size(i.path());
-                char* buffer = new char[size];
+
+                // libzip requires malloced buffer (not new)
+                char* buffer = static_cast<char*>(malloc(size));
                 file.read(buffer, size);
                 zip_source_t* zipSource;
                 zip_error error;

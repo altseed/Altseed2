@@ -12,6 +12,11 @@
 namespace asd = altseed;
 
 TEST(Font, Basic) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
