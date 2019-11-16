@@ -11,17 +11,30 @@
 namespace asd = altseed;
 
 TEST(Graphics, Initialize) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 
     auto instance = altseed::Graphics::GetInstance();
+    EXPECT_TRUE(instance != nullptr);
 
     auto t1 = instance->CreateDameyTexture(0);
+    EXPECT_TRUE(t1 != nullptr);
+
     auto t2 = instance->CreateDameyTexture(255);
+    EXPECT_TRUE(t2 != nullptr);
 
     auto shader = instance->CreateShader(instance->HlslPSCode);
+    EXPECT_TRUE(shader != nullptr);
+
     auto material = std::make_shared<altseed::Material>();
+    EXPECT_TRUE(material != nullptr);
+
     material->SetShader(shader);
 
     {
@@ -44,6 +57,11 @@ TEST(Graphics, Initialize) {
 }
 
 TEST(Graphics, Texture) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;
@@ -80,6 +98,11 @@ TEST(Graphics, Texture) {
 }
 
 TEST(Graphics, Camera) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
 
     int count = 0;

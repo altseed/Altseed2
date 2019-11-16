@@ -24,7 +24,7 @@ TEST(Font, Basic) {
     auto material = std::make_shared<asd::Material>();
     material->SetShader(shader);
 
-    char16_t* text = u"こんにちは！ Hello World";
+    const char16_t* text = u"こんにちは！ Hello World";
     asd::Vector2DF position(100, 100);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
         auto glyph = font->GetGlyph(text[i]);
