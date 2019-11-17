@@ -1,4 +1,4 @@
-#include "Matrix33F.h"
+ï»¿#include "Matrix33F.h"
 
 namespace altseed {
 Matrix33F::Matrix33F() { SetIdentity(); }
@@ -37,7 +37,7 @@ Matrix33F& Matrix33F::SetInverted() {
     float a32 = this->Values[2][1];
     float a33 = this->Values[2][2];
 
-    /* s—ñ®‚ÌŒvZ */
+    /* è¡Œåˆ—å¼ã®è¨ˆç®— */
     float b11 = +a22 * a33 - a23 * a32;
     float b12 = +a13 * a32 - a12 * a33;
     float b13 = +a12 * a23 - a13 * a22;
@@ -50,7 +50,7 @@ Matrix33F& Matrix33F::SetInverted() {
     float b32 = +a12 * a31 - a11 * a32;
     float b33 = +a11 * a22 - a12 * a21;
 
-    // s—ñ®‚Ì‹t”‚ğ‚©‚¯‚é
+    // è¡Œåˆ—å¼ã®é€†æ•°ã‚’ã‹ã‘ã‚‹
     float Det = a11 * a22 * a33 + a21 * a32 * a13 + a31 * a12 * a23 - a11 * a32 * a23 - a31 * a22 * a13 - a21 * a12 * a33;
     if ((-e <= Det) && (Det <= +e)) {
         return *this;

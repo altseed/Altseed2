@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "MathTemplate.h"
 #include "Vector2DI.h"

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Vector2DF.h"
 #include "Vector3DF.h"
 

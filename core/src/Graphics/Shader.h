@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <memory>
 
@@ -9,7 +9,7 @@ namespace altseed {
 
 class Shader : public BaseObject {
 private:
-    LLGI::Shader* shader_;
+    LLGI::Shader* shader_ = nullptr;
 
 public:
     LLGI::Shader* Get() const { return shader_; }

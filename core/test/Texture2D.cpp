@@ -8,6 +8,11 @@
 namespace asd = altseed;
 
 TEST(Texture2D, Base) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
 
     // pack files
@@ -46,6 +51,11 @@ TEST(Texture2D, Base) {
 }
 
 TEST(Texture2D, Async) {
+
+#if defined(__APPLE__) || defined(__linux__)
+    return;
+#endif
+
     EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
 
     // pack files

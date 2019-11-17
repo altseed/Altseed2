@@ -7,10 +7,10 @@ namespace asd = altseed;
 
 TEST(BaseObject, Basic) {
     EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
-    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), 0);
+    auto defaultObjectCount = asd::Core::GetInstance()->GetBaseObjectCount();
 
     auto baseObject = new asd::BaseObject();
-    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), 1);
+    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount + 1);
 
     EXPECT_EQ(baseObject->GetRef(), 1);
     baseObject->AddRef();
@@ -19,7 +19,7 @@ TEST(BaseObject, Basic) {
     EXPECT_EQ(baseObject->GetRef(), 1);
     baseObject->Release();
 
-    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), 0);
+    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount);
 
     asd::Core::Terminate();
 }

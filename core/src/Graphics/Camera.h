@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <LLGI.Base.h>
 #include <LLGI.Graphics.h>

@@ -1,4 +1,4 @@
-#include "Font.h"
+﻿#include "Font.h"
 #include <string>
 #include "../IO/File.h"
 #include "Graphics.h"

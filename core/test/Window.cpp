@@ -11,6 +11,9 @@ TEST(Window, Base) {
     int i = 0;
     while (asd::Window::GetInstance()->DoEvent() && i < 16) {
         asd::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
+
+        for (int l = 0; l < 10; l++) asd::Window::GetInstance()->DoEvent();
+
         int32_t w, h;
         asd::Window::GetInstance()->GetSize(w, h);
 
