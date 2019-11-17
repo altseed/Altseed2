@@ -17,6 +17,7 @@ TEST(Font, Basic) {
     int count = 0;
 
     auto instance = asd::Graphics::GetInstance();
+    auto renderer = instance->CreateRenderer();
 
     auto font = asd::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, asd::Color(255, 0, 0, 255));
 
@@ -39,10 +40,10 @@ TEST(Font, Basic) {
         position += asd::Vector2DF(glyph->GetGlyphWidth(), 0);
 
         if (i != std::char_traits<char16_t>::length(text) - 1) position += asd::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
-        instance->Sprites.push_back(sprite);
+        renderer->Sprites.push_back(sprite);
     }
 
-    while (count++ < 1000 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
     asd::Graphics::Terminate();
 }

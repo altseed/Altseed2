@@ -16,11 +16,12 @@ TEST(Graphics, Initialize) {
     int count = 0;
 
     auto instance = altseed::Graphics::GetInstance();
+    auto renderer = instance->CreateRenderer();
 
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
 
-    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto shader = instance->CreateShader(renderer->HlslPSCode);
     auto material = std::make_shared<altseed::Material>();
     material->SetShader(shader);
 
@@ -33,7 +34,7 @@ TEST(Graphics, Initialize) {
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
-                instance->Sprites.push_back(sprite);
+                renderer->Sprites.push_back(sprite);
             }
         }
     }
@@ -49,6 +50,7 @@ TEST(Graphics, Texture) {
     int count = 0;
 
     auto instance = altseed::Graphics::GetInstance();
+    auto renderer = instance->CreateRenderer();
 
     auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     auto t2 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
@@ -56,7 +58,7 @@ TEST(Graphics, Texture) {
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto shader = instance->CreateShader(renderer->HlslPSCode);
     auto material = std::make_shared<altseed::Material>();
     material->SetShader(shader);
 
@@ -69,7 +71,7 @@ TEST(Graphics, Texture) {
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1->GetNativeTexture() : t2->GetNativeTexture());
-                instance->Sprites.push_back(sprite);
+                renderer->Sprites.push_back(sprite);
             }
         }
     }
@@ -85,19 +87,20 @@ TEST(Graphics, Camera) {
     int count = 0;
 
     auto instance = altseed::Graphics::GetInstance();
+    auto renderer = instance->CreateRenderer();
 
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
     auto cam = std::make_shared<asd::Camera>();
     auto rt = std::make_shared<asd::RenderTexture>(asd::Vector2DI(256, 256));
     cam->SetTarget(rt);
-    instance->Cameras.push_back(cam);
+    renderer->Cameras.push_back(cam);
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
     EXPECT_TRUE(cam != nullptr);
 
-    auto shader = instance->CreateShader(instance->HlslPSCode);
+    auto shader = instance->CreateShader(renderer->HlslPSCode);
     auto material = std::make_shared<altseed::Material>();
     material->SetShader(shader);
 
@@ -110,7 +113,7 @@ TEST(Graphics, Camera) {
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
-                instance->Sprites.push_back(sprite);
+                renderer->Sprites.push_back(sprite);
             }
         }
     }
@@ -121,7 +124,7 @@ TEST(Graphics, Camera) {
         sprite->SetPosition(asd::Vector2DF(900, 100));
         sprite->SetSize(asd::Vector2DF(256, 256));
         sprite->SetTexture(cam->GetTarget()->GetNativeTexture());
-        instance->Sprites.push_back(sprite);
+        renderer->Sprites.push_back(sprite);
     }
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());

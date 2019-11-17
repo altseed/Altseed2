@@ -15,7 +15,11 @@
 #include "Texture2D.h"
 
 namespace altseed {
-class Camera {
+
+class RenderTexture;
+class Sprites;
+
+class Camera : public BaseObject {
 private:
     Vector2DI src_;
     std::shared_ptr<RenderTexture> target_;

@@ -4,8 +4,12 @@
 #include <memory>
 
 #include "Graphics.h"
+#include "Material.h"
 
 namespace altseed {
+
+class Material;
+
 class Sprite {
 private:
     Vector2DF position_;

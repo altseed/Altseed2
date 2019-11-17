@@ -9,6 +9,8 @@ set(core_files
     BaseObject.h
     BaseObject.cpp
     Wrapper.cpp
+	Scene.h
+    Scene.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
     Common/Resource.h
@@ -48,6 +50,8 @@ set(core_files
     Graphics/Shader.cpp
     Graphics/Material.h
     Graphics/Material.cpp
+	Graphics/Renderer.h
+    Graphics/Renderer.cpp
     Graphics/Camera.h
     Graphics/Camera.cpp
     Graphics/Font.h
