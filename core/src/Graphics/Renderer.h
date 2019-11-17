@@ -54,7 +54,7 @@ private:
 
     void UpdateGroups();
     void Render(std::shared_ptr<Camera> camera, std::shared_ptr<LLGI::CommandList> commandList);
-    LLGI::ConstantBuffer* Renderer::SendConstantBuffer(Camera* camera);
+    LLGI::ConstantBuffer* SendConstantBuffer(Camera* camera);
 
 public:
     std::vector<std::shared_ptr<Sprite>> Sprites;
