@@ -31,3 +31,6 @@
 [submodule "thirdparty/SPIRV-Cross"]
 	path = thirdparty/SPIRV-Cross
 	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "thirdparty/OpenSoundMixer"]
+	path = thirdparty/OpenSoundMixer
+	url = https://github.com/altseed/OpenSoundMixer.git

@@ -85,6 +85,10 @@ set(core_files
     Math/Vector4DF.h
     Math/Vector4DI.cpp
     Math/Vector4DI.h
+    Sound/SoundMixer.h
+    Sound/SoundMixer.cpp
+    Sound/Sound.h
+    Sound/Sound.cpp
 )
 
 # specify project filters
@@ -127,6 +131,7 @@ target_link_libraries(
     spdlog
     hidapi
     LLGI
+    OpenSoundMixer
     zip
     )
 
