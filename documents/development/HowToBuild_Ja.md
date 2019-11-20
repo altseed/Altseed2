@@ -4,7 +4,7 @@
 ### Windows
 
 - VisualStudio(2019以降)
-- cmake
+- cmake(3.12以上)
 - git
 
 ### Linux
@@ -26,9 +26,7 @@ git submodule update --init
 
 もしくは、
 
-```
-TortoiseGit -> Submodule Update -> OK
-```
+`TortoiseGit` -> `Submodule Update` -> `OK`
 
 ## プロジェクト生成
 
