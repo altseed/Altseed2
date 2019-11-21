@@ -13,7 +13,7 @@ with SeekOrigin as enum_:
 Int8Array = cbg.Class('altseed', 'Int8Array')
 with Int8Array as class_:
     with class_.add_func("CopyTo") as func:
-        func.add_arg(int, "array") # TODO:c_char_p使いたい
+        func.add_arg(Int8Array, "array") # TODO:c_char_p使いたい
         func.add_arg(int, "size")
 
 ResourceType = cbg.Enum('altseed', 'ResourceType')

@@ -11,7 +11,7 @@
 
 namespace altseed {
 
-class File {
+class File : public BaseObject {
 private:
     static std::shared_ptr<File> instance;
 

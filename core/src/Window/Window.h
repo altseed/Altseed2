@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "../BaseObject.h"
 #include "../Common/PlatformIncludes.h"
 
 #include <memory>
@@ -16,7 +17,7 @@ struct WindowInitializationParameter {
     bool IsResizable = false;
 };
 
-class Window {
+class Window : public BaseObject {
 private:
     static std::shared_ptr<Window> instance;
 

@@ -28,6 +28,6 @@ public:
 
     void Clear();
 
-    void Relaod();
+    void Reload();
 };
 }  // namespace altseed

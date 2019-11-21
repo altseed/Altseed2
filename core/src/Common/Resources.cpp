@@ -26,7 +26,7 @@ void Resources::Clear() {
     }
 }
 
-void Resources::Relaod() {
+void Resources::Reload() {
     for (int32_t i = 0; i < (int32_t)ResourceType::MAX; i++) {
         m_containers[(ResourceType)i]->Reload();
     }

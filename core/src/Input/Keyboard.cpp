@@ -127,7 +127,7 @@ const int Keyboard::keyCodes[] = {GLFW_KEY_UNKNOWN,
                          GLFW_KEY_MENU,
                          GLFW_KEY_MENU};
 
-bool Keyboard::Intialize(std::shared_ptr<Window>& window) {
+bool Keyboard::Initialize(std::shared_ptr<Window>& window) {
     instance = std::make_shared<Keyboard>();
 
     instance->window = window;

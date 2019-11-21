@@ -135,19 +135,19 @@ enum class Keys : int32_t {
     MAX
 };
 
-class Keyboard {
+class Keyboard : public BaseObject {
 private:
     static std::shared_ptr<Keyboard> instance;
     std::shared_ptr<Window> window;
 
-	//! because of msvc bug, it cannot use Keys::MAX
+    //! because of msvc bug, it cannot use Keys::MAX
     static const int keyCodes[122];
 
     std::array<bool, static_cast<int>(Keys::MAX)> currentState;
     std::array<bool, static_cast<int>(Keys::MAX)> oldState;
 
 public:
-    static bool Intialize(std::shared_ptr<Window>& window);
+    static bool Initialize(std::shared_ptr<Window>& window);
 
     static void Terminate() {}
 

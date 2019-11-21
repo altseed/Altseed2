@@ -25,7 +25,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
-    if (!Keyboard::Intialize(Window::GetInstance())) {
+    if (!Keyboard::Initialize(Window::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }
