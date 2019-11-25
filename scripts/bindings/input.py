@@ -190,3 +190,91 @@ with Mouse as class_:
         func.add_arg(MouseButtons, 'button')
         func.return_type = ButtonState
     class_.add_property(CursorMode, 'CursorMode')
+
+JoystickType = cbg.Enum('altseed', 'JoystickType')
+with ButtonState as enum:
+    enum.add('Other', 0)
+    enum.add('PS4', 8200)
+    enum.add('XBOX360', 8199)
+    enum.add('JoyconL', 8198)
+    enum.add('JoyconR', 8197)
+
+JoystickButtonType = cbg.Enum('altseed', 'JoystickButtonType')
+with ButtonState as enum:
+    enum.add('Start')
+    enum.add('Select')
+    enum.add('Home')
+    enum.add('Release')
+    enum.add('Capture')
+    enum.add('LeftUp')
+    enum.add('LeftDown')
+    enum.add('LeftLeft')
+    enum.add('LeftRight')
+    enum.add('LeftPush')
+    enum.add('RightUp')
+    enum.add('RightRight')
+    enum.add('RightLeft')
+    enum.add('RightDown')
+    enum.add('RightPush')
+    enum.add('L1')
+    enum.add('R1')
+    enum.add('L2')
+    enum.add('R2')
+    enum.add('L3')
+    enum.add('R3')
+    enum.add('LeftStart')
+    enum.add('RightStart')
+    enum.add('Max')
+
+JoystickAxisType = cbg.Enum('altseed', 'JoystickAxisType')
+with ButtonState as enum:
+    enum.add('Start')
+    enum.add('LeftH')
+    enum.add('LeftV')
+    enum.add('RightH')
+    enum.add('RightV')
+    enum.add('L2')
+    enum.add('R2')
+    enum.add('Max')
+
+Joystick = cbg.Enum('altseed', 'Joystick')
+with Joystick as class_:
+    with class_.add_func('Initialize') as func:
+        func.add_arg(Window, 'window')
+        func.return_type = bool
+    class_.add_func('Terminate')
+    class_.add_func('RefreshInputState')
+    class_.add_func('RefreshConnectedState')
+    with class_.add_func('IsPresent') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.return_type = bool
+    with class_.add_func('GetButtonState') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.add_arg(int, 'buttonIndex')
+        func.return_type = ButtonState
+    with class_.add_func('GetButtonState') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.add_arg(JoystickButtonType, 'type')
+        func.return_type = ButtonState
+    with class_.add_func('GetJoystickType') as func:
+        func.add_arg(int, 'index')
+        func.return_type = JoystickType
+    with class_.add_func('GetAxisState') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.add_arg(int, 'axisIndex')
+        func.return_type = float
+    with class_.add_func('GetAxisState') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.add_arg(JoystickAxisType, 'type')
+        func.return_type = float
+    with class_.add_func('GetJoystickName') as func:
+        func.add_arg(int, 'index')
+        func.return_type = ctypes.c_wchar_p
+    class_.add_func('RefreshVibrateState')
+    with class_.add_func('GetJoystickName') as func:
+        func.add_arg(int, 'index')
+        func.add_arg(float, 'high_freq')
+        func.add_arg(float, 'low_freq')
+        func.add_arg(float, 'high_amp')
+        func.add_arg(float, 'low_amp')
+        func.add_arg(int, 'life_time')
