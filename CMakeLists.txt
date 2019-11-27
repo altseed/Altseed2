@@ -10,6 +10,7 @@ project(Altseed)
 # option
 option(BUILD_TEST "build test" OFF)
 option(SANITIZE_ENABLED "make sanitize enabled" OFF)
+option(USE_MSVC_RUNTIME_LIBRARY_DLL, "" ON)
 
 # specify project type
 set(CMAKE_CONFIGURATION_TYPES Debug Release)

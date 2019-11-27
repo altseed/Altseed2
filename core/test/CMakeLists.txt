@@ -11,6 +11,7 @@ set(core_test_files
     Graphics.cpp
     Texture2D.cpp
     Font.cpp
+    ShaderCompiler.cpp
 )
 
 # specify project filters
