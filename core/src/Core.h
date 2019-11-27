@@ -7,6 +7,8 @@
 #include <mutex>
 #include <set>
 
+#include "BaseObject.h"
+
 namespace altseed {
 
 class BaseObject;
@@ -16,7 +18,7 @@ struct CoreOption {
     bool IsResizable = false;
 };
 
-class Core {
+class Core : public BaseObject {
 private:
     static std::shared_ptr<Core> instance;
 
@@ -44,6 +46,7 @@ public:
 
     //! Initialize core and create a singleton
     static bool Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option);
+    static bool Initialize(int32_t width, int32_t height);
 
     //! Terminate core and dispose the singleton
     static void Terminate();

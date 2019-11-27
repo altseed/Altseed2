@@ -1,11 +1,11 @@
 ﻿#include "Core.h"
 
 #include "BaseObject.h"
+#include "Graphics/Graphics.h"
 #include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Window/Window.h"
-#include "Graphics/Graphics.h"
 
 namespace altseed {
 
@@ -45,12 +45,20 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
-	if(!Graphics::Initialize(Window::GetInstance())){
+    if (!Graphics::Initialize(Window::GetInstance())) {
         Core::instance = nullptr;
         return false;
-	}
+    }
 
     return Core::instance != nullptr;
+}
+
+bool Core::Initialize(int32_t width, int32_t height) {
+    CoreOption option;
+    option.IsFullscreenMode = false;
+    option.IsResizable = false;
+
+    return Core::Initialize(u"Altseed2", width, height, option);
 }
 
 void Core::Terminate() {
@@ -60,11 +68,11 @@ void Core::Terminate() {
     }
 
     Window::Terminate();
-	Keyboard::Terminate();
+    Keyboard::Terminate();
     Mouse::Terminate();
-	Resources::Terminate();
-	File::Terminate();
-	Graphics::Terminate();
+    Resources::Terminate();
+    File::Terminate();
+    Graphics::Terminate();
 
     Core::instance = nullptr;
 }

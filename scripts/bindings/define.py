@@ -5,6 +5,7 @@ import sys
 from .io import *
 from .input import *
 from .graphics import *
+from .core import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -26,6 +27,10 @@ from .graphics import *
 define = cbg.Define()
 
 define.structs.append(Vector2DI)
+
+# core
+define.structs.append(CoreOption)
+define.classes.append(Core)
 
 # window
 define.classes.append(Window)

@@ -49,6 +49,32 @@
     
 extern "C" {
 
+CBGEXPORT bool CBGSTDCALL cbg_Core_Initialize(const char16_t* title,int32_t width,int32_t height,void* option) {
+    const char16_t* cbg_arg0 = title;
+    int32_t cbg_arg1 = width;
+    int32_t cbg_arg2 = height;
+    altseed::CoreOption cbg_arg3 = (*((altseed::CoreOption*)option));
+    bool cbg_ret = altseed::Core::Initialize(cbg_arg0,cbg_arg1,cbg_arg2,cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Core_DoEvent(void* cbg_self) {
+    auto cbg_self_ = (altseed::Core*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->DoEvent();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Core_Terminate() {
+    altseed::Core::Terminate();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Core_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Core*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     auto cbg_self_ = (altseed::Window*)(cbg_self);
 
@@ -144,6 +170,13 @@ CBGEXPORT void CBGSTDCALL cbg_Keyboard_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetInstance() {
     std::shared_ptr<altseed::Graphics> cbg_ret = altseed::Graphics::GetInstance();
     return (void*)altseed::AddAndGetSharedPtr<altseed::Graphics>(cbg_ret);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Graphics_Update(void* cbg_self) {
+    auto cbg_self_ = (altseed::Graphics*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->Update();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
