@@ -16,7 +16,10 @@ endif()
 # zlib
 ExternalProject_Add(
     ExternalProject_zlib
-    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/zlib
+    GIT_REPOSITORY  https://github.com/altseed/zlib
+    GIT_TAG         v1.2.11
+    SOURCE_DIR      ${CMAKE_CURRENT_BINARY_DIR}/zlib-src
+    BINARY_DIR      ${CMAKE_CURRENT_BINARY_DIR}/zlib-build
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/zlib
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/zlib
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib
