@@ -14,11 +14,11 @@ with Graphics as class_:
     #     func.is_static = True
 
     with class_.add_func('GetInstance') as func:
-        func.return_type = Graphics
+        func.return_value.type_ = Graphics
         func.is_static = True
     
     with class_.add_func('Update') as func:
-        func.return_type = bool
+        func.return_value.type_ = bool
     # with class_.add_func('Terminate') as func:
     #     func.is_static = True
     
@@ -35,9 +35,9 @@ with Texture2D as class_:
     #     ctor.add_arg(int, 'height')
 
     with class_.add_func('Reload') as func:
-        func.return_type = bool
+        func.return_value.type_ = bool
     with class_.add_func('GetSize') as func:
-        func.return_type = Vector2DI
+        func.return_value.type_ = Vector2DI
 
     # with class_.add_func('Load') as func:
     #     func.add_arg(ctypes.c_wchar_p, 'path')

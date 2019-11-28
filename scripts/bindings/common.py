@@ -27,10 +27,10 @@ Resources = cbg.Class('altseed', 'Resources')
 with Resources as class_:
     with class_.add_func('GetInstance') as func:
         func.is_static = True
-        func.return_type = Resources
+        func.return_value.type_ = Resources
     with class_.add_func('GetResourcesCount') as func:
         func.add_arg(ResourceType, 'type')
-        func.return_type = int
+        func.return_value.type_ = int
     class_.add_func('Clear')
     class_.add_func('Reload')
 

@@ -14,12 +14,10 @@ with Core as class_:
         func.add_arg(int, 'width')
         func.add_arg(int, 'height')
         func.add_arg(CoreOption, 'option')
-        func.return_type = bool
         func.return_value.type_ = bool
         func.is_static = True
 
     with class_.add_func('DoEvent') as func:
-        func.return_type = bool
         func.return_value.type_ = bool
 
     with class_.add_func('Terminate') as func:
