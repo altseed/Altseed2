@@ -22,3 +22,7 @@ with Core as class_:
 
     with class_.add_func('Terminate') as func:
         func.is_static = True
+
+    with class_.add_func('GetInstance') as func:
+        func.return_value.type_ = Core
+        func.is_static = True

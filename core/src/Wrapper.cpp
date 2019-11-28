@@ -69,6 +69,11 @@ CBGEXPORT void CBGSTDCALL cbg_Core_Terminate() {
     altseed::Core::Terminate();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Core_GetInstance() {
+    std::shared_ptr<altseed::Core> cbg_ret = altseed::Core::GetInstance();
+    return (void*)altseed::AddAndGetSharedPtr<altseed::Core>(cbg_ret);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Core_Release(void* cbg_self) {
     auto cbg_self_ = (altseed::Core*)(cbg_self);
 
