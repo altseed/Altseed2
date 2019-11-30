@@ -142,13 +142,13 @@ with Keyboard as class_:
     with class_.add_func('Initialize') as func:
         func.add_arg(Window, 'window')
         func.return_value.type_ = bool
-    class_.add_func('Terminate')
-    with class_.add_func('GetInstance') as func:
-        func.return_value.type_ = Keyboard
     class_.add_func('RefleshKeyStates')
     with class_.add_func('GetKeyState') as func:
         func.add_arg(Keys, 'key')
         func.return_value.type_ = ButtonState
+    with class_.add_func('GetInstance') as func:
+        func.return_value.type_ = Keyboard
+        func.is_static = True
 
 MouseButtons = cbg.Enum('altseed', 'MouseButtons')
 with MouseButtons as enum:
