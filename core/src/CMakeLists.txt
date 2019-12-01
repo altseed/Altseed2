@@ -17,6 +17,14 @@ set(core_files
     Common/Resources.h
     Common/Resources.cpp
     Common/StringHelper.h
+    Platform/FileSystem.h
+    Platform/FileSystem.cpp
+    Platform/FileSystemWin.h
+    Platform/FileSystemWin.cpp
+    Platform/FileSystemLinux.h
+    Platform/FileSystemLinux.cpp
+    Platform/FileSystemMac.h
+    Platform/FileSystemMac.cpp
     Window/Window.h
     Window/Window.cpp
     Input/ButtonState.h
