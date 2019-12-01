@@ -18,13 +18,6 @@ set(core_files
     Common/Resources.cpp
     Common/StringHelper.h
     Platform/FileSystem.h
-    Platform/FileSystem.cpp
-    Platform/FileSystemWin.h
-    Platform/FileSystemWin.cpp
-    Platform/FileSystemLinux.h
-    Platform/FileSystemLinux.cpp
-    Platform/FileSystemMac.h
-    Platform/FileSystemMac.cpp
     Window/Window.h
     Window/Window.cpp
     Input/ButtonState.h
@@ -98,6 +91,26 @@ set(core_files
     Sound/Sound.h
     Sound/Sound.cpp
 )
+
+if(WIN32)
+
+    list(APPEND core_files
+        Platform/FileSystemWin.cpp
+    )
+
+elseif(APPLE)
+
+    list(APPEND core_files
+        Platform/FileSystemMac.cpp
+    )
+
+else()
+
+    list(APPEND core_files
+        Platform/FileSystemLinux.cpp
+    )
+
+endif()
 
 # specify project filters
 foreach(FILE ${core_files}) 
