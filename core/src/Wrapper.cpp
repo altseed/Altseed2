@@ -139,19 +139,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Keyboard_Initialize(void* cbg_self,void* window) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Keyboard_Terminate(void* cbg_self) {
-    auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
-
-    cbg_self_->Terminate();
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Keyboard_GetInstance(void* cbg_self) {
-    auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
-
-    std::shared_ptr<altseed::Keyboard> cbg_ret = cbg_self_->GetInstance();
-    return (void*)altseed::AddAndGetSharedPtr<altseed::Keyboard>(cbg_ret);
-}
-
 CBGEXPORT void CBGSTDCALL cbg_Keyboard_RefleshKeyStates(void* cbg_self) {
     auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
 
@@ -164,6 +151,11 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self,int32_t key
     altseed::Keys cbg_arg0 = (altseed::Keys)key;
     altseed::ButtonState cbg_ret = cbg_self_->GetKeyState(cbg_arg0);
     return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Keyboard_GetInstance() {
+    std::shared_ptr<altseed::Keyboard> cbg_ret = altseed::Keyboard::GetInstance();
+    return (void*)altseed::AddAndGetSharedPtr<altseed::Keyboard>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Keyboard_Release(void* cbg_self) {
