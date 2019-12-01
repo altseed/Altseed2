@@ -7,37 +7,8 @@
 #include <mutex>
 #include <string>
 
-#if defined(_WIN32) || defined(__APPLE__)
-#include <filesystem>
-namespace fs = std::filesystem;
-#else
-
-#if __GNUC__ >= 8
-#include <filesystem>
-namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
-
-#endif
-
-#include "../Common/Resource.h"
-
-#if defined(_WIN32) || defined(__APPLE__)
-#include <filesystem>
-namespace fs = std::filesystem;
-#else
-
-#if __GNUC__ >= 8
-#include <filesystem>
-namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
-
-#endif
+#include "../Platform/FileSystem.h"
+#include "Resource.h"
 
 namespace altseed {
 class ResourceContainer {
@@ -46,7 +17,7 @@ public:
     private:
         Resource* m_resourcePtr;
         std::u16string m_path;
-        fs::file_time_type m_modifiedTime;
+        int32_t m_modifiedTime;
 
     public:
         ResourceInfomation(Resource* resource, std::u16string path) {
@@ -59,9 +30,9 @@ public:
 
         const std::u16string& GetPath() { return m_path; }
 
-        const fs::file_time_type GetModifiedTime() { return m_modifiedTime; }
+        const int32_t GetModifiedTime() { return m_modifiedTime; }
 
-        bool Reload(fs::file_time_type time) {
+        bool Reload(int32_t time) {
             m_modifiedTime = time;
             return m_resourcePtr->Reload();
         }
@@ -117,20 +88,9 @@ public:
         }
     }
 
-    static fs::file_time_type GetModifiedTime(const std::u16string path) {
-        fs::path p(path);
-        std::error_code ec;
-        auto ftime = fs::last_write_time(p, ec);
-#ifndef _WIN32
-        if (ec.value() != 0) {
-#ifndef _WIN32
-
-            // TODO: log failure to get time
-            return fs::file_time_type::min();
-#endif
-        }
-#endif
-        return ftime;
+    static int32_t GetModifiedTime(const std::u16string path) {
+        auto time = FileSystem::GetLastWriteTime(path);
+        return time;
     }
 };
 
