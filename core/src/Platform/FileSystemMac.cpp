@@ -1,6 +1,8 @@
 #pragma once
 
+#include <dirent.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 #include "../Common/StringHelper.h"
 #include "FileSystem.h"
@@ -31,6 +33,29 @@ int32_t FileSystem::GetLastWriteTime(const std::u16string& path) {
         return 0;
     }
 
-	return st.st_mtime;
+    return st.st_mtime;
+}
+
+void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16string>& childPaths) {
+    childPaths.clear();
+
+    struct dirent** namelist;
+    auto num = scandir(utf16_to_utf8(path).c_str(), &namelist, NULL, NULL);
+
+    for (int32_t i = 0; i < num; i++)
+    {
+        childPaths.push_back(utf8_to_utf16(namelist[i]->d_name));
+    }
+    free(namelist);
+}
+
+int32_t FileSystem::GetFileSize(const std::u16string& path) {
+    struct stat st;
+
+    if (stat(utf16_to_utf8(path).c_str(), &st) != 0) {
+        return 0;
+    }
+
+    return st.st_size;
 }
 }  // namespace altseed
