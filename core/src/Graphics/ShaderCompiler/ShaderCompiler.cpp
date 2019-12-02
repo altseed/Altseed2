@@ -18,7 +18,7 @@ void ShaderCompiler::Terminate() { instance_ = nullptr; }
 ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
     spirvGenerator_ = std::make_shared<SPIRVGenerator>();
 
-// TODO : change with graphics
+    // TODO : change with graphics
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
 #ifdef _WIN32
     // spirvTranspiler_ = std::make_shared<SPIRVToHLSLTranspiler>();
@@ -32,18 +32,18 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
 std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
-	// convert a code or use raw code
+    // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
         auto spirv = spirvGenerator_->Generate(code, shaderStage);
 
         if (!spirvTranspiler_->Transpile(spirv)) {
-            return CreateSharedPtr(new Shader(availableCode, spirvTranspiler_->GetErrorCode()));
+            return CreateSharedPtr(new Shader(code, spirvTranspiler_->GetErrorCode()));
         }
 
         availableCode = spirvTranspiler_->GetCode();
     } else {
         availableCode = code;
-	}
+    }
 
     LLGI::ShaderStageType shaderStageLLGI = LLGI::ShaderStageType::Vertex;
     if (shaderStage == ShaderStageType::Vertex) {
@@ -52,16 +52,28 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageTyp
         shaderStageLLGI = LLGI::ShaderStageType::Pixel;
     }
 
-	// compile actually
+    // compile actually
     LLGI::CompilerResult result;
     compiler_->Compile(result, availableCode.c_str(), shaderStageLLGI);
 
-    LLGI::DataStructure data;
-    data.Data = result.Binary.data();
-    data.Size = result.Binary.size();
-    auto shaderLLGI = graphics_->GetGraphicsLLGI()->CreateShader(&data, 1);
-    
-	return CreateSharedPtr(new Shader(availableCode, shaderLLGI));
+    if (result.Binary.size() == 0) {
+        return CreateSharedPtr(new Shader(availableCode, result.Message.c_str()));
+    }
+
+    std::vector<LLGI::DataStructure> data;
+
+    for (auto& b : result.Binary) {
+        LLGI::DataStructure d;
+        d.Data = b.data();
+        d.Size = b.size();
+        data.push_back(d);
+    }
+
+    auto shaderLLGI = graphics_->GetGraphicsLLGI()->CreateShader(data.data(), data.size());
+
+    auto ret = CreateSharedPtr(new Shader(availableCode, shaderLLGI));
+    LLGI::SafeRelease(shaderLLGI);
+    return ret;
 }
 
 }  // namespace altseed

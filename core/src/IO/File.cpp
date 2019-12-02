@@ -12,7 +12,7 @@ namespace altseed {
 std::shared_ptr<File> File::instance = nullptr;
 
 bool File::Initialize(std::shared_ptr<Resources> resources) {
-    instance = std::make_shared<File>();
+    instance = MakeAsdShared<File>();
 
     instance->m_resources = resources;
 

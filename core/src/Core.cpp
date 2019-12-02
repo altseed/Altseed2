@@ -13,7 +13,7 @@ namespace altseed {
 std::shared_ptr<Core> Core::instance = nullptr;
 
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option) {
-    Core::instance = std::make_shared<Core>();
+    Core::instance = MakeAsdShared<Core>();
 
     WindowInitializationParameter windowParameter;
     windowParameter.Title = title;

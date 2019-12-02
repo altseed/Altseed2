@@ -1,4 +1,5 @@
 #include "Graphics/Graphics.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -11,7 +12,6 @@
 namespace asd = altseed;
 
 TEST(Graphics, Initialize) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -31,9 +31,9 @@ TEST(Graphics, Initialize) {
     auto t2 = instance->CreateDameyTexture(255);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = instance->CreateShader(renderer->HlslPSCode);
-	EXPECT_TRUE(shader != nullptr);
-    auto material = std::make_shared<altseed::Material>();
+    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
+    EXPECT_TRUE(shader != nullptr);
+    auto material = asd::MakeAsdShared<altseed::Material>();
     EXPECT_TRUE(material != nullptr);
 
     material->SetShader(shader);
@@ -42,7 +42,7 @@ TEST(Graphics, Initialize) {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = std::make_shared<altseed::Sprite>();
+                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
                 sprite->SetMaterial(material);
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
@@ -54,11 +54,10 @@ TEST(Graphics, Initialize) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Graphics::Terminate();
+    altseed::Core::Terminate();
 }
 
 TEST(Graphics, Texture) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -76,7 +75,7 @@ TEST(Graphics, Texture) {
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = instance->CreateShader(renderer->HlslPSCode);
+    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
     auto material = std::make_shared<altseed::Material>();
     material->SetShader(shader);
 
@@ -84,7 +83,7 @@ TEST(Graphics, Texture) {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = std::make_shared<altseed::Sprite>();
+                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
                 sprite->SetMaterial(material);
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
@@ -96,11 +95,10 @@ TEST(Graphics, Texture) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Graphics::Terminate();
+    altseed::Core::Terminate();
 }
 
 TEST(Graphics, Camera) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -114,8 +112,8 @@ TEST(Graphics, Camera) {
 
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
-    auto cam = std::make_shared<asd::Camera>();
-    auto rt = std::make_shared<asd::RenderTexture>(asd::Vector2DI(256, 256));
+    auto cam = asd::MakeAsdShared<asd::Camera>();
+    auto rt = asd::CreateSharedPtr(new asd::RenderTexture(asd::Vector2DI(256, 256)));
     cam->SetTarget(rt);
     renderer->Cameras.push_back(cam);
 
@@ -123,15 +121,15 @@ TEST(Graphics, Camera) {
     EXPECT_TRUE(t2 != nullptr);
     EXPECT_TRUE(cam != nullptr);
 
-    auto shader = instance->CreateShader(renderer->HlslPSCode);
-    auto material = std::make_shared<altseed::Material>();
+    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
+    auto material = asd::MakeAsdShared<altseed::Material>();
     material->SetShader(shader);
 
     {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = std::make_shared<altseed::Sprite>();
+                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
                 sprite->SetMaterial(material);
                 sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
                 sprite->SetSize(asd::Vector2DF(80, 80));
@@ -142,7 +140,7 @@ TEST(Graphics, Camera) {
     }
 
     {
-        auto sprite = std::make_shared<altseed::Sprite>();
+        auto sprite = asd::MakeAsdShared<altseed::Sprite>();
         sprite->SetMaterial(material);
         sprite->SetPosition(asd::Vector2DF(900, 100));
         sprite->SetSize(asd::Vector2DF(256, 256));
@@ -152,5 +150,5 @@ TEST(Graphics, Camera) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Graphics::Terminate();
+    altseed::Core::Terminate();
 }
