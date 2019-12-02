@@ -2,6 +2,7 @@
 
 #include "BaseObject.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
@@ -50,6 +51,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
+    if (!ShaderCompiler::Initialize(Graphics::GetInstance())) {
+        Core::instance = nullptr;
+        return false;
+    }
+
     return Core::instance != nullptr;
 }
 
@@ -73,6 +79,7 @@ void Core::Terminate() {
     Resources::Terminate();
     File::Terminate();
     Graphics::Terminate();
+    ShaderCompiler::Terminate();
 
     Core::instance = nullptr;
 }

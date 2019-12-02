@@ -86,5 +86,8 @@ public:
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
 
     std::shared_ptr<Shader> CreateShader(const char* code, LLGI::ShaderStageType shaderStageType = LLGI::ShaderStageType::Pixel);
+
+	LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
+
 };
 }  // namespace altseed

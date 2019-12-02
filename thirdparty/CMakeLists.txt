@@ -106,6 +106,8 @@ ExternalProject_Add(
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/include)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/include/glslang/Include)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/include/glslang)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/lib)
 
 # SPIRV
@@ -118,7 +120,8 @@ ExternalProject_Add(
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
                     -DBUILD_SHARED_LIBS=OFF
-                    -DBUILD_TEST=OFF
+                    -DSPIRV_CROSS_ENABLE_TESTS=OFF
+                    -DSPIRV_CROSS_FORCE_PIC=ON
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross/include)
