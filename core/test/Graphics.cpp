@@ -12,11 +12,7 @@
 namespace asd = altseed;
 
 TEST(Graphics, Initialize) {
-#if defined(__APPLE__) || defined(__linux__)
-    return;
-#endif
-
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(asd::Core::Initialize(u"Initialize", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 
@@ -58,11 +54,8 @@ TEST(Graphics, Initialize) {
 }
 
 TEST(Graphics, Texture) {
-#if defined(__APPLE__) || defined(__linux__)
-    return;
-#endif
 
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(asd::Core::Initialize(u"Texture", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 
@@ -99,11 +92,7 @@ TEST(Graphics, Texture) {
 }
 
 TEST(Graphics, Camera) {
-#if defined(__APPLE__) || defined(__linux__)
-    return;
-#endif
-
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(asd::Core::Initialize(u"Camera", 1280, 720, asd::CoreOption()));
 
     int count = 0;
 

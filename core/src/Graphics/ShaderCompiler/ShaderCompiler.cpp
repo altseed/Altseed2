@@ -13,10 +13,13 @@ bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics) {
     return true;
 }
 
-void ShaderCompiler::Terminate() { instance_ = nullptr; }
+void ShaderCompiler::Terminate() { 
+    instance_ = nullptr; 
+}
 
 ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
     spirvGenerator_ = std::make_shared<SPIRVGenerator>();
+    spirvGenerator_->Initialize();
 
     // TODO : change with graphics
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
@@ -27,6 +30,11 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
 #else
     spirvTranspiler_ = std::make_shared<SPIRVToGLSLTranspiler>(true);
 #endif
+}
+
+ShaderCompiler::~ShaderCompiler()
+{
+    spirvGenerator_->Terminate();
 }
 
 std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageType shaderStage) {

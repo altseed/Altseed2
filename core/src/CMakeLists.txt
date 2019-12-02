@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
 
 enable_language(CXX)
 
@@ -9,7 +8,7 @@ set(core_files
     BaseObject.h
     BaseObject.cpp
     Wrapper.cpp
-	Scene.h
+    Scene.h
     Scene.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
@@ -51,7 +50,7 @@ set(core_files
     Graphics/Shader.cpp
     Graphics/Material.h
     Graphics/Material.cpp
-	Graphics/Renderer.h
+    Graphics/Renderer.h
     Graphics/Renderer.cpp
     Graphics/Camera.h
     Graphics/Camera.cpp
@@ -160,14 +159,14 @@ target_link_libraries(
     LLGI
     OpenSoundMixer
     zip
-	spirv-cross-core
-	spirv-cross-c
-	spirv-cross-cpp
-	spirv-cross-hlsl
-	spirv-cross-glsl
-	spirv-cross-msl
-	spirv-cross-reflect
-	spirv-cross-util
+    spirv-cross-core
+    spirv-cross-c
+    spirv-cross-cpp
+    spirv-cross-hlsl
+    spirv-cross-glsl
+    spirv-cross-msl
+    spirv-cross-reflect
+    spirv-cross-util
     )
 
 if (MSVC)
@@ -181,18 +180,18 @@ if (MSVC)
         optimized zlibstatic
         debug glfw3d
         optimized glfw3
-		debug glslangd
-		optimized glslang
-		debug HLSLd
-		optimized HLSL
-		debug OGLCompilerd
-		optimized OGLCompiler
-		debug OSDependentd
-		optimized OSDependent
-		debug SPIRVd
-		optimized SPIRV
-		debug SPVRemapperd
-		optimized SPVRemapper
+        debug glslangd
+        optimized glslang
+        debug HLSLd
+        optimized HLSL
+        debug OGLCompilerd
+        optimized OGLCompiler
+        debug OSDependentd
+        optimized OSDependent
+        debug SPIRVd
+        optimized SPIRV
+        debug SPVRemapperd
+        optimized SPVRemapper
     )
 
 elseif(APPLE)
@@ -211,22 +210,16 @@ elseif(APPLE)
         Altseed_Core
         PRIVATE
         z
+        glslang
         debug png16d
         optimized png16
         debug glfw3d
         optimized glfw3
-		debug glslangd
-		optimized glslang
-		debug HLSLd
-		optimized HLSL
-		debug OGLCompilerd
-		optimized OGLCompiler
-		debug OSDependentd
-		optimized OSDependent
-		debug SPIRVd
-		optimized SPIRV
-		debug SPVRemapperd
-		optimized SPVRemapper
+        HLSL
+        OGLCompiler
+        OSDependent
+        SPIRV
+        SPVRemapper
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
         ${CORE_FOUNDATION_FRAMEWORK}
@@ -253,12 +246,12 @@ else()
         crypto
         X11
         X11-xcb
-		glslang
-		HLSL
-		OGLCompiler
-		OSDependent
-		SPIRV
-		SPVRemapper
+        glslang
+        HLSL
+        OGLCompiler
+        OSDependent
+        SPIRV
+        SPVRemapper
         )
 
 endif()
@@ -266,8 +259,8 @@ endif()
 if(MSVC)
 
 else()
-	find_package(Threads REQUIRED)
-	target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
+    find_package(Threads REQUIRED)
+    target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 # to use external projects

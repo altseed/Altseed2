@@ -32,6 +32,7 @@ public:
     static void Terminate();
 
 	ShaderCompiler(std::shared_ptr<Graphics>& graphics);
+    ~ShaderCompiler();
 
 	std::shared_ptr<Shader> Compile(const char* code, ShaderStageType shaderStage);
 };
