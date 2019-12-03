@@ -192,7 +192,7 @@ with Mouse as class_:
     class_.add_property(CursorMode, 'CursorMode')
 
 JoystickType = cbg.Enum('altseed', 'JoystickType')
-with ButtonState as enum:
+with JoystickType as enum:
     enum.add('Other', 0)
     enum.add('PS4', 8200)
     enum.add('XBOX360', 8199)
@@ -200,7 +200,7 @@ with ButtonState as enum:
     enum.add('JoyconR', 8197)
 
 JoystickButtonType = cbg.Enum('altseed', 'JoystickButtonType')
-with ButtonState as enum:
+with JoystickButtonType as enum:
     enum.add('Start')
     enum.add('Select')
     enum.add('Home')
@@ -227,7 +227,7 @@ with ButtonState as enum:
     enum.add('Max')
 
 JoystickAxisType = cbg.Enum('altseed', 'JoystickAxisType')
-with ButtonState as enum:
+with JoystickAxisType as enum:
     enum.add('Start')
     enum.add('LeftH')
     enum.add('LeftV')
