@@ -63,7 +63,7 @@ Vector2DI Font::CalcTextureSize(const char16_t* text, WritingDirection direction
     return direction == WritingDirection::Horizontal ? Vector2DI(w, h) : Vector2DI(h, w);
 }
 
-std::shared_ptr<Font>& Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
+std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {
@@ -73,25 +73,22 @@ std::shared_ptr<Font>& Font::LoadDynamicFont(const char16_t* path, int32_t size,
 
     auto file = File::GetInstance()->CreateStaticFile(path);
     if (file == nullptr) {
-        return std::shared_ptr<Font>();
+        return nullptr;
     }
 
     stbtt_fontinfo info;
     if (!stbtt_InitFont(&info, (unsigned char*)file->GetData(), 0)) {
         file->Release();
-        return std::shared_ptr<Font>();
+        return nullptr;
     }
 
     auto res = std::make_shared<Font>(resources, file, info, size, color);
-    resources->GetResourceContainer(ResourceType::Font)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+    resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;
 }
 
-std::shared_ptr<Font>& Font::LoadStaticFont(const char16_t* path) {
-    return std::shared_ptr<Font>();
-}
+std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) { return nullptr; }
 
 bool Font::Reload() { return false; }
 

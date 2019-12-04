@@ -58,8 +58,8 @@ public:
     int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
-    static std::shared_ptr<Font>& LoadDynamicFont(const char16_t* path, int32_t size, Color color);
-    static std::shared_ptr<Font>& LoadStaticFont(const char16_t* path);
+    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size, Color color);
+    static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
 
     const char* HlslPSCode = R"(
 Texture2D txt : register(t8);
