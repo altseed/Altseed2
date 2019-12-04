@@ -13,7 +13,7 @@ with SeekOrigin as enum_:
 Int8Array = cbg.Class('altseed', 'Int8Array')
 with Int8Array as class_:
     with class_.add_func("CopyTo") as func:
-        func.add_arg(Int8Array, "array") # TODO:c_char_p使いたい
+        func.add_arg(Int8Array, "array")
         func.add_arg(int, "size")
 
 ResourceType = cbg.Enum('altseed', 'ResourceType')
@@ -21,6 +21,7 @@ with ResourceType as enum_:
     enum_.add('StaticFile')
     enum_.add('StreamFile')
     enum_.add('Texture2D')
+    enum_.add('Font')
     enum_.add('MAX')
 
 Resources = cbg.Class('altseed', 'Resources')

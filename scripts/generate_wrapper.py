@@ -4,6 +4,9 @@ from bindings import define
 from bindings import CppBindingGenerator as cbg
 
 if __name__ == '__main__':
+    
+    os.chdir(os.path.dirname(__file__))
+
     # generate
     sharedObjectGenerator = cbg.SharedObjectGenerator(define)
 

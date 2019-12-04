@@ -32,6 +32,6 @@ public:
     Vector2DI GetSize() const { return size_; }
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
 
-    static Texture2D* Load(const char16_t* path);
+    static std::shared_ptr<Texture2D> Load(const char16_t* path);
 };
 }  // namespace altseed

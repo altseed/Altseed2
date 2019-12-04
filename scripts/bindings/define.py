@@ -51,6 +51,6 @@ define.classes.append(Graphics)
 define.classes.append(Texture2D)
 
 # io
-#define.classes.append(StreamFile)
-#define.classes.append(StaticFile)
-#define.classes.append(File)
+define.classes.append(StreamFile)
+define.classes.append(StaticFile)
+define.classes.append(File)
