@@ -1,23 +1,37 @@
-﻿
-#include "SoundMixer.h"
-
-#include "Sound.h"
+﻿#include "SoundMixer.h"
 
 namespace altseed
 {
 
 SoundMixer::SoundMixer(File* file, bool isReloadingEnabled)
 {
-	
+	m_manager = osm::Manager::Create();
+
+	if(m_manager->Initialize())
+	{
+
+	}
+	else
+	{
+		if(m_manager != nullptr) m_manager->Release();
+	}
+
+	SoundSourcesContainer = std::make_shared<ResourceContainer>(file);
 }
 
 SoundMixer::~SoundMixer()
 {
-
+	if (m_manager != nullptr)
+	{
+		m_manager->Finalize();
+		m_manager->Release();
+	}
 }
 
 Sound* SoundMixer::CreateSound(const char16_t* path, bool isDecompressed)
 {
+	if(m_manager == nullptr) return nullptr;
+
 	
 }
 

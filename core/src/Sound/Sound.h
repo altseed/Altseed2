@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "../BaseObject.h"
 #include "SoundMixer.h"
+#include "../BaseObject.h"
 
 #include <OpenSoundMixer.h>
 

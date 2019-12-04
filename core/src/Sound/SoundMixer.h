@@ -199,6 +199,8 @@ public:
 
 #if !SWIG
 
+    std::shared_ptr<ResourceContainer>	SoundSourcesContainer;
+
 	/**
 	@brief	リロードする。
 	@note   #Ignore
