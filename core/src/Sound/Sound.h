@@ -8,13 +8,13 @@
 namespace altseed
 {
 
+class SoundMixer;
+
 /**
 @brief  音源のクラス
 */
 class Sound : public BaseObject
 {
-    friend class SoundMixer;
-
 private:
     SoundMixer* m_manager;
     osm::Sound* m_sound;
