@@ -1,7 +1,7 @@
-﻿
-#pragma once
+﻿#pragma once
 
 #include "../BaseObject.h"
+#include "SoundMixer.h"
 
 #include <OpenSoundMixer.h>
 
@@ -13,6 +13,8 @@ namespace altseed
 */
 class Sound : public BaseObject
 {
+    friend class SoundMixer;
+
 private:
     SoundMixer* m_manager;
     osm::Sound* m_sound;

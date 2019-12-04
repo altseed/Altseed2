@@ -1,5 +1,7 @@
-﻿#include "SoundMixer.h"
+﻿
 #include "Sound.h"
+
+#include "SoundMixer.h"
 
 namespace altseed
 {
@@ -7,12 +9,12 @@ namespace altseed
 Sound::Sound(SoundMixer* manager, osm::Sound* sound, bool isDecompressed)
     : m_manager(manager), m_sound(sound), m_isDecompressed(isDecompressed)
 {
-
+    
 }
 
 Sound::~Sound()
 {
-    
+    auto s = (SoundMixer*)m_manager;
 }
 
 float Sound::GetLoopStartingPoint() const

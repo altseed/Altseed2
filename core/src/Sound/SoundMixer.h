@@ -1,13 +1,33 @@
-﻿
-#pragma once
+﻿#pragma once
 
 #include "Sound.h"
 #include "../BaseObject.h"
+#include "../Core.h"
 #include "../IO/File.h"
 #include "../Common/ResourceContainer.h"
 
 #include <memory>
 #include <OpenSoundMixer.h>
+
+#ifdef _WIN32
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/OpenSoundMixer.lib")
+#else
+#pragma comment(lib,"x64/Release/OpenSoundMixer.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/OpenSoundMixer.lib")
+#else
+#pragma comment(lib,"x86/Release/OpenSoundMixer.lib")
+#endif
+
+#endif
+#endif
 
 namespace altseed
 {
@@ -17,6 +37,7 @@ namespace altseed
 */
 class SoundMixer : public BaseObject
 {
+    friend class Core;
 
 private:
     osm::Manager* m_manager;
@@ -34,7 +55,7 @@ public:
     @param  isDecompressed  音源情報を解凍するか?
     @return 音源
     */
-    virtual Sound* CreateSoundSource(const char16_t* path, bool isDecompressed);
+    virtual Sound* CreateSound(const char16_t* path, bool isDecompressed);
 
     /**
     @brief  音を再生する

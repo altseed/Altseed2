@@ -1,11 +1,14 @@
-﻿#include "SoundMixer.h"
+﻿
+#include "SoundMixer.h"
+
+#include "Sound.h"
 
 namespace altseed
 {
 
 SoundMixer::SoundMixer(File* file, bool isReloadingEnabled)
 {
-
+	
 }
 
 SoundMixer::~SoundMixer()
@@ -13,7 +16,7 @@ SoundMixer::~SoundMixer()
 
 }
 
-Sound* SoundMixer::CreateSoundSource(const char16_t* path, bool isDecompressed)
+Sound* SoundMixer::CreateSound(const char16_t* path, bool isDecompressed)
 {
 	
 }
