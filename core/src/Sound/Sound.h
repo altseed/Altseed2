@@ -13,8 +13,6 @@ namespace altseed
 */
 class Sound : public BaseObject
 {
-    friend class SoundMixer;
-
 private:
     SoundMixer* m_manager;
     osm::Sound* m_sound;

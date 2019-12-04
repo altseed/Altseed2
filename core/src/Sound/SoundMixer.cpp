@@ -22,7 +22,7 @@ int32_t SoundMixer::Play(Sound* sound)
 {
 	if (m_manager == nullptr) return -1;
 	if (sound == nullptr) return -1;
-	auto s = (Sound*) sound;
+	auto s = (Sound*)sound;
 
 	return m_manager->Play(s->GetSound());
 }
@@ -119,9 +119,14 @@ void SoundMixer::SetPanningPosition(int32_t id, float panningPosition)
 
 float SoundMixer::GetPlaybackPercent(int32_t id)
 {
-	if (m_manager == nullptr)
-		return 0.0f;
+	if (m_manager == nullptr) return 0.0f;
 	return m_manager->GetPlaybackPercent(id);
+}
+
+void SoundMixer::GetSpectrumData(int32_t id, float* spectrums, int32_t samplingRate, osm::FFTWindow window)
+{
+	if (m_manager == nullptr) return;
+	m_manager->GetSpectrumData(id, spectrums, samplingRate, window);
 }
 
 void SoundMixer::Reload()
