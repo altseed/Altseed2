@@ -64,3 +64,20 @@ jobs:
       - task: CMake@1
         inputs:
           cmakeArgs: '--build . --config Release'
+  - job: MacOS
+    pool:
+      vmImage: 'macOS-10.14'
+    steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            git submodule update --init
+            git lfs install
+            git lfs pull
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '.. -G "Xcode" -DBUILD_TEST=ON'
+      - task: CMake@1
+        inputs:
+          cmakeArgs: '--build . --config Release'
