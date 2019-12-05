@@ -18,7 +18,7 @@ static void GetWheelInternal(GLFWwindow* wHandle, double x, double y) {
 }
 
 bool Mouse::Intialize(std::shared_ptr<Window>& window) {
-    instance = std::make_shared<Mouse>();
+    instance = MakeAsdShared<Mouse>();
 
     instance->window = window;
 

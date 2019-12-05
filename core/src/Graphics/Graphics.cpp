@@ -19,7 +19,7 @@ std::shared_ptr<Graphics> Graphics::instance = nullptr;
 std::shared_ptr<Graphics>& Graphics::GetInstance() { return instance; }
 
 bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType) {
-    instance = std::make_shared<Graphics>();
+    instance = CreateSharedPtr(new Graphics());
 
     instance->window_ = window;
     instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
@@ -36,7 +36,7 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 }
 
 std::shared_ptr<Renderer> Graphics::CreateRenderer() {
-    auto obj = std::make_shared<Renderer>();
+    auto obj = CreateSharedPtr(new Renderer());
     if (!obj->Initialize()) return nullptr;
     renderer_ = obj;
     return obj;
@@ -52,7 +52,8 @@ bool Graphics::Update() {
 }
 
 void Graphics::Terminate() {
-    instance->graphics_->WaitFinish();
+    ASD_VERIFY(instance != nullptr, "instance must be not null.")
+	instance->graphics_->WaitFinish();
     LLGI::SafeRelease(instance->graphics_);
     LLGI::SafeRelease(instance->platform_);
     instance = nullptr;
@@ -82,31 +83,6 @@ std::shared_ptr<LLGI::IndexBuffer> Graphics::CreateIndexBuffer(int32_t stride, i
 
 std::shared_ptr<LLGI::VertexBuffer> Graphics::CreateVertexBuffer(int32_t size) {
     return LLGI::CreateSharedPtr(instance->graphics_->CreateVertexBuffer(size));
-}
-
-std::shared_ptr<Shader> Graphics::CreateShader(const char* code, LLGI::ShaderStageType shaderStageType) {
-    if (instance->compiler_ == nullptr) return nullptr;
-
-    std::vector<LLGI::DataStructure> data;
-    LLGI::CompilerResult result;
-
-    if (instance->platform_->GetDeviceType() == LLGI::DeviceType::DirectX12) {
-        instance->compiler_->Compile(result, code, shaderStageType);
-        assert(result.Message == "");
-    } else
-        return nullptr;
-
-    for (auto& b : result.Binary) {
-        LLGI::DataStructure d;
-        d.Data = b.data();
-        d.Size = b.size();
-        data.push_back(d);
-    }
-
-    auto obj = std::make_shared<Shader>();
-    obj->SetShaderBinary(instance->graphics_->CreateShader(data.data(), data.size()));
-
-    return obj;
 }
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {

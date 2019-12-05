@@ -29,7 +29,7 @@ std::shared_ptr<Window>& Window::GetInstance() { return instance; }
 bool Window::Initialize(const WindowInitializationParameter& parameter) {
     if (!glfwInit()) return false;
 
-    instance = std::make_shared<Window>();
+    instance = CreateSharedPtr(new Window());
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

@@ -5,6 +5,7 @@ import sys
 from .io import *
 from .input import *
 from .graphics import *
+from .core import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -27,6 +28,13 @@ define = cbg.Define()
 
 define.structs.append(Vector2DI)
 
+# core
+define.structs.append(CoreOption)
+define.classes.append(Core)
+
+# window
+define.classes.append(Window)
+
 # common
 define.classes.append(Int8Array)
 define.enums.append(ResourceType)
@@ -34,6 +42,8 @@ define.classes.append(Resources)
 
 # input
 define.enums.append(Keys)
+define.enums.append(ButtonState)
+define.classes.append(Keyboard)
 
 # graphics
 define.enums.append(DeviceType)
@@ -41,7 +51,6 @@ define.classes.append(Graphics)
 define.classes.append(Texture2D)
 
 # io
-
 define.classes.append(StreamFile)
 define.classes.append(StaticFile)
 define.classes.append(File)

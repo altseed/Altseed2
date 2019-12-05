@@ -3,8 +3,8 @@
 #include <gtest/gtest.h>
 #include <zip.h>
 #include <string>
-#include <vector>
 #include <thread>
+#include <vector>
 
 namespace asd = altseed;
 
@@ -13,7 +13,7 @@ TEST(File, FileRoot) {
 
     // pack files
     EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/pack.pack"));
-    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
+    EXPECT_TRUE(asd::File::GetInstance()->PackWithPassword(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
 
     // default root
     EXPECT_TRUE(asd::File::GetInstance()->Exists(u"TestData/IO/test.txt"));
@@ -63,26 +63,26 @@ TEST(File, StaticFile) {
 
     // pack files
     EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
-    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
+    EXPECT_TRUE(asd::File::GetInstance()->PackWithPassword(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
 
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
     // create static file, and compare no-package and package without password
-    asd::StaticFile* test = nullptr;
+    std::shared_ptr<asd::StaticFile> test = nullptr;
     EXPECT_NE(test = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(test->GetIsInPackage());
-    asd::StaticFile* testPack = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack = nullptr;
     EXPECT_NE(testPack = asd::File::GetInstance()->CreateStaticFile(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack->GetIsInPackage());
     EXPECT_EQ(test->GetSize(), testPack->GetSize());
-    EXPECT_EQ(test->GetBuffer(), testPack->GetBuffer());
+    EXPECT_EQ(*test->GetBuffer(), *testPack->GetBuffer());
 
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
 
     // cache test
-    asd::StaticFile* testCache = nullptr;
+    std::shared_ptr<asd::StaticFile> testCache = nullptr;
     EXPECT_NE(testCache = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(testCache->GetIsInPackage());
     EXPECT_EQ(test, testCache);
@@ -90,18 +90,18 @@ TEST(File, StaticFile) {
     // clear cache
     asd::Resources::GetInstance()->Clear();
 
-    asd::StaticFile* testPack2 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack2 = nullptr;
     EXPECT_NE(testPack2 = asd::File::GetInstance()->CreateStaticFile(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack2->GetIsInPackage());
     EXPECT_NE(testPack, testPack2);
     EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
-    EXPECT_NE(testPack->GetBuffer(), testPack2->GetBuffer());
+    EXPECT_NE(*testPack->GetBuffer(), *testPack2->GetBuffer());
 
     // create static file, and compare no-package and package with password
-    asd::StaticFile* test3 = nullptr;
+    std::shared_ptr<asd::StaticFile> test3 = nullptr;
     EXPECT_NE(test3 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/pack/test.txt"), nullptr);
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
-    EXPECT_EQ(test3->GetBuffer(), testPack2->GetBuffer());
+    EXPECT_EQ(*test3->GetBuffer(), *testPack2->GetBuffer());
 
     asd::Core::Terminate();
 }
@@ -111,16 +111,16 @@ TEST(File, StreamFile) {
 
     // pack files
     EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
-    EXPECT_TRUE(asd::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
+    EXPECT_TRUE(asd::File::GetInstance()->PackWithPassword(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
 
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
     // create static file, and compare no-package and package without password
-    asd::StreamFile* test = nullptr;
+    std::shared_ptr<asd::StreamFile> test = nullptr;
     EXPECT_NE(test = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(test->GetIsInPackage());
-    asd::StreamFile* testPack = nullptr;
+    std::shared_ptr<asd::StreamFile> testPack = nullptr;
     EXPECT_NE(testPack = asd::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack->GetIsInPackage());
     EXPECT_EQ(test->GetSize(), testPack->GetSize());
@@ -138,7 +138,7 @@ TEST(File, StreamFile) {
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
 
     // cache test
-    asd::StreamFile* testCache = nullptr;
+    std::shared_ptr<asd::StreamFile> testCache = nullptr;
     EXPECT_NE(testCache = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(testCache->GetIsInPackage());
     EXPECT_EQ(test, testCache);
@@ -146,14 +146,14 @@ TEST(File, StreamFile) {
     // clear cache
     asd::Resources::GetInstance()->Clear();
 
-    asd::StreamFile* testPack2 = nullptr;
+    std::shared_ptr<asd::StreamFile> testPack2 = nullptr;
     EXPECT_NE(testPack2 = asd::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack2->GetIsInPackage());
     EXPECT_NE(testPack, testPack2);
     EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
 
     // create static file, and compare no-package and package with password
-    asd::StreamFile* test3 = nullptr;
+    std::shared_ptr<asd::StreamFile> test3 = nullptr;
     EXPECT_NE(test3 = asd::File::GetInstance()->CreateStreamFile(u"TestData/IO/pack/test.txt"), nullptr);
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
@@ -164,7 +164,7 @@ TEST(File, StreamFile) {
         EXPECT_EQ(testPack2->Read(1), 1);
         EXPECT_EQ(test3->GetTempBufferSize(), i + 1);
         EXPECT_EQ(testPack2->GetTempBufferSize(), i + 1);
-        EXPECT_EQ(test3->GetTempBuffer(), testPack2->GetTempBuffer());
+        EXPECT_EQ(*test3->GetTempBuffer(), *testPack2->GetTempBuffer());
     }
 
     asd::Core::Terminate();
@@ -179,10 +179,10 @@ TEST(File, Zenkaku) {
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
-    asd::StaticFile* test1 = nullptr;
-    asd::StaticFile* test2 = nullptr;
-    asd::StaticFile* testPack1 = nullptr;
-    asd::StaticFile* testPack2 = nullptr;
+    std::shared_ptr<asd::StaticFile> test1 = nullptr;
+    std::shared_ptr<asd::StaticFile> test2 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack1 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack2 = nullptr;
 
     test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角 テスト.txt");
     test2 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角　テスト.txt");
@@ -194,10 +194,10 @@ TEST(File, Zenkaku) {
     EXPECT_NE(testPack1, nullptr);
     EXPECT_NE(testPack2, nullptr);
 
-    EXPECT_NE(test1->GetBuffer(), asd::Int8Array());
-    EXPECT_NE(test2->GetBuffer(), asd::Int8Array());
-    EXPECT_NE(testPack1->GetBuffer(), asd::Int8Array());
-    EXPECT_NE(testPack2->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(*test1->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(*test2->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(*testPack1->GetBuffer(), asd::Int8Array());
+    EXPECT_NE(*testPack2->GetBuffer(), asd::Int8Array());
 
     asd::Core::Terminate();
 }
@@ -212,16 +212,16 @@ TEST(File, StaticFileAsync) {
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
     // create static file, and compare no-package and package without password
-    asd::StaticFile* test1 = nullptr;
-    asd::StaticFile* test2 = nullptr;
-    asd::StaticFile* test3 = nullptr;
-    asd::StaticFile* test4 = nullptr;
-    asd::StaticFile* testCache = nullptr;
-    asd::StaticFile* testPack1 = nullptr;
-    asd::StaticFile* testPack2 = nullptr;
-    asd::StaticFile* testPack3 = nullptr;
-    asd::StaticFile* testPack4 = nullptr;
-    asd::StaticFile* testPackCache = nullptr;
+    std::shared_ptr<asd::StaticFile> test1 = nullptr;
+    std::shared_ptr<asd::StaticFile> test2 = nullptr;
+    std::shared_ptr<asd::StaticFile> test3 = nullptr;
+    std::shared_ptr<asd::StaticFile> test4 = nullptr;
+    std::shared_ptr<asd::StaticFile> testCache = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack1 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack2 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack3 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPack4 = nullptr;
+    std::shared_ptr<asd::StaticFile> testPackCache = nullptr;
 
     std::thread thread1([&]() -> void {
         test1 = asd::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
@@ -256,10 +256,11 @@ TEST(File, StaticFileAsync) {
     EXPECT_EQ(testCache, test1);
     EXPECT_EQ(testPackCache, testPack2);
 
-    EXPECT_EQ(test1->GetBuffer(), testPack1->GetBuffer());
-    EXPECT_EQ(test2->GetBuffer(), testPack2->GetBuffer());
-    EXPECT_EQ(test3->GetBuffer(), testPack3->GetBuffer());
-    EXPECT_EQ(test4->GetBuffer(), testPack4->GetBuffer());
+	test1->GetBuffer() == testPack1->GetBuffer();
+    EXPECT_EQ(*test1->GetBuffer(), *testPack1->GetBuffer());
+    EXPECT_EQ(*test2->GetBuffer(), *testPack2->GetBuffer());
+    EXPECT_EQ(*test3->GetBuffer(), *testPack3->GetBuffer());
+    EXPECT_EQ(*test4->GetBuffer(), *testPack4->GetBuffer());
 
     asd::Core::Terminate();
 }

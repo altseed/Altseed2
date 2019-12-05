@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <atomic>
 #include <memory>
+#include "Common/Assertion.h"
 
 namespace altseed {
 
@@ -51,6 +52,17 @@ struct ReferenceDeleter {
         }
     }
 };
+
+template <class T>
+std::shared_ptr<T> MakeAsdShared() {
+	return std::shared_ptr<T>(new T(), ReferenceDeleter<T>());
+}
+
+template <class T>
+std::shared_ptr<T> CreateSharedPtr(T* p) {
+    if (p == nullptr) return nullptr;
+    return std::shared_ptr<T>(p, ReferenceDeleter<T>());
+}
 
 template <class T>
 std::shared_ptr<T> CreateAndAddSharedPtr(T* p) {

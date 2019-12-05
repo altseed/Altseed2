@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.12)
 
 if(CMAKE_GENERATOR STREQUAL Xcode)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "" FORCE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "" FORCE)
 endif()
 
 # solution name
 project(Altseed)
 
 # option
-option(BUILD_TEST "build test" OFF)
+option(BUILD_TEST "build test" ON)
 option(SANITIZE_ENABLED "make sanitize enabled" OFF)
+option(USE_MSVC_RUNTIME_LIBRARY_DLL, "" ON)
 
 # specify project type
 set(CMAKE_CONFIGURATION_TYPES Debug Release)

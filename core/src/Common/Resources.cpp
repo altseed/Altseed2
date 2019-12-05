@@ -5,7 +5,7 @@ namespace altseed {
 std::shared_ptr<Resources> Resources::instance = nullptr;
 
 bool Resources::Initialize() {
-    instance = std::make_shared<Resources>();
+    instance = MakeAsdShared<Resources>();
     for (int32_t i = 0; i < (int32_t)ResourceType::MAX; i++) {
         instance->m_containers[(ResourceType)i] = std::make_shared<ResourceContainer>();
     }
@@ -26,7 +26,7 @@ void Resources::Clear() {
     }
 }
 
-void Resources::Relaod() {
+void Resources::Reload() {
     for (int32_t i = 0; i < (int32_t)ResourceType::MAX; i++) {
         m_containers[(ResourceType)i]->Reload();
     }

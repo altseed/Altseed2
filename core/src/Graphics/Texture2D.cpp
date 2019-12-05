@@ -25,12 +25,12 @@ Texture2D::~Texture2D() {
 
 bool Texture2D::Reload() { return false; }
 
-Texture2D* Texture2D::Load(const char16_t* path) {
+std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     if (mtxs.count(path) == 0) mtxs[path] = std::make_shared<std::mutex>();
     std::lock_guard<std::mutex> lock(*mtxs[path]);
 
     auto resources = Resources::GetInstance();
-    Texture2D* cache = (Texture2D*)resources->GetResourceContainer(ResourceType::Texture2D)->Get(path);
+    auto cache = std::dynamic_pointer_cast<Texture2D>(resources->GetResourceContainer(ResourceType::Texture2D)->Get(path));
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -56,9 +56,9 @@ Texture2D* Texture2D::Load(const char16_t* path) {
         return nullptr;
     }
 
-    auto res = new Texture2D(resources, llgiTexture, data, w, h);
+    auto res = std::make_shared<Texture2D>(resources, llgiTexture, data, w, h);
     resources->GetResourceContainer(ResourceType::Texture2D)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     delete[] data;
 

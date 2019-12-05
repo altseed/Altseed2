@@ -59,7 +59,7 @@ enum class CursorMode : int32_t {
     Disable = 0x00034003,
 };
 
-class Mouse {
+class Mouse : public BaseObject {
 private:
     static std::shared_ptr<Mouse> instance;
     std::shared_ptr<Window> window;

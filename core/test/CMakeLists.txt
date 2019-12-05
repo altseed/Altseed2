@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
 
 enable_language(CXX)
 
@@ -11,6 +10,7 @@ set(core_test_files
     Graphics.cpp
     Texture2D.cpp
     Font.cpp
+    ShaderCompiler.cpp
 )
 
 # specify project filters

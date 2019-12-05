@@ -1,4 +1,5 @@
 ﻿#include "Graphics/Graphics.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -12,7 +13,6 @@
 namespace asd = altseed;
 
 TEST(Font, Basic) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -26,8 +26,8 @@ TEST(Font, Basic) {
 
     auto font = asd::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, asd::Color(255, 0, 0, 255));
 
-    auto shader = instance->CreateShader(font->HlslPSCode);
-    auto material = std::make_shared<asd::Material>();
+    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(font->HlslPSCode, altseed::ShaderStageType::Pixel);
+    auto material = asd::MakeAsdShared<asd::Material>();
     material->SetShader(shader);
 
     const char16_t* text = u"こんにちは！ Hello World";
@@ -37,7 +37,7 @@ TEST(Font, Basic) {
         if (glyph == nullptr) continue;
 
         auto tempPosition = position + glyph->GetOffset().To2DF();
-        auto sprite = std::make_shared<asd::Sprite>();
+        auto sprite = asd::MakeAsdShared<asd::Sprite>();
         sprite->SetMaterial(material);
         sprite->SetTexture(glyph->GetNativeTexture());
         sprite->SetPosition(tempPosition);
@@ -50,5 +50,5 @@ TEST(Font, Basic) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    asd::Graphics::Terminate();
+    altseed::Core::Terminate();
 }

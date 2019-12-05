@@ -23,7 +23,6 @@ BaseFileReader::~BaseFileReader() {
 int64_t BaseFileReader::GetSize() {
     if (m_length < 0) {
         std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
-        assert(!m_file.fail());
         m_file.seekg(0, std::ios_base::end);
         m_length = m_file.tellg();
         m_file.clear();

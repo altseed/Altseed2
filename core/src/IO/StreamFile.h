@@ -13,7 +13,7 @@ class StreamFile : public Resource {
 private:
     std::shared_ptr<File> file_;
 
-    Int8Array m_buffer;
+    std::shared_ptr<Int8Array> m_buffer;
     BaseFileReader* m_fileReader;
 
 public:
@@ -26,7 +26,7 @@ public:
 
     int32_t Read(int32_t size);
 
-    Int8Array& GetTempBuffer();
+    std::shared_ptr<Int8Array>& GetTempBuffer();
 
     int32_t GetTempBufferSize();
 
