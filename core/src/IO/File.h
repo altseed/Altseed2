@@ -30,9 +30,9 @@ public:
 
     static std::shared_ptr<File>& GetInstance();
 
-    StaticFile* CreateStaticFile(const char16_t* path);
+    std::shared_ptr<StaticFile> CreateStaticFile(const char16_t* path);
 
-    StreamFile* CreateStreamFile(const char16_t* path);
+    std::shared_ptr<StreamFile> CreateStreamFile(const char16_t* path);
 
     bool AddRootDirectory(const char16_t* path);
 
@@ -46,7 +46,7 @@ public:
 
     bool Pack(const char16_t* srcPath, const char16_t* dstPath) const;
 
-    bool Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
+    bool PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
 
 private:
     bool MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;

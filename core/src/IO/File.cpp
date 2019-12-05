@@ -27,10 +27,10 @@ void File::Terminate() { instance = nullptr; }
 
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
-StaticFile* File::CreateStaticFile(const char16_t* path) {
+std::shared_ptr<StaticFile> File::CreateStaticFile(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_staticFileMtx);
 
-    StaticFile* cache = (StaticFile*)m_resources->GetResourceContainer(ResourceType::StaticFile)->Get(path);
+    auto cache = std::dynamic_pointer_cast<StaticFile>(m_resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -50,23 +50,23 @@ StaticFile* File::CreateStaticFile(const char16_t* path) {
                 break;
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = new BaseFileReader(path);
+            reader = new BaseFileReader((*i)->GetPath() + path);
         }
     }
 
     if (reader == nullptr) return nullptr;
 
-    auto res = new StaticFile(reader);
+    auto res = std::make_shared<StaticFile>(reader);
 
     m_resources->GetResourceContainer(ResourceType::StaticFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
     return res;
 }
 
-StreamFile* File::CreateStreamFile(const char16_t* path) {
+std::shared_ptr<StreamFile> File::CreateStreamFile(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
-    StreamFile* cache = (StreamFile*)m_resources->GetResourceContainer(ResourceType::StreamFile)->Get(path);
+    auto cache = std::dynamic_pointer_cast<StreamFile>(m_resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -87,16 +87,16 @@ StreamFile* File::CreateStreamFile(const char16_t* path) {
                 break;
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = new BaseFileReader(path);
+            reader = new BaseFileReader((*i)->GetPath() + path);
         }
     }
 
     if (reader == nullptr) return nullptr;
 
-    auto res = new StreamFile(reader);
+    auto res = std::make_shared<StreamFile>(reader);
 
     m_resources->GetResourceContainer(ResourceType::StreamFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
     return res;
 }
 
@@ -167,7 +167,7 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
     return res;
 }
 
-bool File::Pack(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
+bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
     if (!FileSystem::GetIsDirectory(srcPath)) return false;
 
     int error;

@@ -38,6 +38,7 @@ with StreamFile as class_:
 File = cbg.Class('altseed', 'File')
 with File as class_:
     with class_.add_func('GetInstance') as func:
+        func.is_static = True
         func.return_value.type_ = File
     with class_.add_func('CreateStaticFile') as func:
         func.add_arg(ctypes.c_wchar_p, 'path')
@@ -63,7 +64,7 @@ with File as class_:
         func.add_arg(ctypes.c_wchar_p, 'srcPath')
         func.add_arg(ctypes.c_wchar_p, 'dstPath')
         func.return_value.type_ = bool
-    with class_.add_func('Pack') as func:
+    with class_.add_func('PackWithPassword') as func:
         func.add_arg(ctypes.c_wchar_p, 'srcPath')
         func.add_arg(ctypes.c_wchar_p, 'dstPath')
         func.add_arg(ctypes.c_wchar_p, 'password')
