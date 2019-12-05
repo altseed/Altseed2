@@ -150,6 +150,7 @@ if (MSVC)
 
 elseif(APPLE)
 
+    find_library(OPEN_AL OpenAL)
     find_library(COCOA_FRAMEWORK Cocoa)
     find_library(IOKIT_FRAMEWORK IOKit)
     find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
@@ -168,6 +169,7 @@ elseif(APPLE)
         optimized png16
         debug glfw3d
         optimized glfw3
+        ${OPEN_AL}
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
         ${CORE_FOUNDATION_FRAMEWORK}
