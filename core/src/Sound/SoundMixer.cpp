@@ -16,7 +16,7 @@ SoundMixer::SoundMixer(File* file, bool isReloadingEnabled)
 		if(m_manager != nullptr) m_manager->Release();
 	}
 
-	SoundSourcesContainer = std::make_shared<ResourceContainer>(file);
+	SoundSourcesContainer = std::make_shared<ResourceContainer>();
 }
 
 SoundMixer::~SoundMixer()
@@ -30,9 +30,7 @@ SoundMixer::~SoundMixer()
 
 Sound* SoundMixer::CreateSound(const char16_t* path, bool isDecompressed)
 {
-	if(m_manager == nullptr) return nullptr;
-	
-	
+	return nullptr;
 }
 
 int32_t SoundMixer::Play(Sound* sound)
@@ -72,6 +70,12 @@ void SoundMixer::Resume(int32_t id)
 {
 	if (m_manager == nullptr) return;
 	return m_manager->Resume(id);	
+}
+
+void SoundMixer::Seek(int32_t id, float position)
+{
+	if (m_manager == nullptr) return;
+	return m_manager->Seek(id, position);
 }
 
 void SoundMixer::SetVolume(int32_t id, float volume)

@@ -32,6 +32,8 @@
 namespace altseed
 {
 
+class Sound;
+
 /**
 @brief  音を管理するクラス
 */
