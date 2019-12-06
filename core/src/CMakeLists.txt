@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
 
 enable_language(CXX)
 
@@ -9,7 +8,7 @@ set(core_files
     BaseObject.h
     BaseObject.cpp
     Wrapper.cpp
-	Scene.h
+    Scene.h
     Scene.cpp
     Common/Int8Array.h
     Common/ResourceContainer.h
@@ -17,6 +16,7 @@ set(core_files
     Common/Resources.h
     Common/Resources.cpp
     Common/StringHelper.h
+    Platform/FileSystem.h
     Window/Window.h
     Window/Window.cpp
     Input/ButtonState.h
@@ -50,7 +50,7 @@ set(core_files
     Graphics/Shader.cpp
     Graphics/Material.h
     Graphics/Material.cpp
-	Graphics/Renderer.h
+    Graphics/Renderer.h
     Graphics/Renderer.cpp
     Graphics/Camera.h
     Graphics/Camera.cpp
@@ -60,6 +60,12 @@ set(core_files
     Graphics/Color.cpp
     Graphics/RenderTexture.h
     Graphics/RenderTexture.cpp
+    Graphics/ShaderCompiler/ShaderCompiler.h
+    Graphics/ShaderCompiler/ShaderCompiler.cpp
+    Graphics/ShaderCompiler/ShaderTranspiler.h
+    Graphics/ShaderCompiler/ShaderTranspiler.cpp
+    Graphics/ShaderCompiler/ResourceLimits.h
+    Graphics/ShaderCompiler/ResourceLimits.cpp
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h
@@ -90,6 +96,26 @@ set(core_files
     Sound/Sound.h
     Sound/Sound.cpp
 )
+
+if(WIN32)
+
+    list(APPEND core_files
+        Platform/FileSystemWin.cpp
+    )
+
+elseif(APPLE)
+
+    list(APPEND core_files
+        Platform/FileSystemMac.cpp
+    )
+
+else()
+
+    list(APPEND core_files
+        Platform/FileSystemLinux.cpp
+    )
+
+endif()
 
 # specify project filters
 foreach(FILE ${core_files}) 
@@ -133,6 +159,14 @@ target_link_libraries(
     LLGI
     OpenSoundMixer
     zip
+    spirv-cross-core
+    spirv-cross-c
+    spirv-cross-cpp
+    spirv-cross-hlsl
+    spirv-cross-glsl
+    spirv-cross-msl
+    spirv-cross-reflect
+    spirv-cross-util
     )
 
 if (MSVC)
@@ -146,10 +180,23 @@ if (MSVC)
         optimized zlibstatic
         debug glfw3d
         optimized glfw3
+        debug glslangd
+        optimized glslang
+        debug HLSLd
+        optimized HLSL
+        debug OGLCompilerd
+        optimized OGLCompiler
+        debug OSDependentd
+        optimized OSDependent
+        debug SPIRVd
+        optimized SPIRV
+        debug SPVRemapperd
+        optimized SPVRemapper
     )
 
 elseif(APPLE)
 
+    find_library(OPEN_AL OpenAL)
     find_library(COCOA_FRAMEWORK Cocoa)
     find_library(IOKIT_FRAMEWORK IOKit)
     find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
@@ -164,10 +211,17 @@ elseif(APPLE)
         Altseed_Core
         PRIVATE
         z
+        glslang
         debug png16d
         optimized png16
         debug glfw3d
         optimized glfw3
+        HLSL
+        OGLCompiler
+        OSDependent
+        SPIRV
+        SPVRemapper
+        ${OPEN_AL}
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
         ${CORE_FOUNDATION_FRAMEWORK}
@@ -194,6 +248,12 @@ else()
         crypto
         X11
         X11-xcb
+        glslang
+        HLSL
+        OGLCompiler
+        OSDependent
+        SPIRV
+        SPVRemapper
         )
 
 endif()
@@ -201,8 +261,8 @@ endif()
 if(MSVC)
 
 else()
-	find_package(Threads REQUIRED)
-	target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
+    find_package(Threads REQUIRED)
+    target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 # to use external projects

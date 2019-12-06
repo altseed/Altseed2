@@ -8,7 +8,6 @@
 namespace asd = altseed;
 
 TEST(Texture2D, Base) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -22,28 +21,28 @@ TEST(Texture2D, Base) {
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
     // load texture, and compare no-package and package without password
-    asd::Texture2D* testPng = nullptr;
+    std::shared_ptr<asd::Texture2D> testPng = nullptr;
     EXPECT_NE(testPng = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
-    asd::Texture2D* testPngPack = nullptr;
+    std::shared_ptr<asd::Texture2D> testPngPack = nullptr;
     EXPECT_NE(testPngPack = asd::Texture2D::Load(u"AltseedPink.png"), nullptr);
     EXPECT_EQ(testPng->GetSize().X, testPngPack->GetSize().X);
-    asd::Texture2D* testJpg = nullptr;
+    std::shared_ptr<asd::Texture2D> testJpg = nullptr;
     EXPECT_NE(testJpg = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg"), nullptr);
-    asd::Texture2D* testJpgPack = nullptr;
+    std::shared_ptr<asd::Texture2D> testJpgPack = nullptr;
     EXPECT_NE(testJpgPack = asd::Texture2D::Load(u"AltseedPink.jpg"), nullptr);
     EXPECT_EQ(testJpg->GetSize().X, testJpgPack->GetSize().X);
-    asd::Texture2D* testGif = nullptr;
+    std::shared_ptr<asd::Texture2D> testGif = nullptr;
     EXPECT_NE(testGif = asd::Texture2D::Load(u"TestData/IO/AltseedPink.gif"), nullptr);
-    asd::Texture2D* testGifPack = nullptr;
+    std::shared_ptr<asd::Texture2D> testGifPack = nullptr;
     EXPECT_NE(testGifPack = asd::Texture2D::Load(u"AltseedPink.gif"), nullptr);
     EXPECT_EQ(testGif->GetSize().X, testGifPack->GetSize().X);
-    asd::Texture2D* nonImage = nullptr;
+    std::shared_ptr<asd::Texture2D> nonImage = nullptr;
     EXPECT_EQ(nonImage = asd::Texture2D::Load(u"test.txt"), nullptr);
-    asd::Texture2D* notExist = nullptr;
+    std::shared_ptr<asd::Texture2D> notExist = nullptr;
     EXPECT_EQ(notExist = asd::Texture2D::Load(u"not_exsist.png"), nullptr);
 
     // cache test
-    asd::Texture2D* testCache = nullptr;
+    std::shared_ptr<asd::Texture2D> testCache = nullptr;
     EXPECT_NE(testCache = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
     EXPECT_EQ(testPng, testCache);
 
@@ -51,7 +50,6 @@ TEST(Texture2D, Base) {
 }
 
 TEST(Texture2D, Async) {
-
 #if defined(__APPLE__) || defined(__linux__)
     return;
 #endif
@@ -64,14 +62,14 @@ TEST(Texture2D, Async) {
     // add package
     EXPECT_TRUE(asd::File::GetInstance()->AddRootPackage(u"TestData/IO/pack.pack"));
 
-    asd::Texture2D* test1 = nullptr;
-    asd::Texture2D* test2 = nullptr;
-    asd::Texture2D* test3 = nullptr;
-    asd::Texture2D* testCache = nullptr;
-    asd::Texture2D* testPack1 = nullptr;
-    asd::Texture2D* testPack2 = nullptr;
-    asd::Texture2D* testPack3 = nullptr;
-    asd::Texture2D* testPackCache = nullptr;
+    std::shared_ptr<asd::Texture2D> test1 = nullptr;
+    std::shared_ptr<asd::Texture2D> test2 = nullptr;
+    std::shared_ptr<asd::Texture2D> test3 = nullptr;
+    std::shared_ptr<asd::Texture2D> testCache = nullptr;
+    std::shared_ptr<asd::Texture2D> testPack1 = nullptr;
+    std::shared_ptr<asd::Texture2D> testPack2 = nullptr;
+    std::shared_ptr<asd::Texture2D> testPack3 = nullptr;
+    std::shared_ptr<asd::Texture2D> testPackCache = nullptr;
 
     std::thread thread1([&]() -> void {
         test1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png");
@@ -90,7 +88,7 @@ TEST(Texture2D, Async) {
     thread1.join();
     thread2.join();
 
-	EXPECT_NE(test1, nullptr);
+    EXPECT_NE(test1, nullptr);
     EXPECT_NE(test2, nullptr);
     EXPECT_NE(test3, nullptr);
     EXPECT_NE(testCache, nullptr);
@@ -99,7 +97,7 @@ TEST(Texture2D, Async) {
     EXPECT_NE(testPack3, nullptr);
     EXPECT_NE(testPackCache, nullptr);
 
-	EXPECT_EQ(testCache, test1);
+    EXPECT_EQ(testCache, test1);
     EXPECT_EQ(testPackCache, testPack1);
 
     asd::Core::Terminate();

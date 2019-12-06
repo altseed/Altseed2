@@ -15,7 +15,7 @@ Glyph::Glyph(
         int32_t glyphWidth)
     : Texture2D(resources, texture, data, width, height), offset_(offset), glyphWidth_(glyphWidth) {}
 
-Font::Font(std::shared_ptr<Resources>& resources, StaticFile* file, stbtt_fontinfo fontinfo, int32_t size, Color color)
+Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color)
     : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
@@ -63,9 +63,9 @@ Vector2DI Font::CalcTextureSize(const char16_t* text, WritingDirection direction
     return direction == WritingDirection::Horizontal ? Vector2DI(w, h) : Vector2DI(h, w);
 }
 
-Font* Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
+std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
     auto resources = Resources::GetInstance();
-    Font* cache = (Font*)resources->GetResourceContainer(ResourceType::Font)->Get(path);
+    auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {
         cache->AddRef();
         return cache;
@@ -82,14 +82,13 @@ Font* Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
         return nullptr;
     }
 
-    Font* res = new Font(resources, file, info, size, color);
-    resources->GetResourceContainer(ResourceType::Font)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>((Resource*)res, path));
+    auto res = std::make_shared<Font>(resources, file, info, size, color);
+    resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;
 }
 
-Font* Font::LoadStaticFont(const char16_t* path) { return nullptr; }
+std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) { return nullptr; }
 
 bool Font::Reload() { return false; }
 

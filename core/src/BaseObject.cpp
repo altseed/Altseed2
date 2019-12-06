@@ -5,12 +5,20 @@ namespace altseed {
 
 BaseObject::BaseObject() : reference_(1) {
     core_ = Core::GetInstance();
-    core_->Register(this);
+
+    // for Core
+    if (core_ != nullptr) {
+        core_->Register(this);
+    }
 }
 
 BaseObject::~BaseObject() {
-    core_->Unregister(this);
-    core_ = nullptr;
+
+    // for Core
+    if (core_ != nullptr) {
+        core_->Unregister(this);
+        core_ = nullptr;
+    }
 }
 
 }  // namespace altseed

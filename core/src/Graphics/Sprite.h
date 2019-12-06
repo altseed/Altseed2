@@ -10,7 +10,7 @@ namespace altseed {
 
 class Material;
 
-class Sprite {
+class Sprite : public BaseObject {
 private:
     Vector2DF position_;
     Vector2DF size_;

@@ -41,13 +41,13 @@ private:
     int32_t ascent_, descent_, lineGap_;
 
     Color color_;
-    StaticFile* file_;
+    std::shared_ptr<StaticFile> file_;
 
     std::map<char16_t, Glyph*> glyphs_;
     std::map<char16_t, Texture2D*> glyphTextures_;
 
 public:
-    Font(std::shared_ptr<Resources>& resources, StaticFile* file, stbtt_fontinfo fontinfo, int32_t size, Color color);
+    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color);
     virtual ~Font();
 
     Color GetColor() { return color_; }
@@ -58,8 +58,8 @@ public:
     int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
-    static Font* LoadDynamicFont(const char16_t* path, int32_t size, Color color);
-    static Font* LoadStaticFont(const char16_t* path);
+    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size, Color color);
+    static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
 
     const char* HlslPSCode = R"(
 Texture2D txt : register(t8);

@@ -141,14 +141,14 @@ Keyboard = cbg.Class('altseed', 'Keyboard')
 with Keyboard as class_:
     with class_.add_func('Initialize') as func:
         func.add_arg(Window, 'window')
-        func.return_type = bool
-    class_.add_func('Terminate')
-    with class_.add_func('GetInstance') as func:
-        func.return_type = Keyboard
+        func.return_value.type_ = bool
     class_.add_func('RefleshKeyStates')
     with class_.add_func('GetKeyState') as func:
         func.add_arg(Keys, 'key')
-        func.return_type = ButtonState
+        func.return_value.type_ = ButtonState
+    with class_.add_func('GetInstance') as func:
+        func.return_value.type_ = Keyboard
+        func.is_static = True
 
 MouseButtons = cbg.Enum('altseed', 'MouseButtons')
 with MouseButtons as enum:
@@ -171,10 +171,10 @@ Mouse = cbg.Class('altseed', 'Mouse')
 with Mouse as class_:
     with class_.add_func('Initialize') as func:
         func.add_arg(Window, 'window')
-        func.return_type = bool
+        func.return_value.type_ = bool
     class_.add_func('Terminate')
     with class_.add_func('GetInstance') as func:
-        func.return_type = Mouse
+        func.return_value.type_ = Mouse
     class_.add_func('RefreshInputState')
     with class_.add_func('SetPosition') as func:
         func.add_arg(float, 'x')
@@ -185,7 +185,7 @@ with Mouse as class_:
     with class_.add_func('SetWheelCallback') as func:
         func.add_arg(VoidPtr, 'func')   # 関数ポインタの引数はサポートされない
     with class_.add_func('GetWheel') as func:
-        func.return_type = float
+        func.return_value.type_ = float
     with class_.add_func('GetMouseButtonState') as func:
         func.add_arg(MouseButtons, 'button')
         func.return_type = ButtonState
@@ -278,3 +278,4 @@ with Joystick as class_:
         func.add_arg(float, 'high_amp')
         func.add_arg(float, 'low_amp')
         func.add_arg(int, 'life_time')
+

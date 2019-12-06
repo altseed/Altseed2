@@ -1,9 +1,6 @@
 #include "Renderer.h"
 #include "Graphics.h"
-
-// hogehoge
-#include <glslang/Public/ShaderLang.h>
-#include <spirv_cross/spirv.hpp>
+#include "ShaderCompiler/ShaderCompiler.h"
 
 namespace altseed {
 
@@ -17,9 +14,14 @@ bool Renderer::Initialize() {
     indexBuffer_ = Graphics::GetInstance()->CreateIndexBuffer(2, 1024);
     vertexBuffer_ = Graphics::GetInstance()->CreateVertexBuffer(sizeof(SimpleVertex) * 1024);
 
-    vs_ = Graphics::GetInstance()->CreateShader(HlslVSCode, LLGI::ShaderStageType::Vertex);
+    auto shader = ShaderCompiler::GetInstance()->Compile(HlslVSCode, ShaderStageType::Vertex);
 
-    return true;  // todo error check
+    if (shader->GetIsValid()) {
+        vs_ = shader;
+        return true;
+	}
+
+	return false;
 }
 
 LLGI::CommandList* Renderer::Render() {
