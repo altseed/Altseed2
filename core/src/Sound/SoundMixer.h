@@ -9,26 +9,6 @@
 #include <memory>
 #include <OpenSoundMixer.h>
 
-#ifdef _WIN32
-#ifdef _WIN64
-
-#if _DEBUG
-#pragma comment(lib,"x64/Debug/OpenSoundMixer.lib")
-#else
-#pragma comment(lib,"x64/Release/OpenSoundMixer.lib")
-#endif
-
-#else
-
-#if _DEBUG
-#pragma comment(lib,"x86/Debug/OpenSoundMixer.lib")
-#else
-#pragma comment(lib,"x86/Release/OpenSoundMixer.lib")
-#endif
-
-#endif
-#endif
-
 namespace altseed
 {
 
