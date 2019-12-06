@@ -44,7 +44,13 @@ void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16s
 
     for (int32_t i = 0; i < num; i++)
     {
-        childPaths.push_back(utf8_to_utf16(namelist[i]->d_name));
+        auto child = utf8_to_utf16(namelist[i]->d_name);
+        if (child == u"." || child == u"..")
+            continue;
+        auto tmpPath = path;
+        if (tmpPath.back() != u'/')
+            tmpPath += u'/';
+        childPaths.push_back(tmpPath + child);
     }
     free(namelist);
 }
