@@ -14,6 +14,6 @@ Core (本リポジトリ) と Engine に分かれています。
 
 ## ドキュメントリンク
 
-* [ビルド手順](HowToBuild_ja)
-* [開発方法について](HowToDevelop_ja)
-* [ツールやライブラリについて](LibraryAndTools_ja.md)
+* [ビルド手順](documents/development/HowToBuild_ja)
+* [開発方法について](documents/development/HowToDevelop_ja)
+* [ツールやライブラリについて](documents/development/LibraryAndTools_ja.md)
