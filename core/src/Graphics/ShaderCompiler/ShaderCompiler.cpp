@@ -13,9 +13,7 @@ bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics) {
     return true;
 }
 
-void ShaderCompiler::Terminate() { 
-    instance_ = nullptr; 
-}
+void ShaderCompiler::Terminate() { instance_ = nullptr; }
 
 ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
     spirvGenerator_ = std::make_shared<SPIRVGenerator>();
@@ -30,20 +28,19 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
 #else
     spirvTranspiler_ = std::make_shared<SPIRVToGLSLTranspiler>(true);
 #endif
+
+    spirvReflection_ = std::make_shared<SPIRVReflection>();
 }
 
-ShaderCompiler::~ShaderCompiler()
-{
-    spirvGenerator_->Terminate();
-}
+ShaderCompiler::~ShaderCompiler() { spirvGenerator_->Terminate(); }
 
 std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
+    auto spirv = spirvGenerator_->Generate(code, shaderStage);
+
     // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
-        auto spirv = spirvGenerator_->Generate(code, shaderStage);
-
         if (!spirvTranspiler_->Transpile(spirv)) {
             return CreateSharedPtr(new Shader(code, spirvTranspiler_->GetErrorCode()));
         }
@@ -68,18 +65,22 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageTyp
         return CreateSharedPtr(new Shader(availableCode, result.Message.c_str()));
     }
 
+    if (!spirvReflection_->Transpile(spirv)) {
+        return CreateSharedPtr(new Shader(availableCode, "Failed to reflect."));
+    }
+
     std::vector<LLGI::DataStructure> data;
 
     for (auto& b : result.Binary) {
         LLGI::DataStructure d;
         d.Data = b.data();
-        d.Size = b.size();
+        d.Size = static_cast<int32_t>(b.size());
         data.push_back(d);
     }
 
-    auto shaderLLGI = graphics_->GetGraphicsLLGI()->CreateShader(data.data(), data.size());
+    auto shaderLLGI = graphics_->GetGraphicsLLGI()->CreateShader(data.data(), static_cast<int32_t>(data.size()));
 
-    auto ret = CreateSharedPtr(new Shader(availableCode, shaderLLGI));
+    auto ret = CreateSharedPtr(new Shader(availableCode, spirvReflection_->Textures, spirvReflection_->Uniforms, shaderLLGI));
     LLGI::SafeRelease(shaderLLGI);
     return ret;
 }

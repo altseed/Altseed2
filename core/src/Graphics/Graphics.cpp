@@ -1,6 +1,8 @@
 ﻿#include "Graphics.h"
 
+#include "BuildinShader.h"
 #include "Camera.h"
+#include "CommandList.h"
 #include "Sprite.h"
 
 #ifdef _WIN32
@@ -32,6 +34,9 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
+    instance->commandList_ = MakeAsdShared<CommandList>();
+    instance->buildinShader_ = MakeAsdShared<BuildinShader>();
+
     return true;
 }
 
@@ -53,7 +58,7 @@ bool Graphics::Update() {
 
 void Graphics::Terminate() {
     ASD_VERIFY(instance != nullptr, "instance must be not null.")
-	instance->graphics_->WaitFinish();
+    instance->graphics_->WaitFinish();
     LLGI::SafeRelease(instance->graphics_);
     LLGI::SafeRelease(instance->platform_);
     instance = nullptr;

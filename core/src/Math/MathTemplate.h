@@ -11,8 +11,8 @@ struct Vector3DF;
 struct Vector3DI;
 struct Vector4DF;
 struct Vector4DI;
-struct Matrix33;
-struct Matrix44;
+struct Matrix33F;
+struct Matrix44F;
 struct RectF;
 struct RectI;
 
