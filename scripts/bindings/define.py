@@ -6,6 +6,7 @@ from .io import *
 from .input import *
 from .graphics import *
 from .core import *
+from .sound import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -27,13 +28,11 @@ from .core import *
 define = cbg.Define()
 
 define.structs.append(Vector2DI)
+define.structs.append(Vector2DF)
 
 # core
 define.structs.append(CoreOption)
 define.classes.append(Core)
-
-# window
-define.classes.append(Window)
 
 # common
 define.classes.append(Int8Array)
@@ -43,7 +42,15 @@ define.classes.append(Resources)
 # input
 define.enums.append(Keys)
 define.enums.append(ButtonState)
+define.enums.append(MouseButtons)
+define.enums.append(CursorMode)
+define.enums.append(JoystickType)
+define.enums.append(JoystickButtonType)
+define.enums.append(JoystickAxisType)
+
 define.classes.append(Keyboard)
+define.classes.append(Mouse)
+define.classes.append(Joystick)
 
 # graphics
 define.enums.append(DeviceType)
@@ -54,3 +61,6 @@ define.classes.append(Texture2D)
 define.classes.append(StreamFile)
 define.classes.append(StaticFile)
 define.classes.append(File)
+
+# sound
+define.classes.append(Sound)

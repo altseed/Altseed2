@@ -37,3 +37,4 @@ with Resources as class_:
 
 
 Vector2DI = cbg.Struct('altseed', 'Vector2DI')
+Vector2DF = cbg.Struct('altseed', 'Vector2DF')

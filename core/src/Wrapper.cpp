@@ -33,7 +33,10 @@
 
 #include "Window/Window.h"
 
+#include "Input/ButtonState.h"
+#include "Input/Joystick.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 
 #include "Graphics/Graphics.h"
 #include "Graphics/Texture2D.h"
@@ -45,6 +48,9 @@
 #include "IO/FileRoot.h"
 #include "IO/BaseFileReader.h"
 #include "IO/PackFileReader.h"
+
+#include "Sound/Sound.h"
+#include "Sound/SoundMixer.h"
 
     
 extern "C" {
@@ -76,12 +82,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Core_GetInstance() {
 
 CBGEXPORT void CBGSTDCALL cbg_Core_Release(void* cbg_self) {
     auto cbg_self_ = (altseed::Core*)(cbg_self);
-
-    cbg_self_->Release();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
-    auto cbg_self_ = (altseed::Window*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -131,20 +131,6 @@ CBGEXPORT void CBGSTDCALL cbg_Resources_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Keyboard_Initialize(void* cbg_self,void* window) {
-    auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
-
-    std::shared_ptr<altseed::Window> cbg_arg0 = altseed::CreateAndAddSharedPtr<altseed::Window>((altseed::Window*)window);
-    bool cbg_ret = cbg_self_->Initialize(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Keyboard_RefleshKeyStates(void* cbg_self) {
-    auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
-
-    cbg_self_->RefleshKeyStates();
-}
-
 CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self,int32_t key) {
     auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
 
@@ -160,6 +146,122 @@ CBGEXPORT void* CBGSTDCALL cbg_Keyboard_GetInstance() {
 
 CBGEXPORT void CBGSTDCALL cbg_Keyboard_Release(void* cbg_self) {
     auto cbg_self_ = (altseed::Keyboard*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Mouse_GetInstance(void* cbg_self) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    std::shared_ptr<altseed::Mouse> cbg_ret = cbg_self_->GetInstance();
+    return (void*)altseed::AddAndGetSharedPtr<altseed::Mouse>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_RefreshInputState(void* cbg_self) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    cbg_self_->RefreshInputState();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self,float x,float y) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    float cbg_arg0 = x;
+    float cbg_arg1 = y;
+    cbg_self_->SetPosition(cbg_arg0,cbg_arg1);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Mouse_GetWheel(void* cbg_self) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWheel();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self,int32_t button) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    altseed::MouseButtons cbg_arg0 = (altseed::MouseButtons)button;
+    cbg_self_->GetMouseButtonState(cbg_arg0);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetCursorMode(void* cbg_self) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    altseed::CursorMode cbg_ret = cbg_self_->GetCursorMode();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetCursorMode(void* cbg_self,int32_t value) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    altseed::CursorMode cbg_arg0 = (altseed::CursorMode)value;
+    cbg_self_->SetCursorMode(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Mouse*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_IsPresent(void* cbg_self,int32_t joystickIndex) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = joystickIndex;
+    cbg_self_->IsPresent(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_GetJoystickType(void* cbg_self,int32_t index) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    cbg_self_->GetJoystickType(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_GetAxisState(void* cbg_self,int32_t joystickIndex,int32_t axisIndex) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = joystickIndex;
+    int32_t cbg_arg1 = axisIndex;
+    cbg_self_->GetAxisState(cbg_arg0,cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_GetAxisState(void* cbg_self,int32_t joystickIndex,int32_t type) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = joystickIndex;
+    altseed::JoystickAxisType cbg_arg1 = (altseed::JoystickAxisType)type;
+    cbg_self_->GetAxisState(cbg_arg0,cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self,int32_t index) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    cbg_self_->GetJoystickName(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshVibrateState(void* cbg_self) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    cbg_self_->RefreshVibrateState();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self,int32_t index,float high_freq,float low_freq,float high_amp,float low_amp,int32_t life_time) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    float cbg_arg1 = high_freq;
+    float cbg_arg2 = low_freq;
+    float cbg_arg3 = high_amp;
+    float cbg_arg4 = low_amp;
+    int32_t cbg_arg5 = life_time;
+    cbg_self_->GetJoystickName(cbg_arg0,cbg_arg1,cbg_arg2,cbg_arg3,cbg_arg4,cbg_arg5);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Joystick_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Joystick*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -380,6 +482,67 @@ CBGEXPORT bool CBGSTDCALL cbg_File_PackWithPassword(void* cbg_self,const char16_
 
 CBGEXPORT void CBGSTDCALL cbg_File_Release(void* cbg_self) {
     auto cbg_self_ = (altseed::File*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_StopAll(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    cbg_self_->StopAll();
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLoopStartingPoint();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetLoopStartingPoint(void* cbg_self,float value) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetLoopStartingPoint(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopEndPoint(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLoopEndPoint();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetLoopEndPoint(void* cbg_self,float value) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetLoopEndPoint(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsLoopingMode(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsLoopingMode();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetIsLoopingMode(void* cbg_self,bool value) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsLoopingMode(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLength(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLength();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_Release(void* cbg_self) {
+    auto cbg_self_ = (altseed::Sound*)(cbg_self);
 
     cbg_self_->Release();
 }
