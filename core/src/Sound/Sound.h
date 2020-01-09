@@ -18,14 +18,15 @@ class Sound : public Resource
 {
 private:
     std::shared_ptr<Resources> m_resources;
+    std::shared_ptr<SoundMixer> m_manager;
+
+    osm::Sound* m_sound;
 
     const char16_t* m_filePath;
-    SoundMixer*     m_manager;
-    osm::Sound*     m_sound;
-    bool            m_isDecompressed = false;
+    const bool m_isDecompressed;
     
 public:
-    Sound(std::shared_ptr<Resources>& resources, SoundMixer* manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed);
+    Sound(std::shared_ptr<Resources>& resources, std::shared_ptr<SoundMixer>& manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed);
     virtual ~Sound();
 
     /**

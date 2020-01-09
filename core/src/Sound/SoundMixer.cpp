@@ -55,7 +55,7 @@ std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDeco
 	return soundRet;
 }
 
-int32_t SoundMixer::Play(Sound* sound)
+int32_t SoundMixer::Play(std::shared_ptr<Sound> sound)
 {
 	if (m_manager == nullptr) return -1;
 	if (sound == nullptr) return -1;

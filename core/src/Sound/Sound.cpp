@@ -3,7 +3,7 @@
 namespace altseed
 {
 
-Sound::Sound(std::shared_ptr<Resources>& resources, SoundMixer* manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed)
+Sound::Sound(std::shared_ptr<Resources>& resources, std::shared_ptr<SoundMixer>& manager, const char16_t* filePath, osm::Sound*sound, bool isDecompressed)
 	: m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed)
 {   
 	// Increment reference counter

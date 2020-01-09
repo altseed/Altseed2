@@ -20,9 +20,6 @@ class Sound;
 */
 class SoundMixer : public BaseObject
 {
-    friend class Core;
-    friend class Sound;
-
 private:
     osm::Manager* m_manager;
 
@@ -45,7 +42,7 @@ public:
     @param  sound   音源
     @return 音のID
     */
-    virtual int32_t Play(Sound* sound);
+    virtual int32_t Play(std::shared_ptr<Sound> sound);
 
     /**
     @brief  指定した音が再生中であるかを取得する
