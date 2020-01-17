@@ -177,18 +177,14 @@ with Mouse as class_:
         func.return_value.type_ = Mouse
     class_.add_func('RefreshInputState')
     with class_.add_func('SetPosition') as func:
-        func.add_arg(float, 'x')
-        func.add_arg(float, 'y')
+        func.add_arg(Vector2DF, 'vec')
     with class_.add_func('GetPosition') as func:    # 参照引数を使った出力はサポートされない
-        func.add_arg(float, 'x')
-        func.add_arg(float, 'y')
-    with class_.add_func('SetWheelCallback') as func:
-        func.add_arg(VoidPtr, 'func')   # 関数ポインタの引数はサポートされない
+        func.return_value.type_ = Vector2DF
     with class_.add_func('GetWheel') as func:
         func.return_value.type_ = float
     with class_.add_func('GetMouseButtonState') as func:
         func.add_arg(MouseButtons, 'button')
-        func.return_type = ButtonState
+        func.return_value.type_ = ButtonState
     class_.add_property(CursorMode, 'CursorMode')
 
 JoystickType = cbg.Enum('altseed', 'JoystickType')
