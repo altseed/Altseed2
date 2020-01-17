@@ -78,7 +78,7 @@ namespace altseed {
         std::chrono::system_clock::time_point pre_time;
     };
 
-    class Joystick {
+    class Joystick: public BaseObject {
     private:
         static const int MAX_AXES_NUM = 10;
         static const int MAX_BUTTONS_NUM = 30;
@@ -116,15 +116,15 @@ namespace altseed {
         
         bool IsPresent(int32_t joystickIndex);
 
-        ButtonState GetButtonState(int32_t joystickIndex, int32_t buttonIndex) const;
-        ButtonState GetButtonState(int32_t joystickIndex, JoystickButtonType type) const;
+        ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;
+        ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButtonType type) const;
         
         JoystickType GetJoystickType(int32_t index) const;
         
-        float GetAxisState(int32_t joystickIndex, int32_t axisIndex) const;
-        float GetAxisState(int32_t joystickIndex, JoystickAxisType type) const;
+        float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
+        float GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const;
         
-        wchar_t * GetJoystickName(int16_t index) const;
+        char16_t * GetJoystickName(int32_t index) const;
         
         
 //    for vibration only
