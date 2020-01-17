@@ -1,4 +1,4 @@
-﻿#include "Mouse.h"
+#include "Mouse.h"
 
 namespace altseed {
 
@@ -17,7 +17,7 @@ static void GetWheelInternal(GLFWwindow* wHandle, double x, double y) {
     }
 }
 
-bool Mouse::Intialize(std::shared_ptr<Window>& window) {
+bool Mouse::Initialize(std::shared_ptr<Window>& window) {
     instance = MakeAsdShared<Mouse>();
 
     instance->window = window;
@@ -45,14 +45,17 @@ void Mouse::RefreshInputState() {
     }
 }
 
-void Mouse::SetPosition(double x, double y) {
+void Mouse::SetPosition(Vector2DF vec) {
     auto w = (GLFWwindow*)window->GetNativeWindow();
-    glfwSetCursorPos(w, x, y);
+    glfwSetCursorPos(w, vec.X, vec.Y);
 }
 
-void Mouse::GetPosition(double& x, double& y) {
+Vector2DF Mouse::GetPosition() {
+    double x, y;
     auto w = (GLFWwindow*)window->GetNativeWindow();
     glfwGetCursorPos(w, &x, &y);
+    Vector2DF* vec = new Vector2DF(x, y);
+    return *vec;
 }
 
 void Mouse::SetWheelCallback(std::function<void(double x, double y)> func) { wheelCallback = func; }

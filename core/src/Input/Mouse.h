@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <GLFW/glfw3.h>
 
 #include <array>
@@ -6,6 +6,7 @@
 
 #include "../Window/Window.h"
 #include "ButtonState.h"
+#include "../Math/Vector2DF.h"
 
 namespace altseed {
 enum class MouseButtons : int32_t {
@@ -73,7 +74,7 @@ private:
     float wheel = 0;
 
 public:
-    static bool Intialize(std::shared_ptr<Window>& window);
+    static bool Initialize(std::shared_ptr<Window>& window);
 
     static void Terminate() {}
 
@@ -81,9 +82,9 @@ public:
 
     void RefreshInputState();
 
-    void SetPosition(double x, double y);
+    void SetPosition(Vector2DF vec);
 
-    void GetPosition(double& x, double& y);
+    Vector2DF GetPosition();
 
     void SetWheelCallback(std::function<void(double x, double y)> func);
 
