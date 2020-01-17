@@ -237,41 +237,41 @@ with JoystickAxisType as enum:
     enum.add('R2')
     enum.add('Max')
 
-Joystick = cbg.Enum('altseed', 'Joystick')
+Joystick = cbg.Class('altseed', 'Joystick', False)
 with Joystick as class_:
     with class_.add_func('Initialize') as func:
-        func.add_arg(Window, 'window')
-        func.return_type = bool
+        func.add_arg(JoystickType, 'type')
+        func.return_value.type_ = bool
     class_.add_func('Terminate')
     class_.add_func('RefreshInputState')
     class_.add_func('RefreshConnectedState')
     with class_.add_func('IsPresent') as func:
         func.add_arg(int, 'joystickIndex')
-        func.return_type = bool
-    with class_.add_func('GetButtonState') as func:
+        func.return_value.type_ = bool
+    with class_.add_func('GetButtonStateByIndex') as func:
         func.add_arg(int, 'joystickIndex')
         func.add_arg(int, 'buttonIndex')
-        func.return_type = ButtonState
-    with class_.add_func('GetButtonState') as func:
+        func.return_value.type_ = ButtonState
+    with class_.add_func('GetButtonStateByType') as func:
         func.add_arg(int, 'joystickIndex')
         func.add_arg(JoystickButtonType, 'type')
-        func.return_type = ButtonState
+        func.return_value.type_ = ButtonState
     with class_.add_func('GetJoystickType') as func:
         func.add_arg(int, 'index')
-        func.return_type = JoystickType
-    with class_.add_func('GetAxisState') as func:
+        func.return_value.type_ = JoystickType
+    with class_.add_func('GetAxisStateByIndex') as func:
         func.add_arg(int, 'joystickIndex')
         func.add_arg(int, 'axisIndex')
-        func.return_type = float
-    with class_.add_func('GetAxisState') as func:
+        func.return_value.type_ = float
+    with class_.add_func('GetAxisStateByType') as func:
         func.add_arg(int, 'joystickIndex')
         func.add_arg(JoystickAxisType, 'type')
-        func.return_type = float
+        func.return_value.type_ = float
     with class_.add_func('GetJoystickName') as func:
         func.add_arg(int, 'index')
-        func.return_type = ctypes.c_wchar_p
+        func.return_value.type_ = ctypes.c_wchar_p
     class_.add_func('RefreshVibrateState')
-    with class_.add_func('GetJoystickName') as func:
+    with class_.add_func('SetVibration') as func:
         func.add_arg(int, 'index')
         func.add_arg(float, 'high_freq')
         func.add_arg(float, 'low_freq')
