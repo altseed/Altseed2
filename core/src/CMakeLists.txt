@@ -22,6 +22,8 @@ set(core_files
     Input/ButtonState.h
     Input/Keyboard.h
     Input/Keyboard.cpp
+    Input/Joystick.h
+    Input/Joystick.cpp
     Input/Mouse.h
     Input/Mouse.cpp
     IO/File.h

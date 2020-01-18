@@ -31,7 +31,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
-    if (!Mouse::Intialize(Window::GetInstance())) {
+    if (!Mouse::Initialize(Window::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }

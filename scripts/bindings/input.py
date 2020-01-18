@@ -138,10 +138,7 @@ with Keys as enum:
 
 Keyboard = cbg.Class('altseed', 'Keyboard')
 with Keyboard as class_:
-    # with class_.add_func('Initialize') as func:
-    #     func.add_arg(Window, 'window')
-    #     func.return_value.type_ = bool
-    # class_.add_func('RefleshKeyStates')
+    # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetKeyState') as func:
         func.add_arg(Keys, 'key')
         func.return_value.type_ = ButtonState
@@ -168,11 +165,7 @@ with CursorMode as enum:
 
 Mouse = cbg.Class('altseed', 'Mouse')
 with Mouse as class_:
-    # Core内部で呼び出されるのでEngineに公開する必要がないはず
-    # with class_.add_func('Initialize') as func:
-    #     func.add_arg(Window, 'window')
-    #     func.return_value.type_ = bool
-    # class_.add_func('Terminate')
+    # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetInstance') as func:
         func.return_value.type_ = Mouse
     class_.add_func('RefreshInputState')
@@ -243,9 +236,6 @@ with Joystick as class_:
         func.return_type = bool
     class_.add_func('RefreshInputState')
     class_.add_func('RefreshConnectedState')
-    with class_.add_func('IsPresent') as func:
-        func.add_arg(int, 'joystickIndex')
-        func.return_value.type_ = bool
     with class_.add_func('GetButtonStateByIndex') as func:
         func.add_arg(int, 'joystickIndex')
         func.add_arg(int, 'buttonIndex')
