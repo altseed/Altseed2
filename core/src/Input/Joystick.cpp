@@ -34,6 +34,11 @@ namespace altseed {
             hid_close(handler[i]);
         }
     };
+    bool Joystick::IsPresent(int32_t joystickIndex)
+    {
+        return (bool)handler[joystickIndex];
+    }
+    
     
     void Joystick::SendSubcommand(hid_device *dev, uint8_t command, uint8_t data[], int len) {
         uint8_t buf[0x40]; memset(buf, 0x0, size_t(0x40));
@@ -286,7 +291,7 @@ namespace altseed {
         vibrateStates[index] = {high_freq, low_freq, high_amp, low_amp, life_time, false, std::chrono::system_clock::now()};
     };
 
-    ButtonState Joystick::GetButtonState(int32_t joystickIndex, int32_t buttonIndex) const {
+    ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const {
         if (buttonIndex < 0) return ButtonState::Free;
         
         if (currentHit[joystickIndex][buttonIndex] && preHit[joystickIndex][buttonIndex]) return ButtonState::Hold;
@@ -295,7 +300,7 @@ namespace altseed {
         else return ButtonState::Free;
     };
 
-    ButtonState Joystick::GetButtonState(int32_t joystickIndex, JoystickButtonType type) const {
+    ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButtonType type) const {
         
         auto jtype = GetJoystickType(joystickIndex);
         
@@ -327,19 +332,19 @@ namespace altseed {
             maps[(int32_t)JoystickButtonType::L2] = 15;
             
             
-            return GetButtonState(joystickIndex, maps[(int32_t)type]);
+            return GetButtonStateByIndex(joystickIndex, maps[(int32_t)type]);
         }
         
         return ButtonState::Hold;
     };
     
-    float Joystick::GetAxisState(int32_t joystickIndex, int32_t axisIndex) const {
+    float Joystick::GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const {
         if (axisIndex < 0) return 0;
         
         return currentAxis[joystickIndex][axisIndex];
     };
     
-    float Joystick::GetAxisState(int32_t joystickIndex, JoystickAxisType type) const {
+    float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const {
         
         auto jtype = GetJoystickType(joystickIndex);
         if (jtype == JoystickType::Other) return 0;
@@ -347,7 +352,7 @@ namespace altseed {
         if (jtype == JoystickType::JoyconL)
         {
             
-            return GetAxisState(joystickIndex, (int32_t)type);
+            return GetAxisStateByIndex(joystickIndex, (int32_t)type);
         }
         
         return 0.0f;
@@ -357,8 +362,8 @@ namespace altseed {
         return types[index];
     };
     
-    wchar_t * Joystick::GetJoystickName(int16_t index) const {
-        return names[index];
+    char16_t * Joystick::GetJoystickName(int32_t index) const {
+        return (char16_t *)names[index];
     }
     
 
