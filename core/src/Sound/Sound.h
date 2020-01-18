@@ -24,11 +24,7 @@ private:
     const bool m_isDecompressed;
 
 public:
-    Sound(std::shared_ptr<Resources> resources,
-          std::shared_ptr<SoundMixer> manager,
-          const char16_t* filePath,
-          osm::Sound* sound,
-          bool isDecompressed);
+    Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed);
     virtual ~Sound();
 
     /**

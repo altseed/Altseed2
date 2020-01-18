@@ -35,12 +35,12 @@ std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDeco
     auto staticFile = fileInstance->CreateStaticFile(path);
     if (staticFile == nullptr) return nullptr;
 
-    // Get data & Create OSM sound & null check
-    auto sound = m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed);
-    if (sound == nullptr) {
-        staticFile->Release();
-        return nullptr;
-    }
+	// Create sound & register to container
+	auto resources = Resources::GetInstance();
+	auto soundRet = std::make_shared<Sound>(resources, shared_from_this(), path, sound, isDecompressed);
+	auto soundContainer = resources->GetResourceContainer(ResourceType::Sound);
+	auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
+	soundContainer->Register(path, soundInfo);
 
     // Create sound & register to container
     auto resources = Resources::GetInstance();
