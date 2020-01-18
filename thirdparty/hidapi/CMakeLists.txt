@@ -25,7 +25,18 @@ else()
 endif()
 
 target_include_directories(
-	hidapi
-	PUBLIC
-	${CMAKE_CURRENT_SOURCE_DIR}/hidapi
+    hidapi
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/hidapi
 )
+
+if(UNIX AND NOT APPLE)
+    target_link_libraries(
+        hidapi
+        PUBLIC
+        udev
+    )
+endif()
+
+
+set_target_properties(hidapi PROPERTIES POSITION_INDEPENDENT_CODE ON)
