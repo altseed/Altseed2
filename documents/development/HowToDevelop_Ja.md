@@ -24,7 +24,7 @@ Altseed2の開発はチケット駆動で行っています。タスクの分類
 
 TODO：書く
 
-[CoreCodingRule](CoreCodingRule_ja.md)
+[CoreCodingRule](CoreCodingRule_Ja.md)
 
 ### バインディングの設定の記述
 
