@@ -4,6 +4,7 @@
 #include "../BaseObject.h"
 #include "../Core.h"
 #include "../IO/File.h"
+#include "../Common/Resources.h"
 #include "../Common/ResourceContainer.h"
 
 #include <memory>
@@ -19,14 +20,11 @@ class Sound;
 */
 class SoundMixer : public BaseObject
 {
-    friend class Core;
-
 private:
     osm::Manager* m_manager;
-    File*         m_file;
 
 protected:
-    SoundMixer(File* file, bool isReloadingEnabled);
+    SoundMixer(bool isReloadingEnabled);
     virtual ~SoundMixer();
 
 public:
@@ -37,14 +35,14 @@ public:
     @param  isDecompressed  音源情報を解凍するか?
     @return 音源
     */
-    virtual Sound* CreateSound(const char16_t* path, bool isDecompressed);
+    std::shared_ptr<Sound> CreateSound(const char16_t* path, bool isDecompressed);
 
     /**
     @brief  音を再生する
     @param  sound   音源
     @return 音のID
     */
-    virtual int32_t Play(Sound* sound);
+    virtual int32_t Play(std::shared_ptr<Sound> sound);
 
     /**
     @brief  指定した音が再生中であるかを取得する
@@ -177,11 +175,9 @@ public:
     @param  samplingRate    サンプリングレート, spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない
     @param  window  フーリエ変換に用いる窓関数
     */
-    virtual void GetSpectrumData(int32_t id, float* spectrums, int32_t samplingRate, osm::FFTWindow window);
+    virtual void GetSpectrumData(int32_t id, std::vector<float> &spectrums, int32_t samplingRate, osm::FFTWindow window);
 
 #if !SWIG
-
-    std::shared_ptr<ResourceContainer>	SoundSourcesContainer;
 
 	/**
 	@brief	リロードする。
