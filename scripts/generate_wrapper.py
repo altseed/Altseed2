@@ -5,7 +5,7 @@ from bindings import CppBindingGenerator as cbg
 
 if __name__ == '__main__':
     
-    os.chdir(os.path.dirname(__file__))
+    # os.chdir(os.path.dirname(__file__))
 
     # generate
     sharedObjectGenerator = cbg.SharedObjectGenerator(define)
@@ -21,7 +21,10 @@ if __name__ == '__main__':
 
 #include "Window/Window.h"
 
+#include "Input/ButtonState.h"
+#include "Input/Joystick.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 
 #include "Graphics/Graphics.h"
 #include "Graphics/Texture2D.h"
@@ -33,6 +36,9 @@ if __name__ == '__main__':
 #include "IO/FileRoot.h"
 #include "IO/BaseFileReader.h"
 #include "IO/PackFileReader.h"
+
+#include "Sound/Sound.h"
+#include "Sound/SoundMixer.h"
 
     '''
 

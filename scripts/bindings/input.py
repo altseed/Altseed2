@@ -1,4 +1,5 @@
 ﻿from . import CppBindingGenerator as cbg
+import ctypes
 
 from .common import *
 
@@ -135,14 +136,12 @@ with Keys as enum:
     enum.add('Last')
     enum.add('MAX')
 
-Window = cbg.Class('altseed', 'Window')
-
 Keyboard = cbg.Class('altseed', 'Keyboard')
 with Keyboard as class_:
-    with class_.add_func('Initialize') as func:
-        func.add_arg(Window, 'window')
-        func.return_value.type_ = bool
-    class_.add_func('RefleshKeyStates')
+    # with class_.add_func('Initialize') as func:
+    #     func.add_arg(Window, 'window')
+    #     func.return_value.type_ = bool
+    # class_.add_func('RefleshKeyStates')
     with class_.add_func('GetKeyState') as func:
         func.add_arg(Keys, 'key')
         func.return_value.type_ = ButtonState
@@ -169,23 +168,26 @@ with CursorMode as enum:
 
 Mouse = cbg.Class('altseed', 'Mouse')
 with Mouse as class_:
-    with class_.add_func('Initialize') as func:
-        func.add_arg(Window, 'window')
-        func.return_value.type_ = bool
-    class_.add_func('Terminate')
+    # Core内部で呼び出されるのでEngineに公開する必要がないはず
+    # with class_.add_func('Initialize') as func:
+    #     func.add_arg(Window, 'window')
+    #     func.return_value.type_ = bool
+    # class_.add_func('Terminate')
     with class_.add_func('GetInstance') as func:
         func.return_value.type_ = Mouse
     class_.add_func('RefreshInputState')
     with class_.add_func('SetPosition') as func:
         func.add_arg(Vector2DF, 'vec')
-    with class_.add_func('GetPosition') as func:    # 参照引数を使った出力はサポートされない
+    with class_.add_func('GetPosition') as func:
         func.return_value.type_ = Vector2DF
     with class_.add_func('GetWheel') as func:
         func.return_value.type_ = float
     with class_.add_func('GetMouseButtonState') as func:
         func.add_arg(MouseButtons, 'button')
-        func.return_value.type_ = ButtonState
-    class_.add_property(CursorMode, 'CursorMode')
+        func.return_type = ButtonState
+    with class_.add_property(CursorMode, 'CursorMode') as prop:
+        prop.has_getter = True
+        prop.has_setter = True
 
 JoystickType = cbg.Enum('altseed', 'JoystickType')
 with JoystickType as enum:
@@ -233,12 +235,12 @@ with JoystickAxisType as enum:
     enum.add('R2')
     enum.add('Max')
 
-Joystick = cbg.Class('altseed', 'Joystick', False)
+Joystick = cbg.Class('altseed', 'Joystick')
 with Joystick as class_:
-    with class_.add_func('Initialize') as func:
-        func.add_arg(JoystickType, 'type')
-        func.return_value.type_ = bool
-    class_.add_func('Terminate')
+    # Core 内部で呼び出されるので Initialize は Engineに公開しない
+    with class_.add_func('IsPresent') as func:
+        func.add_arg(int, 'joystickIndex')
+        func.return_type = bool
     class_.add_func('RefreshInputState')
     class_.add_func('RefreshConnectedState')
     with class_.add_func('IsPresent') as func:
