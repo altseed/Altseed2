@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "SoundMixer.h"
-#include "../BaseObject.h"
+#include "../Common/Resources.h"
 
 #include <OpenSoundMixer.h>
 
@@ -9,22 +9,25 @@ namespace altseed
 {
 
 class SoundMixer;
+class Resources;
 
 /**
 @brief  音源のクラス
 */
-class Sound : public BaseObject
+class Sound : public Resource
 {
 private:
-    SoundMixer* m_manager;
+    std::shared_ptr<Resources> m_resources;
+    std::shared_ptr<SoundMixer> m_manager;
+
     osm::Sound* m_sound;
-    bool        m_isDecompressed = false;
 
-protected:
-    Sound(SoundMixer* manager, osm::Sound* sound, bool isDecompressed);
-    virtual ~Sound();
-
+    const char16_t* m_filePath;
+    const bool m_isDecompressed;
+    
 public:
+    Sound(std::shared_ptr<Resources>& resources, std::shared_ptr<SoundMixer>& manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed);
+    virtual ~Sound();
 
     /**
     @brief  ループポイントの開始地点(秒)を取得する
@@ -72,7 +75,7 @@ public:
 
 	osm::Sound* GetSound() { return m_sound; }
 
-	void Reload(uint8_t* data, int32_t size);
+	bool Reload() override;
 
 #endif
 
