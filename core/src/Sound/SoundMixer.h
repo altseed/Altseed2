@@ -177,7 +177,7 @@ public:
     @param  samplingRate    サンプリングレート, spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない
     @param  window  フーリエ変換に用いる窓関数
     */
-    virtual void GetSpectrumData(int32_t id, float* spectrums, int32_t samplingRate, osm::FFTWindow window);
+   virtual void GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t samplingRate, osm::FFTWindow window);
 
 #if !SWIG
 
