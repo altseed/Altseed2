@@ -1,5 +1,8 @@
 ﻿
 #include "Joystick.h"
+#include <cstring>
+#include <algorithm>
+#include "../Common/Miscs.h"
 
 #define JOYCON_BUTTON_COUNT 15
 
@@ -232,14 +235,14 @@ namespace altseed {
             }
             else if (!vibrateStates[jind].isSended)
             {
-                float hf = std::clamp(vibrateStates[jind].high_frequency, 81.75177f, 1252.572266f);
-                float lf = std::clamp(vibrateStates[jind].low_frequency, 40.875885f, 626.286133f);
+                float hf = clamp(vibrateStates[jind].high_frequency, 81.75177f, 1252.572266f);
+                float lf = clamp(vibrateStates[jind].low_frequency, 40.875885f, 626.286133f);
 
                 uint16_t high_f = ((uint8_t)round(log2((double)hf /10.0)*32.0) - 0x60) * 4;
-                uint8_t high_amp = std::clamp(vibrateStates[jind].high_amplitude, 0.0f, 1.0f);
+                uint8_t high_amp = clamp(vibrateStates[jind].high_amplitude, 0.0f, 1.0f);
                 
                 uint8_t low_f = (uint8_t)round(log2((double)lf / 10.0 ) * 32.0) - 0x40;
-                uint8_t low_amp = std::clamp(vibrateStates[jind].low_amplitude, 0.0f, 1.0f);
+                uint8_t low_amp = clamp(vibrateStates[jind].low_amplitude, 0.0f, 1.0f);
                 
                 uint8_t h_a = 0x00;
                 if (high_amp < 0.117) {
