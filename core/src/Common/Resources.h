@@ -7,7 +7,7 @@
 
 namespace altseed {
 
-enum class ResourceType : int32_t { StaticFile, StreamFile, Texture2D, Font, MAX };
+enum class ResourceType : int32_t { StaticFile, StreamFile, Texture2D, Font, Sound, MAX };
 
 class Resources : public BaseObject {
 private:
