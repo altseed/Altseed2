@@ -16,6 +16,7 @@ private:
     Vector2DF size_;
     std::shared_ptr<LLGI::Texture> texture_;
     std::shared_ptr<Material> material_;
+    std::array<Vector2DF, 4> uvs_;
 
 public:
     Sprite();
@@ -33,5 +34,10 @@ public:
 
     void SetTexture(std::shared_ptr<LLGI::Texture>& Texture) { texture_ = Texture; }
     std::shared_ptr<LLGI::Texture> GetTexture() const { return texture_; }
+
+    void SetUV(Vector2DF uv, int32_t index) {
+        if (index >= 0 && index <= 3) uvs_[index] = uv;
+    }
+    std::array<Vector2DF, 4> GetUVs() const { return uvs_; }
 };
 }  // namespace altseed
