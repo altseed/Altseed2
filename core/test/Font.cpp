@@ -36,7 +36,7 @@ TEST(Font, Basic) {
         auto glyph = font->GetGlyph(text[i]);
         if (glyph == nullptr) continue;
 
-        auto tempPosition = position + glyph->GetOffset().To2DF();
+        auto tempPosition = position + glyph->GetOffset().To2DF() + asd::Vector2DF(0, font->GetAscent());
         auto sprite = asd::MakeAsdShared<asd::Sprite>();
         sprite->SetMaterial(material);
         sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex())->GetNativeTexture());

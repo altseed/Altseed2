@@ -2,13 +2,13 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
+#include <array>
 #include <map>
 #include <memory>
-#include <array>
 #include "../Common/Resource.h"
 #include "../IO/StaticFile.h"
-#include "../Math/Vector2DI.h"
 #include "../Math/Vector2DF.h"
+#include "../Math/Vector2DI.h"
 #include "Color.h"
 #include "Texture2D.h"
 
@@ -65,12 +65,15 @@ public:
 
     Color GetColor() { return color_; }
     int32_t GetSize() { return size_; }
+    int32_t GetAscent() { return ascent_; }
+    int32_t GetDescent() { return descent_; }
+    int32_t GetLineGap() { return lineGap_; }
 
     Glyph* GetGlyph(const char16_t character);
     Texture2D* GetFontTexture(int32_t index) {
         if (index >= textures_.size()) return nullptr;
         return textures_[index];
-	}
+    }
 
     int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
