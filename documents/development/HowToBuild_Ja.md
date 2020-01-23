@@ -1,12 +1,16 @@
-# ビルド手順
+﻿# ビルド手順
 
 ## 必須
+
+### 共通
+
+- cmake(3.12以上)
+- git
+- python3.x
 
 ### Windows
 
 - VisualStudio(2019以降)
-- cmake(3.12以上)
-- git
 
 ### Linux
 
@@ -35,16 +39,8 @@ git submodule update --init
 
 下記のスクリプトを実行します。
 
-- 32bit
-
 ```
 scripts/GenerateProjects.bat
-```
-
-- 64bit
-
-```
-scripts/GenerateProjects_x64.bat
 ```
 
 

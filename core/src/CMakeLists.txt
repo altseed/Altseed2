@@ -161,14 +161,6 @@ target_link_libraries(
     LLGI
     OpenSoundMixer
     zip
-    spirv-cross-core
-    spirv-cross-c
-    spirv-cross-cpp
-    spirv-cross-hlsl
-    spirv-cross-glsl
-    spirv-cross-msl
-    spirv-cross-reflect
-    spirv-cross-util
     )
 
 if (MSVC)
@@ -194,6 +186,24 @@ if (MSVC)
         optimized SPIRV
         debug SPVRemapperd
         optimized SPVRemapper
+
+        debug spirv-cross-cored
+        debug spirv-cross-cd
+        debug spirv-cross-cppd
+        debug spirv-cross-hlsld
+        debug spirv-cross-glsld
+        debug spirv-cross-msld
+        debug spirv-cross-reflectd
+        debug spirv-cross-utild
+
+        optimized spirv-cross-core
+        optimized spirv-cross-c
+        optimized spirv-cross-cpp
+        optimized spirv-cross-hlsl
+        optimized spirv-cross-glsl
+        optimized spirv-cross-msl
+        optimized spirv-cross-reflect
+        optimized spirv-cross-util
     )
 
 elseif(APPLE)
@@ -223,6 +233,14 @@ elseif(APPLE)
         OSDependent
         SPIRV
         SPVRemapper
+        spirv-cross-core
+        spirv-cross-c
+        spirv-cross-cpp
+        spirv-cross-hlsl
+        spirv-cross-glsl
+        spirv-cross-msl
+        spirv-cross-reflect
+        spirv-cross-util
         ${OPEN_AL}
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
@@ -256,6 +274,14 @@ else()
         OSDependent
         SPIRV
         SPVRemapper
+        spirv-cross-core
+        spirv-cross-c
+        spirv-cross-cpp
+        spirv-cross-hlsl
+        spirv-cross-glsl
+        spirv-cross-msl
+        spirv-cross-reflect
+        spirv-cross-util
         )
 
 endif()
