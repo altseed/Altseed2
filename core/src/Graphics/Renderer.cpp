@@ -19,9 +19,9 @@ bool Renderer::Initialize() {
     if (shader->GetIsValid()) {
         vs_ = shader;
         return true;
-	}
+    }
 
-	return false;
+    return false;
 }
 
 LLGI::CommandList* Renderer::Render() {
@@ -120,7 +120,6 @@ LLGI::ConstantBuffer* Renderer::SendConstantBuffer(Camera* camera) {
 }
 
 void Renderer::UpdateGroups() {
-    std::array<LLGI::Vec2F, 4> UVs = {LLGI::Vec2F(0.0f, 0.0f), LLGI::Vec2F(1.0f, 0.0f), LLGI::Vec2F(1.0f, 1.0f), LLGI::Vec2F(0.0f, 1.0f)};
     auto vb_buf = reinterpret_cast<SimpleVertex*>(vertexBuffer_->Lock());
     auto ib_buf = reinterpret_cast<uint16_t*>(indexBuffer_->Lock());
 
@@ -140,10 +139,11 @@ void Renderer::UpdateGroups() {
             auto s = g.second.sprites[i];
             auto w = Graphics::GetInstance()->GetLLGIWindow()->GetWindowSize();
             auto v = s->GetVertex(w);
+            auto uvs = s->GetUVs();
 
             for (int j = 0; j < 4; j++) {
                 vb_buf[vb_idx + j].Pos = {v[j].X, v[j].Y, 0.5f};
-                vb_buf[vb_idx + j].UV = UVs[j];
+                vb_buf[vb_idx + j].UV = {uvs[j].X, uvs[j].Y};
                 vb_buf[vb_idx + j].Color = LLGI::Color8();
             }
 

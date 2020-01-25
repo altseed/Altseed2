@@ -5,6 +5,6 @@ mkdir ..\build
 
 cd /d ..\build
 
-cmake -D BUILD_TEST=ON ../
+cmake -A x64 -D BUILD_TEST=ON ../
 
 pause

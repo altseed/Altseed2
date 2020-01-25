@@ -2,10 +2,12 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
+#include <array>
 #include <map>
 #include <memory>
 #include "../Common/Resource.h"
 #include "../IO/StaticFile.h"
+#include "../Math/Vector2DF.h"
 #include "../Math/Vector2DI.h"
 #include "Color.h"
 #include "Texture2D.h"
@@ -13,22 +15,30 @@
 namespace altseed {
 enum class WritingDirection : int32_t { Vertical, Horizontal };
 
-class Glyph : public Texture2D {
+class Glyph {
 private:
+    Vector2DI textureSize_;
+    int32_t textureIndex_;
+    Vector2DI position_;
+    Vector2DI size_;
+
     Vector2DI offset_;
     int32_t glyphWidth_;
 
 public:
-    Glyph(std::shared_ptr<Resources>& resources,
-          std::shared_ptr<LLGI::Texture>& texture,
-          uint8_t* data,
-          int32_t width,
-          int32_t height,
-          Vector2DI offset,
-          int32_t glyphWidth);
-
+    Glyph(Vector2DI textureSize, int32_t textureIndex, Vector2DI position, Vector2DI size, Vector2DI offset, int32_t glyphWidth);
+    Vector2DI GetTextureSize() { return textureSize_; }
+    int32_t GetTextureIndex() { return textureIndex_; }
+    Vector2DI GetPosition() { return position_; }
+    Vector2DI GetSize() { return size_; }
     Vector2DI GetOffset() { return offset_; }
     int32_t GetGlyphWidth() { return glyphWidth_; }
+    std::array<Vector2DF, 4> GetUVs() {
+        return {Vector2DF((float)position_.X / textureSize_.X, (float)position_.Y / textureSize_.Y),
+                Vector2DF((float)(position_.X + size_.X) / textureSize_.X, (float)position_.Y / textureSize_.Y),
+                Vector2DF((float)(position_.X + size_.X) / textureSize_.X, (float)(position_.Y + size_.Y) / textureSize_.Y),
+                Vector2DF((float)position_.X / textureSize_.X, (float)(position_.Y + size_.Y) / textureSize_.Y)};
+    }
 };
 
 class Font : public Resource {
@@ -44,7 +54,10 @@ private:
     std::shared_ptr<StaticFile> file_;
 
     std::map<char16_t, Glyph*> glyphs_;
-    std::map<char16_t, Texture2D*> glyphTextures_;
+    std::vector<Texture2D*> textures_;
+    Vector2DI textureSize_;
+
+    Vector2DI currentTexturePosition_;
 
 public:
     Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color);
@@ -52,8 +65,15 @@ public:
 
     Color GetColor() { return color_; }
     int32_t GetSize() { return size_; }
+    int32_t GetAscent() { return ascent_; }
+    int32_t GetDescent() { return descent_; }
+    int32_t GetLineGap() { return lineGap_; }
 
     Glyph* GetGlyph(const char16_t character);
+    Texture2D* GetFontTexture(int32_t index) {
+        if (index >= textures_.size()) return nullptr;
+        return textures_[index];
+    }
 
     int32_t GetKerning(const char16_t c1, const char16_t c2);
     Vector2DI CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
@@ -94,6 +114,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     bool Reload() override;
 
 private:
+    void AddFontTexture();
     void AddGlyph(const char16_t character);
 };
 }  // namespace altseed

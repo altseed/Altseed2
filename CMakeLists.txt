@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
 
 if(CMAKE_GENERATOR STREQUAL Xcode)
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "" FORCE)
@@ -21,17 +21,38 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/DEBUG")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/RELEASE")
 
-if(BUILD_TEST)
-    find_package(PythonInterp 3)
+# python must be required
+find_package (Python3 COMPONENTS Interpreter)
 
+if(${Python3_FOUND})
+    message("Found Python version is ${Python3_VERSION}")
+else()
+    message(FATAL_ERROR "Python3.x is not found. Please check or install it.")
+endif()
+
+if(${Python3_Interpreter_FOUND})
+    message("Found Interpreter")
+else()
+    message(FATAL_ERROR "Python3.x Interpreter is not found. Please check or install it.")
+endif()
+
+# detect IDE
+if(CMAKE_GENERATOR MATCHES "Visual Studio|Xcode")
+    message("Build with postfix")
+    set(BUILD_WITH_POSTFIX ON)
+else()
+    set(BUILD_WITH_POSTFIX OFF)
+endif()
+
+if(BUILD_TEST)
     add_custom_target(TestData
         SOURCES TestData.dummy
     )
 
     add_custom_command(
         OUTPUT TestData.dummy
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/setup.py ${CMAKE_CURRENT_SOURCE_DIR}/TestData ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
     )
 endif()
 

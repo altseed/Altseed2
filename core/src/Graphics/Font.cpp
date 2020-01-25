@@ -5,29 +5,27 @@
 
 namespace altseed {
 
-Glyph::Glyph(
-        std::shared_ptr<Resources>& resources,
-        std::shared_ptr<LLGI::Texture>& texture,
-        uint8_t* data,
-        int32_t width,
-        int32_t height,
-        Vector2DI offset,
-        int32_t glyphWidth)
-    : Texture2D(resources, texture, data, width, height), offset_(offset), glyphWidth_(glyphWidth) {}
+Glyph::Glyph(Vector2DI textureSize, int32_t textureIndex, Vector2DI position, Vector2DI size, Vector2DI offset, int32_t glyphWidth)
+    : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
 Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color)
-    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color) {
+    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color), textureSize_(Vector2DI(2000, 2000)) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
     ascent_ *= scale_;
     descent_ *= scale_;
+
+    AddFontTexture();
 }
 
 Font::~Font() {
     file_->Release();
-    for (auto& i : glyphTextures_) {
-        if (i.second != nullptr) i.second->Release();
+    for (auto& i : textures_) {
+        if (i != nullptr) i->Release();
+    }
+    for (auto& i : glyphs_) {
+        delete i.second;
     }
 }
 
@@ -92,6 +90,19 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) { return nullpt
 
 bool Font::Reload() { return false; }
 
+void Font::AddFontTexture() {
+    uint8_t* data = new uint8_t[textureSize_.X * textureSize_.Y];
+    for (int32_t i = 0; i < textureSize_.X * textureSize_.Y; i++) {
+        data[i] = 0;
+    }
+
+    auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, textureSize_.X, textureSize_.Y, 1);
+    auto texture = new Texture2D(Resources::GetInstance(), llgiTexture, data, textureSize_.X, textureSize_.Y);
+    textures_.push_back(texture);
+
+    currentTexturePosition_ = Vector2DI();
+}
+
 void Font::AddGlyph(const char16_t character) {
     Vector2DI offset;
     int32_t w, h, glyphW;
@@ -105,9 +116,29 @@ void Font::AddGlyph(const char16_t character) {
     stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
     glyphW *= scale_;
 
-    auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, 1);
-    Glyph* glyph = new Glyph(Resources::GetInstance(), llgiTexture, data, w, h, offset, glyphW);
+    if (textureSize_.X < currentTexturePosition_.X + w) {
+        currentTexturePosition_.X = 0;
+        currentTexturePosition_.Y += h;
+    }
+    if (textureSize_.Y < currentTexturePosition_.Y + h) AddFontTexture();
 
+    auto pos = currentTexturePosition_;
+    {
+        auto llgiTexture = textures_.back()->GetNativeTexture();
+        auto buf = (LLGI::Color8*)llgiTexture->Lock();
+        int i = 0;
+        for (int32_t y = currentTexturePosition_.Y; y < currentTexturePosition_.Y + h; y++) {
+            for (int32_t x = currentTexturePosition_.X; x < currentTexturePosition_.X + w; x++) {
+                buf[x + y * textureSize_.X].R = data[i];
+                buf[x + y * textureSize_.X].G = data[i];
+                buf[x + y * textureSize_.X].B = data[i++];
+            }
+        }
+        llgiTexture->Unlock();
+        currentTexturePosition_.X += w;
+    }
+
+    auto glyph = new Glyph(textureSize_, textures_.size() - 1, pos, Vector2DI(w, h), offset, glyphW);
     glyphs_[character] = glyph;
 }
 

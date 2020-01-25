@@ -36,19 +36,23 @@ TEST(Font, Basic) {
         auto glyph = font->GetGlyph(text[i]);
         if (glyph == nullptr) continue;
 
-        auto tempPosition = position + glyph->GetOffset().To2DF();
+        auto tempPosition = position + glyph->GetOffset().To2DF() + asd::Vector2DF(0, font->GetAscent());
         auto sprite = asd::MakeAsdShared<asd::Sprite>();
         sprite->SetMaterial(material);
-        sprite->SetTexture(glyph->GetNativeTexture());
+        sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex())->GetNativeTexture());
         sprite->SetPosition(tempPosition);
         sprite->SetSize(glyph->GetSize().To2DF());
+        auto uvs = glyph->GetUVs();
+        for (int32_t i = 0; i < 4; i++) {
+            sprite->SetUV(uvs[i], i);
+        }
         position += asd::Vector2DF(glyph->GetGlyphWidth(), 0);
 
         if (i != std::char_traits<char16_t>::length(text) - 1) position += asd::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
         renderer->Sprites.push_back(sprite);
     }
 
-    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 1000 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
     altseed::Core::Terminate();
 }
