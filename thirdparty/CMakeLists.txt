@@ -49,6 +49,18 @@ ExternalProject_Add(
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/lib)
 
+if(MSVC)
+    set(LIBPNG_LIB_DEBUG "libpng16_staticd")
+    set(LIBPNG_LIB_RELEASE "libpng16_static")
+elseif(BUILD_WITH_POSTFIX)
+    set(LIBPNG_LIB_DEBUG "png16d")
+    set(LIBPNG_LIB_RELEASE "png16")
+else()
+    set(LIBPNG_LIB_DEBUG "png16")
+    set(LIBPNG_LIB_RELEASE "png16")
+endif()
+
+
 # libzip
 ExternalProject_Add(
     ExternalProject_libzip

@@ -36,6 +36,14 @@ else()
     message(FATAL_ERROR "Python3.x Interpreter is not found. Please check or install it.")
 endif()
 
+# detect IDE
+if(CMAKE_GENERATOR MATCHES "Visual Studio|Xcode")
+    message("Build with postfix")
+    set(BUILD_WITH_POSTFIX ON)
+else()
+    set(BUILD_WITH_POSTFIX OFF)
+endif()
+
 if(BUILD_TEST)
     add_custom_target(TestData
         SOURCES TestData.dummy

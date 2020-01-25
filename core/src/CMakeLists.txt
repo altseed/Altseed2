@@ -161,6 +161,8 @@ target_link_libraries(
     LLGI
     OpenSoundMixer
     zip
+    debug "${LIBPNG_LIB_DEBUG}"
+    optimized "${LIBPNG_LIB_RELEASE}"
     )
 
 if (MSVC)
@@ -168,8 +170,6 @@ if (MSVC)
     target_link_libraries(
         Altseed_Core
         PRIVATE
-        debug libpng16_staticd
-        optimized libpng16_static
         debug zlibstaticd
         optimized zlibstatic
         debug glfw3d
@@ -224,8 +224,6 @@ elseif(APPLE)
         PRIVATE
         z
         glslang
-        debug png16d
-        optimized png16
         debug glfw3d
         optimized glfw3
         HLSL
@@ -261,7 +259,6 @@ else()
         Altseed_Core
         PRIVATE
         glfw3
-        png16
         z
         stdc++fs
         ssl
