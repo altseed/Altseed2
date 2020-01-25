@@ -163,7 +163,28 @@ target_link_libraries(
     zip
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
-    )
+
+    debug "${GLFW3_LIB_DEBUG}"
+    optimized "${GLFW3_LIB_RELEASE}"
+
+    debug "${LIBSPIRVCROSS_CORE_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_C_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_CPP_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_HLSL_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_GLSL_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_MSL_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_REFLECT_LIB_DEBUG}"
+    debug "${LIBSPIRVCROSS_UTIL_LIB_DEBUG}"
+
+    optimized "${LIBSPIRVCROSS_CORE_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_C_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_CPP_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_HLSL_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_GLSL_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_MSL_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_REFLECT_LIB_RELEASE}"
+    optimized "${LIBSPIRVCROSS_UTIL_LIB_RELEASE}"
+)
 
 if (MSVC)
 
@@ -172,8 +193,6 @@ if (MSVC)
         PRIVATE
         debug zlibstaticd
         optimized zlibstatic
-        debug glfw3d
-        optimized glfw3
         debug glslangd
         optimized glslang
         debug HLSLd
@@ -186,24 +205,6 @@ if (MSVC)
         optimized SPIRV
         debug SPVRemapperd
         optimized SPVRemapper
-
-        debug spirv-cross-cored
-        debug spirv-cross-cd
-        debug spirv-cross-cppd
-        debug spirv-cross-hlsld
-        debug spirv-cross-glsld
-        debug spirv-cross-msld
-        debug spirv-cross-reflectd
-        debug spirv-cross-utild
-
-        optimized spirv-cross-core
-        optimized spirv-cross-c
-        optimized spirv-cross-cpp
-        optimized spirv-cross-hlsl
-        optimized spirv-cross-glsl
-        optimized spirv-cross-msl
-        optimized spirv-cross-reflect
-        optimized spirv-cross-util
     )
 
 elseif(APPLE)
@@ -224,21 +225,11 @@ elseif(APPLE)
         PRIVATE
         z
         glslang
-        debug glfw3d
-        optimized glfw3
         HLSL
         OGLCompiler
         OSDependent
         SPIRV
         SPVRemapper
-        spirv-cross-core
-        spirv-cross-c
-        spirv-cross-cpp
-        spirv-cross-hlsl
-        spirv-cross-glsl
-        spirv-cross-msl
-        spirv-cross-reflect
-        spirv-cross-util
         ${OPEN_AL}
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
@@ -258,7 +249,6 @@ else()
     target_link_libraries(
         Altseed_Core
         PRIVATE
-        glfw3
         z
         stdc++fs
         ssl
@@ -271,16 +261,7 @@ else()
         OSDependent
         SPIRV
         SPVRemapper
-        spirv-cross-core
-        spirv-cross-c
-        spirv-cross-cpp
-        spirv-cross-hlsl
-        spirv-cross-glsl
-        spirv-cross-msl
-        spirv-cross-reflect
-        spirv-cross-util
         )
-
 endif()
 
 if(MSVC)
