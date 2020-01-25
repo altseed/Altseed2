@@ -11,6 +11,7 @@ set(core_test_files
     Texture2D.cpp
     Font.cpp
     ShaderCompiler.cpp
+    Sound.cpp
 )
 
 # specify project filters
@@ -72,7 +73,7 @@ elseif(APPLE)
 target_link_libraries(
     Altseed_Core_Test
     PRIVATE
-    debug glfw3d
+    debug glfw3
     optimized glfw3)
 
 else()

@@ -7,6 +7,7 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Window/Window.h"
+#include "Sound/SoundMixer.h"
 
 namespace altseed {
 
@@ -52,6 +53,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
     }
 
     if (!ShaderCompiler::Initialize(Graphics::GetInstance())) {
+        Core::instance = nullptr;
+        return false;
+    }
+
+    if (!SoundMixer::Initialize(false)) {
         Core::instance = nullptr;
         return false;
     }

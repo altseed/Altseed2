@@ -3,8 +3,12 @@
 namespace altseed
 {
 
-SoundMixer::SoundMixer(bool isReloadingEnabled)
+std::shared_ptr<SoundMixer> SoundMixer::instance = nullptr;
+osm::Manager* SoundMixer::m_manager = nullptr;
+
+bool SoundMixer::Initialize(bool isReloadingEnabled)
 {
+	instance = CreateSharedPtr(new SoundMixer());
 	m_manager = osm::Manager::Create();
 	if(m_manager->Initialize())
 	{
@@ -14,9 +18,11 @@ SoundMixer::SoundMixer(bool isReloadingEnabled)
 	{
 		
 	}
+
+	return true;
 }
 
-SoundMixer::~SoundMixer()
+void SoundMixer::Terminate()
 {
 	if (m_manager != nullptr)
 	{
@@ -24,6 +30,8 @@ SoundMixer::~SoundMixer()
 		m_manager->Release();
 	}
 }
+
+std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return instance; }
 
 std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDecompressed)
 {
@@ -47,11 +55,11 @@ std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDeco
 
 	// Create sound & register to container
 	auto resources = Resources::GetInstance();
-	auto soundRet = std::make_shared<Sound>(resources, shared_from_this(), path, sound, isDecompressed);
+	auto soundRet = std::make_shared<Sound>(resources, GetInstance(), path, sound, isDecompressed);
 	auto soundContainer = resources->GetResourceContainer(ResourceType::Sound);
 	auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
 	soundContainer->Register(path, soundInfo);
-
+	
 	return soundRet;
 }
 

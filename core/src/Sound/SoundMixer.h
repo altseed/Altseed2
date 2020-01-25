@@ -7,7 +7,6 @@
 #include "../Common/Resources.h"
 #include "../Common/ResourceContainer.h"
 
-#include <memory>
 #include <OpenSoundMixer.h>
 
 namespace altseed
@@ -18,14 +17,19 @@ class Sound;
 /**
 @brief  音を管理するクラス
 */
-class SoundMixer : public BaseObject, public std::enable_shared_from_this<SoundMixer>
+class SoundMixer : public BaseObject
 {
 private:
-    osm::Manager* m_manager;
+    static std::shared_ptr<SoundMixer> instance;
+    
+    static osm::Manager* m_manager;
     
 public:
-    SoundMixer(bool isReloadingEnabled);
-    virtual ~SoundMixer();
+    static bool Initialize(bool isReloadingEnabled);
+
+    static void Terminate();
+
+    static std::shared_ptr<SoundMixer>& GetInstance();
 
     /**
     @brief  音を読み込む

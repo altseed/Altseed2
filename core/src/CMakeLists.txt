@@ -214,9 +214,9 @@ elseif(APPLE)
         PRIVATE
         z
         glslang
-        debug png16d
-        optimized png16
-        debug glfw3d
+        debug png
+        optimized png
+        debug glfw3
         optimized glfw3
         HLSL
         OGLCompiler
