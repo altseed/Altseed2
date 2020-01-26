@@ -1,0 +1,78 @@
+#include "BuildinShader.h"
+#include "ShaderCompiler/ShaderCompiler.h"
+
+namespace Altseed {
+
+const char* SpriteUnlitVS = R"(
+cbuffer Consts : register(b0)
+{
+  float4x4 matView;
+  float4x4 matProjection;
+};
+
+struct VS_INPUT{
+    float3 Position : POSITION0;
+    float4 Color : COLOR0;
+	float2 UV1 : UV0;
+	float2 UV2 : UV1;
+};
+struct VS_OUTPUT{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+	float2  UV1 : UV0;
+	float2  UV2 : UV1;
+};
+    
+VS_OUTPUT main(VS_INPUT input){
+    VS_OUTPUT output;
+    float4 pos = float4(input.Position, 1.0f);
+
+    pos = mul(pos, matView);
+    pos = mul(pos, matProjection);
+
+    output.Position = pos;
+	output.UV1 = input.UV1;
+	output.UV2 = input.UV2;
+    output.Color = input.Color;
+        
+    return output;
+}
+)";
+
+const char* SpriteUnlitPS = R"(
+Texture2D txt : register(t8);
+SamplerState smp : register(s8);
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+	float2  UV1 : UV0;
+	float2  UV2 : UV1;
+};
+float4 main(PS_INPUT input) : SV_TARGET 
+{ 
+	float4 c;
+	c = txt.Sample(smp, input.UV1);
+	return c;
+}
+)";
+
+std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
+    auto found = shaders_.find(type);
+    if (found != shaders_.end()) return found->second;
+
+    if (type == BuildinShaderType::SpriteUnlitVS) {
+        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitVS, ShaderStageType::Vertex);
+        shaders_[type] = shader;
+        return shader;
+    } else if (type == BuildinShaderType::SpriteUnlitPS) {
+        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitPS, ShaderStageType::Pixel);
+        shaders_[type] = shader;
+        return shader;
+    } else {
+        assert(0);
+    }
+    return nullptr;
+}
+
+}  // namespace Altseed

@@ -11,6 +11,7 @@ set(core_test_files
     Texture2D.cpp
     Font.cpp
     ShaderCompiler.cpp
+    Sound.cpp
 )
 
 # specify project filters
@@ -63,7 +64,6 @@ target_link_libraries(
 if (MSVC)
 
 elseif(APPLE)
-
 else()
     find_package(X11 REQUIRED)
     target_link_libraries(Altseed_Core_Test PRIVATE ${X11_LIBRARIES})
