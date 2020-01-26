@@ -51,7 +51,7 @@ TEST(Font, Basic) {
     }
 
     while (count++ < 100 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->StartFrame());
+        EXPECT_TRUE(instance->BeginFrame());
         EXPECT_TRUE(instance->EndFrame());
     }
 

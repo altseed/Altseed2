@@ -66,7 +66,7 @@ public:
 
     static bool Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType = LLGI::DeviceType::Default);
 
-    bool StartFrame();
+    bool BeginFrame();
 
     bool EndFrame();
 

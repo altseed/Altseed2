@@ -40,7 +40,7 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
     return true;
 }
 
-bool Graphics::StartFrame() {
+bool Graphics::BeginFrame() {
     if (!platform_->NewFrame()) return false;
 
     //commandList_->StartFrame();
