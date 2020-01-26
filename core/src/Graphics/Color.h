@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-namespace altseed {
+namespace Altseed {
 struct Color {
 public:
     uint8_t R;
@@ -17,4 +17,4 @@ public:
     Color& operator*=(const Color& right);
     bool operator==(const Color& right);
 };
-}  // namespace altseed
+}  // namespace Altseed

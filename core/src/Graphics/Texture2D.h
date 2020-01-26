@@ -10,7 +10,7 @@
 #include "../Common/Resources.h"
 #include "../Math/Vector2DI.h"
 
-namespace altseed {
+namespace Altseed {
 class Texture2D : public Resource {
 private:
     static std::map<std::u16string, std::shared_ptr<std::mutex>> mtxs;
@@ -34,4 +34,4 @@ public:
 
     static std::shared_ptr<Texture2D> Load(const char16_t* path);
 };
-}  // namespace altseed
+}  // namespace Altseed

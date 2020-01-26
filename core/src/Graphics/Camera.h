@@ -14,7 +14,7 @@
 #include "RenderTexture.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 
 class RenderTexture;
 class Sprites;
@@ -40,4 +40,4 @@ public:
     std::array<float, 16>& GetProjectionMatrix() { return matProjection_; }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

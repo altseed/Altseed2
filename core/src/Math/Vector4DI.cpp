@@ -1,6 +1,6 @@
 ﻿#include "Vector4DI.h"
 
-namespace altseed {
+namespace Altseed {
 Vector4DI::Vector4DI() : X(0), Y(0), Z(0), W(0) {}
 
 Vector4DI::Vector4DI(int32_t x, int32_t y, int32_t z, int32_t w) : X(x), Y(y), Z(z), W(w) {}
@@ -34,4 +34,4 @@ float Vector4DI::Distance(const Vector4DI& v1, const Vector4DI& v2) {
 }
 
 Vector4DF Vector4DI::To4DF() const { return Vector4DF(X, Y, Z, W); }
-}  // namespace altseed
+}  // namespace Altseed

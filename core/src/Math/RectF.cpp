@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace altseed {
+namespace Altseed {
 RectF::RectF() : X(0), Y(0), Width(0), Height(0) {}
 
 RectF::RectF(float x, float y, float width, float height) : X(x), Y(y), Width(width), Height(height) {}
@@ -29,4 +29,4 @@ array<Vector2DF, 4> RectF::GetVertexes() const {
 bool RectF::operator!=(const RectF& right) { return X != right.X || Y != right.Y || Width != right.Width || Height != right.Height; }
 
 RectI RectF::ToI() const { return RectI((int32_t)X, (int32_t)Y, (int32_t)Width, (int32_t)Height); }
-}  // namespace altseed
+}  // namespace Altseed

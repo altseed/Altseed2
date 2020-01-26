@@ -3,14 +3,12 @@
 #include <gtest/gtest.h>
 #include <thread>
 
-namespace asd = altseed;
-
 TEST(BaseObject, Basic) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
-    auto defaultObjectCount = asd::Core::GetInstance()->GetBaseObjectCount();
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    auto defaultObjectCount = Altseed::Core::GetInstance()->GetBaseObjectCount();
 
-    auto baseObject = new asd::BaseObject();
-    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount + 1);
+    auto baseObject = new Altseed::BaseObject();
+    EXPECT_EQ(Altseed::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount + 1);
 
     EXPECT_EQ(baseObject->GetRef(), 1);
     baseObject->AddRef();
@@ -19,15 +17,15 @@ TEST(BaseObject, Basic) {
     EXPECT_EQ(baseObject->GetRef(), 1);
     baseObject->Release();
 
-    EXPECT_EQ(asd::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount);
+    EXPECT_EQ(Altseed::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount);
 
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(BaseObject, Async) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
 
-    auto baseObject = new asd::BaseObject();
+    auto baseObject = new Altseed::BaseObject();
 
     std::thread thread1([baseObject]() -> void {
         for (int i = 0; i < 5000; i++) {
@@ -50,15 +48,15 @@ TEST(BaseObject, Async) {
         baseObject->Release();
     }
 
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(BaseObject, DisposeInOtherThreadAfterTerminate) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
 
-    auto baseObject = new asd::BaseObject();
+    auto baseObject = new Altseed::BaseObject();
 
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 
     std::thread thread1([baseObject]() -> void { baseObject->Release(); });
 

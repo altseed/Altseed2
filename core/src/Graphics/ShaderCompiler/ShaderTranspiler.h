@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace altseed {
+namespace Altseed {
 
 enum class ShaderStageType {
     Vertex,
@@ -74,4 +74,4 @@ public:
     std::shared_ptr<SPIRV> Generate(const char* code, ShaderStageType shaderStageType);
 };
 
-}  // namespace altseed
+}  // namespace Altseed

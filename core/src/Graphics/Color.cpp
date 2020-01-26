@@ -1,6 +1,6 @@
 ﻿#include "Color.h"
 
-namespace altseed {
+namespace Altseed {
 Color::Color() : A(255), R(255), G(255), B(255) {}
 
 Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : A(a), R(r), G(g), B(b) {}
@@ -16,4 +16,4 @@ Color& Color::operator*=(const Color& right) {
 }
 
 bool Color::operator==(const Color& right) { return R == right.R && G == right.G && B == right.B && A == right.A; }
-}  // namespace altseed
+}  // namespace Altseed

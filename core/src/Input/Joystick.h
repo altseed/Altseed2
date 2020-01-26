@@ -10,7 +10,7 @@
 #include "../Window/Window.h"
 
 
-namespace altseed {
+namespace Altseed {
     
     enum class JoystickType : int32_t
     {

@@ -3,8 +3,6 @@
 #include <gtest/gtest.h>
 #include <thread>
 
-namespace asd = altseed;
-
 TEST(ShaderCompiler, Basic) {
 //	compilerTest(); 
 

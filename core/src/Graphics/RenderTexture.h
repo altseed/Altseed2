@@ -13,7 +13,7 @@
 #include "Graphics.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 class RenderTexture : public Texture2D {
 private:
     std::shared_ptr<LLGI::RenderPass> renderPass_;
@@ -25,4 +25,4 @@ public:
     LLGI::RenderPass* GetRenderPass() const { return renderPass_.get(); }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

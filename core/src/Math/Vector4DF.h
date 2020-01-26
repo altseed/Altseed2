@@ -3,7 +3,7 @@
 #include "MathTemplate.h"
 #include "Vector4DI.h"
 
-namespace altseed {
+namespace Altseed {
 
 struct Vector4DF {
 public:
@@ -53,4 +53,4 @@ public:
 
     Vector4DI To4DI() const;
 };
-}  // namespace altseed
+}  // namespace Altseed

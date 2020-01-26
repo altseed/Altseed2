@@ -3,7 +3,7 @@
 #include "MathTemplate.h"
 #include "Vector4DF.h"
 
-namespace altseed {
+namespace Altseed {
 struct Vector4DI {
 public:
     int32_t X;
@@ -39,4 +39,4 @@ public:
     static float Distance(const Vector4DI& v1, const Vector4DI& v2);
     Vector4DF To4DF() const;
 };
-}  // namespace altseed
+}  // namespace Altseed

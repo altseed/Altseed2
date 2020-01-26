@@ -2,11 +2,11 @@
 
 #include "../BaseObject.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Resource : public BaseObject {
 public:
     virtual bool Reload() = 0;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

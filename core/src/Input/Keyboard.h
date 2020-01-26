@@ -7,7 +7,7 @@
 #include "../Window/Window.h"
 #include "ButtonState.h"
 
-namespace altseed {
+namespace Altseed {
 
 enum class Keys : int32_t {
     Unknown,
@@ -160,4 +160,4 @@ public:
     // Add Callback Registerer/Unregisterer?
 };
 
-}  // namespace altseed
+}  // namespace Altseed

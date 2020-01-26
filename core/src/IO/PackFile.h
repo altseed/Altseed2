@@ -4,7 +4,7 @@
 #include <string>
 #include "../BaseObject.h"
 
-namespace altseed {
+namespace Altseed {
 class PackFile : public BaseObject {
 private:
     zip_t* m_zip;
@@ -19,4 +19,4 @@ public:
     zip_stat_t* GetZipStat(const std::u16string& path);
     bool GetIsUsePassword();
 };
-}  // namespace altseed
+}  // namespace Altseed

@@ -3,7 +3,7 @@
 #include "../IO/File.h"
 #include "Graphics.h"
 
-namespace altseed {
+namespace Altseed {
 
 Glyph::Glyph(Vector2DI textureSize, int32_t textureIndex, Vector2DI position, Vector2DI size, Vector2DI offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
@@ -142,4 +142,4 @@ void Font::AddGlyph(const char16_t character) {
     glyphs_[character] = glyph;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

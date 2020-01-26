@@ -12,7 +12,7 @@
 #include "Color.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 enum class WritingDirection : int32_t { Vertical, Horizontal };
 
 class Glyph {
@@ -117,4 +117,4 @@ private:
     void AddFontTexture();
     void AddGlyph(const char16_t character);
 };
-}  // namespace altseed
+}  // namespace Altseed

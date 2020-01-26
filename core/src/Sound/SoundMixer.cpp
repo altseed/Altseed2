@@ -1,6 +1,6 @@
 ﻿#include "SoundMixer.h"
 
-namespace altseed
+namespace Altseed
 {
 
 SoundMixer::SoundMixer(bool isReloadingEnabled)
@@ -180,4 +180,4 @@ void SoundMixer::Reload()
 	*/
 }
 
-} // namespace altseed
+} // namespace Altseed

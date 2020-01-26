@@ -1,7 +1,7 @@
 ﻿
 #include "Vector4DF.h"
 
-namespace altseed {
+namespace Altseed {
 
 Vector4DF::Vector4DF() : X(0), Y(0), Z(0), W(0) {}
 
@@ -37,4 +37,4 @@ float Vector4DF::Distance(const Vector4DF& v1, const Vector4DF& v2) {
 
 Vector4DI Vector4DF::To4DI() const { return Vector4DI((int32_t)X, (int32_t)Y, (int32_t)Z, (int32_t)W); }
 
-}  // namespace altseed
+}  // namespace Altseed

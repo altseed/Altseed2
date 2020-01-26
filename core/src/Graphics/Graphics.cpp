@@ -12,7 +12,7 @@
 
 #endif
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<Graphics> Graphics::instance = nullptr;
 
@@ -158,4 +158,4 @@ std::shared_ptr<LLGI::RenderPass> Graphics::CreateRenderPass(LLGI::Texture* rend
     return LLGI::CreateSharedPtr(graphics_->CreateRenderPass((const LLGI::Texture**)&renderTexture, 1, nullptr));
 }
 
-}  // namespace altseed
+}  // namespace Altseed

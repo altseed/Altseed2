@@ -7,7 +7,7 @@
 #include "Vector3DI.h"
 
 
-namespace altseed {
+namespace Altseed {
 
 
 Vector3DI::Vector3DI() : X(0), Y(0), Z(0) {}
@@ -125,4 +125,4 @@ float Vector3DI::Distance(const Vector3DI& v1, const Vector3DI& v2) {
 
 Vector3DF Vector3DI::To3DF() const { return Vector3DF(X, Y, Z); }
 
-}  // namespace altseed
+}  // namespace Altseed

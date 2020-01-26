@@ -2,7 +2,7 @@
 #include "Vector2DI.h"
 #include "Vector3DI.h"
 
-namespace altseed {
+namespace Altseed {
 /**
         @brief	3×3行列を表す構造体。
         @note
@@ -63,4 +63,4 @@ public:
 
     Vector3DI operator*(const Vector3DI& right);
 };
-}  // namespace altseed
+}  // namespace Altseed

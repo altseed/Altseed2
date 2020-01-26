@@ -2,21 +2,21 @@ from . import CppBindingGenerator as cbg
 
 import ctypes
 
-VoidPtr = cbg.Class('altseed', 'VoidPtr')
+VoidPtr = cbg.Class('Altseed', 'VoidPtr')
 
-SeekOrigin = cbg.Enum('altseed', 'SeekOrigin')
+SeekOrigin = cbg.Enum('Altseed', 'SeekOrigin')
 with SeekOrigin as enum_:
     enum_.add('Begin')
     enum_.add('Current')
     enum_.add('End')
 
-Int8Array = cbg.Class('altseed', 'Int8Array')
+Int8Array = cbg.Class('Altseed', 'Int8Array')
 with Int8Array as class_:
     with class_.add_func("CopyTo") as func:
         func.add_arg(Int8Array, "array")
         func.add_arg(int, "size")
 
-ResourceType = cbg.Enum('altseed', 'ResourceType')
+ResourceType = cbg.Enum('Altseed', 'ResourceType')
 with ResourceType as enum_:
     enum_.add('StaticFile')
     enum_.add('StreamFile')
@@ -24,7 +24,7 @@ with ResourceType as enum_:
     enum_.add('Font')
     enum_.add('MAX')
 
-Resources = cbg.Class('altseed', 'Resources')
+Resources = cbg.Class('Altseed', 'Resources')
 with Resources as class_:
     with class_.add_func('GetInstance') as func:
         func.is_static = True
@@ -36,5 +36,5 @@ with Resources as class_:
     class_.add_func('Reload')
 
 
-Vector2DI = cbg.Struct('altseed', 'Vector2DI')
-Vector2DF = cbg.Struct('altseed', 'Vector2DF')
+Vector2DI = cbg.Struct('Altseed', 'Vector2DI')
+Vector2DF = cbg.Struct('Altseed', 'Vector2DF')

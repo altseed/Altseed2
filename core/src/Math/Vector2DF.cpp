@@ -1,7 +1,7 @@
 ﻿#include "Vector2DF.h"
 #include "Vector2DI.h"
 
-namespace altseed {
+namespace Altseed {
 Vector2DF::Vector2DF() : X(0.0f), Y(0.0f) {}
 
 Vector2DF::Vector2DF(float x, float y) : X(x), Y(y) {}
@@ -74,4 +74,4 @@ Vector2DF& Vector2DF::operator/=(float right) {
 
 Vector2DI Vector2DF::To2DI() const { return Vector2DI((int32_t)X, (int32_t)Y); }
 
-}  // namespace altseed
+}  // namespace Altseed

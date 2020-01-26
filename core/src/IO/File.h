@@ -9,7 +9,7 @@
 #include "StaticFile.h"
 #include "StreamFile.h"
 
-namespace altseed {
+namespace Altseed {
 
 class File : public BaseObject {
 private:
@@ -52,4 +52,4 @@ private:
     bool MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

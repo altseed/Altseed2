@@ -1,7 +1,7 @@
 ﻿#include "BaseObject.h"
 #include "Core.h"
 
-namespace altseed {
+namespace Altseed {
 
 BaseObject::BaseObject() : reference_(1) {
     core_ = Core::GetInstance();
@@ -21,4 +21,4 @@ BaseObject::~BaseObject() {
     }
 }
 
-}  // namespace altseed
+}  // namespace Altseed

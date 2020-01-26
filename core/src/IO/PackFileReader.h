@@ -3,7 +3,7 @@
 #include <zip.h>
 #include "BaseFileReader.h"
 
-namespace altseed {
+namespace Altseed {
 
 class PackFileReader : public BaseFileReader {
 private:
@@ -25,4 +25,4 @@ public:
 
     bool GetIsInPackage() const override;
 };
-}  // namespace altseed
+}  // namespace Altseed

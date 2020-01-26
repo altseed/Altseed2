@@ -1,6 +1,6 @@
 ﻿#include "Keyboard.h"
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<Keyboard> Keyboard::instance = nullptr;
 
@@ -154,4 +154,4 @@ ButtonState Keyboard::GetKeyState(Keys key) const {
 
 std::shared_ptr<Keyboard>& Keyboard::GetInstance() { return instance; }
 
-};  // namespace altseed
+};  // namespace Altseed

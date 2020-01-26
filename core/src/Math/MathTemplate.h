@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <cstring>
 
-namespace altseed {
+namespace Altseed {
 struct Vector2DF;
 struct Vector2DI;
 struct Vector3DF;
@@ -37,4 +37,4 @@ const float PI = 3.14159265358979f;
 static float DegreeToRadian(float degree) { return degree / 180.0f * PI; }
 
 static float RadianToDegree(float radian) { return radian / PI * 180.0f; }
-}  // namespace altseed
+}  // namespace Altseed

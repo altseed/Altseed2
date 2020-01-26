@@ -6,10 +6,10 @@
 
 #include "BaseObject.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Scene : public BaseObject {
 
 };
 
-}  // namespace altseed
+}  // namespace Altseed

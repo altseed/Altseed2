@@ -7,7 +7,7 @@
 #include "Vector4DF.h"
 
 
-namespace altseed {
+namespace Altseed {
 
 
 /**

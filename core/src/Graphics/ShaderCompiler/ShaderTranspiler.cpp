@@ -86,7 +86,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 
 )";
 
-namespace altseed {
+namespace Altseed {
 
 EShLanguage GetGlslangShaderStage(ShaderStageType type) {
     if (type == ShaderStageType::Vertex) return EShLanguage::EShLangVertex;
@@ -214,31 +214,31 @@ std::shared_ptr<SPIRV> SPIRVGenerator::Generate(const char* code, ShaderStageTyp
     return std::make_shared<SPIRV>(spirv);
 }
 
-}  // namespace altseed
+}  // namespace Altseed
 
 bool compilerTest() {
-    altseed::SPIRVGenerator generator;
+    Altseed::SPIRVGenerator generator;
     generator.Initialize();
     /*
     {
-        auto spirv = generator.Generate(simpleVS, altseed::ShaderStageType::Vertex);
+        auto spirv = generator.Generate(simpleVS, Altseed::ShaderStageType::Vertex);
 
         {
-            auto transpiler = altseed::SPIRVToGLSLTranspiler();
+            auto transpiler = Altseed::SPIRVToGLSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== GLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToHLSLTranspiler();
+            auto transpiler = Altseed::SPIRVToHLSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== HLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToMSLTranspiler();
+            auto transpiler = Altseed::SPIRVToMSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== MSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
@@ -246,24 +246,24 @@ bool compilerTest() {
     }
 
     {
-        auto spirv = generator.Generate(simplePS, altseed::ShaderStageType::Pixel);
+        auto spirv = generator.Generate(simplePS, Altseed::ShaderStageType::Pixel);
 
         {
-            auto transpiler = altseed::SPIRVToGLSLTranspiler();
+            auto transpiler = Altseed::SPIRVToGLSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== GLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToHLSLTranspiler();
+            auto transpiler = Altseed::SPIRVToHLSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== HLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToMSLTranspiler();
+            auto transpiler = Altseed::SPIRVToMSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== MSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
@@ -271,24 +271,24 @@ bool compilerTest() {
     }
         */
     {
-        auto spirv = generator.Generate(texturePS, altseed::ShaderStageType::Pixel);
+        auto spirv = generator.Generate(texturePS, Altseed::ShaderStageType::Pixel);
 
         {
-            auto transpiler = altseed::SPIRVToGLSLTranspiler(true);
+            auto transpiler = Altseed::SPIRVToGLSLTranspiler(true);
             transpiler.Transpile(spirv);
             std::cout << "== GLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToMSLTranspiler();
+            auto transpiler = Altseed::SPIRVToMSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== MSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;
         }
 
         {
-            auto transpiler = altseed::SPIRVToHLSLTranspiler();
+            auto transpiler = Altseed::SPIRVToHLSLTranspiler();
             transpiler.Transpile(spirv);
             std::cout << "== HLSL ==" << std::endl;
             std::cout << transpiler.GetCode() << std::endl;

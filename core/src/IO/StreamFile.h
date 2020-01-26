@@ -6,7 +6,7 @@
 #include "../Common/Resource.h"
 #include "BaseFileReader.h"
 
-namespace altseed {
+namespace Altseed {
 class File;
 
 class StreamFile : public Resource {
@@ -35,4 +35,4 @@ public:
     bool Reload() override;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

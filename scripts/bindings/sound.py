@@ -3,7 +3,7 @@ import ctypes
 
 from .common import *
 
-Sound = cbg.Class('altseed', 'Sound')
+Sound = cbg.Class('Altseed', 'Sound')
 
 with Sound as class_:
     with class_.add_property(float, 'LoopStartingPoint') as prop:
@@ -21,7 +21,7 @@ with Sound as class_:
     with class_.add_property(float, 'Length') as prop:
         prop.has_getter = True
 
-# SoundMixer = cbg.Class('altseed', 'SoundMixier')
+# SoundMixer = cbg.Class('Altseed', 'SoundMixier')
 
 # with SoundMixer as class_:
     # coreでSoundが生ポインタになってる
