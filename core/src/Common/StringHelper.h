@@ -4,7 +4,7 @@
 #include <codecvt>
 #include <locale>
 
-namespace altseed {
+namespace Altseed {
 
 // http://hasenpfote36.blogspot.jp/2016/09/stdcodecvt.html
 static constexpr std::codecvt_mode mode = std::codecvt_mode::little_endian;
@@ -148,4 +148,4 @@ static std::u16string utf8_to_utf16(const std::string& u8Str) {
     return u16Str;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

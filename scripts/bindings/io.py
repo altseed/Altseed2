@@ -4,7 +4,7 @@ import sys
 
 from .common import *
 
-StaticFile = cbg.Class('altseed', 'StaticFile')
+StaticFile = cbg.Class('Altseed', 'StaticFile')
 with StaticFile as class_:
     with class_.add_func('GetBuffer') as func:
         func.return_value.type_ = Int8Array
@@ -17,7 +17,7 @@ with StaticFile as class_:
     with class_.add_func('Reload') as func:
         func.return_value.type_ = bool
 
-StreamFile = cbg.Class('altseed', 'StreamFile')
+StreamFile = cbg.Class('Altseed', 'StreamFile')
 with StreamFile as class_:
     with class_.add_func('GetSize') as func:
         func.return_value.type_ = int
@@ -35,7 +35,7 @@ with StreamFile as class_:
     with class_.add_func('Reload') as func:
         func.return_value.type_ = bool
 
-File = cbg.Class('altseed', 'File')
+File = cbg.Class('Altseed', 'File')
 with File as class_:
     with class_.add_func('GetInstance') as func:
         func.is_static = True

@@ -10,7 +10,7 @@
 #include <memory>
 #include <OpenSoundMixer.h>
 
-namespace altseed
+namespace Altseed
 {
 
 class Sound;
@@ -188,4 +188,4 @@ public:
 #endif
 };
 
-} // namespace altseed
+} // namespace Altseed

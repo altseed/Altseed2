@@ -1,6 +1,6 @@
 ﻿#include "Matrix33I.h"
 
-namespace altseed {
+namespace Altseed {
 Matrix33I::Matrix33I() { SetIdentity(); }
 
 Matrix33I& Matrix33I::SetIdentity() {
@@ -106,4 +106,4 @@ Vector3DI Matrix33I::operator*(const Vector3DI& right) {
 
     return result;
 }
-}  // namespace altseed
+}  // namespace Altseed

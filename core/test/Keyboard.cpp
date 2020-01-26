@@ -6,42 +6,40 @@
 
 using namespace std::string_literals;
 
-namespace asd = altseed;
-
 TEST(Keyboard, Initialize) {
     
     char16_t s16[] = u"test";
 
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
     
     int i = 0;
     
-    while (i < (int)asd::Keys::MAX) {
-        asd::Keyboard::GetInstance()->RefleshKeyStates();
+    while (i < (int)Altseed::Keys::MAX) {
+        Altseed::Keyboard::GetInstance()->RefleshKeyStates();
         
-        asd::ButtonState state = asd::Keyboard::GetInstance()->GetKeyState(static_cast<asd::Keys>(i));
-        EXPECT_EQ(asd::ButtonState::Free, state);
+        Altseed::ButtonState state = Altseed::Keyboard::GetInstance()->GetKeyState(static_cast<Altseed::Keys>(i));
+        EXPECT_EQ(Altseed::ButtonState::Free, state);
         
         i ++;
     }
 
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(Keyboard, GetKeyState) {
     
     char16_t s16[] = u"test";
     
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
     
-    while(asd::Core::GetInstance()->DoEvent())
+    while(Altseed::Core::GetInstance()->DoEvent())
     {
-        for(int i=0;i<static_cast<int>(asd::Keys::MAX);i++){
-            auto bs = asd::Keyboard::GetInstance()->GetKeyState((asd::Keys)i);
-            if (bs != asd::ButtonState::Free)
+        for(int i=0;i<static_cast<int>(Altseed::Keys::MAX);i++){
+            auto bs = Altseed::Keyboard::GetInstance()->GetKeyState((Altseed::Keys)i);
+            if (bs != Altseed::ButtonState::Free)
                 std::cout << i;
         }
     }
     
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }

@@ -4,7 +4,7 @@
 
 #include "LLGI.Base.h"
 
-namespace altseed {
+namespace Altseed {
 class LLGIWindow : public LLGI::Window {
 private:
     GLFWwindow* glfwWindow;
@@ -17,4 +17,4 @@ public:
     bool OnNewFrame() override { return glfwWindowShouldClose(glfwWindow) == GL_FALSE; }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

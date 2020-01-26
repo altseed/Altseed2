@@ -2,7 +2,7 @@
 #include "../Graphics.h"
 #include "../Shader.h"
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<ShaderCompiler> ShaderCompiler::instance_ = nullptr;
 
@@ -84,4 +84,4 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageTyp
     return ret;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

@@ -9,14 +9,12 @@
 #include "Graphics/Camera.h"
 #include "Graphics/Sprite.h"
 
-namespace asd = altseed;
-
 TEST(Graphics, Initialize) {
-    EXPECT_TRUE(asd::Core::Initialize(u"Initialize", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
 
-    auto instance = altseed::Graphics::GetInstance();
+    auto instance = Altseed::Graphics::GetInstance();
     EXPECT_TRUE(instance != nullptr);
     auto renderer = instance->CreateRenderer();
     EXPECT_TRUE(renderer != nullptr);
@@ -27,9 +25,9 @@ TEST(Graphics, Initialize) {
     auto t2 = instance->CreateDameyTexture(255);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
+    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, Altseed::ShaderStageType::Pixel);
     EXPECT_TRUE(shader != nullptr);
-    auto material = asd::MakeAsdShared<altseed::Material>();
+    auto material = Altseed::MakeAsdShared<Altseed::Material>();
     EXPECT_TRUE(material != nullptr);
 
     material->SetShader(shader);
@@ -38,10 +36,10 @@ TEST(Graphics, Initialize) {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
+                auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
                 sprite->SetMaterial(material);
-                sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(asd::Vector2DF(80, 80));
+                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
+                sprite->SetSize(Altseed::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
                 renderer->Sprites.push_back(sprite);
             }
@@ -50,36 +48,36 @@ TEST(Graphics, Initialize) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(Graphics, Texture) {
 
-    EXPECT_TRUE(asd::Core::Initialize(u"Texture", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Texture", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
 
-    auto instance = altseed::Graphics::GetInstance();
+    auto instance = Altseed::Graphics::GetInstance();
     auto renderer = instance->CreateRenderer();
 
-    auto t1 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.png");
-    auto t2 = asd::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
-    auto material = std::make_shared<altseed::Material>();
+    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, Altseed::ShaderStageType::Pixel);
+    auto material = std::make_shared<Altseed::Material>();
     material->SetShader(shader);
 
     {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
+                auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
                 sprite->SetMaterial(material);
-                sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(asd::Vector2DF(80, 80));
+                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
+                sprite->SetSize(Altseed::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1->GetNativeTexture() : t2->GetNativeTexture());
                 renderer->Sprites.push_back(sprite);
             }
@@ -88,21 +86,21 @@ TEST(Graphics, Texture) {
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(Graphics, Camera) {
-    EXPECT_TRUE(asd::Core::Initialize(u"Camera", 1280, 720, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Camera", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
 
-    auto instance = altseed::Graphics::GetInstance();
+    auto instance = Altseed::Graphics::GetInstance();
     auto renderer = instance->CreateRenderer();
 
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
-    auto cam = asd::MakeAsdShared<asd::Camera>();
-    auto rt = asd::CreateSharedPtr(new asd::RenderTexture(asd::Vector2DI(256, 256)));
+    auto cam = Altseed::MakeAsdShared<Altseed::Camera>();
+    auto rt = Altseed::CreateSharedPtr(new Altseed::RenderTexture(Altseed::Vector2DI(256, 256)));
     cam->SetTarget(rt);
     renderer->Cameras.push_back(cam);
 
@@ -110,18 +108,18 @@ TEST(Graphics, Camera) {
     EXPECT_TRUE(t2 != nullptr);
     EXPECT_TRUE(cam != nullptr);
 
-    auto shader = altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, altseed::ShaderStageType::Pixel);
-    auto material = asd::MakeAsdShared<altseed::Material>();
+    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, Altseed::ShaderStageType::Pixel);
+    auto material = Altseed::MakeAsdShared<Altseed::Material>();
     material->SetShader(shader);
 
     {
         int c = 0;
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                auto sprite = asd::MakeAsdShared<altseed::Sprite>();
+                auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
                 sprite->SetMaterial(material);
-                sprite->SetPosition(asd::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(asd::Vector2DF(80, 80));
+                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
+                sprite->SetSize(Altseed::Vector2DF(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
                 renderer->Sprites.push_back(sprite);
             }
@@ -129,15 +127,15 @@ TEST(Graphics, Camera) {
     }
 
     {
-        auto sprite = asd::MakeAsdShared<altseed::Sprite>();
+        auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
         sprite->SetMaterial(material);
-        sprite->SetPosition(asd::Vector2DF(900, 100));
-        sprite->SetSize(asd::Vector2DF(256, 256));
+        sprite->SetPosition(Altseed::Vector2DF(900, 100));
+        sprite->SetSize(Altseed::Vector2DF(256, 256));
         sprite->SetTexture(cam->GetTarget()->GetNativeTexture());
         renderer->Sprites.push_back(sprite);
     }
 
     while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
 
-    altseed::Core::Terminate();
+    Altseed::Core::Terminate();
 }

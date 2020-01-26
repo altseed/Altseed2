@@ -2,7 +2,7 @@
 
 #include "MathTemplate.h"
 
-namespace altseed {
+namespace Altseed {
 
 struct Vector2DI {
 public:
@@ -47,4 +47,4 @@ public:
 
     static Vector2DI DivideByScalar(const Vector2DI& v1, float v2);
 };
-}  // namespace altseed
+}  // namespace Altseed

@@ -1,6 +1,6 @@
 ﻿#include "Sound.h"
 
-namespace altseed
+namespace Altseed
 {
 
 Sound::Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, osm::Sound*sound, bool isDecompressed)
@@ -57,4 +57,4 @@ bool Sound::Reload()
 	return false;
 }
 
-} // namespace altseed
+} // namespace Altseed

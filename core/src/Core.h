@@ -9,7 +9,7 @@
 
 #include "BaseObject.h"
 
-namespace altseed {
+namespace Altseed {
 
 class BaseObject;
 
@@ -56,4 +56,4 @@ public:
 
     bool DoEvent();
 };
-}  // namespace altseed
+}  // namespace Altseed

@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "../Common/StringHelper.h"
 
-namespace altseed {
+namespace Altseed {
 
 BaseFileReader::BaseFileReader(const std::u16string& path) : BaseObject(), m_path(path), m_length(-1), m_position(0) {
     if (!GetIsInPackage()) {
@@ -94,4 +94,4 @@ void BaseFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
 }
 
 bool BaseFileReader::GetIsInPackage() const { return false; }
-}  // namespace altseed
+}  // namespace Altseed

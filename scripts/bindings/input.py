@@ -3,14 +3,14 @@ import ctypes
 
 from .common import *
 
-ButtonState = cbg.Enum('altseed', 'ButtonState')
+ButtonState = cbg.Enum('Altseed', 'ButtonState')
 with ButtonState as enum:
     enum.add('Free', 0)
     enum.add('Push', 1)
     enum.add('Hold', 3)
     enum.add('Release', 2)
 
-Keys = cbg.Enum('altseed', 'Keys')
+Keys = cbg.Enum('Altseed', 'Keys')
 with Keys as enum:
     enum.add('Unknown')
     enum.add('Space')
@@ -136,7 +136,7 @@ with Keys as enum:
     enum.add('Last')
     enum.add('MAX')
 
-Keyboard = cbg.Class('altseed', 'Keyboard')
+Keyboard = cbg.Class('Altseed', 'Keyboard')
 with Keyboard as class_:
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetKeyState') as func:
@@ -146,7 +146,7 @@ with Keyboard as class_:
         func.return_value.type_ = Keyboard
         func.is_static = True
 
-MouseButtons = cbg.Enum('altseed', 'MouseButtons')
+MouseButtons = cbg.Enum('Altseed', 'MouseButtons')
 with MouseButtons as enum:
     enum.add('ButtonLeft', 0)
     enum.add('ButtonRight', 1)
@@ -157,13 +157,13 @@ with MouseButtons as enum:
     enum.add('SubButton4', 6)
     enum.add('SubButton5', 7)
 
-CursorMode = cbg.Enum('altseed', 'CursorMode')
+CursorMode = cbg.Enum('Altseed', 'CursorMode')
 with CursorMode as enum:
     enum.add('Normal', 0x00034001)
     enum.add('Hidden', 0x00034002)
     enum.add('Disable', 0x00034003)
 
-Mouse = cbg.Class('altseed', 'Mouse')
+Mouse = cbg.Class('Altseed', 'Mouse')
 with Mouse as class_:
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetInstance') as func:
@@ -182,7 +182,7 @@ with Mouse as class_:
         prop.has_getter = True
         prop.has_setter = True
 
-JoystickType = cbg.Enum('altseed', 'JoystickType')
+JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
     enum.add('Other', 0)
     enum.add('PS4', 8200)
@@ -190,7 +190,7 @@ with JoystickType as enum:
     enum.add('JoyconL', 8198)
     enum.add('JoyconR', 8197)
 
-JoystickButtonType = cbg.Enum('altseed', 'JoystickButtonType')
+JoystickButtonType = cbg.Enum('Altseed', 'JoystickButtonType')
 with JoystickButtonType as enum:
     enum.add('Start')
     enum.add('Select')
@@ -217,7 +217,7 @@ with JoystickButtonType as enum:
     enum.add('RightStart')
     enum.add('Max')
 
-JoystickAxisType = cbg.Enum('altseed', 'JoystickAxisType')
+JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
 with JoystickAxisType as enum:
     enum.add('Start')
     enum.add('LeftH')
@@ -228,7 +228,7 @@ with JoystickAxisType as enum:
     enum.add('R2')
     enum.add('Max')
 
-Joystick = cbg.Class('altseed', 'Joystick')
+Joystick = cbg.Class('Altseed', 'Joystick')
 with Joystick as class_:
     # Core 内部で呼び出されるので Initialize は Engineに公開しない
     with class_.add_func('IsPresent') as func:

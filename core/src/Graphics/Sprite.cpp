@@ -1,6 +1,6 @@
 ﻿#include "Sprite.h"
 
-namespace altseed {
+namespace Altseed {
 
 Sprite::Sprite() : uvs_({Vector2DF(0.0f, 0.0f), Vector2DF(1.0f, 0.0f), Vector2DF(1.0f, 1.0f), Vector2DF(0.0f, 1.0f)}) {}
 
@@ -13,4 +13,4 @@ std::array<LLGI::Vec2F, 4> Sprite::GetVertex(LLGI::Vec2I windowSize) {
     };
 }
 
-}  // namespace altseed
+}  // namespace Altseed

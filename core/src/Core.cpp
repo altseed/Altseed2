@@ -8,7 +8,7 @@
 #include "Input/Mouse.h"
 #include "Window/Window.h"
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<Core> Core::instance = nullptr;
 
@@ -87,10 +87,10 @@ void Core::Terminate() {
 std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 
 bool Core::DoEvent() {
-    altseed::Keyboard::GetInstance()->RefleshKeyStates();
-    altseed::Mouse::GetInstance()->RefreshInputState();
+    Altseed::Keyboard::GetInstance()->RefleshKeyStates();
+    Altseed::Mouse::GetInstance()->RefreshInputState();
 
-    return altseed::Window::GetInstance()->DoEvent();
+    return Altseed::Window::GetInstance()->DoEvent();
 }
 
-}  // namespace altseed
+}  // namespace Altseed

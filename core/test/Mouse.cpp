@@ -6,26 +6,24 @@
 
 using namespace std::string_literals;
 
-namespace asd = altseed;
-
 TEST(Mouse, Initialize) {
     
     char16_t s16[] = u"Mouse";
     
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
     
     int i = 0;
     
     while (i < 8) {
-        asd::Mouse::GetInstance()->RefreshInputState();
+        Altseed::Mouse::GetInstance()->RefreshInputState();
         
-        asd::ButtonState state = asd::Mouse::GetInstance()->GetMouseButtonState(static_cast<asd::MouseButtons>(i));
-        EXPECT_EQ(asd::ButtonState::Free, state);
+        Altseed::ButtonState state = Altseed::Mouse::GetInstance()->GetMouseButtonState(static_cast<Altseed::MouseButtons>(i));
+        EXPECT_EQ(Altseed::ButtonState::Free, state);
         
         i ++;
     }
     
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 // function for SetWheelCallBack test.
@@ -39,59 +37,59 @@ TEST(Mouse, GetMouseInput) {
     
     char16_t s16[] = u"Mouse inputs";
     
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
     
-    asd::Mouse::GetInstance()->asd::Mouse::SetWheelCallback(WheelTestFunction);
+    Altseed::Mouse::GetInstance()->Altseed::Mouse::SetWheelCallback(WheelTestFunction);
     
-    asd::Mouse::GetInstance()->SetCursorMode(asd::CursorMode::Hidden);
-    asd::CursorMode mode = asd::Mouse::GetInstance()->GetCursorMode();
-    EXPECT_EQ(mode, asd::CursorMode::Hidden);
+    Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Hidden);
+    Altseed::CursorMode mode = Altseed::Mouse::GetInstance()->GetCursorMode();
+    EXPECT_EQ(mode, Altseed::CursorMode::Hidden);
     
-    asd::Mouse::GetInstance()->SetCursorMode(asd::CursorMode::Disable);
-    mode = asd::Mouse::GetInstance()->GetCursorMode();
-    EXPECT_EQ(mode, asd::CursorMode::Disable);
+    Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Disable);
+    mode = Altseed::Mouse::GetInstance()->GetCursorMode();
+    EXPECT_EQ(mode, Altseed::CursorMode::Disable);
     
-    asd::Mouse::GetInstance()->SetCursorMode(asd::CursorMode::Normal);
-    mode = asd::Mouse::GetInstance()->GetCursorMode();
-    EXPECT_EQ(mode, asd::CursorMode::Normal);
+    Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Normal);
+    mode = Altseed::Mouse::GetInstance()->GetCursorMode();
+    EXPECT_EQ(mode, Altseed::CursorMode::Normal);
     
-    while(asd::Core::GetInstance()->DoEvent())
+    while(Altseed::Core::GetInstance()->DoEvent())
     {
         // testing MouseButton inputs.
         for(int i=0;i<8;i++){
-            auto bs = asd::Mouse::GetInstance()->GetMouseButtonState((asd::MouseButtons)i);
-            if (bs != asd::ButtonState::Free)
+            auto bs = Altseed::Mouse::GetInstance()->GetMouseButtonState((Altseed::MouseButtons)i);
+            if (bs != Altseed::ButtonState::Free)
                 std::cout << i;
         }
         
         // testing wheel input.
-        float wheel = asd::Mouse::GetInstance()->GetWheel();
+        float wheel = Altseed::Mouse::GetInstance()->GetWheel();
         if (wheel != 0)
         {
 //            std::cout << wheel << "\n";
         }
     }
     
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 TEST(Mouse, Position) {
     
     char16_t s16[] = u"Mouse position";
     
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
     
-    asd::Mouse::GetInstance()->SetPosition(320, 240);
+    Altseed::Mouse::GetInstance()->SetPosition(320, 240);
     double x, y;
-    asd::Mouse::GetInstance()->GetPosition(x, y);
+    Altseed::Mouse::GetInstance()->GetPosition(x, y);
     EXPECT_EQ(x, 320);
     EXPECT_EQ(y, 240);
     
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 //TEST(Mouse, CursorMode) {
 //    char16_t s16[] = u"Mouse position";
 //
-//    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+//    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
 //}

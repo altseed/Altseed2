@@ -3,19 +3,17 @@
 #include <gtest/gtest.h>
 #include <string>
 
-namespace asd = altseed;
-
 TEST(Window, Base) {
-    EXPECT_TRUE(asd::Core::Initialize(u"test", 150, 150, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 150, 150, Altseed::CoreOption()));
 
     int i = 0;
-    while (asd::Window::GetInstance()->DoEvent() && i < 16) {
-        asd::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
+    while (Altseed::Window::GetInstance()->DoEvent() && i < 16) {
+        Altseed::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
 
-        for (int l = 0; l < 10; l++) asd::Window::GetInstance()->DoEvent();
+        for (int l = 0; l < 10; l++) Altseed::Window::GetInstance()->DoEvent();
 
         int32_t w, h;
-        asd::Window::GetInstance()->GetSize(w, h);
+        Altseed::Window::GetInstance()->GetSize(w, h);
 
 #ifdef __linux__
         ASSERT_NEAR(w, 150 + i / 2, 2);
@@ -26,13 +24,13 @@ TEST(Window, Base) {
 #endif
 
         std::u16string title = u"Test";
-        asd::Window::GetInstance()->SetTitle(title.c_str());
-        asd::Window::GetInstance()->DoEvent();
+        Altseed::Window::GetInstance()->SetTitle(title.c_str());
+        Altseed::Window::GetInstance()->DoEvent();
 
-        EXPECT_EQ(std::u16string(asd::Window::GetInstance()->GetTitle()), title);
+        EXPECT_EQ(std::u16string(Altseed::Window::GetInstance()->GetTitle()), title);
 
         i++;
     }
 
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }

@@ -5,7 +5,7 @@
 #include "Vector4DI.h"
 
 
-namespace altseed {
+namespace Altseed {
 
 Matrix44I::Matrix44I() { SetIdentity(); }
 
@@ -133,4 +133,4 @@ Matrix44I& Matrix44I::Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& i
 }
 
 
-}  // namespace altseed
+}  // namespace Altseed

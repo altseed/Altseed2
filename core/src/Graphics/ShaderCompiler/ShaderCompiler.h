@@ -4,7 +4,7 @@
 #include "ShaderTranspiler.h"
 #include <LLGI.Compiler.h>
 
-namespace altseed {
+namespace Altseed {
 
 enum class GraphicsDeviceType : int32_t {
     DirectX12,
@@ -37,4 +37,4 @@ public:
 	std::shared_ptr<Shader> Compile(const char* code, ShaderStageType shaderStage);
 };
 
-}  // namespace altseed
+}  // namespace Altseed

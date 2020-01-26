@@ -5,7 +5,7 @@
 #include "../BaseObject.h"
 #include "Shader.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Shader;
 
@@ -18,4 +18,4 @@ public:
     void SetShader(std::shared_ptr<Shader>& shader) { shader_ = shader; }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

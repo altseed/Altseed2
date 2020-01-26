@@ -2,7 +2,7 @@
 #include "Vector2DF.h"
 #include "Vector3DF.h"
 
-namespace altseed {
+namespace Altseed {
 /**
         @brief	3×3行列を表す構造体。
         @note

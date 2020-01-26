@@ -1,7 +1,7 @@
 ﻿#include "StreamFile.h"
 #include "File.h"
 
-namespace altseed {
+namespace Altseed {
 StreamFile::StreamFile(BaseFileReader* reader) : m_fileReader(reader) {
     file_ = File::GetInstance();
     m_buffer = std::make_shared<Int8Array>();
@@ -46,4 +46,4 @@ bool StreamFile::Reload() {
     return true;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

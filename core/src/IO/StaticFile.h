@@ -6,7 +6,7 @@
 #include "../Common/Resource.h"
 #include "BaseFileReader.h"
 
-namespace altseed {
+namespace Altseed {
 
 class File;
 
@@ -33,4 +33,4 @@ public:
     bool Reload() override;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

@@ -5,21 +5,18 @@
 #include <cmath>
 #include <chrono>
 
-
-namespace asd = altseed;
-
 uint8_t global_count = 0x00;
 
 TEST(Joystick, Initialize) {
     
     char16_t s16[] = u"test";
     
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
 
-//    asd::JoystickManager::GetInstance()->PrintDevicesInfo();
+//    Altseed::JoystickManager::GetInstance()->PrintDevicesInfo();
 //    temp();
-    asd::Joystick *joystick = new asd::Joystick();
-    joystick->Initialize(asd::JoystickType::JoyconL);
+    Altseed::Joystick *joystick = new Altseed::Joystick();
+    joystick->Initialize(Altseed::JoystickType::JoyconL);
     for (int i=0;i<10;i++) {
         printf("name: %ls", joystick->GetJoystickName(i));
     }
@@ -41,8 +38,8 @@ TEST(Joystick, Initialize) {
         joystick->RefreshVibrateState();
 
         joystick->RefreshInputState();
-//        float h = joystick->GetAxisState(0, asd::JoystickAxisType::LeftH);
-//        float v = joystick->GetAxisState(0, asd::JoystickAxisType::LeftV);
+//        float h = joystick->GetAxisState(0, Altseed::JoystickAxisType::LeftH);
+//        float v = joystick->GetAxisState(0, Altseed::JoystickAxisType::LeftV);
 //
 //        if (pre_h == h && pre_v == v) {
 //
@@ -60,7 +57,7 @@ TEST(Joystick, Initialize) {
     }
 
     
-    asd::Core::Terminate();
+    Altseed::Core::Terminate();
 }
 
 

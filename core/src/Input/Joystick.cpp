@@ -11,7 +11,7 @@
 #define DUALSHOCK4_PRODUCT_ID 0x0
 #define XBOX360_PRODUCT_ID 0x0
 
-namespace altseed {
+namespace Altseed {
 
     bool Joystick::Initialize(JoystickType type)
     {

@@ -6,7 +6,7 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-Graphics = cbg.Class('altseed', 'Graphics')
+Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:
     # with class_.add_func('Initialize') as func:
     #     # func.add_arg(DeviceType, 'deviceType')
@@ -26,7 +26,7 @@ with Graphics as class_:
     #     func.add_arg(int, 'b')
     #     func.return_type = LlgiTexture
 
-Texture2D = cbg.Class('altseed', 'Texture2D')
+Texture2D = cbg.Class('Altseed', 'Texture2D')
 with Texture2D as class_:
     # with class_.add_constructor() as ctor:
     #     ctor.add_arg(Resources, 'resources')

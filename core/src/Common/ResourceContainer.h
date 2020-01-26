@@ -10,7 +10,7 @@
 #include "../Platform/FileSystem.h"
 #include "Resource.h"
 
-namespace altseed {
+namespace Altseed {
 class ResourceContainer {
 public:
     class ResourceInfomation {
@@ -94,4 +94,4 @@ public:
     }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

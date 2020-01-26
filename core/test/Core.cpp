@@ -1,12 +1,10 @@
 ﻿#include <gtest/gtest.h>
 #include <Core.h>
 
-namespace asd = altseed;
-
 TEST(Core, Initialize) {
 
-	EXPECT_TRUE(asd::Core::Initialize(u"test", 640, 480, asd::CoreOption()));
-    asd::Core::Terminate();
+	EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    Altseed::Core::Terminate();
 }
 
 int main(int argc, char** argv) {

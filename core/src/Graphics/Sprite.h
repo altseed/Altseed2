@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Material.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Material;
 
@@ -40,4 +40,4 @@ public:
     }
     std::array<Vector2DF, 4> GetUVs() const { return uvs_; }
 };
-}  // namespace altseed
+}  // namespace Altseed

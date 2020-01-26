@@ -5,7 +5,7 @@
 #include "../IO/File.h"
 #include "Graphics.h"
 
-namespace altseed {
+namespace Altseed {
 std::map<std::u16string, std::shared_ptr<std::mutex>> Texture2D::mtxs;
 
 Texture2D::Texture2D(
@@ -64,4 +64,4 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
 
     return res;
 }
-}  // namespace altseed
+}  // namespace Altseed

@@ -2,7 +2,7 @@
 #include <vector>
 #include "File.h"
 
-namespace altseed {
+namespace Altseed {
 StaticFile::StaticFile(BaseFileReader* reader) : m_fileReader(reader) {
     file_ = File::GetInstance();
     std::vector<uint8_t> buffer;
@@ -40,4 +40,4 @@ bool StaticFile::Reload() {
     return true;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

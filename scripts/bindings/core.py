@@ -4,10 +4,10 @@ import sys
 
 from .common import *
 
-CoreOption = cbg.Struct('altseed', 'CoreOption')
+CoreOption = cbg.Struct('Altseed', 'CoreOption')
 # with CoreOption as struct_:
 
-Core = cbg.Class('altseed', 'Core')
+Core = cbg.Class('Altseed', 'Core')
 with Core as class_:
     with class_.add_func('Initialize') as func:
         func.add_arg(ctypes.c_wchar_p, 'title')

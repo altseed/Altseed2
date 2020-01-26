@@ -10,7 +10,7 @@ namespace fs = std::experimental::filesystem;
 
 #include "FileSystem.h"
 
-namespace altseed {
+namespace Altseed {
 bool FileSystem::GetIsFile(const std::u16string& path) { return fs::is_regular_file(path); }
 
 bool FileSystem::GetIsDirectory(const std::u16string& path) { return fs::is_directory(path); }
@@ -28,4 +28,4 @@ void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16s
 }
 
 int32_t FileSystem::GetFileSize(const std::u16string& path) { return fs::file_size(path); }
-}  // namespace altseed
+}  // namespace Altseed

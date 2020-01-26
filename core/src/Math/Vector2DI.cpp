@@ -1,7 +1,7 @@
 ﻿#include "Vector2DI.h"
 #include "Vector2DF.h"
 
-namespace altseed {
+namespace Altseed {
 Vector2DI::Vector2DI() : X(0), Y(0) {}
 
 Vector2DI::Vector2DI(int32_t x, int32_t y) : X(x), Y(y) {}
@@ -63,4 +63,4 @@ Vector2DF Vector2DI::To2DF() const { return Vector2DF(X, Y); }
 
 Vector2DI Vector2DI::DivideByScalar(const Vector2DI& v1, float v2) { return Vector2DI(v1.X / v2, v1.Y / v2); }
 
-}  // namespace altseed
+}  // namespace Altseed

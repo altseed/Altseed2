@@ -1,6 +1,6 @@
 #include "Mouse.h"
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<Mouse> Mouse::instance = nullptr;
 
@@ -79,4 +79,4 @@ CursorMode Mouse::GetCursorMode() const {
     return static_cast<CursorMode>(index);
 }
 
-};  // namespace altseed
+};  // namespace Altseed

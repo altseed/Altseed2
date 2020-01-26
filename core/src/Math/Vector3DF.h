@@ -3,7 +3,7 @@
 #include "MathTemplate.h"
 #include "Vector3DI.h"
 
-namespace altseed {
+namespace Altseed {
 
 struct Vector3DF {
 public:
@@ -76,4 +76,4 @@ public:
 
     Vector3DI To3DI() const;
 };
-}  // namespace altseed
+}  // namespace Altseed

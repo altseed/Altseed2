@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 
-namespace altseed {
+namespace Altseed {
 
 bool Renderer::Initialize() {
     sfMemoryPool_ = Graphics::GetInstance()->CreateSingleFrameMemoryPool(1024 * 1024, 128);
@@ -164,4 +164,4 @@ void Renderer::UpdateGroups() {
     indexBuffer_->Unlock();
     vertexBuffer_->Unlock();
 };
-}  // namespace altseed
+}  // namespace Altseed

@@ -5,7 +5,7 @@
 #include "../BaseObject.h"
 #include "ResourceContainer.h"
 
-namespace altseed {
+namespace Altseed {
 
 enum class ResourceType : int32_t { StaticFile, StreamFile, Texture2D, Font, Sound, MAX };
 
@@ -30,4 +30,4 @@ public:
 
     void Reload();
 };
-}  // namespace altseed
+}  // namespace Altseed

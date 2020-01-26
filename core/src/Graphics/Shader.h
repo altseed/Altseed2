@@ -5,7 +5,7 @@
 #include "../BaseObject.h"
 #include "Graphics.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Shader : public BaseObject {
 private:
@@ -27,4 +27,4 @@ public:
     LLGI::Shader* Get() const { return shader_; }
 };
 
-}  // namespace altseed
+}  // namespace Altseed

@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 
 Camera::Camera() {
     matView_.fill(0);
@@ -31,4 +31,4 @@ void Camera::SetSrc(Vector2DI src) {
 
 Camera::~Camera() {}
 
-}  // namespace altseed
+}  // namespace Altseed

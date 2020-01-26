@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 
 RenderTexture::RenderTexture(Vector2DI size) {
     size_ = size;
@@ -14,4 +14,4 @@ RenderTexture::RenderTexture(Vector2DI size) {
 
 RenderTexture::~RenderTexture() { m_texture = nullptr; }
 
-}  // namespace altseed
+}  // namespace Altseed

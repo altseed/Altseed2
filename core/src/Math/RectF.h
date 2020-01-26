@@ -4,7 +4,7 @@
 #include "MathTemplate.h"
 #include "Vector2DF.h"
 
-namespace altseed {
+namespace Altseed {
 
 struct RectF {
 public:
@@ -33,4 +33,4 @@ public:
     RectI ToI() const;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

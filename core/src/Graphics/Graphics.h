@@ -26,7 +26,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Renderer;
 class Sprite;
@@ -87,4 +87,4 @@ public:
 	LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
 
 };
-}  // namespace altseed
+}  // namespace Altseed

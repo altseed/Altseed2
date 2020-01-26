@@ -6,7 +6,7 @@
 #include "MathTemplate.h"
 #include "Vector4DI.h"
 
-namespace altseed {
+namespace Altseed {
 
 
 /**
@@ -89,4 +89,4 @@ public:
 };
 
 
-}  // namespace altseed
+}  // namespace Altseed

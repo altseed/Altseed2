@@ -26,7 +26,7 @@
 #include "Sprite.h"
 #include "Texture2D.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Camera;
 class Shader;
@@ -115,4 +115,4 @@ float4 main(PS_INPUT input) : SV_TARGET
 )";
 };
 
-}  // namespace altseed
+}  // namespace Altseed

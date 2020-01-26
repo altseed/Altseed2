@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace altseed {
+namespace Altseed {
 
 struct WindowInitializationParameter {
     std::u16string Title;
@@ -48,4 +48,4 @@ public:
     void GetMonitorSize(int32_t& width, int32_t& height);
 };
 
-}  // namespace altseed
+}  // namespace Altseed

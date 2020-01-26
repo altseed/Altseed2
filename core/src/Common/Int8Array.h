@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-namespace altseed {
+namespace Altseed {
 class Int8Array : public std::vector<int8_t>, public BaseObject {
 
 public:
@@ -18,4 +18,4 @@ public:
         }
     }
 };
-}  // namespace altseed
+}  // namespace Altseed

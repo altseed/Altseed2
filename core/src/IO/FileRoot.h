@@ -4,7 +4,7 @@
 #include <string>
 #include "PackFile.h"
 
-namespace altseed {
+namespace Altseed {
 class FileRoot {
 private:
     PackFile* m_packFile;
@@ -19,4 +19,4 @@ public:
     PackFile* GetPackFile();
     bool IsPack();
 };
-}  // namespace altseed
+}  // namespace Altseed

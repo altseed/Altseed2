@@ -21,7 +21,7 @@
 #include <GLFW/glfw3native.h>
 #endif
 
-namespace altseed {
+namespace Altseed {
 std::shared_ptr<Window> Window::instance = nullptr;
 
 std::shared_ptr<Window>& Window::GetInstance() { return instance; }
@@ -130,4 +130,4 @@ void Window::GetMonitorSize(int32_t& width, int32_t& height) {
     }
 }
 
-}  // namespace altseed
+}  // namespace Altseed
