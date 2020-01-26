@@ -6,7 +6,7 @@ namespace Altseed {
 
 class Shader;
 
-enum class BuildinShaderType {
+enum class BuildinShaderType : int32_t {
     SpriteUnlitVS,
     SpriteUnlitPS,
 };
