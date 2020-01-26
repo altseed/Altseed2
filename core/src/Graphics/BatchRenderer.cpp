@@ -3,7 +3,7 @@
 #include "CommandList.h"
 #include "Material.h"
 
-namespace altseed {
+namespace Altseed {
 
 BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto graphicsLLGI = graphics->GetGraphicsLLGI();

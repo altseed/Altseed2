@@ -2,7 +2,7 @@
 #include "../Graphics/Graphics.h"
 #include "RenderTexture.h"
 
-namespace altseed {
+namespace Altseed {
 
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();

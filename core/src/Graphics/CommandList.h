@@ -11,7 +11,7 @@
 #include "../Math/Vector2DF.h"
 #include "../Math/Vector3DF.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Graphics;
 class RenderTexture;

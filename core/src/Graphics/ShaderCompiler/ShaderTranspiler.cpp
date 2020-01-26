@@ -12,7 +12,7 @@
 #include <spirv_cross/spirv_reflect.hpp>
 #include "../../Common/StringHelper.h"
 
-namespace altseed {
+namespace Altseed {
 
 EShLanguage GetGlslangShaderStage(ShaderStageType type) {
     if (type == ShaderStageType::Vertex) return EShLanguage::EShLangVertex;

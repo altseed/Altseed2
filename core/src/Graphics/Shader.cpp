@@ -1,6 +1,6 @@
 ﻿#include "Shader.h"
 
-namespace altseed {
+namespace Altseed {
 
 Shader::Shader(
         std::string code,

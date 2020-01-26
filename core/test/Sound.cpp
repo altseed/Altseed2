@@ -2,7 +2,7 @@
 #include <Sound/Sound.h>
 #include <gtest/gtest.h>
 
-namespace asd = altseed;
+namespace asd = Altseed;
 
 TEST(Sound, SoundPlay)
 {

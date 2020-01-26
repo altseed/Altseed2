@@ -4,7 +4,7 @@
 #include <glslang/Public/ShaderLang.h>
 #include <spirv_cross/spirv.hpp>
 
-namespace altseed {
+namespace Altseed {
 
 Vector4DF MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
     auto it = vector4s_.find(key);

@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include "../BaseObject.h"
 
-namespace altseed {
+namespace Altseed {
 
 class Shader;
 

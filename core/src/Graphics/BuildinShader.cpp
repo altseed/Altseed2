@@ -1,7 +1,7 @@
 #include "BuildinShader.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 
-namespace altseed {
+namespace Altseed {
 
 const char* SpriteUnlitVS = R"(
 cbuffer Consts : register(b0)
@@ -62,11 +62,11 @@ std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
     if (found != shaders_.end()) return found->second;
 
     if (type == BuildinShaderType::SpriteUnlitVS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitVS, altseed::ShaderStageType::Vertex);
+        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitVS, ShaderStageType::Vertex);
         shaders_[type] = shader;
         return shader;
     } else if (type == BuildinShaderType::SpriteUnlitPS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitPS, altseed::ShaderStageType::Pixel);
+        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitPS, ShaderStageType::Pixel);
         shaders_[type] = shader;
         return shader;
     } else {
