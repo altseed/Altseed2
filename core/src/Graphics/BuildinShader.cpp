@@ -75,4 +75,4 @@ std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
     return nullptr;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

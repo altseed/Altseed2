@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_map>
+#include <map>
 #include "../BaseObject.h"
 
 namespace Altseed {
@@ -13,10 +13,10 @@ enum class BuildinShaderType : int32_t {
 
 class BuildinShader : public BaseObject {
 private:
-    std::unordered_map<BuildinShaderType, std::shared_ptr<Shader>> shaders_;
+    std::map<BuildinShaderType, std::shared_ptr<Shader>> shaders_;
 
 public:
     std::shared_ptr<Shader> Create(BuildinShaderType type);
 };
 
-}  // namespace altseed
+}  // namespace Altseed
