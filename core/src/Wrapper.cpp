@@ -311,10 +311,17 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Graphics>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Graphics_Update(void* cbg_self) {
+CBGEXPORT bool CBGSTDCALL cbg_Graphics_BeginFrame(void* cbg_self) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->Update();
+    bool cbg_ret = cbg_self_->BeginFrame();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Graphics_EndFrame(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->EndFrame();
     return cbg_ret;
 }
 

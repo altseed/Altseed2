@@ -50,7 +50,10 @@ TEST(Font, Basic) {
         renderer->Sprites.push_back(sprite);
     }
 
-    while (count++ < 1000 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->StartFrame());
+        EXPECT_TRUE(instance->EndFrame());
+    }
 
     Altseed::Core::Terminate();
 }

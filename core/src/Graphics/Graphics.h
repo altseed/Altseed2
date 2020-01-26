@@ -66,12 +66,15 @@ public:
 
     static bool Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType = LLGI::DeviceType::Default);
 
-    std::shared_ptr<Renderer> CreateRenderer();
+    bool StartFrame();
 
-    bool DoEvents() const { return window_->DoEvent(); }
-    bool Update();
+    bool EndFrame();
+
+    bool DoEvents() const;
 
     static void Terminate();
+
+    std::shared_ptr<Renderer> CreateRenderer();
 
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 

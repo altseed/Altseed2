@@ -140,7 +140,7 @@ bool SPIRVReflection::Transpile(const std::shared_ptr<SPIRV>& spirv) {
         }
     }
 
-    return false;
+    return true;
 }
 
 bool SPIRVGenerator::Initialize() {
