@@ -6,7 +6,7 @@ namespace Altseed {
 
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 1024));
+    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128)); // TODO : fix DX12 bug
     auto commandListPool = std::make_shared<LLGI::CommandListPool>(g, memoryPool.get(), 3);
     auto ret = CreateSharedPtr(new CommandList());
 
@@ -17,6 +17,7 @@ std::shared_ptr<CommandList> CommandList::Create() {
 }
 
 void CommandList::StartFrame() {
+    memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
 
     for (auto& c : renderPassCaches_) {
@@ -86,4 +87,4 @@ LLGI::RenderPass* CommandList::GetCurrentRenderPass() const { return currentRend
 
 LLGI::CommandList* CommandList::GetLL() const { return currentCommandList_; }
 
-}  // namespace altseed
+}  // namespace Altseed

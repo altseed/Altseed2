@@ -34,8 +34,8 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
-    //instance->buildinShader_ = MakeAsdShared<BuildinShader>();
-    //instance->commandList_ = CommandList::Create();
+    instance->buildinShader_ = MakeAsdShared<BuildinShader>();
+    instance->commandList_ = CommandList::Create();
 
     return true;
 }
@@ -43,15 +43,15 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 bool Graphics::BeginFrame() {
     if (!platform_->NewFrame()) return false;
 
-    //commandList_->StartFrame();
+    commandList_->StartFrame();
 
     return true;
 }
 
 bool Graphics::EndFrame() {
-    //commandList_->EndFrame();
+    commandList_->EndFrame();
 
-    //graphics_->Execute(commandList_->GetLL());
+    graphics_->Execute(commandList_->GetLL());
 
     auto commandList = renderer_->Render();
     graphics_->Execute(commandList);
