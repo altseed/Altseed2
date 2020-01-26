@@ -60,8 +60,14 @@ set(core_files
     Graphics/Font.cpp
     Graphics/Color.h
     Graphics/Color.cpp
+    Graphics/CommandList.h
+    Graphics/CommandList.cpp
     Graphics/RenderTexture.h
     Graphics/RenderTexture.cpp
+    Graphics/BatchRenderer.h
+    Graphics/BatchRenderer.cpp
+    Graphics/BuildinShader.h
+    Graphics/BuildinShader.cpp
     Graphics/ShaderCompiler/ShaderCompiler.h
     Graphics/ShaderCompiler/ShaderCompiler.cpp
     Graphics/ShaderCompiler/ShaderTranspiler.h
