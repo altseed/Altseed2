@@ -53,9 +53,9 @@ struct ReferenceDeleter {
     }
 };
 
-template <class T>
-std::shared_ptr<T> MakeAsdShared() {
-	return std::shared_ptr<T>(new T(), ReferenceDeleter<T>());
+template <class T, class... Arg>
+std::shared_ptr<T> MakeAsdShared(Arg&&... args) {
+    return std::shared_ptr<T>(new T(args...), ReferenceDeleter<T>());
 }
 
 template <class T>

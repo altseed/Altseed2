@@ -15,7 +15,7 @@ class ResourceContainer {
 public:
     class ResourceInfomation {
     private:
-        std::shared_ptr<Resource> m_resourcePtr;
+        std::weak_ptr<Resource> m_resourcePtr;
         std::u16string m_path;
         int32_t m_modifiedTime;
 
@@ -26,7 +26,7 @@ public:
             m_modifiedTime = ResourceContainer::GetModifiedTime(path);
         }
 
-        std::shared_ptr<Resource> GetResourcePtr() { return m_resourcePtr; }
+        std::shared_ptr<Resource> GetResourcePtr() { return m_resourcePtr.lock(); }
 
         const std::u16string& GetPath() { return m_path; }
 
@@ -34,7 +34,11 @@ public:
 
         bool Reload(int32_t time) {
             m_modifiedTime = time;
-            return m_resourcePtr->Reload();
+
+            auto locked = GetResourcePtr();
+
+            if (locked == nullptr) return false;
+            return locked->Reload();
         }
     };
 
@@ -57,12 +61,10 @@ public:
             std::lock_guard<std::mutex> lock(resourceMtx_);
             resources[path] = resource;
         }
-        resource->GetResourcePtr()->AddRef();
     }
 
     void Unregister(const std::u16string path) {
         if (resources.count(path) == 0) return;
-        resources[path]->GetResourcePtr()->Release();
         std::lock_guard<std::mutex> lock(resourceMtx_);
         resources.erase(path);
     }

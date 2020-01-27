@@ -9,7 +9,14 @@ namespace Altseed {
 std::map<std::u16string, std::shared_ptr<std::mutex>> Texture2D::mtxs;
 
 Texture2D::Texture2D(
-        std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, uint8_t* data, int32_t width, int32_t height) {
+        std::shared_ptr<Resources>& resources,
+        std::shared_ptr<LLGI::Texture>& texture,
+        uint8_t* data,
+        int32_t width,
+        int32_t height,
+        const std::u16string& sourcePath) 
+{
+    sourcePath_ = sourcePath;
     size_ = Vector2DI(width, height);
     for (int32_t i = 0; i < size_.X * size_.Y; i++) {
         m_buffer.push_back(data[i]);
@@ -19,6 +26,7 @@ Texture2D::Texture2D(
 }
 
 Texture2D::~Texture2D() {
+    m_resources->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
     m_resources = nullptr;
     m_texture = nullptr;
 }
@@ -48,15 +56,13 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
         return nullptr;
     }
 
-    file->Release();
-
     auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, channel);
     if (llgiTexture == nullptr) {
         delete[] data;
         return nullptr;
     }
 
-    auto res = std::make_shared<Texture2D>(resources, llgiTexture, data, w, h);
+    auto res = MakeAsdShared<Texture2D>(resources, llgiTexture, data, w, h, path);
     resources->GetResourceContainer(ResourceType::Texture2D)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
