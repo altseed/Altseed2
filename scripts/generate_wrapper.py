@@ -40,6 +40,8 @@ if __name__ == '__main__':
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
+#include "Math/Easing.h"
+
     '''
 
     sharedObjectGenerator.func_name_create_and_add_shared_ptr = 'Altseed::CreateAndAddSharedPtr'

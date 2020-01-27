@@ -74,6 +74,8 @@ set(core_files
     Graphics/ShaderCompiler/ShaderTranspiler.cpp
     Graphics/ShaderCompiler/ResourceLimits.h
     Graphics/ShaderCompiler/ResourceLimits.cpp
+    Math/Easing.cpp
+    Math/Easing.h
     Math/MathTemplate.h
     Math/Matrix33F.cpp
     Math/Matrix33F.h

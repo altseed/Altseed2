@@ -52,6 +52,8 @@
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
+#include "Math/Easing.h"
+
     
 extern "C" {
 
@@ -529,6 +531,18 @@ CBGEXPORT bool CBGSTDCALL cbg_File_PackWithPassword(void* cbg_self,const char16_
 
 CBGEXPORT void CBGSTDCALL cbg_File_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing,float t) {
+    Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
+    float cbg_arg1 = t;
+    Altseed::Easing::GetEasing(cbg_arg0,cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Easing*)(cbg_self);
 
     cbg_self_->Release();
 }
