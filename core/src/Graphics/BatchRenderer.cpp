@@ -1,5 +1,6 @@
 #include "BatchRenderer.h"
 #include "../Graphics/Graphics.h"
+#include "BuildinShader.h"
 #include "CommandList.h"
 #include "Material.h"
 
@@ -13,6 +14,9 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
     matDefaultSprite_ = MakeAsdShared<Material>();
+    auto vs = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
+    auto ps = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitPS);
+    matDefaultSprite_->SetShader(ps);
 
     {
         LLGI::TextureInitializationParameter texParam;
@@ -167,6 +171,9 @@ void BatchRenderer::Render(CommandList* commandList) {
             material = matDefaultSprite_;
         }
 
+        material->SetMatrix44F(u"matView", this->matView_);
+        material->SetMatrix44F(u"matProjection", this->matProjection_);
+
         // TODO default value block
         matPropBlockCollection_->Clear();
         matPropBlockCollection_->Add(material->GetPropertyBlock());
@@ -196,6 +203,15 @@ void BatchRenderer::ResetCache() {
     batches_.resize(0);
     rawVertexBuffer_.resize(0);
     rawIndexBuffer_.resize(0);
+}
+
+void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize) {
+    matView_.SetIdentity();
+    matProjection_.SetIdentity();
+    matProjection_.Values[0][0] = 2.0f / windowSize.X;
+    matProjection_.Values[1][1] = -2.0f / windowSize.Y;
+    matProjection_.Values[0][3] = 0.5f;
+    matProjection_.Values[1][3] = 0.5f;
 }
 
 }  // namespace Altseed

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <memory>
 #include "../Graphics/Color.h"
+#include "../Math/Matrix44F.h"
 #include "../Math/Vector2DF.h"
 #include "../Math/Vector3DF.h"
 
@@ -50,6 +51,8 @@ private:
 
     std::shared_ptr<Material> matDefaultSprite_;
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
+    Matrix44F matView_;
+    Matrix44F matProjection_;
 
     void StoreUniforms(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
     void StoreTextures(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
@@ -60,6 +63,8 @@ public:
     void Draw(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material);
     void Render(CommandList* commandList);
     void ResetCache();
+
+    void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);
 };
 
 }  // namespace Altseed

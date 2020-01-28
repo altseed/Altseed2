@@ -6,8 +6,76 @@
 
 #include <memory>
 
+#include "Graphics/BatchRenderer.h"
 #include "Graphics/Camera.h"
+#include "Graphics/CommandList.h"
 #include "Graphics/Sprite.h"
+
+TEST(Graphics, BasicBatchRender) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicBatchRender", 1280, 720, Altseed::CoreOption()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+
+    EXPECT_TRUE(t1 != nullptr);
+    EXPECT_TRUE(t2 != nullptr);
+
+    while (count++ < 100 && instance->DoEvents()) {
+
+		EXPECT_TRUE(instance->BeginFrame());
+        instance->GetCommandList()->SetViewProjectionWithWindowsSize(Altseed::Vector2DI(1280, 720));
+
+        Altseed::BatchVertex v1[4];
+        Altseed::BatchVertex v2[4];
+
+        int ib[6];
+        ib[0] = 0;
+        ib[1] = 1;
+        ib[2] = 2;
+        ib[3] = 2;
+        ib[4] = 3;
+        ib[5] = 0;
+
+        v1[0].Pos.X = 10;
+        v1[0].Pos.Y = 10;
+        v1[0].Pos.Z = 0.5f;
+        v1[0].UV1.X = 0.0f;
+        v1[0].UV1.Y = 0.0f;
+
+        v1[1].Pos.X = 110;
+        v1[1].Pos.Y = 10;
+        v1[1].Pos.Z = 0.5f;
+        v1[1].UV1.X = 1.0f;
+        v1[1].UV1.Y = 0.0f;
+
+        v1[2].Pos.X = 110;
+        v1[2].Pos.Y = 110;
+        v1[2].Pos.Z = 0.5f;
+        v1[2].UV1.X = 1.0f;
+        v1[2].UV1.Y = 1.0f;
+
+        v1[3].Pos.X = 10;
+        v1[3].Pos.Y = 110;
+        v1[3].Pos.Z = 0.5f;
+        v1[3].UV1.X = 0.0f;
+        v1[3].UV1.Y = 1.0f;
+
+        for (int i = 0; i < 4; i++) {
+            v1[i].Col = Altseed::Color(255, 255, 255, 255);
+        }
+
+		instance->GetCommandList()->SetDefaultRenderTarget();
+        instance->GetCommandList()->Draw(v1, ib, 4, 6, t1);
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
 
 TEST(Graphics, Initialize) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));

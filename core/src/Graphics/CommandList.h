@@ -38,9 +38,11 @@ public:
 
     void StartFrame();
 
-	void EndFrame();
+    void EndFrame();
 
     void SetScissor(const RectI& scissor);
+
+    void SetDefaultRenderTarget();
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
 
@@ -48,9 +50,11 @@ public:
 
     void Flush();
 
-	LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
-	LLGI::RenderPass* GetCurrentRenderPass() const;
+    void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);
+
+    LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
+    LLGI::RenderPass* GetCurrentRenderPass() const;
     LLGI::CommandList* GetLL() const;
 };
 
-}  // namespace altseed
+}  // namespace Altseed

@@ -6,12 +6,13 @@ namespace Altseed {
 
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128)); // TODO : fix DX12 bug
+    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128));  // TODO : fix DX12 bug
     auto commandListPool = std::make_shared<LLGI::CommandListPool>(g, memoryPool.get(), 3);
     auto ret = CreateSharedPtr(new CommandList());
 
     ret->memoryPool_ = memoryPool;
     ret->commandListPool_ = commandListPool;
+    ret->batchRenderer_ = std::make_shared<BatchRenderer>(Graphics::GetInstance());
 
     return ret;
 }
@@ -19,6 +20,7 @@ std::shared_ptr<CommandList> CommandList::Create() {
 void CommandList::StartFrame() {
     memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
+    currentCommandList_->Begin();
 
     for (auto& c : renderPassCaches_) {
         c.second.Life--;
@@ -40,9 +42,26 @@ void CommandList::EndFrame() {
         isInRenderPass_ = false;
         currentRenderPass_ = nullptr;
     }
+    currentCommandList_->End();
 }
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
+
+void CommandList::SetDefaultRenderTarget() {
+    auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+
+    if (isInRenderPass_) {
+        Flush();
+        currentCommandList_->EndRenderPass();
+    }
+
+    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
+    r->AddRef();
+
+    currentCommandList_->BeginRenderPass(r.get());
+    currentRenderPass_ = r;
+    isInRenderPass_ = true;
+}
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport) {
     auto it = renderPassCaches_.find(target);
@@ -81,7 +100,13 @@ void CommandList::Flush() {
     }
 }
 
-LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }
+void CommandList::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize){
+    batchRenderer_->SetViewProjectionWithWindowsSize(windowSize);
+}
+
+LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const {
+    return memoryPool_.get();
+}
 
 LLGI::RenderPass* CommandList::GetCurrentRenderPass() const { return currentRenderPass_.get(); }
 
