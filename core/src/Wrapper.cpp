@@ -55,12 +55,12 @@
     
 extern "C" {
 
-CBGEXPORT bool CBGSTDCALL cbg_Core_Initialize(const char16_t* title,int32_t width,int32_t height,void* option) {
+CBGEXPORT bool CBGSTDCALL cbg_Core_Initialize(const char16_t* title, int32_t width, int32_t height, void* option) {
     const char16_t* cbg_arg0 = title;
     int32_t cbg_arg1 = width;
     int32_t cbg_arg2 = height;
     Altseed::CoreOption cbg_arg3 = (*((Altseed::CoreOption*)option));
-    bool cbg_ret = Altseed::Core::Initialize(cbg_arg0,cbg_arg1,cbg_arg2,cbg_arg3);
+    bool cbg_ret = Altseed::Core::Initialize(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
 
@@ -86,12 +86,12 @@ CBGEXPORT void CBGSTDCALL cbg_Core_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self,void* array,int32_t size) {
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self, void* array, int32_t size) {
     auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
 
     std::shared_ptr<Altseed::Int8Array> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Int8Array>((Altseed::Int8Array*)array);
     int32_t cbg_arg1 = size;
-    cbg_self_->CopyTo(cbg_arg0,cbg_arg1);
+    cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Int8Array_Release(void* cbg_self) {
@@ -105,7 +105,7 @@ CBGEXPORT void* CBGSTDCALL cbg_Resources_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Resources>(cbg_ret);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Resources_GetResourcesCount(void* cbg_self,int32_t type) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Resources_GetResourcesCount(void* cbg_self, int32_t type) {
     auto cbg_self_ = (Altseed::Resources*)(cbg_self);
 
     Altseed::ResourceType cbg_arg0 = (Altseed::ResourceType)type;
@@ -131,7 +131,7 @@ CBGEXPORT void CBGSTDCALL cbg_Resources_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self,int32_t key) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self, int32_t key) {
     auto cbg_self_ = (Altseed::Keyboard*)(cbg_self);
 
     Altseed::Keys cbg_arg0 = (Altseed::Keys)key;
@@ -163,7 +163,7 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_RefreshInputState(void* cbg_self) {
     cbg_self_->RefreshInputState();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self,void* vec) {
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self, void* vec) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
     Altseed::Vector2DF cbg_arg0 = (*((Altseed::Vector2DF*)vec));
@@ -184,7 +184,7 @@ CBGEXPORT float CBGSTDCALL cbg_Mouse_GetWheel(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self,int32_t button) {
+CBGEXPORT void CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32_t button) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
     Altseed::MouseButtons cbg_arg0 = (Altseed::MouseButtons)button;
@@ -198,7 +198,7 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetCursorMode(void* cbg_self) {
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Mouse_SetCursorMode(void* cbg_self,int32_t value) {
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetCursorMode(void* cbg_self, int32_t value) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
     Altseed::CursorMode cbg_arg0 = (Altseed::CursorMode)value;
@@ -211,7 +211,7 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Joystick_IsPresent(void* cbg_self,int32_t joystickIndex) {
+CBGEXPORT void CBGSTDCALL cbg_Joystick_IsPresent(void* cbg_self, int32_t joystickIndex) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
@@ -230,25 +230,25 @@ CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshConnectedState(void* cbg_self) {
     cbg_self_->RefreshConnectedState();
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByIndex(void* cbg_self,int32_t joystickIndex,int32_t buttonIndex) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByIndex(void* cbg_self, int32_t joystickIndex, int32_t buttonIndex) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
     int32_t cbg_arg1 = buttonIndex;
-    Altseed::ButtonState cbg_ret = cbg_self_->GetButtonStateByIndex(cbg_arg0,cbg_arg1);
+    Altseed::ButtonState cbg_ret = cbg_self_->GetButtonStateByIndex(cbg_arg0, cbg_arg1);
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByType(void* cbg_self,int32_t joystickIndex,int32_t type) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByType(void* cbg_self, int32_t joystickIndex, int32_t type) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
     Altseed::JoystickButtonType cbg_arg1 = (Altseed::JoystickButtonType)type;
-    Altseed::ButtonState cbg_ret = cbg_self_->GetButtonStateByType(cbg_arg0,cbg_arg1);
+    Altseed::ButtonState cbg_ret = cbg_self_->GetButtonStateByType(cbg_arg0, cbg_arg1);
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetJoystickType(void* cbg_self,int32_t index) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetJoystickType(void* cbg_self, int32_t index) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = index;
@@ -256,25 +256,25 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetJoystickType(void* cbg_self,int32_t
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByIndex(void* cbg_self,int32_t joystickIndex,int32_t axisIndex) {
+CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByIndex(void* cbg_self, int32_t joystickIndex, int32_t axisIndex) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
     int32_t cbg_arg1 = axisIndex;
-    float cbg_ret = cbg_self_->GetAxisStateByIndex(cbg_arg0,cbg_arg1);
+    float cbg_ret = cbg_self_->GetAxisStateByIndex(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByType(void* cbg_self,int32_t joystickIndex,int32_t type) {
+CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByType(void* cbg_self, int32_t joystickIndex, int32_t type) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
     Altseed::JoystickAxisType cbg_arg1 = (Altseed::JoystickAxisType)type;
-    float cbg_ret = cbg_self_->GetAxisStateByType(cbg_arg0,cbg_arg1);
+    float cbg_ret = cbg_self_->GetAxisStateByType(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self,int32_t index) {
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self, int32_t index) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = index;
@@ -288,7 +288,7 @@ CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshVibrateState(void* cbg_self) {
     cbg_self_->RefreshVibrateState();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self,int32_t index,float high_freq,float low_freq,float high_amp,float low_amp,int32_t life_time) {
+CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self, int32_t index, float high_freq, float low_freq, float high_amp, float low_amp, int32_t life_time) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = index;
@@ -297,7 +297,7 @@ CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self,int32_t index
     float cbg_arg3 = high_amp;
     float cbg_arg4 = low_amp;
     int32_t cbg_arg5 = life_time;
-    cbg_self_->SetVibration(cbg_arg0,cbg_arg1,cbg_arg2,cbg_arg3,cbg_arg4,cbg_arg5);
+    cbg_self_->SetVibration(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Joystick_Release(void* cbg_self) {
@@ -358,7 +358,7 @@ CBGEXPORT int32_t CBGSTDCALL cbg_StreamFile_GetCurrentPosition(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_StreamFile_Read(void* cbg_self,int32_t size) {
+CBGEXPORT int32_t CBGSTDCALL cbg_StreamFile_Read(void* cbg_self, int32_t size) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
     int32_t cbg_arg0 = size;
@@ -446,7 +446,7 @@ CBGEXPORT void* CBGSTDCALL cbg_File_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::File>(cbg_ret);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStaticFile(void* cbg_self,const char16_t* path) {
+CBGEXPORT void* CBGSTDCALL cbg_File_CreateStaticFile(void* cbg_self, const char16_t* path) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
@@ -454,7 +454,7 @@ CBGEXPORT void* CBGSTDCALL cbg_File_CreateStaticFile(void* cbg_self,const char16
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::StaticFile>(cbg_ret);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStreamFile(void* cbg_self,const char16_t* path) {
+CBGEXPORT void* CBGSTDCALL cbg_File_CreateStreamFile(void* cbg_self, const char16_t* path) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
@@ -462,7 +462,7 @@ CBGEXPORT void* CBGSTDCALL cbg_File_CreateStreamFile(void* cbg_self,const char16
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::StreamFile>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_AddRootDirectory(void* cbg_self,const char16_t* path) {
+CBGEXPORT bool CBGSTDCALL cbg_File_AddRootDirectory(void* cbg_self, const char16_t* path) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
@@ -470,16 +470,16 @@ CBGEXPORT bool CBGSTDCALL cbg_File_AddRootDirectory(void* cbg_self,const char16_
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_AddRootPackageWithPassword(void* cbg_self,const char16_t* path,const char16_t* password) {
+CBGEXPORT bool CBGSTDCALL cbg_File_AddRootPackageWithPassword(void* cbg_self, const char16_t* path, const char16_t* password) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
     const char16_t* cbg_arg1 = password;
-    bool cbg_ret = cbg_self_->AddRootPackageWithPassword(cbg_arg0,cbg_arg1);
+    bool cbg_ret = cbg_self_->AddRootPackageWithPassword(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_AddRootPackage(void* cbg_self,const char16_t* path) {
+CBGEXPORT bool CBGSTDCALL cbg_File_AddRootPackage(void* cbg_self, const char16_t* path) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
@@ -493,7 +493,7 @@ CBGEXPORT void CBGSTDCALL cbg_File_ClearRootDirectories(void* cbg_self) {
     cbg_self_->ClearRootDirectories();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_Exists(void* cbg_self,const char16_t* path) {
+CBGEXPORT bool CBGSTDCALL cbg_File_Exists(void* cbg_self, const char16_t* path) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
@@ -501,22 +501,22 @@ CBGEXPORT bool CBGSTDCALL cbg_File_Exists(void* cbg_self,const char16_t* path) {
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_Pack(void* cbg_self,const char16_t* srcPath,const char16_t* dstPath) {
+CBGEXPORT bool CBGSTDCALL cbg_File_Pack(void* cbg_self, const char16_t* srcPath, const char16_t* dstPath) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = srcPath;
     const char16_t* cbg_arg1 = dstPath;
-    bool cbg_ret = cbg_self_->Pack(cbg_arg0,cbg_arg1);
+    bool cbg_ret = cbg_self_->Pack(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_PackWithPassword(void* cbg_self,const char16_t* srcPath,const char16_t* dstPath,const char16_t* password) {
+CBGEXPORT bool CBGSTDCALL cbg_File_PackWithPassword(void* cbg_self, const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = srcPath;
     const char16_t* cbg_arg1 = dstPath;
     const char16_t* cbg_arg2 = password;
-    bool cbg_ret = cbg_self_->PackWithPassword(cbg_arg0,cbg_arg1,cbg_arg2);
+    bool cbg_ret = cbg_self_->PackWithPassword(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
