@@ -46,13 +46,15 @@ TEST(Graphics, Initialize) {
         }
     }
 
-    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+        EXPECT_TRUE(instance->EndFrame());
+    }
 
     Altseed::Core::Terminate();
 }
 
 TEST(Graphics, Texture) {
-
     EXPECT_TRUE(Altseed::Core::Initialize(u"Texture", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
@@ -84,7 +86,10 @@ TEST(Graphics, Texture) {
         }
     }
 
-    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+        EXPECT_TRUE(instance->EndFrame());
+    }
 
     Altseed::Core::Terminate();
 }
@@ -135,7 +140,10 @@ TEST(Graphics, Camera) {
         renderer->Sprites.push_back(sprite);
     }
 
-    while (count++ < 100 && instance->DoEvents()) EXPECT_TRUE(instance->Update());
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+        EXPECT_TRUE(instance->EndFrame());
+    }
 
     Altseed::Core::Terminate();
 }

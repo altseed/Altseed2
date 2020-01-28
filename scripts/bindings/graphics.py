@@ -17,8 +17,11 @@ with Graphics as class_:
         func.return_value.type_ = Graphics
         func.is_static = True
     
-    with class_.add_func('Update') as func:
+    with class_.add_func('BeginFrame') as func:
         func.return_value.type_ = bool
+    with class_.add_func('EndFrame') as func:
+        func.return_value.type_ = bool
+
     # with class_.add_func('Terminate') as func:
     #     func.is_static = True
     

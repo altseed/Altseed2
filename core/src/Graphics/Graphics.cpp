@@ -34,26 +34,39 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
-    instance->commandList_ = MakeAsdShared<CommandList>();
     instance->buildinShader_ = MakeAsdShared<BuildinShader>();
+    instance->commandList_ = CommandList::Create();
 
     return true;
 }
+
+bool Graphics::BeginFrame() {
+    if (!platform_->NewFrame()) return false;
+
+    commandList_->StartFrame();
+
+    return true;
+}
+
+bool Graphics::EndFrame() {
+    commandList_->EndFrame();
+
+    graphics_->Execute(commandList_->GetLL());
+
+    auto commandList = renderer_->Render();
+    graphics_->Execute(commandList);
+    platform_->Present();
+
+    return true;
+}
+
+bool Graphics::DoEvents() const { return window_->DoEvent(); }
 
 std::shared_ptr<Renderer> Graphics::CreateRenderer() {
     auto obj = CreateSharedPtr(new Renderer());
     if (!obj->Initialize()) return nullptr;
     renderer_ = obj;
     return obj;
-}
-
-bool Graphics::Update() {
-    if (!platform_->NewFrame()) return false;
-    auto commandList = renderer_->Render();
-    // if (commandList == nullptr) return false;
-    graphics_->Execute(commandList);
-    platform_->Present();
-    return true;
 }
 
 void Graphics::Terminate() {

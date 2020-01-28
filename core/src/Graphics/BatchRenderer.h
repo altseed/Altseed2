@@ -15,6 +15,7 @@ class Material;
 class Texture2D;
 class MaterialPropertyBlock;
 class MaterialPropertyBlockCollection;
+class Shader;
 
 struct BatchVertex {
     Vector3DF Pos;
@@ -34,8 +35,10 @@ private:
         int32_t VertexOffset = 0;
         int32_t IndexOffset = 0;
         int32_t VertexCount = 0;
-		int32_t IndexCount = 0;
+        int32_t IndexCount = 0;
     };
+
+    std::shared_ptr<LLGI::Texture> dammy;
 
     std::vector<Batch> batches_;
     std::vector<BatchVertex> rawVertexBuffer_;
@@ -45,8 +48,11 @@ private:
     int32_t vbOffset_ = 0;
     int32_t ibOffset_ = 0;
 
-	std::shared_ptr<Material> matDefaultSprite_;
-	std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
+    std::shared_ptr<Material> matDefaultSprite_;
+    std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
+
+    void StoreUniforms(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
+    void StoreTextures(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
 
 public:
     BatchRenderer(std::shared_ptr<Graphics> graphics);
@@ -56,4 +62,4 @@ public:
     void ResetCache();
 };
 
-}  // namespace altseed
+}  // namespace Altseed
