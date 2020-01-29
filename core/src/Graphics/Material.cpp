@@ -69,7 +69,7 @@ void MaterialPropertyBlockCollection::Clear() { blocks_.clear(); }
 
 Vector4DF MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) const {
     Vector4DF ret;
-    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i > 0; i--) {
+    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
         if (blocks_[i]->GetVector4F(key, ret)) {
             return ret;
         }
@@ -80,7 +80,7 @@ Vector4DF MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) cons
 
 Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) const {
     Matrix44F ret;
-    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i > 0; i--) {
+    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
         if (blocks_[i]->GetMatrix44F(key, ret)) {
             return ret;
         }
@@ -92,7 +92,7 @@ Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) con
 
 std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const char16_t* key) const {
     std::shared_ptr<Texture2D> ret;
-    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i > 0; i--) {
+    for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
         if (blocks_[i]->GetTexture(key, ret)) {
             return ret;
         }

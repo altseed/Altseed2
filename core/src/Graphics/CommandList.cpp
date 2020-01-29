@@ -91,7 +91,10 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
 }
 
 void CommandList::Draw(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture) {}
+        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture) {
+    isBatchRenderDirtied_ = true;
+    batchRenderer_->Draw(vb, ib, vbCount, ibCount, texture);
+}
 
 void CommandList::Flush() {
     if (isBatchRenderDirtied_) {
@@ -100,13 +103,11 @@ void CommandList::Flush() {
     }
 }
 
-void CommandList::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize){
+void CommandList::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize) {
     batchRenderer_->SetViewProjectionWithWindowsSize(windowSize);
 }
 
-LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const {
-    return memoryPool_.get();
-}
+LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }
 
 LLGI::RenderPass* CommandList::GetCurrentRenderPass() const { return currentRenderPass_.get(); }
 

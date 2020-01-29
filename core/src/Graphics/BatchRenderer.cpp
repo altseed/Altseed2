@@ -159,7 +159,7 @@ void BatchRenderer::Render(CommandList* commandList) {
     auto pvb = static_cast<BatchVertex*>(vertexBuffer_->Lock()) + vbOffset_;
     auto pib = static_cast<int32_t*>(indexBuffer_->Lock()) + ibOffset_;
 
-    memcpy(pvb, rawVertexBuffer_.data(), sizeof(BatchVertex) * rawIndexBuffer_.size());
+    memcpy(pvb, rawVertexBuffer_.data(), sizeof(BatchVertex) * rawVertexBuffer_.size());
     memcpy(pib, rawIndexBuffer_.data(), sizeof(int32_t) * rawIndexBuffer_.size());
 
     vertexBuffer_->Unlock();
@@ -169,6 +169,7 @@ void BatchRenderer::Render(CommandList* commandList) {
         std::shared_ptr<Material> material;
         if (batch.material == nullptr) {
             material = matDefaultSprite_;
+            material->SetTexture(u"txt" ,batch.texture);
         }
 
         material->SetMatrix44F(u"matView", this->matView_);
@@ -210,8 +211,8 @@ void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize
     matProjection_.SetIdentity();
     matProjection_.Values[0][0] = 2.0f / windowSize.X;
     matProjection_.Values[1][1] = -2.0f / windowSize.Y;
-    matProjection_.Values[0][3] = 0.5f;
-    matProjection_.Values[1][3] = 0.5f;
+    matProjection_.Values[3][0] = -1.0f;
+    matProjection_.Values[3][1] = 1.0f;
 }
 
 }  // namespace Altseed
