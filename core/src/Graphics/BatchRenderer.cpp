@@ -211,8 +211,8 @@ void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize
     matProjection_.SetIdentity();
     matProjection_.Values[0][0] = 2.0f / windowSize.X;
     matProjection_.Values[1][1] = -2.0f / windowSize.Y;
-    matProjection_.Values[3][0] = -1.0f;
-    matProjection_.Values[3][1] = 1.0f;
+    matProjection_.Values[0][3] = -1.0f;
+    matProjection_.Values[1][3] = 1.0f;
 }
 
 }  // namespace Altseed

@@ -27,8 +27,8 @@ VS_OUTPUT main(VS_INPUT input){
     VS_OUTPUT output;
     float4 pos = float4(input.Position, 1.0f);
 
-    pos = mul(pos, matView);
-    pos = mul(pos, matProjection);
+    pos = mul(matView, pos);
+    pos = mul(matProjection, pos);
 
     output.Position = pos;
 	output.UV1 = input.UV1;
