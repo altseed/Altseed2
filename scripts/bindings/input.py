@@ -1,4 +1,4 @@
-﻿from . import CppBindingGenerator as cbg
+from . import CppBindingGenerator as cbg
 import ctypes
 
 from .common import *
@@ -138,13 +138,18 @@ with Keys as enum:
 
 Keyboard = cbg.Class('Altseed', 'Keyboard')
 with Keyboard as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'キーボードを表します。')
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetKeyState') as func:
         func.add_arg(Keys, 'key')
         func.return_value.type_ = ButtonState
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'キーの状態を取得します。')
     with class_.add_func('GetInstance') as func:
         func.return_value.type_ = Keyboard
         func.is_static = True
+        func.is_public = False
 
 MouseButtons = cbg.Enum('Altseed', 'MouseButtons')
 with MouseButtons as enum:
@@ -165,19 +170,31 @@ with CursorMode as enum:
 
 Mouse = cbg.Class('Altseed', 'Mouse')
 with Mouse as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'マウスを表します。')
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetInstance') as func:
         func.return_value.type_ = Mouse
-    class_.add_func('RefreshInputState')
+        func.is_public = False
+    with class_.add_func('RefreshInputState') as func:
+        func.is_public = False
     with class_.add_func('SetPosition') as func:
         func.add_arg(Vector2DF, 'vec')
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'マウスカーソルの座標を設定します。')
     with class_.add_func('GetPosition') as func:
         func.return_value.type_ = Vector2DF
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'マウスカーソルの座標を取得します。')
     with class_.add_func('GetWheel') as func:
         func.return_value.type_ = float
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'マウスホイールの回転量を取得します。')
     with class_.add_func('GetMouseButtonState') as func:
         func.add_arg(MouseButtons, 'button')
         func.return_type = ButtonState
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'マウスボタンの状態を取得します。')
     with class_.add_property(CursorMode, 'CursorMode') as prop:
         prop.has_getter = True
         prop.has_setter = True
