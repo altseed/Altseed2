@@ -11,12 +11,9 @@ namespace Altseed {
         */
 struct Matrix33I {
 public:
-
     Matrix33I();
 
-
     int32_t Values[3][3];
-
 
     Matrix33I& SetIdentity();
 
@@ -38,10 +35,8 @@ public:
     */
     Matrix33I GetInverted();
 
-
     Matrix33I& SetTranslation(int32_t x, int32_t y);
 
-    
     Matrix33I& SetScale(int32_t x, int32_t y);
 
     /**
@@ -57,7 +52,6 @@ public:
     @return	変形後ベクトル
     */
     Vector3DI Transform3D(const Vector3DI& in) const;
-
 
     Matrix33I operator*(const Matrix33I& right);
 

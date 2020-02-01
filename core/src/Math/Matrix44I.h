@@ -8,7 +8,6 @@
 
 namespace Altseed {
 
-
 /**
         @brief	4×4行列を表す構造体
         @note
@@ -21,9 +20,7 @@ namespace Altseed {
 struct Matrix44I {
 private:
 public:
-
     Matrix44I();
-
 
     int32_t Values[4][4];
 
@@ -87,6 +84,5 @@ public:
     */
     static Matrix44I& Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& in2);
 };
-
 
 }  // namespace Altseed

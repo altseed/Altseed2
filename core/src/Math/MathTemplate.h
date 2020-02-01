@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdint.h>
+
 #include <cstring>
 
 namespace Altseed {

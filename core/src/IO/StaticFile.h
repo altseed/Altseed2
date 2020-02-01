@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <memory>
+
 #include "../BaseObject.h"
 #include "../Common/Int8Array.h"
 #include "../Common/Resource.h"

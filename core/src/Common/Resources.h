@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+
 #include "../BaseObject.h"
 #include "ResourceContainer.h"
 

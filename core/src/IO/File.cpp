@@ -1,8 +1,10 @@
 ﻿#include "File.h"
+
 #include <zip.h>
 
 #include <fstream>
 #include <stack>
+
 #include "../Common/StringHelper.h"
 #include "../Platform/FileSystem.h"
 #include "PackFileReader.h"

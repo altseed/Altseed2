@@ -8,8 +8,6 @@
 
 namespace Altseed {
 
-class Scene : public BaseObject {
-
-};
+class Scene : public BaseObject {};
 
 }  // namespace Altseed

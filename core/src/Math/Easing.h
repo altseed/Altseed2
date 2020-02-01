@@ -3,8 +3,7 @@
 
 namespace Altseed {
 
-enum class EasingType : int32_t
-{
+enum class EasingType : int32_t {
     Linear,
     InSine,
     OutSine,
@@ -46,5 +45,4 @@ public:
     int32_t Release();
 };
 
-
-}
+}  // namespace Altseed

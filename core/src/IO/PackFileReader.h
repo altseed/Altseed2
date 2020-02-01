@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <zip.h>
+
 #include "BaseFileReader.h"
 
 namespace Altseed {

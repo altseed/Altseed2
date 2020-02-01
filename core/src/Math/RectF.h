@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <array>
+
 #include "MathTemplate.h"
 #include "Vector2DF.h"
 

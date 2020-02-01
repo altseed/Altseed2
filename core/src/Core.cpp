@@ -6,8 +6,8 @@
 #include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
-#include "Window/Window.h"
 #include "Sound/SoundMixer.h"
+#include "Window/Window.h"
 
 namespace Altseed {
 

@@ -11,12 +11,9 @@ namespace Altseed {
         */
 struct Matrix33F {
 public:
-
     Matrix33F();
 
-
     float Values[3][3];
-
 
     Matrix33F& SetIdentity();
 
@@ -38,12 +35,9 @@ public:
     */
     Matrix33F GetInverted();
 
-
     Matrix33F& SetTranslation(float x, float y);
 
-
     Matrix33F& SetRotation(float angle);
-
 
     Matrix33F& SetScale(float x, float y);
 
@@ -61,9 +55,8 @@ public:
     */
     Vector3DF Transform3D(const Vector3DF& in) const;
 
-
     Matrix33F operator*(const Matrix33F& right);
 
     Vector3DF operator*(const Vector3DF& right);
 };
-}  // namespace asd
+}  // namespace Altseed

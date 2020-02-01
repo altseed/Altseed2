@@ -6,9 +6,7 @@
 #include "MathTemplate.h"
 #include "Vector4DF.h"
 
-
 namespace Altseed {
-
 
 /**
         @brief	4×4行列を表す構造体
@@ -22,9 +20,7 @@ namespace Altseed {
 struct Matrix44F {
 private:
 public:
-
     Matrix44F();
-
 
     float Values[4][4];
 
@@ -207,5 +203,4 @@ public:
     static Matrix44F& Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2);
 };
 
-
-}  // namespace asd
+}  // namespace Altseed

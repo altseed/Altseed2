@@ -2,9 +2,8 @@
 
 #include <fstream>
 #include <mutex>
+#include <string>
 #include <vector>
-#include <string>
-#include <string>
 
 #include "../BaseObject.h"
 

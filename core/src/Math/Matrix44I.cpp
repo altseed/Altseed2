@@ -1,14 +1,13 @@
 ﻿
 
 #include "Matrix44I.h"
+
 #include "Vector3DI.h"
 #include "Vector4DI.h"
-
 
 namespace Altseed {
 
 Matrix44I::Matrix44I() { SetIdentity(); }
-
 
 Matrix44I& Matrix44I::SetIdentity() {
     memset(Values, 0, sizeof(int32_t) * 16);
@@ -18,7 +17,6 @@ Matrix44I& Matrix44I::SetIdentity() {
     Values[3][3] = 1.0f;
     return *this;
 }
-
 
 Matrix44I& Matrix44I::SetTransposed() {
     for (int32_t c = 0; c < 4; c++) {
@@ -32,7 +30,6 @@ Matrix44I& Matrix44I::SetTransposed() {
     return *this;
 }
 
-
 Matrix44I& Matrix44I::SetTranslation(int32_t x, int32_t y, int32_t z) {
     SetIdentity();
     Values[0][3] = x;
@@ -40,7 +37,6 @@ Matrix44I& Matrix44I::SetTranslation(int32_t x, int32_t y, int32_t z) {
     Values[2][3] = z;
     return *this;
 }
-
 
 Matrix44I& Matrix44I::SetQuaternion(int32_t x, int32_t y, int32_t z, int32_t w) {
     int32_t xx = x * x;
@@ -75,7 +71,6 @@ Matrix44I& Matrix44I::SetQuaternion(int32_t x, int32_t y, int32_t z, int32_t w) 
     return *this;
 }
 
-
 Matrix44I& Matrix44I::SetScale(int32_t x, int32_t y, int32_t z) {
     memset(Values, 0, sizeof(int32_t) * 16);
     Values[0][0] = x;
@@ -84,7 +79,6 @@ Matrix44I& Matrix44I::SetScale(int32_t x, int32_t y, int32_t z) {
     Values[3][3] = 1.0f;
     return *this;
 }
-
 
 Vector4DI Matrix44I::Transform4D(const Vector4DI& in) const {
     int32_t values[4];
@@ -105,16 +99,13 @@ Vector4DI Matrix44I::Transform4D(const Vector4DI& in) const {
     return o;
 }
 
-
 Matrix44I Matrix44I::operator*(const Matrix44I& right) const {
     Matrix44I o_;
     Mul(o_, *this, right);
     return o_;
 }
 
-
 Vector4DI Matrix44I::operator*(const Vector4DI& right) const { return Transform4D(right); }
-
 
 Matrix44I& Matrix44I::Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& in2) {
     Matrix44I _in1 = in1;
@@ -131,6 +122,5 @@ Matrix44I& Matrix44I::Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& i
     }
     return o;
 }
-
 
 }  // namespace Altseed

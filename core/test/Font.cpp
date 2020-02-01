@@ -1,5 +1,4 @@
-﻿#include "Graphics/Graphics.h"
-#include "Graphics/ShaderCompiler/ShaderCompiler.h"
+﻿#include "Graphics/Font.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -7,7 +6,8 @@
 #include <memory>
 
 #include "Graphics/Color.h"
-#include "Graphics/Font.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Graphics/Sprite.h"
 
 TEST(Font, Basic) {

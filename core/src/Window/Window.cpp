@@ -1,8 +1,9 @@
 ﻿#include "Window.h"
-#include "../Common/StringHelper.h"
 
 #include <codecvt>
 #include <locale>
+
+#include "../Common/StringHelper.h"
 
 // GLFW
 #if _WIN32
@@ -97,7 +98,6 @@ const char16_t* Window::GetTitle() const { return title_.c_str(); }
 void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInstance()->mainWindow_, width, height); }
 
 void Window::GetSize(int32_t& width, int32_t& height) { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
-
 
 bool Window::DoEvent() {
     if (GetInstance()->mainWindow_ == nullptr) return false;

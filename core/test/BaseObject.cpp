@@ -1,6 +1,7 @@
 ﻿#include <BaseObject.h>
 #include <Core.h>
 #include <gtest/gtest.h>
+
 #include <thread>
 
 TEST(BaseObject, Basic) {

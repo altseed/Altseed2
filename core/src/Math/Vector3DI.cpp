@@ -6,18 +6,13 @@
 #include "Matrix44I.h"
 #include "Vector3DI.h"
 
-
 namespace Altseed {
-
 
 Vector3DI::Vector3DI() : X(0), Y(0), Z(0) {}
 
-
 Vector3DI::Vector3DI(int32_t x, int32_t y, int32_t z) : X(x), Y(y), Z(z) {}
 
-
 bool Vector3DI::operator==(const Vector3DI& o) { return X == o.X && Y == o.Y && Z == o.Z; }
-
 
 bool Vector3DI::operator!=(const Vector3DI& o) { return !(X == o.X && Y == o.Y && Z == o.Z); }
 
@@ -35,27 +30,19 @@ bool Vector3DI::operator<(const Vector3DI& o) const {
     return false;
 }
 
-
 Vector3DI Vector3DI::operator-() { return Vector3DI(-X, -Y, -Z); }
-
 
 Vector3DI Vector3DI::operator+(const Vector3DI& o) const { return Vector3DI(X + o.X, Y + o.Y, Z + o.Z); }
 
-
 Vector3DI Vector3DI::operator-(const Vector3DI& o) const { return Vector3DI(X - o.X, Y - o.Y, Z - o.Z); }
-
 
 Vector3DI Vector3DI::operator*(const Vector3DI& o) const { return Vector3DI(X * o.X, Y * o.Y, Z * o.Z); }
 
-
 Vector3DI Vector3DI::operator/(const Vector3DI& o) const { return Vector3DI(X / o.X, Y / o.Y, Z / o.Z); }
-
 
 Vector3DI Vector3DI::operator*(const int32_t& o) const { return Vector3DI(X * o, Y * o, Z * o); }
 
-
 Vector3DI Vector3DI::operator/(const int32_t& o) const { return Vector3DI(X / o, Y / o, Z / o); }
-
 
 Vector3DI& Vector3DI::operator+=(const Vector3DI& o) {
     X += o.X;
@@ -64,14 +51,12 @@ Vector3DI& Vector3DI::operator+=(const Vector3DI& o) {
     return *this;
 }
 
-
 Vector3DI& Vector3DI::operator-=(const Vector3DI& o) {
     X -= o.X;
     Y -= o.Y;
     Z -= o.Z;
     return *this;
 }
-
 
 Vector3DI& Vector3DI::operator*=(const int32_t& o) {
     X *= o;
@@ -80,7 +65,6 @@ Vector3DI& Vector3DI::operator*=(const int32_t& o) {
     return *this;
 }
 
-
 Vector3DI& Vector3DI::operator/=(const int32_t& o) {
     X /= o;
     Y /= o;
@@ -88,9 +72,7 @@ Vector3DI& Vector3DI::operator/=(const int32_t& o) {
     return *this;
 }
 
-
 int32_t Vector3DI::Dot(const Vector3DI& v1, const Vector3DI& v2) { return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z; }
-
 
 Vector3DI Vector3DI::Cross(const Vector3DI& v1, const Vector3DI& v2) {
     Vector3DI o;
@@ -104,7 +86,6 @@ Vector3DI Vector3DI::Cross(const Vector3DI& v1, const Vector3DI& v2) {
     return o;
 }
 
-
 Vector3DI Vector3DI::Subtract(Vector3DI v1, Vector3DI v2) {
     Vector3DI o = Vector3DI();
     o.X = v1.X - v2.X;
@@ -113,15 +94,12 @@ Vector3DI Vector3DI::Subtract(Vector3DI v1, Vector3DI v2) {
     return o;
 }
 
-
 float Vector3DI::Distance(const Vector3DI& v1, const Vector3DI& v2) {
     int32_t dx = v1.X - v2.X;
     int32_t dy = v1.Y - v2.Y;
     int32_t dz = v1.Z - v2.Z;
     return sqrt(dx * dx + dy * dy + dz * dz);
 }
-
-
 
 Vector3DF Vector3DI::To3DF() const { return Vector3DF(X, Y, Z); }
 

@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 #include <zip.h>
+
 #include <string>
+
 #include "../BaseObject.h"
 
 namespace Altseed {

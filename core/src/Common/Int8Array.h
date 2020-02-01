@@ -5,7 +5,6 @@
 
 namespace Altseed {
 class Int8Array : public std::vector<int8_t>, public BaseObject {
-
 public:
     void CopyTo(int8_t* array, int32_t size) {
         for (size_t i = 0; i < size; i++) {

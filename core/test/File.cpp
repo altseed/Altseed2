@@ -2,6 +2,7 @@
 #include <IO/File.h>
 #include <gtest/gtest.h>
 #include <zip.h>
+
 #include <string>
 #include <thread>
 #include <vector>
@@ -254,7 +255,7 @@ TEST(File, StaticFileAsync) {
     EXPECT_EQ(testCache, test1);
     EXPECT_EQ(testPackCache, testPack2);
 
-	test1->GetBuffer() == testPack1->GetBuffer();
+    test1->GetBuffer() == testPack1->GetBuffer();
     EXPECT_EQ(*test1->GetBuffer(), *testPack1->GetBuffer());
     EXPECT_EQ(*test2->GetBuffer(), *testPack2->GetBuffer());
     EXPECT_EQ(*test3->GetBuffer(), *testPack3->GetBuffer());

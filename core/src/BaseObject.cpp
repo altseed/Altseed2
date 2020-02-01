@@ -1,4 +1,5 @@
 ﻿#include "BaseObject.h"
+
 #include "Core.h"
 
 namespace Altseed {
@@ -13,7 +14,6 @@ BaseObject::BaseObject() : reference_(1) {
 }
 
 BaseObject::~BaseObject() {
-
     // for Core
     if (core_ != nullptr) {
         core_->Unregister(this);

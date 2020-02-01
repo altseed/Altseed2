@@ -1,5 +1,7 @@
 ﻿#include "BaseFileReader.h"
+
 #include <assert.h>
+
 #include "../Common/StringHelper.h"
 
 namespace Altseed {

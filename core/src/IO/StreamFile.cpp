@@ -1,4 +1,5 @@
 ﻿#include "StreamFile.h"
+
 #include "File.h"
 
 namespace Altseed {

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include "../BaseObject.h"
-#include "../Common/PlatformIncludes.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "../BaseObject.h"
+#include "../Common/PlatformIncludes.h"
 
 namespace Altseed {
 

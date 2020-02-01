@@ -1,5 +1,4 @@
 #include "Graphics/Graphics.h"
-#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -9,6 +8,7 @@
 #include "Graphics/BatchRenderer.h"
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Graphics/Sprite.h"
 
 TEST(Graphics, BasicBatchRender) {
@@ -25,8 +25,7 @@ TEST(Graphics, BasicBatchRender) {
     EXPECT_TRUE(t2 != nullptr);
 
     while (count++ < 100 && instance->DoEvents()) {
-
-		EXPECT_TRUE(instance->BeginFrame());
+        EXPECT_TRUE(instance->BeginFrame());
         instance->GetCommandList()->SetViewProjectionWithWindowsSize(Altseed::Vector2DI(1280, 720));
 
         Altseed::BatchVertex v1[4];
@@ -68,7 +67,7 @@ TEST(Graphics, BasicBatchRender) {
             v1[i].Col = Altseed::Color(255, 255, 255, 255);
         }
 
-		instance->GetCommandList()->SetDefaultRenderTarget();
+        instance->GetCommandList()->SetDefaultRenderTarget();
         instance->GetCommandList()->Draw(v1, ib, 4, 6, t1);
 
         EXPECT_TRUE(instance->EndFrame());

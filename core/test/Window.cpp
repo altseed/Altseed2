@@ -1,6 +1,7 @@
 #include <Core.h>
 #include <Window/Window.h>
 #include <gtest/gtest.h>
+
 #include <string>
 
 TEST(Window, Base) {

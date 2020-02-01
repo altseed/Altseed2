@@ -1,5 +1,7 @@
 ﻿#include "StaticFile.h"
+
 #include <vector>
+
 #include "File.h"
 
 namespace Altseed {

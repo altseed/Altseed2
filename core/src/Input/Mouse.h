@@ -4,9 +4,9 @@
 #include <array>
 #include <functional>
 
+#include "../Math/Vector2DF.h"
 #include "../Window/Window.h"
 #include "ButtonState.h"
-#include "../Math/Vector2DF.h"
 
 namespace Altseed {
 enum class MouseButtons : int32_t {
