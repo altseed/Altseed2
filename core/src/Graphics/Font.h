@@ -54,7 +54,7 @@ private:
     std::shared_ptr<StaticFile> file_;
 
     std::map<char16_t, Glyph*> glyphs_;
-    std::vector<Texture2D*> textures_;
+    std::vector<std::shared_ptr<Texture2D>> textures_;
     Vector2DI textureSize_;
 
     Vector2DI currentTexturePosition_;
@@ -70,7 +70,7 @@ public:
     int32_t GetLineGap() { return lineGap_; }
 
     Glyph* GetGlyph(const char16_t character);
-    Texture2D* GetFontTexture(int32_t index) {
+    std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
         if (index >= textures_.size()) return nullptr;
         return textures_[index];
     }

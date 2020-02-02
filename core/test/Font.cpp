@@ -1,4 +1,9 @@
-﻿#include "Graphics/Font.h"
+﻿
+#include "Graphics/BuildinShader.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/Renderer.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -6,9 +11,7 @@
 #include <memory>
 
 #include "Graphics/Color.h"
-#include "Graphics/Graphics.h"
-#include "Graphics/ShaderCompiler/ShaderCompiler.h"
-#include "Graphics/Sprite.h"
+#include "Graphics/Font.h"
 
 TEST(Font, Basic) {
 #if defined(__APPLE__) || defined(__linux__)
@@ -20,11 +23,10 @@ TEST(Font, Basic) {
     int count = 0;
 
     auto instance = Altseed::Graphics::GetInstance();
-    auto renderer = instance->CreateRenderer();
 
     auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, Altseed::Color(255, 0, 0, 255));
 
-    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(font->HlslPSCode, Altseed::ShaderStageType::Pixel);
+    auto shader = instance->GetBuildinShader()->Create(Altseed::BuildinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
     material->SetShader(shader);
 
@@ -35,19 +37,19 @@ TEST(Font, Basic) {
         if (glyph == nullptr) continue;
 
         auto tempPosition = position + glyph->GetOffset().To2DF() + Altseed::Vector2DF(0, font->GetAscent());
-        auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
+        auto sprite = Altseed::Renderer::GetInstance()->CreateSprite();
         sprite->SetMaterial(material);
-        sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex())->GetNativeTexture());
-        sprite->SetPosition(tempPosition);
-        sprite->SetSize(glyph->GetSize().To2DF());
-        auto uvs = glyph->GetUVs();
-        for (int32_t i = 0; i < 4; i++) {
-            sprite->SetUV(uvs[i], i);
-        }
+        sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
+
+        Altseed::Matrix44F trans;
+        trans.SetTranslation(tempPosition.X, tempPosition.Y, 0);
+        sprite->SetTransform(trans);
+
+        sprite->SetSrc(Altseed::RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y));
+
         position += Altseed::Vector2DF(glyph->GetGlyphWidth(), 0);
 
         if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
-        renderer->Sprites.push_back(sprite);
     }
 
     while (count++ < 100 && instance->DoEvents()) {

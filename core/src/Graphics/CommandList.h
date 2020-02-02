@@ -28,10 +28,12 @@ private:
     LLGI::CommandList* currentCommandList_ = nullptr;
     std::shared_ptr<LLGI::SingleFrameMemoryPool> memoryPool_;
     std::shared_ptr<LLGI::CommandListPool> commandListPool_;
-    std::shared_ptr<BatchRenderer> batchRenderer_;
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
-    bool isBatchRenderDirtied_ = false;
     bool isInRenderPass_ = false;
+
+	std::shared_ptr<LLGI::VertexBuffer> blitVB_;
+    std::shared_ptr<LLGI::IndexBuffer> blitIB_;
+
 
 public:
     static std::shared_ptr<CommandList> Create();
@@ -42,15 +44,22 @@ public:
 
     void SetScissor(const RectI& scissor);
 
-    void SetDefaultRenderTarget();
+    void SetRenderTargetWithScreen();
+
+	// TODO
+    // void SetRenderTargetWithID(int32_t id);
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
 
-    void Draw(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture);
+	void BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material = nullptr);
 
-    void Flush();
+	// TODO
+	/*    
+    void BlitScreenToID(int32_t id, std::shared_ptr<Material> material = nullptr);
 
-    void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);
+    void BlitTextureToTexture(
+            std::shared_ptr<RenderTexture> target, std::shared_ptr<RenderTexture> src, std::shared_ptr<Material> material = nullptr);
+	*/
 
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;

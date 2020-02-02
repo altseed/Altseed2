@@ -33,6 +33,8 @@ private:
     struct Batch {
         std::shared_ptr<Texture2D> texture;
         std::shared_ptr<Material> material;
+        std::shared_ptr<MaterialPropertyBlock> propBlock;
+
         int32_t VertexOffset = 0;
         int32_t IndexOffset = 0;
         int32_t VertexCount = 0;
@@ -59,9 +61,16 @@ private:
 
 public:
     BatchRenderer(std::shared_ptr<Graphics> graphics);
-    void Draw(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture);
-    void Draw(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material);
-    void Render(CommandList* commandList);
+    void Draw(
+            const BatchVertex* vb,
+            const int32_t* ib,
+            int32_t vbCount,
+            int32_t ibCount,
+            const std::shared_ptr<Texture2D>& texture,
+            const std::shared_ptr<Material>& material,
+            const std::shared_ptr<MaterialPropertyBlock>& propBlock);
+
+	void Render(CommandList* commandList);
     void ResetCache();
 
     void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);
