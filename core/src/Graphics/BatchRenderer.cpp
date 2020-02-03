@@ -84,38 +84,19 @@ void BatchRenderer::StoreUniforms(CommandList* commandList, std::shared_ptr<Shad
 }
 
 void BatchRenderer::Draw(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture) {
-    if (batches_.size() == 0 || batches_.back().texture != texture) {
+        const BatchVertex* vb,
+        const int32_t* ib,
+        int32_t vbCount,
+        int32_t ibCount,
+        const std::shared_ptr<Texture2D>& texture,
+        const std::shared_ptr<Material>& material,
+        const std::shared_ptr<MaterialPropertyBlock>& propBlock) {
+    if (batches_.size() == 0 || batches_.back().texture != texture || batches_.back().material != material ||
+        batches_.back().propBlock != propBlock) {
         Batch batch;
         batch.texture = texture;
-        batch.VertexCount = 0;
-        batch.IndexCount = 0;
-        batch.VertexOffset = rawVertexBuffer_.size();
-        batch.IndexOffset = rawIndexBuffer_.size();
-        batches_.emplace_back(batch);
-    }
-
-    auto& b = batches_.back();
-
-    auto current = rawVertexBuffer_.size();
-
-    for (int32_t i = 0; i < vbCount; i++) {
-        rawVertexBuffer_.emplace_back(vb[i]);
-    }
-
-    for (int32_t i = 0; i < ibCount; i++) {
-        rawIndexBuffer_.emplace_back(ib[i] + current);
-    }
-
-    b.VertexCount += vbCount;
-    b.IndexCount += ibCount;
-}
-
-void BatchRenderer::Draw(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material) {
-    if (batches_.size() == 0 || batches_.back().material != material) {
-        Batch batch;
         batch.material = material;
+        batch.propBlock = propBlock;
         batch.VertexCount = 0;
         batch.IndexCount = 0;
         batch.VertexOffset = rawVertexBuffer_.size();
@@ -132,7 +113,7 @@ void BatchRenderer::Draw(
     }
 
     for (int32_t i = 0; i < ibCount; i++) {
-        rawIndexBuffer_.emplace_back(ib[i] + current);
+        rawIndexBuffer_.emplace_back(ib[i]);
     }
 
     b.VertexCount += vbCount;
@@ -169,7 +150,11 @@ void BatchRenderer::Render(CommandList* commandList) {
         std::shared_ptr<Material> material;
         if (batch.material == nullptr) {
             material = matDefaultSprite_;
-            material->SetTexture(u"txt" ,batch.texture);
+            material->SetTexture(u"txt", batch.texture);
+        }
+
+        if (batch.texture != nullptr) {
+            material->SetTexture(u"mainTex", batch.texture);
         }
 
         material->SetMatrix44F(u"matView", this->matView_);
@@ -178,6 +163,10 @@ void BatchRenderer::Render(CommandList* commandList) {
         // TODO default value block
         matPropBlockCollection_->Clear();
         matPropBlockCollection_->Add(material->GetPropertyBlock());
+
+        if (batch.propBlock != nullptr) {
+            matPropBlockCollection_->Add(batch.propBlock);
+        }
 
         // VB, IB
         commandList->GetLL()->SetVertexBuffer(

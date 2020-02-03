@@ -9,6 +9,7 @@ class Shader;
 enum class BuildinShaderType : int32_t {
     SpriteUnlitVS,
     SpriteUnlitPS,
+    FontUnlitPS,
 };
 
 class BuildinShader : public BaseObject {

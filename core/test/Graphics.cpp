@@ -1,18 +1,35 @@
 #include "Graphics/Graphics.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
 
 #include <memory>
 
-#include "Graphics/BatchRenderer.h"
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
-#include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Sprite.h"
 
-TEST(Graphics, BasicBatchRender) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicBatchRender", 1280, 720, Altseed::CoreOption()));
+TEST(Graphics, Initialize) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+    EXPECT_TRUE(instance != nullptr);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, BasicPolygonTextureRender) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicPolygonTextureRender", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
 
@@ -26,7 +43,8 @@ TEST(Graphics, BasicBatchRender) {
 
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
-        instance->GetCommandList()->SetViewProjectionWithWindowsSize(Altseed::Vector2DI(1280, 720));
+
+        Altseed::Renderer::GetInstance()->Reset();
 
         Altseed::BatchVertex v1[4];
         Altseed::BatchVertex v2[4];
@@ -67,8 +85,9 @@ TEST(Graphics, BasicBatchRender) {
             v1[i].Col = Altseed::Color(255, 255, 255, 255);
         }
 
-        instance->GetCommandList()->SetDefaultRenderTarget();
-        instance->GetCommandList()->Draw(v1, ib, 4, 6, t1);
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, 4, 6, t1);
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -76,58 +95,12 @@ TEST(Graphics, BasicBatchRender) {
     Altseed::Core::Terminate();
 }
 
-TEST(Graphics, Initialize) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));
+TEST(Graphics, BasicSpriteTexture) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicSpriteTexture", 1280, 720, Altseed::CoreOption()));
 
     int count = 0;
 
     auto instance = Altseed::Graphics::GetInstance();
-    EXPECT_TRUE(instance != nullptr);
-    auto renderer = instance->CreateRenderer();
-    EXPECT_TRUE(renderer != nullptr);
-
-    auto t1 = instance->CreateDameyTexture(0);
-    EXPECT_TRUE(t1 != nullptr);
-
-    auto t2 = instance->CreateDameyTexture(255);
-    EXPECT_TRUE(t2 != nullptr);
-
-    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, Altseed::ShaderStageType::Pixel);
-    EXPECT_TRUE(shader != nullptr);
-    auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    EXPECT_TRUE(material != nullptr);
-
-    material->SetShader(shader);
-
-    {
-        int c = 0;
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
-                sprite->SetMaterial(material);
-                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(Altseed::Vector2DF(80, 80));
-                sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
-                renderer->Sprites.push_back(sprite);
-            }
-        }
-    }
-
-    while (count++ < 100 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
-        EXPECT_TRUE(instance->EndFrame());
-    }
-
-    Altseed::Core::Terminate();
-}
-
-TEST(Graphics, Texture) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Texture", 1280, 720, Altseed::CoreOption()));
-
-    int count = 0;
-
-    auto instance = Altseed::Graphics::GetInstance();
-    auto renderer = instance->CreateRenderer();
 
     auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
@@ -135,32 +108,33 @@ TEST(Graphics, Texture) {
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile(renderer->HlslPSCode, Altseed::ShaderStageType::Pixel);
-    auto material = std::make_shared<Altseed::Material>();
-    material->SetShader(shader);
+    auto s1 = Altseed::Renderer::GetInstance()->CreateSprite();
+    auto s2 = Altseed::Renderer::GetInstance()->CreateSprite();
 
-    {
-        int c = 0;
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
-                sprite->SetMaterial(material);
-                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(Altseed::Vector2DF(80, 80));
-                sprite->SetTexture(c++ % 2 == 0 ? t1->GetNativeTexture() : t2->GetNativeTexture());
-                renderer->Sprites.push_back(sprite);
-            }
-        }
-    }
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+    auto trans = Altseed::Matrix44F();
+    trans.SetTranslation(200, 200, 0);
+    s2->SetTexture(t2);
+    s2->SetTransform(trans);
+    s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
 
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->Reset();
+
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
         EXPECT_TRUE(instance->EndFrame());
     }
 
     Altseed::Core::Terminate();
 }
 
+/*
 TEST(Graphics, Camera) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"Camera", 1280, 720, Altseed::CoreOption()));
 
@@ -214,3 +188,4 @@ TEST(Graphics, Camera) {
 
     Altseed::Core::Terminate();
 }
+*/
