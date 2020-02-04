@@ -5,6 +5,8 @@ from .common import *
 
 ButtonState = cbg.Enum('Altseed', 'ButtonState')
 with ButtonState as enum:
+    enum.brief = cbg.Description()
+    enum.brief.add('ja', 'ボタンの押下状態を表します。')
     enum.add('Free', 0)
     enum.add('Push', 1)
     enum.add('Hold', 3)
@@ -142,8 +144,12 @@ with Keyboard as class_:
     class_.brief.add('ja', 'キーボードを表します。')
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetKeyState') as func:
-        func.add_arg(Keys, 'key')
+        with func.add_arg(Keys, 'key') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'キー')
         func.return_value.type_ = ButtonState
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'ボタンの押下状態')
         func.brief = cbg.Description()
         func.brief.add('ja', 'キーの状態を取得します。')
     with class_.add_func('GetInstance') as func:
@@ -249,7 +255,9 @@ Joystick = cbg.Class('Altseed', 'Joystick')
 with Joystick as class_:
     # Core 内部で呼び出されるので Initialize は Engineに公開しない
     with class_.add_func('IsPresent') as func:
-        func.add_arg(int, 'joystickIndex')
+        with func.add_arg(int, 'joystickIndex') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ジョイスティックのインデックス')
         func.return_type = bool
     class_.add_func('RefreshInputState')
     class_.add_func('RefreshConnectedState')
