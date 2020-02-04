@@ -12,7 +12,6 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
     ret->memoryPool_ = memoryPool;
     ret->commandListPool_ = commandListPool;
-    ret->batchRenderer_ = std::make_shared<BatchRenderer>(Graphics::GetInstance());
 
     return ret;
 }
@@ -37,7 +36,6 @@ void CommandList::StartFrame() {
 
 void CommandList::EndFrame() {
     if (isInRenderPass_) {
-        Flush();
         currentCommandList_->EndRenderPass();
         isInRenderPass_ = false;
         currentRenderPass_ = nullptr;
@@ -47,11 +45,10 @@ void CommandList::EndFrame() {
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
 
-void CommandList::SetDefaultRenderTarget() {
+void CommandList::SetRenderTargetWithScreen() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
     if (isInRenderPass_) {
-        Flush();
         currentCommandList_->EndRenderPass();
     }
 
@@ -81,7 +78,6 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     }
 
     if (isInRenderPass_) {
-        Flush();
         currentCommandList_->EndRenderPass();
     }
 
@@ -90,21 +86,18 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     isInRenderPass_ = true;
 }
 
-void CommandList::Draw(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture) {
-    isBatchRenderDirtied_ = true;
-    batchRenderer_->Draw(vb, ib, vbCount, ibCount, texture);
-}
+void CommandList::BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material) {
+    SetRenderTarget(target, RectI(0, 0, target->GetSize().X, target->GetSize().Y));
 
-void CommandList::Flush() {
-    if (isBatchRenderDirtied_) {
-        batchRenderer_->Render(this);
-        batchRenderer_->ResetCache();
-    }
-}
+    // VB, IB
+    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
+    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
 
-void CommandList::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize) {
-    batchRenderer_->SetViewProjectionWithWindowsSize(windowSize);
+    // pipeline state
+    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+
+    // draw
+    currentCommandList_->Draw(2);
 }
 
 LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }

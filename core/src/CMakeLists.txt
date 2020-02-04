@@ -42,8 +42,6 @@ set(core_files
     IO/PackFileReader.cpp
     Graphics/Graphics.h
     Graphics/Graphics.cpp
-    Graphics/Sprite.h
-    Graphics/Sprite.cpp
     Graphics/Texture2D.h
     Graphics/Texture2D.cpp
     Graphics/LLGIWindow.h
@@ -52,10 +50,6 @@ set(core_files
     Graphics/Shader.cpp
     Graphics/Material.h
     Graphics/Material.cpp
-    Graphics/Renderer.h
-    Graphics/Renderer.cpp
-    Graphics/Camera.h
-    Graphics/Camera.cpp
     Graphics/Font.h
     Graphics/Font.cpp
     Graphics/Color.h
@@ -74,6 +68,14 @@ set(core_files
     Graphics/ShaderCompiler/ShaderTranspiler.cpp
     Graphics/ShaderCompiler/ResourceLimits.h
     Graphics/ShaderCompiler/ResourceLimits.cpp
+	Graphics/Renderer/Rendered.h
+	Graphics/Renderer/Rendered.cpp
+	Graphics/Renderer/RenderedCamera.h
+	Graphics/Renderer/RenderedCamera.cpp
+	Graphics/Renderer/RenderedSprite.h
+	Graphics/Renderer/RenderedSprite.cpp
+	Graphics/Renderer/Renderer.h
+	Graphics/Renderer/Renderer.cpp
     Math/Easing.cpp
     Math/Easing.h
     Math/MathTemplate.h

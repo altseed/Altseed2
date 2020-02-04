@@ -35,16 +35,12 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
     instance->buildinShader_ = MakeAsdShared<BuildinShader>();
+    instance->commandList_ = CommandList::Create();
 
     return true;
 }
 
 bool Graphics::BeginFrame() {
-    // adhoc
-    if (instance->commandList_ == nullptr) {
-        instance->commandList_ = CommandList::Create();
-    }
-
     if (!platform_->NewFrame()) return false;
 
     commandList_->StartFrame();
@@ -57,24 +53,12 @@ bool Graphics::EndFrame() {
 
     graphics_->Execute(commandList_->GetLL());
 
-    if (renderer_ != nullptr) {
-        auto commandList = renderer_->Render();
-        graphics_->Execute(commandList);
-    }
-
     platform_->Present();
 
     return true;
 }
 
 bool Graphics::DoEvents() const { return window_->DoEvent(); }
-
-std::shared_ptr<Renderer> Graphics::CreateRenderer() {
-    auto obj = CreateSharedPtr(new Renderer());
-    if (!obj->Initialize()) return nullptr;
-    renderer_ = obj;
-    return obj;
-}
 
 void Graphics::Terminate() {
     ASD_VERIFY(instance != nullptr, "instance must be not null.")
@@ -93,14 +77,6 @@ LLGI::RenderPassPipelineState* Graphics::CreateRenderPassPipelineState(LLGI::Ren
 }
 
 LLGI::PipelineState* Graphics::CreatePipelineState() { return instance->graphics_->CreatePiplineState(); }
-
-std::shared_ptr<LLGI::SingleFrameMemoryPool> Graphics::CreateSingleFrameMemoryPool(int32_t size, int32_t count) {
-    return LLGI::CreateSharedPtr(instance->graphics_->CreateSingleFrameMemoryPool(1024 * 1024, 128));
-}
-
-std::shared_ptr<LLGI::CommandList> Graphics::CreateCommandList(std::shared_ptr<LLGI::SingleFrameMemoryPool> sfMemoryPool) {
-    return LLGI::CreateSharedPtr(instance->graphics_->CreateCommandList(sfMemoryPool.get()));
-}
 
 std::shared_ptr<LLGI::IndexBuffer> Graphics::CreateIndexBuffer(int32_t stride, int32_t count) {
     return LLGI::CreateSharedPtr(instance->graphics_->CreateIndexBuffer(stride, count));

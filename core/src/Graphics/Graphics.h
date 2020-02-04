@@ -22,13 +22,11 @@
 #include "../Window/Window.h"
 #include "LLGIWindow.h"
 #include "Material.h"
-#include "Renderer.h"
 #include "Shader.h"
 #include "Texture2D.h"
 
 namespace Altseed {
 
-class Renderer;
 class Sprite;
 class Shader;
 class Material;
@@ -52,7 +50,6 @@ class Graphics : public BaseObject {
     std::shared_ptr<Window> window_;
     std::shared_ptr<LLGIWindow> llgiWindow_;
 
-    std::shared_ptr<Renderer> renderer_;
     std::shared_ptr<CommandList> commandList_;
     std::shared_ptr<BuildinShader> buildinShader_;
 
@@ -74,8 +71,6 @@ public:
 
     static void Terminate();
 
-    std::shared_ptr<Renderer> CreateRenderer();
-
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
     std::shared_ptr<LLGI::Texture> CreateDameyTexture(uint8_t b);
@@ -84,8 +79,6 @@ public:
     LLGI::RenderPassPipelineState* CreateRenderPassPipelineState(LLGI::RenderPass* renderpass);
     LLGI::PipelineState* CreatePipelineState();
 
-    std::shared_ptr<LLGI::SingleFrameMemoryPool> CreateSingleFrameMemoryPool(int32_t size, int32_t count);
-    std::shared_ptr<LLGI::CommandList> CreateCommandList(std::shared_ptr<LLGI::SingleFrameMemoryPool> sfMemoryPool);
     std::shared_ptr<LLGI::IndexBuffer> CreateIndexBuffer(int32_t stride, int32_t count);
     std::shared_ptr<LLGI::VertexBuffer> CreateVertexBuffer(int32_t size);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
