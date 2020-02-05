@@ -70,9 +70,6 @@ public:
     }
 
     void Clear() {
-        for (auto resource : resources) {
-            resource.second->GetResourcePtr()->Release();
-        }
         std::lock_guard<std::mutex> lock(resourceMtx_);
         resources.clear();
     }

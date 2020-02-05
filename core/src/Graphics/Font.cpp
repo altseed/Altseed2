@@ -20,7 +20,6 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
 }
 
 Font::~Font() {
-    file_->Release();
     for (auto& i : textures_) {
         if (i != nullptr) i->Release();
     }
