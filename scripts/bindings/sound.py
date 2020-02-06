@@ -6,6 +6,8 @@ from .common import *
 Sound = cbg.Class('Altseed', 'Sound')
 
 with Sound as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '音のクラス')
     with class_.add_property(float, 'LoopStartingPoint') as prop:
         prop.has_getter = True
         prop.has_setter = True
