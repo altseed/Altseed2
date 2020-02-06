@@ -14,24 +14,18 @@ with StaticFile as class_:
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだファイルのデータ')
-    with class_.add_func('GetPath') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのパスを取得する')
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのパス')
-    with class_.add_func('GetSize') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのデータサイズを取得する')
-        func.return_value.type_ = int
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのデータサイズ')
-    with class_.add_func('GetIsInPackage') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得する')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されていたらtrue，それ以外でfalse')
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのデータサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(bool, 'IsInPackage') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得する')
+        prop.has_getter = True
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '再読み込みを行う')
@@ -43,18 +37,14 @@ StreamFile = cbg.Class('Altseed', 'StreamFile')
 with StreamFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
-    with class_.add_func('GetSize') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込むファイルのデータサイズを取得する')
-        func.return_value.type_ = int
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込むファイルのデータサイズ')
-    with class_.add_func('GetCurrentPosition') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '現在読み込んでいるファイル上の位置を取得する')
-        func.return_value.type_ = int
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '現在読み込んでいるファイル上の位置')
+    with class_.add_property(int, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込むファイルのデータサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'CurrentPosition') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '現在読み込んでいるファイル上の位置を取得する')
+        prop.has_getter = True
     with class_.add_func('Read') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定した分ファイルを読み込む')
@@ -70,18 +60,14 @@ with StreamFile as class_:
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在読み込んでいるファイルのデータ')
-    with class_.add_func('GetTempBufferSize') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '現在読み込んでいるファイルのデータサイズを取得する')
-        func.return_value.type_ = int
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '現在読み込んでいるファイルのデータサイズ')
-    with class_.add_func('GetIsInPackage') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されているかどうかを取得する')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されていたらtrue，それ以外でfalse')
+    with class_.add_property(int, 'TempBufferSize') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '現在読み込んでいるファイルのデータサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(bool, 'IsInPackage') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されているかどうかを取得する')
+        prop.has_getter = True
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '再読み込みを行う')
