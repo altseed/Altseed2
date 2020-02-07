@@ -24,7 +24,7 @@
 	url = https://github.com/altseed/TestData.git
 [submodule "scripts/bindings/CppBindingGenerator"]
 	path = scripts/bindings/CppBindingGenerator
-	url = https://github.com/Funny-Silkie/CppBindingGenerator
+	url = https://github.com/altseed/CppBindingGenerator.git
 [submodule "thirdparty/glslang"]
 	path = thirdparty/glslang
 	url = https://github.com/KhronosGroup/glslang.git

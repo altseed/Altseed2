@@ -7,20 +7,28 @@ Sound = cbg.Class('Altseed', 'Sound')
 
 with Sound as class_:
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '音のクラス')
+    class_.brief.add('ja', '音源のクラス')
     with class_.add_property(float, 'LoopStartingPoint') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ループ開始地点(秒)を取得または設定する')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(float, 'LoopEndPoint') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ループ終了地点(秒)を取得または設定する')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(bool, 'IsLoopingMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ループするかどうかを取得または設定する')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(float, 'Length') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '音源の長さ(秒)を取得する')
         prop.has_getter = True
 
 SoundMixer = cbg.Class('Altseed', 'SoundMixer')

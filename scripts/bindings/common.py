@@ -29,7 +29,7 @@ with Int8Array as class_:
 ResourceType = cbg.Enum('Altseed', 'ResourceType')
 with ResourceType as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'リソースのタイプを表す')
+    enum_.brief.add('ja', 'リソースの種類を表す')
     enum_.add('StaticFile')
     enum_.add('StreamFile')
     enum_.add('Texture2D')
