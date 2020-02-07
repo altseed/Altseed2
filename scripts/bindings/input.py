@@ -238,7 +238,7 @@ with Mouse as class_:
 JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
     enum.brief = cbg.Description()
-    enum.brief.add('ja', 'ジョイスティックのタイプを表す')
+    enum.brief.add('ja', 'ジョイスティックの種類を表す')
     enum.add('Other', 0)
     enum.add('PS4', 8200)
     enum.add('XBOX360', 8199)
@@ -248,7 +248,7 @@ with JoystickType as enum:
 JoystickButtonType = cbg.Enum('Altseed', 'JoystickButtonType')
 with JoystickButtonType as enum:
     enum.brief = cbg.Description()
-    enum.brief.add('ja', 'ジョイスティックのボタンのタイプを表す')
+    enum.brief.add('ja', 'ジョイスティックのボタンの種類を表す')
     enum.add('Start')
     enum.add('Select')
     enum.add('Home')
@@ -277,7 +277,7 @@ with JoystickButtonType as enum:
 JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
 with JoystickAxisType as enum:
     enum.brief = cbg.Description()
-    enum.brief.add('ja', 'ジョイスティックの軸のタイプを表す')
+    enum.brief.add('ja', 'ジョイスティックの軸の種類を表す')
     enum.add('Start')
     enum.add('LeftH')
     enum.add('LeftV')
@@ -321,25 +321,25 @@ with Joystick as class_:
         func.return_value.brief.add('ja', '指定インデックスのボタンの状態')
     with class_.add_func('GetButtonStateByType') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ボタンの状態をタイプから取得する')
+        func.brief.add('ja', 'ボタンの状態を種類から取得する')
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
         with func.add_arg(JoystickButtonType, 'type') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '状態を検索するボタンのタイプ')
+            arg.brief.add('ja', '状態を検索するボタンの種類')
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定タイプのボタンの状態')
+        func.return_value.brief.add('ja', '指定種類のボタンの状態')
     with class_.add_func('GetJoystickType') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定インデックスのジョイスティックのタイプを取得する')
+        func.brief.add('ja', '指定インデックスのジョイスティックの種類を取得する')
         with func.add_arg(int, 'index') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', 'タイプを取得するジョイスティックのインデックス')
+            arg.brief.add('ja', '種類を取得するジョイスティックのインデックス')
         func.return_value.type_ = JoystickType
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスのジョイスティックのタイプ')
+        func.return_value.brief.add('ja', '指定インデックスのジョイスティックの種類')
     with class_.add_func('GetAxisStateByIndex') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '軸の状態をインデックスで取得する')
@@ -354,16 +354,16 @@ with Joystick as class_:
         func.return_value.brief.add('ja', '指定インデックスの軸の状態')
     with class_.add_func('GetAxisStateByType') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '軸の状態を軸のタイプで取得する')
+        func.brief.add('ja', '軸の状態を軸の種類で取得する')
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
         with func.add_arg(JoystickAxisType, 'type') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '状態を検索する軸のタイプ')
+            arg.brief.add('ja', '状態を検索する軸の種類')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定タイプの軸の状態')
+        func.return_value.brief.add('ja', '指定種類の軸の状態')
     with class_.add_func('GetJoystickName') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ジョイスティックの名前を取得する')
