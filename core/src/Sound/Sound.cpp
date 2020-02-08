@@ -30,6 +30,16 @@ void Sound::SetIsLoopingMode(bool isLoopingMode) { m_sound->SetIsLoopingMode(isL
 
 float Sound::GetLength() { return m_sound->GetLength(); }
 
-bool Sound::Reload() { return false; }
+bool Sound::Reload() {
+    /*
+    auto ls = m_sound->GetLoopStartingPoint();
+    auto le = m_sound->GetLoopEndPoint();
+    auto lm = m_sound->GetIsLoopingMode();
+
+    m_sound = m_manager->CreateSound()
+    */
+
+    return false;
+}
 
 }  // namespace Altseed

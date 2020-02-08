@@ -535,10 +535,220 @@ CBGEXPORT void CBGSTDCALL cbg_File_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing,float t) {
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLoopStartingPoint();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetLoopStartingPoint(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetLoopStartingPoint(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopEndPoint(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLoopEndPoint();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetLoopEndPoint(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetLoopEndPoint(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsLoopingMode(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsLoopingMode();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_SetIsLoopingMode(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsLoopingMode(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Sound_GetLength(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLength();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Sound_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_CreateSound(void* cbg_self, const char16_t* path, bool isDecompressed) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    const char16_t* cbg_arg0 = path;
+    bool cbg_arg1 = isDecompressed;
+    std::shared_ptr<Altseed::Sound> cbg_ret = cbg_self_->CreateSound(cbg_arg0, cbg_arg1);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_SoundMixer_Play(void* cbg_self, void* sound) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    std::shared_ptr<Altseed::Sound> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Sound>((Altseed::Sound*)sound);
+    int32_t cbg_ret = cbg_self_->Play(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_SoundMixer_GetIsPlaying(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    bool cbg_ret = cbg_self_->GetIsPlaying(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_StopAll(void* cbg_self) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    cbg_self_->StopAll();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Stop(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    cbg_self_->Stop(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Pause(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    cbg_self_->Pause(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Resume(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    cbg_self_->Resume(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Seek(void* cbg_self, int32_t id, float position) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = position;
+    cbg_self_->Seek(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetVolume(void* cbg_self, int32_t id, float volume) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = volume;
+    cbg_self_->SetVolume(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_FadeIn(void* cbg_self, int32_t id, float second) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = second;
+    cbg_self_->FadeIn(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_FadeOut(void* cbg_self, int32_t id, float second) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = second;
+    cbg_self_->FadeOut(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Fade(void* cbg_self, int32_t id, float second, float targetedVolume) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = second;
+    float cbg_arg2 = targetedVolume;
+    cbg_self_->Fade(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_SoundMixer_GetIsPlaybackSpeedEnabled(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    bool cbg_ret = cbg_self_->GetIsPlaybackSpeedEnabled(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetIsPlaybackSpeedEnabled(void* cbg_self, int32_t id, bool isPlaybackSpeedEnabled) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    bool cbg_arg1 = isPlaybackSpeedEnabled;
+    cbg_self_->SetIsPlaybackSpeedEnabled(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackSpeed(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_ret = cbg_self_->GetPlaybackSpeed(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPlaybackSpeed(void* cbg_self, int32_t id, float playbackSpeed) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = playbackSpeed;
+    cbg_self_->SetPlaybackSpeed(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPanningPosition(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_ret = cbg_self_->GetPanningPosition(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPanningPosition(void* cbg_self, int32_t id, float panningPosition) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = panningPosition;
+    cbg_self_->SetPanningPosition(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_ret = cbg_self_->GetPlaybackPercent(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
     Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
     float cbg_arg1 = t;
-    Altseed::Easing::GetEasing(cbg_arg0,cbg_arg1);
+    Altseed::Easing::GetEasing(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
