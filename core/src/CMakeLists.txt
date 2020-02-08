@@ -107,6 +107,8 @@ set(core_files
     Sound/SoundMixer.cpp
     Sound/Sound.h
     Sound/Sound.cpp
+    Tool/Tool.h
+    Tool/Tool.cpp
 )
 
 if(WIN32)

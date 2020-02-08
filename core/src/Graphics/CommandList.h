@@ -31,6 +31,8 @@ private:
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
     bool isInRenderPass_ = false;
 
+	std::shared_ptr<RenderTexture> internalScreen_;
+
     std::shared_ptr<LLGI::VertexBuffer> blitVB_;
     std::shared_ptr<LLGI::IndexBuffer> blitIB_;
 
@@ -39,6 +41,8 @@ private:
 
 public:
     static std::shared_ptr<CommandList> Create();
+
+	void CHangeIntoEditorMode();
 
     void StartFrame();
 

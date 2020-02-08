@@ -88,6 +88,14 @@ std::shared_ptr<CommandList> CommandList::Create() {
     return ret;
 }
 
+void CommandList::CHangeIntoEditorMode() {
+    auto r = Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true);
+    auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+
+    auto size = r->GetRenderTexture(0)->GetSizeAs2D();
+    internalScreen_ = MakeAsdShared<RenderTexture>(Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y));
+}
+
 void CommandList::StartFrame() {
     memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
@@ -118,18 +126,22 @@ void CommandList::EndFrame() {
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
 
 void CommandList::SetRenderTargetWithScreen() {
-    auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+    if (internalScreen_) {
+        SetRenderTarget(internalScreen_, RectI(0, 0, internalScreen_->GetSize().X, internalScreen_->GetSize().Y));
+    } else {
+        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
-    if (isInRenderPass_) {
-        currentCommandList_->EndRenderPass();
+        if (isInRenderPass_) {
+            currentCommandList_->EndRenderPass();
+        }
+
+        auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
+        r->AddRef();
+
+        currentCommandList_->BeginRenderPass(r.get());
+        currentRenderPass_ = r;
+        isInRenderPass_ = true;
     }
-
-    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
-    r->AddRef();
-
-    currentCommandList_->BeginRenderPass(r.get());
-    currentRenderPass_ = r;
-    isInRenderPass_ = true;
 }
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport) {
@@ -168,11 +180,15 @@ void CommandList::BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std
     material->SetMatrix44F(u"matProjection", matE);
 
     // target
-    auto renderPass = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
-    auto renderTarget = LLGI::CreateSharedPtr(renderPass->GetRenderTexture(0));
-    renderTarget->AddRef();
+    if (internalScreen_) {
+        auto renderPass = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
+        auto renderTarget = LLGI::CreateSharedPtr(renderPass->GetRenderTexture(0));
+        renderTarget->AddRef();
 
-    material->SetTexture(u"mainTex", MakeAsdShared<RenderTexture>(renderTarget));
+        material->SetTexture(u"mainTex", MakeAsdShared<RenderTexture>(renderTarget));
+    } else {
+        material->SetTexture(u"mainTex", internalScreen_);
+    }
 
     // VB, IB
     currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
