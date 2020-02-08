@@ -1,6 +1,6 @@
 ﻿#include "Sound.h"
 
-namespace altseed
+namespace Altseed
 {
 
 Sound::Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, osm::Sound*sound, bool isDecompressed)
@@ -8,17 +8,6 @@ Sound::Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> m
 {   
 	// Increment reference counter
     if(m_manager != nullptr) m_manager->AddRef();
-}
-
-Sound::Sound(
-        std::shared_ptr<Resources> resources,
-        std::shared_ptr<SoundMixer> manager,
-        const char16_t* filePath,
-        osm::Sound* sound,
-        bool isDecompressed)
-    : m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
-    // Increment reference counter
-    if (m_manager != nullptr) m_manager->AddRef();
 }
 
 Sound::~Sound() {
