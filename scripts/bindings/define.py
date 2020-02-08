@@ -64,7 +64,8 @@ define.classes.append(StaticFile)
 define.classes.append(File)
 
 # sound
-#define.classes.append(Sound)
+define.classes.append(Sound)
+define.classes.append(SoundMixer)
 
 # math
 define.enums.append(EasingType)

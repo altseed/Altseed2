@@ -1,16 +1,13 @@
 ﻿#include "Sound.h"
 
-namespace Altseed {
+namespace Altseed
+{
 
-Sound::Sound(
-        std::shared_ptr<Resources> resources,
-        std::shared_ptr<SoundMixer> manager,
-        const char16_t* filePath,
-        osm::Sound* sound,
-        bool isDecompressed)
-    : m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
-    // Increment reference counter
-    if (m_manager != nullptr) m_manager->AddRef();
+Sound::Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, osm::Sound*sound, bool isDecompressed)
+	: m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed)
+{   
+	// Increment reference counter
+    if(m_manager != nullptr) m_manager->AddRef();
 }
 
 Sound::~Sound() {
@@ -33,6 +30,16 @@ void Sound::SetIsLoopingMode(bool isLoopingMode) { m_sound->SetIsLoopingMode(isL
 
 float Sound::GetLength() { return m_sound->GetLength(); }
 
-bool Sound::Reload() { return false; }
+bool Sound::Reload() {
+    /*
+    auto ls = m_sound->GetLoopStartingPoint();
+    auto le = m_sound->GetLoopEndPoint();
+    auto lm = m_sound->GetIsLoopingMode();
+
+    m_sound = m_manager->CreateSound()
+    */
+
+    return false;
+}
 
 }  // namespace Altseed
