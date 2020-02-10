@@ -73,8 +73,6 @@ public:
 
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
-    std::shared_ptr<LLGI::Texture> CreateDameyTexture(uint8_t b);
-
     LLGI::RenderPass* GetCurrentScreen(const LLGI::Color8& clearColor, bool isColorCleared = false, bool isDepthCleared = false);
     LLGI::RenderPassPipelineState* CreateRenderPassPipelineState(LLGI::RenderPass* renderpass);
     LLGI::PipelineState* CreatePipelineState();
@@ -85,6 +83,7 @@ public:
     std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height);
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
     LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
+    LLGI::Platform* GetLLGIPlatform() const { return platform_; }
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuildinShader> GetBuildinShader() const { return buildinShader_; }

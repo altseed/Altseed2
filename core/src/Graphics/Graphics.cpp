@@ -86,24 +86,6 @@ std::shared_ptr<LLGI::VertexBuffer> Graphics::CreateVertexBuffer(int32_t size) {
     return LLGI::CreateSharedPtr(instance->graphics_->CreateVertexBuffer(size));
 }
 
-std::shared_ptr<LLGI::Texture> Graphics::CreateDameyTexture(uint8_t b) {
-    LLGI::TextureInitializationParameter texParam;
-    texParam.Size = LLGI::Vec2I(256, 256);
-
-    std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(texParam));
-    auto texture_buf = (LLGI::Color8*)texture->Lock();
-    for (int y = 0; y < 256; y++) {
-        for (int x = 0; x < 256; x++) {
-            texture_buf[x + y * 256].R = x;
-            texture_buf[x + y * 256].G = y;
-            texture_buf[x + y * 256].B = b;
-            texture_buf[x + y * 256].A = 255;
-        }
-    }
-    texture->Unlock();
-    return texture;
-}
-
 std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel) {
     LLGI::TextureInitializationParameter params;
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
