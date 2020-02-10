@@ -192,6 +192,10 @@ add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 # spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 
+# imgui
+add_subdirectory(imgui EXCLUDE_FROM_ALL)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/imgui)
+
 # LLGI
 set(BUILD_TEST_TEMP ${BUILD_TEST})
 set(BUILD_TEST OFF)

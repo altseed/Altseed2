@@ -9,6 +9,7 @@
 #include "Input/Mouse.h"
 #include "Sound/SoundMixer.h"
 #include "Window/Window.h"
+#include "Tool/Tool.h"
 
 namespace Altseed {
 
@@ -67,6 +68,12 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         Core::instance = nullptr;
         return false;
     }
+
+	if (!Tool::Initialize(Graphics::GetInstance())) {
+        Core::instance = nullptr;
+        return false;
+    }
+
     return Core::instance != nullptr;
 }
 
@@ -84,6 +91,7 @@ void Core::Terminate() {
         obj->OnTerminating();
     }
 
+	Tool::Terminate();
 	Renderer::Terminate();
     Window::Terminate();
     Keyboard::Terminate();

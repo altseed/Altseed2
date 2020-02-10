@@ -10,7 +10,7 @@
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Renderer/Renderer.h"
-#include "Graphics/Sprite.h"
+#include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));
@@ -127,6 +127,33 @@ TEST(Graphics, BasicSpriteTexture) {
 
         instance->GetCommandList()->SetRenderTargetWithScreen();
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, Tool) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::CoreOption()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+    EXPECT_TRUE(instance != nullptr);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+
+        Altseed::Tool::GetInstance()->NewFrame();
+
+        if (Altseed::Tool::GetInstance()->Begin(u"Test")) {
+            Altseed::Tool::GetInstance()->Text(u"Hoge");
+            Altseed::Tool::GetInstance()->End();
+        }
+
+        Altseed::Tool::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
