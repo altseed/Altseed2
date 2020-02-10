@@ -6,6 +6,8 @@ import sys
 
 EasingType = cbg.Enum('Altseed', 'EasingType')
 with EasingType as enum:
+    enum.brief = cbg.Description()
+    enum.brief.add('ja', 'イージングの種類を表す')
     enum.add('Linear')
     enum.add('InSine')
     enum.add('OutSine')
@@ -40,8 +42,16 @@ with EasingType as enum:
 
 Easing = cbg.Class('Altseed', 'Easing')
 with Easing as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'イージングのクラス')
     with class_.add_func('GetEasing') as func_:
-        func_.add_arg(EasingType, 'easing')
-        func_.add_arg(float, 't')
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '')
+        with func_.add_arg(EasingType, 'easing') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
+        with func_.add_arg(float, 't') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func_.is_static = True
 
