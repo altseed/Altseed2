@@ -2,17 +2,37 @@
 
 #include "../Graphics/Graphics.h"
 
+class ImguiPlatform;
+
 namespace Altseed {
 
-class Tool {
+class Graphics;
+
+class Tool : public BaseObject {
 private:
-	// command
+    static std::shared_ptr<Tool> instance_;
+    std::shared_ptr<ImguiPlatform> platform_;
+
 public:
-    void BeginFrame();
+    static std::shared_ptr<Tool>& GetInstance();
 
-    void EndFrame();
+    static bool Initialize(std::shared_ptr<Graphics> graphics);
 
-	void Render();
+    static void Terminate();
+
+    Tool(std::shared_ptr<Graphics> graphics);
+
+    virtual ~Tool();
+
+    void NewFrame();
+
+    void Render();
+
+    bool Begin(const char16_t* name);
+
+    void Text(const char16_t* text);
+
+    void End();
 };
 
 }  // namespace Altseed

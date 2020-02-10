@@ -81,6 +81,7 @@ set_target_properties (ExternalProject_SPIRV-Cross PROPERTIES FOLDER thirdparty)
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 set_target_properties (LLGI PROPERTIES FOLDER thirdparty)
+set_target_properties (imgui PROPERTIES FOLDER thirdparty)
 set_target_properties (OpenSoundMixer PROPERTIES FOLDER thirdparty)
 
 if(BUILD_TEST)

@@ -111,6 +111,28 @@ set(core_files
     Tool/Tool.cpp
 )
 
+# imgui
+
+if(WIN32)
+    list(APPEND
+        core_files
+        Tool/Platform/ImGuiPlatformDX12.h
+    )
+elseif(APPLE)
+    list(APPEND
+        core_files
+        Tool/Platform/ImGuiPlatformMetal.h
+        Tool/Platform/ImGuiPlatformMetal.mm)
+endif()
+
+if(BUILD_VULKAN)
+    list(APPEND
+        core_files
+        Tool/Platform/ImGuiPlatformVulkan.h
+        Tool/Platform/ImGuiPlatformVulkan.cpp)
+endif()
+
+
 if(WIN32)
 
     list(APPEND core_files
@@ -173,6 +195,7 @@ target_link_libraries(
     LLGI
     OpenSoundMixer
     zip
+	imgui
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
 
