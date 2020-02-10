@@ -41,8 +41,6 @@ private:
         int32_t IndexCount = 0;
     };
 
-    std::shared_ptr<LLGI::Texture> dammy;
-
     std::vector<Batch> batches_;
     std::vector<BatchVertex> rawVertexBuffer_;
     std::vector<int32_t> rawIndexBuffer_;
@@ -56,9 +54,6 @@ private:
     Matrix44F matView_;
     Matrix44F matProjection_;
 
-    void StoreUniforms(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
-    void StoreTextures(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage);
-
 public:
     BatchRenderer(std::shared_ptr<Graphics> graphics);
     void Draw(
@@ -70,7 +65,7 @@ public:
             const std::shared_ptr<Material>& material,
             const std::shared_ptr<MaterialPropertyBlock>& propBlock);
 
-	void Render(CommandList* commandList);
+    void Render(CommandList* commandList);
     void ResetCache();
 
     void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);

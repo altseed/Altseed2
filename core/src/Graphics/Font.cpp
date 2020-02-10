@@ -96,7 +96,7 @@ void Font::AddFontTexture() {
     }
 
     auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, textureSize_.X, textureSize_.Y, 1);
-    auto texture = MakeAsdShared<Texture2D>(Resources::GetInstance(), llgiTexture, data, textureSize_.X, textureSize_.Y, u"");
+    auto texture = MakeAsdShared<Texture2D>(Resources::GetInstance(), llgiTexture, u"");
     textures_.push_back(texture);
 
     currentTexturePosition_ = Vector2DI();

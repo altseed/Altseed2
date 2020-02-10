@@ -16,8 +16,7 @@ private:
     static std::map<std::u16string, std::shared_ptr<std::mutex>> mtxs;
 
 	std::u16string sourcePath_;
-    std::shared_ptr<Resources> m_resources = nullptr;
-    std::vector<uint8_t> m_buffer;
+    std::shared_ptr<Resources> resources_ = nullptr;
 
 protected:
     std::shared_ptr<LLGI::Texture> m_texture = nullptr;
@@ -25,7 +24,7 @@ protected:
     Texture2D(){};
 
 public:
-    Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, uint8_t* data, int32_t width, int32_t height, const std::u16string& sourcePath);
+    Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath);
     virtual ~Texture2D();
 
     bool Reload() override;

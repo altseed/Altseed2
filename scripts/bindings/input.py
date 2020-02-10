@@ -198,10 +198,7 @@ with Mouse as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
-    with class_.add_func('RefreshInputState') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'インプットの状態をリセットする')
-        func.is_public = False
+      　func.is_static = True
     with class_.add_func('SetPosition') as func:
         with func.add_arg(Vector2DF, 'vec') as arg:
             arg.brief = cbg.Description()

@@ -17,70 +17,6 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto vs = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
     auto ps = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitPS);
     matDefaultSprite_->SetShader(ps);
-
-    {
-        LLGI::TextureInitializationParameter texParam;
-        texParam.Size = LLGI::Vec2I(16, 16);
-
-        std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(gLL->CreateTexture(texParam));
-        auto texture_buf = (LLGI::Color8*)texture->Lock();
-        for (int y = 0; y < 16; y++) {
-            for (int x = 0; x < 16; x++) {
-                texture_buf[x + y * 16].R = 255;
-                texture_buf[x + y * 16].G = 255;
-                texture_buf[x + y * 16].B = 255;
-                texture_buf[x + y * 16].A = 255;
-            }
-        }
-        texture->Unlock();
-    }
-}
-
-void BatchRenderer::StoreTextures(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage) {
-    for (const auto& info : shader->GetReflectionTextures()) {
-        auto v = matPropBlockCollection_->GetTexture(info.Name.c_str());
-
-        if (v.get() == nullptr) {
-            commandList->GetLL()->SetTexture(
-                    dammy.get(), LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Linear, info.Offset, shaderStage);
-
-        } else {
-            commandList->GetLL()->SetTexture(
-                    v->GetNativeTexture().get(),
-                    LLGI::TextureWrapMode::Repeat,
-                    LLGI::TextureMinMagFilter::Linear,
-                    info.Offset,
-                    shaderStage);
-        }
-    }
-}
-
-void BatchRenderer::StoreUniforms(CommandList* commandList, std::shared_ptr<Shader> shader, LLGI::ShaderStageType shaderStage) {
-    if (shader->GetUniformSize() == 0) {
-        return;
-    }
-
-    LLGI::ConstantBuffer* cb = nullptr;
-    cb = commandList->GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
-
-    auto bufv = static_cast<uint8_t*>(cb->Lock());
-    for (const auto& info : shader->GetReflectionUniforms()) {
-        if (info.Size == sizeof(float) * 4) {
-            auto v = matPropBlockCollection_->GetVector4F(info.Name.c_str());
-            memcpy(bufv + info.Offset, &v, info.Size);
-        }
-
-        if (info.Size == sizeof(float) * 16) {
-            auto v = matPropBlockCollection_->GetMatrix44F(info.Name.c_str());
-            memcpy(bufv + info.Offset, &v, info.Size);
-        }
-    }
-
-    cb->Unlock();
-
-    commandList->GetLL()->SetConstantBuffer(cb, shaderStage);
-
-    LLGI::SafeRelease(cb);
 }
 
 void BatchRenderer::Draw(
@@ -150,7 +86,7 @@ void BatchRenderer::Render(CommandList* commandList) {
         std::shared_ptr<Material> material;
         if (batch.material == nullptr) {
             material = matDefaultSprite_;
-            material->SetTexture(u"txt", batch.texture);
+            material->SetTexture(u"mainTex", batch.texture);
         }
 
         if (batch.texture != nullptr) {
@@ -177,12 +113,12 @@ void BatchRenderer::Render(CommandList* commandList) {
         commandList->GetLL()->SetPipelineState(material->GetPipelineState(commandList->GetCurrentRenderPass()).get());
 
         // constant buffer
-        StoreUniforms(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex);
-        StoreUniforms(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel);
+        commandList->StoreUniforms(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+        commandList->StoreUniforms(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
-        StoreTextures(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex);
-        StoreTextures(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel);
+        commandList->StoreTextures(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+        commandList->StoreTextures(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
         commandList->GetLL()->Draw(batch.IndexCount / 3);

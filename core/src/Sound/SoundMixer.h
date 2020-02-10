@@ -19,8 +19,8 @@ class Sound;
 class SoundMixer : public BaseObject {
 private:
     static std::shared_ptr<SoundMixer> instance;
-
     static osm::Manager* m_manager;
+    static std::shared_ptr<Resources> m_resources;
 
 public:
     static bool Initialize(bool isReloadingEnabled);

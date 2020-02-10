@@ -15,14 +15,10 @@
 
 namespace Altseed {
 class RenderTexture : public Texture2D {
-private:
-    std::shared_ptr<LLGI::RenderPass> renderPass_;
-
 public:
+    RenderTexture(const std::shared_ptr<LLGI::Texture>& texture);
     RenderTexture(Vector2DI size);
     virtual ~RenderTexture();
-
-    LLGI::RenderPass* GetRenderPass() const { return renderPass_.get(); }
 };
 
 }  // namespace Altseed
