@@ -181,8 +181,7 @@ with Mouse as class_:
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetInstance') as func:
         func.return_value.type_ = Mouse
-        func.is_public = False
-    with class_.add_func('RefreshInputState') as func:
+        func.is_static = True
         func.is_public = False
     with class_.add_func('SetPosition') as func:
         func.add_arg(Vector2DF, 'vec')
