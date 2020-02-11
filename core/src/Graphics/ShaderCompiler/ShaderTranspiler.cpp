@@ -121,7 +121,7 @@ bool SPIRVReflection::Transpile(const std::shared_ptr<SPIRV>& spirv) {
     for (const auto& sampler : resources.separate_images) {
         ShaderReflectionTexture t;
         t.Name = utf8_to_utf16(sampler.name);
-        t.Offset = compiler.get_decoration(sampler.id, spv::DecorationBinding) - (spirv->GetStage() == ShaderStageType::Vertex ? 0 : 8);
+        t.Offset = compiler.get_decoration(sampler.id, spv::DecorationBinding);
         Textures.push_back(t);
     }
 
@@ -134,7 +134,7 @@ bool SPIRVReflection::Transpile(const std::shared_ptr<SPIRV>& spirv) {
             ShaderReflectionUniform u;
             auto memberType = compiler.get_member_type(spirvType, i);
             u.Name = utf8_to_utf16(compiler.get_member_name(resource.base_type_id, i));
-            u.Size = compiler.get_declared_struct_member_size(spirvType, i);
+            u.Size = static_cast<int32_t>(compiler.get_declared_struct_member_size(spirvType, i));
             u.Offset = compiler.get_member_decoration(resource.base_type_id, i, spv::DecorationOffset);
             Uniforms.push_back(u);
         }

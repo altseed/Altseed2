@@ -40,8 +40,8 @@ VS_OUTPUT main(VS_INPUT input){
 )";
 
 const char* SpriteUnlitPS = R"(
-Texture2D mainTex : register(t8);
-SamplerState mainSamp : register(s8);
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
@@ -58,8 +58,8 @@ float4 main(PS_INPUT input) : SV_TARGET
 )";
 
 const char* FontUnlitPS = R"(
-Texture2D mainTex : register(t8);
-SamplerState mainSamp : register(s8);
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;

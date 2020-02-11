@@ -55,10 +55,26 @@ public:
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
 
+	/**
+		@brief	apply material and render to target texture.
+		@note
+		Screen is stored as mainTex
+	*/
     void BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material = nullptr);
 
+	/**
+	    @brief	apply material and render to target texture.
+		@note
+	*/
+    void BlitMaterialToScreen(std::shared_ptr<Material> material = nullptr);
+
+	/**
+	    @brief	apply material and render to target texture.
+	    @note
+	    src is stored as mainTex
+	*/
     void BlitTextureToTexture(
-            std::shared_ptr<RenderTexture> target, std::shared_ptr<RenderTexture> src, std::shared_ptr<Material> material = nullptr);
+            std::shared_ptr<RenderTexture> target, std::shared_ptr<Texture2D> src, std::shared_ptr<Material> material = nullptr);
 
     void StoreUniforms(
             CommandList* commandList,
