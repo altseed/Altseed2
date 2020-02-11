@@ -3,7 +3,6 @@
 #include "BuildinShader.h"
 #include "Camera.h"
 #include "CommandList.h"
-#include "Sprite.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
