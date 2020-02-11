@@ -217,8 +217,35 @@ void CommandList::BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std
     currentCommandList_->Draw(2);
 }
 
+void CommandList::BlitMaterialToScreen(std::shared_ptr<Material> material) {
+    SetRenderTargetWithScreen();
+
+    Matrix44F matE;
+    matE.SetIdentity();
+    material->SetMatrix44F(u"matView", matE);
+    material->SetMatrix44F(u"matProjection", matE);
+
+    // VB, IB
+    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
+    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
+
+    // pipeline state
+    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+
+    // constant buffer
+    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+
+    // texture
+    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+
+    // draw
+    currentCommandList_->Draw(2);
+}
+
 void CommandList::BlitTextureToTexture(
-        std::shared_ptr<RenderTexture> target, std::shared_ptr<RenderTexture> src, std::shared_ptr<Material> material) {
+        std::shared_ptr<RenderTexture> target, std::shared_ptr<Texture2D> src, std::shared_ptr<Material> material) {
     SetRenderTarget(target, RectI(0, 0, target->GetSize().X, target->GetSize().Y));
 
     // default paramter
