@@ -35,6 +35,11 @@ SoundMixer = cbg.Class('Altseed', 'SoundMixer')
 
 with SoundMixer as class_:
 
+    with class_.add_func('GetInstance') as func_:
+        func_.is_static = True
+        func_.is_public = False
+        func_.return_value.type_ = SoundMixer
+
     with class_.add_func('CreateSound') as func_:
         func_.add_arg(ctypes.c_wchar_p, 'path')
         func_.add_arg(bool, 'isDecompressed')
