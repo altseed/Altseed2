@@ -186,20 +186,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Mouse_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Mouse>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self, void* vec) {
-    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
-
-    Altseed::Vector2DF cbg_arg0 = (*((Altseed::Vector2DF*)vec));
-    cbg_self_->SetPosition(cbg_arg0);
-}
-
-CBGEXPORT Altseed::Vector2DF CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
-
-    Altseed::Vector2DF cbg_ret = cbg_self_->GetPosition();
-    return (cbg_ret);
-}
-
 CBGEXPORT float CBGSTDCALL cbg_Mouse_GetWheel(void* cbg_self) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
@@ -213,6 +199,20 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32
     Altseed::MouseButtons cbg_arg0 = (Altseed::MouseButtons)button;
     Altseed::ButtonState cbg_ret = cbg_self_->GetMouseButtonState(cbg_arg0);
     return (int32_t)cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2DF CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
+
+    Altseed::Vector2DF cbg_ret = cbg_self_->GetPosition();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
+
+    Altseed::Vector2DF cbg_arg0 = (*((Altseed::Vector2DF*)value));
+    cbg_self_->SetPosition(cbg_arg0);
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetCursorMode(void* cbg_self) {
@@ -350,17 +350,18 @@ CBGEXPORT bool CBGSTDCALL cbg_Graphics_EndFrame(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Graphics_DoEvents(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->DoEvents();
+    return cbg_ret;
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetCommandList(void* cbg_self) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 
     std::shared_ptr<Altseed::CommandList> cbg_ret = cbg_self_->GetCommandList();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::CommandList>(cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Graphics_DoEvents(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
-
-    cbg_self_->DoEvents();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {

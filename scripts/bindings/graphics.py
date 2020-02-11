@@ -49,17 +49,13 @@ with Graphics as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '正常に終了した場合は　true 。それ以外の場合は false。')
         func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('GetCommandList') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'コマンドリストを取得する')
-        func.return_value.type_ = CommandList
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'コマンドリスト')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_property(CommandList, 'CommandList') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'コマンドリストを取得する')
+        prop.has_getter = True # TODO：Engine側できちんと隠す
     with class_.add_func('DoEvents') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'イベントを処理します。')
-        func.return_value = cbg.ReturnValue()
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')

@@ -229,11 +229,6 @@ with Mouse as class_:
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'マウスボタンの状態')
-    with class_.add_property(CursorMode, 'CursorMode') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'カーソルのモードを取得または設定する')
-        prop.has_getter = True
-        prop.has_setter = True
 
 JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
