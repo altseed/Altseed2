@@ -12,12 +12,12 @@ class Array : public std::vector<T>, public BaseObject {
 public:
     void CopyTo(T* array, int32_t size) {
         for (size_t i = 0; i < size; i++) {
-            array[i] = at(i);
+            array[i] = this->at(i);
         }  // namespace Altseed
     }
     void CopyTo(std::shared_ptr<Array<T>> array, int32_t size) {
         for (size_t i = 0; i < size; i++) {
-            array->at(i) = at(i);
+            array->at(i) = this->at(i);
         }
     }
 };
