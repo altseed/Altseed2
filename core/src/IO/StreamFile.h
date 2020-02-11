@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../BaseObject.h"
-#include "../Common/Int8Array.h"
+#include "../Common/Array.h"
 #include "../Common/Resource.h"
 #include "BaseFileReader.h"
 

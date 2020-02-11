@@ -10,7 +10,7 @@ set(core_files
     Wrapper.cpp
     Scene.h
     Scene.cpp
-    Common/Int8Array.h
+    Common/Array.h
     Common/ResourceContainer.h
     Common/Resource.h
     Common/Resources.h

@@ -8,8 +8,8 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Sound/SoundMixer.h"
-#include "Window/Window.h"
 #include "Tool/Tool.h"
+#include "Window/Window.h"
 
 namespace Altseed {
 
@@ -24,6 +24,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = option.IsFullscreenMode;
     windowParameter.IsResizable = option.IsResizable;
+
     if (!Window::Initialize(windowParameter)) {
         Core::instance = nullptr;
         return false;
@@ -69,7 +70,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         return false;
     }
 
-	if (!Tool::Initialize(Graphics::GetInstance())) {
+    if (!Tool::Initialize(Graphics::GetInstance())) {
         Core::instance = nullptr;
         return false;
     }
@@ -91,8 +92,8 @@ void Core::Terminate() {
         obj->OnTerminating();
     }
 
-	Tool::Terminate();
-	Renderer::Terminate();
+    Tool::Terminate();
+    Renderer::Terminate();
     Window::Terminate();
     Keyboard::Terminate();
     Mouse::Terminate();
