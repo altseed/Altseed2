@@ -38,26 +38,11 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 
-#include "Graphics/BatchRenderer.h"
-//#include "Graphics/BuildinShader.h"
-//#include "Graphics/Camera.h"
-#include "Graphics/Color.h"
+#include "Graphics/Graphics.h"
 #include "Graphics/CommandList.h"
-//#include "Graphics/Font.h"
-//#include "Graphics/Graphics.h"
-//#include "Graphics/LLGIWindow.h"
-#include "Graphics/Material.h"
-//#include "Graphics/RenderTexture.h"
-//#include "Graphics/Shader.h"
-//#include "Graphics/Sprite.h"
 #include "Graphics/Texture2D.h"
-//#include "Graphics/Renderer/Rendered.h"
-//#include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
-//#include "Graphics/ShaderCompiler/ResourceLimits.h"
-//#include "Graphics/ShaderCompiler/ShaderCompiler.h"
-//#include "Graphics/ShaderCompiler/ShaderTranspiler.h"
+#include "Graphics/Renderer/RenderedSprite.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
@@ -74,6 +59,18 @@
 
     
 extern "C" {
+
+CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
+    Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
+    float cbg_arg1 = t;
+    Altseed::Easing::GetEasing(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Easing*)(cbg_self);
+
+    cbg_self_->Release();
+}
 
 CBGEXPORT bool CBGSTDCALL cbg_Core_Initialize(const char16_t* title, int32_t width, int32_t height, void* option) {
     const char16_t* cbg_arg0 = title;
@@ -130,20 +127,6 @@ CBGEXPORT void CBGSTDCALL cbg_Int32Array_CopyTo(void* cbg_self, void* array, int
 
 CBGEXPORT void CBGSTDCALL cbg_Int32Array_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
-
-    cbg_self_->Release();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_BatchVertexArray_CopyTo(void* cbg_self, void* array, int32_t size) {
-    auto cbg_self_ = (Altseed::BatchVertexArray*)(cbg_self);
-
-    std::shared_ptr<Altseed::BatchVertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::BatchVertexArray>((Altseed::BatchVertexArray*)array);
-    int32_t cbg_arg1 = size;
-    cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_BatchVertexArray_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed::BatchVertexArray*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -882,18 +865,6 @@ CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
-
-    cbg_self_->Release();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
-    Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
-    float cbg_arg1 = t;
-    Altseed::Easing::GetEasing(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Easing*)(cbg_self);
 
     cbg_self_->Release();
 }
