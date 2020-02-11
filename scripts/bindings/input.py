@@ -198,7 +198,7 @@ with Mouse as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
-      　func.is_static = True
+        func.is_static = True
     with class_.add_func('SetPosition') as func:
         with func.add_arg(Vector2DF, 'vec') as arg:
             arg.brief = cbg.Description()
