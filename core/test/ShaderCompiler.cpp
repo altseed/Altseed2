@@ -63,10 +63,10 @@ float4 main(PS_INPUT input) : SV_TARGET
 
     const char* texturePS = R"(
 
-Texture2D txt : register(t8);
-SamplerState smp : register(s8);
-Texture2D txt2 : register(t9);
-SamplerState smp2 : register(s9);
+Texture2D txt : register(t0);
+SamplerState smp : register(s0);
+Texture2D txt2 : register(t1);
+SamplerState smp2 : register(s1);
 
 struct PS_INPUT
 {
