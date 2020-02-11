@@ -26,6 +26,34 @@ with Int8Array as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーするデータ量')
 
+Int32Array = cbg.Class('Altseed', 'Int32Array')
+with Int32Array as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '32ビット整数の配列のクラス')
+    with class_.add_func("CopyTo") as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したインスタンスにデータをコピーする')
+        with func.add_arg(Int32Array, "array") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピー先のインスタンス')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータ量')
+
+# BatchVertexArray = cbg.Class('Altseed', 'BatchVertexArray')
+# with BatchVertexArray as class_:
+#     class_.brief = cbg.Description()
+#     class_.brief.add('ja', 'BatchVertexの配列のクラス')
+#     with class_.add_func("CopyTo") as func:
+#         func.brief = cbg.Description()
+#         func.brief.add('ja', '指定したインスタンスにデータをコピーする')
+#         with func.add_arg(BatchVertexArray, "array") as arg:
+#             arg.brief = cbg.Description()
+#             arg.brief.add('ja', 'コピー先のインスタンス')
+#         with func.add_arg(int, "size") as arg:
+#             arg.brief = cbg.Description()
+#             arg.brief.add('ja', 'コピーするデータ量')
+
 ResourceType = cbg.Enum('Altseed', 'ResourceType')
 with ResourceType as enum_:
     enum_.brief = cbg.Description()
@@ -67,3 +95,5 @@ with Resources as class_:
 
 Vector2DI = cbg.Struct('Altseed', 'Vector2DI')
 Vector2DF = cbg.Struct('Altseed', 'Vector2DF')
+Vector3DF = cbg.Struct('Altseed', 'Vector3DF')
+RectF = cbg.Struct('Altseed', 'RectF')

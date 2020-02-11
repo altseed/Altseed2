@@ -30,6 +30,8 @@ define = cbg.Define()
 
 define.structs.append(Vector2DI)
 define.structs.append(Vector2DF)
+define.structs.append(Vector3DF)
+define.structs.append(RectF)
 
 # core
 define.structs.append(CoreOption)
@@ -37,6 +39,8 @@ define.classes.append(Core)
 
 # common
 define.classes.append(Int8Array)
+define.classes.append(Int32Array)
+# define.classes.append(BatchVertexArray)
 define.enums.append(ResourceType)
 define.classes.append(Resources)
 
@@ -55,8 +59,15 @@ define.classes.append(Joystick)
 
 # graphics
 define.enums.append(DeviceType)
+
+define.structs.append(BatchVertex)
+define.structs.append(Color)
+
 define.classes.append(Graphics)
 define.classes.append(Texture2D)
+define.classes.append(Renderer)
+define.classes.append(CommandList)
+define.classes.append(RenderedSprite)
 
 # io
 define.classes.append(StreamFile)
