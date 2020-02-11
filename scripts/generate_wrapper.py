@@ -14,7 +14,7 @@ if __name__ == '__main__':
 #include "Core.h"
 #include "BaseObject.h"
 
-#include "Common/Int8Array.h"
+#include "Common/Array.h"
 #include "Common/ResourceContainer.h"
 #include "Common/Resource.h"
 #include "Common/Resources.h"
@@ -27,7 +27,10 @@ if __name__ == '__main__':
 #include "Input/Mouse.h"
 
 #include "Graphics/Graphics.h"
+#include "Graphics/CommandList.h"
 #include "Graphics/Texture2D.h"
+#include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Renderer/RenderedSprite.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"

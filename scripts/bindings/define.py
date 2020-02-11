@@ -28,10 +28,14 @@ from .math import *
 # define
 define = cbg.Define()
 
+# math
 define.structs.append(Vector2DI)
 define.structs.append(Vector2DF)
 define.structs.append(Vector3DF)
 define.structs.append(RectF)
+
+define.classes.append(Easing)
+define.enums.append(EasingType)
 
 # core
 define.structs.append(CoreOption)
@@ -60,7 +64,7 @@ define.classes.append(Joystick)
 # graphics
 define.enums.append(DeviceType)
 
-define.structs.append(BatchVertex)
+# define.structs.append(BatchVertex)
 define.structs.append(Color)
 
 define.classes.append(Graphics)
@@ -77,7 +81,3 @@ define.classes.append(File)
 # sound
 define.classes.append(Sound)
 define.classes.append(SoundMixer)
-
-# math
-define.enums.append(EasingType)
-define.classes.append(Easing)
