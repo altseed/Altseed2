@@ -33,8 +33,19 @@ private:
 public:
     ~Shader() { LLGI::SafeRelease(shader_); }
 
+
+	/**
+		@brief constructor
+		@note
+		please use ShaderCompiler to generate a shader
+	*/
     Shader(std::string code, std::string errorMessage) : code_(code), errorMessage_(errorMessage), isValid_(false) {}
 
+	/**
+        @brief constructor
+        @note
+        please use ShaderCompiler to generate a shader
+    */
     Shader(std::string code,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
