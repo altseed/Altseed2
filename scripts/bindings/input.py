@@ -199,18 +199,16 @@ with Mouse as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
-    with class_.add_func('SetPosition') as func:
-        with func.add_arg(Vector2DF, 'vec') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '設定する座標')
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'マウスカーソルの座標を設定します。')
-    with class_.add_func('GetPosition') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'マウスカーソルの座標を取得します。')
-        func.return_value.type_ = Vector2DF
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'マウスカーソルの座標')
+    with class_.add_property(Vector2DF, 'Position') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マウスカーソルの座標を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(CursorMode, 'CursorMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'カーソルのモードを取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
     with class_.add_func('GetWheel') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'マウスホイールの回転量を取得します。')
@@ -226,11 +224,6 @@ with Mouse as class_:
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'マウスボタンの状態')
-    with class_.add_property(CursorMode, 'CursorMode') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'カーソルのモードを取得または設定する')
-        prop.has_getter = True
-        prop.has_setter = True
 
 JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
