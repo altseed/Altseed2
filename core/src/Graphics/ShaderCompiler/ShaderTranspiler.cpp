@@ -190,4 +190,4 @@ std::shared_ptr<SPIRV> SPIRVGenerator::Generate(const char* code, ShaderStageTyp
     return std::make_shared<SPIRV>(spirv, shaderStageType);
 }
 
-}  // namespace altseed
+}  // namespace Altseed

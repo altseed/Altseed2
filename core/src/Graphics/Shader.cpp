@@ -14,4 +14,4 @@ Shader::Shader(
         uniformSize_ = std::max(u.Offset + u.Size, uniformSize_);
     }
 }
-}  // namespace altseed
+}  // namespace Altseed

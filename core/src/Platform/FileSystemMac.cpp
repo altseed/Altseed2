@@ -1,8 +1,8 @@
 #pragma once
 
 #include <dirent.h>
-#include <sys/stat.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #include "../Common/StringHelper.h"
 #include "FileSystem.h"
@@ -42,14 +42,11 @@ void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16s
     struct dirent** namelist;
     auto num = scandir(utf16_to_utf8(path).c_str(), &namelist, NULL, NULL);
 
-    for (int32_t i = 0; i < num; i++)
-    {
+    for (int32_t i = 0; i < num; i++) {
         auto child = utf8_to_utf16(namelist[i]->d_name);
-        if (child == u"." || child == u"..")
-            continue;
+        if (child == u"." || child == u"..") continue;
         auto tmpPath = path;
-        if (tmpPath.back() != u'/')
-            tmpPath += u'/';
+        if (tmpPath.back() != u'/') tmpPath += u'/';
         childPaths.push_back(tmpPath + child);
     }
     free(namelist);

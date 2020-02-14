@@ -31,8 +31,8 @@ private:
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
     bool isInRenderPass_ = false;
 
-	bool isEditorModeEnabled_ = false;
-	std::shared_ptr<RenderTexture> internalScreen_;
+    bool isEditorModeEnabled_ = false;
+    std::shared_ptr<RenderTexture> internalScreen_;
 
     std::shared_ptr<LLGI::VertexBuffer> blitVB_;
     std::shared_ptr<LLGI::IndexBuffer> blitIB_;
@@ -43,7 +43,7 @@ private:
 public:
     static std::shared_ptr<CommandList> Create();
 
-	void SetEditorModeEnabled(bool enabled);
+    void SetEditorModeEnabled(bool enabled);
 
     void StartFrame();
 
@@ -55,24 +55,24 @@ public:
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
 
-	/**
-		@brief	apply material and render to target texture.
-		@note
-		Screen is stored as mainTex
-	*/
+    /**
+            @brief	apply material and render to target texture.
+            @note
+            Screen is stored as mainTex
+    */
     void BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material = nullptr);
 
-	/**
-	    @brief	apply material and render to target texture.
-		@note
-	*/
+    /**
+        @brief	apply material and render to target texture.
+            @note
+    */
     void BlitMaterialToScreen(std::shared_ptr<Material> material = nullptr);
 
-	/**
-	    @brief	apply material and render to target texture.
-	    @note
-	    src is stored as mainTex
-	*/
+    /**
+        @brief	apply material and render to target texture.
+        @note
+        src is stored as mainTex
+    */
     void BlitTextureToTexture(
             std::shared_ptr<RenderTexture> target, std::shared_ptr<Texture2D> src, std::shared_ptr<Material> material = nullptr);
 

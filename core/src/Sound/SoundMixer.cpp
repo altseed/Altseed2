@@ -11,7 +11,9 @@ bool SoundMixer::Initialize(bool isReloadingEnabled) {
     m_manager = osm::Manager::Create();
     m_resources = Resources::GetInstance();
 
-    if (!m_manager->Initialize()) { return false; }
+    if (!m_manager->Initialize()) {
+        return false;
+    }
 
     return true;
 }
@@ -36,19 +38,18 @@ std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDeco
     auto staticFile = fileInstance->CreateStaticFile(path);
     if (staticFile == nullptr) return nullptr;
 
-	// Get data & Create OSM sound & null check
-	auto sound = m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed);
-	if(sound == nullptr)
-	{
-		staticFile->Release();
-		return nullptr;
-	}
+    // Get data & Create OSM sound & null check
+    auto sound = m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed);
+    if (sound == nullptr) {
+        staticFile->Release();
+        return nullptr;
+    }
 
-	// Create sound & register to container
-	auto soundRet = std::make_shared<Sound>(m_resources, GetInstance(), path, sound, isDecompressed);
-	auto soundContainer = m_resources->GetResourceContainer(ResourceType::Sound);
-	auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
-	soundContainer->Register(path, soundInfo);
+    // Create sound & register to container
+    auto soundRet = std::make_shared<Sound>(m_resources, GetInstance(), path, sound, isDecompressed);
+    auto soundContainer = m_resources->GetResourceContainer(ResourceType::Sound);
+    auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
+    soundContainer->Register(path, soundInfo);
 
     return soundRet;
 }
@@ -152,7 +153,7 @@ void SoundMixer::GetSpectrumData(int32_t id, std::vector<float>& spectrums, int3
 
 void SoundMixer::Reload() {
     auto container = m_resources->GetResourceContainer(ResourceType::Sound);
-    for(auto sound : container->GetAllResouces()) sound.second->Reload(0);
+    for (auto sound : container->GetAllResouces()) sound.second->Reload(0);
 }
 
 }  // namespace Altseed

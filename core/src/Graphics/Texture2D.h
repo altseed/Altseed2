@@ -15,7 +15,7 @@ class Texture2D : public Resource {
 private:
     static std::map<std::u16string, std::shared_ptr<std::mutex>> mtxs;
 
-	std::u16string sourcePath_;
+    std::u16string sourcePath_;
     std::shared_ptr<Resources> resources_ = nullptr;
 
 protected:

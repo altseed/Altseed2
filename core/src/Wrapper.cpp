@@ -1,34 +1,33 @@
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
-  #include <Windows.h>
+#include <Windows.h>
 #endif
 
 #ifndef CBGEXPORT
 #if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
-  #define CBGEXPORT __declspec(dllexport)
+#define CBGEXPORT __declspec(dllexport)
 #else
-  #define CBGEXPORT
+#define CBGEXPORT
 #endif
 #endif
 
 #ifndef CBGSTDCALL
 #if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
-  #define CBGSTDCALL __stdcall
+#define CBGSTDCALL __stdcall
 #else
-  #define CBGSTDCALL
+#define CBGSTDCALL
 #endif
 #endif
 
-
-#include "Core.h"
 #include "BaseObject.h"
+#include "Core.h"
 
 #include "Common/Array.h"
-#include "Common/ResourceContainer.h"
 #include "Common/Resource.h"
+#include "Common/ResourceContainer.h"
 #include "Common/Resources.h"
 
 #include "Window/Window.h"
@@ -38,26 +37,25 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 
-#include "Graphics/Graphics.h"
 #include "Graphics/CommandList.h"
-#include "Graphics/Texture2D.h"
-#include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Graphics.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Texture2D.h"
 
+#include "IO/BaseFileReader.h"
 #include "IO/File.h"
+#include "IO/FileRoot.h"
 #include "IO/PackFile.h"
+#include "IO/PackFileReader.h"
 #include "IO/StaticFile.h"
 #include "IO/StreamFile.h"
-#include "IO/FileRoot.h"
-#include "IO/BaseFileReader.h"
-#include "IO/PackFileReader.h"
 
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
 #include "Math/Easing.h"
 
-    
 extern "C" {
 
 CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
@@ -88,9 +86,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Core_DoEvent(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Core_Terminate() {
-    Altseed::Core::Terminate();
-}
+CBGEXPORT void CBGSTDCALL cbg_Core_Terminate() { Altseed::Core::Terminate(); }
 
 CBGEXPORT void* CBGSTDCALL cbg_Core_GetInstance() {
     std::shared_ptr<Altseed::Core> cbg_ret = Altseed::Core::GetInstance();
@@ -313,7 +309,8 @@ CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshVibrateState(void* cbg_self) {
     cbg_self_->RefreshVibrateState();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self, int32_t index, float high_freq, float low_freq, float high_amp, float low_amp, int32_t life_time) {
+CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(
+        void* cbg_self, int32_t index, float high_freq, float low_freq, float high_amp, float low_amp, int32_t life_time) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = index;
@@ -410,7 +407,8 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Reset(void* cbg_self) {
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
-    std::shared_ptr<Altseed::CommandList> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
+    std::shared_ptr<Altseed::CommandList> cbg_arg0 =
+            Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
     cbg_self_->Render(cbg_arg0);
 }
 
@@ -639,7 +637,8 @@ CBGEXPORT bool CBGSTDCALL cbg_File_Pack(void* cbg_self, const char16_t* srcPath,
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_File_PackWithPassword(void* cbg_self, const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) {
+CBGEXPORT bool CBGSTDCALL
+cbg_File_PackWithPassword(void* cbg_self, const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) {
     auto cbg_self_ = (Altseed::File*)(cbg_self);
 
     const char16_t* cbg_arg0 = srcPath;
@@ -869,33 +868,29 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
 
     cbg_self_->Release();
 }
-
-
 }
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-{
-	bool res = true;
-	switch (fdwReason) {
-	case DLL_PROCESS_ATTACH:
-		CoInitializeEx(NULL, COINIT_MULTITHREADED);
-		break;
-	case DLL_PROCESS_DETACH:
-		CoUninitialize();
-		break;
-	case DLL_THREAD_ATTACH:
-		CoInitializeEx(NULL, COINIT_MULTITHREADED);
-		break;
-	case DLL_THREAD_DETACH:
-		CoUninitialize();
-		break;
-	default:
-		break;
-	}
-	return res;
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+    bool res = true;
+    switch (fdwReason) {
+        case DLL_PROCESS_ATTACH:
+            CoInitializeEx(NULL, COINIT_MULTITHREADED);
+            break;
+        case DLL_PROCESS_DETACH:
+            CoUninitialize();
+            break;
+        case DLL_THREAD_ATTACH:
+            CoInitializeEx(NULL, COINIT_MULTITHREADED);
+            break;
+        case DLL_THREAD_DETACH:
+            CoUninitialize();
+            break;
+        default:
+            break;
+    }
+    return res;
 }
 
 #endif
-

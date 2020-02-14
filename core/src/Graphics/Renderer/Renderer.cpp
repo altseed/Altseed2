@@ -37,7 +37,6 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
-
     int32_t w, h = 0;
     window_->GetSize(w, h);
 
