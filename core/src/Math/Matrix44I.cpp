@@ -2,8 +2,8 @@
 
 #include "Matrix44I.h"
 
-#include "Vector3DI.h"
-#include "Vector4DI.h"
+#include "Vector3I.h"
+#include "Vector4I.h"
 
 namespace Altseed {
 
@@ -80,7 +80,7 @@ Matrix44I& Matrix44I::SetScale(int32_t x, int32_t y, int32_t z) {
     return *this;
 }
 
-Vector4DI Matrix44I::Transform4D(const Vector4DI& in) const {
+Vector4I Matrix44I::Transform4D(const Vector4I& in) const {
     int32_t values[4];
 
     for (int i = 0; i < 4; i++) {
@@ -91,7 +91,7 @@ Vector4DI Matrix44I::Transform4D(const Vector4DI& in) const {
         values[i] += in.W * Values[i][3];
     }
 
-    Vector4DI o;
+    Vector4I o;
     o.X = values[0];
     o.Y = values[1];
     o.Z = values[2];
@@ -105,7 +105,7 @@ Matrix44I Matrix44I::operator*(const Matrix44I& right) const {
     return o_;
 }
 
-Vector4DI Matrix44I::operator*(const Vector4DI& right) const { return Transform4D(right); }
+Vector4I Matrix44I::operator*(const Vector4I& right) const { return Transform4D(right); }
 
 Matrix44I& Matrix44I::Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& in2) {
     Matrix44I _in1 = in1;

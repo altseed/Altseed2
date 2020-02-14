@@ -41,7 +41,7 @@ Matrix33I& Matrix33I::SetScale(int32_t x, int32_t y) {
     return *this;
 }
 
-Vector2DI Matrix33I::Transform2D(const Vector2DI& in) const {
+Vector2I Matrix33I::Transform2D(const Vector2I& in) const {
     int32_t values[3];
 
     for (int i = 0; i < 2; i++) {
@@ -51,13 +51,13 @@ Vector2DI Matrix33I::Transform2D(const Vector2DI& in) const {
         values[i] += 1 * Values[i][2];
     }
 
-    Vector2DI o;
+    Vector2I o;
     o.X = values[0];
     o.Y = values[1];
     return o;
 }
 
-Vector3DI Matrix33I::Transform3D(const Vector3DI& in) const {
+Vector3I Matrix33I::Transform3D(const Vector3I& in) const {
     int32_t values[3];
 
     for (int i = 0; i < 3; i++) {
@@ -67,7 +67,7 @@ Vector3DI Matrix33I::Transform3D(const Vector3DI& in) const {
         values[i] += in.Z * Values[i][2];
     }
 
-    Vector3DI o;
+    Vector3I o;
     o.X = values[0];
     o.Y = values[1];
     o.Z = values[2];
@@ -89,7 +89,7 @@ Matrix33I Matrix33I::operator*(const Matrix33I& right) {
     return result;
 }
 
-Vector3DI Matrix33I::operator*(const Vector3DI& right) {
+Vector3I Matrix33I::operator*(const Vector3I& right) {
     int32_t elements[3] = {0, 0, 0};
     int32_t rop[3] = {right.X, right.Y, right.Z};
 
@@ -99,7 +99,7 @@ Vector3DI Matrix33I::operator*(const Vector3DI& right) {
         }
     }
 
-    Vector3DI result;
+    Vector3I result;
     result.X = elements[0];
     result.Y = elements[1];
     result.Z = elements[2];

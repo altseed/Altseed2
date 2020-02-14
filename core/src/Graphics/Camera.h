@@ -9,7 +9,7 @@
 #include <vector>
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
-#include "../Math/Vector2DI.h"
+#include "../Math/Vector2I.h"
 #include "Graphics.h"
 #include "RenderTexture.h"
 #include "Texture2D.h"
@@ -21,7 +21,7 @@ class Sprites;
 
 class Camera : public BaseObject {
 private:
-    Vector2DI src_;
+    Vector2I src_;
     std::shared_ptr<RenderTexture> target_;
     std::array<float, 16> matView_;
     std::array<float, 16> matProjection_;
@@ -33,8 +33,8 @@ public:
     std::shared_ptr<RenderTexture> GetTarget() const { return target_; }
     void SetTarget(std::shared_ptr<RenderTexture> target);
 
-    Vector2DI GetSrc() const { return src_; }
-    void SetSrc(Vector2DI src);
+    Vector2I GetSrc() const { return src_; }
+    void SetSrc(Vector2I src);
 
     std::array<float, 16>& GetViewMatrix() { return matView_; }
     std::array<float, 16>& GetProjectionMatrix() { return matProjection_; }

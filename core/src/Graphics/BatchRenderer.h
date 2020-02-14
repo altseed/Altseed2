@@ -5,8 +5,8 @@
 #include <memory>
 #include "../Graphics/Color.h"
 #include "../Math/Matrix44F.h"
-#include "../Math/Vector2DF.h"
-#include "../Math/Vector3DF.h"
+#include "../Math/Vector2F.h"
+#include "../Math/Vector3F.h"
 
 namespace Altseed {
 
@@ -19,10 +19,10 @@ class MaterialPropertyBlockCollection;
 class Shader;
 
 struct BatchVertex {
-    Vector3DF Pos;
+    Vector3F Pos;
     Color Col;
-    Vector2DF UV1;
-    Vector2DF UV2;
+    Vector2F UV1;
+    Vector2F UV2;
 };
 
 class BatchRenderer {
@@ -68,7 +68,7 @@ public:
     void Render(CommandList* commandList);
     void ResetCache();
 
-    void SetViewProjectionWithWindowsSize(const Vector2DI& windowSize);
+    void SetViewProjectionWithWindowsSize(const Vector2I& windowSize);
 };
 
 }  // namespace Altseed

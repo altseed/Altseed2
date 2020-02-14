@@ -4,7 +4,7 @@
 // Include
 //----------------------------------------------------------------------------------
 #include "MathTemplate.h"
-#include "Vector4DF.h"
+#include "Vector4F.h"
 
 namespace Altseed {
 
@@ -55,7 +55,7 @@ public:
             @param	up	カメラの上方向
             @return	このインスタンスへの参照
     */
-    Matrix44F& SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
+    Matrix44F& SetLookAtRH(const Vector3F& eye, const Vector3F& at, const Vector3F& up);
 
     /**
             @brief	カメラ行列(左手系)を設定する。
@@ -64,7 +64,7 @@ public:
             @param	up	カメラの上方向
             @return	このインスタンスへの参照
     */
-    Matrix44F& SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up);
+    Matrix44F& SetLookAtLH(const Vector3F& eye, const Vector3F& at, const Vector3F& up);
 
     /**
             @brief	射影行列(右手系)を設定する。
@@ -152,7 +152,7 @@ public:
     @param	angle	回転量(ラジアン)
     @return	このインスタンスへの参照
     */
-    Matrix44F& SetRotationAxis(const Vector3DF& axis, float angle);
+    Matrix44F& SetRotationAxis(const Vector3F& axis, float angle);
 
     /**
     @brief	クオータニオンを元に回転行列(右手)を設定する。
@@ -178,20 +178,20 @@ public:
     @param	in	変形前ベクトル
     @return	変形後ベクトル
     */
-    Vector3DF Transform3D(const Vector3DF& in) const;
+    Vector3F Transform3D(const Vector3F& in) const;
 
     /**
     @brief	行列でベクトルを変形させる。
     @param	in	変形前ベクトル
     @return	変形後ベクトル
     */
-    Vector4DF Transform4D(const Vector4DF& in) const;
+    Vector4F Transform4D(const Vector4F& in) const;
 
     Matrix44F operator*(const Matrix44F& right) const;
 
-    Vector3DF operator*(const Vector3DF& right) const;
+    Vector3F operator*(const Vector3F& right) const;
 
-    Vector4DF operator*(const Vector4DF& right) const;
+    Vector4F operator*(const Vector4F& right) const;
 
     /**
             @brief	乗算を行う。

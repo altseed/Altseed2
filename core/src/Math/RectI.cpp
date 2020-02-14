@@ -1,7 +1,7 @@
 ﻿#include "RectI.h"
 
 #include "RectF.h"
-#include "Vector2DI.h"
+#include "Vector2I.h"
 
 using namespace std;
 
@@ -10,19 +10,19 @@ RectI::RectI() : X(0), Y(0), Width(0), Height(0) {}
 
 RectI::RectI(int x, int y, int width, int height) : X(x), Y(y), Width(width), Height(height) {}
 
-RectI::RectI(Vector2DI position, Vector2DI size) : X(position.X), Y(position.Y), Width(size.X), Height(size.Y) {}
+RectI::RectI(Vector2I position, Vector2I size) : X(position.X), Y(position.Y), Width(size.X), Height(size.Y) {}
 
-Vector2DI RectI::GetPosition() const { return Vector2DI(X, Y); }
+Vector2I RectI::GetPosition() const { return Vector2I(X, Y); }
 
-Vector2DI RectI::GetSize() const { return Vector2DI(Width, Height); }
+Vector2I RectI::GetSize() const { return Vector2I(Width, Height); }
 
-array<Vector2DI, 4> RectI::GetVertexes() const {
-    array<Vector2DI, 4> ret;
+array<Vector2I, 4> RectI::GetVertexes() const {
+    array<Vector2I, 4> ret;
 
-    ret[0] = Vector2DI(X, Y);
-    ret[1] = Vector2DI(X + Width, Y);
-    ret[2] = Vector2DI(X + Width, Y + Height);
-    ret[3] = Vector2DI(X, Y + Height);
+    ret[0] = Vector2I(X, Y);
+    ret[1] = Vector2I(X + Width, Y);
+    ret[2] = Vector2I(X + Width, Y + Height);
+    ret[3] = Vector2I(X, Y + Height);
 
     return ret;
 }

@@ -23,7 +23,7 @@ void Camera::SetTarget(std::shared_ptr<RenderTexture> target) {
     matProjection_[3 * 4 + 1] = +1.0f;
 }
 
-void Camera::SetSrc(Vector2DI src) {
+void Camera::SetSrc(Vector2I src) {
     src_ = src;
     matView_[3 * 4 + 0] = -src_.X;
     matView_[3 * 4 + 1] = -src_.Y;

@@ -29,9 +29,9 @@ from .math import *
 define = cbg.Define()
 
 # math
-define.structs.append(Vector2DI)
-define.structs.append(Vector2DF)
-define.structs.append(Vector3DF)
+define.structs.append(Vector2I)
+define.structs.append(Vector2F)
+define.structs.append(Vector3F)
 define.structs.append(RectF)
 
 define.classes.append(Easing)

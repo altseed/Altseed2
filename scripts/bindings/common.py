@@ -93,7 +93,7 @@ with Resources as class_:
         func.brief.add('ja', 'リソースの再読み込みを行う')
 
 
-Vector2DI = cbg.Struct('Altseed', 'Vector2DI')
-Vector2DF = cbg.Struct('Altseed', 'Vector2DF')
-Vector3DF = cbg.Struct('Altseed', 'Vector3DF')
+Vector2I = cbg.Struct('Altseed', 'Vector2I')
+Vector2F = cbg.Struct('Altseed', 'Vector2F')
+Vector3F = cbg.Struct('Altseed', 'Vector3F')
 RectF = cbg.Struct('Altseed', 'RectF')

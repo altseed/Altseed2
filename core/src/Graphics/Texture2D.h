@@ -8,7 +8,7 @@
 #include <vector>
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
-#include "../Math/Vector2DI.h"
+#include "../Math/Vector2I.h"
 
 namespace Altseed {
 class Texture2D : public Resource {
@@ -20,7 +20,7 @@ private:
 
 protected:
     std::shared_ptr<LLGI::Texture> m_texture = nullptr;
-    Vector2DI size_;
+    Vector2I size_;
     Texture2D(){};
 
 public:
@@ -29,7 +29,7 @@ public:
 
     bool Reload() override;
 
-    Vector2DI GetSize() const { return size_; }
+    Vector2I GetSize() const { return size_; }
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
 
     static std::shared_ptr<Texture2D> Load(const char16_t* path);

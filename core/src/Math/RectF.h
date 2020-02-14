@@ -3,7 +3,7 @@
 #include <array>
 
 #include "MathTemplate.h"
-#include "Vector2DF.h"
+#include "Vector2F.h"
 
 namespace Altseed {
 
@@ -21,13 +21,13 @@ public:
 
     RectF(float x, float y, float width, float height);
 
-    RectF(Vector2DF position, Vector2DF size);
+    RectF(Vector2F position, Vector2F size);
 
-    Vector2DF GetPosition() const;
+    Vector2F GetPosition() const;
 
-    Vector2DF GetSize() const;
+    Vector2F GetSize() const;
 
-    std::array<Vector2DF, 4> GetVertexes() const;
+    std::array<Vector2F, 4> GetVertexes() const;
 
     bool operator!=(const RectF& right);
 

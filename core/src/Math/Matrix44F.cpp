@@ -2,8 +2,8 @@
 
 #include "Matrix44F.h"
 
-#include "Vector3DF.h"
-#include "Vector4DF.h"
+#include "Vector3F.h"
+#include "Vector4F.h"
 
 namespace Altseed {
 
@@ -105,11 +105,11 @@ Matrix44F Matrix44F::GetInverted() const {
     return o;
 }
 
-Matrix44F& Matrix44F::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up) {
+Matrix44F& Matrix44F::SetLookAtRH(const Vector3F& eye, const Vector3F& at, const Vector3F& up) {
     // F=���ʁAR=�E�����AU=�����
-    Vector3DF F = Vector3DF::Subtract(eye, at).GetNormal();
-    Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
-    Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
+    Vector3F F = Vector3F::Subtract(eye, at).GetNormal();
+    Vector3F R = Vector3F::Cross(up, F).GetNormal();
+    Vector3F U = Vector3F::Cross(F, R).GetNormal();
 
     Values[0][0] = R.X;
     Values[0][1] = R.Y;
@@ -126,18 +126,18 @@ Matrix44F& Matrix44F::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, con
     Values[2][2] = F.Z;
     Values[2][3] = 0.0f;
 
-    Values[0][3] = -Vector3DF::Dot(R, eye);
-    Values[1][3] = -Vector3DF::Dot(U, eye);
-    Values[2][3] = -Vector3DF::Dot(F, eye);
+    Values[0][3] = -Vector3F::Dot(R, eye);
+    Values[1][3] = -Vector3F::Dot(U, eye);
+    Values[2][3] = -Vector3F::Dot(F, eye);
     Values[3][3] = 1.0f;
     return *this;
 }
 
-Matrix44F& Matrix44F::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up) {
+Matrix44F& Matrix44F::SetLookAtLH(const Vector3F& eye, const Vector3F& at, const Vector3F& up) {
     // F=���ʁAR=�E�����AU=�����
-    Vector3DF F = Vector3DF::Subtract(at, eye).GetNormal();
-    Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
-    Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
+    Vector3F F = Vector3F::Subtract(at, eye).GetNormal();
+    Vector3F R = Vector3F::Cross(up, F).GetNormal();
+    Vector3F U = Vector3F::Cross(F, R).GetNormal();
 
     Values[0][0] = R.X;
     Values[0][1] = R.Y;
@@ -154,9 +154,9 @@ Matrix44F& Matrix44F::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, con
     Values[2][2] = F.Z;
     Values[2][3] = 0.0f;
 
-    Values[0][3] = -Vector3DF::Dot(R, eye);
-    Values[1][3] = -Vector3DF::Dot(U, eye);
-    Values[2][3] = -Vector3DF::Dot(F, eye);
+    Values[0][3] = -Vector3F::Dot(R, eye);
+    Values[1][3] = -Vector3F::Dot(U, eye);
+    Values[2][3] = -Vector3F::Dot(F, eye);
     Values[3][3] = 1.0f;
     return *this;
 }
@@ -373,7 +373,7 @@ Matrix44F& Matrix44F::SetRotationZ(float angle) {
     return *this;
 }
 
-Matrix44F& Matrix44F::SetRotationAxis(const Vector3DF& axis, float angle) {
+Matrix44F& Matrix44F::SetRotationAxis(const Vector3F& axis, float angle) {
     const float c = cosf(angle);
     const float s = sinf(angle);
     const float cc = 1.0f - c;
@@ -438,7 +438,7 @@ Matrix44F& Matrix44F::SetScale(float x, float y, float z) {
     return *this;
 }
 
-Vector3DF Matrix44F::Transform3D(const Vector3DF& in) const {
+Vector3F Matrix44F::Transform3D(const Vector3F& in) const {
     float values[4];
 
     for (int i = 0; i < 4; i++) {
@@ -449,14 +449,14 @@ Vector3DF Matrix44F::Transform3D(const Vector3DF& in) const {
         values[i] += Values[i][3];
     }
 
-    Vector3DF o;
+    Vector3F o;
     o.X = values[0] / values[3];
     o.Y = values[1] / values[3];
     o.Z = values[2] / values[3];
     return o;
 }
 
-Vector4DF Matrix44F::Transform4D(const Vector4DF& in) const {
+Vector4F Matrix44F::Transform4D(const Vector4F& in) const {
     float values[4];
 
     for (int i = 0; i < 4; i++) {
@@ -467,7 +467,7 @@ Vector4DF Matrix44F::Transform4D(const Vector4DF& in) const {
         values[i] += in.W * Values[i][3];
     }
 
-    Vector4DF o;
+    Vector4F o;
     o.X = values[0];
     o.Y = values[1];
     o.Z = values[2];
@@ -481,9 +481,9 @@ Matrix44F Matrix44F::operator*(const Matrix44F& right) const {
     return o_;
 }
 
-Vector3DF Matrix44F::operator*(const Vector3DF& right) const { return Transform3D(right); }
+Vector3F Matrix44F::operator*(const Vector3F& right) const { return Transform3D(right); }
 
-Vector4DF Matrix44F::operator*(const Vector4DF& right) const { return Transform4D(right); }
+Vector4F Matrix44F::operator*(const Vector4F& right) const { return Transform4D(right); }
 
 Matrix44F& Matrix44F::Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2) {
     Matrix44F _in1 = in1;

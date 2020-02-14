@@ -31,12 +31,12 @@ TEST(Font, Basic) {
     material->SetShader(shader);
 
     const char16_t* text = u"こんにちは！ Hello World";
-    Altseed::Vector2DF position(100, 100);
+    Altseed::Vector2F position(100, 100);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
         auto glyph = font->GetGlyph(text[i]);
         if (glyph == nullptr) continue;
 
-        auto tempPosition = position + glyph->GetOffset().To2DF() + Altseed::Vector2DF(0, font->GetAscent());
+        auto tempPosition = position + glyph->GetOffset().To2DF() + Altseed::Vector2F(0, font->GetAscent());
         auto sprite = Altseed::Renderer::GetInstance()->CreateSprite();
         sprite->SetMaterial(material);
         sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
@@ -47,9 +47,9 @@ TEST(Font, Basic) {
 
         sprite->SetSrc(Altseed::RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y));
 
-        position += Altseed::Vector2DF(glyph->GetGlyphWidth(), 0);
+        position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
 
-        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2DF(font->GetKerning(text[i], text[i + 1]), 0);
+        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(text[i], text[i + 1]), 0);
     }
 
     while (count++ < 100 && instance->DoEvents()) {

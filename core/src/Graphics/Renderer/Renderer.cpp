@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "../../Math/Vector2DI.h"
+#include "../../Math/Vector2I.h"
 #include "../../Window/Window.h"
 #include "../CommandList.h"
 #include "../Graphics.h"
@@ -40,8 +40,8 @@ void Renderer::Render(std::shared_ptr<CommandList> commandList) {
     int32_t w, h = 0;
     window_->GetSize(w, h);
 
-    batchRenderer_->SetViewProjectionWithWindowsSize(Vector2DI(w, h));
-    renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2DI(w, h));
+    batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
+    renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
 
     for (auto o : objects_) {
         // TOTO switch static
