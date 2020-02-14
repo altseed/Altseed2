@@ -5,16 +5,15 @@
 
 class ImguiPlatformMetal_Impl;
 
-class ImguiPlatformMetal : public ImguiPlatform
-{
-	ImguiPlatformMetal_Impl* impl = nullptr;
+class ImguiPlatformMetal : public ImguiPlatform {
+    ImguiPlatformMetal_Impl* impl = nullptr;
 
 public:
-	ImguiPlatformMetal(LLGI::Graphics* g);
+    ImguiPlatformMetal(LLGI::Graphics* g);
 
-	virtual ~ImguiPlatformMetal();
+    virtual ~ImguiPlatformMetal();
 
-	void NewFrame(LLGI::RenderPass* renderPass) override;
+    void NewFrame(LLGI::RenderPass* renderPass) override;
 
-	void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) override;
+    void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) override;
 };

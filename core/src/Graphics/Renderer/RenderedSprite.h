@@ -18,8 +18,7 @@ private:
     RectF src_;
 
 public:
-    
-	RectF GetSrc() const;
+    RectF GetSrc() const;
     void SetSrc(const RectF& src);
 
     std::shared_ptr<Texture2D> GetTexture() const;

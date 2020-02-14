@@ -89,7 +89,6 @@ Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) con
     return ret;
 }
 
-
 std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const char16_t* key) const {
     std::shared_ptr<Texture2D> ret;
     for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
@@ -156,4 +155,4 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     return piplineState;
 }
 
-}  // namespace altseed
+}  // namespace Altseed

@@ -16,7 +16,7 @@ class Texture2D;
 
 class MaterialPropertyBlock : public BaseObject {
     std::unordered_map<std::u16string, Vector4DF> vector4s_;
-    std::unordered_map<std::u16string,Matrix44F> matrix44s_;
+    std::unordered_map<std::u16string, Matrix44F> matrix44s_;
     std::unordered_map<std::u16string, std::shared_ptr<Texture2D>> textures_;
 
 public:
@@ -58,7 +58,7 @@ public:
     Vector4DF GetVector4F(const char16_t* key) const;
     void SetVector4F(const char16_t* key, const Vector4DF& value);
 
-	Matrix44F GetMatrix44F(const char16_t* key) const;
+    Matrix44F GetMatrix44F(const char16_t* key) const;
     void SetMatrix44F(const char16_t* key, const Matrix44F& value);
 
     std::shared_ptr<Texture2D> GetTexture(const char16_t* key) const;

@@ -6,13 +6,12 @@
 
 #include <imgui.h>
 
-class ImguiPlatform
-{
+class ImguiPlatform {
 public:
-	ImguiPlatform() = default;
-	virtual ~ImguiPlatform() = default;
+    ImguiPlatform() = default;
+    virtual ~ImguiPlatform() = default;
 
-	virtual void NewFrame(LLGI::RenderPass* renderPass) = 0;
+    virtual void NewFrame(LLGI::RenderPass* renderPass) = 0;
 
-	virtual void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) = 0;
+    virtual void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) = 0;
 };

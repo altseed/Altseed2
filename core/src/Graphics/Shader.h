@@ -33,25 +33,24 @@ private:
 public:
     ~Shader() { LLGI::SafeRelease(shader_); }
 
-
-	/**
-		@brief constructor
-		@note
-		please use ShaderCompiler to generate a shader
-	*/
+    /**
+            @brief constructor
+            @note
+            please use ShaderCompiler to generate a shader
+    */
     Shader(std::string code, std::string errorMessage) : code_(code), errorMessage_(errorMessage), isValid_(false) {}
 
-	/**
-        @brief constructor
-        @note
-        please use ShaderCompiler to generate a shader
-    */
+    /**
+    @brief constructor
+    @note
+    please use ShaderCompiler to generate a shader
+*/
     Shader(std::string code,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
            LLGI::Shader* shader);
 
-	int32_t GetUniformSize() const { return uniformSize_; }
+    int32_t GetUniformSize() const { return uniformSize_; }
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
