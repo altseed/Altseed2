@@ -109,6 +109,8 @@ set(core_files
     Sound/Sound.cpp
     Tool/Tool.h
     Tool/Tool.cpp
+    Logger/Log.h
+    Logger/Log.cpp
 )
 
 # imgui

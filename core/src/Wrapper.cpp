@@ -57,6 +57,8 @@
 
 #include "Math/Easing.h"
 
+#include "Logger/Log.h"
+
     
 extern "C" {
 
@@ -866,6 +868,34 @@ CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Log_GetInstance() {
+    std::shared_ptr<Altseed::Log> cbg_ret = Altseed::Log::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Log>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Write(void* cbg_self, int32_t category, int32_t level, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    Altseed::LogLevel cbg_arg1 = (Altseed::LogLevel)level;
+    const char16_t* cbg_arg2 = message;
+    cbg_self_->Write(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_SetLevel(void* cbg_self, int32_t category, int32_t level) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    Altseed::LogLevel cbg_arg1 = (Altseed::LogLevel)level;
+    cbg_self_->SetLevel(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
 
     cbg_self_->Release();
 }
