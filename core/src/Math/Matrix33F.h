@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Vector2DF.h"
-#include "Vector3DF.h"
+#include "Vector2F.h"
+#include "Vector3F.h"
 
 namespace Altseed {
 /**
@@ -46,17 +46,17 @@ public:
     @param	in	変形前ベクトル
     @return	変形後ベクトル
     */
-    Vector2DF Transform2D(const Vector2DF& in) const;
+    Vector2F Transform2D(const Vector2F& in) const;
 
     /**
     @brief	行列でベクトルを変形させる。
     @param	in	変形前ベクトル
     @return	変形後ベクトル
     */
-    Vector3DF Transform3D(const Vector3DF& in) const;
+    Vector3F Transform3D(const Vector3F& in) const;
 
     Matrix33F operator*(const Matrix33F& right);
 
-    Vector3DF operator*(const Vector3DF& right);
+    Vector3F operator*(const Vector3F& right);
 };
 }  // namespace Altseed

@@ -8,8 +8,8 @@
 #include "../Graphics/BatchRenderer.h"
 #include "../Graphics/Color.h"
 #include "../Math/RectI.h"
-#include "../Math/Vector2DF.h"
-#include "../Math/Vector3DF.h"
+#include "../Math/Vector2F.h"
+#include "../Math/Vector3F.h"
 
 namespace Altseed {
 

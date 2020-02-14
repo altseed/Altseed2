@@ -91,18 +91,18 @@ set(core_files
     Math/RectF.h
     Math/RectI.cpp
     Math/RectI.h
-    Math/Vector2DF.cpp
-    Math/Vector2DF.h
-    Math/Vector2DI.cpp
-    Math/Vector2DI.h
-    Math/Vector3DF.cpp
-    Math/Vector3DF.h
-    Math/Vector3DI.cpp
-    Math/Vector3DI.h
-    Math/Vector4DF.cpp
-    Math/Vector4DF.h
-    Math/Vector4DI.cpp
-    Math/Vector4DI.h
+    Math/Vector2F.cpp
+    Math/Vector2F.h
+    Math/Vector2I.cpp
+    Math/Vector2I.h
+    Math/Vector3F.cpp
+    Math/Vector3F.h
+    Math/Vector3I.cpp
+    Math/Vector3I.h
+    Math/Vector4F.cpp
+    Math/Vector4F.h
+    Math/Vector4I.cpp
+    Math/Vector4I.h
     Sound/SoundMixer.h
     Sound/SoundMixer.cpp
     Sound/Sound.h

@@ -4,7 +4,7 @@
 // Include
 //----------------------------------------------------------------------------------
 #include "MathTemplate.h"
-#include "Vector4DI.h"
+#include "Vector4I.h"
 
 namespace Altseed {
 
@@ -69,11 +69,11 @@ public:
     @param	in	変形前ベクトル
     @return	変形後ベクトル
     */
-    Vector4DI Transform4D(const Vector4DI& in) const;
+    Vector4I Transform4D(const Vector4I& in) const;
 
     Matrix44I operator*(const Matrix44I& right) const;
 
-    Vector4DI operator*(const Vector4DI& right) const;
+    Vector4I operator*(const Vector4I& right) const;
 
     /**
             @brief	乗算を行う。

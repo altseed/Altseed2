@@ -4,7 +4,7 @@
 #include <array>
 #include <functional>
 
-#include "../Math/Vector2DF.h"
+#include "../Math/Vector2F.h"
 #include "../Window/Window.h"
 #include "ButtonState.h"
 
@@ -82,9 +82,9 @@ public:
 
     void RefreshInputState();
 
-    void SetPosition(Vector2DF vec);
+    void SetPosition(Vector2F vec);
 
-    Vector2DF GetPosition();
+    Vector2F GetPosition();
 
     void SetWheelCallback(std::function<void(double x, double y)> func);
 

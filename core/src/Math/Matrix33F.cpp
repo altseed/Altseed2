@@ -108,7 +108,7 @@ Matrix33F& Matrix33F::SetScale(float x, float y) {
     return *this;
 }
 
-Vector2DF Matrix33F::Transform2D(const Vector2DF& in) const {
+Vector2F Matrix33F::Transform2D(const Vector2F& in) const {
     float values[3];
 
     for (int i = 0; i < 2; i++) {
@@ -118,13 +118,13 @@ Vector2DF Matrix33F::Transform2D(const Vector2DF& in) const {
         values[i] += 1.0f * Values[i][2];
     }
 
-    Vector2DF o;
+    Vector2F o;
     o.X = values[0];
     o.Y = values[1];
     return o;
 }
 
-Vector3DF Matrix33F::Transform3D(const Vector3DF& in) const {
+Vector3F Matrix33F::Transform3D(const Vector3F& in) const {
     float values[3];
 
     for (int i = 0; i < 3; i++) {
@@ -134,7 +134,7 @@ Vector3DF Matrix33F::Transform3D(const Vector3DF& in) const {
         values[i] += in.Z * Values[i][2];
     }
 
-    Vector3DF o;
+    Vector3F o;
     o.X = values[0];
     o.Y = values[1];
     o.Z = values[2];
@@ -156,7 +156,7 @@ Matrix33F Matrix33F::operator*(const Matrix33F& right) {
     return result;
 }
 
-Vector3DF Matrix33F::operator*(const Vector3DF& right) {
+Vector3F Matrix33F::operator*(const Vector3F& right) {
     float elements[3] = {0, 0, 0};
     float rop[3] = {right.X, right.Y, right.Z};
 
@@ -166,7 +166,7 @@ Vector3DF Matrix33F::operator*(const Vector3DF& right) {
         }
     }
 
-    Vector3DF result;
+    Vector3F result;
     result.X = elements[0];
     result.Y = elements[1];
     result.Z = elements[2];

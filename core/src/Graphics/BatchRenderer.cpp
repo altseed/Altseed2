@@ -131,7 +131,7 @@ void BatchRenderer::ResetCache() {
     rawIndexBuffer_.resize(0);
 }
 
-void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2DI& windowSize) {
+void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2I& windowSize) {
     matView_.SetIdentity();
     matProjection_.SetIdentity();
     matProjection_.Values[0][0] = 2.0f / windowSize.X;

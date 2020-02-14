@@ -5,11 +5,11 @@
 
 namespace Altseed {
 
-Glyph::Glyph(Vector2DI textureSize, int32_t textureIndex, Vector2DI position, Vector2DI size, Vector2DI offset, int32_t glyphWidth)
+Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
 Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color)
-    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color), textureSize_(Vector2DI(2000, 2000)) {
+    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color), textureSize_(Vector2I(2000, 2000)) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
@@ -41,7 +41,7 @@ int32_t Font::GetKerning(const char16_t c1, const char16_t c2) {
     return kern * scale_;
 }
 
-Vector2DI Font::CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning) {
+Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning) {
     int32_t w = 0;
     int32_t l = 1;
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
@@ -57,7 +57,7 @@ Vector2DI Font::CalcTextureSize(const char16_t* text, WritingDirection direction
     }
 
     int32_t h = (ascent_ - descent_) * l;
-    return direction == WritingDirection::Horizontal ? Vector2DI(w, h) : Vector2DI(h, w);
+    return direction == WritingDirection::Horizontal ? Vector2I(w, h) : Vector2I(h, w);
 }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
@@ -99,11 +99,11 @@ void Font::AddFontTexture() {
     auto texture = MakeAsdShared<Texture2D>(Resources::GetInstance(), llgiTexture, u"");
     textures_.push_back(texture);
 
-    currentTexturePosition_ = Vector2DI();
+    currentTexturePosition_ = Vector2I();
 }
 
 void Font::AddGlyph(const char16_t character) {
-    Vector2DI offset;
+    Vector2I offset;
     int32_t w, h, glyphW;
 
     uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, GetSize() / 2, 128, 1, &w, &h, &offset.X, &offset.Y);
@@ -137,7 +137,7 @@ void Font::AddGlyph(const char16_t character) {
         currentTexturePosition_.X += w;
     }
 
-    auto glyph = new Glyph(textureSize_, textures_.size() - 1, pos, Vector2DI(w, h), offset, glyphW);
+    auto glyph = new Glyph(textureSize_, textures_.size() - 1, pos, Vector2I(w, h), offset, glyphW);
     glyphs_[character] = glyph;
 }
 

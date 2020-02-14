@@ -6,12 +6,12 @@
 #include <cstring>
 
 namespace Altseed {
-struct Vector2DF;
-struct Vector2DI;
-struct Vector3DF;
-struct Vector3DI;
-struct Vector4DF;
-struct Vector4DI;
+struct Vector2F;
+struct Vector2I;
+struct Vector3F;
+struct Vector3I;
+struct Vector4F;
+struct Vector4I;
 struct Matrix33F;
 struct Matrix44F;
 struct RectF;

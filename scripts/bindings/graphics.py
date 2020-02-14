@@ -81,7 +81,7 @@ with Texture2D as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
-    with class_.add_property(Vector2DI, 'Size') as prop:
+    with class_.add_property(Vector2I, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得する')
         prop.has_getter = True

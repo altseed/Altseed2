@@ -6,7 +6,7 @@ namespace Altseed {
 
 RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture) { m_texture = texture; }
 
-RenderTexture::RenderTexture(Vector2DI size) {
+RenderTexture::RenderTexture(Vector2I size) {
     size_ = size;
 
     m_texture = Graphics::GetInstance()->CreateRenderTexture(size_.X, size_.Y);

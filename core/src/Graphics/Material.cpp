@@ -6,16 +6,16 @@
 
 namespace Altseed {
 
-Vector4DF MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
+Vector4F MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
     auto it = vector4s_.find(key);
 
     if (it != vector4s_.end()) return it->second;
-    return Vector4DF();
+    return Vector4F();
 }
 
-void MaterialPropertyBlock::SetVector4F(const char16_t* key, const Vector4DF& value) { vector4s_[key] = value; }
+void MaterialPropertyBlock::SetVector4F(const char16_t* key, const Vector4F& value) { vector4s_[key] = value; }
 
-bool MaterialPropertyBlock::GetVector4F(const char16_t* key, Vector4DF& value) {
+bool MaterialPropertyBlock::GetVector4F(const char16_t* key, Vector4F& value) {
     auto it = vector4s_.find(key);
 
     if (it != vector4s_.end()) {
@@ -67,8 +67,8 @@ void MaterialPropertyBlockCollection::Add(std::shared_ptr<MaterialPropertyBlock>
 
 void MaterialPropertyBlockCollection::Clear() { blocks_.clear(); }
 
-Vector4DF MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) const {
-    Vector4DF ret;
+Vector4F MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) const {
+    Vector4F ret;
     for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
         if (blocks_[i]->GetVector4F(key, ret)) {
             return ret;
@@ -101,9 +101,9 @@ std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const cha
 
 Material::Material() { propertyBlock_ = MakeAsdShared<MaterialPropertyBlock>(); }
 
-Vector4DF Material::GetVector4F(const char16_t* key) const { return propertyBlock_->GetVector4F(key); }
+Vector4F Material::GetVector4F(const char16_t* key) const { return propertyBlock_->GetVector4F(key); }
 
-void Material::SetVector4F(const char16_t* key, const Vector4DF& value) { propertyBlock_->SetVector4F(key, value); }
+void Material::SetVector4F(const char16_t* key, const Vector4F& value) { propertyBlock_->SetVector4F(key, value); }
 
 Matrix44F Material::GetMatrix44F(const char16_t* key) const { return propertyBlock_->GetMatrix44F(key); }
 

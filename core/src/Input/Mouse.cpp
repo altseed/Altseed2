@@ -45,16 +45,16 @@ void Mouse::RefreshInputState() {
     }
 }
 
-void Mouse::SetPosition(Vector2DF vec) {
+void Mouse::SetPosition(Vector2F vec) {
     auto w = (GLFWwindow*)window->GetNativeWindow();
     glfwSetCursorPos(w, vec.X, vec.Y);
 }
 
-Vector2DF Mouse::GetPosition() {
+Vector2F Mouse::GetPosition() {
     double x, y;
     auto w = (GLFWwindow*)window->GetNativeWindow();
     glfwGetCursorPos(w, &x, &y);
-    Vector2DF* vec = new Vector2DF(x, y);
+    Vector2F* vec = new Vector2F(x, y);
     return *vec;
 }
 

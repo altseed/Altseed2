@@ -199,7 +199,7 @@ with Mouse as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
-    with class_.add_property(Vector2DF, 'Position') as prop:
+    with class_.add_property(Vector2F, 'Position') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マウスカーソルの座標を取得または設定します。')
         prop.has_getter = True

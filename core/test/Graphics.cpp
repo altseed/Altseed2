@@ -173,7 +173,7 @@ TEST(Graphics, Camera) {
     auto t1 = instance->CreateDameyTexture(0);
     auto t2 = instance->CreateDameyTexture(255);
     auto cam = Altseed::MakeAsdShared<Altseed::Camera>();
-    auto rt = Altseed::CreateSharedPtr(new Altseed::RenderTexture(Altseed::Vector2DI(256, 256)));
+    auto rt = Altseed::CreateSharedPtr(new Altseed::RenderTexture(Altseed::Vector2I(256, 256)));
     cam->SetTarget(rt);
     renderer->Cameras.push_back(cam);
 
@@ -191,8 +191,8 @@ TEST(Graphics, Camera) {
             for (int y = 0; y < 5; y++) {
                 auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
                 sprite->SetMaterial(material);
-                sprite->SetPosition(Altseed::Vector2DF(x * 120, y * 120));
-                sprite->SetSize(Altseed::Vector2DF(80, 80));
+                sprite->SetPosition(Altseed::Vector2F(x * 120, y * 120));
+                sprite->SetSize(Altseed::Vector2F(80, 80));
                 sprite->SetTexture(c++ % 2 == 0 ? t1 : t2);
                 renderer->Sprites.push_back(sprite);
             }
@@ -202,8 +202,8 @@ TEST(Graphics, Camera) {
     {
         auto sprite = Altseed::MakeAsdShared<Altseed::Sprite>();
         sprite->SetMaterial(material);
-        sprite->SetPosition(Altseed::Vector2DF(900, 100));
-        sprite->SetSize(Altseed::Vector2DF(256, 256));
+        sprite->SetPosition(Altseed::Vector2F(900, 100));
+        sprite->SetSize(Altseed::Vector2F(256, 256));
         sprite->SetTexture(cam->GetTarget()->GetNativeTexture());
         renderer->Sprites.push_back(sprite);
     }

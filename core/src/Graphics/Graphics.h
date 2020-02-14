@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../Math/Vector2DF.h"
+#include "../Math/Vector2F.h"
 #include "../Window/Window.h"
 #include "LLGIWindow.h"
 #include "Material.h"
