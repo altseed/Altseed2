@@ -7,14 +7,14 @@
 #include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
+#include "Logger/Log.h"
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
-#include "Logger/Log.h"
 
 #include <ctime>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 namespace Altseed {
 
@@ -46,7 +46,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
         logfile_ss << ".txt";
     }
 
-    if (!FileSystem::GetIsDirectory(LogDirectory) && !FileSystem::CreateDirectory(LogDirectory)) {
+#ifdef _WIN32
+#undef CreateDirectory
+#endif
+
+    if (!FileSystem::GetIsDirectory(LogDirectory) && !(FileSystem::CreateDirectory)(LogDirectory)) {
         std::cout << "Failed to create Directory: " << LogDirectory << std::endl;
         Core::instance = nullptr;
         return false;
