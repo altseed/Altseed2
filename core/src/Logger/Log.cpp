@@ -20,6 +20,12 @@ bool Log::Initialize(const char16_t* filename) {
         instance_->loggers[LogCategory::Core] = std::make_shared<spdlog::logger>("Core", multi_sink);
         instance_->loggers[LogCategory::Engine] = std::make_shared<spdlog::logger>("Engine", multi_sink);
         instance_->loggers[LogCategory::User] = std::make_shared<spdlog::logger>("User", multi_sink);
+
+        for(const auto cat : {LogCategory::Core, LogCategory::Engine, LogCategory::User})
+        {
+            instance_->loggers[cat]->set_level((spdlog::level::level_enum)LogLevel::Trace);
+        }
+
         return true;
     } catch (const spdlog::spdlog_ex& ex) {
         std::cout << "Log initialization failed: " << ex.what() << std::endl;
