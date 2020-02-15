@@ -15,7 +15,7 @@ bool Log::Initialize(const char16_t* filename) {
     try {
         instance_ = MakeAsdShared<Log>();
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utf16_to_utf8(filename).c_str(), true);
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utf16_to_utf8(filename).c_str());
         auto multi_sink = spdlog::sinks_init_list({console_sink, file_sink});
         instance_->loggers[LogCategory::Core] = std::make_shared<spdlog::logger>("Core", multi_sink);
         instance_->loggers[LogCategory::Engine] = std::make_shared<spdlog::logger>("Engine", multi_sink);
