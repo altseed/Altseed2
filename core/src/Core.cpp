@@ -12,7 +12,13 @@
 #include "Window/Window.h"
 #include "Logger/Log.h"
 
+#include <ctime>
+#include <sstream>
+#include <iostream>
+
 namespace Altseed {
+
+static const char16_t LogDirectory[] = u"Log";
 
 std::shared_ptr<Core> Core::instance = nullptr;
 
@@ -25,6 +31,31 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = option.IsFullscreenMode;
     windowParameter.IsResizable = option.IsResizable;
+
+    std::stringstream logfile_ss;
+    {
+        const auto datetime = std::time(nullptr);
+        const auto localtime = std::localtime(&datetime);
+        logfile_ss << utf16_to_utf8(LogDirectory).c_str() << "/Log";
+        logfile_ss << "_" << 1900 + localtime->tm_year;
+        logfile_ss << "_" << 1 + localtime->tm_mon;
+        logfile_ss << "_" << localtime->tm_mday;
+        logfile_ss << "_" << localtime->tm_hour;
+        logfile_ss << "_" << localtime->tm_min;
+        logfile_ss << "_" << localtime->tm_sec;
+        logfile_ss << ".txt";
+    }
+
+    if (!FileSystem::GetIsDirectory(LogDirectory) && !FileSystem::CreateDirectory(LogDirectory)) {
+        std::cout << "Failed to create Directory: " << LogDirectory << std::endl;
+        Core::instance = nullptr;
+        return false;
+    }
+
+    if (!Log::Initialize(logfile_ss.str().c_str())) {
+        Core::instance = nullptr;
+        return false;
+    }
 
     if (!Window::Initialize(windowParameter)) {
         Core::instance = nullptr;
@@ -72,11 +103,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
     }
 
     if (!Tool::Initialize(Graphics::GetInstance())) {
-        Core::instance = nullptr;
-        return false;
-    }
-
-    if(!Log::Initialize(u"Log.txt")) {
         Core::instance = nullptr;
         return false;
     }
