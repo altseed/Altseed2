@@ -11,20 +11,22 @@ namespace Altseed {
 
 std::shared_ptr<Log> Log::instance_;
 
-bool Log::Initialize(const char16_t* filename) {
+bool Log::Initialize(const char* filename) {
     try {
         instance_ = MakeAsdShared<Log>();
-        auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utf16_to_utf8(filename).c_str());
-        auto multi_sink = spdlog::sinks_init_list({console_sink, file_sink});
-        instance_->loggers[LogCategory::Core] = std::make_shared<spdlog::logger>("Core", multi_sink);
-        instance_->loggers[LogCategory::Engine] = std::make_shared<spdlog::logger>("Engine", multi_sink);
-        instance_->loggers[LogCategory::User] = std::make_shared<spdlog::logger>("User", multi_sink);
+        const auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        const auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename);
 
-        for(const auto cat : {LogCategory::Core, LogCategory::Engine, LogCategory::User})
-        {
-            instance_->loggers[cat]->set_level((spdlog::level::level_enum)LogLevel::Trace);
-        }
+        auto create_logger = [console_sink, file_sink](auto category, auto name) {
+            const auto multi_sink = spdlog::sinks_init_list({console_sink, file_sink});
+            const auto logger = std::make_shared<spdlog::logger>(name, multi_sink);
+            logger->set_level((spdlog::level::level_enum)LogLevel::Trace);
+            instance_->loggers[category] = logger;
+        };
+
+        create_logger(LogCategory::Core, "Core");
+        create_logger(LogCategory::Engine, "Engine");
+        create_logger(LogCategory::User, "User");
 
         return true;
     } catch (const spdlog::spdlog_ex& ex) {
