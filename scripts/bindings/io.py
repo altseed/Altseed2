@@ -8,6 +8,16 @@ StaticFile = cbg.Class('Altseed', 'StaticFile')
 with StaticFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定ファイルを読み込んだStaticFileの新しいインスタンスを生成する')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むファイルのパス')
+        func.is_static = True
+        func.return_value.type_ = StaticFile
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成する')
     with class_.add_func('GetBuffer') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '読み込んだファイルのデータを取得する')
@@ -37,6 +47,16 @@ StreamFile = cbg.Class('Altseed', 'StreamFile')
 with StreamFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定ファイルを読み込むStreamFileの新しいインスタンスを生成する')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むファイルのパス')
+        func.is_static = True
+        func.return_value.type_ = StreamFile
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成する')
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込むファイルのデータサイズを取得する')
@@ -87,26 +107,6 @@ with File as class_:
         func.return_value.type_ = File
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
-    with class_.add_func('CreateStaticFile') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込んだStaticFileの新しいインスタンスを生成する')
-        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '読み込むファイルのパス')
-        func.is_public = False
-        func.return_value.type_ = StaticFile
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成する')
-    with class_.add_func('CreateStreamFile') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込むStreamFileの新しいインスタンスを生成する')
-        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '読み込むファイルのパス')
-        func.is_public = False
-        func.return_value.type_ = StreamFile
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成する')
     with class_.add_func('AddRootDirectory') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ファイル読み込み時に自動的に保管されるディレクトリを追加する')

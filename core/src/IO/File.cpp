@@ -29,16 +29,8 @@ void File::Terminate() { instance = nullptr; }
 
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
-std::shared_ptr<StaticFile> File::CreateStaticFile(const char16_t* path) {
-    std::lock_guard<std::mutex> lock(m_staticFileMtx);
-
-    auto cache = std::dynamic_pointer_cast<StaticFile>(m_resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
-    if (cache != nullptr) {
-        cache->AddRef();
-        return cache;
-    }
-
-    BaseFileReader* reader = nullptr;
+std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) { 
+	std::shared_ptr<BaseFileReader> reader = nullptr;
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) {
@@ -48,58 +40,14 @@ std::shared_ptr<StaticFile> File::CreateStaticFile(const char16_t* path) {
                     continue;
                 }
                 zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
-                reader = new PackFileReader(zipFile, path, stat);
+                reader = std::make_shared<PackFileReader>(zipFile, path, stat);
                 break;
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = new BaseFileReader((*i)->GetPath() + path);
+            reader = std::make_shared<BaseFileReader>((*i)->GetPath() + path);
         }
     }
-
-    if (reader == nullptr) return nullptr;
-
-    auto res = std::make_shared<StaticFile>(reader);
-
-    m_resources->GetResourceContainer(ResourceType::StaticFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
-    return res;
-}
-
-std::shared_ptr<StreamFile> File::CreateStreamFile(const char16_t* path) {
-    std::lock_guard<std::mutex> lock(m_streamFileMtx);
-
-    auto cache = std::dynamic_pointer_cast<StreamFile>(m_resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
-    if (cache != nullptr) {
-        cache->AddRef();
-        return cache;
-    }
-
-    BaseFileReader* reader = nullptr;
-    for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
-        if ((*i)->IsPack()) {
-            if ((*i)->GetPackFile()->Exists(path)) {
-                auto zipFile = (*i)->GetPackFile()->Load(path);
-                zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
-                if (zipFile == nullptr || stat == nullptr || stat->comp_method != ZIP_CM_STORE) {
-                    if (stat != nullptr) delete stat;
-                    // TODO: log failure to get zip_file
-                    continue;
-                }
-                reader = new PackFileReader(zipFile, path, (*i)->GetPackFile()->GetIsUsePassword() ? stat : nullptr);
-                break;
-            }
-        } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = new BaseFileReader((*i)->GetPath() + path);
-        }
-    }
-
-    if (reader == nullptr) return nullptr;
-
-    auto res = std::make_shared<StreamFile>(reader);
-
-    m_resources->GetResourceContainer(ResourceType::StreamFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
-    return res;
+    return reader;
 }
 
 bool File::AddRootDirectory(const char16_t* path) {

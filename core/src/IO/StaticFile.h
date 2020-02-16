@@ -14,12 +14,16 @@ class File;
 class StaticFile : public Resource {
 private:
     std::shared_ptr<File> file_;
-    BaseFileReader* m_fileReader;
+    std::shared_ptr<BaseFileReader> m_fileReader;
     std::shared_ptr<Int8Array> m_buffer;
 
+    static std::mutex m_staticFileMtx;
+
 public:
-    StaticFile(BaseFileReader* reader);
+    StaticFile(std::shared_ptr<BaseFileReader> reader);
     virtual ~StaticFile();
+
+    static std::shared_ptr<StaticFile> Create(const char16_t* path);
 
     const std::shared_ptr<Int8Array>& GetBuffer() const;
 
