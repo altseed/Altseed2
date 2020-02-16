@@ -45,6 +45,8 @@ if __name__ == '__main__':
 
 #include "Math/Easing.h"
 
+#include "Logger/Log.h"
+
     '''
 
     sharedObjectGenerator.func_name_create_and_add_shared_ptr = 'Altseed::CreateAndAddSharedPtr'

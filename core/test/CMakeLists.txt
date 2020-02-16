@@ -13,6 +13,7 @@ set(core_test_files
     ShaderCompiler.cpp
     Sound.cpp
     Easing.cpp
+    Log.cpp
 )
 
 # specify project filters
@@ -58,6 +59,7 @@ target_link_libraries(
     PRIVATE
     Altseed_Core
     gtest
+    spdlog
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 )

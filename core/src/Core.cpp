@@ -1,4 +1,4 @@
-﻿#include "Core.h"
+#include "Core.h"
 
 #include "BaseObject.h"
 #include "Graphics/Graphics.h"
@@ -7,11 +7,18 @@
 #include "IO/File.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
+#include "Logger/Log.h"
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
 
+#include <ctime>
+#include <iostream>
+#include <sstream>
+
 namespace Altseed {
+
+static const char16_t* LogFileNameDefault = u"Log.txt";
 
 std::shared_ptr<Core> Core::instance = nullptr;
 
@@ -24,6 +31,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = option.IsFullscreenMode;
     windowParameter.IsResizable = option.IsResizable;
+
+    if (!Log::Initialize(option.LogFileName)) {
+        Core::instance = nullptr;
+        return false;
+    }
 
     if (!Window::Initialize(windowParameter)) {
         Core::instance = nullptr;
@@ -82,6 +94,7 @@ bool Core::Initialize(int32_t width, int32_t height) {
     CoreOption option;
     option.IsFullscreenMode = false;
     option.IsResizable = false;
+    option.LogFileName = LogFileNameDefault;
 
     return Core::Initialize(u"Altseed2", width, height, option);
 }
@@ -101,6 +114,7 @@ void Core::Terminate() {
     File::Terminate();
     Graphics::Terminate();
     ShaderCompiler::Terminate();
+    Log::Terminate();
 
     Core::instance = nullptr;
 }

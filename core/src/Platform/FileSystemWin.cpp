@@ -23,4 +23,7 @@ void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16s
 }
 
 int32_t FileSystem::GetFileSize(const std::u16string& path) { return fs::file_size(path); }
+
+bool FileSystem::CreateDirectory(const std::u16string& path) { return fs::create_directory(path); }
+
 }  // namespace Altseed
