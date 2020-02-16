@@ -191,6 +191,7 @@ add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 
 # spdlog
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
+set_target_properties(spdlog PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # imgui
 add_subdirectory(imgui EXCLUDE_FROM_ALL)
