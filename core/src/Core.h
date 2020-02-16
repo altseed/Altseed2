@@ -16,6 +16,7 @@ class BaseObject;
 struct CoreOption {
     bool IsFullscreenMode = false;
     bool IsResizable = false;
+    const char16_t* LogFileName = nullptr;
 };
 
 class Core : public BaseObject {

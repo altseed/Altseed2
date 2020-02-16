@@ -3,6 +3,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <iostream>
+#include <vector>
 
 #include "../Common/Assertion.h"
 #include "../Common/StringHelper.h"
@@ -11,15 +12,21 @@ namespace Altseed {
 
 std::shared_ptr<Log> Log::instance_;
 
-bool Log::Initialize(const char* filename) {
+bool Log::Initialize(const char16_t* filename) {
     try {
         instance_ = MakeAsdShared<Log>();
-        const auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        const auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filename);
 
-        auto create_logger = [console_sink, file_sink](auto category, auto name) {
-            const auto multi_sink = spdlog::sinks_init_list({console_sink, file_sink});
-            const auto logger = std::make_shared<spdlog::logger>(name, multi_sink);
+        const auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        std::shared_ptr<spdlog::sinks::basic_file_sink_mt> file_sink = nullptr;
+        if(filename != nullptr)
+        {
+            file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utf16_to_utf8(filename).c_str());
+        }
+
+        const auto create_logger = [console_sink, file_sink](const auto category, const auto name) {
+            std::vector<spdlog::sink_ptr> multi_sinks = { console_sink };
+            if(file_sink != nullptr) multi_sinks.push_back(file_sink);
+            const auto logger = std::make_shared<spdlog::logger>(name, multi_sinks.begin(), multi_sinks.end());
             logger->set_level((spdlog::level::level_enum)LogLevel::Trace);
             instance_->loggers[(int32_t)category] = logger;
         };
