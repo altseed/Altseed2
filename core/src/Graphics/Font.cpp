@@ -68,7 +68,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, 
         return cache;
     }
 
-    auto file = File::GetInstance()->CreateStaticFile(path);
+    auto file = StaticFile::Create(path);
     if (file == nullptr) {
         return nullptr;
     }
