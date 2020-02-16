@@ -139,7 +139,7 @@ bool Keyboard::Initialize(std::shared_ptr<Window>& window) {
 }
 
 void Keyboard::RefleshKeyStates() {
-    auto w_ = (GLFWwindow*)window->GetNativeWindow();
+    auto w_ = window->GetNativeWindow();
 
     oldState = currentState;
 
