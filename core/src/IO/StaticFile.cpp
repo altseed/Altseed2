@@ -26,7 +26,6 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
     if (cache != nullptr) {
-        cache->AddRef();
         return cache;
     }
 
@@ -34,7 +33,7 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
 
     if (reader == nullptr) return nullptr;
 
-    auto res = std::make_shared<StaticFile>(reader);
+    auto res = MakeAsdShared<StaticFile>(reader);
 
     resources->GetResourceContainer(ResourceType::StaticFile)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
