@@ -19,6 +19,8 @@ BaseObject::~BaseObject() {
         core_->Unregister(this);
         core_ = nullptr;
     }
+
+    ASD_ASSERT(reference_ == 0, "BaseObject must be deleted by Release");
 }
 
 }  // namespace Altseed
