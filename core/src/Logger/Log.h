@@ -24,7 +24,7 @@ enum class LogCategory : int32_t { Core = 0, Engine, User };
 class Log : public BaseObject {
 private:
     static std::shared_ptr<Log> instance_;
-    std::unordered_map<LogCategory, std::shared_ptr<spdlog::logger>> loggers;
+    std::unordered_map<int32_t, std::shared_ptr<spdlog::logger>> loggers;
 
 public:
     static bool Initialize(const char* filename);
@@ -64,32 +64,32 @@ public:
 
     template <typename... Args>
     void Trace(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->trace(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->trace(utf16_to_utf8(format).c_str(), args...);
     }
 
     template <typename... Args>
     void Debug(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->debug(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->debug(utf16_to_utf8(format).c_str(), args...);
     }
 
     template <typename... Args>
     void Info(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->info(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->info(utf16_to_utf8(format).c_str(), args...);
     }
 
     template <typename... Args>
     void Warn(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->warn(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->warn(utf16_to_utf8(format).c_str(), args...);
     }
 
     template <typename... Args>
     void Error(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->error(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->error(utf16_to_utf8(format).c_str(), args...);
     }
 
     template <typename... Args>
     void Critical(LogCategory category, const char16_t* format, const Args&... args) {
-        loggers[category]->critical(utf16_to_utf8(format).c_str(), args...);
+        loggers[(int32_t)category]->critical(utf16_to_utf8(format).c_str(), args...);
     }
 
     void SetLevel(LogCategory category, LogLevel level);

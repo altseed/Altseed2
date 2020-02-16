@@ -21,7 +21,7 @@ bool Log::Initialize(const char* filename) {
             const auto multi_sink = spdlog::sinks_init_list({console_sink, file_sink});
             const auto logger = std::make_shared<spdlog::logger>(name, multi_sink);
             logger->set_level((spdlog::level::level_enum)LogLevel::Trace);
-            instance_->loggers[category] = logger;
+            instance_->loggers[(int32_t)category] = logger;
         };
 
         create_logger(LogCategory::Core, "Core");
@@ -41,7 +41,7 @@ void Log::Terminate() { instance_ = nullptr; }
 std::shared_ptr<Log>& Log::GetInstance() { return instance_; }
 
 void Log::SetLevel(LogCategory category, LogLevel level) {
-    loggers[category]->set_level((spdlog::level::level_enum)level);
+    loggers[(int32_t)category]->set_level((spdlog::level::level_enum)level);
 }
 
 }  // namespace Altseed
