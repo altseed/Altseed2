@@ -475,6 +475,12 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_StreamFile_Create(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed::StreamFile> cbg_ret = Altseed::StreamFile::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StreamFile>(cbg_ret);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_StreamFile_Read(void* cbg_self, int32_t size) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
@@ -531,6 +537,12 @@ CBGEXPORT void CBGSTDCALL cbg_StreamFile_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_StaticFile_Create(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed::StaticFile> cbg_ret = Altseed::StaticFile::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StaticFile>(cbg_ret);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_StaticFile_GetBuffer(void* cbg_self) {
     auto cbg_self_ = (Altseed::StaticFile*)(cbg_self);
 
@@ -575,22 +587,6 @@ CBGEXPORT void CBGSTDCALL cbg_StaticFile_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_File_GetInstance() {
     std::shared_ptr<Altseed::File> cbg_ret = Altseed::File::GetInstance();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::File>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStaticFile(void* cbg_self, const char16_t* path) {
-    auto cbg_self_ = (Altseed::File*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    std::shared_ptr<Altseed::StaticFile> cbg_ret = cbg_self_->CreateStaticFile(cbg_arg0);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StaticFile>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStreamFile(void* cbg_self, const char16_t* path) {
-    auto cbg_self_ = (Altseed::File*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    std::shared_ptr<Altseed::StreamFile> cbg_ret = cbg_self_->CreateStreamFile(cbg_arg0);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StreamFile>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_File_AddRootDirectory(void* cbg_self, const char16_t* path) {

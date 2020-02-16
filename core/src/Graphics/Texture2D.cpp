@@ -35,7 +35,7 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
         return cache;
     }
 
-    auto file = File::GetInstance()->CreateStaticFile(path);
+    auto file = StaticFile::Create(path);
     if (file == nullptr) {
         return nullptr;
     }
