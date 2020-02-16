@@ -18,7 +18,7 @@ std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
     if (cache != nullptr) {
-        cache->AddRef();
+
         return cache;
     }
 
@@ -26,7 +26,7 @@ std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
 
     if (reader == nullptr) return nullptr;
 
-    auto res = std::make_shared<StreamFile>(reader);
+    auto res = MakeAsdShared<StreamFile>(reader);
 
     resources->GetResourceContainer(ResourceType::StreamFile)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
