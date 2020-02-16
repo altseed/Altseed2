@@ -33,7 +33,7 @@ bool Mouse::Initialize(std::shared_ptr<Window>& window) {
 std::shared_ptr<Mouse>& Mouse::GetInstance() { return instance; }
 
 void Mouse::RefreshInputState() {
-    auto w = (GLFWwindow*)window->GetNativeWindow();
+    auto w = window->GetNativeWindow();
 
     wheel = (wheelCalled) ? wheelTemp : 0;
     wheelCalled = false;
@@ -46,16 +46,15 @@ void Mouse::RefreshInputState() {
 }
 
 void Mouse::SetPosition(Vector2F vec) {
-    auto w = (GLFWwindow*)window->GetNativeWindow();
+    auto w = window->GetNativeWindow();
     glfwSetCursorPos(w, vec.X, vec.Y);
 }
 
 Vector2F Mouse::GetPosition() {
     double x, y;
-    auto w = (GLFWwindow*)window->GetNativeWindow();
+    auto w = window->GetNativeWindow();
     glfwGetCursorPos(w, &x, &y);
-    Vector2F* vec = new Vector2F(x, y);
-    return *vec;
+    return Vector2F(x, y);
 }
 
 void Mouse::SetWheelCallback(std::function<void(double x, double y)> func) { wheelCallback = func; }
@@ -68,13 +67,13 @@ ButtonState Mouse::GetMouseButtonState(MouseButtons button) const {
 }
 
 void Mouse::SetCursorMode(CursorMode mode) {
-    auto w = (GLFWwindow*)window->GetNativeWindow();
+    auto w = window->GetNativeWindow();
     int index = (int32_t)mode;
     glfwSetInputMode(w, GLFW_CURSOR, index);
 }
 
 CursorMode Mouse::GetCursorMode() const {
-    auto w = (GLFWwindow*)window->GetNativeWindow();
+    auto w = window->GetNativeWindow();
     int index = (int32_t)glfwGetInputMode(w, GLFW_CURSOR);
     return static_cast<CursorMode>(index);
 }
