@@ -2,10 +2,16 @@
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
 
-static const auto log_filename = "Log_test.txt";
+static const auto log_filename = u"Log_test.txt";
 
 TEST(Log, Initialize) {
     EXPECT_TRUE(Altseed::Log::Initialize(log_filename));
+    Altseed::Log::Terminate();
+}
+
+TEST(Log, null) {
+    EXPECT_TRUE(Altseed::Log::Initialize(nullptr));
+    Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::Core, u"Hello, world");
     Altseed::Log::Terminate();
 }
 
@@ -28,8 +34,6 @@ TEST(Log, Write) {
         Altseed::LogLevel::Off,
     };
 
-    int lines = 0;
-
     for (const auto category : categories) {
         for (const auto level : levels) {
             Altseed::Log::GetInstance()->Write(
@@ -40,7 +44,6 @@ TEST(Log, Write) {
                 static_cast<int>(level),
                 "nyan",
                 "にゃーん");
-            lines++;
         }
     }
 

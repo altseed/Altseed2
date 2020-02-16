@@ -27,7 +27,7 @@ private:
     std::unordered_map<int32_t, std::shared_ptr<spdlog::logger>> loggers;
 
 public:
-    static bool Initialize(const char* filename);
+    static bool Initialize(const char16_t* filename);
 
     static void Terminate();
 
