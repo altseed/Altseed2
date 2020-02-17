@@ -10,6 +10,7 @@
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Renderer/RenderedSprite.h"
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
@@ -44,7 +45,6 @@ TEST(Graphics, BasicPolygonTextureRender) {
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
-        Altseed::Renderer::GetInstance()->Reset();
 
         Altseed::BatchVertex v1[4];
         Altseed::BatchVertex v2[4];
@@ -85,9 +85,10 @@ TEST(Graphics, BasicPolygonTextureRender) {
             v1[i].Col = Altseed::Color(255, 255, 255, 255);
         }
 
-        instance->GetCommandList()->SetRenderTargetWithScreen();
         Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, 4, 6, t1);
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+		Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -108,8 +109,8 @@ TEST(Graphics, BasicSpriteTexture) {
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto s1 = Altseed::Renderer::GetInstance()->CreateSprite();
-    auto s2 = Altseed::Renderer::GetInstance()->CreateSprite();
+    auto s1 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed::RenderedSprite::Create();
 
     s1->SetTexture(t1);
     s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
@@ -123,7 +124,8 @@ TEST(Graphics, BasicSpriteTexture) {
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
-        Altseed::Renderer::GetInstance()->Reset();
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
 
         instance->GetCommandList()->SetRenderTargetWithScreen();
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());

@@ -22,11 +22,6 @@ Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
-    # with class_.add_func('Initialize') as func:
-    #     # func.add_arg(DeviceType, 'deviceType')
-    #     func.return_type = bool
-    #     func.is_static = True
-
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得する')
@@ -52,7 +47,7 @@ with Graphics as class_:
     with class_.add_property(CommandList, 'CommandList') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'コマンドリストを取得する')
-        prop.has_getter = True # TODO：Engine側できちんと隠す
+        prop.has_getter = True  # TODO：Engine側できちんと隠す
     with class_.add_func('DoEvents') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'イベントを処理します。')
@@ -90,6 +85,11 @@ RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
 with RenderedSprite as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'スプライトのクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'スプライトを作成します。')
+        func.return_value.type_ = RenderedSprite
+        func.is_static = True
     with class_.add_property(Texture2D, 'Texture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャを取得または設定する')
@@ -113,9 +113,10 @@ with Renderer as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
-    with class_.add_func('Reset') as func:
+    with class_.add_func('DrawSprite') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'レンダラをリセットします。')
+        func.brief.add('ja', 'スプライトを描画します。')
+        func.add_arg(RenderedSprite,'sprite')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
@@ -124,13 +125,7 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コマンドリスト')
         func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('CreateSprite') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'スプライトを作成します。')
-        func.return_value.type_ = RenderedSprite
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'スプライト')
-        func.is_public = True
+
     # with class_.add_func('DrawPolygon') as func:
     #     func.brief = cbg.Description()
     #     func.brief.add('ja', 'ポリゴンを描画します')

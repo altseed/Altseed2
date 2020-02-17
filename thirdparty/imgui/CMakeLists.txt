@@ -39,5 +39,6 @@ target_include_directories(
 set_property(TARGET imgui PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
     set_target_properties(imgui PROPERTIES XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC "YES")
 endif()

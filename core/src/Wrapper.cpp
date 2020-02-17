@@ -403,10 +403,11 @@ CBGEXPORT void* CBGSTDCALL cbg_Renderer_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Renderer>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Renderer_Reset(void* cbg_self) {
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawSprite(void* cbg_self, void* sprite) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
-    cbg_self_->Reset();
+    std::shared_ptr<Altseed::RenderedSprite> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderedSprite>((Altseed::RenderedSprite*)sprite);
+    cbg_self_->DrawSprite(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList) {
@@ -414,13 +415,6 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList)
 
     std::shared_ptr<Altseed::CommandList> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
     cbg_self_->Render(cbg_arg0);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Renderer_CreateSprite(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
-
-    std::shared_ptr<Altseed::RenderedSprite> cbg_ret = cbg_self_->CreateSprite();
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedSprite>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
@@ -439,6 +433,11 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
     cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_Create() {
+    std::shared_ptr<Altseed::RenderedSprite> cbg_ret = Altseed::RenderedSprite::Create();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedSprite>(cbg_ret);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_GetTexture(void* cbg_self) {
