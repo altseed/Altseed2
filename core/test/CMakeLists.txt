@@ -4,6 +4,7 @@ enable_language(CXX)
 # set files
 set(core_test_files
     BaseObject.cpp
+    Configuration.cpp
     Core.cpp
     Window.cpp
     File.cpp
