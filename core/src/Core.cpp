@@ -17,22 +17,19 @@
 #include <sstream>
 
 namespace Altseed {
-
-static const char16_t* LogFileNameDefault = u"Log.txt";
-
 std::shared_ptr<Core> Core::instance = nullptr;
 
-bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option) {
+bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
     Core::instance = MakeAsdShared<Core>();
 
     WindowInitializationParameter windowParameter;
     windowParameter.Title = title;
     windowParameter.WindowWidth = width;
     windowParameter.WindowHeight = height;
-    windowParameter.IsFullscreenMode = option.IsFullscreenMode;
-    windowParameter.IsResizable = option.IsResizable;
+    windowParameter.IsFullscreenMode = config->GetIsFullscreenMode();
+    windowParameter.IsResizable = config->GetIsResizable();
 
-    if (!Log::Initialize(option.LogFileName)) {
+    if (!Log::Initialize(config->GetLogFilename())) {
         Core::instance = nullptr;
         return false;
     }
@@ -91,12 +88,9 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, cons
 }
 
 bool Core::Initialize(int32_t width, int32_t height) {
-    CoreOption option;
-    option.IsFullscreenMode = false;
-    option.IsResizable = false;
-    option.LogFileName = LogFileNameDefault;
+    auto config = MakeAsdShared<Configuration>();
 
-    return Core::Initialize(u"Altseed2", width, height, option);
+    return Core::Initialize(u"Altseed2", width, height, config);
 }
 
 void Core::Terminate() {

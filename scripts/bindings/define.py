@@ -39,7 +39,7 @@ define.classes.append(Easing)
 define.enums.append(EasingType)
 
 # core
-define.structs.append(CoreOption)
+define.classes.append(Configuration)
 define.classes.append(Core)
 
 # common

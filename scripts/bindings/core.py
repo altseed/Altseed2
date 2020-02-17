@@ -4,8 +4,24 @@ import sys
 
 from .common import *
 
-CoreOption = cbg.Struct('Altseed', 'CoreOption')
-# with CoreOption as struct_:
+Configuration = cbg.Class('Altseed', 'Configuration')
+with Configuration as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'Coreを初期化する際の設定を保持すクラス')
+
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = Configuration
+        func_.is_static = True
+
+    with class_.add_property(bool, 'IsFullscreenMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '全画面モードかどうかを取得または設定する')
+    with class_.add_property(bool, 'IsResizable') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定する')
+    with class_.add_property(ctypes.c_wchar_p, 'LogFilename') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ログファイル名を取得または設定する')
 
 Core = cbg.Class('Altseed', 'Core')
 with Core as class_:
@@ -23,9 +39,9 @@ with Core as class_:
         with func.add_arg(int, 'height') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ウィンドウの縦幅')
-        with func.add_arg(CoreOption, 'option') as arg:
+        with func.add_arg(Configuration, 'config') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '使用するコアのオプション')
+            arg.brief.add('ja', '初期化時の設定')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '初期化処理がうまくいったらtrue，それ以外でfalse')

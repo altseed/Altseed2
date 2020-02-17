@@ -3,6 +3,8 @@ enable_language(CXX)
 
 # set files
 set(core_files
+    Configuration.h
+    Configuration.cpp
     Core.h
     Core.cpp
     BaseObject.h
