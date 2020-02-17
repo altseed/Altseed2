@@ -28,7 +28,7 @@ bool Log::Initialize(const char16_t* filename) {
             if(file_sink != nullptr) multi_sinks.push_back(file_sink);
             const auto logger = std::make_shared<spdlog::logger>(name, multi_sinks.begin(), multi_sinks.end());
             logger->set_level((spdlog::level::level_enum)LogLevel::Trace);
-            instance_->loggers[(int32_t)category] = logger;
+            instance_->loggers[static_cast<int32_t>(category)] = logger;
         };
 
         create_logger(LogCategory::Core, "Core");

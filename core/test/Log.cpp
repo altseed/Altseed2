@@ -1,4 +1,4 @@
-﻿#include <Common/StringHelper.h>
+#include <Common/StringHelper.h>
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
 
@@ -28,7 +28,7 @@ TEST(Log, Write) {
             Altseed::LogLevel::Trace,
             Altseed::LogLevel::Debug,
             Altseed::LogLevel::Info,
-            Altseed::LogLevel::Warning,
+            Altseed::LogLevel::Warn,
             Altseed::LogLevel::Error,
             Altseed::LogLevel::Critical,
             Altseed::LogLevel::Off,
@@ -45,6 +45,12 @@ TEST(Log, Write) {
                     "nyan",
                     "にゃーん");
         }
+        Altseed::Log::GetInstance()->Trace(category, u"Trace Log");
+        Altseed::Log::GetInstance()->Debug(category, u"Debug Log");
+        Altseed::Log::GetInstance()->Info(category, u"Info Log");
+        Altseed::Log::GetInstance()->Warn(category, u"Warn Log");
+        Altseed::Log::GetInstance()->Error(category, u"Error Log");
+        Altseed::Log::GetInstance()->Critical(category, u"Critical Log");
     }
 
     Altseed::Log::Terminate();

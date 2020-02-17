@@ -934,6 +934,54 @@ CBGEXPORT void CBGSTDCALL cbg_Log_Write(void* cbg_self, int32_t category, int32_
     cbg_self_->Write(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Log_Trace(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Trace(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Debug(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Debug(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Info(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Info(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Warn(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Warn(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Error(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Error(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Critical(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Critical(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Log_SetLevel(void* cbg_self, int32_t category, int32_t level) {
     auto cbg_self_ = (Altseed::Log*)(cbg_self);
 
