@@ -6,8 +6,7 @@ namespace Altseed {
 std::mutex StreamFile::m_streamFileMtx;
 
 StreamFile::StreamFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) {
-    file_ = File::GetInstance();
-    m_buffer = std::make_shared<Int8Array>();
+    m_buffer = MakeAsdShared<Int8Array>();
 }
 
 StreamFile::~StreamFile() {}

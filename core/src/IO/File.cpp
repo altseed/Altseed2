@@ -31,6 +31,7 @@ std::shared_ptr<File>& File::GetInstance() { return instance; }
 
 std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) { 
 	std::shared_ptr<BaseFileReader> reader = nullptr;
+    std::lock_guard<std::mutex> lock(m_rootMtx);
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) {
@@ -40,11 +41,11 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
                     continue;
                 }
                 zip_stat_t* stat = (*i)->GetPackFile()->GetZipStat(path);
-                reader = std::make_shared<PackFileReader>(zipFile, path, stat);
+                reader = MakeAsdShared<PackFileReader>(zipFile, path, stat);
                 break;
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = std::make_shared<BaseFileReader>((*i)->GetPath() + path);
+            reader = MakeAsdShared<BaseFileReader>((*i)->GetPath() + path);
         }
     }
     return reader;
@@ -70,7 +71,7 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
     }
 
     std::lock_guard<std::mutex> lock(m_rootMtx);
-    m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_, true)));
+    m_roots.push_back(std::make_shared<FileRoot>(path, MakeAsdShared<PackFile>(zip_, true)));
     return true;
 }
 
@@ -82,7 +83,7 @@ bool File::AddRootPackage(const char16_t* path) {
     if (zip_ == nullptr) return false;
 
     std::lock_guard<std::mutex> lock(m_rootMtx);
-    m_roots.push_back(std::make_shared<FileRoot>(path, new PackFile(zip_)));
+    m_roots.push_back(std::make_shared<FileRoot>(path, MakeAsdShared<PackFile>(zip_)));
     return true;
 }
 

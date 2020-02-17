@@ -193,10 +193,10 @@ TEST(File, Zenkaku) {
     EXPECT_NE(testPack1, nullptr);
     EXPECT_NE(testPack2, nullptr);
 
-    EXPECT_NE(*test1->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*test2->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*testPack1->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*testPack2->GetBuffer(), Altseed::Int8Array());
+    EXPECT_NE(test1->GetBuffer()->size(), 0);
+    EXPECT_NE(test2->GetBuffer()->size(), 0);
+    EXPECT_NE(testPack1->GetBuffer()->size(), 0);
+    EXPECT_NE(testPack2->GetBuffer()->size(), 0);
 
     Altseed::Core::Terminate();
 }

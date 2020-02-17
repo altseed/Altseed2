@@ -9,10 +9,9 @@ namespace Altseed {
 std::mutex StaticFile::m_staticFileMtx;
 
 StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) {
-    file_ = File::GetInstance();
     std::vector<uint8_t> buffer;
     m_fileReader->ReadAllBytes(buffer);
-    m_buffer = std::make_shared<Int8Array>();
+    m_buffer = MakeAsdShared<Int8Array>();
     for (auto i : buffer) {
         m_buffer->push_back(i);
     }
@@ -54,10 +53,9 @@ bool StaticFile::Reload() {
     if (m_fileReader->GetIsInPackage()) return false;
     auto path = m_fileReader->GetFullPath();
 
-    m_fileReader->Release();
     m_buffer->clear();
 
-    m_fileReader = std::make_shared<BaseFileReader>(path);
+    m_fileReader = MakeAsdShared<BaseFileReader>(path);
     std::vector<uint8_t> buffer;
     m_fileReader->ReadAllBytes(buffer);
     for (auto i : buffer) {

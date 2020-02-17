@@ -13,7 +13,6 @@ class File;
 
 class StaticFile : public Resource {
 private:
-    std::shared_ptr<File> file_;
     std::shared_ptr<BaseFileReader> m_fileReader;
     std::shared_ptr<Int8Array> m_buffer;
 
