@@ -116,7 +116,7 @@ with Renderer as class_:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを描画します。')
         func.add_arg(RenderedSprite,'sprite')
-        func.is_public = False
+        func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
