@@ -16,12 +16,20 @@ with Configuration as class_:
     with class_.add_property(bool, 'IsFullscreenMode') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '全画面モードかどうかを取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
+    
     with class_.add_property(bool, 'IsResizable') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
+    
     with class_.add_property(ctypes.c_wchar_p, 'LogFilename') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログファイル名を取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
 
 Core = cbg.Class('Altseed', 'Core')
 with Core as class_:

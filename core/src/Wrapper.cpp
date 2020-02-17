@@ -79,6 +79,48 @@ CBGEXPORT void* CBGSTDCALL cbg_Configuration_Create() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Configuration>(cbg_ret);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsFullscreenMode(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsFullscreenMode();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsFullscreenMode(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsFullscreenMode(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsResizable(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsResizable();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsResizable(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsResizable(cbg_arg0);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetLogFilename(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetLogFilename();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetLogFilename(void* cbg_self, const char16_t* value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    const char16_t* cbg_arg0 = value;
+    cbg_self_->SetLogFilename(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Configuration_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
