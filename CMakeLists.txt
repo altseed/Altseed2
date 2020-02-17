@@ -58,7 +58,7 @@ endif()
 
 # sanitize for Debug
 if(SANITIZE_ENABLED)
-    set(CMAKE_CXX_FLAGS " -fsanitize=undefined,address" ${CMAKE_CXX_FLAGS})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address")
 endif()
 
 # specify C# framework
