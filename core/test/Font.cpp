@@ -37,7 +37,7 @@ TEST(Font, Basic) {
         if (glyph == nullptr) continue;
 
         auto tempPosition = position + glyph->GetOffset().To2DF() + Altseed::Vector2F(0, font->GetAscent());
-        auto sprite = Altseed::Renderer::GetInstance()->CreateSprite();
+        auto sprite = Altseed::RenderedSprite::Create();
         sprite->SetMaterial(material);
         sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
 
