@@ -11,7 +11,7 @@ TEST(Texture2D, Base) {
     return;
 #endif
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -53,7 +53,7 @@ TEST(Texture2D, Async) {
     return;
 #endif
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));

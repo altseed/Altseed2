@@ -9,7 +9,7 @@ using namespace std::string_literals;
 TEST(Mouse, Initialize) {
     char16_t s16[] = u"Mouse";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     int i = 0;
 
@@ -35,7 +35,7 @@ void WheelTestFunction(double x, double y) {
 TEST(Mouse, GetMouseInput) {
     char16_t s16[] = u"Mouse inputs";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     Altseed::Mouse::GetInstance()->Altseed::Mouse::SetWheelCallback(WheelTestFunction);
 
@@ -71,7 +71,7 @@ TEST(Mouse, GetMouseInput) {
 TEST(Mouse, Position) {
     char16_t s16[] = u"Mouse position";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     Altseed::Mouse::GetInstance()->SetPosition(320, 240);
     double x, y;
@@ -85,5 +85,5 @@ TEST(Mouse, Position) {
 // TEST(Mouse, CursorMode) {
 //    char16_t s16[] = u"Mouse position";
 //
-//    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+//    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 //}

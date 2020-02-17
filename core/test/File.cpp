@@ -8,7 +8,7 @@
 #include <vector>
 
 TEST(File, FileRoot) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/pack.pack"));
@@ -58,7 +58,7 @@ TEST(File, FileRoot) {
 }
 
 TEST(File, StaticFile) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -106,7 +106,7 @@ TEST(File, StaticFile) {
 }
 
 TEST(File, StreamFile) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -170,7 +170,7 @@ TEST(File, StreamFile) {
 }
 
 TEST(File, Zenkaku) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -202,7 +202,7 @@ TEST(File, Zenkaku) {
 }
 
 TEST(File, StaticFileAsync) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
     EXPECT_TRUE(Altseed::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));

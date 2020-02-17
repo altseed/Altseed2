@@ -10,7 +10,7 @@ uint8_t global_count = 0x00;
 TEST(Joystick, Initialize) {
     char16_t s16[] = u"test";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     //    Altseed::JoystickManager::GetInstance()->PrintDevicesInfo();
     //    temp();

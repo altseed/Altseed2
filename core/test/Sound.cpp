@@ -6,7 +6,7 @@ namespace asd = Altseed;
 
 TEST(Sound, SoundPlay) {
     char16_t s16[] = u"test";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::CoreOption()));
+    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
     auto mixer = asd::SoundMixer::GetInstance();
     auto bgm = mixer->CreateSound(u"TestData/Sound/bgm1.ogg", false);

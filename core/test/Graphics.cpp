@@ -14,7 +14,7 @@
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 
@@ -30,7 +30,7 @@ TEST(Graphics, Initialize) {
 }
 
 TEST(Graphics, BasicPolygonTextureRender) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicPolygonTextureRender", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicPolygonTextureRender", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 
@@ -97,7 +97,7 @@ TEST(Graphics, BasicPolygonTextureRender) {
 }
 
 TEST(Graphics, BasicSpriteTexture) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicSpriteTexture", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicSpriteTexture", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 
@@ -137,7 +137,7 @@ TEST(Graphics, BasicSpriteTexture) {
 }
 
 TEST(Graphics, Tool) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 
@@ -165,7 +165,7 @@ TEST(Graphics, Tool) {
 
 /*
 TEST(Graphics, Camera) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Camera", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Camera", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 
