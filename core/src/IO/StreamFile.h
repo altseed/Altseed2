@@ -12,8 +12,6 @@ class File;
 
 class StreamFile : public Resource {
 private:
-    std::shared_ptr<File> file_;
-
     std::shared_ptr<Int8Array> m_buffer;
     std::shared_ptr<BaseFileReader> m_fileReader;
 
