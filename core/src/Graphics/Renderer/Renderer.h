@@ -24,7 +24,6 @@ private:
     std::shared_ptr<BatchRenderer> renderedBatchRenderer_;
     std::shared_ptr<BatchRenderer> batchRenderer_;
     std::vector<std::shared_ptr<RenderedCamera>> cameras_;
-    std::vector<std::shared_ptr<Rendered>> objects_;
 
 public:
     Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics);
@@ -40,13 +39,11 @@ public:
 
     void DrawPolygon(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material);
 
+    void DrawSprite(std::shared_ptr<RenderedSprite> sprite);
+
     void Render(std::shared_ptr<CommandList> commandList);
-
-    void Reset();
-
-    std::shared_ptr<RenderedCamera> CreateCamera();
-
-    std::shared_ptr<RenderedSprite> CreateSprite();
+    
+	std::shared_ptr<RenderedCamera> CreateCamera();
 };
 
 }  // namespace Altseed

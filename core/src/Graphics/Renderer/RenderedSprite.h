@@ -18,6 +18,8 @@ private:
     RectF src_;
 
 public:
+    static std::shared_ptr<RenderedSprite> Create();
+
     RectF GetSrc() const;
     void SetSrc(const RectF& src);
 
