@@ -56,6 +56,11 @@ if(BUILD_TEST)
     )
 endif()
 
+# sanitize for Debug
+if(SANITIZE_ENABLED)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address")
+endif()
+
 # specify C# framework
 set(CMAKE_DOTNET_TARGET_FRAMEWORK_VERSION v4.6.1)
 
