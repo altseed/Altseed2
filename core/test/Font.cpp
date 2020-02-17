@@ -18,7 +18,7 @@ TEST(Font, Basic) {
     return;
 #endif
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 1280, 720, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 1280, 720, Altseed::Configuration::Create()));
 
     int count = 0;
 

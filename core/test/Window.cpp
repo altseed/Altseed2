@@ -5,7 +5,7 @@
 #include <string>
 
 TEST(Window, Base) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 150, 150, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 150, 150, Altseed::Configuration::Create()));
 
     int i = 0;
     while (Altseed::Window::GetInstance()->DoEvent() && i < 16) {

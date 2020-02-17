@@ -9,7 +9,7 @@ using namespace std::string_literals;
 TEST(Keyboard, Initialize) {
     char16_t s16[] = u"test";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     int i = 0;
 
@@ -28,7 +28,7 @@ TEST(Keyboard, Initialize) {
 TEST(Keyboard, GetKeyState) {
     char16_t s16[] = u"test";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
     while (Altseed::Core::GetInstance()->DoEvent()) {
         for (int i = 0; i < static_cast<int>(Altseed::Keys::MAX); i++) {

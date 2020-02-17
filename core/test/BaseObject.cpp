@@ -5,7 +5,7 @@
 #include <thread>
 
 TEST(BaseObject, Basic) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
     auto defaultObjectCount = Altseed::Core::GetInstance()->GetBaseObjectCount();
 
     auto baseObject = new Altseed::BaseObject();
@@ -24,7 +24,7 @@ TEST(BaseObject, Basic) {
 }
 
 TEST(BaseObject, Async) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     auto baseObject = new Altseed::BaseObject();
 
@@ -53,7 +53,7 @@ TEST(BaseObject, Async) {
 }
 
 TEST(BaseObject, DisposeInOtherThreadAfterTerminate) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::CoreOption()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     auto baseObject = new Altseed::BaseObject();
 
