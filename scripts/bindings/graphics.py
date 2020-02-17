@@ -88,6 +88,7 @@ with RenderedSprite as class_:
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを作成します。')
+        func.return_value.type_ = RenderedSprite
         func.is_static = True
     with class_.add_property(Texture2D, 'Texture') as prop:
         prop.brief = cbg.Description()

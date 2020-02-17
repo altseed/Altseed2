@@ -435,8 +435,9 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Create() {
-    Altseed::RenderedSprite::Create();
+CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_Create() {
+    std::shared_ptr<Altseed::RenderedSprite> cbg_ret = Altseed::RenderedSprite::Create();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedSprite>(cbg_ret);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_GetTexture(void* cbg_self) {
