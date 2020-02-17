@@ -17,6 +17,8 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
     descent_ *= scale_;
 
     AddFontTexture();
+
+    SetInstanceName(__FILE__);
 }
 
 Font::~Font() {
@@ -79,7 +81,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, 
         return nullptr;
     }
 
-    auto res = std::make_shared<Font>(resources, file, info, size, color);
+    auto res = MakeAsdShared<Font>(resources, file, info, size, color);
     resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;

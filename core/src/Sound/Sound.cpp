@@ -11,6 +11,8 @@ Sound::Sound(
     : m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
     // Increment reference counter
     if (m_manager != nullptr) m_manager->AddRef();
+
+    SetInstanceName(__FILE__);
 }
 
 Sound::~Sound() {

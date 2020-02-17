@@ -1,5 +1,6 @@
 ﻿#include "BaseObject.h"
 
+#include "Common/StringHelper.h"
 #include "Core.h"
 
 namespace Altseed {
@@ -20,7 +21,13 @@ BaseObject::~BaseObject() {
         core_ = nullptr;
     }
 
-    ASD_ASSERT(reference_ == 0, "BaseObject must be deleted by Release");
+    ASD_ASSERT(reference_ == 0, std::string("BaseObject ") + utf16_to_utf8(instanceName_) + std::string(" must be deleted by Release"));
 }
+
+const char16_t* BaseObject::GetInstanceName() const { return instanceName_.c_str(); }
+
+void BaseObject::SetInstanceName(const std::u16string& instanceName) { instanceName_ = instanceName; }
+
+void BaseObject::SetInstanceName(const char* instanceName) { SetInstanceName(utf8_to_utf16(instanceName)); }
 
 }  // namespace Altseed
