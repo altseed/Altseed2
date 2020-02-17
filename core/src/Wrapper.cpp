@@ -57,6 +57,8 @@
 
 #include "Math/Easing.h"
 
+#include "Logger/Log.h"
+
     
 extern "C" {
 
@@ -471,6 +473,12 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_StreamFile_Create(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed::StreamFile> cbg_ret = Altseed::StreamFile::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StreamFile>(cbg_ret);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_StreamFile_Read(void* cbg_self, int32_t size) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
@@ -527,6 +535,12 @@ CBGEXPORT void CBGSTDCALL cbg_StreamFile_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_StaticFile_Create(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed::StaticFile> cbg_ret = Altseed::StaticFile::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StaticFile>(cbg_ret);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_StaticFile_GetBuffer(void* cbg_self) {
     auto cbg_self_ = (Altseed::StaticFile*)(cbg_self);
 
@@ -571,22 +585,6 @@ CBGEXPORT void CBGSTDCALL cbg_StaticFile_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_File_GetInstance() {
     std::shared_ptr<Altseed::File> cbg_ret = Altseed::File::GetInstance();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::File>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStaticFile(void* cbg_self, const char16_t* path) {
-    auto cbg_self_ = (Altseed::File*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    std::shared_ptr<Altseed::StaticFile> cbg_ret = cbg_self_->CreateStaticFile(cbg_arg0);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StaticFile>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_File_CreateStreamFile(void* cbg_self, const char16_t* path) {
-    auto cbg_self_ = (Altseed::File*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    std::shared_ptr<Altseed::StreamFile> cbg_ret = cbg_self_->CreateStreamFile(cbg_arg0);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::StreamFile>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_File_AddRootDirectory(void* cbg_self, const char16_t* path) {
@@ -864,6 +862,34 @@ CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Log_GetInstance() {
+    std::shared_ptr<Altseed::Log> cbg_ret = Altseed::Log::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Log>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Write(void* cbg_self, int32_t category, int32_t level, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    Altseed::LogLevel cbg_arg1 = (Altseed::LogLevel)level;
+    const char16_t* cbg_arg2 = message;
+    cbg_self_->Write(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_SetLevel(void* cbg_self, int32_t category, int32_t level) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    Altseed::LogLevel cbg_arg1 = (Altseed::LogLevel)level;
+    cbg_self_->SetLevel(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
 
     cbg_self_->Release();
 }

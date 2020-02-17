@@ -1,20 +1,43 @@
 ﻿#include "StaticFile.h"
 
+#include <memory>
 #include <vector>
 
 #include "File.h"
 
 namespace Altseed {
-StaticFile::StaticFile(BaseFileReader* reader) : m_fileReader(reader) {
-    file_ = File::GetInstance();
+std::mutex StaticFile::m_staticFileMtx;
+
+StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) {
     std::vector<uint8_t> buffer;
     m_fileReader->ReadAllBytes(buffer);
-    m_buffer = std::make_shared<Int8Array>();
+    m_buffer = MakeAsdShared<Int8Array>();
     for (auto i : buffer) {
         m_buffer->push_back(i);
     }
 }
-StaticFile::~StaticFile() { m_fileReader->Release(); }
+
+StaticFile::~StaticFile() {}
+
+std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
+    std::lock_guard<std::mutex> lock(m_staticFileMtx);
+
+    auto resources = Resources::GetInstance();
+    auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
+    if (cache != nullptr) {
+        return cache;
+    }
+
+    auto reader = File::GetInstance()->CreateFileReader(path);
+
+    if (reader == nullptr) return nullptr;
+
+    auto res = MakeAsdShared<StaticFile>(reader);
+
+    resources->GetResourceContainer(ResourceType::StaticFile)
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+    return res;
+}
 
 const std::shared_ptr<Int8Array>& StaticFile::GetBuffer() const { return m_buffer; }
 
@@ -30,10 +53,9 @@ bool StaticFile::Reload() {
     if (m_fileReader->GetIsInPackage()) return false;
     auto path = m_fileReader->GetFullPath();
 
-    m_fileReader->Release();
     m_buffer->clear();
 
-    m_fileReader = new BaseFileReader(path);
+    m_fileReader = MakeAsdShared<BaseFileReader>(path);
     std::vector<uint8_t> buffer;
     m_fileReader->ReadAllBytes(buffer);
     for (auto i : buffer) {

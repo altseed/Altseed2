@@ -12,14 +12,16 @@ class File;
 
 class StreamFile : public Resource {
 private:
-    std::shared_ptr<File> file_;
-
     std::shared_ptr<Int8Array> m_buffer;
-    BaseFileReader* m_fileReader;
+    std::shared_ptr<BaseFileReader> m_fileReader;
+
+    static std::mutex m_streamFileMtx;
 
 public:
-    StreamFile(BaseFileReader* reader);
+    StreamFile(std::shared_ptr<BaseFileReader> reader);
     virtual ~StreamFile();
+
+    static std::shared_ptr<StreamFile> Create(const char16_t* path);
 
     int32_t GetSize() const;
 

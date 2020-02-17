@@ -20,6 +20,8 @@ private:
     //! retain reference (to protect to core disposed)
     std::shared_ptr<Core> core_;
 
+    std::u16string instanceName_;
+
 public:
     BaseObject();
     virtual ~BaseObject();
@@ -38,6 +40,10 @@ public:
         }
         return reference_;
     }
+
+    const char16_t* GetInstanceName() const;
+    void SetInstanceName(const std::u16string& instanceName);
+    void SetInstanceName(const char* instanceName);
 
     //! Get current reference counter
     int32_t GetRef() const { return reference_; }

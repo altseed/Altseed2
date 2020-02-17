@@ -1,6 +1,7 @@
 ﻿#include "Texture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
 #include "../Common/Resources.h"
 #include "../IO/File.h"
 #include "Graphics.h"
@@ -14,6 +15,8 @@ Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI
     m_texture = texture;
     size_.X = m_texture->GetSizeAs2D().X;
     size_.Y = m_texture->GetSizeAs2D().Y;
+
+    SetInstanceName(__FILE__);
 }
 
 Texture2D::~Texture2D() {
@@ -35,7 +38,7 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
         return cache;
     }
 
-    auto file = File::GetInstance()->CreateStaticFile(path);
+    auto file = StaticFile::Create(path);
     if (file == nullptr) {
         return nullptr;
     }

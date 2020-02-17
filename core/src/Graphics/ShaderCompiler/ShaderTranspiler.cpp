@@ -153,39 +153,39 @@ void SPIRVGenerator::Terminate() { glslang::FinalizeProcess(); }
 
 std::shared_ptr<SPIRV> SPIRVGenerator::Generate(const char* code, ShaderStageType shaderStageType) {
     std::string codeStr(code);
-    std::shared_ptr<glslang::TProgram> program = std::make_shared<glslang::TProgram>();
+    glslang::TProgram program = glslang::TProgram();
     TBuiltInResource resources = glslang::DefaultTBuiltInResource;
     auto shaderStage = GetGlslangShaderStage(shaderStageType);
 
-    std::shared_ptr<glslang::TShader> shader = std::make_shared<glslang::TShader>(shaderStage);
-    shader->setEnvInput(glslang::EShSourceHlsl, shaderStage, glslang::EShClientOpenGL, glslang::EShTargetOpenGL_450);
-    shader->setEnvClient(glslang::EShClientOpenGL, glslang::EShTargetOpenGL_450);
-    shader->setEnvTarget(glslang::EShTargetSpv, glslang::EShTargetSpv_1_0);
+    glslang::TShader shader = glslang::TShader(shaderStage);
+    shader.setEnvInput(glslang::EShSourceHlsl, shaderStage, glslang::EShClientOpenGL, glslang::EShTargetOpenGL_450);
+    shader.setEnvClient(glslang::EShClientOpenGL, glslang::EShTargetOpenGL_450);
+    shader.setEnvTarget(glslang::EShTargetSpv, glslang::EShTargetSpv_1_0);
 
     const char* shaderStrings[1];
     shaderStrings[0] = codeStr.c_str();
-    shader->setEntryPoint("main");
+    shader.setEntryPoint("main");
     // shader->setAutoMapBindings(true);
     // shader->setAutoMapLocations(true);
 
-    shader->setStrings(shaderStrings, 1);
+    shader.setStrings(shaderStrings, 1);
     EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
     messages = (EShMessages)(messages | EShMsgReadHlsl);
     messages = (EShMessages)(messages | EShOptFull);
 
     int defaultVersion = 110;
-    if (!shader->parse(&resources, defaultVersion, false, messages)) {
-        return std::make_shared<SPIRV>(shader->getInfoLog());
+    if (!shader.parse(&resources, defaultVersion, false, messages)) {
+        return std::make_shared<SPIRV>(shader.getInfoLog());
     }
 
-    program->addShader(shader.get());
+    program.addShader(&shader);
 
-    if (!program->link(messages)) {
-        return std::make_shared<SPIRV>(program->getInfoLog());
+    if (!program.link(messages)) {
+        return std::make_shared<SPIRV>(program.getInfoLog());
     }
 
     std::vector<unsigned int> spirv;
-    glslang::GlslangToSpv(*program->getIntermediate(shaderStage), spirv);
+    glslang::GlslangToSpv(*program.getIntermediate(shaderStage), spirv);
 
     return std::make_shared<SPIRV>(spirv, shaderStageType);
 }

@@ -69,10 +69,10 @@ TEST(File, StaticFile) {
 
     // create static file, and compare no-package and package without password
     std::shared_ptr<Altseed::StaticFile> test = nullptr;
-    EXPECT_NE(test = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_NE(test = Altseed::StaticFile::Create(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(test->GetIsInPackage());
     std::shared_ptr<Altseed::StaticFile> testPack = nullptr;
-    EXPECT_NE(testPack = Altseed::File::GetInstance()->CreateStaticFile(u"test.txt"), nullptr);
+    EXPECT_NE(testPack = Altseed::StaticFile::Create(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack->GetIsInPackage());
     EXPECT_EQ(test->GetSize(), testPack->GetSize());
     EXPECT_EQ(*test->GetBuffer(), *testPack->GetBuffer());
@@ -82,7 +82,7 @@ TEST(File, StaticFile) {
 
     // cache test
     std::shared_ptr<Altseed::StaticFile> testCache = nullptr;
-    EXPECT_NE(testCache = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_NE(testCache = Altseed::StaticFile::Create(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(testCache->GetIsInPackage());
     EXPECT_EQ(test, testCache);
 
@@ -90,7 +90,7 @@ TEST(File, StaticFile) {
     Altseed::Resources::GetInstance()->Clear();
 
     std::shared_ptr<Altseed::StaticFile> testPack2 = nullptr;
-    EXPECT_NE(testPack2 = Altseed::File::GetInstance()->CreateStaticFile(u"test.txt"), nullptr);
+    EXPECT_NE(testPack2 = Altseed::StaticFile::Create(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack2->GetIsInPackage());
     EXPECT_NE(testPack, testPack2);
     EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
@@ -98,7 +98,7 @@ TEST(File, StaticFile) {
 
     // create static file, and compare no-package and package with password
     std::shared_ptr<Altseed::StaticFile> test3 = nullptr;
-    EXPECT_NE(test3 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/pack/test.txt"), nullptr);
+    EXPECT_NE(test3 = Altseed::StaticFile::Create(u"TestData/IO/pack/test.txt"), nullptr);
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
     EXPECT_EQ(*test3->GetBuffer(), *testPack2->GetBuffer());
 
@@ -117,10 +117,10 @@ TEST(File, StreamFile) {
 
     // create static file, and compare no-package and package without password
     std::shared_ptr<Altseed::StreamFile> test = nullptr;
-    EXPECT_NE(test = Altseed::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_NE(test = Altseed::StreamFile::Create(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(test->GetIsInPackage());
     std::shared_ptr<Altseed::StreamFile> testPack = nullptr;
-    EXPECT_NE(testPack = Altseed::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
+    EXPECT_NE(testPack = Altseed::StreamFile::Create(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack->GetIsInPackage());
     EXPECT_EQ(test->GetSize(), testPack->GetSize());
     EXPECT_EQ(test->GetTempBufferSize(), 0);
@@ -138,7 +138,7 @@ TEST(File, StreamFile) {
 
     // cache test
     std::shared_ptr<Altseed::StreamFile> testCache = nullptr;
-    EXPECT_NE(testCache = Altseed::File::GetInstance()->CreateStreamFile(u"TestData/IO/test.txt"), nullptr);
+    EXPECT_NE(testCache = Altseed::StreamFile::Create(u"TestData/IO/test.txt"), nullptr);
     EXPECT_FALSE(testCache->GetIsInPackage());
     EXPECT_EQ(test, testCache);
 
@@ -146,14 +146,14 @@ TEST(File, StreamFile) {
     Altseed::Resources::GetInstance()->Clear();
 
     std::shared_ptr<Altseed::StreamFile> testPack2 = nullptr;
-    EXPECT_NE(testPack2 = Altseed::File::GetInstance()->CreateStreamFile(u"test.txt"), nullptr);
+    EXPECT_NE(testPack2 = Altseed::StreamFile::Create(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack2->GetIsInPackage());
     EXPECT_NE(testPack, testPack2);
     EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
 
     // create static file, and compare no-package and package with password
     std::shared_ptr<Altseed::StreamFile> test3 = nullptr;
-    EXPECT_NE(test3 = Altseed::File::GetInstance()->CreateStreamFile(u"TestData/IO/pack/test.txt"), nullptr);
+    EXPECT_NE(test3 = Altseed::StreamFile::Create(u"TestData/IO/pack/test.txt"), nullptr);
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
     EXPECT_EQ(test3->GetTempBufferSize(), 0);
@@ -183,20 +183,20 @@ TEST(File, Zenkaku) {
     std::shared_ptr<Altseed::StaticFile> testPack1 = nullptr;
     std::shared_ptr<Altseed::StaticFile> testPack2 = nullptr;
 
-    test1 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角 テスト.txt");
-    test2 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角　テスト.txt");
-    testPack1 = Altseed::File::GetInstance()->CreateStaticFile(u"全角 テスト.txt");
-    testPack2 = Altseed::File::GetInstance()->CreateStaticFile(u"全角　テスト.txt");
+    test1 = Altseed::StaticFile::Create(u"TestData/IO/全角 テスト.txt");
+    test2 = Altseed::StaticFile::Create(u"TestData/IO/全角　テスト.txt");
+    testPack1 = Altseed::StaticFile::Create(u"全角 テスト.txt");
+    testPack2 = Altseed::StaticFile::Create(u"全角　テスト.txt");
 
     EXPECT_NE(test1, nullptr);
     EXPECT_NE(test2, nullptr);
     EXPECT_NE(testPack1, nullptr);
     EXPECT_NE(testPack2, nullptr);
 
-    EXPECT_NE(*test1->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*test2->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*testPack1->GetBuffer(), Altseed::Int8Array());
-    EXPECT_NE(*testPack2->GetBuffer(), Altseed::Int8Array());
+    EXPECT_NE(test1->GetBuffer()->size(), 0);
+    EXPECT_NE(test2->GetBuffer()->size(), 0);
+    EXPECT_NE(testPack1->GetBuffer()->size(), 0);
+    EXPECT_NE(testPack2->GetBuffer()->size(), 0);
 
     Altseed::Core::Terminate();
 }
@@ -223,19 +223,19 @@ TEST(File, StaticFileAsync) {
     std::shared_ptr<Altseed::StaticFile> testPackCache = nullptr;
 
     std::thread thread1([&]() -> void {
-        test1 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
-        test3 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角 テスト.txt");
-        testPack1 = Altseed::File::GetInstance()->CreateStaticFile(u"test.txt");
-        testPack3 = Altseed::File::GetInstance()->CreateStaticFile(u"全角 テスト.txt");
-        testCache = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/test.txt");
+        test1 = Altseed::StaticFile::Create(u"TestData/IO/test.txt");
+        test3 = Altseed::StaticFile::Create(u"TestData/IO/全角 テスト.txt");
+        testPack1 = Altseed::StaticFile::Create(u"test.txt");
+        testPack3 = Altseed::StaticFile::Create(u"全角 テスト.txt");
+        testCache = Altseed::StaticFile::Create(u"TestData/IO/test.txt");
     });
 
     std::thread thread2([&]() -> void {
-        test2 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/space test.txt");
-        test4 = Altseed::File::GetInstance()->CreateStaticFile(u"TestData/IO/全角　テスト.txt");
-        testPack2 = Altseed::File::GetInstance()->CreateStaticFile(u"space test.txt");
-        testPack4 = Altseed::File::GetInstance()->CreateStaticFile(u"全角　テスト.txt");
-        testPackCache = Altseed::File::GetInstance()->CreateStaticFile(u"space test.txt");
+        test2 = Altseed::StaticFile::Create(u"TestData/IO/space test.txt");
+        test4 = Altseed::StaticFile::Create(u"TestData/IO/全角　テスト.txt");
+        testPack2 = Altseed::StaticFile::Create(u"space test.txt");
+        testPack4 = Altseed::StaticFile::Create(u"全角　テスト.txt");
+        testPackCache = Altseed::StaticFile::Create(u"space test.txt");
     });
 
     thread1.join();

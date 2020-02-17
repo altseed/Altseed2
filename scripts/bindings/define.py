@@ -8,6 +8,7 @@ from .graphics import *
 from .core import *
 from .sound import *
 from .math import *
+from .logger import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -81,3 +82,8 @@ define.classes.append(File)
 # sound
 define.classes.append(Sound)
 define.classes.append(SoundMixer)
+
+# Logger
+define.enums.append(LogLevel)
+define.enums.append(LogCategory)
+define.classes.append(Log)

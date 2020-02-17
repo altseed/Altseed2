@@ -3,12 +3,34 @@
 #include "File.h"
 
 namespace Altseed {
-StreamFile::StreamFile(BaseFileReader* reader) : m_fileReader(reader) {
-    file_ = File::GetInstance();
-    m_buffer = std::make_shared<Int8Array>();
+std::mutex StreamFile::m_streamFileMtx;
+
+StreamFile::StreamFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) {
+    m_buffer = MakeAsdShared<Int8Array>();
 }
 
-StreamFile::~StreamFile() { m_fileReader->Release(); }
+StreamFile::~StreamFile() {}
+
+std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
+    std::lock_guard<std::mutex> lock(m_streamFileMtx);
+
+    auto resources = Resources::GetInstance();
+    auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
+    if (cache != nullptr) {
+
+        return cache;
+    }
+
+    auto reader = File::GetInstance()->CreateFileReader(path);
+
+    if (reader == nullptr) return nullptr;
+
+    auto res = MakeAsdShared<StreamFile>(reader);
+
+    resources->GetResourceContainer(ResourceType::StreamFile)
+            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+    return res;
+}
 
 int32_t StreamFile::GetSize() const { return m_fileReader->GetSize(); }
 
@@ -42,7 +64,7 @@ bool StreamFile::Reload() {
     m_fileReader->Release();
     m_buffer->clear();
 
-    m_fileReader = new BaseFileReader(path);
+    m_fileReader = std::make_shared<BaseFileReader>(path);
 
     return true;
 }
