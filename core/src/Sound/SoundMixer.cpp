@@ -8,17 +8,9 @@ SoundMixer::SoundMixer() {
     m_manager = osm::Manager::Create();
     m_resources = Resources::GetInstance();
 
-<<<<<<< HEAD
     if (m_manager != nullptr) {
         m_manager->AddRef();
     }
-=======
-    if (!m_manager->Initialize()) {
-        return false;
-    }
-
-    return true;
->>>>>>> 1983f2a... code format
 }
 
 SoundMixer::~SoundMixer() {
@@ -46,8 +38,12 @@ std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return _instance; }
 std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDecompressed) {
     if (m_manager == nullptr) return nullptr;
 
-    // Create static file & null ccheck
-    auto staticFile = StaticFile::Create(path);
+    // Create file instance & null check
+    auto fileInstance = File::GetInstance();
+    if (fileInstance == nullptr) return nullptr;
+
+    // Create static file & null check
+    auto staticFile = fileInstance->CreateStaticFile(path);
     if (staticFile == nullptr) return nullptr;
 
     // Get data & Create OSM sound & null check
@@ -58,7 +54,7 @@ std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDeco
     }
 
     // Create sound & register to container
-    auto soundRet = MakeAsdShared<Sound>(m_resources, GetInstance(), path, sound, isDecompressed);
+    auto soundRet = std::make_shared<Sound>(m_resources, GetInstance(), path, sound, isDecompressed);
     auto soundContainer = m_resources->GetResourceContainer(ResourceType::Sound);
     auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
     soundContainer->Register(path, soundInfo);

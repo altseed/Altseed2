@@ -41,3 +41,5 @@ build/
 #Python
 __pycache__
 .ionide/symbolCache.db
+
+thirdparty/OpenSoundMixer
