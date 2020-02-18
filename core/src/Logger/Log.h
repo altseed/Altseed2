@@ -24,10 +24,11 @@ enum class LogCategory : int32_t { Core = 0, Engine, User };
 class Log : public BaseObject {
 private:
     static std::shared_ptr<Log> instance_;
+    bool enabledLogging;
     std::unordered_map<int32_t, std::shared_ptr<spdlog::logger>> loggers;
 
 public:
-    static bool Initialize(const char16_t* filename);
+    static bool Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u16string filename);
 
     static void Terminate();
 
@@ -35,7 +36,7 @@ public:
 
     template <typename... Args>
     void Write(LogCategory category, LogLevel level, const char16_t* format, const Args&... args) {
-        if(level == LogLevel::Off) return;
+        if (!instance_->enabledLogging || level == LogLevel::Off) return;
 
         const auto logger = loggers[static_cast<int32_t>(category)];
 

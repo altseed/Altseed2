@@ -29,7 +29,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     windowParameter.IsFullscreenMode = config->GetIsFullscreenMode();
     windowParameter.IsResizable = config->GetIsResizable();
 
-    if (!Log::Initialize(config->GetLogFilename())) {
+    if (!Log::Initialize(
+        config->GetEnabledConsoleLogging(),
+        config->GetEnabledFileLogging(),
+        config->GetLogFilename())
+    ) {
         Core::instance = nullptr;
         return false;
     }

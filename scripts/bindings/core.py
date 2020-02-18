@@ -24,6 +24,18 @@ with Configuration as class_:
         prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定する')
         prop.has_getter = True
         prop.has_setter = True
+
+    with class_.add_property(bool, 'EnabledConsoleLogging') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ログをコンソールに出力するかどうかを取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(bool, 'EnabledFileLogging') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ログをファイルに出力するかどうかを取得または設定する')
+        prop.has_getter = True
+        prop.has_setter = True
     
     with class_.add_property(ctypes.c_wchar_p, 'LogFilename') as prop:
         prop.brief = cbg.Description()

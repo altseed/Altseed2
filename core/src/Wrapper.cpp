@@ -107,6 +107,34 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsResizable(void* cbg_self, bool 
     cbg_self_->SetIsResizable(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledConsoleLogging(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetEnabledConsoleLogging();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledConsoleLogging(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetEnabledConsoleLogging(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledFileLogging(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetEnabledFileLogging();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledFileLogging(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetEnabledFileLogging(cbg_arg0);
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetLogFilename(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 

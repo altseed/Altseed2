@@ -1,22 +1,41 @@
-#include <Common/StringHelper.h>
+﻿#include <Common/StringHelper.h>
+#include <Configuration.h>
+#include <Core.h>
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
 
-static const auto log_filename = u"Log_test.txt";
+static const std::u16string log_filename = u"Log_test.txt";
+static const auto bools = {true, false};
 
 TEST(Log, Initialize) {
-    EXPECT_TRUE(Altseed::Log::Initialize(log_filename));
-    Altseed::Log::Terminate();
+    for (const auto c : bools) {
+        for(const auto f : bools) {
+            EXPECT_TRUE(Altseed::Log::Initialize(c, f, log_filename.c_str()));
+            Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Core, Altseed::LogLevel::Info);
+            Altseed::Log::GetInstance()->Info(Altseed::LogCategory::Core, u"Hello, world");
+            Altseed::Log::Terminate();
+        }
+    }
 }
 
-TEST(Log, null) {
-    EXPECT_TRUE(Altseed::Log::Initialize(nullptr));
-    Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::Core, u"Hello, world");
-    Altseed::Log::Terminate();
+TEST(Log, WriteWithConfiguration) {
+    auto config = Altseed::Configuration::Create();
+
+    for (const auto c : bools) {
+        for(const auto f : bools) {
+            config->SetEnabledConsoleLogging(c);
+            config->SetEnabledFileLogging(f);
+            config->SetLogFilename(log_filename.c_str());
+            EXPECT_TRUE(Altseed::Core::Initialize(u"", 640, 480, config));
+            Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Core, Altseed::LogLevel::Info);
+            Altseed::Log::GetInstance()->Info(Altseed::LogCategory::Core, u"Hello, world");
+            Altseed::Core::Terminate();
+        }
+    }
 }
 
 TEST(Log, Write) {
-    EXPECT_TRUE(Altseed::Log::Initialize(log_filename));
+    EXPECT_TRUE(Altseed::Log::Initialize(true, true, log_filename.c_str()));
 
     const auto categories = {
             Altseed::LogCategory::Core,
