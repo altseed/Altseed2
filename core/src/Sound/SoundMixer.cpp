@@ -2,28 +2,38 @@
 
 namespace Altseed {
 
-std::shared_ptr<SoundMixer> SoundMixer::instance = nullptr;
-osm::Manager* SoundMixer::m_manager = nullptr;
-std::shared_ptr<Resources> SoundMixer::m_resources = nullptr;
+std::shared_ptr<SoundMixer> SoundMixer::_instance = nullptr;
 
-bool SoundMixer::Initialize(bool isReloadingEnabled) {
-    instance = CreateSharedPtr(new SoundMixer());
+SoundMixer::SoundMixer() {
     m_manager = osm::Manager::Create();
     m_resources = Resources::GetInstance();
 
-    if (!m_manager->Initialize()) { return false; }
-
-    return true;
+    if (m_manager != nullptr) {
+        m_manager-> AddRef();
+    }
 }
 
-void SoundMixer::Terminate() {
+SoundMixer::~SoundMixer() {
     if (m_manager != nullptr) {
         m_manager->Finalize();
         m_manager->Release();
     }
 }
 
-std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return instance; }
+bool SoundMixer::Initialize(bool isReloadingEnabled) {
+    _instance = CreateSharedPtr(new SoundMixer());
+
+    if(_instance == nullptr) { return false; }
+    if (!_instance->m_manager->Initialize()) { return false; }
+
+    return true;
+}
+
+void SoundMixer::Terminate() {
+    _instance = nullptr;
+}
+
+std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return _instance; }
 
 std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDecompressed) {
     if (m_manager == nullptr) return nullptr;
