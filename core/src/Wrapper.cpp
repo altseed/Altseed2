@@ -107,6 +107,34 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsResizable(void* cbg_self, bool 
     cbg_self_->SetIsResizable(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledConsoleLogging(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetEnabledConsoleLogging();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledConsoleLogging(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetEnabledConsoleLogging(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledFileLogging(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetEnabledFileLogging();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledFileLogging(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetEnabledFileLogging(cbg_arg0);
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetLogFilename(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
@@ -932,6 +960,54 @@ CBGEXPORT void CBGSTDCALL cbg_Log_Write(void* cbg_self, int32_t category, int32_
     Altseed::LogLevel cbg_arg1 = (Altseed::LogLevel)level;
     const char16_t* cbg_arg2 = message;
     cbg_self_->Write(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Trace(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Trace(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Debug(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Debug(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Info(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Info(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Warn(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Warn(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Error(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Error(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Log_Critical(void* cbg_self, int32_t category, const char16_t* message) {
+    auto cbg_self_ = (Altseed::Log*)(cbg_self);
+
+    Altseed::LogCategory cbg_arg0 = (Altseed::LogCategory)category;
+    const char16_t* cbg_arg1 = message;
+    cbg_self_->Critical(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Log_SetLevel(void* cbg_self, int32_t category, int32_t level) {

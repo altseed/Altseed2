@@ -9,8 +9,8 @@ with LogLevel as enum_:
 
     enum_.add('Trace', 0)
     enum_.add('Debug', 1)
-    enum_.add('Information', 2)
-    enum_.add('Warning', 3)
+    enum_.add('Info', 2)
+    enum_.add('Warn', 3)
     enum_.add('Error', 4)
     enum_.add('Critical', 5)
     enum_.add('Off', 6)
@@ -41,6 +41,42 @@ with Log as class_:
         func.brief.add('ja', 'ログを出力する')
         func.add_arg(LogCategory, 'category')
         func.add_arg(LogLevel, 'level')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+
+    with class_.add_func('Trace') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルTraceでログを出力する')
+        func.add_arg(LogCategory, 'category')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+    
+    with class_.add_func('Debug') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルDebugでログを出力する')
+        func.add_arg(LogCategory, 'category')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+
+    with class_.add_func('Info') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルInfoでログを出力する')
+        func.add_arg(LogCategory, 'category')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+
+    with class_.add_func('Warn') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルWarningでログを出力する')
+        func.add_arg(LogCategory, 'category')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+
+    with class_.add_func('Error') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルErrorでログを出力する')
+        func.add_arg(LogCategory, 'category')
+        func.add_arg(ctypes.c_wchar_p, 'message')
+
+    with class_.add_func('Critical') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ログレベルCriticalでログを出力する')
+        func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
     with class_.add_func('SetLevel') as func:
