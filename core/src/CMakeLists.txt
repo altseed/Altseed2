@@ -338,8 +338,3 @@ SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 # make c++17 enabled
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES CXX_STANDARD 17)
-
-# Sanitizer
-if(SANITIZE_ENABLED)
-    target_compile_options(Altseed_Core PRIVATE -fsanitize=undefined,address)
-endif()

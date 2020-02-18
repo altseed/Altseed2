@@ -44,6 +44,11 @@ else()
     set(BUILD_WITH_POSTFIX OFF)
 endif()
 
+# sanitize for Debug
+if(SANITIZE_ENABLED)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address")
+endif()
+
 if(BUILD_TEST)
     add_custom_target(TestData
         SOURCES TestData.dummy
