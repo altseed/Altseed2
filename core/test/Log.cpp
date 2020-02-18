@@ -26,7 +26,7 @@ TEST(Log, WriteWithConfiguration) {
             config->SetEnabledConsoleLogging(c);
             config->SetEnabledFileLogging(f);
             config->SetLogFilename(log_filename.c_str());
-            EXPECT_TRUE(Altseed::Core::Initialize(u"", 640, 480, config));
+            EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
             Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Core, Altseed::LogLevel::Info);
             Altseed::Log::GetInstance()->Info(Altseed::LogCategory::Core, u"Hello, world");
             Altseed::Core::Terminate();
@@ -55,15 +55,9 @@ TEST(Log, Write) {
 
     for (const auto category : categories) {
         for (const auto level : levels) {
-            Altseed::Log::GetInstance()->Write(
-                    category,
-                    level,
-                    u"caetgory:{0}, level:{1}, nyan:{2}, にゃーん:{3}",
-                    static_cast<int>(category),
-                    static_cast<int>(level),
-                    "nyan",
-                    "にゃーん");
+            Altseed::Log::GetInstance()->Write(category, level, u"caetgory:{0}, level:{1}, nyan:{2}, 日本語", static_cast<int>(category), static_cast<int>(level), "nyan");
         }
+
         Altseed::Log::GetInstance()->Trace(category, u"Trace Log");
         Altseed::Log::GetInstance()->Debug(category, u"Debug Log");
         Altseed::Log::GetInstance()->Info(category, u"Info Log");
