@@ -8,16 +8,11 @@
 #include <set>
 
 #include "BaseObject.h"
+#include "Configuration.h"
 
 namespace Altseed {
 
 class BaseObject;
-
-struct CoreOption {
-    bool IsFullscreenMode = false;
-    bool IsResizable = false;
-    const char16_t* LogFileName = nullptr;
-};
 
 class Core : public BaseObject {
 private:
@@ -46,7 +41,7 @@ public:
     int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
 
     //! Initialize core and create a singleton
-    static bool Initialize(const char16_t* title, int32_t width, int32_t height, const CoreOption& option);
+    static bool Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config);
     static bool Initialize(int32_t width, int32_t height);
 
     //! Terminate core and dispose the singleton
