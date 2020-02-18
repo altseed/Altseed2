@@ -122,6 +122,7 @@ ExternalProject_Add(
                     -DBUILD_SHARED_LIBS=OFF
                     -DBUILD_TEST=OFF
                     -DENABLE_PCH=OFF
+                    -DENABLE_RTTI=ON
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/glslang/include)
