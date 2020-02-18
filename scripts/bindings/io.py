@@ -4,7 +4,7 @@ import sys
 
 from .common import *
 
-StaticFile = cbg.Class('Altseed', 'StaticFile', cbg.CacheMode.ThreadsafeCache)
+StaticFile = cbg.Class('Altseed', 'StaticFile', cbg.CacheMode.ThreadSafeCache)
 with StaticFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
@@ -43,7 +43,7 @@ with StaticFile as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込み処理がうまくいったらtrue，それ以外でfalse')
 
-StreamFile = cbg.Class('Altseed', 'StreamFile', cbg.CacheMode.ThreadsafeCache)
+StreamFile = cbg.Class('Altseed', 'StreamFile', cbg.CacheMode.ThreadSafeCache)
 with StreamFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
