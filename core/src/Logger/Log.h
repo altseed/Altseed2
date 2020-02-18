@@ -36,7 +36,7 @@ public:
 
     template <typename... Args>
     void Write(LogCategory category, LogLevel level, const char16_t* format, const Args&... args) {
-        if (!instance_->enabledLogging_ || level == LogLevel::Off) return;
+        if (!GetInstance()->enabledLogging_ || level == LogLevel::Off) return;
 
         const auto logger = loggers_[static_cast<int32_t>(category)];
 
