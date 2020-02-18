@@ -16,8 +16,8 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
     try {
         instance_ = MakeAsdShared<Log>();
 
-        instance_->enabledLogging = enabledConsoleLogging || enabledFileLogging;
-        if(!instance_->enabledLogging) return true;
+        instance_->enabledLogging_ = enabledConsoleLogging || enabledFileLogging;
+        if (!instance_->enabledLogging_) return true;
 
         std::vector<spdlog::sink_ptr> multi_sinks_;
 
@@ -37,7 +37,7 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
 
             const auto logger = std::make_shared<spdlog::logger>(name, multi_sinks.begin(), multi_sinks.end());
             logger->set_level((spdlog::level::level_enum)LogLevel::Trace);
-            instance_->loggers[static_cast<int32_t>(category)] = logger;
+            instance_->loggers_[static_cast<int32_t>(category)] = logger;
         };
 
         create_logger(LogCategory::Core, "Core");
@@ -57,8 +57,8 @@ void Log::Terminate() { instance_ = nullptr; }
 std::shared_ptr<Log>& Log::GetInstance() { return instance_; }
 
 void Log::SetLevel(LogCategory category, LogLevel level) {
-    if(!instance_->enabledLogging) return;
-    loggers[(int32_t)category]->set_level((spdlog::level::level_enum)level);
+    if(!instance_->enabledLogging_) return;
+    loggers_[(int32_t)category]->set_level((spdlog::level::level_enum)level);
 }
 
 }  // namespace Altseed
