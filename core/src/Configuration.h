@@ -13,6 +13,8 @@ private:
     std::u16string logFilename_ = u"Log.txt";
 
 public:
+    Configuration();
+    ~Configuration();
     static std::shared_ptr<Configuration> Create();
 
     const bool GetIsFullscreenMode();

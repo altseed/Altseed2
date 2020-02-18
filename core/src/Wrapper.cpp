@@ -74,9 +74,8 @@ CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Configuration_Create() {
-    std::shared_ptr<Altseed::Configuration> cbg_ret = Altseed::Configuration::Create();
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Configuration>(cbg_ret);
+CBGEXPORT void* CBGSTDCALL cbg_Configuration_Constructor_0() {
+    return new Altseed::Configuration();
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsFullscreenMode(void* cbg_self) {
