@@ -62,6 +62,7 @@ with ResourceType as enum_:
     enum_.add('StreamFile')
     enum_.add('Texture2D')
     enum_.add('Font')
+    enum_.add('Sound')
     enum_.add('MAX')
 
 Resources = cbg.Class('Altseed', 'Resources')
