@@ -9,6 +9,9 @@ std::shared_ptr<Configuration> Configuration::Create()
     return res;
 }
 
+Configuration::Configuration() {}
+Configuration::~Configuration() {}
+
 const bool Configuration::GetIsFullscreenMode() { return isFullscreenMode_; }
 
 void Configuration::SetIsFullscreenMode(bool isFullscreenMode) { isFullscreenMode_ = isFullscreenMode; }
