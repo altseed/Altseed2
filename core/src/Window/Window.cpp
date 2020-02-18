@@ -102,12 +102,12 @@ void Window::GetSize(int32_t& width, int32_t& height) { glfwGetWindowSize(GetIns
 bool Window::DoEvent() {
     if (GetInstance()->mainWindow_ == nullptr) return false;
 
+    glfwPollEvents();
+
     if (glfwWindowShouldClose(GetInstance()->mainWindow_)) {
         Terminate();
         return false;
     }
-
-    glfwPollEvents();
 
 #ifdef __linux__
     // x11 requires swap to show an window (temp)
