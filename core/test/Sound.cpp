@@ -9,8 +9,8 @@ TEST(Sound, SoundPlay) {
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
     auto mixer = asd::SoundMixer::GetInstance();
-    auto bgm = mixer->CreateSound(u"TestData/Sound/bgm1.ogg", false);
-    auto se = mixer->CreateSound(u"TestData/Sound/se1.wav", true);
+    auto bgm = mixer->Load(u"TestData/Sound/bgm1.ogg", false);
+    auto se = mixer->Load(u"TestData/Sound/se1.wav", true);
 
     int id_bgm = mixer->Play(bgm);
     int id_se = mixer->Play(se);
