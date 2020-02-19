@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <hidapi.h>
 #include <stdio.h>
@@ -79,12 +79,12 @@ private:
     static const int MAX_BUTTONS_NUM = 30;
     static const int MAX_JOYSTICKS_NUM = 16;
 
-    Window* window_ = nullptr;
-
     uint8_t globalCount_;
 
+    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
+
     std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
-    std::array<wchar_t*, MAX_JOYSTICKS_NUM> names_;
+    std::array<std::shared_ptr<wchar_t>, MAX_JOYSTICKS_NUM> names_;
 
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
@@ -94,7 +94,6 @@ private:
     void HandleJoyconInput(int index, unsigned char* buff);
 
     //     for vibration only
-    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
     std::array<VibrateData, MAX_JOYSTICKS_NUM> vibrateStates_;
 
 public:

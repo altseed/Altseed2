@@ -1,4 +1,4 @@
-﻿
+
 #include "Joystick.h"
 
 #include <algorithm>
@@ -72,13 +72,13 @@ void Joystick::RefreshConnectedState() {
 
             hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
-            names_[i] = device->product_string;
+            names_[i] = std::shared_ptr<wchar_t>(device->product_string);
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
                 //        enable vibration for joycon
                 uint8_t data[0x01];
-                data[0] = 0x1;
+
                 SendSubcommand(dev, 0x48, data, 1);
 
                 data[0] = 0x3F;
@@ -335,6 +335,6 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
 
 JoystickType Joystick::GetJoystickType(int32_t index) const { return types_[index]; };
 
-char16_t* Joystick::GetJoystickName(int32_t index) const { return (char16_t*)names_[index]; }
+char16_t* Joystick::GetJoystickName(int32_t index) const { return (char16_t*)names_[index].get(); }
 
-}  // names_pace Altseed
+}  // namespace Altseed
