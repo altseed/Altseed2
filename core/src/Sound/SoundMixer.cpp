@@ -9,7 +9,7 @@ SoundMixer::SoundMixer() {
     m_resources = Resources::GetInstance();
 
     if (m_manager != nullptr) {
-        m_manager-> AddRef();
+        m_manager->AddRef();
     }
 }
 
