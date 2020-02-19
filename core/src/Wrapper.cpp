@@ -43,6 +43,7 @@
 #include "Graphics/Texture2D.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedCamera.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
@@ -515,6 +516,12 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Rendered_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_Create() {
     std::shared_ptr<Altseed::RenderedSprite> cbg_ret = Altseed::RenderedSprite::Create();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedSprite>(cbg_ret);
@@ -548,8 +555,28 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetSrc(void* cbg_self, void* value)
     cbg_self_->SetSrc(cbg_arg0);
 }
 
+CBGEXPORT Altseed::Matrix44F CBGSTDCALL cbg_RenderedSprite_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Matrix44F cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTransform(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Matrix44F cbg_arg0 = (*((Altseed::Matrix44F*)value));
+    cbg_self_->SetTransform(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
 
     cbg_self_->Release();
 }
