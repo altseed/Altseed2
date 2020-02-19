@@ -25,13 +25,7 @@ libssl-dev # to save and load a package with a password
 
 ## サブモジュール取得
 
-```
-git submodule update --init
-```
-
-もしくは、
-
-`TortoiseGit` -> `Submodule Update` -> `OK`
+スクリプト `scripts/Pull.bat` を実行する。
 
 ## プロジェクト生成
 
