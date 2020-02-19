@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <GLFW/glfw3.h>
 
@@ -149,7 +149,7 @@ private:
 public:
     static bool Initialize(std::shared_ptr<Window>& window);
 
-    static void Terminate() {}
+    static void Terminate() { instance_ = nullptr; }
 
     static std::shared_ptr<Keyboard>& GetInstance();
 
