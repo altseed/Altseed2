@@ -55,3 +55,8 @@ with Easing as class_:
             arg.brief.add('ja', '')
         func_.is_static = True
 
+Vector2I = cbg.Struct('Altseed', 'Vector2I')
+Vector2F = cbg.Struct('Altseed', 'Vector2F')
+Vector3F = cbg.Struct('Altseed', 'Vector3F')
+RectF = cbg.Struct('Altseed', 'RectF')
+Matrix44F = cbg.Struct('Altseed', 'Matrix44F')

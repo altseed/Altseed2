@@ -2,6 +2,7 @@
 import ctypes
 
 from .common import *
+from .math import *
 from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
@@ -81,8 +82,18 @@ with Texture2D as class_:
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得する')
         prop.has_getter = True
 
+Rendered = cbg.Class('Altseed', 'Rendered')
+with Rendered as class_:
+    class_.brief('ja', '描画されるオブジェクトの基本クラスを表します')
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
 RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
 with RenderedSprite as class_:
+    class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'スプライトのクラス')
     with class_.add_func('Create') as func:
@@ -100,6 +111,22 @@ with RenderedSprite as class_:
         prop.brief.add('ja', '描画範囲を取得または設定する')
         prop.has_getter = True
         prop.has_setter = True
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    # with class_.add_property(Material, 'Material') as prop:
+    #     prop.brief = cbg.Description()
+    #     prop.brief.add('ja', 'マテリアルを取得または設定する')
+    #     prop.has_getter = True
+    #     prop.has_setter = True
+
+RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
+with RenderedCamera as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'カメラのクラス')
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
@@ -116,7 +143,7 @@ with Renderer as class_:
     with class_.add_func('DrawSprite') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを描画します。')
-        func.add_arg(RenderedSprite,'sprite')
+        func.add_arg(RenderedSprite, 'sprite')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()

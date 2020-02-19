@@ -2,6 +2,7 @@
 import ctypes
 
 from .common import *
+from .math import *
 
 ButtonState = cbg.Enum('Altseed', 'ButtonState')
 with ButtonState as enum:
@@ -387,4 +388,3 @@ with Joystick as class_:
         with func.add_arg(int, 'life_time') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')
-

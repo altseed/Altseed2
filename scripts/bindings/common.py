@@ -92,9 +92,3 @@ with Resources as class_:
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'リソースの再読み込みを行う')
-
-
-Vector2I = cbg.Struct('Altseed', 'Vector2I')
-Vector2F = cbg.Struct('Altseed', 'Vector2F')
-Vector3F = cbg.Struct('Altseed', 'Vector3F')
-RectF = cbg.Struct('Altseed', 'RectF')

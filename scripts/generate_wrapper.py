@@ -31,6 +31,7 @@ if __name__ == '__main__':
 #include "Graphics/Texture2D.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedCamera.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
