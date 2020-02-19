@@ -112,6 +112,7 @@ void Core::Terminate() {
     File::Terminate();
     Graphics::Terminate();
     ShaderCompiler::Terminate();
+    SoundMixer::Terminate();
     Log::Terminate();
 
     Core::instance = nullptr;
