@@ -35,7 +35,7 @@ void SoundMixer::Terminate() {
 
 std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return _instance; }
 
-std::shared_ptr<Sound> SoundMixer::CreateSound(const char16_t* path, bool isDecompressed) {
+std::shared_ptr<Sound> SoundMixer::Load(const char16_t* path, bool isDecompressed) {
     if (m_manager == nullptr) return nullptr;
 
     // Create static file & null check

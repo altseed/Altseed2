@@ -792,12 +792,12 @@ CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::SoundMixer>(cbg_ret);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_CreateSound(void* cbg_self, const char16_t* path, bool isDecompressed) {
+CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_Load(void* cbg_self, const char16_t* path, bool isDecompressed) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
     const char16_t* cbg_arg0 = path;
     bool cbg_arg1 = isDecompressed;
-    std::shared_ptr<Altseed::Sound> cbg_ret = cbg_self_->CreateSound(cbg_arg0, cbg_arg1);
+    std::shared_ptr<Altseed::Sound> cbg_ret = cbg_self_->Load(cbg_arg0, cbg_arg1);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
 }
 

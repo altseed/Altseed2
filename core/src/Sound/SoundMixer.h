@@ -39,7 +39,7 @@ public:
     @param  isDecompressed  音源情報を解凍するか?
     @return 音源
     */
-    std::shared_ptr<Sound> CreateSound(const char16_t* path, bool isDecompressed);
+    std::shared_ptr<Sound> Load(const char16_t* path, bool isDecompressed);
 
     /**
     @brief  音を再生する

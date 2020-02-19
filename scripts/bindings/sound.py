@@ -40,7 +40,7 @@ with SoundMixer as class_:
         func_.is_public = False
         func_.return_value.type_ = SoundMixer
 
-    with class_.add_func('CreateSound') as func_:
+    with class_.add_func('Load') as func_:
         func_.add_arg(ctypes.c_wchar_p, 'path')
         func_.add_arg(bool, 'isDecompressed')
         func_.return_value.type_ = Sound
