@@ -1,4 +1,4 @@
-#include <Core.h>
+﻿#include <Core.h>
 #include <Input/Joystick.h>
 #include <gtest/gtest.h>
 #include <hidapi.h>

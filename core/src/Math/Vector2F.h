@@ -5,6 +5,8 @@
 
 namespace Altseed {
 
+extern "C" {
+
 struct Vector2F {
 public:
     float X;
@@ -105,5 +107,6 @@ public:
 
     Vector2I To2DI() const;
 };
+}
 
 }  // namespace Altseed

@@ -1,4 +1,4 @@
-
+﻿
 #include "Joystick.h"
 
 #include <algorithm>
@@ -58,7 +58,7 @@ void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], 
 }
 
 void Joystick::RefreshConnectedState() {
-    //        hidハンドラーの取得
+    // hidハンドラーの取得
     hid_device_info* device = hid_enumerate(0, 0);
     const char* path;
     int i = 0;
