@@ -49,7 +49,7 @@ void BatchRenderer::Draw(
     }
 
     for (int32_t i = 0; i < ibCount; i++) {
-        rawIndexBuffer_.emplace_back(ib[i]);
+        rawIndexBuffer_.emplace_back(ib[i] + b.VertexCount);
     }
 
     b.VertexCount += vbCount;
