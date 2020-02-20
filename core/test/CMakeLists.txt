@@ -64,6 +64,7 @@ target_link_libraries(
     Altseed_Core
     gtest
     spdlog
+    hidapi
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 )
