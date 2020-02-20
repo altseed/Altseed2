@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <GLFW/glfw3.h>
 
@@ -137,19 +137,19 @@ enum class Keys : int32_t {
 
 class Keyboard : public BaseObject {
 private:
-    static std::shared_ptr<Keyboard> instance;
-    std::shared_ptr<Window> window;
+    static std::shared_ptr<Keyboard> instance_;
+    std::shared_ptr<Window> window_;
 
     //! because of msvc bug, it cannot use Keys::MAX
     static const int keyCodes[122];
 
-    std::array<bool, static_cast<int>(Keys::MAX)> currentState;
-    std::array<bool, static_cast<int>(Keys::MAX)> oldState;
+    std::array<bool, static_cast<int>(Keys::MAX)> currentState_;
+    std::array<bool, static_cast<int>(Keys::MAX)> oldState_;
 
 public:
     static bool Initialize(std::shared_ptr<Window>& window);
 
-    static void Terminate() {}
+    static void Terminate() { instance_ = nullptr; }
 
     static std::shared_ptr<Keyboard>& GetInstance();
 

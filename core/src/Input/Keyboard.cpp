@@ -2,7 +2,7 @@
 
 namespace Altseed {
 
-std::shared_ptr<Keyboard> Keyboard::instance = nullptr;
+std::shared_ptr<Keyboard> Keyboard::instance_ = nullptr;
 
 const int Keyboard::keyCodes[] = {GLFW_KEY_UNKNOWN,
                                   GLFW_KEY_SPACE,
@@ -127,31 +127,31 @@ const int Keyboard::keyCodes[] = {GLFW_KEY_UNKNOWN,
                                   GLFW_KEY_MENU,
                                   GLFW_KEY_MENU};
 
-bool Keyboard::Initialize(std::shared_ptr<Window>& window) {
-    instance = MakeAsdShared<Keyboard>();
+bool Keyboard::Initialize(std::shared_ptr<Window>& window_) {
+    instance_ = MakeAsdShared<Keyboard>();
 
-    instance->window = window;
+    instance_->window_ = window_;
 
-    instance->currentState.fill(false);
-    instance->oldState.fill(false);
+    instance_->currentState_.fill(false);
+    instance_->oldState_.fill(false);
 
     return true;
 }
 
 void Keyboard::RefleshKeyStates() {
-    auto w_ = window->GetNativeWindow();
+    auto w_ = window_->GetNativeWindow();
 
-    oldState = currentState;
+    oldState_ = currentState_;
 
     for (int32_t i = 0; i < 121; i++) {
-        currentState[i] = (bool)glfwGetKey(w_, keyCodes[i]);
+        currentState_[i] = (bool)glfwGetKey(w_, keyCodes[i]);
     }
 }
 ButtonState Keyboard::GetKeyState(Keys key) const {
     int index = (int32_t)key;
-    return static_cast<ButtonState>((currentState[index] ? 1 : 0) | (oldState[index] ? 2 : 0));
+    return static_cast<ButtonState>((currentState_[index] ? 1 : 0) | (oldState_[index] ? 2 : 0));
 }
 
-std::shared_ptr<Keyboard>& Keyboard::GetInstance() { return instance; }
+std::shared_ptr<Keyboard>& Keyboard::GetInstance() { return instance_; }
 
 };  // namespace Altseed

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <hidapi.h>
 #include <stdio.h>
@@ -79,24 +79,22 @@ private:
     static const int MAX_BUTTONS_NUM = 30;
     static const int MAX_JOYSTICKS_NUM = 16;
 
-    Window* window = nullptr;
+    uint8_t globalCount_;
 
-    //        hid_write ç”¨
-    uint8_t globalCount;
+    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
 
-    std::array<JoystickType, MAX_JOYSTICKS_NUM> types;
-    std::array<wchar_t*, MAX_JOYSTICKS_NUM> names;
+    std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
+    std::array<std::shared_ptr<wchar_t>, MAX_JOYSTICKS_NUM> names_;
 
-    std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit;
-    std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit;
-    std::array<std::array<float, MAX_AXES_NUM>, static_cast<int>(JoystickAxisType::Max)> currentAxis;
+    std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
+    std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
+    std::array<std::array<float, MAX_AXES_NUM>, static_cast<int>(JoystickAxisType::Max)> currentAxis_;
 
     void SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len);
     void HandleJoyconInput(int index, unsigned char* buff);
 
     //     for vibration only
-    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler;
-    std::array<VibrateData, MAX_JOYSTICKS_NUM> vibrateStates;
+    std::array<VibrateData, MAX_JOYSTICKS_NUM> vibrateStates_;
 
 public:
     bool Initialize(JoystickType type);
