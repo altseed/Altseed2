@@ -15,6 +15,9 @@ set(core_test_files
     Sound.cpp
     Easing.cpp
     Log.cpp
+    Keyboard.cpp
+    Mouse.cpp
+    Joystick.cpp
 )
 
 # specify project filters
