@@ -20,7 +20,7 @@ class SoundMixer : public BaseObject {
 private:
     static std::shared_ptr<SoundMixer> _instance;
 
-    osm::Manager* m_manager;
+    std::shared_ptr<osm::Manager> m_manager;
     std::shared_ptr<Resources> m_resources;
 
     SoundMixer();
@@ -189,7 +189,7 @@ public:
     */
     void Reload();
 
-    osm::Manager* GetManager() { return m_manager; }
+    std::shared_ptr<osm::Manager> GetManager() { return m_manager; }
 
 #endif
 };

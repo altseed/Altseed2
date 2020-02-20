@@ -18,13 +18,13 @@ private:
     std::shared_ptr<Resources> m_resources;
     std::shared_ptr<SoundMixer> m_manager;
 
-    osm::Sound* m_sound;
+    std::shared_ptr<osm::Sound> m_sound;
 
     const char16_t* m_filePath;
     const bool m_isDecompressed;
 
 public:
-    Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, osm::Sound* sound, bool isDecompressed);
+    Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
     ~Sound();
 
     /**
@@ -71,7 +71,7 @@ public:
 
 #if !SWIG
 
-    osm::Sound* GetSound() { return m_sound; }
+    std::shared_ptr<osm::Sound> GetSound() { return m_sound; }
 
     bool Reload() override;
 
