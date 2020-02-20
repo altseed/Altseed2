@@ -5,11 +5,11 @@ namespace Altseed {
 std::shared_ptr<SoundMixer> SoundMixer::_instance = nullptr;
 
 SoundMixer::SoundMixer() {
-    m_manager = osm::Manager::Create();
+    m_manager = CreateSharedPtr(osm::Manager::Create());
     m_resources = Resources::GetInstance();
 
     if (m_manager != nullptr) {
-        m_manager->AddRef(); 
+        m_manager->AddRef();
     }
 }
 
@@ -43,7 +43,7 @@ std::shared_ptr<Sound> SoundMixer::Load(const char16_t* path, bool isDecompresse
     if (staticFile == nullptr) return nullptr;
 
     // Get data & Create OSM sound & null check
-    auto sound = m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed);
+    auto sound = CreateSharedPtr(m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
     if (sound == nullptr) {
         staticFile->Release();
         return nullptr;
@@ -62,7 +62,7 @@ int32_t SoundMixer::Play(std::shared_ptr<Sound> sound) {
     if (m_manager == nullptr) return -1;
     if (sound == nullptr) return -1;
 
-    return m_manager->Play(sound->GetSound());
+    return m_manager->Play(sound->GetSound().get());
 }
 
 bool SoundMixer::GetIsPlaying(int32_t id) {
