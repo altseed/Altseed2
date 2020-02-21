@@ -19,7 +19,7 @@ struct WindowInitializationParameter {
 
 class Window : public BaseObject {
 private:
-    static std::shared_ptr<Window> instance;
+    static std::shared_ptr<Window> instance_;
 
     GLFWwindow* mainWindow_;
     std::vector<GLFWwindow*> subWindows;
