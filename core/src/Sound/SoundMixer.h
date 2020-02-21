@@ -20,9 +20,6 @@ class SoundMixer : public BaseObject {
 private:
     static std::shared_ptr<SoundMixer> _instance;
 
-    std::shared_ptr<osm::Manager> m_manager;
-    std::shared_ptr<Resources> m_resources;
-
     SoundMixer();
     ~SoundMixer();
 
@@ -32,14 +29,6 @@ public:
     static void Terminate();
 
     static std::shared_ptr<SoundMixer>& GetInstance();
-
-    /**
-    @brief  音を読み込む
-    @param  path    音源のファイルパス
-    @param  isDecompressed  音源情報を解凍するか?
-    @return 音源
-    */
-    std::shared_ptr<Sound> Load(const char16_t* path, bool isDecompressed);
 
     /**
     @brief  音を再生する
@@ -188,8 +177,6 @@ public:
     @note   #Ignore
     */
     void Reload();
-
-    std::shared_ptr<osm::Manager> GetManager() { return m_manager; }
 
 #endif
 };

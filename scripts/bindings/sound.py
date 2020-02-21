@@ -8,6 +8,13 @@ Sound = cbg.Class('Altseed', 'Sound')
 with Sound as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源のクラス')
+
+    with class_.add_func('Load') as func_:
+        func_.is_static = True
+        func_.add_arg(ctypes.c_wchar_p, 'path')
+        func_.add_arg(bool, 'isDecompressed')
+        func_.return_value.type_ = Sound
+
     with class_.add_property(float, 'LoopStartingPoint') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ループ開始地点(秒)を取得または設定する')
@@ -39,11 +46,6 @@ with SoundMixer as class_:
         func_.is_static = True
         func_.is_public = False
         func_.return_value.type_ = SoundMixer
-
-    with class_.add_func('Load') as func_:
-        func_.add_arg(ctypes.c_wchar_p, 'path')
-        func_.add_arg(bool, 'isDecompressed')
-        func_.return_value.type_ = Sound
 
     with class_.add_func('Play') as func_:
         func_.add_arg(Sound, 'sound')

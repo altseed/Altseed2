@@ -8,10 +8,10 @@ TEST(Sound, SoundPlay) {
     char16_t s16[] = u"Sound Play";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
-    auto mixer = asd::SoundMixer::GetInstance();
-    auto bgm = mixer->Load(u"TestData/Sound/bgm1.ogg", false);
-    auto se = mixer->Load(u"TestData/Sound/se1.wav", true);
+    auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    auto se = asd::Sound::Load(u"TestData/Sound/se1.wav", true);
 
+    auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
     int id_se = mixer->Play(se);
 
@@ -25,8 +25,7 @@ TEST(Sound, SoundLoop) {
     char16_t s16[] = u"Sound Loop";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
-    auto mixer = asd::SoundMixer::GetInstance();
-    auto bgm = mixer->Load(u"TestData/Sound/bgm1.ogg", false);
+    auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
     EXPECT_FALSE(bgm->GetIsLoopingMode());
     bgm->SetIsLoopingMode(true);
@@ -34,6 +33,7 @@ TEST(Sound, SoundLoop) {
     bgm->SetLoopStartingPoint(1.0);
     bgm->SetLoopEndPoint(2.5);
 
+    auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
@@ -46,9 +46,9 @@ TEST(Sound, SoundResume) {
     char16_t s16[] = u"Sound Resume";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
-    auto mixer = asd::SoundMixer::GetInstance();
-    auto bgm = mixer->Load(u"TestData/Sound/bgm1.ogg", false);
+    auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
+    auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
 
     clock_t start = clock();
@@ -86,10 +86,10 @@ TEST(Sound, SoundLength) {
     char16_t s16[] = u"Sound Length";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
-    auto mixer = asd::SoundMixer::GetInstance();
-    auto bgm = mixer->Load(u"TestData/Sound/bgm1.ogg", false);
-    auto se = mixer->Load(u"TestData/Sound/se1.wav", true);
+    auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    auto se = asd::Sound::Load(u"TestData/Sound/se1.wav", true);
 
+    auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
     int id_se = mixer->Play(se);
 
