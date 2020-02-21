@@ -40,21 +40,6 @@ with EasingType as enum:
     enum.add('OutBounce')
     enum.add('InOutBounce')
 
-Easing = cbg.Class('Altseed', 'Easing')
-with Easing as class_:
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'イージングのクラス')
-    with class_.add_func('GetEasing') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('ja', '')
-        with func_.add_arg(EasingType, 'easing') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func_.add_arg(float, 't') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        func_.is_static = True
-
 Vector2I = cbg.Struct('Altseed', 'Vector2I')
 Vector2F = cbg.Struct('Altseed', 'Vector2F')
 Vector3F = cbg.Struct('Altseed', 'Vector3F')
