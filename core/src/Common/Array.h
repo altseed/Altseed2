@@ -33,7 +33,7 @@ public:
 
     void SetData(void* ptr, int32_t size) {
         T* p = static_cast<T*>(ptr);
-        this->vector_ = std::vector<T> v(p, p + size);
+        this->vector_ = std::vector<T> (p, p + size);
     }
 };
 
