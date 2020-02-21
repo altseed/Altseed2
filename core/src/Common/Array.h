@@ -37,7 +37,7 @@ public:
     }
 };
 
-using Int8Array = Array<uint8_t>;
+using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
 
 }  // namespace Altseed
