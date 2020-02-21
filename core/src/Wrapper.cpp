@@ -732,6 +732,13 @@ CBGEXPORT void CBGSTDCALL cbg_File_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Sound_Load(const char16_t* path, bool isDecompressed) {
+    const char16_t* cbg_arg0 = path;
+    bool cbg_arg1 = isDecompressed;
+    std::shared_ptr<Altseed::Sound> cbg_ret = Altseed::Sound::Load(cbg_arg0, cbg_arg1);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
+}
+
 CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {
     auto cbg_self_ = (Altseed::Sound*)(cbg_self);
 
@@ -790,15 +797,6 @@ CBGEXPORT void CBGSTDCALL cbg_Sound_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_GetInstance() {
     std::shared_ptr<Altseed::SoundMixer> cbg_ret = Altseed::SoundMixer::GetInstance();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::SoundMixer>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_SoundMixer_Load(void* cbg_self, const char16_t* path, bool isDecompressed) {
-    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    bool cbg_arg1 = isDecompressed;
-    std::shared_ptr<Altseed::Sound> cbg_ret = cbg_self_->Load(cbg_arg0, cbg_arg1);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_SoundMixer_Play(void* cbg_self, void* sound) {

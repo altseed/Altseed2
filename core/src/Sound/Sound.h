@@ -15,8 +15,6 @@ class Resources;
 */
 class Sound : public Resource {
 private:
-    std::shared_ptr<Resources> m_resources;
-    std::shared_ptr<SoundMixer> m_manager;
 
     std::shared_ptr<osm::Sound> m_sound;
 
@@ -24,8 +22,19 @@ private:
     const bool m_isDecompressed;
 
 public:
-    Sound(std::shared_ptr<Resources> resources, std::shared_ptr<SoundMixer> manager, const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
+    static std::shared_ptr<osm::Manager> m_manager;
+    static std::shared_ptr<Resources> m_resources;
+
+    Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
     ~Sound();
+
+    /**
+    @brief  音を読み込む
+    @param  path    音源のファイルパス
+    @param  isDecompressed  音源情報を解凍するか?
+    @return 音源
+    */
+    static std::shared_ptr<Sound> Load(const char16_t* path, bool isDecompressed);
 
     /**
     @brief  ループポイントの開始地点(秒)を取得する

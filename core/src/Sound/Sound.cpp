@@ -1,24 +1,43 @@
 ﻿#include "Sound.h"
 
 namespace Altseed {
+    
+std::shared_ptr<osm::Manager> Sound::m_manager = nullptr;
+std::shared_ptr<Resources> Sound::m_resources = nullptr;
 
 Sound::Sound(
-        std::shared_ptr<Resources> resources,
-        std::shared_ptr<SoundMixer> manager,
         const char16_t* filePath,
         std::shared_ptr<osm::Sound> sound,
         bool isDecompressed)
-    : m_resources(resources), m_manager(manager), m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
-    // Increment reference counter
-    if (m_manager != nullptr) m_manager->AddRef();
+    : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
 
     SetInstanceName(__FILE__);
 }
 
 Sound::~Sound() {
-    // Safe release
-    if (m_sound != nullptr) m_sound->Release();
-    if (m_manager != nullptr) m_manager->Release();
+}
+
+std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
+    if (m_manager == nullptr) return nullptr;
+
+    // Create static file & null check
+    auto staticFile = StaticFile::Create(path);
+    if (staticFile == nullptr) return nullptr;
+
+    // Get data & Create OSM sound & null check
+    auto sound = CreateSharedPtr(m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
+    if (sound == nullptr) {
+        staticFile->Release();
+        return nullptr;
+    }
+
+    // Create sound & register to container
+    auto soundRet = MakeAsdShared<Sound>(path, sound, isDecompressed);
+    auto soundContainer = m_resources->GetResourceContainer(ResourceType::Sound);
+    auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
+    soundContainer->Register(path, soundInfo);
+
+    return soundRet;
 }
 
 float Sound::GetLoopStartingPoint() const { return m_sound->GetLoopStartingPoint(); }
