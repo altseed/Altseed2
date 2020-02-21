@@ -1,3 +1,9 @@
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!                                          !!
+// !!  THIS FILE IS AUTO GENERATED.            !!
+// !!  YOUR COMMIT ON THI FILE WILL BE WIPED.  !!
+// !!                                          !!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #include <stdio.h>
 #include <stdint.h>
@@ -62,18 +68,6 @@
 
     
 extern "C" {
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
-    Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
-    float cbg_arg1 = t;
-    Altseed::Easing::GetEasing(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Easing*)(cbg_self);
-
-    cbg_self_->Release();
-}
 
 CBGEXPORT void* CBGSTDCALL cbg_Configuration_Constructor_0() {
     return new Altseed::Configuration();
@@ -194,6 +188,13 @@ CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self, void* array, int3
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_Int8Array_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Int8Array_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
 
@@ -206,6 +207,13 @@ CBGEXPORT void CBGSTDCALL cbg_Int32Array_CopyTo(void* cbg_self, void* array, int
     std::shared_ptr<Altseed::Int32Array> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Int32Array>((Altseed::Int32Array*)array);
     int32_t cbg_arg1 = size;
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Int32Array_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Int32Array_Release(void* cbg_self) {
