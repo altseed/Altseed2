@@ -23,14 +23,14 @@
 #endif
 
 namespace Altseed {
-std::shared_ptr<Window> Window::instance = nullptr;
+std::shared_ptr<Window> Window::instance_ = nullptr;
 
-std::shared_ptr<Window>& Window::GetInstance() { return instance; }
+std::shared_ptr<Window>& Window::GetInstance() { return instance_; }
 
 bool Window::Initialize(const WindowInitializationParameter& parameter) {
     if (!glfwInit()) return false;
 
-    instance = CreateSharedPtr(new Window());
+    instance_ = CreateSharedPtr(new Window());
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -80,11 +80,15 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
 }
 
 void Window::Terminate() {
+    ASD_VERIFY(instance_ != nullptr, "instance must be not null.")
+
     if (GetInstance()->mainWindow_ != nullptr) {
         glfwDestroyWindow(GetInstance()->mainWindow_);
         GetInstance()->mainWindow_ = nullptr;
         glfwTerminate();
     }
+
+    instance_ = nullptr;
 }
 
 void Window::SetTitle(const char16_t* title) {
@@ -105,7 +109,6 @@ bool Window::DoEvent() {
     glfwPollEvents();
 
     if (glfwWindowShouldClose(GetInstance()->mainWindow_)) {
-        Terminate();
         return false;
     }
 
