@@ -124,7 +124,6 @@ const int Keyboard::keyCodes[] = {GLFW_KEY_UNKNOWN,
                                   GLFW_KEY_RIGHT_CONTROL,
                                   GLFW_KEY_RIGHT_ALT,
                                   GLFW_KEY_RIGHT_SUPER,
-                                  GLFW_KEY_MENU,
                                   GLFW_KEY_MENU};
 
 bool Keyboard::Initialize(std::shared_ptr<Window>& window_) {
