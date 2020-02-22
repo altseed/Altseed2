@@ -36,8 +36,6 @@ define.structs.append(Vector3F)
 define.structs.append(RectF)
 define.structs.append(Matrix44F)
 
-define.enums.append(EasingType)
-
 # core
 define.classes.append(Configuration)
 define.classes.append(Core)
