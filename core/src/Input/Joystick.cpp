@@ -1,4 +1,4 @@
-﻿
+
 #include "Joystick.h"
 
 #include <algorithm>
@@ -69,20 +69,21 @@ void Joystick::RefreshConnectedState() {
         if (device->product_id == JOYCON_L_PRODUCT_ID || device->product_id == JOYCON_R_PRODUCT_ID ||
             device->product_id == DUALSHOCK4_PRODUCT_ID || device->product_id == XBOX360_PRODUCT_ID) {
             hid_device* dev = hid_open(device->vendor_id, device->product_id, device->serial_number);
-
-            hid_set_nonblocking(dev, 1);
+            
+            if (dev)
+                hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
-            names_[i] = std::shared_ptr<wchar_t>(device->product_string);
+            names_[i] = std::make_shared<std::wstring>(std::wstring(device->product_string));
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
                 //        enable vibration for joycon
                 uint8_t data[0x01];
 
-                SendSubcommand(dev, 0x48, data, 1);
+                this->SendSubcommand(dev, 0x48, data, 1);
 
                 data[0] = 0x3F;
-                SendSubcommand(dev, 0x03, data, 1);
+                this->SendSubcommand(dev, 0x03, data, 1);
             }
             i++;
         }
@@ -335,6 +336,23 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
 
 JoystickType Joystick::GetJoystickType(int32_t index) const { return types_[index]; };
 
-char16_t* Joystick::GetJoystickName(int32_t index) const { return (char16_t*)names_[index].get(); }
+std::u16string Joystick::GetJoystickName(int32_t index) const {
+    
+    std::wstring target_name = *(names_[index].get());
+
+    if (sizeof(wchar_t) == 4) {
+        std::u32string u32 (target_name.begin(), target_name.end());
+        
+        char16_t u16char [u32.size()];
+        for (int i = 0; i < u32.size(); ++i) {
+            u16char[i] = (char16_t)u32[i];
+        }
+        return std::u16string(u16char, sizeof(u16char) / sizeof(u16char[0]));
+    }
+    // for windows
+    else {
+        return std::u16string(target_name.begin(), target_name.end());
+    }
+}
 
 }  // namespace Altseed

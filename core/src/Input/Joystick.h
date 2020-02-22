@@ -14,10 +14,12 @@ namespace Altseed {
 
 enum class JoystickType : int32_t {
     Other,
-    PS4 = 8200,
-    XBOX360 = 8199,
+    DualShock3 = 616,
+    DualShock4 = 1476,
+    DualShock4Slim = 2508,
+    XBOX360 = 654,
     JoyconL = 8198,
-    JoyconR = 8197,
+    JoyconR = 8199,
 };
 
 enum class JoystickButtonType : int32_t {
@@ -84,7 +86,7 @@ private:
     std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
 
     std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
-    std::array<std::shared_ptr<wchar_t>, MAX_JOYSTICKS_NUM> names_;
+    std::array<std::shared_ptr<std::wstring>, MAX_JOYSTICKS_NUM> names_;
 
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
@@ -115,7 +117,7 @@ public:
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const;
 
-    char16_t* GetJoystickName(int32_t index) const;
+    std::u16string GetJoystickName(int32_t index) const;
 
     //    for vibration only
 
