@@ -127,9 +127,9 @@ float SoundMixer::GetPlaybackPercent(int32_t id) {
     return Sound::m_manager->GetPlaybackPercent(id);
 }
 
-void SoundMixer::GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t samplingRate, osm::FFTWindow window) {
+void SoundMixer::GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t sampleNum, FFTWindow window) {
     if (Sound::m_manager == nullptr) return;
-    Sound::m_manager->GetSpectrumData(id, spectrums, samplingRate, window);
+    Sound::m_manager->GetSpectrumData(id, spectrums, sampleNum, window);
 }
 
 void SoundMixer::Reload() {

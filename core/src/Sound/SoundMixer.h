@@ -13,6 +13,12 @@ namespace Altseed {
 
 class Sound;
 
+
+/**
+@brief  音のスペクトル解析に使用する窓関数
+*/
+typedef osm::FFTWindow FFTWindow;
+
 /**
 @brief  音を管理するクラス
 */
@@ -168,7 +174,7 @@ public:
     @param  samplingRate    サンプリングレート, spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない
     @param  window  フーリエ変換に用いる窓関数
     */
-    void GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t samplingRate, osm::FFTWindow window);
+    void GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t sampleNum, FFTWindow window);
 
 #if !SWIG
 
