@@ -5,7 +5,7 @@
 
 namespace Altseed {
 
-extern "C" {
+struct Vector2F_C;
 
 struct Vector2F {
 public:
@@ -106,7 +106,15 @@ public:
     static Vector2F DivideByScalar(const Vector2F& v1, float v2) { return Vector2F(v1.X / v2, v1.Y / v2); }
 
     Vector2I To2DI() const;
+
+    operator Vector2F_C() const;
 };
-}
+
+struct Vector2F_C {
+    float X;
+    float Y;
+
+    operator Vector2F() const;
+};
 
 }  // namespace Altseed

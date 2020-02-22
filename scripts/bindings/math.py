@@ -1,4 +1,4 @@
-from . import CppBindingGenerator as cbg
+﻿from . import CppBindingGenerator as cbg
 import ctypes
 import sys
 
@@ -41,7 +41,7 @@ with EasingType as enum:
     enum.add('InOutBounce')
 
 Vector2I = cbg.Struct('Altseed', 'Vector2I')
-Vector2F = cbg.Struct('Altseed', 'Vector2F')
+Vector2F = cbg.Struct('Altseed', 'Vector2F_C')
 Vector3F = cbg.Struct('Altseed', 'Vector3F')
 RectF = cbg.Struct('Altseed', 'RectF')
 Matrix44F = cbg.Struct('Altseed', 'Matrix44F')

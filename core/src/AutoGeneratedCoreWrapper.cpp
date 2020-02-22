@@ -292,17 +292,17 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT Altseed::Vector2F CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
-    Altseed::Vector2F cbg_ret = cbg_self_->GetPosition();
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetPosition();
     return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
-    Altseed::Vector2F cbg_arg0 = (*((Altseed::Vector2F*)value));
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)value));
     cbg_self_->SetPosition(cbg_arg0);
 }
 
