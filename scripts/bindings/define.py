@@ -32,8 +32,13 @@ define = cbg.Define()
 # math
 define.structs.append(Vector2I)
 define.structs.append(Vector2F)
+define.structs.append(Vector3I)
 define.structs.append(Vector3F)
+define.structs.append(Vector4I)
+define.structs.append(Vector4F)
+define.structs.append(RectI)
 define.structs.append(RectF)
+define.structs.append(Matrix44I)
 define.structs.append(Matrix44F)
 
 # core

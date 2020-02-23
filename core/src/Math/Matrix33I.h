@@ -9,6 +9,8 @@ namespace Altseed {
         [0,0][0,1]
         [1,0][1,1]
         */
+struct Matrix33I_C;
+
 struct Matrix33I {
 public:
     Matrix33I();
@@ -56,5 +58,13 @@ public:
     Matrix33I operator*(const Matrix33I& right);
 
     Vector3I operator*(const Vector3I& right);
+
+    operator Matrix33I_C() const;
+};
+
+struct Matrix33I_C {
+    int32_t Values[3][3];
+
+    operator Matrix33I() const;
 };
 }  // namespace Altseed

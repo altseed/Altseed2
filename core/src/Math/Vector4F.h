@@ -5,6 +5,8 @@
 
 namespace Altseed {
 
+struct Vector4F_C;
+
 struct Vector4F {
 public:
     float X;
@@ -51,6 +53,18 @@ public:
     static float Dot(const Vector4F& v1, const Vector4F& v2);
     static float Distance(const Vector4F& v1, const Vector4F& v2);
 
-    Vector4I To4DI() const;
+    Vector4I To4I() const;
+
+    operator Vector4F_C() const;
+};
+
+struct Vector4F_C {
+public:
+    float X;
+    float Y;
+    float Z;
+    float W;
+
+    operator Vector4F() const;
 };
 }  // namespace Altseed

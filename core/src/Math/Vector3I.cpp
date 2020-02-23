@@ -86,14 +86,6 @@ Vector3I Vector3I::Cross(const Vector3I& v1, const Vector3I& v2) {
     return o;
 }
 
-Vector3I Vector3I::Subtract(Vector3I v1, Vector3I v2) {
-    Vector3I o = Vector3I();
-    o.X = v1.X - v2.X;
-    o.Y = v1.Y - v2.Y;
-    o.Z = v1.Z - v2.Z;
-    return o;
-}
-
 float Vector3I::Distance(const Vector3I& v1, const Vector3I& v2) {
     int32_t dx = v1.X - v2.X;
     int32_t dy = v1.Y - v2.Y;
@@ -101,6 +93,10 @@ float Vector3I::Distance(const Vector3I& v1, const Vector3I& v2) {
     return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-Vector3F Vector3I::To3DF() const { return Vector3F(X, Y, Z); }
+Vector3F Vector3I::To3F() const { return Vector3F(X, Y, Z); }
+
+Vector3I::operator Vector3I_C() const { return Vector3I_C{X, Y, Z}; }
+
+Vector3I_C::operator Vector3I() const { return Vector3I(X, Y, Z); }
 
 }  // namespace Altseed

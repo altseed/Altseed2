@@ -173,4 +173,25 @@ Vector3F Matrix33F::operator*(const Vector3F& right) {
 
     return result;
 }
+
+Matrix33F::operator Matrix33F_C() const {
+    auto m = Matrix33F_C();
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
+}
+
+Matrix33F_C::operator Matrix33F() const {
+    auto m = Matrix33F();
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
+}
+
 }  // namespace Altseed

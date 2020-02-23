@@ -73,7 +73,7 @@ Vector2F& Vector2F::operator/=(float right) {
     return *this;
 }
 
-Vector2I Vector2F::To2DI() const { return Vector2I((int32_t)X, (int32_t)Y); }
+Vector2I Vector2F::To2I() const { return Vector2I((int32_t)X, (int32_t)Y); }
 
 Vector2F::operator Vector2F_C() const { return Vector2F_C{X, Y}; }
 

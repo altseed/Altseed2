@@ -30,4 +30,8 @@ array<Vector2F, 4> RectF::GetVertexes() const {
 bool RectF::operator!=(const RectF& right) { return X != right.X || Y != right.Y || Width != right.Width || Height != right.Height; }
 
 RectI RectF::ToI() const { return RectI((int32_t)X, (int32_t)Y, (int32_t)Width, (int32_t)Height); }
+
+RectF::operator RectF_C() const { return RectF_C{X, Y, Width, Height}; }
+
+RectF_C::operator RectF() const { return RectF(X, Y, Width, Height); }
 }  // namespace Altseed

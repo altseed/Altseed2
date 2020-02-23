@@ -33,5 +33,9 @@ float Vector4I::Distance(const Vector4I& v1, const Vector4I& v2) {
     return sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
 }
 
-Vector4F Vector4I::To4DF() const { return Vector4F(X, Y, Z, W); }
+Vector4F Vector4I::To4F() const { return Vector4F(X, Y, Z, W); }
+
+Vector4I::operator Vector4I_C() const { return Vector4I_C{X, Y, Z, W}; }
+
+Vector4I_C::operator Vector4I() const { return Vector4I(X, Y, Z, W); }
 }  // namespace Altseed

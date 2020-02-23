@@ -13,7 +13,6 @@ set(core_test_files
     Font.cpp
     ShaderCompiler.cpp
     Sound.cpp
-    Easing.cpp
     Log.cpp
     Keyboard.cpp
     Mouse.cpp

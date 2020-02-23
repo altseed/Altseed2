@@ -107,7 +107,7 @@ Matrix44F Matrix44F::GetInverted() const {
 
 Matrix44F& Matrix44F::SetLookAtRH(const Vector3F& eye, const Vector3F& at, const Vector3F& up) {
     // F=���ʁAR=�E�����AU=�����
-    Vector3F F = Vector3F::Subtract(eye, at).GetNormal();
+    Vector3F F = (eye - at).GetNormal();
     Vector3F R = Vector3F::Cross(up, F).GetNormal();
     Vector3F U = Vector3F::Cross(F, R).GetNormal();
 
@@ -135,7 +135,7 @@ Matrix44F& Matrix44F::SetLookAtRH(const Vector3F& eye, const Vector3F& at, const
 
 Matrix44F& Matrix44F::SetLookAtLH(const Vector3F& eye, const Vector3F& at, const Vector3F& up) {
     // F=���ʁAR=�E�����AU=�����
-    Vector3F F = Vector3F::Subtract(at, eye).GetNormal();
+    Vector3F F = (at - eye).GetNormal();
     Vector3F R = Vector3F::Cross(up, F).GetNormal();
     Vector3F U = Vector3F::Cross(F, R).GetNormal();
 
@@ -499,6 +499,25 @@ Matrix44F& Matrix44F::Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& i
         }
     }
     return o;
+}
+Matrix44F::operator Matrix44F_C() const {
+    auto m = Matrix44F_C();
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
+}
+
+Matrix44F_C::operator Matrix44F() const {
+    auto m = Matrix44F();
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
 }
 
 }  // namespace Altseed

@@ -5,6 +5,8 @@
 
 namespace Altseed {
 
+struct Vector3F_C;
+
 struct Vector3F {
 public:
     float X;
@@ -68,12 +70,22 @@ public:
 
     static float Dot(const Vector3F& v1, const Vector3F& v2);
     static Vector3F Cross(const Vector3F& v1, const Vector3F& v2);
-    static Vector3F Add(Vector3F v1, Vector3F v2) { return Vector3F(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z); }
-    static Vector3F Subtract(Vector3F v1, Vector3F v2);
-    static Vector3F Divide(const Vector3F& v1, const Vector3F& v2) { return Vector3F(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z); }
-    static Vector3F DivideByScalar(const Vector3F& v1, float v2) { return Vector3F(v1.X / v2, v1.Y / v2, v1.Z / v2); }
+
     static float Distance(const Vector3F& v1, const Vector3F& v2);
 
-    Vector3I To3DI() const;
+    Vector3I To3I() const;
+
+	operator Vector3F_C() const;
+};
+
+struct Vector3F_C {
+public:
+    float X;
+
+    float Y;
+
+    float Z;
+
+    operator Vector3F() const;
 };
 }  // namespace Altseed
