@@ -30,4 +30,8 @@ array<Vector2I, 4> RectI::GetVertexes() const {
 bool RectI::operator==(const RectI& other) const { return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height; }
 
 RectF RectI::ToF() const { return RectF(X, Y, Width, Height); }
+
+RectI::operator RectI_C() const { return RectI_C{X, Y, Width, Height}; }
+
+RectI_C::operator RectI() const { return RectI(X, Y, Width, Height); }
 }  // namespace Altseed

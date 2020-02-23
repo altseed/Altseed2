@@ -5,6 +5,8 @@
 
 namespace Altseed {
 
+struct Vector3I_C;
+
 struct Vector3I {
 public:
     int32_t X;
@@ -58,6 +60,18 @@ public:
     static Vector3I DivideByScalar(const Vector3I& v1, float v2) { return Vector3I(v1.X / v2, v1.Y / v2, v1.Z / v2); }
     static float Distance(const Vector3I& v1, const Vector3I& v2);
 
-    Vector3F To3DF() const;
+    Vector3F To3F() const;
+    operator Vector3I_C() const;
+};
+
+struct Vector3I_C {
+public:
+    int32_t X;
+
+    int32_t Y;
+
+    int32_t Z;
+
+    operator Vector3I() const;
 };
 }  // namespace Altseed

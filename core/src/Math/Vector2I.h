@@ -4,6 +4,8 @@
 
 namespace Altseed {
 
+struct Vector2I_C;
+
 struct Vector2I {
 public:
     int32_t X;
@@ -43,8 +45,16 @@ public:
     Vector2I& operator*=(int32_t right);
 
     Vector2I& operator/=(int32_t right);
-    Vector2F To2DF() const;
 
-    static Vector2I DivideByScalar(const Vector2I& v1, float v2);
+    Vector2F To2F() const;
+
+    operator Vector2I_C() const;
+};
+
+struct Vector2I_C {
+    int32_t X;
+    int32_t Y;
+
+    operator Vector2I() const;
 };
 }  // namespace Altseed

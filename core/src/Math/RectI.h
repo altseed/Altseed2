@@ -7,6 +7,8 @@
 
 namespace Altseed {
 
+struct RectI_C;
+
 struct RectI {
 public:
     int X;
@@ -32,5 +34,18 @@ public:
     bool operator==(const RectI& other) const;
 
     RectF ToF() const;
+    operator RectI_C() const;
+};
+
+struct RectI_C {
+    int X;
+
+    int Y;
+
+    int Width;
+
+    int Height;
+
+    operator RectI() const;
 };
 }  // namespace Altseed

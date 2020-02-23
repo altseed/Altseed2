@@ -62,8 +62,6 @@
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
-#include "Math/Easing.h"
-
 #include "Logger/Log.h"
 
     
@@ -474,10 +472,10 @@ CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Reload(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT Altseed::Vector2I CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
+CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
 
-    Altseed::Vector2I cbg_ret = cbg_self_->GetSize();
+    Altseed::Vector2I_C cbg_ret = cbg_self_->GetSize();
     return (cbg_ret);
 }
 
@@ -549,31 +547,31 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTexture(void* cbg_self, void* va
     cbg_self_->SetTexture(cbg_arg0);
 }
 
-CBGEXPORT Altseed::RectF CBGSTDCALL cbg_RenderedSprite_GetSrc(void* cbg_self) {
+CBGEXPORT Altseed::RectF_C CBGSTDCALL cbg_RenderedSprite_GetSrc(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::RectF cbg_ret = cbg_self_->GetSrc();
+    Altseed::RectF_C cbg_ret = cbg_self_->GetSrc();
     return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetSrc(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::RectF cbg_arg0 = (*((Altseed::RectF*)value));
+    Altseed::RectF_C cbg_arg0 = (*((Altseed::RectF_C*)value));
     cbg_self_->SetSrc(cbg_arg0);
 }
 
-CBGEXPORT Altseed::Matrix44F CBGSTDCALL cbg_RenderedSprite_GetTransform(void* cbg_self) {
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedSprite_GetTransform(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::Matrix44F cbg_ret = cbg_self_->GetTransform();
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
     return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTransform(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::Matrix44F cbg_arg0 = (*((Altseed::Matrix44F*)value));
+    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
     cbg_self_->SetTransform(cbg_arg0);
 }
 

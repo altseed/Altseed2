@@ -44,8 +44,6 @@ if __name__ == '__main__':
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
-#include "Math/Easing.h"
-
 #include "Logger/Log.h"
 
     '''
