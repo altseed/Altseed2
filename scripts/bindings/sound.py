@@ -3,16 +3,16 @@ import ctypes
 
 from .common import *
 
-#FFTWindow = cbg.Enum('Altseed', 'FFTWindow')
-#with FFTWindow as enum:
-#    enum.brief = cbg.Description()
-#    enum.brief.add('ja', '音のスペクトル解析に使用する窓関数')
-#    enum.add('Rectangular', 0)
-#    enum.add('Triangle', 1)
-#    enum.add('Hamming', 2)
-#    enum.add('Hanning', 3)
-#    enum.add('Blackman', 4)
-#    enum.add('BlackmanHarris', 5)
+FFTWindow = cbg.Enum('Altseed', 'FFTWindow')
+with FFTWindow as enum:
+    enum.brief = cbg.Description()
+    enum.brief.add('ja', '音のスペクトル解析に使用する窓関数')
+    enum.add('Rectangular', 0)
+    enum.add('Triangle', 1)
+    enum.add('Hamming', 2)
+    enum.add('Hanning', 3)
+    enum.add('Blackman', 4)
+    enum.add('BlackmanHarris', 5)
 
 Sound = cbg.Class('Altseed', 'Sound')
 with Sound as class_:
@@ -230,3 +230,19 @@ with SoundMixer as class_:
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在の再生位置')
+
+    with class_.add_func('GetSpectrumData') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '再生中の音のスペクトル情報を取得する')
+        with func.add_arg(int, 'id') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '音のID')
+        with func.add_arg(FloatArray, 'spectrums') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '音のスペクトル情報を格納するための配列')
+        with func.add_arg(int, 'sampleNum') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サンプリングレート : spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない')
+        with func.add_arg(FFTWindow, 'window') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フーリエ変換に用いる窓関数')

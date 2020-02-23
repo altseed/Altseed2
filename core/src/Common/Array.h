@@ -24,6 +24,7 @@ public:
 
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
+using FloatArray = Array<float>;
 using BatchVertexArray = Array<BatchVertex>;
 
 }  // namespace Altseed

@@ -45,6 +45,8 @@ define.classes.append(Core)
 # common
 define.classes.append(Int8Array)
 define.classes.append(Int32Array)
+define.classes.append(FloatArray)
+
 # define.classes.append(BatchVertexArray)
 define.enums.append(ResourceType)
 define.classes.append(Resources)
