@@ -188,6 +188,21 @@ CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self, void* array, int3
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Int8Array_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_SetData(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->SetData(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Int8Array_GetCount(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
 

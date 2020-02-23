@@ -23,7 +23,7 @@ public:
         }
     }
 
-	void Clear() { this->vector_.clear(); }
+    void Clear() { this->vector_.clear(); }
 
     std::vector<T>& GetVector() { return this->vector_; }
 
@@ -33,7 +33,7 @@ public:
 
     void SetData(void* ptr, int32_t size) {
         T* p = static_cast<T*>(ptr);
-        this->vector_ = std::vector<T> (p, p + size);
+        this->vector_ = std::vector<T>(p, p + size);
     }
 };
 
