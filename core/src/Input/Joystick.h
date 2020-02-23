@@ -86,11 +86,13 @@ private:
     std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
 
     std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
-    std::array<std::shared_ptr<std::wstring>, MAX_JOYSTICKS_NUM> names_;
+    std::array<std::u16string, MAX_JOYSTICKS_NUM> names_;
 
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
     std::array<std::array<float, MAX_AXES_NUM>, static_cast<int>(JoystickAxisType::Max)> currentAxis_;
+
+    std::u16string ToU16(const std::wstring& wstr);
 
     void SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len);
     void HandleJoyconInput(int index, unsigned char* buff);
@@ -117,7 +119,7 @@ public:
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const;
 
-    std::u16string GetJoystickName(int32_t index) const;
+    const char16_t* GetJoystickName(int32_t index) const;
 
     //    for vibration only
 

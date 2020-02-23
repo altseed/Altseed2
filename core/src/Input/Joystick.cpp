@@ -38,6 +38,25 @@ void Joystick::Terminate() {
 };
 bool Joystick::IsPresent(int32_t joystickIndex) { return (bool)handler_[joystickIndex]; }
 
+std::u16string Joystick::ToU16(const std::wstring& wstr) {
+    if (sizeof(wchar_t) == 4) {
+        std::u32string u32(wstr.cbegin(), wstr.cend());
+
+        std::array<char16_t, 512> u16char;
+        for (size_t i = 0; i < std::min(u32.size(), u16char.size()); ++i) {
+            u16char[i] = (char16_t)u32[i];
+        }
+
+        if (u32.size() > 0) {
+            u16char[std::min(u32.size(), u16char.size()) - 1] = 0;
+            return std::u16string(u16char.data());
+        }
+
+        return std::u16string();
+    } else {
+        return std::u16string(wstr.cbegin(), wstr.cend());
+    }
+}
 void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len) {
     uint8_t buf[0x40];
     memset(buf, 0x0, size_t(0x40));
@@ -58,7 +77,7 @@ void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], 
 }
 
 void Joystick::RefreshConnectedState() {
-    // hidハンドラーの取得
+    // Get HID handler
     hid_device_info* device = hid_enumerate(0, 0);
     const char* path;
     int i = 0;
@@ -69,11 +88,11 @@ void Joystick::RefreshConnectedState() {
         if (device->product_id == JOYCON_L_PRODUCT_ID || device->product_id == JOYCON_R_PRODUCT_ID ||
             device->product_id == DUALSHOCK4_PRODUCT_ID || device->product_id == XBOX360_PRODUCT_ID) {
             hid_device* dev = hid_open(device->vendor_id, device->product_id, device->serial_number);
-            
-            if (dev)
-                hid_set_nonblocking(dev, 1);
+
+            if (dev) hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
-            names_[i] = std::make_shared<std::wstring>(std::wstring(device->product_string));
+
+            names_[i] = ToU16(std::wstring(device->product_string));
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
@@ -336,23 +355,6 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
 
 JoystickType Joystick::GetJoystickType(int32_t index) const { return types_[index]; };
 
-std::u16string Joystick::GetJoystickName(int32_t index) const {
-    
-    std::wstring target_name = *(names_[index].get());
-
-    if (sizeof(wchar_t) == 4) {
-        std::u32string u32 (target_name.begin(), target_name.end());
-        
-        char16_t u16char [u32.size()];
-        for (int i = 0; i < u32.size(); ++i) {
-            u16char[i] = (char16_t)u32[i];
-        }
-        return std::u16string(u16char, sizeof(u16char) / sizeof(u16char[0]));
-    }
-    // for windows
-    else {
-        return std::u16string(target_name.begin(), target_name.end());
-    }
-}
+const char16_t* Joystick::GetJoystickName(int32_t index) const { return names_[index].c_str(); }
 
 }  // namespace Altseed
