@@ -3,6 +3,8 @@
 #include <stb_image.h>
 
 #include "../Common/Resources.h"
+#include "../Common/StringHelper.h"
+#include "../Logger/Log.h"
 #include "../IO/File.h"
 #include "Graphics.h"
 
@@ -40,6 +42,7 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
 
     auto file = StaticFile::Create(path);
     if (file == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Texture2D::Load: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
@@ -47,12 +50,14 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     uint8_t* data = (uint8_t*)stbi_load_from_memory((stbi_uc*)file->GetData(), file->GetSize(), &w, &h, &channel, 0);
 
     if (data == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Texture2D::Load: Failed to load data from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
     auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, channel);
     if (llgiTexture == nullptr) {
         delete[] data;
+        Log::GetInstance()->Error(LogCategory::Core, u"Texture2D::Load: Failed to CreateTexture from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 

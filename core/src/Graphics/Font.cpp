@@ -2,6 +2,7 @@
 #include <string>
 #include "../IO/File.h"
 #include "Graphics.h"
+#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -72,12 +73,15 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, 
 
     auto file = StaticFile::Create(path);
     if (file == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
     stbtt_fontinfo info;
     if (!stbtt_InitFont(&info, (unsigned char*)file->GetData(), 0)) {
         file->Release();
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
