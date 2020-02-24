@@ -20,10 +20,6 @@ struct ShaderReflectionTexture {
 
 class Shader : public BaseObject {
 private:
-    bool isValid_ = false;
-    std::string code_;
-    std::string errorMessage_;
-
     std::vector<ShaderReflectionTexture> textures_;
     std::vector<ShaderReflectionUniform> uniforms_;
     int32_t uniformSize_ = 0;
@@ -32,13 +28,6 @@ private:
 
 public:
     ~Shader() { LLGI::SafeRelease(shader_); }
-
-    /**
-            @brief constructor
-            @note
-            please use ShaderCompiler to generate a shader
-    */
-    Shader(std::string code, std::string errorMessage) : code_(code), errorMessage_(errorMessage), isValid_(false) {}
 
     /**
     @brief constructor
@@ -53,8 +42,6 @@ public:
     int32_t GetUniformSize() const { return uniformSize_; }
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
-
-    bool GetIsValid() const { return isValid_; }
 
     LLGI::Shader* Get() const { return shader_; }
 };
