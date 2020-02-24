@@ -9,18 +9,16 @@
 
 uint8_t global_count = 0x00;
 
-TEST(Joystick, Initialize) {
-    char16_t s16[] = u"test";
+TEST(Joystick, GetJoystickName) {
+    char16_t s16[] = u"GetJoystickName";
 
     EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
+    Altseed::Joystick::GetInstance()->RefreshConnectedState();
 
-    //    std::shared_ptr<Altseed::Joystick> joystick = std::make_shared<Altseed::Joystick>(Altseed::Joystick());
-    auto joystick = new Altseed::Joystick();
-
-    joystick->Initialize(Altseed::JoystickType::JoyconL);
-    for (int i = 0; i < 10; i++) {
-        if (joystick->IsPresent(i)) {
-            std::cout << "name : " << Altseed::utf16_to_utf8(std::u16string(joystick->GetJoystickName(i))) << std::endl;
+    for (int i = 0; i < 16; i++) {
+        if (Altseed::Joystick::GetInstance()->IsPresent(i)) {
+            std::cout << "name : " << Altseed::utf16_to_utf8(std::u16string(Altseed::Joystick::GetInstance()->GetJoystickName(i)))
+                      << std::endl;
         }
     }
 
