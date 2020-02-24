@@ -35,25 +35,25 @@ with Sound as class_:
 
     with class_.add_property(float, 'LoopStartingPoint') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ループ開始地点(秒)を取得または設定する')
+        prop.brief.add('ja', 'ループ開始地点(秒)を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(float, 'LoopEndPoint') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ループ終了地点(秒)を取得または設定する')
+        prop.brief.add('ja', 'ループ終了地点(秒)を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(bool, 'IsLoopingMode') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ループするかどうかを取得または設定する')
+        prop.brief.add('ja', 'ループするかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(float, 'Length') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '音源の長さ(秒)を取得する')
+        prop.brief.add('ja', '音源の長さ(秒)を取得します。')
         prop.has_getter = True
 
 SoundMixer = cbg.Class('Altseed', 'SoundMixer')
@@ -66,7 +66,7 @@ with SoundMixer as class_:
 
     with class_.add_func('Play') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '音を再生する')
+        func.brief.add('ja', '音を再生します。')
         with func.add_arg(Sound, 'sound') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音源データ')
@@ -76,7 +76,7 @@ with SoundMixer as class_:
 
     with class_.add_func('GetIsPlaying') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音が再生中であるかを取得する')
+        func.brief.add('ja', '指定した音が再生中であるかを取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -86,32 +86,32 @@ with SoundMixer as class_:
 
     with class_.add_func('StopAll') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再生中の音を全て停止する')
+        func.brief.add('ja', '再生中の音を全て停止します。')
 
     with class_.add_func('Stop') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生を停止する')
+        func.brief.add('ja', '指定した音の再生を停止します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
 
     with class_.add_func('Pause') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生を一時停止する')
+        func.brief.add('ja', '指定した音の再生を一時停止します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
 
     with class_.add_func('Resume') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生を再開する')
+        func.brief.add('ja', '指定した音の再生を再開します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
 
     with class_.add_func('Seek') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生位置を変更する')
+        func.brief.add('ja', '指定した音の再生位置を変更します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -121,13 +121,13 @@ with SoundMixer as class_:
 
     with class_.add_func('SetVolume') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の音量を変更する')
+        func.brief.add('ja', '指定した音の音量を変更します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
         with func.add_arg(float, 'volume') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '音量(0.0~1.0')
+            arg.brief.add('ja', '音量(0.0〜1.0')
 
     with class_.add_func('FadeIn') as func:
         func.brief = cbg.Description()
@@ -150,7 +150,7 @@ with SoundMixer as class_:
 
     with class_.add_func('Fade') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の音量を一定時間かけて変更する')
+        func.brief.add('ja', '指定した音の音量を一定時間かけて変更します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -159,11 +159,11 @@ with SoundMixer as class_:
             arg.brief.add('ja', 'フェードに使用する時間(秒)')
         with func.add_arg(float, 'targetedVolume') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '変更後の音量(0.0~1.0)')
+            arg.brief.add('ja', '変更後の音量(0.0〜1.0)')
 
     with class_.add_func('GetIsPlaybackSpeedEnabled') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再生速度を変更するかを取得する')
+        func.brief.add('ja', '再生速度を変更するかを取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -173,7 +173,7 @@ with SoundMixer as class_:
 
     with class_.add_func('SetIsPlaybackSpeedEnabled') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再生速度を変更するかを設定する')
+        func.brief.add('ja', '再生速度を変更するかを設定します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -183,7 +183,7 @@ with SoundMixer as class_:
 
     with class_.add_func('GetPlaybackSpeed') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再生速度を取得する')
+        func.brief.add('ja', '再生速度を取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -193,7 +193,7 @@ with SoundMixer as class_:
 
     with class_.add_func('SetPlaybackSpeed') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再生速度を設定する')
+        func.brief.add('ja', '再生速度を設定します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -203,7 +203,7 @@ with SoundMixer as class_:
 
     with class_.add_func('GetPanningPosition') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'パン位置を取得する')
+        func.brief.add('ja', 'パン位置を取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -213,7 +213,7 @@ with SoundMixer as class_:
 
     with class_.add_func('SetPanningPosition') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'パン位置を設定する')
+        func.brief.add('ja', 'パン位置を設定します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -223,7 +223,7 @@ with SoundMixer as class_:
 
     with class_.add_func('GetPlaybackPercent') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生位置を0~1で取得する')
+        func.brief.add('ja', '指定した音の再生位置を0〜1で取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')

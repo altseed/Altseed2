@@ -25,7 +25,7 @@ with Graphics as class_:
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得する')
+        func.brief.add('ja', 'インスタンスを取得します。')
         func.return_value.type_ = Graphics
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
@@ -47,7 +47,7 @@ with Graphics as class_:
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_property(CommandList, 'CommandList') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'コマンドリストを取得する')
+        prop.brief.add('ja', 'コマンドリストを取得します。')
         prop.has_getter = True  # TODO：Engine側できちんと隠す
     with class_.add_func('DoEvents') as func:
         func.brief = cbg.Description()
@@ -73,13 +73,13 @@ with Texture2D as class_:
         func.is_static = True
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再読み込みを行う')
+        func.brief.add('ja', '再読み込みを行います。')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
     with class_.add_property(Vector2I, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得する')
+        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
 
 Rendered = cbg.Class('Altseed', 'Rendered')
@@ -103,12 +103,12 @@ with RenderedSprite as class_:
         func.is_static = True
     with class_.add_property(Texture2D, 'Texture') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'テクスチャを取得または設定する')
+        prop.brief.add('ja', 'テクスチャを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画範囲を取得または設定する')
+        prop.brief.add('ja', '描画範囲を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     with class_.add_property(Matrix44F, 'Transform') as prop:
@@ -118,7 +118,7 @@ with RenderedSprite as class_:
         prop.has_setter = True
     # with class_.add_property(Material, 'Material') as prop:
     #     prop.brief = cbg.Description()
-    #     prop.brief.add('ja', 'マテリアルを取得または設定する')
+    #     prop.brief.add('ja', 'マテリアルを取得または設定します。')
     #     prop.has_getter = True
     #     prop.has_setter = True
 
@@ -134,7 +134,7 @@ with Renderer as class_:
     class_.brief.add('ja', 'レンダラのクラス')
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得する')
+        func.brief.add('ja', 'インスタンスを取得します。')
         func.return_value.type_ = Renderer
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')

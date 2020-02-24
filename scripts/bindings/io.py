@@ -10,35 +10,35 @@ with StaticFile as class_:
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込んだStaticFileの新しいインスタンスを生成する')
+        func.brief.add('ja', '指定ファイルを読み込んだStaticFileの新しいインスタンスを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
         func.is_static = True
         func.return_value.type_ = StaticFile
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成する')
+        func.return_value.brief.add('ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成します。')
     with class_.add_func('GetBuffer') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのデータを取得する')
+        func.brief.add('ja', '読み込んだファイルのデータを取得します。')
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだファイルのデータ')
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込んだファイルのパスを取得する')
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.has_getter = True
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込んだファイルのデータサイズを取得する')
+        prop.brief.add('ja', '読み込んだファイルのデータサイズを取得します。')
         prop.has_getter = True
     with class_.add_property(bool, 'IsInPackage') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得する')
+        prop.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得します。')
         prop.has_getter = True
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再読み込みを行う')
+        func.brief.add('ja', '再読み込みを行います。')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込み処理がうまくいったらtrue，それ以外でfalse')
@@ -49,21 +49,21 @@ with StreamFile as class_:
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込むStreamFileの新しいインスタンスを生成する')
+        func.brief.add('ja', '指定ファイルを読み込むStreamFileの新しいインスタンスを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
         func.is_static = True
         func.return_value.type_ = StreamFile
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成する')
+        func.return_value.brief.add('ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成します。')
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込むファイルのデータサイズを取得する')
+        prop.brief.add('ja', '読み込むファイルのデータサイズを取得します。')
         prop.has_getter = True
     with class_.add_property(int, 'CurrentPosition') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '現在読み込んでいるファイル上の位置を取得する')
+        prop.brief.add('ja', '現在読み込んでいるファイル上の位置を取得します。')
         prop.has_getter = True
     with class_.add_func('Read') as func:
         func.brief = cbg.Description()
@@ -76,21 +76,21 @@ with StreamFile as class_:
         func.return_value.brief.add('ja', '読み込まれたデータサイズ')
     with class_.add_func('GetTempBuffer') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '現在読み込んでいるファイルのデータを取得する')
+        func.brief.add('ja', '現在読み込んでいるファイルのデータを取得します。')
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在読み込んでいるファイルのデータ')
     with class_.add_property(int, 'TempBufferSize') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '現在読み込んでいるファイルのデータサイズを取得する')
+        prop.brief.add('ja', '現在読み込んでいるファイルのデータサイズを取得します。')
         prop.has_getter = True
     with class_.add_property(bool, 'IsInPackage') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されているかどうかを取得する')
+        prop.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されているかどうかを取得します。')
         prop.has_getter = True
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '再読み込みを行う')
+        func.brief.add('ja', '再読み込みを行います。')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込み処理がうまくいったらtrue，それ以外でfalse')
@@ -101,7 +101,7 @@ with File as class_:
     class_.brief.add('ja', 'ファイル制御を行うクラス')
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得する')
+        func.brief.add('ja', 'インスタンスを取得します。')
         func.is_public = False
         func.is_static = True
         func.return_value.type_ = File
@@ -109,7 +109,7 @@ with File as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
     with class_.add_func('AddRootDirectory') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ファイル読み込み時に自動的に保管されるディレクトリを追加する')
+        func.brief.add('ja', 'ファイル読み込み時に自動的に保管されるディレクトリを追加します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '追加するディレクトリ')
@@ -139,10 +139,10 @@ with File as class_:
         func.return_value.brief.add('ja', '読み込み処理がうまくいったらtrue，それ以外でfalse')
     with class_.add_func('ClearRootDirectories') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '追加されたディレクトリやファイルパッケージをすべて削除する')
+        func.brief.add('ja', '追加されたディレクトリやファイルパッケージをすべて削除します。')
     with class_.add_func('Exists') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定したファイルが存在するかどうかを検索する')
+        func.brief.add('ja', '指定したファイルが存在するかどうかを検索します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '存在を確認するファイルのパス')

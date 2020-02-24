@@ -13,31 +13,31 @@ with Configuration as class_:
 
     with class_.add_property(bool, 'IsFullscreenMode') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '全画面モードかどうかを取得または設定する')
+        prop.brief.add('ja', '全画面モードかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     
     with class_.add_property(bool, 'IsResizable') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定する')
+        prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(bool, 'EnabledConsoleLogging') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ログをコンソールに出力するかどうかを取得または設定する')
+        prop.brief.add('ja', 'ログをコンソールに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
     with class_.add_property(bool, 'EnabledFileLogging') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ログをファイルに出力するかどうかを取得または設定する')
+        prop.brief.add('ja', 'ログをファイルに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     
     with class_.add_property(ctypes.c_wchar_p, 'LogFilename') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ログファイル名を取得または設定する')
+        prop.brief.add('ja', 'ログファイル名を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
@@ -47,7 +47,7 @@ with Core as class_:
     class_.brief.add('ja', 'C++のCoreとの仲介を担うクラス')
     with class_.add_func('Initialize') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '初期化処理を行う')
+        func.brief.add('ja', '初期化処理を行います。')
         with func.add_arg(ctypes.c_wchar_p, 'title') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ウィンドウの左上に表示されるウィンドウん名')
@@ -67,19 +67,19 @@ with Core as class_:
 
     with class_.add_func('DoEvent') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'イベントを実行する')
+        func.brief.add('ja', 'イベントを実行します。')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'イベントが進行出来たらtrue，それ以外でfalse')
 
     with class_.add_func('Terminate') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '終了処理を行う')
+        func.brief.add('ja', '終了処理を行います。')
         func.is_static = True
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得する')
+        func.brief.add('ja', 'インスタンスを取得します。')
         func.return_value.type_ = Core
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
