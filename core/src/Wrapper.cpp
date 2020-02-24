@@ -953,16 +953,6 @@ CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_SoundMixer_GetSpectrumData(void* cbg_self, int32_t id, void* spectrums, void* sampleNum, void* window) {
-    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
-
-    int32_t cbg_arg0 = id;
-    std::shared_ptr<Altseed::FloatArray> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)spectrums);
-    std::shared_ptr<Altseed::FloatArray> cbg_arg2 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)sampleNum);
-    std::shared_ptr<Altseed::FloatArray> cbg_arg3 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)window);
-    cbg_self_->GetSpectrumData(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
-}
-
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 

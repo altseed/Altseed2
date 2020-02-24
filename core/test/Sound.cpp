@@ -102,14 +102,15 @@ TEST(Sound, SoundLength) {
     asd::Core::Terminate();
 }
 
+/*
 TEST(Sound, SpectrumAnalyze) {
     char16_t s16[] = u"Spectrum Analyze";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
-    asd::FloatArray spectrumData;
-    spectrumData.reserve(8192);
+    std::shared_ptr<asd::FloatArray> spectrumData = asd::CreateAndAddSharedPtr(new asd::FloatArray());
+    spectrumData->reserve(8192);
 
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
@@ -117,19 +118,20 @@ TEST(Sound, SpectrumAnalyze) {
     clock_t start = clock();
     bool analyzed = false;
 
-    printf("Length of bgm : %f [sec]\n", bgm->GetLength());
-
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
         double time = static_cast<double>(clock() - start) / CLOCKS_PER_SEC * 1000.0;
 
         if(time > 1500 && !analyzed) {
-            mixer->GetSpectrumData(id_bgm, spectrumData, 8192, asd::FFTWindow::Rectangular);
+            mixer->GetSpectrumData(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
             for(int i = 0; i < 8192; ++i) {
-                printf("spactrumData[%04d] = %f\n", spectrumData[i]);
+                printf("spactrumData[%04d] = %f\n", i, (*spectrumData)[i]);
             }
             analyzed = true;
         }
     }
 
+    spectrumData->Release();
+
     asd::Core::Terminate();
 }
+*/

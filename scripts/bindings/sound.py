@@ -231,18 +231,18 @@ with SoundMixer as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在の再生位置')
 
-    with class_.add_func('GetSpectrumData') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '再生中の音のスペクトル情報を取得する')
-        with func.add_arg(int, 'id') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '音のID')
-        with func.add_arg(FloatArray, 'spectrums') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '音のスペクトル情報を格納するための配列')
-        with func.add_arg(int, 'sampleNum') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'サンプリングレート : spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない')
-        with func.add_arg(FFTWindow, 'window') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'フーリエ変換に用いる窓関数')
+#    with class_.add_func('GetSpectrumData') as func:
+#        func.brief = cbg.Description()
+#        func.brief.add('ja', '再生中の音のスペクトル情報を取得する')
+#        with func.add_arg(int, 'id') as arg:
+#            arg.brief = cbg.Description()
+#            arg.brief.add('ja', '音のID')
+#        with func.add_arg(FloatArray, 'spectrums') as arg:
+#            arg.brief = cbg.Description()
+#            arg.brief.add('ja', '音のスペクトル情報を格納するための配列')
+#        with func.add_arg(int, 'sampleNum') as arg:
+#            arg.brief = cbg.Description()
+#            arg.brief.add('ja', 'サンプリングレート : spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない')
+#        with func.add_arg(FFTWindow, 'window') as arg:
+#            arg.brief = cbg.Description()
+#            arg.brief.add('ja', 'フーリエ変換に用いる窓関数')

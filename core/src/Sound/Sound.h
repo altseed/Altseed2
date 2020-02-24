@@ -22,8 +22,6 @@ private:
     const bool m_isDecompressed;
 
 public:
-    static std::shared_ptr<osm::Manager> m_manager;
-    static std::shared_ptr<Resources> m_resources;
 
     Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
     ~Sound();

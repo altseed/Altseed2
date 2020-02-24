@@ -22,11 +22,14 @@ using FFTWindow = osm::FFTWindow;
 @brief  音を管理するクラス
 */
 class SoundMixer : public BaseObject {
-private:
-    static std::shared_ptr<SoundMixer> _instance;
 
-    SoundMixer();
-    ~SoundMixer();
+    friend class Sound;
+
+private:
+    static std::shared_ptr<SoundMixer> instance_;
+
+    std::shared_ptr<osm::Manager> m_manager;
+    std::shared_ptr<Resources> m_resources;
 
 public:
     static bool Initialize(bool isReloadingEnabled);
@@ -173,7 +176,7 @@ public:
     @param  samplingRate    サンプリングレート, spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない
     @param  window  フーリエ変換に用いる窓関数
     */
-    void GetSpectrumData(int32_t id, FloatArray& spectrums, int32_t sampleNum, FFTWindow window);
+    void GetSpectrumData(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window);
 
 #if !SWIG
 
