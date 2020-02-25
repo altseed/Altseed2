@@ -5,6 +5,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
+#include "Input/Joystick.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
@@ -53,6 +54,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
 
     if (!Mouse::Initialize(Window::GetInstance())) {
         LOG_CRITICAL(u"Mouse::Initialize failed");
+        Core::instance = nullptr;
+        return false;
+    }
+
+    if (!Joystick::Initialize()) {
         Core::instance = nullptr;
         return false;
     }
@@ -119,6 +125,7 @@ void Core::Terminate() {
     Window::Terminate();
     Keyboard::Terminate();
     Mouse::Terminate();
+    Joystick::Terminate();
     Resources::Terminate();
     File::Terminate();
     Graphics::Terminate();
@@ -134,6 +141,7 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed::Mouse::GetInstance()->RefreshInputState();
+    Altseed::Joystick::GetInstance()->RefreshConnectedState();
 
     return Altseed::Window::GetInstance()->DoEvent();
 }

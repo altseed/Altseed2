@@ -283,6 +283,14 @@ with Joystick as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ジョイスティックを表すクラス')
     # Core 内部で呼び出されるので Initialize は Engineに公開しない
+    with class_.add_func('GetInstance') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを取得します。')
+        func.return_value.type_ = Joystick
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '使用するインスタンス')
+        func.is_public = False
+        func.is_static = True
     with class_.add_func('IsPresent') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定したジョイスティックが親であるかどうかを取得します。')
