@@ -51,7 +51,6 @@ define.classes.append(Int32Array)
 define.classes.append(VertexArray)
 define.classes.append(FloatArray)
 
-# define.classes.append(BatchVertexArray)
 define.enums.append(ResourceType)
 define.classes.append(Resources)
 

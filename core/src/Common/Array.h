@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "../BaseObject.h"
+
 namespace Altseed {
 
 template <typename T>
@@ -42,6 +44,8 @@ public:
         T* p = static_cast<T*>(ptr);
         this->vector_ = std::vector<T>(p, p + size);
     }
+
+    static std::shared_ptr<Array<T>>& Create() { return MakeAsdShared<Array<T>>(); }
 };
 
 struct BatchVertex;
