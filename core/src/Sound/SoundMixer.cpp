@@ -61,11 +61,6 @@ void SoundMixer::Resume(int32_t id) {
     return m_manager->Resume(id);
 }
 
-void SoundMixer::Seek(int32_t id, float position) {
-    if (m_manager == nullptr) return;
-    return m_manager->Seek(id, position);
-}
-
 void SoundMixer::SetVolume(int32_t id, float volume) {
     if (m_manager == nullptr) return;
     return m_manager->SetVolume(id, volume);
@@ -116,14 +111,19 @@ void SoundMixer::SetPanningPosition(int32_t id, float panningPosition) {
     m_manager->SetPanningPosition(id, panningPosition);
 }
 
-float SoundMixer::GetPlaybackPercent(int32_t id) {
+float SoundMixer::GetPlaybackPosition(int32_t id) {
     if (m_manager == nullptr) return 0.0f;
-    return m_manager->GetPlaybackPercent(id);
+    return m_manager->GetPlaybackPosition(id);
+}
+
+void SoundMixer::SetPlaybackPosition(int32_t id, float position) {
+    if (m_manager == nullptr) return;
+    return m_manager->SetPlaybackPosition(id, position);
 }
 
 void SoundMixer::GetSpectrumData(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window) {
     if (m_manager == nullptr) return;
-    m_manager->GetSpectrumData(id, spectrums->GetVector(), spectrums->GetCount(), window);
+    m_manager->GetSpectrumData(id, spectrums->GetVector(), window);
 }
 
 void SoundMixer::Reload() {

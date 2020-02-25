@@ -87,6 +87,7 @@ define.classes.append(StaticFile)
 define.classes.append(File)
 
 # sound
+define.enums.append(FFTWindow)
 define.classes.append(Sound)
 define.classes.append(SoundMixer)
 

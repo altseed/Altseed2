@@ -76,13 +76,6 @@ public:
     void Resume(int32_t id);
 
     /**
-    @brief  指定した音の再生位置を変更する
-    @param  id  音のID
-    @param  position    再生位置(秒)
-    */
-    void Seek(int32_t id, float position);
-
-    /**
     @brief  指定した音の音量を変更する
     @param  id  音のID
     @param  volume  音量(0.0~1.0)
@@ -163,11 +156,18 @@ public:
     void SetPanningPosition(int32_t id, float panningPosition);
 
     /**
-    @brief	現在の再生位置を0～1で取得する
-@param	id	音のID
+    @brief	指定した音の再生位置を0取得する
+    @param	id	音のID
     @return	再生位置
     */
-    float GetPlaybackPercent(int32_t id);
+    float GetPlaybackPosition(int32_t id);
+
+    /**
+    @brief  指定した音の再生位置を変更する
+    @param  id  音のID
+    @param  position    再生位置(秒)
+    */
+    void SetPlaybackPosition(int32_t id, float position);
 
     /**
     @brief  再生中の音のスペクトル情報を取得する

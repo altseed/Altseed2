@@ -8,15 +8,12 @@ Sound::Sound(
         bool isDecompressed)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
 
-    auto soundMixer = SoundMixer::GetInstance();
-
     if(m_sound != nullptr) m_sound->AddRef();
 
     SetInstanceName(__FILE__);
 }
 
 Sound::~Sound() {
-    auto soundMixer = SoundMixer::GetInstance();
     if(m_sound != nullptr) m_sound->Release();
 }
 

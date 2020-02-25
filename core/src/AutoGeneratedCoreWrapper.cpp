@@ -904,14 +904,6 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Resume(void* cbg_self, int32_t id) {
     cbg_self_->Resume(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Seek(void* cbg_self, int32_t id, float position) {
-    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
-
-    int32_t cbg_arg0 = id;
-    float cbg_arg1 = position;
-    cbg_self_->Seek(cbg_arg0, cbg_arg1);
-}
-
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetVolume(void* cbg_self, int32_t id, float volume) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
@@ -993,12 +985,29 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPanningPosition(void* cbg_self, int3
     cbg_self_->SetPanningPosition(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int32_t id) {
+CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPosition(void* cbg_self, int32_t id) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
     int32_t cbg_arg0 = id;
-    float cbg_ret = cbg_self_->GetPlaybackPercent(cbg_arg0);
+    float cbg_ret = cbg_self_->GetPlaybackPosition(cbg_arg0);
     return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPlaybackPosition(void* cbg_self, int32_t id, float position) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = position;
+    cbg_self_->SetPlaybackPosition(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_GetSpectrumData(void* cbg_self, int32_t id, void* spectrums, int32_t window) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    std::shared_ptr<Altseed::FloatArray> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)spectrums);
+    Altseed::FFTWindow cbg_arg2 = (Altseed::FFTWindow)window;
+    cbg_self_->GetSpectrumData(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {

@@ -7,12 +7,12 @@ FFTWindow = cbg.Enum('Altseed', 'FFTWindow')
 with FFTWindow as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', '音のスペクトル解析に使用する窓関数')
-    enum.add('Rectangular', 0)
-    enum.add('Triangle', 1)
-    enum.add('Hamming', 2)
-    enum.add('Hanning', 3)
-    enum.add('Blackman', 4)
-    enum.add('BlackmanHarris', 5)
+    enum.add('Rectangular')
+    enum.add('Triangle')
+    enum.add('Hamming')
+    enum.add('Hanning')
+    enum.add('Blackman')
+    enum.add('BlackmanHarris')
 
 Sound = cbg.Class('Altseed', 'Sound')
 with Sound as class_:
@@ -21,7 +21,7 @@ with Sound as class_:
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
-        class_.brief.add('ja', '音声ファイルを読み込む')
+        class_.brief.add('ja', '音声ファイルを読み込みます。')
         func.is_static = True
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
@@ -108,16 +108,6 @@ with SoundMixer as class_:
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
-
-    with class_.add_func('Seek') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生位置を変更します。')
-        with func.add_arg(int, 'id') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '音のID')
-        with func.add_arg(float, 'position') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '再生位置(秒)')
 
     with class_.add_func('SetVolume') as func:
         func.brief = cbg.Description()
@@ -221,9 +211,9 @@ with SoundMixer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パン位置 : 0.0で中央, -1.0で左, 1.0で右')
 
-    with class_.add_func('GetPlaybackPercent') as func:
+    with class_.add_func('GetPlaybackPosition') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音の再生位置を0〜1で取得します。')
+        func.brief.add('ja', '指定した音の再生位置を取得します。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -231,18 +221,25 @@ with SoundMixer as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在の再生位置')
 
-#    with class_.add_func('GetSpectrumData') as func:
-#        func.brief = cbg.Description()
-#        func.brief.add('ja', '再生中の音のスペクトル情報を取得する')
-#        with func.add_arg(int, 'id') as arg:
-#            arg.brief = cbg.Description()
-#            arg.brief.add('ja', '音のID')
-#        with func.add_arg(FloatArray, 'spectrums') as arg:
-#            arg.brief = cbg.Description()
-#            arg.brief.add('ja', '音のスペクトル情報を格納するための配列')
-#        with func.add_arg(int, 'sampleNum') as arg:
-#            arg.brief = cbg.Description()
-#            arg.brief.add('ja', 'サンプリングレート : spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない')
-#        with func.add_arg(FFTWindow, 'window') as arg:
-#            arg.brief = cbg.Description()
-#            arg.brief.add('ja', 'フーリエ変換に用いる窓関数')
+    with class_.add_func('SetPlaybackPosition') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定した音の再生位置を変更します。')
+        with func.add_arg(int, 'id') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '音のID')
+        with func.add_arg(float, 'position') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '再生位置(秒)')
+
+    with class_.add_func('GetSpectrumData') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '再生中の音のスペクトル情報を取得します。')
+        with func.add_arg(int, 'id') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '音のID')
+        with func.add_arg(FloatArray, 'spectrums') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '音のスペクトル情報を格納するための配列')
+        with func.add_arg(FFTWindow, 'window') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フーリエ変換に用いる窓関数')
