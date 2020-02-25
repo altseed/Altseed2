@@ -1,4 +1,5 @@
 ﻿#include "Sound.h"
+#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -23,12 +24,16 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
 
     // Create static file & null check
     auto staticFile = StaticFile::Create(path);
-    if (staticFile == nullptr) return nullptr;
+    if (staticFile == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Sound::Load: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
+        return nullptr;
+    }
 
     // Get data & Create OSM sound & null check
     auto sound = CreateSharedPtr(soundMixer->m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
     if (sound == nullptr) {
         staticFile->Release();
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
