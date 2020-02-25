@@ -48,6 +48,8 @@ define.classes.append(Core)
 # common
 define.classes.append(Int8Array)
 define.classes.append(Int32Array)
+define.classes.append(FloatArray)
+
 # define.classes.append(BatchVertexArray)
 define.enums.append(ResourceType)
 define.classes.append(Resources)
@@ -85,6 +87,7 @@ define.classes.append(StaticFile)
 define.classes.append(File)
 
 # sound
+define.enums.append(FFTWindow)
 define.classes.append(Sound)
 define.classes.append(SoundMixer)
 

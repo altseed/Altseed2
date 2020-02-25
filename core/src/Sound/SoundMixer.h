@@ -13,21 +13,23 @@ namespace Altseed {
 
 class Sound;
 
-
 /**
 @brief  音のスペクトル解析に使用する窓関数
 */
-typedef osm::FFTWindow FFTWindow;
+using FFTWindow = osm::FFTWindow;
 
 /**
 @brief  音を管理するクラス
 */
 class SoundMixer : public BaseObject {
-private:
-    static std::shared_ptr<SoundMixer> _instance;
 
-    SoundMixer();
-    ~SoundMixer();
+    friend class Sound;
+
+private:
+    static std::shared_ptr<SoundMixer> instance_;
+
+    std::shared_ptr<osm::Manager> m_manager;
+    std::shared_ptr<Resources> m_resources;
 
 public:
     static bool Initialize(bool isReloadingEnabled);
@@ -72,13 +74,6 @@ public:
     @param  id  音のID
     */
     void Resume(int32_t id);
-
-    /**
-    @brief  指定した音の再生位置を変更する
-    @param  id  音のID
-    @param  position    再生位置(秒)
-    */
-    void Seek(int32_t id, float position);
 
     /**
     @brief  指定した音の音量を変更する
@@ -161,11 +156,18 @@ public:
     void SetPanningPosition(int32_t id, float panningPosition);
 
     /**
-    @brief	現在の再生位置を0～1で取得する
-@param	id	音のID
+    @brief	指定した音の再生位置を0取得する
+    @param	id	音のID
     @return	再生位置
     */
-    float GetPlaybackPercent(int32_t id);
+    float GetPlaybackPosition(int32_t id);
+
+    /**
+    @brief  指定した音の再生位置を変更する
+    @param  id  音のID
+    @param  position    再生位置(秒)
+    */
+    void SetPlaybackPosition(int32_t id, float position);
 
     /**
     @brief  再生中の音のスペクトル情報を取得する
@@ -174,7 +176,7 @@ public:
     @param  samplingRate    サンプリングレート, spectrums配列の要素数に等しい, 2の累乗(2,4,8,16,...)でなければならない
     @param  window  フーリエ変換に用いる窓関数
     */
-    void GetSpectrumData(int32_t id, std::vector<float>& spectrums, int32_t sampleNum, FFTWindow window);
+    void GetSpectrumData(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window);
 
 #if !SWIG
 

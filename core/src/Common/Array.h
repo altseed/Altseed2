@@ -11,6 +11,14 @@ private:
     std::vector<T> vector_;
 
 public:
+    Array() {
+    }
+
+    Array(int32_t size) {
+        vector_.reserve(size);
+        vector_.resize(size);
+    }
+
     void CopyTo(T* array, int32_t size) {
         for (size_t i = 0; i < size; i++) {
             array[i] = this->vector_.at(i);
@@ -39,5 +47,6 @@ public:
 
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
+using FloatArray = Array<float>;
 
 }  // namespace Altseed
