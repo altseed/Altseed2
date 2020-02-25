@@ -13,8 +13,10 @@ set(core_test_files
     Font.cpp
     ShaderCompiler.cpp
     Sound.cpp
-    Easing.cpp
     Log.cpp
+    Keyboard.cpp
+    Mouse.cpp
+    Joystick.cpp
 )
 
 # specify project filters
@@ -61,6 +63,7 @@ target_link_libraries(
     Altseed_Core
     gtest
     spdlog
+    hidapi
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 )

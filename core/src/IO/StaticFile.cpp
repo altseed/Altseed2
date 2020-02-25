@@ -13,7 +13,7 @@ StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(re
     m_fileReader->ReadAllBytes(buffer);
     m_buffer = MakeAsdShared<Int8Array>();
     for (auto i : buffer) {
-        m_buffer->push_back(i);
+        m_buffer->GetVector().push_back(i);
     }
 }
 
@@ -43,7 +43,7 @@ const std::shared_ptr<Int8Array>& StaticFile::GetBuffer() const { return m_buffe
 
 const char16_t* StaticFile::GetPath() const { return m_fileReader->GetFullPath().c_str(); }
 
-const void* StaticFile::GetData() const { return m_buffer->data(); }
+const void* StaticFile::GetData() const { return m_buffer->GetData(); }
 
 int32_t StaticFile::GetSize() { return m_fileReader->GetSize(); }
 
@@ -53,13 +53,13 @@ bool StaticFile::Reload() {
     if (m_fileReader->GetIsInPackage()) return false;
     auto path = m_fileReader->GetFullPath();
 
-    m_buffer->clear();
+    m_buffer->Clear();
 
     m_fileReader = MakeAsdShared<BaseFileReader>(path);
     std::vector<uint8_t> buffer;
     m_fileReader->ReadAllBytes(buffer);
     for (auto i : buffer) {
-        m_buffer->push_back(i);
+        m_buffer->GetVector().push_back(i);
     }
     return true;
 }

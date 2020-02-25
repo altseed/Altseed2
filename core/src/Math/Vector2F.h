@@ -5,6 +5,8 @@
 
 namespace Altseed {
 
+struct Vector2F_C;
+
 struct Vector2F {
 public:
     float X;
@@ -95,15 +97,16 @@ public:
         return sqrt(dx * dx + dy * dy);
     }
 
-    static Vector2F Add(Vector2F v1, Vector2F v2) { return Vector2F(v1.X + v2.X, v1.Y + v2.Y); }
+    Vector2I To2I() const;
 
-    static Vector2F Subtract(Vector2F v1, Vector2F v2) { return Vector2F(v1.X - v2.X, v1.Y - v2.Y); }
+    operator Vector2F_C() const;
+};
 
-    static Vector2F Divide(const Vector2F& v1, const Vector2F& v2) { return Vector2F(v1.X / v2.X, v1.Y / v2.Y); }
+struct Vector2F_C {
+    float X;
+    float Y;
 
-    static Vector2F DivideByScalar(const Vector2F& v1, float v2) { return Vector2F(v1.X / v2, v1.Y / v2); }
-
-    Vector2I To2DI() const;
+    operator Vector2F() const;
 };
 
 }  // namespace Altseed

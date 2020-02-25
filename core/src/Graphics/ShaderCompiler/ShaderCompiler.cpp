@@ -1,6 +1,11 @@
 #include "ShaderCompiler.h"
+
+#include "../../Logger/Log.h"
 #include "../Graphics.h"
 #include "../Shader.h"
+#ifdef _WIN32
+#include <DX12/LLGI.CompilerDX12.h>
+#endif
 
 namespace Altseed {
 
@@ -20,7 +25,13 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
     spirvGenerator_->Initialize();
 
     // TODO : change with graphics
+#ifdef _WIN32
+    auto compiler = new LLGI::CompilerDX12(LLGI::CompilerDX12Option::ColumnMajor);
+    compiler->Initialize();
+    compiler_ = LLGI::CreateSharedPtr(compiler);
+#else
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
+#endif
 #ifdef _WIN32
     // spirvTranspiler_ = std::make_shared<SPIRVToHLSLTranspiler>();
 #elif __APPLE__
@@ -34,7 +45,7 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
 
 ShaderCompiler::~ShaderCompiler() { spirvGenerator_->Terminate(); }
 
-std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageType shaderStage) {
+std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
     auto spirv = spirvGenerator_->Generate(code, shaderStage);
@@ -42,7 +53,8 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageTyp
     // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
         if (!spirvTranspiler_->Transpile(spirv)) {
-            return CreateSharedPtr(new Shader(code, spirvTranspiler_->GetErrorCode()));
+            Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader transpile error {} : {}", name, spirvTranspiler_->GetErrorCode());
+            return nullptr;
         }
 
         availableCode = spirvTranspiler_->GetCode();
@@ -62,11 +74,14 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* code, ShaderStageTyp
     compiler_->Compile(result, availableCode.c_str(), shaderStageLLGI);
 
     if (result.Binary.size() == 0) {
-        return CreateSharedPtr(new Shader(availableCode, result.Message.c_str()));
+        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader compile error {} : {}", name, result.Message);
+        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Code :\n{}", code);
+        return nullptr;
     }
 
     if (!spirvReflection_->Transpile(spirv)) {
-        return CreateSharedPtr(new Shader(availableCode, "Failed to reflect."));
+        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader error {} : Failed to refrect.", name);
+        return nullptr;
     }
 
     std::vector<LLGI::DataStructure> data;

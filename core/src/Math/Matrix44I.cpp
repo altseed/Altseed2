@@ -123,4 +123,24 @@ Matrix44I& Matrix44I::Mul(Matrix44I& o, const Matrix44I& in1, const Matrix44I& i
     return o;
 }
 
+Matrix44I::operator Matrix44I_C() const {
+    auto m = Matrix44I_C();
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
+}
+
+Matrix44I_C::operator Matrix44I() const {
+    auto m = Matrix44I();
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m.Values[i][j] = Values[i][j];
+        }
+    }
+    return m;
+}
+
 }  // namespace Altseed

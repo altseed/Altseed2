@@ -49,7 +49,7 @@ void BatchRenderer::Draw(
     }
 
     for (int32_t i = 0; i < ibCount; i++) {
-        rawIndexBuffer_.emplace_back(ib[i]);
+        rawIndexBuffer_.emplace_back(ib[i] + b.VertexCount);
     }
 
     b.VertexCount += vbCount;
@@ -87,7 +87,8 @@ void BatchRenderer::Render(CommandList* commandList) {
         if (batch.material == nullptr) {
             material = matDefaultSprite_;
             material->SetTexture(u"mainTex", batch.texture);
-        }
+        } else
+            material = batch.material;
 
         if (batch.texture != nullptr) {
             material->SetTexture(u"mainTex", batch.texture);

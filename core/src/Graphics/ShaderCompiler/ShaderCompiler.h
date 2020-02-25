@@ -35,7 +35,7 @@ public:
     ShaderCompiler(std::shared_ptr<Graphics>& graphics);
     ~ShaderCompiler();
 
-    std::shared_ptr<Shader> Compile(const char* code, ShaderStageType shaderStage);
+    std::shared_ptr<Shader> Compile(const char* name, const char* code, ShaderStageType shaderStage);
 };
 
 }  // namespace Altseed

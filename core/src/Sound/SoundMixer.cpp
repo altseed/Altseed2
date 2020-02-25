@@ -123,7 +123,7 @@ float SoundMixer::GetPlaybackPercent(int32_t id) {
 
 void SoundMixer::GetSpectrumData(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window) {
     if (m_manager == nullptr) return;
-    m_manager->GetSpectrumData(id, *spectrums, spectrums->size(), window);
+    m_manager->GetSpectrumData(id, spectrums->GetVector(), spectrums->GetCount(), window);
 }
 
 void SoundMixer::Reload() {

@@ -1,3 +1,9 @@
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!                                          !!
+// !!  THIS FILE IS AUTO GENERATED.            !!
+// !!  YOUR COMMIT ON THI FILE WILL BE WIPED.  !!
+// !!                                          !!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #include <stdio.h>
 #include <stdint.h>
@@ -43,6 +49,7 @@
 #include "Graphics/Texture2D.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedCamera.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
@@ -55,24 +62,10 @@
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
-#include "Math/Easing.h"
-
 #include "Logger/Log.h"
 
     
 extern "C" {
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_GetEasing(int32_t easing, float t) {
-    Altseed::EasingType cbg_arg0 = (Altseed::EasingType)easing;
-    float cbg_arg1 = t;
-    Altseed::Easing::GetEasing(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Easing_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Easing*)(cbg_self);
-
-    cbg_self_->Release();
-}
 
 CBGEXPORT void* CBGSTDCALL cbg_Configuration_Constructor_0() {
     return new Altseed::Configuration();
@@ -193,6 +186,28 @@ CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self, void* array, int3
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Int8Array_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_SetData(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->SetData(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Int8Array_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Int8Array_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
 
@@ -205,6 +220,13 @@ CBGEXPORT void CBGSTDCALL cbg_Int32Array_CopyTo(void* cbg_self, void* array, int
     std::shared_ptr<Altseed::Int32Array> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Int32Array>((Altseed::Int32Array*)array);
     int32_t cbg_arg1 = size;
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Int32Array_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Int32Array_Release(void* cbg_self) {
@@ -297,17 +319,17 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32
     return (int32_t)cbg_ret;
 }
 
-CBGEXPORT Altseed::Vector2F CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
-    Altseed::Vector2F cbg_ret = cbg_self_->GetPosition();
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetPosition();
     return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Mouse_SetPosition(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
-    Altseed::Vector2F cbg_arg0 = (*((Altseed::Vector2F*)value));
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)value));
     cbg_self_->SetPosition(cbg_arg0);
 }
 
@@ -479,10 +501,10 @@ CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Reload(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT Altseed::Vector2I CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
+CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
 
-    Altseed::Vector2I cbg_ret = cbg_self_->GetSize();
+    Altseed::Vector2I_C cbg_ret = cbg_self_->GetSize();
     return (cbg_ret);
 }
 
@@ -529,6 +551,12 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Rendered_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_Create() {
     std::shared_ptr<Altseed::RenderedSprite> cbg_ret = Altseed::RenderedSprite::Create();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedSprite>(cbg_ret);
@@ -548,22 +576,42 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTexture(void* cbg_self, void* va
     cbg_self_->SetTexture(cbg_arg0);
 }
 
-CBGEXPORT Altseed::RectF CBGSTDCALL cbg_RenderedSprite_GetSrc(void* cbg_self) {
+CBGEXPORT Altseed::RectF_C CBGSTDCALL cbg_RenderedSprite_GetSrc(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::RectF cbg_ret = cbg_self_->GetSrc();
+    Altseed::RectF_C cbg_ret = cbg_self_->GetSrc();
     return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetSrc(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    Altseed::RectF cbg_arg0 = (*((Altseed::RectF*)value));
+    Altseed::RectF_C cbg_arg0 = (*((Altseed::RectF_C*)value));
     cbg_self_->SetSrc(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedSprite_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTransform(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
+    cbg_self_->SetTransform(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
 
     cbg_self_->Release();
 }

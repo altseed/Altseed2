@@ -26,6 +26,8 @@ TODO：書く
 
 [CoreCodingRule](CoreCodingRule_Ja.md)
 
+新しいファイルを追加した場合は `core/src/CMakeFile.txt` もしくは `core/test/CMakeFile.txt` にファイル名を追記する。
+
 ### バインディングの設定の記述
 
 * `scripts\bindings` 以下の `py` ファイルに記述します。 

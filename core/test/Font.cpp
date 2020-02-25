@@ -12,6 +12,11 @@
 
 #include "Graphics/Color.h"
 #include "Graphics/Font.h"
+#include "Graphics/Camera.h"
+#include "Graphics/CommandList.h"
+#include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Tool/Tool.h"
 
 TEST(Font, Basic) {
 #if defined(__APPLE__) || defined(__linux__)
@@ -30,13 +35,14 @@ TEST(Font, Basic) {
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
     material->SetShader(shader);
 
+    std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
     const char16_t* text = u"こんにちは！ Hello World";
     Altseed::Vector2F position(100, 100);
     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
         auto glyph = font->GetGlyph(text[i]);
         if (glyph == nullptr) continue;
 
-        auto tempPosition = position + glyph->GetOffset().To2DF() + Altseed::Vector2F(0, font->GetAscent());
+        auto tempPosition = position + glyph->GetOffset().To2F() + Altseed::Vector2F(0, font->GetAscent());
         auto sprite = Altseed::RenderedSprite::Create();
         sprite->SetMaterial(material);
         sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
@@ -46,6 +52,7 @@ TEST(Font, Basic) {
         sprite->SetTransform(trans);
 
         sprite->SetSrc(Altseed::RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y));
+        sprites.push_back(sprite);
 
         position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
 
@@ -54,6 +61,11 @@ TEST(Font, Basic) {
 
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
+        for (auto& s : sprites) {
+            Altseed::Renderer::GetInstance()->DrawSprite(s);
+        }
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
         EXPECT_TRUE(instance->EndFrame());
     }
 

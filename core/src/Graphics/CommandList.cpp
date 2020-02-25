@@ -318,6 +318,7 @@ void CommandList::StoreUniforms(
 
         if (info.Size == sizeof(float) * 16) {
             auto v = matPropBlockCollection->GetMatrix44F(info.Name.c_str());
+            v.SetTransposed();
             memcpy(bufv + info.Offset, &v, info.Size);
         }
     }

@@ -17,6 +17,8 @@ namespace Altseed {
         [2,0][2,1][2,2][2,3]
         [3,0][3,1][3,2][3,3]
 */
+struct Matrix44F_C;
+
 struct Matrix44F {
 private:
 public:
@@ -201,6 +203,13 @@ public:
             @return	出力先の参照
     */
     static Matrix44F& Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2);
+
+    operator Matrix44F_C() const;
 };
 
+struct Matrix44F_C {
+    float Values[4][4];
+
+    operator Matrix44F() const;
+};
 }  // namespace Altseed

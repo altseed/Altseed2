@@ -64,13 +64,13 @@ struct PS_INPUT
 {
     float4  Position : SV_POSITION;
     float4  Color    : COLOR0;
-	float2  UV : UV0;
+	float2  UV1 : UV0;
 	float2  UV2 : UV1;
 };
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
 	float4 c;
-	c = mainTex.Sample(mainSamp, input.UV);
+	c = mainTex.Sample(mainSamp, input.UV1);
 
 	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - 0.5) * 255);
 	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + 0.5);
@@ -93,15 +93,15 @@ std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
     if (found != shaders_.end()) return found->second;
 
     if (type == BuildinShaderType::SpriteUnlitVS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitVS, ShaderStageType::Vertex);
+        auto shader = ShaderCompiler::GetInstance()->Compile("SpriteUnlitVS", SpriteUnlitVS, ShaderStageType::Vertex);
         shaders_[type] = shader;
         return shader;
     } else if (type == BuildinShaderType::SpriteUnlitPS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile(SpriteUnlitPS, ShaderStageType::Pixel);
+        auto shader = ShaderCompiler::GetInstance()->Compile("SpriteUnlitPS", SpriteUnlitPS, ShaderStageType::Pixel);
         shaders_[type] = shader;
         return shader;
     } else if (type == BuildinShaderType::FontUnlitPS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile(FontUnlitPS, ShaderStageType::Pixel);
+        auto shader = ShaderCompiler::GetInstance()->Compile("FontUnlitPS", FontUnlitPS, ShaderStageType::Pixel);
         shaders_[type] = shader;
         return shader;
     } else {

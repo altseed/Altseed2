@@ -60,8 +60,9 @@ Vector2I& Vector2I::operator/=(int32_t right) {
     Y /= right;
     return *this;
 }
-Vector2F Vector2I::To2DF() const { return Vector2F(X, Y); }
+Vector2F Vector2I::To2F() const { return Vector2F(X, Y); }
 
-Vector2I Vector2I::DivideByScalar(const Vector2I& v1, float v2) { return Vector2I(v1.X / v2, v1.Y / v2); }
+Vector2I::operator Vector2I_C() const { return Vector2I_C{X, Y}; }
 
+Vector2I_C::operator Vector2I() const { return Vector2I(X, Y); }
 }  // namespace Altseed

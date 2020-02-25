@@ -7,7 +7,7 @@ Shader::Shader(
         const std::vector<ShaderReflectionTexture>& textures,
         const std::vector<ShaderReflectionUniform>& uniforms,
         LLGI::Shader* shader)
-    : isValid_(true), textures_(textures), uniforms_(uniforms) {
+    : textures_(textures), uniforms_(uniforms) {
     LLGI::SafeAssign(shader_, shader);
 
     for (const auto& u : uniforms_) {

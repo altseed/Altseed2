@@ -4,6 +4,9 @@
 #include "Vector4F.h"
 
 namespace Altseed {
+
+struct Vector4I_C;
+
 struct Vector4I {
 public:
     int32_t X;
@@ -37,6 +40,19 @@ public:
 
     static int32_t Dot(const Vector4I& v1, const Vector4I& v2);
     static float Distance(const Vector4I& v1, const Vector4I& v2);
-    Vector4F To4DF() const;
+
+    Vector4F To4F() const;
+    operator Vector4I_C() const;
 };
+
+struct Vector4I_C {
+public:
+    int32_t X;
+    int32_t Y;
+    int32_t Z;
+    int32_t W;
+
+    operator Vector4I() const;
+};
+
 }  // namespace Altseed

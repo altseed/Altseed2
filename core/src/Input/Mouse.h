@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <GLFW/glfw3.h>
 
 #include <array>
@@ -62,21 +62,21 @@ enum class CursorMode : int32_t {
 
 class Mouse : public BaseObject {
 private:
-    static std::shared_ptr<Mouse> instance;
-    std::shared_ptr<Window> window;
+    static std::shared_ptr<Mouse> instance_;
+    std::shared_ptr<Window> window_;
 
     static const int KEY_NUM = 8;
     static const int ModeCodes[3];
 
-    std::array<bool, KEY_NUM> currentState;
-    std::array<bool, KEY_NUM> oldState;
+    std::array<bool, KEY_NUM> currentState_;
+    std::array<bool, KEY_NUM> oldState_;
 
-    float wheel = 0;
+    float wheel_ = 0;
 
 public:
     static bool Initialize(std::shared_ptr<Window>& window);
 
-    static void Terminate() {}
+    static void Terminate() { instance_ = nullptr; }
 
     static std::shared_ptr<Mouse>& GetInstance();
 

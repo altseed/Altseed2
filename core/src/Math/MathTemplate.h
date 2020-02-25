@@ -6,7 +6,10 @@
 #include <cstring>
 
 namespace Altseed {
+
+extern "C" {
 struct Vector2F;
+}
 struct Vector2I;
 struct Vector3F;
 struct Vector3I;

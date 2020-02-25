@@ -32,11 +32,14 @@ define = cbg.Define()
 # math
 define.structs.append(Vector2I)
 define.structs.append(Vector2F)
+define.structs.append(Vector3I)
 define.structs.append(Vector3F)
+define.structs.append(Vector4I)
+define.structs.append(Vector4F)
+define.structs.append(RectI)
 define.structs.append(RectF)
-
-define.classes.append(Easing)
-define.enums.append(EasingType)
+define.structs.append(Matrix44I)
+define.structs.append(Matrix44F)
 
 # core
 define.classes.append(Configuration)
@@ -74,7 +77,9 @@ define.classes.append(Graphics)
 define.classes.append(Texture2D)
 define.classes.append(Renderer)
 define.classes.append(CommandList)
+define.classes.append(Rendered)
 define.classes.append(RenderedSprite)
+define.classes.append(RenderedCamera)
 
 # io
 define.classes.append(StreamFile)

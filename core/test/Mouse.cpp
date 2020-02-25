@@ -1,4 +1,4 @@
-#include <Core.h>
+﻿#include <Core.h>
 #include <Input/Mouse.h>
 #include <gtest/gtest.h>
 #include <string>
@@ -73,11 +73,10 @@ TEST(Mouse, Position) {
 
     EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
-    Altseed::Mouse::GetInstance()->SetPosition(320, 240);
-    double x, y;
-    Altseed::Mouse::GetInstance()->GetPosition(x, y);
-    EXPECT_EQ(x, 320);
-    EXPECT_EQ(y, 240);
+    Altseed::Mouse::GetInstance()->SetPosition(Altseed::Vector2F(320, 240));
+    Altseed::Vector2F result = Altseed::Mouse::GetInstance()->GetPosition();
+    EXPECT_EQ(result.X, 320);
+    EXPECT_EQ(result.Y, 240);
 
     Altseed::Core::Terminate();
 }

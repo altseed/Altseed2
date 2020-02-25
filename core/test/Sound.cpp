@@ -102,15 +102,13 @@ TEST(Sound, SoundLength) {
     asd::Core::Terminate();
 }
 
-/*
 TEST(Sound, SpectrumAnalyze) {
     char16_t s16[] = u"Spectrum Analyze";
     EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
-    std::shared_ptr<asd::FloatArray> spectrumData = asd::CreateAndAddSharedPtr(new asd::FloatArray());
-    spectrumData->reserve(8192);
+    std::shared_ptr<asd::FloatArray> spectrumData = asd::CreateAndAddSharedPtr(new asd::FloatArray(8192));
 
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
@@ -124,7 +122,7 @@ TEST(Sound, SpectrumAnalyze) {
         if(time > 1500 && !analyzed) {
             mixer->GetSpectrumData(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
             for(int i = 0; i < 8192; ++i) {
-                printf("spactrumData[%04d] = %f\n", i, (*spectrumData)[i]);
+                printf("spactrumData[%04d] = %f\n", i, spectrumData->GetVector()[i]);
             }
             analyzed = true;
         }
@@ -134,4 +132,3 @@ TEST(Sound, SpectrumAnalyze) {
 
     asd::Core::Terminate();
 }
-*/
