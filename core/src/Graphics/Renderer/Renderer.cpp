@@ -36,10 +36,26 @@ void Renderer::DrawPolygon(
     batchRenderer_->Draw(vb, ib, vbCount, ibCount, nullptr, material, nullptr);
 }
 
+void Renderer::DrawPolygon(
+        std::shared_ptr<VertexArray> vb,
+        std::shared_ptr<Int32Array> ib,
+        const std::shared_ptr<Texture2D>& texture,
+        const std::shared_ptr<Material>& material) {
+
+    batchRenderer_->Draw(
+            static_cast<BatchVertex*>(vb->GetData()),
+            static_cast<int32_t*>(ib->GetData()),
+            vb->GetCount(),
+            ib->GetCount(),
+            texture,
+            material,
+            nullptr);
+}
+
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
     int32_t w, h = 0;
     window_->GetSize(w, h);
-    
+
     batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
     renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
     renderedBatchRenderer_->Render(commandList.get());

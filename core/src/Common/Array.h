@@ -11,8 +11,7 @@ private:
     std::vector<T> vector_;
 
 public:
-    Array() {
-    }
+    Array() {}
 
     Array(int32_t size) {
         vector_.reserve(size);
@@ -45,8 +44,11 @@ public:
     }
 };
 
+struct BatchVertex;
+
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
 using FloatArray = Array<float>;
+using VertexArray = Array<BatchVertex>;
 
 }  // namespace Altseed

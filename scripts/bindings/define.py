@@ -48,6 +48,7 @@ define.classes.append(Core)
 # common
 define.classes.append(Int8Array)
 define.classes.append(Int32Array)
+define.classes.append(VertexArray)
 define.classes.append(FloatArray)
 
 # define.classes.append(BatchVertexArray)
@@ -75,6 +76,7 @@ define.structs.append(Color)
 
 define.classes.append(Graphics)
 define.classes.append(Texture2D)
+define.classes.append(Material)
 define.classes.append(Renderer)
 define.classes.append(CommandList)
 define.classes.append(Rendered)

@@ -56,30 +56,42 @@ with Int32Array as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
-    # with class_.add_func("GetData") as func:
-    #     func.return_value.type_ = VoidPtr
-    # with class_.add_func("SetData") as func:
-    #     with func.add_arg(VoidPtr, "ptr") as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', 'コピーするデータの先頭のポインタ')
-    #     with func.add_arg(int, "size")as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', 'コピーするデータ量')
-    #     func.return_value.type_ = VoidPtr
+    with class_.add_func("GetData") as func:
+        func.return_value.type_ = ctypes.c_void_p
+    with class_.add_func("SetData") as func:
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータの先頭のポインタ')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータ量')
 
-# BatchVertexArray = cbg.Class('Altseed', 'BatchVertexArray')
-# with BatchVertexArray as class_:
-#     class_.brief = cbg.Description()
-#     class_.brief.add('ja', 'BatchVertexの配列のクラス')
-#     with class_.add_func("CopyTo") as func:
-#         func.brief = cbg.Description()
-#         func.brief.add('ja', '指定したインスタンスにデータをコピーします。')
-#         with func.add_arg(BatchVertexArray, "array") as arg:
-#             arg.brief = cbg.Description()
-#             arg.brief.add('ja', 'コピー先のインスタンス')
-#         with func.add_arg(int, "size") as arg:
-#             arg.brief = cbg.Description()
-#             arg.brief.add('ja', 'コピーするデータ量')
+VertexArray = cbg.Class('Altseed', 'VertexArray')
+with VertexArray as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '頂点の配列のクラス')
+    with class_.add_func("CopyTo") as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したインスタンスにデータをコピーします。')
+        with func.add_arg(VertexArray, "array") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピー先のインスタンス')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータ量')
+    with class_.add_property(int, "Count") as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '格納されている要素の数を取得します。')
+        prop_.has_getter = True
+    with class_.add_func("GetData") as func:
+        func.return_value.type_ = ctypes.c_void_p
+    with class_.add_func("SetData") as func:
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータの先頭のポインタ')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータ量')
 
 FloatArray = cbg.Class('Altseed', 'FloatArray')
 with FloatArray as class_:
