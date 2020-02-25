@@ -3,6 +3,7 @@
 #include "BuildinShader.h"
 #include "Camera.h"
 #include "CommandList.h"
+#include "../Logger/Log.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
@@ -25,11 +26,17 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
     instance->window_ = window;
     instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
     instance->platform_ = LLGI::CreatePlatform(deviceType, instance->llgiWindow_.get());
-    if (instance->platform_ == nullptr) return false;
+    if (instance->platform_ == nullptr) {
+        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreatePlatform");
+        return false;
+    }
 
     instance->graphics_ = instance->platform_->CreateGraphics();
     // ? instance->graphics_->SetDisposed([]() -> void { instance->platform_->Release(); });
-    if (instance->graphics_ == nullptr) return false;
+    if (instance->graphics_ == nullptr) {
+        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreateGraphics");
+        return false;
+    }
 
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
@@ -91,7 +98,10 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
     params.Size = LLGI::Vec2I(width, height);
 
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateTexture(params));
-    if (texture == nullptr) return nullptr;
+    if (texture == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Graphics::CreateTexture: failed");
+        return nullptr;
+    }
 
     auto texture_buf = (LLGI::Color8*)texture->Lock();
     if (channel == 4) {
@@ -132,7 +142,10 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int3
     params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
     params.Size = LLGI::Vec2I(width, height);
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateRenderTexture(params));
-    if (texture == nullptr) return nullptr;
+    if (texture == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Graphics::CreateRenderTexture: failed");
+        return nullptr;
+    }
     return texture;
 }
 
