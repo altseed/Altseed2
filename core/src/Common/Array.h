@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <cstring>
 
 #include "../BaseObject.h"
 
@@ -14,38 +15,63 @@ private:
 
 public:
     Array() {}
-
     Array(int32_t size) { vector_.resize(size); }
 
-    void CopyTo(T* array, int32_t size) {
-        for (size_t i = 0; i < size; i++) {
-            array[i] = this->vector_.at(i);
-        }
-    }
+    // void CopyTo(T* array, int32_t size) {
+    //    for (size_t i = 0; i < size; i++) {
+    //        array[i] = this->vector_.at(i);
+    //    }
+    //}
 
-    void CopyTo(std::shared_ptr<Array<T>> array, int32_t size) {
-        for (size_t i = 0; i < size; i++) {
-            array->vector_.at(i) = this->vector_.at(i);
-        }
-    }
+    // void CopyTo(std::shared_ptr<Array<T>> array, int32_t size) {
+    //    for (size_t i = 0; i < size; i++) {
+    //        array->vector_.at(i) = this->vector_.at(i);
+    //    }
+    //}
 
+    /**
+     * @brief データをクリアする
+     */
     void Clear() { this->vector_.clear(); }
 
-    std::vector<T>& GetVector() { return this->vector_; }
-
+    /**
+     * @brief 要素数を取得
+     */
     int32_t GetCount() { return this->vector_.size(); }
 
+	/**
+     * @brief 要素数を変更
+     */
+	void Resize(int32_t size) { this->vector_.resize(size); }
+
+    /**
+     * @brief 内部の vector オブジェクトを取得
+     */
+    std::vector<T>& GetVector() { return this->vector_; }
+
+    /**
+     * @brief 内部データの生ポインタを取得
+     */
     void* GetData() { return this->vector_.data(); }
 
-    void SetData(void* ptr, int32_t size) {
+    /**
+     * @brief 配列をコピーする
+	 * 危険！：C# 連携用！Core内部で使う機会はほぼないはず
+     */
+    void Assign(void* ptr, int32_t size) {
         T* p = static_cast<T*>(ptr);
-        this->vector_ = std::vector<T>(p, p + size);
+        this->vector_.assign(p, p + size);
     }
 
-    void WriteDataTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size()); }
+    /**
+     * @brief 配列をコピーする
+     * 危険！：C# 連携用！Core内部で使う機会はほぼないはず。ptrは予めコピーに十分な領域を確保すること
+     */
+    void CopyTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size()); }
 
-    void Resize(int32_t size) { this->vector_.resize(size); }
-
+	/**
+     * @brief インスタンスを生成します。
+     */
     static std::shared_ptr<Array<T>> Create(int32_t size) {
         auto obj = MakeAsdShared<Array<T>>(size);
         return obj;
