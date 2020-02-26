@@ -3,6 +3,9 @@
 #include <stdint.h>
 
 namespace Altseed {
+
+struct Color_C;
+
 struct Color {
 public:
     uint8_t R;
@@ -16,5 +19,18 @@ public:
     Color operator*(const Color& right);
     Color& operator*=(const Color& right);
     bool operator==(const Color& right);
+
+    operator Color_C() const;
 };
+
+struct Color_C {
+public:
+    uint8_t R;
+    uint8_t G;
+    uint8_t B;
+    uint8_t A;
+
+    operator Color() const;
+};
+
 }  // namespace Altseed

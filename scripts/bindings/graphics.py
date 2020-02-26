@@ -133,6 +133,7 @@ with RenderedCamera as class_:
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
+    class_.is_public = True
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
     with class_.add_func('GetInstance') as func:
@@ -169,4 +170,4 @@ with Renderer as class_:
         with func.add_arg(Material, 'material') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'マテリアル')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.is_public = False

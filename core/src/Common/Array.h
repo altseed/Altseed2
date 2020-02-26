@@ -15,10 +15,7 @@ private:
 public:
     Array() {}
 
-    Array(int32_t size) {
-        vector_.reserve(size);
-        vector_.resize(size);
-    }
+    Array(int32_t size) { vector_.resize(size); }
 
     void CopyTo(T* array, int32_t size) {
         for (size_t i = 0; i < size; i++) {
@@ -45,7 +42,14 @@ public:
         this->vector_ = std::vector<T>(p, p + size);
     }
 
-    static std::shared_ptr<Array<T>>& Create() { return MakeAsdShared<Array<T>>(); }
+    void WriteDataTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size()); }
+
+    void Resize(int32_t size) { this->vector_.resize(size); }
+
+    static std::shared_ptr<Array<T>> Create(int32_t size) {
+        auto obj = MakeAsdShared<Array<T>>(size);
+        return obj;
+    }
 };
 
 struct BatchVertex;

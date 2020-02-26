@@ -14,8 +14,9 @@ with SeekOrigin as enum_:
 
 Int8Array = cbg.Class('Altseed', 'Int8Array')
 with Int8Array as class_:
+    class_.is_public = False
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
+    class_.brief.add('ja', '8ビット整数の配列のクラスを表します。')
     with class_.add_func("CopyTo") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定したインスタンスにデータをコピーします。')
@@ -38,14 +39,30 @@ with Int8Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーするデータ量')
+    with class_.add_func('Resize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'サイズを変更します。')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+    with class_.add_func('WriteDataTo') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データを指定したポインタにコピーします。')
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ポインタ')
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを作成します。')
         func.return_value.type_ = Int8Array
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
         func.is_static = True
 
 Int32Array = cbg.Class('Altseed', 'Int32Array')
 with Int32Array as class_:
+    class_.is_public = False
     class_.brief = cbg.Description()
     class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
     with class_.add_func("CopyTo") as func:
@@ -70,16 +87,32 @@ with Int32Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーするデータ量')
+    with class_.add_func('Resize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'サイズを変更します。')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+    with class_.add_func('WriteDataTo') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データを指定したポインタにコピーします。')
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ポインタ')
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを作成します。')
         func.return_value.type_ = Int32Array
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
         func.is_static = True
 
 VertexArray = cbg.Class('Altseed', 'VertexArray')
 with VertexArray as class_:
+    class_.is_public = False
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
+    class_.brief.add('ja', '頂点データの配列のクラスを表します。')
     with class_.add_func("CopyTo") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定したインスタンスにデータをコピーします。')
@@ -102,16 +135,32 @@ with VertexArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーするデータ量')
+    with class_.add_func('Resize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'サイズを変更します。')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+    with class_.add_func('WriteDataTo') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データを指定したポインタにコピーします。')
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ポインタ')
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを作成します。')
         func.return_value.type_ = VertexArray
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
         func.is_static = True
 
 FloatArray = cbg.Class('Altseed', 'FloatArray')
 with FloatArray as class_:
+    class_.is_public = False
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
+    class_.brief.add('ja', '浮動小数点数の配列のクラスを表します。')
     with class_.add_func("CopyTo") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定したインスタンスにデータをコピーします。')
@@ -134,10 +183,25 @@ with FloatArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーするデータ量')
+    with class_.add_func('Resize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'サイズを変更します。')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+    with class_.add_func('WriteDataTo') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データを指定したポインタにコピーします。')
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ポインタ')
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを作成します。')
         func.return_value.type_ = FloatArray
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
         func.is_static = True
 
 ResourceType = cbg.Enum('Altseed', 'ResourceType')
