@@ -24,10 +24,10 @@ private:
     std::vector<ShaderReflectionUniform> uniforms_;
     int32_t uniformSize_ = 0;
 
-    LLGI::Shader* shader_ = nullptr;
+    std::shared_ptr<LLGI::Shader> shader_ = nullptr;
 
 public:
-    ~Shader() { LLGI::SafeRelease(shader_); }
+    virtual ~Shader() {}
 
     /**
     @brief constructor
@@ -37,13 +37,13 @@ public:
     Shader(std::string code,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
-           LLGI::Shader* shader);
+           std::shared_ptr<LLGI::Shader> shader);
 
     int32_t GetUniformSize() const { return uniformSize_; }
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
-    LLGI::Shader* Get() const { return shader_; }
+    LLGI::Shader* Get() const { return shader_.get(); }
 };
 
 }  // namespace Altseed
