@@ -201,6 +201,26 @@ CBGEXPORT void CBGSTDCALL cbg_Int8Array_SetData(void* cbg_self, void* ptr, int32
     cbg_self_->SetData(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_WriteDataTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->WriteDataTo(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Int8Array_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::Int8Array> cbg_ret = Altseed::Int8Array::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Int8Array>(cbg_ret);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Int8Array_GetCount(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
 
@@ -222,6 +242,41 @@ CBGEXPORT void CBGSTDCALL cbg_Int32Array_CopyTo(void* cbg_self, void* array, int
     cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Int32Array_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int32Array_SetData(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->SetData(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int32Array_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int32Array_WriteDataTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->WriteDataTo(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Int32Array_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::Int32Array> cbg_ret = Altseed::Int32Array::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Int32Array>(cbg_ret);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Int32Array_GetCount(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
 
@@ -231,6 +286,118 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Int32Array_GetCount(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Int32Array_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_CopyTo(void* cbg_self, void* array, int32_t size) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)array);
+    int32_t cbg_arg1 = size;
+    cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_VertexArray_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_SetData(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->SetData(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_WriteDataTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->WriteDataTo(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_VertexArray_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::VertexArray> cbg_ret = Altseed::VertexArray::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::VertexArray>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_VertexArray_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_CopyTo(void* cbg_self, void* array, int32_t size) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    std::shared_ptr<Altseed::FloatArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)array);
+    int32_t cbg_arg1 = size;
+    cbg_self_->CopyTo(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_FloatArray_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_SetData(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->SetData(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_WriteDataTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->WriteDataTo(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_FloatArray_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::FloatArray> cbg_ret = Altseed::FloatArray::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::FloatArray>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_FloatArray_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -337,6 +504,11 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
     cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Joystick_GetInstance() {
+    std::shared_ptr<Altseed::Joystick> cbg_ret = Altseed::Joystick::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Joystick>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Joystick_IsPresent(void* cbg_self, int32_t joystickIndex) {
@@ -500,6 +672,12 @@ CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Renderer_GetInstance() {
     std::shared_ptr<Altseed::Renderer> cbg_ret = Altseed::Renderer::GetInstance();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Renderer>(cbg_ret);
@@ -517,6 +695,16 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList)
 
     std::shared_ptr<Altseed::CommandList> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
     cbg_self_->Render(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* vertexBuffer, void* indexBuffer, void* texture, void* material) {
+    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
+
+    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)vertexBuffer);
+    std::shared_ptr<Altseed::Int32Array> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Int32Array>((Altseed::Int32Array*)indexBuffer);
+    std::shared_ptr<Altseed::Texture2D> cbg_arg2 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
+    std::shared_ptr<Altseed::Material> cbg_arg3 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)material);
+    cbg_self_->DrawPolygon(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
@@ -890,14 +1078,6 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Resume(void* cbg_self, int32_t id) {
     cbg_self_->Resume(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Seek(void* cbg_self, int32_t id, float position) {
-    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
-
-    int32_t cbg_arg0 = id;
-    float cbg_arg1 = position;
-    cbg_self_->Seek(cbg_arg0, cbg_arg1);
-}
-
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetVolume(void* cbg_self, int32_t id, float volume) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
@@ -979,12 +1159,29 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPanningPosition(void* cbg_self, int3
     cbg_self_->SetPanningPosition(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPercent(void* cbg_self, int32_t id) {
+CBGEXPORT float CBGSTDCALL cbg_SoundMixer_GetPlaybackPosition(void* cbg_self, int32_t id) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
     int32_t cbg_arg0 = id;
-    float cbg_ret = cbg_self_->GetPlaybackPercent(cbg_arg0);
+    float cbg_ret = cbg_self_->GetPlaybackPosition(cbg_arg0);
     return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPlaybackPosition(void* cbg_self, int32_t id, float position) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    float cbg_arg1 = position;
+    cbg_self_->SetPlaybackPosition(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_GetSpectrumData(void* cbg_self, int32_t id, void* spectrums, int32_t window) {
+    auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    std::shared_ptr<Altseed::FloatArray> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)spectrums);
+    Altseed::FFTWindow cbg_arg2 = (Altseed::FFTWindow)window;
+    cbg_self_->GetSpectrumData(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {

@@ -1,6 +1,7 @@
 ﻿#include "Material.h"
 #include "BuildinShader.h"
-
+#include "../Logger/Log.h"
+#include "../Common/StringHelper.h"
 #include <glslang/Public/ShaderLang.h>
 #include <spirv_cross/spirv.hpp>
 
@@ -10,6 +11,8 @@ Vector4F MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
     auto it = vector4s_.find(key);
 
     if (it != vector4s_.end()) return it->second;
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlock::GetVector4F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return Vector4F();
 }
 
@@ -22,6 +25,8 @@ bool MaterialPropertyBlock::GetVector4F(const char16_t* key, Vector4F& value) {
         value = it->second;
         return true;
     }
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlock::GetVector4F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return false;
 }
 
@@ -41,6 +46,8 @@ bool MaterialPropertyBlock::GetMatrix44F(const char16_t* key, Matrix44F& value) 
         value = it->second;
         return true;
     }
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlock::GetMatrix44F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return false;
 }
 
@@ -48,6 +55,8 @@ std::shared_ptr<Texture2D> MaterialPropertyBlock::GetTexture(const char16_t* key
     auto it = textures_.find(key);
 
     if (it != textures_.end()) return it->second;
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlock::GetTexture: '{0}' is not found", utf16_to_utf8(key).c_str());
     return nullptr;
 }
 
@@ -60,6 +69,8 @@ bool MaterialPropertyBlock::GetTexture(const char16_t* key, std::shared_ptr<Text
         value = it->second;
         return true;
     }
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlock::GetTexture: '{0}' is not found", utf16_to_utf8(key).c_str());
     return false;
 }
 
@@ -75,6 +86,7 @@ Vector4F MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) const
         }
     }
 
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetVector4F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 
@@ -86,6 +98,7 @@ Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) con
         }
     }
 
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetMatrix44F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 
@@ -96,6 +109,8 @@ std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const cha
             return ret;
         }
     }
+
+    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetTexture: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 

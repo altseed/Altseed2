@@ -15,27 +15,25 @@
 
 namespace Altseed {
 
-bool Joystick::Initialize(JoystickType type) {
-    types_.fill(JoystickType::Other);
+std::shared_ptr<Joystick> Joystick::instance_ = nullptr;
 
-    this->RefreshConnectedState();
-    globalCount_ = 0;
+bool Joystick::Initialize() {
+    instance_ = MakeAsdShared<Joystick>();
+    instance_->types_.fill(JoystickType::Other);
+    instance_->globalCount_ = 0;
 
     for (int32_t i = 0; i < MAX_JOYSTICKS_NUM; i++) {
-        currentHit_[i].fill(false);
-        preHit_[i].fill(false);
-        vibrateStates_[i] = {};
+        instance_->currentHit_[i].fill(false);
+        instance_->preHit_[i].fill(false);
+        instance_->vibrateStates_[i] = {};
         //            currentAxis[i].fill(0);
     }
 
     return true;
 };
 
-void Joystick::Terminate() {
-    for (int32_t i = 0; i < MAX_JOYSTICKS_NUM; i++) {
-        hid_close(handler_[i]);
-    }
-};
+std::shared_ptr<Joystick>& Joystick::GetInstance() { return instance_; }
+
 bool Joystick::IsPresent(int32_t joystickIndex) { return (bool)handler_[joystickIndex]; }
 
 std::u16string Joystick::ToU16(const std::wstring& wstr) {

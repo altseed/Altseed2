@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <memory>
 
+#include "../../Common/Array.h"
 #include "../BatchRenderer.h"
 #include "Rendered.h"
 
@@ -39,11 +40,17 @@ public:
 
     void DrawPolygon(const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material);
 
+    void DrawPolygon(
+            std::shared_ptr<VertexArray> vb,
+            std::shared_ptr<Int32Array> ib,
+            const std::shared_ptr<Texture2D>& texture = nullptr,
+            const std::shared_ptr<Material>& material = nullptr);
+
     void DrawSprite(std::shared_ptr<RenderedSprite> sprite);
 
     void Render(std::shared_ptr<CommandList> commandList);
-    
-	std::shared_ptr<RenderedCamera> CreateCamera();
+
+    std::shared_ptr<RenderedCamera> CreateCamera();
 };
 
 }  // namespace Altseed

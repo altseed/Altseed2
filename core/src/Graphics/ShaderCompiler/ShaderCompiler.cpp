@@ -53,7 +53,7 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
     // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
         if (!spirvTranspiler_->Transpile(spirv)) {
-            Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader transpile error {} : {}", name, spirvTranspiler_->GetErrorCode());
+            Log::GetInstance()->Error(LogCategory::Core, u"Shader transpile error {} : {}", name, spirvTranspiler_->GetErrorCode());
             return nullptr;
         }
 
@@ -74,13 +74,13 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
     compiler_->Compile(result, availableCode.c_str(), shaderStageLLGI);
 
     if (result.Binary.size() == 0) {
-        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader compile error {} : {}", name, result.Message);
-        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Code :\n{}", code);
+        Log::GetInstance()->Error(LogCategory::Core, u"Shader compile error {} : {}", name, result.Message);
+        Log::GetInstance()->Error(LogCategory::Core, u"Code :\n{}", code);
         return nullptr;
     }
 
     if (!spirvReflection_->Transpile(spirv)) {
-        Log::GetInstance()->Write(LogCategory::Core, LogLevel::Error, u"Shader error {} : Failed to refrect.", name);
+        Log::GetInstance()->Error(LogCategory::Core, u"Shader error {} : Failed to refrect.", name);
         return nullptr;
     }
 

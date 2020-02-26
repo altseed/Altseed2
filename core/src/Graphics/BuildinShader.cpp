@@ -1,5 +1,6 @@
 #include "BuildinShader.h"
 #include "ShaderCompiler/ShaderCompiler.h"
+#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -52,7 +53,7 @@ struct PS_INPUT
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
 	float4 c;
-	c = mainTex.Sample(mainSamp, input.UV1);
+	c = mainTex.Sample(mainSamp, input.UV1) * input.Color;
 	return c;
 }
 )";
@@ -105,6 +106,7 @@ std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
         shaders_[type] = shader;
         return shader;
     } else {
+        LOG_CRITICAL(u"type is not found");
         assert(0);
     }
     return nullptr;

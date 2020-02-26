@@ -81,6 +81,8 @@ private:
     static const int MAX_BUTTONS_NUM = 30;
     static const int MAX_JOYSTICKS_NUM = 16;
 
+    static std::shared_ptr<Joystick> instance_;
+
     uint8_t globalCount_;
 
     std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
@@ -101,9 +103,11 @@ private:
     std::array<VibrateData, MAX_JOYSTICKS_NUM> vibrateStates_;
 
 public:
-    bool Initialize(JoystickType type);
+    static bool Initialize();
 
-    void Terminate();
+    static void Terminate() { instance_ = nullptr; }
+
+    static std::shared_ptr<Joystick>& GetInstance();
 
     void RefreshInputState();
 

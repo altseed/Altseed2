@@ -17,8 +17,10 @@ with StaticFile as class_:
         func.is_static = True
         func.return_value.type_ = StaticFile
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成します。')
+        func.return_value.brief.add(
+            'ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成します。')
     with class_.add_func('GetBuffer') as func:
+        func.is_public = False
         func.brief = cbg.Description()
         func.brief.add('ja', '読み込んだファイルのデータを取得します。')
         func.return_value.type_ = Int8Array
@@ -56,7 +58,8 @@ with StreamFile as class_:
         func.is_static = True
         func.return_value.type_ = StreamFile
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成します。')
+        func.return_value.brief.add(
+            'ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成します。')
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込むファイルのデータサイズを取得します。')
@@ -75,6 +78,7 @@ with StreamFile as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込まれたデータサイズ')
     with class_.add_func('GetTempBuffer') as func:
+        func.is_public = False
         func.brief = cbg.Description()
         func.brief.add('ja', '現在読み込んでいるファイルのデータを取得します。')
         func.return_value.type_ = Int8Array
@@ -176,4 +180,3 @@ with File as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '')
-        

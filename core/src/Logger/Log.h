@@ -1,7 +1,8 @@
 #pragma once
-
 #include <spdlog/spdlog.h>
 #include <memory>
+#include <string>
+#include <sstream>
 
 #include "../BaseObject.h"
 #include "../Common/Assertion.h"
@@ -20,6 +21,16 @@ enum class LogLevel : int32_t {
 };
 
 enum class LogCategory : int32_t { Core = 0, Engine, User };
+
+#ifdef _WIN32
+#define __FILENAME__ strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
+#define LOG_CRITICAL(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __FUNCTION__, __LINE__, format, __VA_ARGS__);
+#define LOG_CRITICAL_FMT(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __FUNCTION__, __LINE__, format, __VA_ARGS__);
+#else
+#define __FILENAME__ strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__
+#define LOG_CRITICAL(format) Log::GetInstance()->CriticalCore(__FILENAME__, __func__, __LINE__, format);
+#define LOG_CRITICAL_FMT(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __func__, __LINE__, format, __VA_ARGS__);
+#endif
 
 class Log : public BaseObject {
 private:
@@ -93,6 +104,17 @@ public:
     template <typename... Args>
     void Critical(LogCategory category, const char16_t* format, const Args&... args) {
         Write(category, LogLevel::Critical, format, args...);
+    }
+
+    template <typename... Args>
+    void CriticalCore(const char* filename, const char* funcname, const int linenum, const char16_t* format, const Args&... args) {
+        std::stringstream ss;
+        ss << "[" << filename << "]"
+           << "[" << funcname << "]"
+           << "[" << linenum << "]"
+           << utf16_to_utf8(format).c_str()
+        ;
+        Write(LogCategory::Core, LogLevel::Critical, utf8_to_utf16(ss.str()).c_str(), args...);
     }
 
     void SetLevel(LogCategory category, LogLevel level);

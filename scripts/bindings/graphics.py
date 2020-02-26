@@ -7,7 +7,7 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-# BatchVertex = cbg.Struct('Altseed', 'BatchVertex')
+BatchVertex = cbg.Struct('Altseed', 'BatchVertex', 'Vertex')
 Color = cbg.Struct('Altseed', 'Color')
 
 CommandList = cbg.Class('Altseed', 'CommandList')
@@ -82,6 +82,9 @@ with Texture2D as class_:
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
 
+Material = cbg.Class('Altseed', 'Material')
+
+
 Rendered = cbg.Class('Altseed', 'Rendered')
 with Rendered as class_:
     class_.brief('ja', '描画されるオブジェクトの基本クラスを表します')
@@ -130,6 +133,7 @@ with RenderedCamera as class_:
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
+    class_.is_public = True
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
     with class_.add_func('GetInstance') as func:
@@ -152,23 +156,18 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コマンドリスト')
         func.is_public = True  # TODO：Engine側できちんと隠す
-
-    # with class_.add_func('DrawPolygon') as func:
-    #     func.brief = cbg.Description()
-    #     func.brief.add('ja', 'ポリゴンを描画します')
-    #     with func.add_arg(BatchVertexArray, 'vertexBuffer') as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', '頂点バッファ')
-    #     with func.add_arg(Int32Array, 'indexBuffer') as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', 'インデックスバッファ')
-    #     with func.add_arg(int, 'vertexBufferCount') as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', '頂点バッファの要素数')
-    #     with func.add_arg(int, 'indexBufferCount') as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', '頂点バッファの要素数')
-    #     with func.add_arg(Texture2D, 'texture') as arg:
-    #         arg.brief = cbg.Description()
-    #         arg.brief.add('ja', 'テクスチャ')
-    #     func.is_public = True # TODO：Engine側できちんと隠す
+    with class_.add_func('DrawPolygon') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ポリゴンを描画します')
+        with func.add_arg(VertexArray, 'vertexBuffer') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '頂点バッファ')
+        with func.add_arg(Int32Array, 'indexBuffer') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Texture2D, 'texture') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャ')
+        with func.add_arg(Material, 'material') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'マテリアル')
+        func.is_public = False

@@ -9,8 +9,8 @@
 
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
-#include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/Renderer.h"
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
@@ -44,7 +44,6 @@ TEST(Graphics, BasicPolygonTextureRender) {
 
     while (count++ < 100 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
-
 
         Altseed::BatchVertex v1[4];
         Altseed::BatchVertex v2[4];
@@ -86,9 +85,110 @@ TEST(Graphics, BasicPolygonTextureRender) {
         }
 
         Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, 4, 6, t1);
-        
+
         instance->GetCommandList()->SetRenderTargetWithScreen();
-		Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, PolygonTextureRenderWithVertexArray) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"PolygonTextureRenderWithVertexArray", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto v1 = Altseed::MakeAsdShared<Altseed::VertexArray>();
+    {
+        auto& vv = v1->GetVector();
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+
+        vv[0].Pos.X = 10;
+        vv[0].Pos.Y = 10;
+        vv[0].Pos.Z = 0.5f;
+        vv[0].UV1.X = 0.0f;
+        vv[0].UV1.Y = 0.0f;
+
+        vv[1].Pos.X = 110;
+        vv[1].Pos.Y = 10;
+        vv[1].Pos.Z = 0.5f;
+        vv[1].UV1.X = 1.0f;
+        vv[1].UV1.Y = 0.0f;
+
+        vv[2].Pos.X = 110;
+        vv[2].Pos.Y = 110;
+        vv[2].Pos.Z = 0.5f;
+        vv[2].UV1.X = 1.0f;
+        vv[2].UV1.Y = 1.0f;
+
+        vv[3].Pos.X = 10;
+        vv[3].Pos.Y = 110;
+        vv[3].Pos.Z = 0.5f;
+        vv[3].UV1.X = 0.0f;
+        vv[3].UV1.Y = 1.0f;
+
+        for (int i = 0; i < 4; i++) {
+            vv[i].Col = Altseed::Color(255, 255, 255, 255);
+        }
+    }
+
+    auto v2 = Altseed::MakeAsdShared<Altseed::VertexArray>();
+    {
+        auto& vv = v2->GetVector();
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+        vv.push_back(Altseed::BatchVertex{});
+
+        vv[0].Pos.X = 210;
+        vv[0].Pos.Y = 210;
+        vv[0].Pos.Z = 0.5f;
+        vv[0].Col = Altseed::Color(0, 255, 255, 255);
+
+        vv[1].Pos.X = 310;
+        vv[1].Pos.Y = 210;
+        vv[1].Pos.Z = 0.5f;
+        vv[1].Col = Altseed::Color(255, 0, 255, 255);
+
+        vv[2].Pos.X = 310;
+        vv[2].Pos.Y = 310;
+        vv[2].Pos.Z = 0.5f;
+        vv[2].Col = Altseed::Color(255, 255, 0, 255);
+
+        vv[3].Pos.X = 210;
+        vv[3].Pos.Y = 310;
+        vv[3].Pos.Z = 0.5f;
+        vv[3].Col = Altseed::Color(255, 255, 255, 255);
+    }
+
+    auto ib = Altseed::MakeAsdShared<Altseed::Int32Array>();
+    auto& ibv = ib->GetVector();
+    ibv.push_back(0);
+    ibv.push_back(1);
+    ibv.push_back(2);
+    ibv.push_back(2);
+    ibv.push_back(3);
+    ibv.push_back(0);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, t1);
+        Altseed::Renderer::GetInstance()->DrawPolygon(v2, ib);
+
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
 
         EXPECT_TRUE(instance->EndFrame());
     }

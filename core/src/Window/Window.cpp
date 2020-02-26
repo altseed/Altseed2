@@ -3,6 +3,7 @@
 #include <codecvt>
 #include <locale>
 
+#include "../Logger/Log.h"
 #include "../Common/StringHelper.h"
 
 // GLFW
@@ -28,7 +29,10 @@ std::shared_ptr<Window> Window::instance_ = nullptr;
 std::shared_ptr<Window>& Window::GetInstance() { return instance_; }
 
 bool Window::Initialize(const WindowInitializationParameter& parameter) {
-    if (!glfwInit()) return false;
+    if (!glfwInit()) {
+        LOG_CRITICAL(u"glfwInit failed");
+        return false;
+    }
 
     instance_ = CreateSharedPtr(new Window());
 
@@ -58,6 +62,7 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
             glfwCreateWindow(parameter.WindowWidth, parameter.WindowHeight, utf16_to_utf8(parameter.Title).c_str(), monitor, nullptr);
     if (GetInstance()->mainWindow_ == nullptr) {
         glfwTerminate();
+        LOG_CRITICAL(u"mainWindow_ is null");
         return false;
     }
     // memolize title to get later
@@ -104,7 +109,10 @@ void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInsta
 void Window::GetSize(int32_t& width, int32_t& height) { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
 
 bool Window::DoEvent() {
-    if (GetInstance()->mainWindow_ == nullptr) return false;
+    if (GetInstance()->mainWindow_ == nullptr) {
+        LOG_CRITICAL(u"mainwindow_ is null");
+        return false;
+    }
 
     glfwPollEvents();
 
@@ -123,14 +131,20 @@ bool Window::DoEvent() {
 void Window::GetMonitorSize(int32_t& width, int32_t& height) {
     auto monitor = glfwGetPrimaryMonitor();
 
-    if (monitor != nullptr) {
-        auto videomode = glfwGetVideoMode(monitor);
-
-        if (videomode != nullptr) {
-            width = videomode->width;
-            height = videomode->height;
-        }
+    if (monitor == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Window::GetMonitorSize: monitor is null");
+        return;
     }
+
+    auto videomode = glfwGetVideoMode(monitor);
+
+    if (videomode == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Window::GetMonitorSize: videomode is null");
+        return;
+    }
+
+    width = videomode->width;
+    height = videomode->height;
 }
 
 }  // namespace Altseed

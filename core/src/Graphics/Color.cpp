@@ -16,4 +16,9 @@ Color& Color::operator*=(const Color& right) {
 }
 
 bool Color::operator==(const Color& right) { return R == right.R && G == right.G && B == right.B && A == right.A; }
+
+Color::operator Color_C() const { return Color_C{R, G, B, A}; }
+
+Color_C::operator Color() const { return Color(R, G, B, A); }
+
 }  // namespace Altseed
