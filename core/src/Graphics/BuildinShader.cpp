@@ -53,7 +53,7 @@ struct PS_INPUT
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
 	float4 c;
-	c = mainTex.Sample(mainSamp, input.UV1);
+	c = mainTex.Sample(mainSamp, input.UV1) * input.Color;
 	return c;
 }
 )";
