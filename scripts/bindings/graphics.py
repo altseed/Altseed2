@@ -115,48 +115,76 @@ Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
     class_.brief('ja', 'マテリアル')
     with class_.add_constructor() as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('GetVector4F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         func.return_value.type_ = Vector4F
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('SetVector4F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         with func.add_arg(Vector4F, 'value') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('GetMatrix44F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         func.return_value.type_ = Matrix44F
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('SetMatrix44F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         with func.add_arg(Matrix44F, 'value') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('GetTexture') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         func.return_value.type_ = Texture2D
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('GetTexture') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         with func.add_arg(Texture2D, 'value') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_func('SetTexture') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         with func.add_arg(Texture2D, 'value') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
         func.is_public = True
     with class_.add_property(Shader, 'Shader') as prop:
         prop.brief = cbg.Description()
+        prop.brief.add('ja', '')
         prop.has_getter = True
         prop.has_setter = True
 
