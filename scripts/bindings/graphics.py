@@ -113,7 +113,8 @@ with Texture2D as class_:
 
 Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
-    class_.brief('ja', 'マテリアル')
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'マテリアル')
     with class_.add_constructor() as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '')
