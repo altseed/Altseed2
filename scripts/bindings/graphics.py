@@ -223,11 +223,11 @@ with RenderedSprite as class_:
         prop.brief.add('ja', '変換行列を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
-    # with class_.add_property(Material, 'Material') as prop:
-    #     prop.brief = cbg.Description()
-    #     prop.brief.add('ja', 'マテリアルを取得または設定します。')
-    #     prop.has_getter = True
-    #     prop.has_setter = True
+    with class_.add_property(Material, 'Material') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
 
 RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
 with RenderedCamera as class_:
