@@ -177,7 +177,7 @@ with WritingDirection as enum_:
     enum_.add('Vertical')
     enum_.add('Horizontal')
 
-Glyph = cbg.Class('Altseed', 'Glyph')
+Glyph = cbg.Class('Altseed', 'Glyph', cbg.CacheMode.ThreadSafeCache)
 with Glyph as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '文字情報')
@@ -206,7 +206,7 @@ with Glyph as class_:
         prop.brief.add('ja', '文字の幅を取得する')
         prop.has_getter = True
 
-Font = cbg.Class('Altseed', 'Font')
+Font = cbg.Class('Altseed', 'Font', cbg.CacheMode.ThreadSafeCache)
 with Font as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'フォント')
