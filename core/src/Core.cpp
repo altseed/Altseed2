@@ -59,6 +59,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     }
 
     if (!Joystick::Initialize()) {
+        LOG_CRITICAL(u"Joystick::Initialize failed");
         Core::instance = nullptr;
         return false;
     }

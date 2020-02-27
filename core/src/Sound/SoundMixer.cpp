@@ -1,4 +1,5 @@
 ﻿#include "SoundMixer.h"
+#include "Logger/Log.h"
 
 namespace Altseed {
 
@@ -31,7 +32,11 @@ std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return instance_; }
 
 int32_t SoundMixer::Play(std::shared_ptr<Sound> sound) {
     if (m_manager == nullptr) return -1;
-    if (sound == nullptr) return -1;
+    if (sound == nullptr)
+    {
+        Log::GetInstance()->Error(LogCategory::Core, u"SoundMixer::Play: failed, sound is null");
+        return -1;
+    }
 
     return m_manager->Play(sound->GetSound().get());
 }
