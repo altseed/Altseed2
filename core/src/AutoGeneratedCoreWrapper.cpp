@@ -51,6 +51,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/BuildinShader.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
@@ -714,14 +715,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Material_GetTexture(void* cbg_self, const char16_
     const char16_t* cbg_arg0 = key;
     std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture(cbg_arg0);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Material_GetTexture(void* cbg_self, const char16_t* key, void* value) {
-    auto cbg_self_ = (Altseed::Material*)(cbg_self);
-
-    const char16_t* cbg_arg0 = key;
-    std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
-    cbg_self_->GetTexture(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Material_SetTexture(void* cbg_self, const char16_t* key, void* value) {

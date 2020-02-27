@@ -163,16 +163,6 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')
         func.is_public = True
-    with class_.add_func('GetTexture') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '')
-        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func.add_arg(Texture2D, 'value') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        func.is_public = True
     with class_.add_func('SetTexture') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '')
