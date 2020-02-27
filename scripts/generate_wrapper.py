@@ -29,9 +29,11 @@ if __name__ == '__main__':
 #include "Graphics/Graphics.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Texture2D.h"
+#include "Graphics/Font.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/BuildinShader.h"
 
 #include "IO/File.h"
 #include "IO/PackFile.h"
