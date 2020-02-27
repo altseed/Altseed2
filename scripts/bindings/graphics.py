@@ -8,7 +8,7 @@ from .io import *
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
 BatchVertex = cbg.Struct('Altseed', 'BatchVertex', 'Vertex')
-Color = cbg.Struct('Altseed', 'Color', 'Color_C')
+Color = cbg.Struct('Altseed', 'Color_C', 'Color')
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
