@@ -114,6 +114,7 @@ with Texture2D as class_:
 Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
     class_.brief('ja', 'マテリアル')
+    class_.add_constructor()
     with class_.add_func('GetVector4F') as func:
         func.return_value.type_ = Vector4F
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
