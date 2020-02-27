@@ -19,6 +19,31 @@ with CommandList as class_:
         func.brief.add('ja', '？')
         func.is_public = True  # TODO：Engine側できちんと隠す
 
+Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
+with Shader as class_:
+    class_.brief('ja', 'シェーダ')
+
+BuildinShaderType = cbg.Enum('Altseed', 'BuildinShaderType')
+with BuildinShaderType as enum_:
+    enum_.add('SpriteUnlitVS')
+    enum_.add('SpriteUnlitPS')
+    enum_.add('FontUnlitPS')
+
+BuildinShader = cbg.Class('Altseed', 'BuildinShader')
+with BuildinShader as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'ビルド済みシェーダの取得を行うクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'シェーダを取得します。')
+        func.return_value.type_ = Shader
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'シェーダ')
+        with func.add_arg(BuildinShaderType, 'type') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'シェーダの種類')
+        func.is_public = True
+
 Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:
     class_.brief = cbg.Description()
@@ -49,6 +74,10 @@ with Graphics as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'コマンドリストを取得します。')
         prop.has_getter = True  # TODO：Engine側できちんと隠す
+    with class_.add_property(BuildinShader, 'BuildinShader') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ビルド済みシェーダを取得します。')
+        prop.has_getter = True
     with class_.add_func('DoEvents') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'イベントを処理します。')
@@ -82,8 +111,45 @@ with Texture2D as class_:
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
 
-Material = cbg.Class('Altseed', 'Material')
-
+Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
+with Material as class_:
+    class_.brief('ja', 'マテリアル')
+    with class_.add_func('GetVector4F') as func:
+        func.return_value.type_ = Vector4F
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('SetVector4F') as func:
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Vector4F, 'value') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('GetMatrix44F') as func:
+        func.return_value.type_ = Matrix44F
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('SetMatrix44F') as func:
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Matrix44F, 'value') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('GetTexture') as func:
+        func.return_value.type_ = Texture2D
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('GetTexture') as func:
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Texture2D, 'value') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_func('SetTexture') as func:
+        with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Texture2D, 'value') as arg:
+            arg.brief = cbg.Description()
+    with class_.add_property(Shader, 'Shader') as prop:
+        prop.brief = cbg.Description()
+        prop.has_getter = True
+        prop.has_setter = True
 
 Rendered = cbg.Class('Altseed', 'Rendered')
 with Rendered as class_:

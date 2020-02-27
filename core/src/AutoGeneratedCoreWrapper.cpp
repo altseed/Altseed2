@@ -633,6 +633,13 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetCommandList(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::CommandList>(cbg_ret);
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetBuildinShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
+
+    std::shared_ptr<Altseed::BuildinShader> cbg_ret = cbg_self_->GetBuildinShader();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::BuildinShader>(cbg_ret);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 
@@ -783,6 +790,26 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_BuildinShader_Create(void* cbg_self, int32_t type) {
+    auto cbg_self_ = (Altseed::BuildinShader*)(cbg_self);
+
+    Altseed::BuildinShaderType cbg_arg0 = (Altseed::BuildinShaderType)type;
+    std::shared_ptr<Altseed::Shader> cbg_ret = cbg_self_->Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_BuildinShader_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuildinShader*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Shader_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Shader*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Glyph_GetTextureSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::Glyph*)(cbg_self);
 
@@ -834,7 +861,7 @@ CBGEXPORT void CBGSTDCALL cbg_Glyph_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t size, void* color) {
     const char16_t* cbg_arg0 = path;
     int32_t cbg_arg1 = size;
-    Altseed::Color cbg_arg2 = (*((Altseed::Color*)color));
+    Altseed::Color_C cbg_arg2 = (*((Altseed::Color_C*)color));
     std::shared_ptr<Altseed::Font> cbg_ret = Altseed::Font::LoadDynamicFont(cbg_arg0, cbg_arg1, cbg_arg2);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Font>(cbg_ret);
 }
@@ -880,10 +907,10 @@ CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Font_CalcTextureSize(void* cbg_self
     return (cbg_ret);
 }
 
-CBGEXPORT Altseed::Color CBGSTDCALL cbg_Font_GetColor(void* cbg_self) {
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Font_GetColor(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
-    Altseed::Color cbg_ret = cbg_self_->GetColor();
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
     return (cbg_ret);
 }
 
