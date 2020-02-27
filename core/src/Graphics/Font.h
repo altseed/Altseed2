@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#define STB_TRUETYPE_IMPLEMENTATION
 #include <stb_truetype.h>
 #include <array>
 #include <map>
@@ -15,7 +14,7 @@
 namespace Altseed {
 enum class WritingDirection : int32_t { Vertical, Horizontal };
 
-class Glyph {
+class Glyph : public BaseObject {
 private:
     Vector2I textureSize_;
     int32_t textureIndex_;
@@ -33,12 +32,6 @@ public:
     Vector2I GetSize() { return size_; }
     Vector2I GetOffset() { return offset_; }
     int32_t GetGlyphWidth() { return glyphWidth_; }
-    std::array<Vector2F, 4> GetUVs() {
-        return {Vector2F((float)position_.X / textureSize_.X, (float)position_.Y / textureSize_.Y),
-                Vector2F((float)(position_.X + size_.X) / textureSize_.X, (float)position_.Y / textureSize_.Y),
-                Vector2F((float)(position_.X + size_.X) / textureSize_.X, (float)(position_.Y + size_.Y) / textureSize_.Y),
-                Vector2F((float)position_.X / textureSize_.X, (float)(position_.Y + size_.Y) / textureSize_.Y)};
-    }
 };
 
 class Font : public Resource {
@@ -53,7 +46,7 @@ private:
     Color color_;
     std::shared_ptr<StaticFile> file_;
 
-    std::map<char16_t, Glyph*> glyphs_;
+    std::map<char16_t, std::shared_ptr<Glyph>> glyphs_;
     std::vector<std::shared_ptr<Texture2D>> textures_;
     Vector2I textureSize_;
 
@@ -69,13 +62,13 @@ public:
     int32_t GetDescent() { return descent_; }
     int32_t GetLineGap() { return lineGap_; }
 
-    Glyph* GetGlyph(const char16_t character);
+    std::shared_ptr<Glyph> GetGlyph(const int32_t character);
     std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
         if (index >= textures_.size()) return nullptr;
         return textures_[index];
     }
 
-    int32_t GetKerning(const char16_t c1, const char16_t c2);
+    int32_t GetKerning(const int32_t c1, const int32_t c2);
     Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size, Color color);

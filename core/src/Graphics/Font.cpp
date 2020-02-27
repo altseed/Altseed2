@@ -1,4 +1,6 @@
-﻿#include "Font.h"
+﻿#define STB_TRUETYPE_IMPLEMENTATION
+
+#include "Font.h"
 #include <string>
 #include "../IO/File.h"
 #include "Graphics.h"
@@ -26,21 +28,18 @@ Font::~Font() {
     for (auto& i : textures_) {
         if (i != nullptr) i->Release();
     }
-    for (auto& i : glyphs_) {
-        delete i.second;
-    }
 }
 
-Glyph* Font::GetGlyph(const char16_t character) {
-    if (glyphs_.count(character)) return glyphs_[character];
+std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
+    if (glyphs_.count((char16_t)character)) return glyphs_[(char16_t)character];
 
-    AddGlyph(character);
-    return glyphs_[character];
+    AddGlyph((char16_t)character);
+    return glyphs_[(char16_t)character];
 }
 
-int32_t Font::GetKerning(const char16_t c1, const char16_t c2) {
+int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
     int kern;
-    kern = stbtt_GetCodepointKernAdvance(&fontinfo_, c1, c2);
+    kern = stbtt_GetCodepointKernAdvance(&fontinfo_, (char16_t)c1, (char16_t)c2);
     return kern * scale_;
 }
 
@@ -143,7 +142,7 @@ void Font::AddGlyph(const char16_t character) {
         currentTexturePosition_.X += w;
     }
 
-    auto glyph = new Glyph(textureSize_, textures_.size() - 1, pos, Vector2I(w, h), offset, glyphW);
+    auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(w, h), offset, glyphW);
     glyphs_[character] = glyph;
 }
 

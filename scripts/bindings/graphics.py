@@ -171,3 +171,139 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'マテリアル')
         func.is_public = False
+
+WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
+with WritingDirection as enum_:
+    enum_.add('Vertical')
+    enum_.add('Horizontal')
+
+Glyph = cbg.Class('Altseed', 'Glyph')
+with Glyph as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '文字情報')
+    with class_.add_property(Vector2I, 'TextureSize') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字テクスチャのサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'TextureIndex') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字テクスチャのインデックスを取得する')
+        prop.has_getter = True
+    with class_.add_property(Vector2I, 'Position') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字の座標を取得する')
+        prop.has_getter = True
+    with class_.add_property(Vector2I, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字のサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(Vector2I, 'Offset') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字のオフセットを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'GlyphWidth') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字の幅を取得する')
+        prop.has_getter = True
+
+Font = cbg.Class('Altseed', 'Font')
+with Font as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'フォント')
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントの色を取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントのサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'Ascent') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントのベースラインからトップラインまでの距離を取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'Descent') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントのベースラインからボトムラインまでの距離を取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'LineGap') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントの行間の距離を取得する')
+        prop.has_getter = True
+    with class_.add_func('LoadDynamicFont') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '動的にフォントを生成します')
+        func.return_value.type_ = Font
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'フォント')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むフォントのパス')
+        with func.add_arg(int, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フォントのサイズ')
+        with func.add_arg(Color, 'color') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フォントの色')
+        func.is_public = True
+        func.is_static = True
+    with class_.add_func('LoadStaticFont') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '静的にフォントを生成します')
+        func.return_value.type_ = Font
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'フォント')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むフォントのパス')
+        func.is_public = True
+        func.is_static = True
+    with class_.add_func('GetGlyph') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '文字情報を取得する')
+        func.return_value.type_ = Glyph
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '文字')
+        with func.add_arg(int, 'character') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字')
+        func.is_public = True
+    with class_.add_func('GetFontTexture') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '文字列テクスチャを得る')
+        func.return_value.type_ = Texture2D
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'テクスチャ')
+        with func.add_arg(int, 'index') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'インデックス')
+        func.is_public = True
+    with class_.add_func('GetKerning') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'カーニングを得る')
+        func.return_value.type_ = int
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'カーニング')
+        with func.add_arg(int, 'c1') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字1')
+        with func.add_arg(int, 'c2') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字2')
+        func.is_public = True
+    with class_.add_func('CalcTextureSize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テキストを描画したときのサイズを取得します')
+        func.return_value.type_ = Vector2I
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'サイズ')
+        with func.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テキスト')
+        with func.add_arg(WritingDirection, 'direction') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字列の方向')
+        with func.add_arg(bool, 'isEnableKerning') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'カーニングの有無')
+        func.is_public = True
