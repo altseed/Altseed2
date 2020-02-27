@@ -672,6 +672,80 @@ CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Material_Constructor_0() {
+    return new Altseed::Material();
+}
+
+CBGEXPORT Altseed::Vector4F_C CBGSTDCALL cbg_Material_GetVector4F(void* cbg_self, const char16_t* key) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    Altseed::Vector4F_C cbg_ret = cbg_self_->GetVector4F(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_SetVector4F(void* cbg_self, const char16_t* key, void* value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    Altseed::Vector4F_C cbg_arg1 = (*((Altseed::Vector4F_C*)value));
+    cbg_self_->SetVector4F(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_Material_GetMatrix44F(void* cbg_self, const char16_t* key) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetMatrix44F(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_SetMatrix44F(void* cbg_self, const char16_t* key, void* value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    Altseed::Matrix44F_C cbg_arg1 = (*((Altseed::Matrix44F_C*)value));
+    cbg_self_->SetMatrix44F(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Material_GetTexture(void* cbg_self, const char16_t* key) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_GetTexture(void* cbg_self, const char16_t* key, void* value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    cbg_self_->GetTexture(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_SetTexture(void* cbg_self, const char16_t* key, void* value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    const char16_t* cbg_arg0 = key;
+    std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    cbg_self_->SetTexture(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Material_GetShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    std::shared_ptr<Altseed::Shader> cbg_ret = cbg_self_->GetShader();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    std::shared_ptr<Altseed::Shader> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Shader>((Altseed::Shader*)value);
+    cbg_self_->SetShader(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
@@ -776,6 +850,20 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTransform(void* cbg_self, void* 
 
     Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
     cbg_self_->SetTransform(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_GetMaterial(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_ret = cbg_self_->GetMaterial();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Material>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetMaterial(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)value);
+    cbg_self_->SetMaterial(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
