@@ -19,7 +19,7 @@ class RenderTexture;
 class CommandList : public BaseObject {
 private:
     struct RenderPassCache {
-        int32_t Life;
+        int32_t Life = 0;
         std::shared_ptr<LLGI::RenderPass> Stored;
     };
 
