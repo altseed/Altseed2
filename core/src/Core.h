@@ -9,6 +9,7 @@
 
 #include "BaseObject.h"
 #include "Configuration.h"
+#include "FPS.h"
 
 namespace Altseed {
 
@@ -23,6 +24,8 @@ private:
 
     //! list of baseObjects
     std::set<BaseObject*> baseObjects;
+
+    std::unique_ptr<FPS> fps_;
 
 public:
     //! register a base object
@@ -51,5 +54,15 @@ public:
     static std::shared_ptr<Core>& GetInstance();
 
     bool DoEvent();
+
+    const float GetDeltaSecond();
+
+    const float GetCurrentFPS();
+
+    const int32_t GetTargetFPS();
+    void SetTargetFPS(int32_t fps);
+
+    const FramerateMode GetFramerateMode();
+    void SetFramerateMode(FramerateMode framerateMode);
 };
 }  // namespace Altseed

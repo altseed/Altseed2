@@ -43,6 +43,7 @@ define.structs.append(Matrix44F)
 
 # core
 define.classes.append(Configuration)
+define.enums.append(FramerateMode)
 define.classes.append(Core)
 
 # common

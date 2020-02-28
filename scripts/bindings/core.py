@@ -41,6 +41,13 @@ with Configuration as class_:
         prop.has_getter = True
         prop.has_setter = True
 
+FramerateMode = cbg.Enum('Altseed', 'FramerateMode')
+with FramerateMode as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'フレームレートモード')
+    enum_.add('Variable')
+    enum_.add('Constant')
+
 Core = cbg.Class('Altseed', 'Core')
 with Core as class_:
     class_.brief = cbg.Description()
@@ -85,3 +92,27 @@ with Core as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
+
+    with class_.add_property(float, 'DeltaSecond') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '前のフレームからの経過時間(秒)を取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+
+    with class_.add_property(float, 'CurrentFPS') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '現在のFPSを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+
+    with class_.add_property(float, 'TargetFPS') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '目標のFPSを取得または設定します。')
+        prop_.has_getter = True
+        prop_.has_setter = True
+
+    with class_.add_property(FramerateMode, 'FramerateMode') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'フレームレートモードを取得または設定します。デフォルトでは可変フレームレートです。')
+        prop_.has_getter = True
+        prop_.has_setter = True
