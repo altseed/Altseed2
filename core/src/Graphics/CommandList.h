@@ -3,7 +3,9 @@
 
 #include <LLGI.Graphics.h>
 #include <Utils/LLGI.CommandListPool.h>
+
 #include <map>
+
 #include "../BaseObject.h"
 #include "../Graphics/BatchRenderer.h"
 #include "../Graphics/Color.h"
@@ -31,19 +33,21 @@ private:
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
     bool isInRenderPass_ = false;
 
-    bool isEditorModeEnabled_ = false;
     std::shared_ptr<RenderTexture> internalScreen_;
 
     std::shared_ptr<LLGI::VertexBuffer> blitVB_;
     std::shared_ptr<LLGI::IndexBuffer> blitIB_;
+    std::shared_ptr<Material> copyMaterial_;
 
     std::shared_ptr<LLGI::Texture> proxyTexture_;
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
 
+    bool isRequiredNotToPresent_ = false;
+
 public:
     static std::shared_ptr<CommandList> Create();
 
-    void SetEditorModeEnabled(bool enabled);
+    std::shared_ptr<RenderTexture> GetScreenTexture() const;
 
     void StartFrame();
 
@@ -51,30 +55,29 @@ public:
 
     void SetScissor(const RectI& scissor);
 
-    void SetRenderTargetWithScreen();
-
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
-
-    /**
-            @brief	apply material and render to target texture.
-            @note
-            Screen is stored as mainTex
-    */
-    void BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material = nullptr);
-
-    /**
-        @brief	apply material and render to target texture.
-            @note
-    */
-    void BlitMaterialToScreen(std::shared_ptr<Material> material = nullptr);
 
     /**
         @brief	apply material and render to target texture.
         @note
         src is stored as mainTex
     */
-    void BlitTextureToTexture(
-            std::shared_ptr<RenderTexture> target, std::shared_ptr<Texture2D> src, std::shared_ptr<Material> material = nullptr);
+    void RenderToRenderTarget(std::shared_ptr<Material> material);
+
+     /**
+       @brief  (internal function) Set render target with a real screen
+   */
+    void SetRenderTargetWithScreen();
+
+    /**
+        @brief  (internal function) Present a screen texture into a screen
+    */
+    void PresentInternal();
+
+    /**
+        @brief  (internal function) required not to present in this frame
+    */
+    void RequireNotToPresent();
 
     void StoreUniforms(
             CommandList* commandList,

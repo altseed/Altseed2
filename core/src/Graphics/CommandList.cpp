@@ -1,12 +1,14 @@
 #include "CommandList.h"
+
 #include "../Graphics/Graphics.h"
+#include "BuildinShader.h"
 #include "RenderTexture.h"
 
 namespace Altseed {
 
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128));  // TODO : fix DX12 bug
+    auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128));
     auto commandListPool = std::make_shared<LLGI::CommandListPool>(g, memoryPool.get(), 3);
     auto ret = CreateSharedPtr(new CommandList());
 
@@ -66,6 +68,7 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
             for (size_t i = 0; i < 4; i++) {
                 vb[i].UV2 = vb[i].UV1;
+                vb[i].Col = Color(255, 255, 255, 255);
             }
 
             ret->blitVB_->Unlock();
@@ -88,23 +91,27 @@ std::shared_ptr<CommandList> CommandList::Create() {
     return ret;
 }
 
-void CommandList::SetEditorModeEnabled(bool enabled) {
-    if (isEditorModeEnabled_ == enabled) {
-        return;
-    }
-
-    isEditorModeEnabled_ = enabled;
-
-    if (isEditorModeEnabled_ && internalScreen_ == nullptr) {
-        auto r = Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true);
-        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-
-        auto size = r->GetRenderTexture(0)->GetSizeAs2D();
-        internalScreen_ = MakeAsdShared<RenderTexture>(Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y));
-    }
-}
+std::shared_ptr<RenderTexture> CommandList::GetScreenTexture() const { return internalScreen_; }
 
 void CommandList::StartFrame() {
+    if (copyMaterial_ == nullptr) {
+        copyMaterial_ = MakeAsdShared<Material>();
+        auto vs = Graphics::GetInstance()->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
+        auto ps = Graphics::GetInstance()->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitPS);
+        copyMaterial_->SetShader(ps);
+    }
+
+    // Generate internal screen
+    {
+        auto r = Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(50, 50, 50, 255), true, true);
+        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+        if (internalScreen_ == nullptr || internalScreen_->GetSize().X != r->GetRenderTexture(0)->GetSizeAs2D().X ||
+            internalScreen_->GetSize().Y != r->GetRenderTexture(0)->GetSizeAs2D().Y) {
+            auto size = r->GetRenderTexture(0)->GetSizeAs2D();
+            internalScreen_ = RenderTexture::Create(Vector2I(size.X, size.Y));
+        }
+    }
+
     memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
     currentCommandList_->Begin();
@@ -120,6 +127,9 @@ void CommandList::StartFrame() {
             it++;
         }
     }
+
+    // Reset
+    isRequiredNotToPresent_ = false;
 }
 
 void CommandList::EndFrame() {
@@ -132,25 +142,6 @@ void CommandList::EndFrame() {
 }
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
-
-void CommandList::SetRenderTargetWithScreen() {
-    if (isEditorModeEnabled_) {
-        SetRenderTarget(internalScreen_, RectI(0, 0, internalScreen_->GetSize().X, internalScreen_->GetSize().Y));
-    } else {
-        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-
-        if (isInRenderPass_) {
-            currentCommandList_->EndRenderPass();
-        }
-
-        auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
-        r->AddRef();
-
-        currentCommandList_->BeginRenderPass(r.get());
-        currentRenderPass_ = r;
-        isInRenderPass_ = true;
-    }
-}
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport) {
     auto it = renderPassCaches_.find(target);
@@ -178,101 +169,63 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     isInRenderPass_ = true;
 }
 
-void CommandList::BlitScreenToTexture(std::shared_ptr<RenderTexture> target, std::shared_ptr<Material> material) {
-    SetRenderTarget(target, RectI(0, 0, target->GetSize().X, target->GetSize().Y));
-
+void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     // default paramter
     Matrix44F matE;
     matE.SetIdentity();
     material->SetMatrix44F(u"matView", matE);
     material->SetMatrix44F(u"matProjection", matE);
+    matPropBlockCollection_->Clear();
+    matPropBlockCollection_->Add(material->GetPropertyBlock());
 
-    // target
-    if (isEditorModeEnabled_) {
-        auto renderPass = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(255, 0, 0, 255), true, true));
-        auto renderTarget = LLGI::CreateSharedPtr(renderPass->GetRenderTexture(0));
-        renderTarget->AddRef();
+    // VB, IB
+    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
+    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
 
-        material->SetTexture(u"mainTex", MakeAsdShared<RenderTexture>(renderTarget));
-    } else {
-        material->SetTexture(u"mainTex", internalScreen_);
+    // pipeline state
+    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+
+    // constant buffer
+    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+
+    // texture
+    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+
+    // draw
+    currentCommandList_->Draw(2);
+}
+
+void CommandList::SetRenderTargetWithScreen() {
+    auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+
+    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(50, 50, 50, 255), true, true));
+    r->AddRef();
+
+    if (r == currentRenderPass_) {
+        return;
     }
 
-    // VB, IB
-    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
-    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
+    if (isInRenderPass_) {
+        currentCommandList_->EndRenderPass();
+    }
 
-    // pipeline state
-    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
-
-    // constant buffer
-    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // texture
-    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // draw
-    currentCommandList_->Draw(2);
+    currentCommandList_->BeginRenderPass(r.get());
+    currentRenderPass_ = r;
+    isInRenderPass_ = true;
 }
 
-void CommandList::BlitMaterialToScreen(std::shared_ptr<Material> material) {
+void CommandList::PresentInternal() {
+    if (isRequiredNotToPresent_) return;
+
     SetRenderTargetWithScreen();
 
-    Matrix44F matE;
-    matE.SetIdentity();
-    material->SetMatrix44F(u"matView", matE);
-    material->SetMatrix44F(u"matProjection", matE);
-
-    // VB, IB
-    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
-    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
-
-    // pipeline state
-    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
-
-    // constant buffer
-    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // texture
-    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // draw
-    currentCommandList_->Draw(2);
+    copyMaterial_->SetTexture(u"mainTex", internalScreen_);
+    RenderToRenderTarget(copyMaterial_);
 }
 
-void CommandList::BlitTextureToTexture(
-        std::shared_ptr<RenderTexture> target, std::shared_ptr<Texture2D> src, std::shared_ptr<Material> material) {
-    SetRenderTarget(target, RectI(0, 0, target->GetSize().X, target->GetSize().Y));
-
-    // default paramter
-    Matrix44F matE;
-    matE.SetIdentity();
-    material->SetMatrix44F(u"matView", matE);
-    material->SetMatrix44F(u"matProjection", matE);
-    material->SetTexture(u"mainTex", src);
-
-    // VB, IB
-    currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
-    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
-
-    // pipeline state
-    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
-
-    // constant buffer
-    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // texture
-    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
-
-    // draw
-    currentCommandList_->Draw(2);
-}
+void CommandList::RequireNotToPresent() { isRequiredNotToPresent_ = true; }
 
 void CommandList::StoreTextures(
         CommandList* commandList,

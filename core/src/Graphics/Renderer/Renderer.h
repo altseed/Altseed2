@@ -50,7 +50,9 @@ public:
 
     void Render(std::shared_ptr<CommandList> commandList);
 
-    std::shared_ptr<RenderedCamera> CreateCamera();
+    void SetCamera(std::shared_ptr<RenderedCamera> camera);
+
+    void ResetCamera();
 };
 
 }  // namespace Altseed

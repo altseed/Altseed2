@@ -69,6 +69,8 @@ public:
     void ResetCache();
 
     void SetViewProjectionWithWindowsSize(const Vector2I& windowSize);
+
+    void SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection);
 };
 
 }  // namespace Altseed

@@ -3,8 +3,8 @@
 #include <codecvt>
 #include <locale>
 
-#include "../Logger/Log.h"
 #include "../Common/StringHelper.h"
+#include "../Logger/Log.h"
 
 // GLFW
 #if _WIN32
@@ -106,7 +106,14 @@ const char16_t* Window::GetTitle() const { return title_.c_str(); }
 
 void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInstance()->mainWindow_, width, height); }
 
-void Window::GetSize(int32_t& width, int32_t& height) { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
+void Window::GetSize(int32_t& width, int32_t& height) const { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
+
+Vector2I Window::GetSize() const {
+    int32_t width = 0;
+    int32_t height = 0;
+    GetSize(width, height);
+    return Vector2I(width, height);
+}
 
 bool Window::DoEvent() {
     if (GetInstance()->mainWindow_ == nullptr) {
