@@ -1,6 +1,6 @@
-#include "Common/Assertion.h"
 #include "FPS.h"
 #include <thread>
+#include "Common/Assertion.h"
 
 namespace Altseed {
 
@@ -14,13 +14,13 @@ void FPS::Update() {
     auto deltans = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousTime_);
 
     // 更新時間に余裕がある時は待機処理をする
-    if(deltans < framens_) {
+    if (deltans < framens_) {
         auto sleepns = ((previousTime_ + framens_) - currentTime);
 
         // milliseconds単位でsleepする
         std::this_thread::sleep_for(std::chrono::milliseconds((sleepns.count() / 1000000) - 1));
 
-        // busy loopで調節
+        // busy loopで調整
         do {
             currentTime = std::chrono::system_clock::now();
             deltans = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousTime_);
@@ -28,12 +28,13 @@ void FPS::Update() {
     }
 
     // 計測処理を行う
-    deltaSecond_ = static_cast<float>(deltans.count()) / nano;
     currentFPS_ = 1.0f / deltaSecond_;
 
-    // 固定FPSでは経過時間は一定として扱う。
     if (framerateMode_ == FramerateMode::Constant) {
+        // 固定FPSでは経過時間は一定として扱う
         deltaSecond_ = 1.0f / targetFPS_;
+    } else {
+        deltaSecond_ = static_cast<float>(deltans.count()) / nano;
     }
 
     previousTime_ = currentTime;
@@ -51,4 +52,4 @@ void FPS::SetTarget(int32_t fps) {
 const FramerateMode FPS::GetFramerateMode() { return framerateMode_; }
 void FPS::SetFramerateMode(FramerateMode framerateMode) { framerateMode_ = framerateMode; }
 
-} // namespace Altseed
+}  // namespace Altseed
