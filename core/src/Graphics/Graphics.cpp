@@ -1,9 +1,9 @@
 ﻿#include "Graphics.h"
 
+#include "../Logger/Log.h"
 #include "BuildinShader.h"
 #include "Camera.h"
 #include "CommandList.h"
-#include "../Logger/Log.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
@@ -50,13 +50,16 @@ bool Graphics::BeginFrame() {
     if (!platform_->NewFrame()) return false;
 
     commandList_->StartFrame();
-
+    RectI viewport(Vector2I(0, 0), commandList_->GetScreenTexture()->GetSize());
+    commandList_->SetRenderTarget(commandList_->GetScreenTexture(), viewport);
     return true;
 }
 
 bool Graphics::EndFrame() {
+    
+    commandList_->SetRenderTargetWithScreen();
+    commandList_->PresentInternal();
     commandList_->EndFrame();
-
     graphics_->Execute(commandList_->GetLL());
 
     platform_->Present();

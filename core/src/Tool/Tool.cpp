@@ -74,6 +74,8 @@ void Tool::NewFrame() {
 }
 
 void Tool::Render() {
+    Graphics::GetInstance()->GetCommandList()->RequireNotToPresent();
+    Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen();
     ImGui::Render();
     
 #if defined(__APPLE__)

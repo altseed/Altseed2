@@ -6,6 +6,7 @@
 
 #include "../BaseObject.h"
 #include "../Common/PlatformIncludes.h"
+#include "../Math/Vector2I.h"
 
 namespace Altseed {
 
@@ -39,7 +40,9 @@ public:
 
     void SetSize(int32_t width, int32_t height);
 
-    void GetSize(int32_t& width, int32_t& height);
+    void GetSize(int32_t& width, int32_t& height) const;
+
+    Vector2I GetSize() const;
 
     GLFWwindow* GetNativeWindow() const { return mainWindow_; }
 
