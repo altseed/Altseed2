@@ -40,16 +40,16 @@ void FPS::Update() {
     previousTime_ = currentTime;
 }
 
-const float FPS::GetDeltaSecond() { return deltaSecond_; }
-const float FPS::GetCurrentFPS() { return currentFPS_; }
+float FPS::GetDeltaSecond() const { return deltaSecond_; }
+float FPS::GetCurrentFPS() const { return currentFPS_; }
 
-const int32_t FPS::GetTargetFPS() { return targetFPS_; }
+int32_t FPS::GetTargetFPS() const { return targetFPS_; }
 void FPS::SetTarget(int32_t fps) {
     targetFPS_ = fps;
     framens_ = std::chrono::nanoseconds(nano / fps);
 }
 
-const FramerateMode FPS::GetFramerateMode() { return framerateMode_; }
+FramerateMode FPS::GetFramerateMode() const { return framerateMode_; }
 void FPS::SetFramerateMode(FramerateMode framerateMode) { framerateMode_ = framerateMode; }
 
 }  // namespace Altseed

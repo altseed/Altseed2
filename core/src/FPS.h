@@ -25,15 +25,14 @@ public:
     FPS();
     void Update();
 
-    const float GetDeltaSecond();
-    const float GetCurrentFPS();
+    float GetDeltaSecond() const;
+    float GetCurrentFPS() const;
 
-    const int32_t GetTargetFPS();
+    int32_t GetTargetFPS() const;
     void SetTarget(int32_t fps);
 
-    const FramerateMode GetFramerateMode();
+    FramerateMode GetFramerateMode() const;
     void SetFramerateMode(FramerateMode framerateMode);
-
 };
 
-} // namespace Altseed
+}  // namespace Altseed
