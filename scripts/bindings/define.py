@@ -9,6 +9,7 @@ from .core import *
 from .sound import *
 from .math import *
 from .logger import *
+from .tool import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -87,6 +88,17 @@ define.classes.append(BuildinShader)
 define.classes.append(Shader)
 define.classes.append(Glyph)
 define.classes.append(Font)
+
+# tool
+define.enums.append(ToolDir)
+define.enums.append(ToolCond)
+define.enums.append(ToolTreeNode)
+define.enums.append(ToolInputText)
+define.enums.append(ToolColorEdit)
+define.enums.append(ToolSelectable)
+define.enums.append(ToolWindow)
+define.enums.append(ToolTabBar)
+define.classes.append(Tool)
 
 # io
 define.classes.append(StreamFile)

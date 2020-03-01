@@ -35,6 +35,8 @@ if __name__ == '__main__':
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuildinShader.h"
 
+#include "Tool/Tool.h"
+
 #include "IO/File.h"
 #include "IO/PackFile.h"
 #include "IO/StaticFile.h"
