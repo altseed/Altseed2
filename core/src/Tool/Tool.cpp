@@ -75,12 +75,12 @@ void Tool::NewFrame() {
 
 void Tool::Render() {
     ImGui::Render();
-    
+
 #if defined(__APPLE__)
     // HACK for retina
-    ImGui::GetDrawData()->FramebufferScale = ImVec2(1,1);
+    ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
 #endif
-    
+
     platform_->RenderDrawData(ImGui::GetDrawData(), Graphics::GetInstance()->GetCommandList()->GetLL());
 }
 
@@ -88,7 +88,9 @@ inline ImVec2 toImVec2(const Vector2F& v) { return ImVec2(v.X, v.Y); }
 
 inline ImVec4 toImVec4(const Vector4F& v) { return ImVec4(v.X, v.Y, v.Z, v.W); }
 
-bool Tool::Begin(const char16_t* name, ToolWindow flags) { return ImGui::Begin(utf16_to_utf8(name).c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags)); }
+bool Tool::Begin(const char16_t* name, ToolWindow flags) {
+    return ImGui::Begin(utf16_to_utf8(name).c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
+}
 
 void Tool::End() { ImGui::End(); }
 
@@ -98,21 +100,29 @@ void Tool::Text(const char16_t* text) { ImGui::Text("%s", utf16_to_utf8(text).c_
 
 void Tool::TextUnformatted(const char16_t* text) { ImGui::TextUnformatted(utf16_to_utf8(text).c_str()); }
 
-void Tool::TextWrapped(const char16_t* text) { ImGui::TextWrapped("%s", utf16_to_utf8(text).c_str());  };
+void Tool::TextWrapped(const char16_t* text) { ImGui::TextWrapped("%s", utf16_to_utf8(text).c_str()); };
 
-void Tool::TextColored(const Vector4F color, const char16_t* text) { ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str()); }
+void Tool::TextColored(const Vector4F color, const char16_t* text) {
+    ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str());
+}
 
 void Tool::TextDisabled(const char16_t* text) { ImGui::TextDisabled("%s", utf16_to_utf8(text).c_str()); }
 
 void Tool::BulletText(const char16_t* text) { ImGui::BulletText("%s", utf16_to_utf8(text).c_str()); }
 
-void Tool::LabelText(const char16_t* label, const char16_t* text) { ImGui::LabelText(utf16_to_utf8(label).c_str(), "%s", utf16_to_utf8(text).c_str()); }
+void Tool::LabelText(const char16_t* label, const char16_t* text) {
+    ImGui::LabelText(utf16_to_utf8(label).c_str(), "%s", utf16_to_utf8(text).c_str());
+}
 
-bool Tool::CollapsingHeader(const char16_t* label, ToolTreeNode flags) { return ImGui::CollapsingHeader(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags)); }
+bool Tool::CollapsingHeader(const char16_t* label, ToolTreeNode flags) {
+    return ImGui::CollapsingHeader(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
+}
 
 bool Tool::TreeNode(const char16_t* label) { return ImGui::TreeNode(utf16_to_utf8(label).c_str()); }
 
-bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNode flags) { return ImGui::TreeNodeEx(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags)); }
+bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNode flags) {
+    return ImGui::TreeNodeEx(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
+}
 
 void Tool::TreePop() { ImGui::TreePop(); }
 
@@ -124,7 +134,9 @@ bool Tool::CheckBox(const char16_t* label, bool* is_open) { return ImGui::Checkb
 
 bool Tool::RadioButton(const char16_t* label, bool active) { return ImGui::RadioButton(utf16_to_utf8(label).c_str(), active); }
 
-bool Tool::ArrowButton(const char16_t* id, ToolDir dir) { return ImGui::ArrowButton(utf16_to_utf8(id).c_str(), static_cast<ImGuiDir>(dir)); }
+bool Tool::ArrowButton(const char16_t* id, ToolDir dir) {
+    return ImGui::ArrowButton(utf16_to_utf8(id).c_str(), static_cast<ImGuiDir>(dir));
+}
 
 bool Combo(const char16_t* label, int* current, const char16_t* items_separated_by_zeros) {
     return ImGui::Combo(utf16_to_utf8(label).c_str(), current, utf16_to_utf8(items_separated_by_zeros).c_str());
@@ -147,7 +159,8 @@ bool Tool::InputText(const char16_t* label, char* buf, size_t buf_size, ToolInpu
 }
 
 bool Tool::InputTextWithHint(const char16_t* label, const char16_t* hint, char* buf, size_t buf_size, ToolInputText flags) {
-    return ImGui::InputTextWithHint(utf16_to_utf8(label).c_str(), utf16_to_utf8(hint).c_str(), buf, buf_size, static_cast<ImGuiInputTextFlags>(flags));
+    return ImGui::InputTextWithHint(
+            utf16_to_utf8(label).c_str(), utf16_to_utf8(hint).c_str(), buf, buf_size, static_cast<ImGuiInputTextFlags>(flags));
 }
 
 bool Tool::InputTextMultiline(const char16_t* label, char* buf, size_t buf_size, Vector2F size, ToolInputText flags) {
@@ -265,11 +278,9 @@ bool Tool::BeginTabBar(const char16_t* id, ToolTabBar flags) {
 
 void Tool::EndTabBar() { ImGui::EndTabBar(); }
 
-bool Tool::BeginTabItem(const char16_t* label) {
-    return ImGui::BeginTabItem(utf16_to_utf8(label).c_str());
-}
+bool Tool::BeginTabItem(const char16_t* label) { return ImGui::BeginTabItem(utf16_to_utf8(label).c_str()); }
 
-bool Tool::EndTabItem() { ImGui::EndTabItem(); }
+void Tool::EndTabItem() { ImGui::EndTabItem(); }
 
 void Tool::Indent() { ImGui::Indent(); }
 
@@ -297,7 +308,7 @@ void Tool::PushButtonRepeat(bool repeat) { ImGui::PushButtonRepeat(repeat); }
 
 void Tool::PopButtonRepeat() { ImGui::PopButtonRepeat(); }
 
-void Tool::Columns(int count, bool border) { ImGui::Columns(count, static_cast<const char*>(__null), border); }
+void Tool::Columns(int count, bool border) { ImGui::Columns(count, static_cast<const char*>(nullptr), border); }
 
 void Tool::PushID(int id) { ImGui::PushID(id); }
 
@@ -328,9 +339,7 @@ bool Tool::IsMousePosValid() { return ImGui::IsMousePosValid(); }
 
 bool Tool::IsMouseDragging() { return ImGui::IsMouseDragging(); }
 
-bool Tool::IsMouseDoubleClicked(int button) {
-    return ImGui::IsMouseDoubleClicked(button);
-}
+bool Tool::IsMouseDoubleClicked(int button) { return ImGui::IsMouseDoubleClicked(button); }
 
 Vector2F Tool::GetMouseDragDelta(int button) {
     auto d = ImGui::GetMouseDragDelta(button);

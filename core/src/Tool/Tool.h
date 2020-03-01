@@ -134,7 +134,7 @@ enum class ToolWindow : int32_t {
 enum class ToolTabBar : int32_t {
     None = 0,
     Reorderable = 1 << 0,
-    AutoSelectNewTabs = 1 << 1, 
+    AutoSelectNewTabs = 1 << 1,
     TabListPopupButton = 1 << 2,
     NoCloseWithMiddleMouseButton = 1 << 3,
     NoTabListScrollingButtons = 1 << 4,
@@ -213,7 +213,8 @@ public:
 
     bool InputText(const char16_t* label, char* buf, size_t buf_size, ToolInputText flags = ToolInputText::None);
 
-    bool InputTextWithHint(const char16_t* label, const char16_t* hint, char* buf, size_t buf_size, ToolInputText flags = ToolInputText::None);
+    bool InputTextWithHint(
+            const char16_t* label, const char16_t* hint, char* buf, size_t buf_size, ToolInputText flags = ToolInputText::None);
 
     bool InputTextMultiline(const char16_t* label, char* buf, size_t buf_size, Vector2F size, ToolInputText flags = ToolInputText::None);
 
@@ -266,7 +267,7 @@ public:
     bool ColorEdit3(const char16_t* label, float* color, ToolColorEdit flags = ToolColorEdit::None);
 
     bool ColorEdit4(const char16_t* label, float* color, ToolColorEdit flags = ToolColorEdit::None);
-    
+
     bool BeginPopup(const char16_t* label);
 
     bool BeginPopupModal(const char16_t* label);
@@ -293,7 +294,7 @@ public:
 
     bool BeginTabItem(const char16_t* label);
 
-    bool EndTabItem();
+    void EndTabItem();
 
     void Indent();
 
@@ -321,7 +322,7 @@ public:
 
     void PopButtonRepeat();
 
-    void Columns(int count,  bool border);
+    void Columns(int count, bool border);
 
     void PushID(int id);
 
@@ -340,7 +341,7 @@ public:
     float GetTextLineHeight();
 
     float GetFontSize();
-    
+
     Vector2F GetWindowSize();
 
     void SetWindowSize(Vector2F size);
