@@ -44,6 +44,11 @@ else()
     set(BUILD_WITH_POSTFIX OFF)
 endif()
 
+# code encoding
+if(CMAKE_GENERATOR MATCHES "Visual Studio")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /source-charset:utf-8")
+endif()
+
 # sanitize for Debug
 if(SANITIZE_ENABLED)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,address")
