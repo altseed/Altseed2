@@ -98,6 +98,7 @@ define.enums.append(ToolColorEdit)
 define.enums.append(ToolSelectable)
 define.enums.append(ToolWindow)
 define.enums.append(ToolTabBar)
+define.enums.append(ToolGlyphRanges)
 define.classes.append(Tool)
 
 # io

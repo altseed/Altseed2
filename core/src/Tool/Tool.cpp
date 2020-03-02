@@ -14,6 +14,7 @@
 #include <imgui_impl_glfw.h>
 #include "../Graphics/CommandList.h"
 #include "../Graphics/Graphics.h"
+#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -88,6 +89,37 @@ inline ImVec2 toImVec2(const Vector2F& v) { return ImVec2(v.X, v.Y); }
 
 inline ImVec4 toImVec4(const Vector4F& v) { return ImVec4(v.X, v.Y, v.Z, v.W); }
 
+const ImWchar* toImGlyphRanges(ImGuiIO &io, ToolGlyphRanges ranges) {
+    switch(ranges) {
+        case ToolGlyphRanges::Cyrillic:
+            return io.Fonts->GetGlyphRangesCyrillic();
+        case ToolGlyphRanges::Japanese:
+            return io.Fonts->GetGlyphRangesJapanese();
+        case ToolGlyphRanges::ChineseFull:
+            return io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
+        case ToolGlyphRanges::Korean:
+            return io.Fonts->GetGlyphRangesKorean();
+        
+        default:
+            Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
+        case ToolGlyphRanges::Default:
+            return io.Fonts->GetGlyphRangesDefault();
+    }
+}
+
+bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges) {
+    auto &io = ImGui::GetIO();
+    auto path_ = utf16_to_utf8(path);
+    auto font = io.Fonts->AddFontFromFileTTF(path_.c_str(), sizePixels, nullptr, toImGlyphRanges(io, ranges));
+
+    if (font == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
+        return false;
+    }
+
+    return true;
+}
+
 bool Tool::Begin(const char16_t* name, ToolWindow flags) {
     return ImGui::Begin(utf16_to_utf8(name).c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
 }
@@ -138,11 +170,11 @@ bool Tool::ArrowButton(const char16_t* id, ToolDir dir) {
     return ImGui::ArrowButton(utf16_to_utf8(id).c_str(), static_cast<ImGuiDir>(dir));
 }
 
-bool Combo(const char16_t* label, int* current, const char16_t* items_separated_by_zeros) {
-    return ImGui::Combo(utf16_to_utf8(label).c_str(), current, utf16_to_utf8(items_separated_by_zeros).c_str());
+bool Tool::Combo(const char16_t* label, int* current, const char* items[], size_t count) {
+    return ImGui::Combo(utf16_to_utf8(label).c_str(), current, items, count);
 }
 
-bool ListBox(const char16_t* label, int* current, const char* items[], size_t count) {
+bool Tool::ListBox(const char16_t* label, int* current, const char* items[], size_t count) {
     return ImGui::ListBox(utf16_to_utf8(label).c_str(), current, items, count);
 }
 
@@ -203,19 +235,19 @@ bool Tool::SliderInt4(const char16_t* label, int* array, float speed, int v_min,
     return ImGui::SliderInt4(utf16_to_utf8(label).c_str(), array, v_min, v_max);
 }
 
-bool Tool::SliderFloat(const char16_t* label, float* v, float speed, int v_min, int v_max) {
+bool Tool::SliderFloat(const char16_t* label, float* v, float speed, float v_min, float v_max) {
     return ImGui::SliderFloat(utf16_to_utf8(label).c_str(), v, v_min, v_max);
 }
 
-bool Tool::SliderFloat2(const char16_t* label, float* array, float speed, int v_min, int v_max) {
+bool Tool::SliderFloat2(const char16_t* label, float* array, float speed, float v_min, float v_max) {
     return ImGui::SliderFloat2(utf16_to_utf8(label).c_str(), array, v_min, v_max);
 }
 
-bool Tool::SliderFloat3(const char16_t* label, float* array, float speed, int v_min, int v_max) {
+bool Tool::SliderFloat3(const char16_t* label, float* array, float speed, float v_min, float v_max) {
     return ImGui::SliderFloat3(utf16_to_utf8(label).c_str(), array, v_min, v_max);
 }
 
-bool Tool::SliderFloat4(const char16_t* label, float* array, float speed, int v_min, int v_max) {
+bool Tool::SliderFloat4(const char16_t* label, float* array, float speed, float v_min, float v_max) {
     return ImGui::SliderFloat4(utf16_to_utf8(label).c_str(), array, v_min, v_max);
 }
 
@@ -229,14 +261,14 @@ bool Tool::VSliderFloat(const char16_t* label, Vector2F size, float* v, float v_
     return ImGui::VSliderFloat(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max);
 }
 
-bool Tool::DragFloat(const char16_t* label, float* v, float speed, int v_min, int v_max) {
+bool Tool::DragFloat(const char16_t* label, float* v, float speed, float v_min, float v_max) {
     return ImGui::DragFloat(utf16_to_utf8(label).c_str(), v, speed, v_min, v_max);
 }
 bool Tool::DragIntRange2(const char16_t* label, int* current_min, int* current_max, float speed, int v_min, int v_max) {
     return ImGui::DragIntRange2(utf16_to_utf8(label).c_str(), current_min, current_max, speed, v_min, v_max);
 }
 
-bool Tool::DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, int v_min, int v_max) {
+bool Tool::DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, float v_min, float v_max) {
     return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), current_min, current_max, speed, v_min, v_max);
 }
 
@@ -247,6 +279,8 @@ bool Tool::ColorEdit3(const char16_t* label, float* color, ToolColorEdit flags) 
 bool Tool::ColorEdit4(const char16_t* label, float* color, ToolColorEdit flags) {
     return ImGui::ColorEdit4(utf16_to_utf8(label).c_str(), color, static_cast<ImGuiColorEditFlags>(flags));
 }
+
+void Tool::OpenPopup(const char16_t* label) { ImGui::OpenPopup(utf16_to_utf8(label).c_str()); }
 
 bool Tool::BeginPopup(const char16_t* label) { return ImGui::BeginPopup(utf16_to_utf8(label).c_str()); }
 
@@ -288,7 +322,7 @@ void Tool::Unindent() { ImGui::Unindent(); }
 
 void Tool::Separator() { ImGui::Separator(); }
 
-void Tool::SetToolTip(const char16_t* text) { ImGui::SetTooltip("%s", utf16_to_utf8(text).c_str()); }
+void Tool::SetTooltip(const char16_t* text) { ImGui::SetTooltip("%s", utf16_to_utf8(text).c_str()); }
 
 void Tool::BeginTooltip() { ImGui::BeginTooltip(); }
 
@@ -304,11 +338,17 @@ void Tool::PopTextWrapPos() { ImGui::PopTextWrapPos(); }
 
 void Tool::SetNextItemWidth(int width) { ImGui::SetNextItemWidth(width); }
 
+void Tool::PushItemWidth(float width) { ImGui::PushItemWidth(width); }
+
+void Tool::PopItemWidth() { ImGui::PopItemWidth(); }
+
 void Tool::PushButtonRepeat(bool repeat) { ImGui::PushButtonRepeat(repeat); }
 
 void Tool::PopButtonRepeat() { ImGui::PopButtonRepeat(); }
 
 void Tool::Columns(int count, bool border) { ImGui::Columns(count, static_cast<const char*>(nullptr), border); }
+
+void Tool::NextColumn() { ImGui::NextColumn(); }
 
 void Tool::PushID(int id) { ImGui::PushID(id); }
 
@@ -349,5 +389,13 @@ Vector2F Tool::GetMouseDragDelta(int button) {
 void Tool::ResetMouseDragDelta(int button) { ImGui::ResetMouseDragDelta(button); }
 
 void Tool::SetNextWindowContentSize(Vector2F size) { ImGui::SetNextWindowContentSize(toImVec2(size)); }
+
+void Tool::SetNextWindowPos(Vector2F pos, ToolCond cond) {
+    ImGui::SetNextWindowPos(toImVec2(pos));
+}
+
+void Tool::SetNextWindowSize(Vector2F size, ToolCond cond) {
+    ImGui::SetNextWindowSize(toImVec2(size));
+}
 
 }  // namespace Altseed

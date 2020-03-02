@@ -517,8 +517,36 @@ with ToolTabBar as enum_:
     enum_.add('FittingPolicyMask', _FittingPolicyResizeDown | _FittingPolicyScroll)
     enum_.add('FittingPolicyDefault', _FittingPolicyResizeDown)
 
+
+ToolGlyphRanges = cbg.Enum('Altseed', 'ToolGlyphRanges')
+with ToolGlyphRanges as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('en', 'Don\'t bit operation')
+    enum_.brief.add('ja', 'Tool機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。')
+
+    enum_.add('Default')
+
+    with enum_.add('Cyrillic') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'キリル文字')
+
+    enum_.add('Japanese')
+    enum_.add('ChineseFull')
+    enum_.add('ChineseSimplifiedCommon')
+    enum_.add('Korean')
+    enum_.add('Thai')
+
 Tool = cbg.Class('Altseed', 'Tool')
 with Tool as class_:
+    # with class_.add_func('AddFontFromFileTTF') as func_:
+    #     func_.brief = cbg.Description()
+    #     func_.brief.add('en', 'Load font from path. Packed files are not supported.')
+    #     func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
+    #     func_.add_arg(ctypes.c_wchar_p, 'path')
+    #     func_.add_arg(float, 'sizePixels')
+    #     func_.add_arg(ToolGlyphRanges, 'ranges')
+    #     func_.return_value.type_ = bool
+
     with class_.add_func('Begin') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', 'Call `End()`')
@@ -662,8 +690,8 @@ with Tool as class_:
     #     func_.brief.add('en', '')
     #     func_.brief.add('ja', '')
     #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     func_.add_arg(int*, 'current') # TODO
-    #     func_.add_arg(ctypes.c_wchar_p, 'itemsSeparatedByZeros')
+    #     func_.add_arg(const char* [], 'items') # TODO
+    #     func_.add_arg(int, 'count')
     #     func_.return_value.type_ = bool
 
     # with class_.add_func('ListBox') as func_:
@@ -963,6 +991,12 @@ with Tool as class_:
     #     func_.add_arg(ToolColorEdit, 'flags')
     #     func_.return_value.type_ = bool
 
+    with class_.add_func('OpenPopup') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+
     with class_.add_func('BeginPopup') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', 'Call `EndPopup()`')
@@ -1071,7 +1105,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
 
-    with class_.add_func('SetToolTip') as func_:
+    with class_.add_func('SetTooltip') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
@@ -1114,6 +1148,17 @@ with Tool as class_:
         func_.brief.add('ja', '')
         func_.add_arg(float, 'width')
 
+    with class_.add_func('PushItemWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'width')
+    
+    with class_.add_func('PopItemWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
     with class_.add_func('PushButtonRepeat') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -1131,6 +1176,11 @@ with Tool as class_:
         func_.brief.add('ja', '')
         func_.add_arg(int, 'count')
         func_.add_arg(bool, 'border')
+    
+    with class_.add_func('NextColumn') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
 
     with class_.add_func('PushID') as func_:
         func_.brief = cbg.Description()
@@ -1231,3 +1281,15 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(Vector2F, 'size')
+    
+    with class_.add_func('SetNextWindowSize') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'size')
+
+    with class_.add_func('SetNextWindowPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'pos')

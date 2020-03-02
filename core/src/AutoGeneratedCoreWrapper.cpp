@@ -1305,11 +1305,11 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Separator(void* cbg_self) {
     cbg_self_->Separator();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetToolTip(void* cbg_self, const char16_t* text) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltip(void* cbg_self, const char16_t* text) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = text;
-    cbg_self_->SetToolTip(cbg_arg0);
+    cbg_self_->SetTooltip(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_BeginTooltip(void* cbg_self) {
@@ -1354,6 +1354,19 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemWidth(void* cbg_self, float width)
 
     float cbg_arg0 = width;
     cbg_self_->SetNextItemWidth(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushItemWidth(void* cbg_self, float width) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_arg0 = width;
+    cbg_self_->PushItemWidth(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopItemWidth(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->PopItemWidth();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_PushButtonRepeat(void* cbg_self, bool repeat) {
@@ -1492,6 +1505,20 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowContentSize(void* cbg_self, void
 
     Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
     cbg_self_->SetNextWindowContentSize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowSize(void* cbg_self, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
+    cbg_self_->SetNextWindowSize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowPos(void* cbg_self, void* pos) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)pos));
+    cbg_self_->SetNextWindowPos(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_Release(void* cbg_self) {

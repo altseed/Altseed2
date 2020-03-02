@@ -145,6 +145,17 @@ enum class ToolTabBar : int32_t {
     FittingPolicyDefault = FittingPolicyResizeDown,
 };
 
+enum class ToolGlyphRanges : int32_t {
+    Default,
+    // キリル文字
+    Cyrillic,
+    Japanese,
+    ChineseFull,
+    ChineseSimplifiedCommon,
+    Korean,
+    Thai,
+};
+
 class Tool : public BaseObject {
 private:
     static std::shared_ptr<Tool> instance_;
@@ -164,6 +175,8 @@ public:
     void NewFrame();
 
     void Render();
+
+    bool AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges);
 
     bool Begin(const char16_t* name, ToolWindow flags = ToolWindow::None);
 
@@ -205,7 +218,7 @@ public:
 
     bool InvisibleButton(const char16_t* label, Vector2F size);
 
-    bool Combo(const char16_t* label, int* current, const char16_t* items_separated_by_zeros);
+    bool Combo(const char16_t* label, int* current, const char* items[], size_t count);
 
     bool ListBox(const char16_t* label, int* current, const char* items[], size_t count);
 
@@ -242,13 +255,13 @@ public:
 
     bool SliderInt4(const char16_t* label, int* array, float speed, int v_min, int v_max);
 
-    bool SliderFloat(const char16_t* label, float* v, float speed, int v_min, int v_max);
+    bool SliderFloat(const char16_t* label, float* v, float speed, float v_min, float v_max);
 
-    bool SliderFloat2(const char16_t* label, float* array, float speed, int v_min, int v_max);
+    bool SliderFloat2(const char16_t* label, float* array, float speed, float v_min, float v_max);
 
-    bool SliderFloat3(const char16_t* label, float* array, float speed, int v_min, int v_max);
+    bool SliderFloat3(const char16_t* label, float* array, float speed, float v_min, float v_max);
 
-    bool SliderFloat4(const char16_t* label, float* array, float speed, int v_min, int v_max);
+    bool SliderFloat4(const char16_t* label, float* array, float speed, float v_min, float v_max);
 
     bool SliderAngle(const char16_t* label, float* angle);
 
@@ -258,15 +271,17 @@ public:
 
     bool DragInt(const char16_t* label, int* v, float speed, int v_min, int v_max);
 
-    bool DragFloat(const char16_t* label, float* v, float speed, int v_min, int v_max);
+    bool DragFloat(const char16_t* label, float* v, float speed, float v_min, float v_max);
 
     bool DragIntRange2(const char16_t* label, int* current_min, int* current_max, float speed, int v_min, int v_max);
 
-    bool DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, int v_min, int v_max);
+    bool DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, float v_min, float v_max);
 
     bool ColorEdit3(const char16_t* label, float* color, ToolColorEdit flags = ToolColorEdit::None);
 
     bool ColorEdit4(const char16_t* label, float* color, ToolColorEdit flags = ToolColorEdit::None);
+
+    void OpenPopup(const char16_t* label);
 
     bool BeginPopup(const char16_t* label);
 
@@ -302,7 +317,7 @@ public:
 
     void Separator();
 
-    void SetToolTip(const char16_t* text);
+    void SetTooltip(const char16_t* text);
 
     void BeginTooltip();
 
@@ -318,11 +333,17 @@ public:
 
     void SetNextItemWidth(int width);
 
+    void PushItemWidth(float width);
+    
+    void PopItemWidth();
+
     void PushButtonRepeat(bool repeat);
 
     void PopButtonRepeat();
 
     void Columns(int count, bool border);
+
+    void NextColumn();
 
     void PushID(int id);
 
@@ -357,6 +378,10 @@ public:
     void ResetMouseDragDelta(int button);
 
     void SetNextWindowContentSize(Vector2F size);
+
+    void SetNextWindowPos(Vector2F pos, ToolCond cond = ToolCond::None);
+
+    void SetNextWindowSize(Vector2F size, ToolCond cond = ToolCond::None);
 };
 
 }  // namespace Altseed
