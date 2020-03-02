@@ -1180,6 +1180,13 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_
     return cbg_ret;
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_OpenPopup(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    cbg_self_->OpenPopup(cbg_arg0);
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* label) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
@@ -1388,6 +1395,12 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Columns(void* cbg_self, int32_t count, bool b
     int32_t cbg_arg0 = count;
     bool cbg_arg1 = border;
     cbg_self_->Columns(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NextColumn(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->NextColumn();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, int32_t id) {
