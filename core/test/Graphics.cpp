@@ -236,33 +236,6 @@ TEST(Graphics, BasicSpriteTexture) {
     Altseed::Core::Terminate();
 }
 
-TEST(Graphics, Tool) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
-
-    int count = 0;
-
-    auto instance = Altseed::Graphics::GetInstance();
-    EXPECT_TRUE(instance != nullptr);
-
-    while (count++ < 100 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
-        instance->GetCommandList()->SetRenderTargetWithScreen();
-
-        Altseed::Tool::GetInstance()->NewFrame();
-
-        if (Altseed::Tool::GetInstance()->Begin(u"Test")) {
-            Altseed::Tool::GetInstance()->Text(u"Hoge");
-            Altseed::Tool::GetInstance()->End();
-        }
-
-        Altseed::Tool::GetInstance()->Render();
-
-        EXPECT_TRUE(instance->EndFrame());
-    }
-
-    Altseed::Core::Terminate();
-}
-
 /*
 TEST(Graphics, Camera) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"Camera", 1280, 720, Altseed::Configuration::Create()));
