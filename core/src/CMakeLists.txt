@@ -10,6 +10,8 @@ set(core_files
     Configuration.cpp
     Core.h
     Core.cpp
+    FPS.h
+    FPS.cpp
     Common/Array.h
     Common/Resource.h
     Common/ResourceContainer.h

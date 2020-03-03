@@ -5,6 +5,7 @@ enable_language(CXX)
 set(core_test_files
     BaseObject.cpp
     Configuration.cpp
+    FPS.cpp
     Core.cpp
     Window.cpp
     File.cpp

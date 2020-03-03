@@ -1,8 +1,10 @@
 #include "Renderer.h"
+
 #include "../../Math/Vector2I.h"
 #include "../../Window/Window.h"
 #include "../CommandList.h"
 #include "../Graphics.h"
+#include "../RenderTexture.h"
 #include "RenderedCamera.h"
 #include "RenderedSprite.h"
 
@@ -22,6 +24,7 @@ void Renderer::Terminate() { instance_ = nullptr; }
 Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics) : window_(window), graphics_(graphics) {
     renderedBatchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
     batchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
+    ResetCamera();
 }
 
 Renderer::~Renderer() {}
@@ -41,7 +44,6 @@ void Renderer::DrawPolygon(
         std::shared_ptr<Int32Array> ib,
         const std::shared_ptr<Texture2D>& texture,
         const std::shared_ptr<Material>& material) {
-
     batchRenderer_->Draw(
             static_cast<BatchVertex*>(vb->GetData()),
             static_cast<int32_t*>(ib->GetData()),
@@ -53,11 +55,6 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
-    int32_t w, h = 0;
-    window_->GetSize(w, h);
-
-    batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
-    renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
     renderedBatchRenderer_->Render(commandList.get());
     renderedBatchRenderer_->ResetCache();
     batchRenderer_->Render(commandList.get());
@@ -112,11 +109,23 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, sprite->GetTexture(), sprite->GetMaterial(), nullptr);
 }
 
-std::shared_ptr<RenderedCamera> Renderer::CreateCamera() {
-    // TODO: Move to RenderedCamera
-    auto ret = MakeAsdShared<RenderedCamera>();
-    // objects_.push_back(ret);
-    return ret;
+void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
+    if (camera->GetTargetTexture() != nullptr) {
+        RectI viewport(Vector2I(0, 0), camera->GetTargetTexture()->GetSize());
+        Graphics::GetInstance()->GetCommandList()->SetRenderTarget(camera->GetTargetTexture(), viewport);
+    } else {
+        Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen();
+    }
+
+    renderedBatchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
+    batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
+}
+
+void Renderer::ResetCamera() {
+    int32_t w, h = 0;
+    window_->GetSize(w, h);
+    batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
+    renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
 }
 
 }  // namespace Altseed

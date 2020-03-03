@@ -4,8 +4,8 @@
 
 #include "../Common/Resources.h"
 #include "../Common/StringHelper.h"
-#include "../Logger/Log.h"
 #include "../IO/File.h"
+#include "../Logger/Log.h"
 #include "Graphics.h"
 
 namespace Altseed {
@@ -22,12 +22,17 @@ Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI
 }
 
 Texture2D::~Texture2D() {
-    resources_->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
-    resources_ = nullptr;
+    if (sourcePath_ != u"") {
+        resources_->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
+        resources_ = nullptr;    
+    }
+
     m_texture = nullptr;
 }
 
 bool Texture2D::Reload() { return false; }
+
+Vector2I Texture2D::GetSize() const { return size_; }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     if (mtxs.count(path) == 0) mtxs[path] = std::make_shared<std::mutex>();

@@ -1,4 +1,5 @@
 ﻿#include "RenderTexture.h"
+
 #include "Graphics.h"
 #include "Texture2D.h"
 
@@ -15,5 +16,7 @@ RenderTexture::RenderTexture(Vector2I size) {
 }
 
 RenderTexture::~RenderTexture() { m_texture = nullptr; }
+
+std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size) { return MakeAsdShared<RenderTexture>(size); }
 
 }  // namespace Altseed

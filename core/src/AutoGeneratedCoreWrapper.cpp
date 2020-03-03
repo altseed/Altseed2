@@ -176,6 +176,48 @@ CBGEXPORT void* CBGSTDCALL cbg_Core_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Core>(cbg_ret);
 }
 
+CBGEXPORT float CBGSTDCALL cbg_Core_GetDeltaSecond(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetDeltaSecond();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Core_GetCurrentFPS(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetCurrentFPS();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Core_GetTargetFPS(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetTargetFPS();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Core_SetTargetFPS(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetTargetFPS(cbg_arg0);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Core_GetFramerateMode(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    Altseed::FramerateMode cbg_ret = cbg_self_->GetFramerateMode();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Core_SetFramerateMode(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed::Core*)(cbg_self);
+
+    Altseed::FramerateMode cbg_arg0 = (Altseed::FramerateMode)value;
+    cbg_self_->SetFramerateMode(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Core_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Core*)(cbg_self);
 

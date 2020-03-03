@@ -64,7 +64,6 @@ TEST(Font, Basic) {
         for (auto& s : sprites) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
-        instance->GetCommandList()->SetRenderTargetWithScreen();
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
         EXPECT_TRUE(instance->EndFrame());
     }

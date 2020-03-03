@@ -12,19 +12,19 @@ std::shared_ptr<Configuration> Configuration::Create()
 Configuration::Configuration() {}
 Configuration::~Configuration() {}
 
-const bool Configuration::GetIsFullscreenMode() { return isFullscreenMode_; }
+ bool Configuration::GetIsFullscreenMode() const { return isFullscreenMode_; }
 
 void Configuration::SetIsFullscreenMode(bool isFullscreenMode) { isFullscreenMode_ = isFullscreenMode; }
 
-const bool Configuration::GetIsResizable() { return isResizable_; }
+ bool Configuration::GetIsResizable() const { return isResizable_; }
 
 void Configuration::SetIsResizable(bool isResizable) { isResizable_ = isResizable; }
 
-const bool Configuration::GetEnabledConsoleLogging() { return enabledConsoleLogging_;}
+ bool Configuration::GetEnabledConsoleLogging() const { return enabledConsoleLogging_; }
 
 void Configuration::SetEnabledConsoleLogging(bool enabledConsoleLogging) { enabledConsoleLogging_  = enabledConsoleLogging; }
 
-const bool Configuration::GetEnabledFileLogging() { return enabledFileLogging_; }
+ bool Configuration::GetEnabledFileLogging() const { return enabledFileLogging_; }
 
 void Configuration::SetEnabledFileLogging(bool enabeldFileLogging) { enabledFileLogging_ = enabeldFileLogging; }
 

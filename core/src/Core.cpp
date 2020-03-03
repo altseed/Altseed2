@@ -106,6 +106,8 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
+    Core::instance->fps_ = std::make_unique<FPS>();
+
     return Core::instance != nullptr;
 }
 
@@ -144,7 +146,33 @@ bool Core::DoEvent() {
     Altseed::Mouse::GetInstance()->RefreshInputState();
     Altseed::Joystick::GetInstance()->RefreshConnectedState();
 
+    Core::instance->fps_->Update();
+
     return Altseed::Window::GetInstance()->DoEvent();
+}
+
+const float Core::GetDeltaSecond() {
+    return Core::instance->fps_->GetDeltaSecond();
+}
+
+const float Core::GetCurrentFPS() {
+    return Core::instance->fps_->GetCurrentFPS();
+}
+
+const int32_t Core::GetTargetFPS() {
+    return Core::instance->fps_->GetTargetFPS();
+}
+
+void Core::SetTargetFPS(int32_t fps) {
+    Core::instance->fps_->SetTarget(fps);
+}
+
+const FramerateMode Core::GetFramerateMode() {
+    return Core::instance->fps_->GetFramerateMode();
+}
+
+void Core::SetFramerateMode(FramerateMode framerateMode) {
+    Core::instance->fps_->SetFramerateMode(framerateMode);
 }
 
 }  // namespace Altseed

@@ -1,4 +1,5 @@
 #include "BatchRenderer.h"
+
 #include "../Graphics/Graphics.h"
 #include "BuildinShader.h"
 #include "CommandList.h"
@@ -139,6 +140,11 @@ void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2I& windowSize)
     matProjection_.Values[1][1] = -2.0f / windowSize.Y;
     matProjection_.Values[0][3] = -1.0f;
     matProjection_.Values[1][3] = 1.0f;
+}
+
+void BatchRenderer::SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection) {
+    matView_ = matView;
+    matProjection_ = matProjection;
 }
 
 }  // namespace Altseed

@@ -17,16 +17,16 @@ public:
     ~Configuration();
     static std::shared_ptr<Configuration> Create();
 
-    const bool GetIsFullscreenMode();
+    bool GetIsFullscreenMode() const;
     void SetIsFullscreenMode(bool isFullscreenMode);
 
-    const bool GetIsResizable();
+    bool GetIsResizable() const;
     void SetIsResizable(bool isResizable);
 
-    const bool GetEnabledConsoleLogging();
+    bool GetEnabledConsoleLogging() const;
     void SetEnabledConsoleLogging(bool enabledConsoleLogging);
 
-    const bool GetEnabledFileLogging();
+    bool GetEnabledFileLogging() const;
     void SetEnabledFileLogging(bool enabeldFileLogging);
 
     const char16_t* GetLogFilename();
