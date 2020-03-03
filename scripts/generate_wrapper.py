@@ -33,7 +33,7 @@ if __name__ == '__main__':
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/BuildinShader.h"
+#include "Graphics/BuiltinShader.h"
 
 #include "Tool/Tool.h"
 

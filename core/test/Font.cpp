@@ -1,5 +1,5 @@
 ﻿
-#include "Graphics/BuildinShader.h"
+#include "Graphics/BuiltinShader.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
@@ -31,7 +31,7 @@ TEST(Font, Basic) {
 
     auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100, Altseed::Color(255, 0, 0, 255));
 
-    auto shader = instance->GetBuildinShader()->Create(Altseed::BuildinShaderType::FontUnlitPS);
+    auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
     material->SetShader(shader);
 

@@ -1,5 +1,5 @@
 ﻿#include "Material.h"
-#include "BuildinShader.h"
+#include "BuiltinShader.h"
 #include "../Logger/Log.h"
 #include "../Common/StringHelper.h"
 #include <glslang/Public/ShaderLang.h>
@@ -140,7 +140,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     }
 
     if (vertexShader_ == nullptr) {
-        vertexShader_ = Graphics::GetInstance()->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
+        vertexShader_ = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     }
 
     auto piplineState = LLGI::CreateSharedPtr(g->CreatePiplineState());

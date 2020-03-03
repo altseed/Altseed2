@@ -1,4 +1,4 @@
-#include "BuildinShader.h"
+#include "BuiltinShader.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 #include "../Logger/Log.h"
 
@@ -89,19 +89,19 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 )";
 
-std::shared_ptr<Shader> BuildinShader::Create(BuildinShaderType type) {
+std::shared_ptr<Shader> BuiltinShader::Create(BuiltinShaderType type) {
     auto found = shaders_.find(type);
     if (found != shaders_.end()) return found->second;
 
-    if (type == BuildinShaderType::SpriteUnlitVS) {
+    if (type == BuiltinShaderType::SpriteUnlitVS) {
         auto shader = ShaderCompiler::GetInstance()->Compile("SpriteUnlitVS", SpriteUnlitVS, ShaderStageType::Vertex);
         shaders_[type] = shader;
         return shader;
-    } else if (type == BuildinShaderType::SpriteUnlitPS) {
+    } else if (type == BuiltinShaderType::SpriteUnlitPS) {
         auto shader = ShaderCompiler::GetInstance()->Compile("SpriteUnlitPS", SpriteUnlitPS, ShaderStageType::Pixel);
         shaders_[type] = shader;
         return shader;
-    } else if (type == BuildinShaderType::FontUnlitPS) {
+    } else if (type == BuiltinShaderType::FontUnlitPS) {
         auto shader = ShaderCompiler::GetInstance()->Compile("FontUnlitPS", FontUnlitPS, ShaderStageType::Pixel);
         shaders_[type] = shader;
         return shader;

@@ -31,7 +31,7 @@ class Sprite;
 class Shader;
 class Material;
 class Camera;
-class BuildinShader;
+class BuiltinShader;
 class CommandList;
 
 struct VSConstants {
@@ -51,7 +51,7 @@ class Graphics : public BaseObject {
     std::shared_ptr<LLGIWindow> llgiWindow_;
 
     std::shared_ptr<CommandList> commandList_;
-    std::shared_ptr<BuildinShader> buildinShader_;
+    std::shared_ptr<BuiltinShader> BuiltinShader_;
 
     LLGI::Platform* platform_;
     LLGI::Graphics* graphics_;
@@ -86,6 +86,6 @@ public:
     LLGI::Platform* GetLLGIPlatform() const { return platform_; }
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
-    std::shared_ptr<BuildinShader> GetBuildinShader() const { return buildinShader_; }
+    std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }
 };
 }  // namespace Altseed

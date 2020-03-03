@@ -20,8 +20,8 @@ set(core_files
     Common/StringHelper.h
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
-    Graphics/BuildinShader.h
-    Graphics/BuildinShader.cpp
+    Graphics/BuiltinShader.h
+    Graphics/BuiltinShader.cpp
     Graphics/Color.h
     Graphics/Color.cpp
     Graphics/CommandList.h
