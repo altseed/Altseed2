@@ -259,6 +259,22 @@ CBGEXPORT void CBGSTDCALL cbg_Int8Array_CopyTo(void* cbg_self, void* ptr) {
     cbg_self_->CopyTo(cbg_arg0);
 }
 
+CBGEXPORT int8_t CBGSTDCALL cbg_Int8Array_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    int8_t cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int8Array_SetAt(void* cbg_self, int32_t index, int8_t value) {
+    auto cbg_self_ = (Altseed::Int8Array*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    int8_t cbg_arg1 = value;
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Int8Array_Create(int32_t size) {
     int32_t cbg_arg0 = size;
     std::shared_ptr<Altseed::Int8Array> cbg_ret = Altseed::Int8Array::Create(cbg_arg0);
@@ -311,6 +327,22 @@ CBGEXPORT void CBGSTDCALL cbg_Int32Array_CopyTo(void* cbg_self, void* ptr) {
 
     void* cbg_arg0 = ptr;
     cbg_self_->CopyTo(cbg_arg0);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Int32Array_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    int32_t cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Int32Array_SetAt(void* cbg_self, int32_t index, int32_t value) {
+    auto cbg_self_ = (Altseed::Int32Array*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    int32_t cbg_arg1 = value;
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_Int32Array_Create(int32_t size) {
@@ -367,6 +399,22 @@ CBGEXPORT void CBGSTDCALL cbg_VertexArray_CopyTo(void* cbg_self, void* ptr) {
     cbg_self_->CopyTo(cbg_arg0);
 }
 
+CBGEXPORT Altseed::BatchVertex CBGSTDCALL cbg_VertexArray_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::BatchVertex cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_VertexArray_SetAt(void* cbg_self, int32_t index, void* value) {
+    auto cbg_self_ = (Altseed::VertexArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::BatchVertex cbg_arg1 = (*((Altseed::BatchVertex*)value));
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_VertexArray_Create(int32_t size) {
     int32_t cbg_arg0 = size;
     std::shared_ptr<Altseed::VertexArray> cbg_ret = Altseed::VertexArray::Create(cbg_arg0);
@@ -419,6 +467,22 @@ CBGEXPORT void CBGSTDCALL cbg_FloatArray_CopyTo(void* cbg_self, void* ptr) {
 
     void* cbg_arg0 = ptr;
     cbg_self_->CopyTo(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_FloatArray_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    float cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_FloatArray_SetAt(void* cbg_self, int32_t index, float value) {
+    auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    float cbg_arg1 = value;
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_FloatArray_Create(int32_t size) {

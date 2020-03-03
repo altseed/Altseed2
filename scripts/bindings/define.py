@@ -74,7 +74,7 @@ define.enums.append(DeviceType)
 define.enums.append(BuildinShaderType)
 define.enums.append(WritingDirection)
 
-# define.structs.append(BatchVertex)
+define.structs.append(BatchVertex)
 define.structs.append(Color)
 
 define.classes.append(Graphics)

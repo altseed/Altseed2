@@ -7,8 +7,6 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-BatchVertex = cbg.Struct('Altseed', 'BatchVertex', 'Vertex')
-Color = cbg.Struct('Altseed', 'Color_C', 'Color')
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
@@ -264,7 +262,6 @@ with Renderer as class_:
         with func.add_arg(Material, 'material') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'マテリアル')
-        func.is_public = False
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:

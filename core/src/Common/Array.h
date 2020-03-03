@@ -1,8 +1,8 @@
 ﻿#pragma once
 
+#include <cstring>
 #include <memory>
 #include <vector>
-#include <cstring>
 
 #include "../BaseObject.h"
 
@@ -39,10 +39,10 @@ public:
      */
     int32_t GetCount() { return this->vector_.size(); }
 
-	/**
+    /**
      * @brief 要素数を変更
      */
-	void Resize(int32_t size) { this->vector_.resize(size); }
+    void Resize(int32_t size) { this->vector_.resize(size); }
 
     /**
      * @brief 内部の vector オブジェクトを取得
@@ -56,7 +56,7 @@ public:
 
     /**
      * @brief 配列をコピーする
-	 * 危険！：C# 連携用！Core内部で使う機会はほぼないはず
+     * 危険！：C# 連携用！Core内部で使う機会はほぼないはず
      */
     void Assign(void* ptr, int32_t size) {
         T* p = static_cast<T*>(ptr);
@@ -69,7 +69,19 @@ public:
      */
     void CopyTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size()); }
 
-	/**
+    /**
+     * @brief インデックスアクセス
+     * 危険！：C# 連携用！Core内部で使うな
+     */
+    T GetAt(int32_t index) const { return this->vector_[index]; }
+
+    /**
+     * @brief インデックスアクセス
+     * 危険！：C# 連携用！Core内部で使うな
+     */
+    void SetAt(int32_t index, T value) { this->vector_[index] = value; }
+
+    /**
      * @brief インスタンスを生成します。
      */
     static std::shared_ptr<Array<T>> Create(int32_t size) {
