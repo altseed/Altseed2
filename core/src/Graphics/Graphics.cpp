@@ -1,7 +1,7 @@
 ﻿#include "Graphics.h"
 
 #include "../Logger/Log.h"
-#include "BuildinShader.h"
+#include "BuiltinShader.h"
 #include "Camera.h"
 #include "CommandList.h"
 
@@ -40,7 +40,7 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
 
     instance->compiler_ = LLGI::CreateCompiler(deviceType);
 
-    instance->buildinShader_ = MakeAsdShared<BuildinShader>();
+    instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
     instance->commandList_ = CommandList::Create();
 
     return true;

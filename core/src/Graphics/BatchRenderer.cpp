@@ -1,7 +1,7 @@
 #include "BatchRenderer.h"
 
 #include "../Graphics/Graphics.h"
-#include "BuildinShader.h"
+#include "BuiltinShader.h"
 #include "CommandList.h"
 #include "Material.h"
 
@@ -15,8 +15,8 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
     matDefaultSprite_ = MakeAsdShared<Material>();
-    auto vs = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
-    auto ps = graphics->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitPS);
+    auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
+    auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
     matDefaultSprite_->SetShader(ps);
 }
 

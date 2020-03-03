@@ -51,7 +51,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/BuildinShader.h"
+#include "Graphics/BuiltinShader.h"
 
 #include "Tool/Tool.h"
 
@@ -742,11 +742,11 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetCommandList(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::CommandList>(cbg_ret);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetBuildinShader(void* cbg_self) {
+CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetBuiltinShader(void* cbg_self) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 
-    std::shared_ptr<Altseed::BuildinShader> cbg_ret = cbg_self_->GetBuildinShader();
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::BuildinShader>(cbg_ret);
+    std::shared_ptr<Altseed::BuiltinShader> cbg_ret = cbg_self_->GetBuiltinShader();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::BuiltinShader>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
@@ -979,16 +979,16 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_BuildinShader_Create(void* cbg_self, int32_t type) {
-    auto cbg_self_ = (Altseed::BuildinShader*)(cbg_self);
+CBGEXPORT void* CBGSTDCALL cbg_BuiltinShader_Create(void* cbg_self, int32_t type) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 
-    Altseed::BuildinShaderType cbg_arg0 = (Altseed::BuildinShaderType)type;
+    Altseed::BuiltinShaderType cbg_arg0 = (Altseed::BuiltinShaderType)type;
     std::shared_ptr<Altseed::Shader> cbg_ret = cbg_self_->Create(cbg_arg0);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_BuildinShader_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed::BuildinShader*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 
     cbg_self_->Release();
 }

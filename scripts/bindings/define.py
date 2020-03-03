@@ -71,7 +71,7 @@ define.classes.append(Joystick)
 
 # graphics
 define.enums.append(DeviceType)
-define.enums.append(BuildinShaderType)
+define.enums.append(BuiltinShaderType)
 define.enums.append(WritingDirection)
 
 define.structs.append(BatchVertex)
@@ -85,7 +85,7 @@ define.classes.append(CommandList)
 define.classes.append(Rendered)
 define.classes.append(RenderedSprite)
 define.classes.append(RenderedCamera)
-define.classes.append(BuildinShader)
+define.classes.append(BuiltinShader)
 define.classes.append(Shader)
 define.classes.append(Glyph)
 define.classes.append(Font)

@@ -21,14 +21,14 @@ Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
     class_.brief('ja', 'シェーダ')
 
-BuildinShaderType = cbg.Enum('Altseed', 'BuildinShaderType')
-with BuildinShaderType as enum_:
+BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
+with BuiltinShaderType as enum_:
     enum_.add('SpriteUnlitVS')
     enum_.add('SpriteUnlitPS')
     enum_.add('FontUnlitPS')
 
-BuildinShader = cbg.Class('Altseed', 'BuildinShader')
-with BuildinShader as class_:
+BuiltinShader = cbg.Class('Altseed', 'BuiltinShader')
+with BuiltinShader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ビルド済みシェーダの取得を行うクラス')
     with class_.add_func('Create') as func:
@@ -37,7 +37,7 @@ with BuildinShader as class_:
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'シェーダ')
-        with func.add_arg(BuildinShaderType, 'type') as arg:
+        with func.add_arg(BuiltinShaderType, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの種類')
         func.is_public = True
@@ -72,9 +72,9 @@ with Graphics as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'コマンドリストを取得します。')
         prop.has_getter = True  # TODO：Engine側できちんと隠す
-    with class_.add_property(BuildinShader, 'BuildinShader') as prop:
+    with class_.add_property(BuiltinShader, 'BuiltinShader') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ビルド済みシェーダを取得します。')
+        prop.brief.add('ja', '組み込みのシェーダを取得します。')
         prop.has_getter = True
     with class_.add_func('DoEvents') as func:
         func.brief = cbg.Description()

@@ -1,7 +1,7 @@
 #include "CommandList.h"
 
 #include "../Graphics/Graphics.h"
-#include "BuildinShader.h"
+#include "BuiltinShader.h"
 #include "RenderTexture.h"
 
 namespace Altseed {
@@ -96,8 +96,8 @@ std::shared_ptr<RenderTexture> CommandList::GetScreenTexture() const { return in
 void CommandList::StartFrame() {
     if (copyMaterial_ == nullptr) {
         copyMaterial_ = MakeAsdShared<Material>();
-        auto vs = Graphics::GetInstance()->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitVS);
-        auto ps = Graphics::GetInstance()->GetBuildinShader()->Create(BuildinShaderType::SpriteUnlitPS);
+        auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
+        auto ps = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
         copyMaterial_->SetShader(ps);
     }
 
