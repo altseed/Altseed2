@@ -1073,6 +1073,11 @@ CBGEXPORT void CBGSTDCALL cbg_Font_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Tool_GetInstance() {
+    std::shared_ptr<Altseed::Tool> cbg_ret = Altseed::Tool::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Tool>(cbg_ret);
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, int32_t flags) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
@@ -1195,6 +1200,15 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label,
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Tool_CheckBox(void* cbg_self, const char16_t* label, bool * isOpen) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = isOpen;
+    bool cbg_ret = cbg_self_->CheckBox(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* label, bool active) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
@@ -1219,6 +1233,115 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_
     const char16_t* cbg_arg0 = label;
     Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
     bool cbg_ret = cbg_self_->InvisibleButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool selected, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = selected;
+    Altseed::ToolSelectable cbg_arg2 = (Altseed::ToolSelectable)flags;
+    bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt(void* cbg_self, const char16_t* label, int32_t * value) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = value;
+    bool cbg_ret = cbg_self_->InputInt(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat(void* cbg_self, const char16_t* label, float * value) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = value;
+    bool cbg_ret = cbg_self_->InputFloat(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt(void* cbg_self, const char16_t* label, int32_t * value, float speed, int32_t valueMin, int32_t valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = value;
+    float cbg_arg2 = speed;
+    int32_t cbg_arg3 = valueMin;
+    int32_t cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->SliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat(void* cbg_self, const char16_t* label, float * value, float speed, float valueMin, float valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = value;
+    float cbg_arg2 = speed;
+    float cbg_arg3 = valueMin;
+    float cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->SliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderAngle(void* cbg_self, const char16_t* label, float * angle) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = angle;
+    bool cbg_ret = cbg_self_->SliderAngle(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderInt(void* cbg_self, const char16_t* label, void* size, int32_t * value, int32_t valueMin, int32_t valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
+    int32_t* cbg_arg2 = value;
+    int32_t cbg_arg3 = valueMin;
+    int32_t cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->VSliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderFloat(void* cbg_self, const char16_t* label, void* size, float * value, float valueMin, float valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
+    float* cbg_arg2 = value;
+    float cbg_arg3 = valueMin;
+    float cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->VSliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt(void* cbg_self, const char16_t* label, int32_t * value, float speed, int32_t valueMin, int32_t valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = value;
+    float cbg_arg2 = speed;
+    int32_t cbg_arg3 = valueMin;
+    int32_t cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->DragInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat(void* cbg_self, const char16_t* label, float * value, float speed, float valueMin, float valueMax) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = value;
+    float cbg_arg2 = speed;
+    float cbg_arg3 = valueMin;
+    float cbg_arg4 = valueMax;
+    bool cbg_ret = cbg_self_->DragFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
     return cbg_ret;
 }
 
