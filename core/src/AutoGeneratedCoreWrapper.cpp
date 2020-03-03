@@ -1236,11 +1236,11 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool selected, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool * selected, int32_t flags) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    bool cbg_arg1 = selected;
+    bool* cbg_arg1 = selected;
     Altseed::ToolSelectable cbg_arg2 = (Altseed::ToolSelectable)flags;
     bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;

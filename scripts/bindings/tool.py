@@ -789,7 +789,8 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(bool, 'selected')  # TODO
+        with func_.add_arg(bool, 'selected') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
         func_.add_arg(ToolSelectable, 'flags')
         func_.return_value.type_ = bool
 
