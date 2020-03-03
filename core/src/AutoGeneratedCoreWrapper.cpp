@@ -53,6 +53,8 @@
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuildinShader.h"
 
+#include "Tool/Tool.h"
+
 #include "IO/File.h"
 #include "IO/PackFile.h"
 #include "IO/StaticFile.h"
@@ -1067,6 +1069,515 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Font_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    Altseed::ToolWindow cbg_arg1 = (Altseed::ToolWindow)flags;
+    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_End(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->End();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Dummy(void* cbg_self, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
+    cbg_self_->Dummy(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Text(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->Text(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextUnformatted(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->TextUnformatted(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrapped(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->TextWrapped(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextColored(void* cbg_self, void* color, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector4F_C cbg_arg0 = (*((Altseed::Vector4F_C*)color));
+    const char16_t* cbg_arg1 = text;
+    cbg_self_->TextColored(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabled(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->TextDisabled(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BulletText(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->BulletText(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LabelText(void* cbg_self, const char16_t* label, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = text;
+    cbg_self_->LabelText(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_CollapsingHeader(void* cbg_self, const char16_t* label, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::ToolTreeNode cbg_arg1 = (Altseed::ToolTreeNode)flags;
+    bool cbg_ret = cbg_self_->CollapsingHeader(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNode(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->TreeNode(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx(void* cbg_self, const char16_t* label, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::ToolTreeNode cbg_arg1 = (Altseed::ToolTreeNode)flags;
+    bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TreePop(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->TreePop();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemOpen(void* cbg_self, bool isOpen, int32_t cond) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_arg0 = isOpen;
+    Altseed::ToolCond cbg_arg1 = (Altseed::ToolCond)cond;
+    cbg_self_->SetNextItemOpen(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
+    bool cbg_ret = cbg_self_->Button(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* label, bool active) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = active;
+    bool cbg_ret = cbg_self_->RadioButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ArrowButton(void* cbg_self, const char16_t* label, int32_t dir) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::ToolDir cbg_arg1 = (Altseed::ToolDir)dir;
+    bool cbg_ret = cbg_self_->ArrowButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_t* label, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
+    bool cbg_ret = cbg_self_->InvisibleButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_OpenPopup(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    cbg_self_->OpenPopup(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->BeginPopup(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndPopup(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndPopup();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChild(void* cbg_self, const char16_t* label, void* size, bool border, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)size));
+    bool cbg_arg2 = border;
+    Altseed::ToolWindow cbg_arg3 = (Altseed::ToolWindow)flags;
+    bool cbg_ret = cbg_self_->BeginChild(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndChild(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndChild();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenuBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->BeginMenuBar();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenuBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndMenuBar();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenu(void* cbg_self, const char16_t* label, bool enabled) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = enabled;
+    bool cbg_ret = cbg_self_->BeginMenu(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenu(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndMenu();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_MenuItem(void* cbg_self, const char16_t* label, const char16_t* shortcut, bool selected, bool enabled) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = shortcut;
+    bool cbg_arg2 = selected;
+    bool cbg_arg3 = enabled;
+    bool cbg_ret = cbg_self_->MenuItem(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabBar(void* cbg_self, const char16_t* label, int32_t flags) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed::ToolTabBar cbg_arg1 = (Altseed::ToolTabBar)flags;
+    bool cbg_ret = cbg_self_->BeginTabBar(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndTabBar();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabItem(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndTabItem();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Indent(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->Indent();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Unindent(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->Unindent();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Separator(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->Separator();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltip(void* cbg_self, const char16_t* text) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    cbg_self_->SetTooltip(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BeginTooltip(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->BeginTooltip();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTooltip(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->EndTooltip();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NewLine(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->NewLine();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SameLine(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->SameLine();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushTextWrapPos(void* cbg_self, float wrapLocalPosX) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_arg0 = wrapLocalPosX;
+    cbg_self_->PushTextWrapPos(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopTextWrapPos(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->PopTextWrapPos();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemWidth(void* cbg_self, float width) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_arg0 = width;
+    cbg_self_->SetNextItemWidth(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushItemWidth(void* cbg_self, float width) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_arg0 = width;
+    cbg_self_->PushItemWidth(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopItemWidth(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->PopItemWidth();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushButtonRepeat(void* cbg_self, bool repeat) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_arg0 = repeat;
+    cbg_self_->PushButtonRepeat(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopButtonRepeat(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->PopButtonRepeat();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Columns(void* cbg_self, int32_t count, bool border) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = count;
+    bool cbg_arg1 = border;
+    cbg_self_->Columns(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NextColumn(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->NextColumn();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, int32_t id) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    cbg_self_->PushID(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopID(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->PopID();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemActive(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsItemActive();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemHovered(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsItemHovered();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHere(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->SetScrollHere();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereX(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->SetScrollHereX();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereY(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->SetScrollHereY();
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetTextLineHeight(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetTextLineHeight();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetFontSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetFontSize();
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Tool_GetWindowSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetWindowSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSize(void* cbg_self, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
+    cbg_self_->SetWindowSize(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMousePosValid(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsMousePosValid();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDragging(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsMouseDragging();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDoubleClicked(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = button;
+    bool cbg_ret = cbg_self_->IsMouseDoubleClicked(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Tool_GetMouseDragDelta(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = button;
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetMouseDragDelta(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ResetMouseDragDelta(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = button;
+    cbg_self_->ResetMouseDragDelta(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowContentSize(void* cbg_self, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
+    cbg_self_->SetNextWindowContentSize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowSize(void* cbg_self, void* size) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)size));
+    cbg_self_->SetNextWindowSize(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowPos(void* cbg_self, void* pos) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)pos));
+    cbg_self_->SetNextWindowPos(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
     cbg_self_->Release();
 }
