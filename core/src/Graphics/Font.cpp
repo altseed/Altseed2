@@ -11,6 +11,19 @@ namespace Altseed {
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
+Font::Font()
+    : resources_(nullptr),
+      file_(nullptr),
+      size_(0),
+      ascent_(0),
+      descent_(0),
+      lineGap_(0),
+      scale_(0),
+      fontinfo_(stbtt_fontinfo()),
+      color_(Color(255, 255, 255, 255)),
+      textureSize_(Vector2I(2000, 2000)),
+      weight_(0) {}
+
 Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size)
     : resources_(resources),
       file_(file),

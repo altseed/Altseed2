@@ -54,29 +54,32 @@ private:
 
     Vector2I currentTexturePosition_;
 
+protected:
+    Font();
+
 public:
     Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
     virtual ~Font();
 
-    void SetColor(Color color) { color_ = color; }
-    Color GetColor() { return color_; }
+    virtual void SetColor(Color color) { color_ = color; }
+    virtual Color GetColor() { return color_; }
 
-	void SetWeight(float weight) { weight_ = weight; }
-    float GetWeight() { return weight_; }
+	virtual void SetWeight(float weight) { weight_ = weight; }
+    virtual float GetWeight() { return weight_; }
 
-    int32_t GetSize() { return size_; }
-    int32_t GetAscent() { return ascent_; }
-    int32_t GetDescent() { return descent_; }
-    int32_t GetLineGap() { return lineGap_; }
+    virtual int32_t GetSize() { return size_; }
+    virtual int32_t GetAscent() { return ascent_; }
+    virtual int32_t GetDescent() { return descent_; }
+    virtual int32_t GetLineGap() { return lineGap_; }
 
-    std::shared_ptr<Glyph> GetGlyph(const int32_t character);
-    std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
+    virtual std::shared_ptr<Glyph> GetGlyph(const int32_t character);
+    virtual std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
         if (index >= textures_.size()) return nullptr;
         return textures_[index];
     }
 
-    int32_t GetKerning(const int32_t c1, const int32_t c2);
-    Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
+    virtual int32_t GetKerning(const int32_t c1, const int32_t c2);
+    virtual Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);

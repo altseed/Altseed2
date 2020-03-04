@@ -28,6 +28,8 @@ set(core_files
     Graphics/CommandList.cpp
     Graphics/Font.h
     Graphics/Font.cpp
+    Graphics/ImageFont.h
+    Graphics/ImageFont.cpp
     Graphics/Graphics.h
     Graphics/Graphics.cpp
     Graphics/LLGIWindow.h
