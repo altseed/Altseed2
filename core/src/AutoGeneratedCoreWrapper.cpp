@@ -48,6 +48,7 @@
 #include "Graphics/CommandList.h"
 #include "Graphics/Texture2D.h"
 #include "Graphics/Font.h"
+#include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedCamera.h"
@@ -1153,6 +1154,34 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Font_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_ImageFont_CreateImageFont(void* baseFont) {
+    std::shared_ptr<Altseed::Font> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Font>((Altseed::Font*)baseFont);
+    std::shared_ptr<Altseed::ImageFont> cbg_ret = Altseed::ImageFont::CreateImageFont(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::ImageFont>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_ImageFont_AddImageGlyph(void* cbg_self, int32_t character, void* texture) {
+    auto cbg_self_ = (Altseed::ImageFont*)(cbg_self);
+
+    int32_t cbg_arg0 = character;
+    std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
+    cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_ImageFont_GetImageGlyph(void* cbg_self, int32_t character) {
+    auto cbg_self_ = (Altseed::ImageFont*)(cbg_self);
+
+    int32_t cbg_arg0 = character;
+    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_ImageFont_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::ImageFont*)(cbg_self);
 
     cbg_self_->Release();
 }

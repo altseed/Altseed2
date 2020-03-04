@@ -401,3 +401,41 @@ with Font as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'カーニングの有無')
         func.is_public = True
+
+
+ImageFont = cbg.Class('Altseed', 'ImageFont', cbg.CacheMode.ThreadSafeCache)
+with ImageFont as class_:
+    class_.base_class = Font
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'テクスチャ追加対応フォント')
+    with class_.add_func('CreateImageFont') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テクスチャ追加対応フォントを生成します')
+        func.return_value.type_ = ImageFont
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'テクスチャ追加対応フォント')
+        with func.add_arg(Font, 'baseFont') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ベースとなるフォント')
+        func.is_public = True
+        func.is_static = True
+    with class_.add_func('AddImageGlyph') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テクスチャ文字を追加する')
+        with func.add_arg(int, 'character') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字')
+        with func.add_arg(Texture2D, 'texture') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャ')
+        func.is_public = True
+    with class_.add_func('GetImageGlyph') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テクスチャ文字を取得する')
+        func.return_value.type_ = Texture2D
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'テクスチャ文字')
+        with func.add_arg(int, 'character') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '文字')
+        func.is_public = True
