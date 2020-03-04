@@ -37,10 +37,10 @@ Font::~Font() {
 }
 
 std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
-    if (glyphs_.count((char16_t)character)) return glyphs_[(char16_t)character];
+    if (glyphs_.count(character)) return glyphs_[character];
 
-    AddGlyph((char16_t)character);
-    return glyphs_[(char16_t)character];
+    AddGlyph(character);
+    return glyphs_[character];
 }
 
 int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
@@ -114,7 +114,7 @@ void Font::AddFontTexture() {
     currentTexturePosition_ = Vector2I();
 }
 
-void Font::AddGlyph(const char16_t character) {
+void Font::AddGlyph(const int32_t character) {
     Vector2I offset;
     int32_t w, h, glyphW;
 

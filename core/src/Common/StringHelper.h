@@ -148,4 +148,30 @@ static std::u16string utf8_to_utf16(const std::string& u8Str) {
     return u16Str;
 }
 
+static bool IsU16HighSurrogate(char16_t ch) { return 0xD800 <= ch && ch < 0xDC00; }
+
+static bool IsU16LowSurrogate(char16_t ch) { return 0xDC00 <= ch && ch < 0xE000; }
+
+static bool ConvChU16ToU32(const std::array<char16_t, 2>& u16Ch, char32_t& u32Ch) {
+    if (IsU16HighSurrogate(u16Ch[0])) {
+        if (IsU16LowSurrogate(u16Ch[1])) {
+            u32Ch = 0x10000 + (char32_t(u16Ch[0]) - 0xD800) * 0x400 + (char32_t(u16Ch[1]) - 0xDC00);
+        } else if (u16Ch[1] == 0) {
+            u32Ch = u16Ch[0];
+        } else {
+            return false;
+        }
+    } else if (IsU16LowSurrogate(u16Ch[0])) {
+        if (u16Ch[1] == 0) {
+            u32Ch = u16Ch[0];
+        } else {
+            return false;
+        }
+    } else {
+        u32Ch = u16Ch[0];
+    }
+
+    return true;
+}
+
 }  // namespace Altseed

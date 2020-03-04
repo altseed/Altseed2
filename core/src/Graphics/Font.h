@@ -48,7 +48,7 @@ private:
 
     std::shared_ptr<StaticFile> file_;
 
-    std::map<char16_t, std::shared_ptr<Glyph>> glyphs_;
+    std::map<int32_t, std::shared_ptr<Glyph>> glyphs_;
     std::vector<std::shared_ptr<Texture2D>> textures_;
     Vector2I textureSize_;
 
@@ -85,6 +85,6 @@ public:
 
 private:
     void AddFontTexture();
-    void AddGlyph(const char16_t character);
+    void AddGlyph(const int32_t character);
 };
 }  // namespace Altseed
