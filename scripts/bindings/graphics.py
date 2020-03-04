@@ -308,7 +308,11 @@ with Font as class_:
         prop.has_setter = True
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントのサイズを取得・設定する')
+        prop.brief.add('ja', 'フォントのサイズを取得する')
+        prop.has_getter = True
+    with class_.add_property(int, 'Weight') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントの太さを取得・設定する')
         prop.has_getter = True
         prop.has_setter = True
     with class_.add_property(int, 'Ascent') as prop:
