@@ -303,12 +303,14 @@ with Font as class_:
     class_.brief.add('ja', 'フォント')
     with class_.add_property(Color, 'Color') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントの色を取得する')
+        prop.brief.add('ja', 'フォントの色を取得・設定する')
         prop.has_getter = True
+        prop.has_setter = True
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントのサイズを取得する')
+        prop.brief.add('ja', 'フォントのサイズを取得・設定する')
         prop.has_getter = True
+        prop.has_setter = True
     with class_.add_property(int, 'Ascent') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'フォントのベースラインからトップラインまでの距離を取得する')
