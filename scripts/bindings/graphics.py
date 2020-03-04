@@ -333,9 +333,6 @@ with Font as class_:
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'フォントのサイズ')
-        with func.add_arg(Color, 'color') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'フォントの色')
         func.is_public = True
         func.is_static = True
     with class_.add_func('LoadStaticFont') as func:

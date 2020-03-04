@@ -3,16 +3,22 @@
 #include "Font.h"
 #include <string>
 #include "../IO/File.h"
-#include "Graphics.h"
 #include "../Logger/Log.h"
+#include "Graphics.h"
 
 namespace Altseed {
 
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
-Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color)
-    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), color_(color), textureSize_(Vector2I(2000, 2000)) {
+Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size)
+    : resources_(resources),
+      file_(file),
+      fontinfo_(fontinfo),
+      size_(size),
+      color_(Color(255, 255, 255, 255)),
+      textureSize_(Vector2I(2000, 2000)),
+      weight_(0) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
@@ -62,7 +68,7 @@ Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction,
     return direction == WritingDirection::Horizontal ? Vector2I(w, h) : Vector2I(h, w);
 }
 
-std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, Color color) {
+std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {
@@ -72,7 +78,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, 
 
     auto file = StaticFile::Create(path);
     if (file == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
@@ -84,7 +91,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size, 
         return nullptr;
     }
 
-    auto res = MakeAsdShared<Font>(resources, file, info, size, color);
+    auto res = MakeAsdShared<Font>(resources, file, info, size);
     resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;

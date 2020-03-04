@@ -39,11 +39,13 @@ private:
     std::shared_ptr<Resources> resources_;
 
     stbtt_fontinfo fontinfo_;
-    int32_t size_;
     float scale_;
     int32_t ascent_, descent_, lineGap_;
 
+    int32_t size_;
     Color color_;
+    float weight_;
+
     std::shared_ptr<StaticFile> file_;
 
     std::map<char16_t, std::shared_ptr<Glyph>> glyphs_;
@@ -53,10 +55,15 @@ private:
     Vector2I currentTexturePosition_;
 
 public:
-    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, Color color);
+    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
     virtual ~Font();
 
+    void SetColor(Color color) { color_ = color; }
     Color GetColor() { return color_; }
+
+	void SetWeight(float weight) { weight_ = weight; }
+    float GetWeight() { return weight_; }
+
     int32_t GetSize() { return size_; }
     int32_t GetAscent() { return ascent_; }
     int32_t GetDescent() { return descent_; }
@@ -71,38 +78,8 @@ public:
     int32_t GetKerning(const int32_t c1, const int32_t c2);
     Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
-    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size, Color color);
+    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
-
-    const char* HlslPSCode = R"(
-Texture2D txt : register(t8);
-SamplerState smp : register(s8);
-struct PS_INPUT
-{
-    float4  Position : SV_POSITION;
-	float2  UV : UV0;
-    float4  Color    : COLOR0;
-};
-float4 main(PS_INPUT input) : SV_TARGET 
-{ 
-	float4 c;
-	c = txt.Sample(smp, input.UV);
-
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - 0.5) * 255);
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + 0.5);
-	if (c.r > 1)
-	{
-		return float4(1, 1, 1, 1);
-	}
-	if (c.r > 0) 
-	{
-		c += 0.5;
-		c = input.Color + c * c.a;
-		return c;
-	} 
-	return (float)0;
-}
-)";
 
     bool Reload() override;
 

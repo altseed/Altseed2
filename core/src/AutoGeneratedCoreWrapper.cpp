@@ -1047,11 +1047,10 @@ CBGEXPORT void CBGSTDCALL cbg_Glyph_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t size, void* color) {
+CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t size) {
     const char16_t* cbg_arg0 = path;
     int32_t cbg_arg1 = size;
-    Altseed::Color_C cbg_arg2 = (*((Altseed::Color_C*)color));
-    std::shared_ptr<Altseed::Font> cbg_ret = Altseed::Font::LoadDynamicFont(cbg_arg0, cbg_arg1, cbg_arg2);
+    std::shared_ptr<Altseed::Font> cbg_ret = Altseed::Font::LoadDynamicFont(cbg_arg0, cbg_arg1);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Font>(cbg_ret);
 }
 

@@ -61,6 +61,11 @@ float4 main(PS_INPUT input) : SV_TARGET
 const char* FontUnlitPS = R"(
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);
+cbuffer Consts : register(b1)
+{
+    float4 weight;
+    float4 color;
+};
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
@@ -73,17 +78,15 @@ float4 main(PS_INPUT input) : SV_TARGET
 	float4 c;
 	c = mainTex.Sample(mainSamp, input.UV1);
 
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - 0.5) * 255);
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + 0.5);
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - weight) * 255);
+	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + weight);
 	if (c.r > 1)
 	{
-		return float4(1, 1, 1, 1);
+		return color;
 	}
 	if (c.r > 0) 
 	{
-		c += 0.5;
-		c = input.Color + c * c.a;
-		return c;
+		return color * c.r;
 	} 
 	return (float)0;
 }
