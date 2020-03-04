@@ -2245,6 +2245,31 @@ CBGEXPORT void CBGSTDCALL cbg_Log_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Window_GetInstance() {
+    std::shared_ptr<Altseed::Window> cbg_ret = Altseed::Window::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Window>(cbg_ret);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Window_GetTitle(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Window*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetTitle();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Window_SetTitle(void* cbg_self, const char16_t* value) {
+    auto cbg_self_ = (Altseed::Window*)(cbg_self);
+
+    const char16_t* cbg_arg0 = value;
+    cbg_self_->SetTitle(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Window*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 
 }
 

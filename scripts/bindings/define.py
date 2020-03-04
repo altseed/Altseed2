@@ -10,6 +10,7 @@ from .sound import *
 from .math import *
 from .logger import *
 from .tool import *
+from .window import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -116,3 +117,6 @@ define.classes.append(SoundMixer)
 define.enums.append(LogLevel)
 define.enums.append(LogCategory)
 define.classes.append(Log)
+
+# Window
+define.classes.append(Window)
