@@ -44,6 +44,8 @@ set(core_files
     Graphics/Renderer/RenderedCamera.cpp
     Graphics/Renderer/RenderedSprite.h
     Graphics/Renderer/RenderedSprite.cpp
+    Graphics/Renderer/RenderedText.h
+    Graphics/Renderer/RenderedText.cpp
     Graphics/Renderer/Renderer.h
     Graphics/Renderer/Renderer.cpp
     Graphics/Shader.h

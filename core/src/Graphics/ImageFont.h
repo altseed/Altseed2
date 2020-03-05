@@ -22,12 +22,6 @@ public:
     ImageFont(std::shared_ptr<Font> baseFont);
     virtual ~ImageFont();
 
-    void SetColor(Color color) override { baseFont_->SetColor(color); }
-    Color GetColor() override { return baseFont_->GetColor(); }
-
-    virtual void SetWeight(float weight) override { baseFont_->SetWeight(weight); }
-    virtual float GetWeight() override { return baseFont_->GetWeight(); }
-
     virtual int32_t GetSize() override { return baseFont_->GetSize(); }
     virtual int32_t GetAscent() override { return baseFont_->GetAscent(); }
     virtual int32_t GetDescent() override { return baseFont_->GetDescent(); }

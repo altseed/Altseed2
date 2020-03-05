@@ -20,18 +20,14 @@ Font::Font()
       lineGap_(0),
       scale_(0),
       fontinfo_(stbtt_fontinfo()),
-      color_(Color(255, 255, 255, 255)),
-      textureSize_(Vector2I(2000, 2000)),
-      weight_(0) {}
+      textureSize_(Vector2I(2000, 2000)) {}
 
 Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size)
     : resources_(resources),
       file_(file),
       fontinfo_(fontinfo),
       size_(size),
-      color_(Color(255, 255, 255, 255)),
-      textureSize_(Vector2I(2000, 2000)),
-      weight_(0) {
+      textureSize_(Vector2I(2000, 2000)) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);

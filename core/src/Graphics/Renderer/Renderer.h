@@ -11,10 +11,9 @@ namespace Altseed {
 
 class Texture2D;
 class RenderedSprite;
+class RenderedText;
 class RenderedCamera;
 class CommandList;
-class RenderedSprite;
-class RenderedCamera;
 class Window;
 
 class Renderer : public BaseObject {
@@ -47,6 +46,8 @@ public:
             const std::shared_ptr<Material>& material = nullptr);
 
     void DrawSprite(std::shared_ptr<RenderedSprite> sprite);
+
+    void DrawText(std::shared_ptr<RenderedText> text);
 
     void Render(std::shared_ptr<CommandList> commandList);
 
