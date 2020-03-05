@@ -974,6 +974,96 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedText_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetTransform(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
+    cbg_self_->SetTransform(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedText_GetMaterial(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_ret = cbg_self_->GetMaterial();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Material>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetMaterial(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)value);
+    cbg_self_->SetMaterial(cbg_arg0);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_RenderedText_GetText(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetText();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetText(void* cbg_self, const char16_t* value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    const char16_t* cbg_arg0 = value;
+    cbg_self_->SetText(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedText_GetFont(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    std::shared_ptr<Altseed::Font> cbg_ret = cbg_self_->GetFont();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Font>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetFont(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    std::shared_ptr<Altseed::Font> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Font>((Altseed::Font*)value);
+    cbg_self_->SetFont(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetWeight(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWeight();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetWeight(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetWeight(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedText_GetColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = (*((Altseed::Color_C*)value));
+    cbg_self_->SetColor(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
 
