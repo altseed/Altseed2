@@ -43,7 +43,6 @@ private:
     int32_t ascent_, descent_, lineGap_;
 
     int32_t size_;
-    Color color_;
     float weight_;
 
     std::shared_ptr<StaticFile> file_;
@@ -60,12 +59,6 @@ protected:
 public:
     Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
     virtual ~Font();
-
-    virtual void SetColor(Color color) { color_ = color; }
-    virtual Color GetColor() { return color_; }
-
-	virtual void SetWeight(float weight) { weight_ = weight; }
-    virtual float GetWeight() { return weight_; }
 
     virtual int32_t GetSize() { return size_; }
     virtual int32_t GetAscent() { return ascent_; }

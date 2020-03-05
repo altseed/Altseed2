@@ -177,92 +177,6 @@ with Material as class_:
         prop.has_getter = True
         prop.has_setter = True
 
-Rendered = cbg.Class('Altseed', 'Rendered')
-with Rendered as class_:
-    class_.brief('ja', '描画されるオブジェクトの基本クラスを表します')
-    with class_.add_property(Matrix44F, 'Transform') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '変換行列を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-
-RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
-with RenderedSprite as class_:
-    class_.base_class = Rendered
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'スプライトのクラス')
-    with class_.add_func('Create') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'スプライトを作成します。')
-        func.return_value.type_ = RenderedSprite
-        func.is_static = True
-    with class_.add_property(Texture2D, 'Texture') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'テクスチャを取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-    with class_.add_property(RectF, 'Src') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画範囲を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-    with class_.add_property(Matrix44F, 'Transform') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '変換行列を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-    with class_.add_property(Material, 'Material') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'マテリアルを取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-
-RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
-with RenderedCamera as class_:
-    class_.base_class = Rendered
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'カメラのクラス')
-
-Renderer = cbg.Class('Altseed', 'Renderer')
-with Renderer as class_:
-    class_.is_public = True
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'レンダラのクラス')
-    with class_.add_func('GetInstance') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得します。')
-        func.return_value.type_ = Renderer
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '使用するインスタンス')
-        func.is_public = False
-        func.is_static = True
-    with class_.add_func('DrawSprite') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'スプライトを描画します。')
-        func.add_arg(RenderedSprite, 'sprite')
-        func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('Render') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'コマンドリストを描画します。')
-        with func.add_arg(CommandList, 'commandList') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'コマンドリスト')
-        func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('DrawPolygon') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'ポリゴンを描画します')
-        with func.add_arg(VertexArray, 'vertexBuffer') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '頂点バッファ')
-        with func.add_arg(Int32Array, 'indexBuffer') as arg:
-            arg.brief = cbg.Description()
-        with func.add_arg(Texture2D, 'texture') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャ')
-        with func.add_arg(Material, 'material') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'マテリアル')
-
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:
     enum_.add('Vertical')
@@ -301,20 +215,10 @@ Font = cbg.Class('Altseed', 'Font', cbg.CacheMode.ThreadSafeCache)
 with Font as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'フォント')
-    with class_.add_property(Color, 'Color') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントの色を取得・設定する')
-        prop.has_getter = True
-        prop.has_setter = True
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'フォントのサイズを取得する')
         prop.has_getter = True
-    with class_.add_property(int, 'Weight') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントの太さを取得・設定する')
-        prop.has_getter = True
-        prop.has_setter = True
     with class_.add_property(int, 'Ascent') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'フォントのベースラインからトップラインまでの距離を取得する')
@@ -439,3 +343,133 @@ with ImageFont as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '文字')
         func.is_public = True
+
+
+Rendered = cbg.Class('Altseed', 'Rendered')
+with Rendered as class_:
+    class_.brief('ja', '描画されるオブジェクトの基本クラスを表します')
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
+with RenderedSprite as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'スプライトのクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'スプライトを作成します。')
+        func.return_value.type_ = RenderedSprite
+        func.is_static = True
+    with class_.add_property(Texture2D, 'Texture') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(RectF, 'Src') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画範囲を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(Material, 'Material') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+RenderedText = cbg.Class('Altseed', 'RenderedText')
+with RenderedText as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'カメラのクラス')
+
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(Material, 'Material') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(ctypes.c_wchar_p, 'Text') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テキストを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(Font, 'Font') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'フォントを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(float, 'Weight') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '文字の太さを取得または設定します。(0 ~ 255)')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+
+RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
+with RenderedCamera as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'カメラのクラス')
+
+Renderer = cbg.Class('Altseed', 'Renderer')
+with Renderer as class_:
+    class_.is_public = True
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'レンダラのクラス')
+    with class_.add_func('GetInstance') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを取得します。')
+        func.return_value.type_ = Renderer
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '使用するインスタンス')
+        func.is_public = False
+        func.is_static = True
+    with class_.add_func('DrawSprite') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'スプライトを描画します。')
+        func.add_arg(RenderedSprite, 'sprite')
+        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_func('Render') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'コマンドリストを描画します。')
+        with func.add_arg(CommandList, 'commandList') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コマンドリスト')
+        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_func('DrawPolygon') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ポリゴンを描画します')
+        with func.add_arg(VertexArray, 'vertexBuffer') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '頂点バッファ')
+        with func.add_arg(Int32Array, 'indexBuffer') as arg:
+            arg.brief = cbg.Description()
+        with func.add_arg(Texture2D, 'texture') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャ')
+        with func.add_arg(Material, 'material') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'マテリアル')

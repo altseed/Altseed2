@@ -1096,39 +1096,11 @@ CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Font_CalcTextureSize(void* cbg_self
     return (cbg_ret);
 }
 
-CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Font_GetColor(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Font_SetColor(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    Altseed::Color_C cbg_arg0 = (*((Altseed::Color_C*)value));
-    cbg_self_->SetColor(cbg_arg0);
-}
-
 CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetSize();
     return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetWeight(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetWeight();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Font_SetWeight(void* cbg_self, int32_t value) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    int32_t cbg_arg0 = value;
-    cbg_self_->SetWeight(cbg_arg0);
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetAscent(void* cbg_self) {

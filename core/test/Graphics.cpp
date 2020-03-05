@@ -5,10 +5,14 @@
 
 #include <memory>
 
+#include "Math/Matrix44F.h"
 #include "Graphics/Camera.h"
 #include "Graphics/CommandList.h"
+#include "Graphics/Font.h"
+#include "Graphics/Color.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Tool/Tool.h"
@@ -224,6 +228,77 @@ TEST(Graphics, SpriteTexture) {
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
+
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, RenderedText) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
+
+    std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
+
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"Hello, world! こんにちは");
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+        texts.push_back(t);
+    }
+    
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"色を指定する。");
+        t->SetColor(Altseed::Color(0, 0, 255, 255));
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 100.0f, 0));
+        texts.push_back(t);
+    }
+
+    auto weitText = Altseed::RenderedText::Create();
+    {
+        weitText->SetText(u"太さを指定する。");
+        weitText->SetFont(font);
+        weitText->SetTransform(Altseed::Matrix44F().SetTranslation(0, 200.0f, 0));
+        texts.push_back(weitText);
+    }
+
+    auto fontGenyomin = Altseed::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(fontGenyomin);
+        t->SetText(u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷");
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 300.0f, 0));
+        texts.push_back(t);
+    }
+
+    auto rotatedText = Altseed::RenderedText::Create();
+    {
+        rotatedText->SetFont(font);
+        rotatedText->SetText(u"くるくるまわる");
+        texts.push_back(rotatedText);
+    }
+
+    auto rotatedTrans = Altseed::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
+    Altseed::Matrix44F rotatedRot;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        weitText->SetWeight(count / 20.0f - 2.5f);
+        rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
+
+        for(const auto& t : texts) {
+            Altseed::Renderer::GetInstance()->DrawText(t);
+        }
 
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
 

@@ -7,21 +7,21 @@ namespace Altseed {
 const char* SpriteUnlitVS = R"(
 cbuffer Consts : register(b0)
 {
-  float4x4 matView;
-  float4x4 matProjection;
+    float4x4 matView;
+    float4x4 matProjection;
 };
 
 struct VS_INPUT{
     float3 Position : POSITION0;
     float4 Color : COLOR0;
-	float2 UV1 : UV0;
-	float2 UV2 : UV1;
+    float2 UV1 : UV0;
+    float2 UV2 : UV1;
 };
 struct VS_OUTPUT{
     float4  Position : SV_POSITION;
     float4  Color    : COLOR0;
-	float2  UV1 : UV0;
-	float2  UV2 : UV1;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
 };
     
 VS_OUTPUT main(VS_INPUT input){
@@ -32,8 +32,8 @@ VS_OUTPUT main(VS_INPUT input){
     pos = mul(matProjection, pos);
 
     output.Position = pos;
-	output.UV1 = input.UV1;
-	output.UV2 = input.UV2;
+    output.UV1 = input.UV1;
+    output.UV2 = input.UV2;
     output.Color = input.Color;
         
     return output;
@@ -47,14 +47,14 @@ struct PS_INPUT
 {
     float4  Position : SV_POSITION;
     float4  Color    : COLOR0;
-	float2  UV1 : UV0;
-	float2  UV2 : UV1;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
 };
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
-	float4 c;
-	c = mainTex.Sample(mainSamp, input.UV1) * input.Color;
-	return c;
+    float4 c;
+    c = mainTex.Sample(mainSamp, input.UV1) * input.Color;
+    return c;
 }
 )";
 
@@ -64,31 +64,25 @@ SamplerState mainSamp : register(s0);
 cbuffer Consts : register(b1)
 {
     float4 weight;
-    float4 color;
 };
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
     float4  Color    : COLOR0;
-	float2  UV1 : UV0;
-	float2  UV2 : UV1;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
 };
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
-	float4 c;
-	c = mainTex.Sample(mainSamp, input.UV1);
+    float4 c;
+    c = mainTex.Sample(mainSamp, input.UV1);
 
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - weight) * 255);
-	c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + weight);
-	if (c.r > 1)
-	{
-		return color;
-	}
-	if (c.r > 0) 
-	{
-		return color * c.r;
-	} 
-	return (float)0;
+    c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - weight.xxxx) * 255);
+    c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + weight.xxxx);
+
+    if (c.r <= 0) discard;
+
+    return lerp(input.Color * c.r, input.Color, c.r > 1.0f);
 }
 )";
 
