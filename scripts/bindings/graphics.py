@@ -389,7 +389,13 @@ RenderedText = cbg.Class('Altseed', 'RenderedText')
 with RenderedText as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
-    class_.brief.add('ja', 'カメラのクラス')
+    class_.brief.add('ja', 'テキストのクラス')
+
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テキストを作成します。')
+        func.return_value.type_ = RenderedText
+        func.is_static = True
 
     with class_.add_property(Matrix44F, 'Transform') as prop:
         prop.brief = cbg.Description()
@@ -451,6 +457,11 @@ with Renderer as class_:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを描画します。')
         func.add_arg(RenderedSprite, 'sprite')
+        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_func('DrawText') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'テキストを描画します。')
+        func.add_arg(RenderedText, 'text')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()

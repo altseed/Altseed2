@@ -51,6 +51,7 @@
 #include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuiltinShader.h"
 
@@ -866,6 +867,13 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawSprite(void* cbg_self, void* sprite) 
     cbg_self_->DrawSprite(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawText(void* cbg_self, void* text) {
+    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderedText> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderedText>((Altseed::RenderedText*)text);
+    cbg_self_->DrawText(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
@@ -972,6 +980,11 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
     cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedText_Create() {
+    std::shared_ptr<Altseed::RenderedText> cbg_ret = Altseed::RenderedText::Create();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedText>(cbg_ret);
 }
 
 CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedText_GetTransform(void* cbg_self) {
