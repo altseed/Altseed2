@@ -113,6 +113,10 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, sprite->GetTexture(), sprite->GetMaterial(), nullptr);
 }
 
+
+#ifdef _WIN32
+#undef DrawText
+#endif
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     text->GetMaterial()->SetVector4F(u"weight", Vector4F(0.5f - text->GetWeight() / 255.0f, 0.0f, 0.0f, 0.0f));
 

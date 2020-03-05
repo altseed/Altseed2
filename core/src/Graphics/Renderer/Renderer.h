@@ -47,6 +47,9 @@ public:
 
     void DrawSprite(std::shared_ptr<RenderedSprite> sprite);
 
+#ifdef _WIN32
+#undef DrawText
+#endif
     void DrawText(std::shared_ptr<RenderedText> text);
 
     void Render(std::shared_ptr<CommandList> commandList);

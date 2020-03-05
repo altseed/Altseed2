@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "Graphics/Graphics.h"
 
 #include <Core.h>
