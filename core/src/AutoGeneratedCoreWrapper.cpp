@@ -623,12 +623,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Joystick_IsPresent(void* cbg_self, int32_t joystic
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshInputState(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
-
-    cbg_self_->RefreshInputState();
-}
-
 CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshConnectedState(void* cbg_self) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
@@ -685,12 +679,6 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self
     int32_t cbg_arg0 = index;
     const char16_t* cbg_ret = cbg_self_->GetJoystickName(cbg_arg0);
     return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Joystick_RefreshVibrateState(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
-
-    cbg_self_->RefreshVibrateState();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self, int32_t index, float high_freq, float low_freq, float high_amp, float low_amp, int32_t life_time) {
