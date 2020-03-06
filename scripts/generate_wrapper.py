@@ -34,6 +34,7 @@ if __name__ == '__main__':
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuiltinShader.h"
 

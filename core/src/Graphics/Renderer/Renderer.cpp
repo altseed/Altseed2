@@ -9,6 +9,7 @@
 #include "RenderedCamera.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
+#include "RenderedPolygon.h"
 #include "../Font.h"
 #include "../../Logger/Log.h"
 
@@ -56,6 +57,21 @@ void Renderer::DrawPolygon(
             texture,
             material,
             nullptr);
+}
+
+void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
+    std::shared_ptr<VertexArray> vs = polygon->GetVertexes();
+
+    std::vector<int> ib;
+    ib.reserve((vs->GetCount() - 2) * 3);
+    for(int i = 0; i < vs->GetCount() - 2; ++i)
+    {
+        ib[i * 3 + 0] = 0;
+        ib[i * 3 + 1] = i + 1;
+        ib[i * 3 + 2] = i + 2;
+    }
+
+    batchRenderer_->Draw((BatchVertex*)(vs->GetData()), ib.data(), vs->GetCount(), ib.size(), polygon->GetTexture(), polygon->GetMaterial(), nullptr);
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {

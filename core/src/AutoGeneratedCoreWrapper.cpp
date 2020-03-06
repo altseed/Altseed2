@@ -52,6 +52,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuiltinShader.h"
 
@@ -502,6 +503,76 @@ CBGEXPORT int32_t CBGSTDCALL cbg_FloatArray_GetCount(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_FloatArray_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Clear(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    cbg_self_->Clear();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Vector2FArray_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Assign(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->Assign(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_CopyTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->CopyTo(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Vector2FArray_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_SetAt(void* cbg_self, int32_t index, void* value) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)value));
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Vector2FArray_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::Vector2FArray> cbg_ret = Altseed::Vector2FArray::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Vector2FArray>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Vector2FArray_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
 
     cbg_self_->Release();
 }
