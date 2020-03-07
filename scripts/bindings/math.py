@@ -6,9 +6,9 @@ import sys
 
 Vector2I = cbg.Struct('Altseed', 'Vector2I_C', 'Vector2I')
 Vector2F = cbg.Struct('Altseed', 'Vector2F_C', 'Vector2F')
-Vector3I = cbg.Struct('Altseed', 'Vector3F_C', 'Vector3F')
+Vector3I = cbg.Struct('Altseed', 'Vector3I_C', 'Vector3I')
 Vector3F = cbg.Struct('Altseed', 'Vector3F_C', 'Vector3F')
-Vector4I = cbg.Struct('Altseed', 'Vector4F_C', 'Vector4F')
+Vector4I = cbg.Struct('Altseed', 'Vector4I_C', 'Vector4I')
 Vector4F = cbg.Struct('Altseed', 'Vector4F_C', 'Vector4F')
 RectI = cbg.Struct('Altseed', 'RectI_C', 'RectI')
 RectF = cbg.Struct('Altseed', 'RectF_C', 'RectF')
