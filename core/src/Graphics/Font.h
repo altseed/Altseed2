@@ -1,9 +1,11 @@
 ﻿#pragma once
 
 #include <stb_truetype.h>
+
 #include <array>
 #include <map>
 #include <memory>
+
 #include "../Common/Resource.h"
 #include "../IO/StaticFile.h"
 #include "../Math/Vector2F.h"
@@ -76,6 +78,10 @@ public:
 
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
+    static std::shared_ptr<Font> CreateImageFont(std::shared_ptr<Font> baseFont);
+
+    virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
+    virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }
 
     bool Reload() override;
 

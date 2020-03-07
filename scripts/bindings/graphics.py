@@ -305,17 +305,10 @@ with Font as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'カーニングの有無')
         func.is_public = True
-
-
-ImageFont = cbg.Class('Altseed', 'ImageFont', cbg.CacheMode.ThreadSafeCache)
-with ImageFont as class_:
-    class_.base_class = Font
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'テクスチャ追加対応フォント')
     with class_.add_func('CreateImageFont') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ追加対応フォントを生成します')
-        func.return_value.type_ = ImageFont
+        func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'テクスチャ追加対応フォント')
         with func.add_arg(Font, 'baseFont') as arg:
@@ -343,7 +336,6 @@ with ImageFont as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '文字')
         func.is_public = True
-
 
 Rendered = cbg.Class('Altseed', 'Rendered')
 with Rendered as class_:

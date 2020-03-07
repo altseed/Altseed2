@@ -1,16 +1,16 @@
 #include "Renderer.h"
 
 #include "../../Common/StringHelper.h"
+#include "../../Logger/Log.h"
 #include "../../Math/Vector2I.h"
 #include "../../Window/Window.h"
 #include "../CommandList.h"
+#include "../Font.h"
 #include "../Graphics.h"
 #include "../RenderTexture.h"
 #include "RenderedCamera.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
-#include "../Font.h"
-#include "../../Logger/Log.h"
 
 namespace Altseed {
 
@@ -113,7 +113,6 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, sprite->GetTexture(), sprite->GetMaterial(), nullptr);
 }
 
-
 #ifdef _WIN32
 #undef DrawText
 #endif
@@ -125,8 +124,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
-    for(int32_t i = 0; i < charactersLength; i++)
-    {
+    for (int32_t i = 0; i < charactersLength; i++) {
         char32_t tmp = 0;
         ConvChU16ToU32({characters[i], characters[i + 1]}, tmp);
         int32_t character = static_cast<int32_t>(tmp);
@@ -136,16 +134,31 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             i++;
         }
 
-        auto glyph = text->GetFont()->GetGlyph(character);
-        if (glyph == nullptr) continue;
+        RectF src;
+        Vector2F pos;
+        Vector2F scale;
+        std::shared_ptr<Glyph> glyph = nullptr;
 
-        // ImageFontをいい感じにする必要がある。
-        // auto texture = text->GetFont()->GetImageGlyph(character);
-        auto texture = text->GetFont()->GetFontTexture(glyph->GetTextureIndex());
+        auto texture = text->GetFont()->GetImageGlyph(character);
+        if (texture != nullptr) {
+            src = RectF(Altseed::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
 
-        auto src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
+            pos = offset;
 
-        auto pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
+            scale = Vector2F(
+                    (float)text->GetFont()->GetSize() / texture->GetSize().Y, (float)text->GetFont()->GetSize() / texture->GetSize().Y);
+        } else {
+            glyph = text->GetFont()->GetGlyph(character);
+            if (glyph == nullptr) continue;
+
+            texture = text->GetFont()->GetFontTexture(glyph->GetTextureIndex());
+
+            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
+
+            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
+
+            scale = Vector2F(1, 1);
+        }
 
         int ib[] = {0, 1, 2, 2, 3, 0};
         std::array<BatchVertex, 4> vs;
@@ -158,14 +171,14 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         vs[0].Pos.X = pos.X;
         vs[0].Pos.Y = pos.Y;
 
-        vs[1].Pos.X = pos.X + src.Width;
+        vs[1].Pos.X = pos.X + src.Width * scale.X;
         vs[1].Pos.Y = pos.Y;
 
-        vs[2].Pos.X = pos.X + src.Width;
-        vs[2].Pos.Y = pos.Y + src.Height;
+        vs[2].Pos.X = pos.X + src.Width * scale.X;
+        vs[2].Pos.Y = pos.Y + src.Height * scale.Y;
 
         vs[3].Pos.X = pos.X;
-        vs[3].Pos.Y = pos.Y + src.Height;
+        vs[3].Pos.Y = pos.Y + src.Height * scale.Y;
 
         vs[0].UV1.X = src.X;
         vs[0].UV1.Y = src.Y;
@@ -185,12 +198,15 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
         }
 
-        renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, text->GetMaterial(), nullptr);
+        renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? text->GetMaterial() : nullptr, nullptr);
 
-        offset += Vector2F(glyph->GetGlyphWidth(), 0);
+        if (glyph != nullptr)
+            offset += Vector2F(glyph->GetGlyphWidth(), 0);
+        else
+            offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
+
         if (i != charactersLength - 1) offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, characters[i + 1]), 0);
     }
-
 }
 
 void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {

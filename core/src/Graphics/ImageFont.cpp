@@ -16,9 +16,4 @@ std::shared_ptr<Texture2D> ImageFont::GetImageGlyph(const int32_t character) {
     if (imageGlyphs_.count(character) > 0) return imageGlyphs_[character];
     return nullptr;
 }
-
-std::shared_ptr<ImageFont> ImageFont::CreateImageFont(std::shared_ptr<Font> baseFont) {
-    if (baseFont == nullptr) return nullptr;
-    return MakeAsdShared<ImageFont>(baseFont);
-}
 }  // namespace Altseed

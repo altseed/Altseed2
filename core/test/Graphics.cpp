@@ -1,23 +1,22 @@
 #define _USE_MATH_DEFINES
-#include <cmath>
-
 #include "Graphics/Graphics.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
 
+#include <cmath>
 #include <memory>
 
-#include "Math/Matrix44F.h"
 #include "Graphics/Camera.h"
+#include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
-#include "Graphics/Color.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "Math/Matrix44F.h"
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
@@ -254,7 +253,7 @@ TEST(Graphics, RenderedText) {
         t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
         texts.push_back(t);
     }
-    
+
     {
         auto t = Altseed::RenderedText::Create();
         t->SetFont(font);
@@ -288,6 +287,16 @@ TEST(Graphics, RenderedText) {
         texts.push_back(rotatedText);
     }
 
+    {
+        auto imageFont = Altseed::Font::CreateImageFont(font);
+        imageFont->AddImageGlyph(u'〇', Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
+        auto imageFontText = Altseed::RenderedText::Create();
+        imageFontText->SetFont(imageFont);
+        imageFontText->SetText(u"Altseed〇Altseed");
+        imageFontText->SetTransform(Altseed::Matrix44F().SetTranslation(0, 500.0f, 0));
+        texts.push_back(imageFontText);
+    }
+
     auto rotatedTrans = Altseed::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
     Altseed::Matrix44F rotatedRot;
 
@@ -299,7 +308,7 @@ TEST(Graphics, RenderedText) {
         weitText->SetWeight(count / 20.0f - 2.5f);
         rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
 
-        for(const auto& t : texts) {
+        for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
         }
 
