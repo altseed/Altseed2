@@ -65,16 +65,6 @@ enum class JoystickAxisType : int32_t {
     Max,
 };
 
-struct VibrateData {
-    float high_frequency;
-    float low_frequency;
-    float high_amplitude;
-    float low_amplitude;
-    int life_time;
-    bool isSended;
-    std::chrono::system_clock::time_point pre_time;
-};
-
 class Joystick : public BaseObject {
 private:
     static const int MAX_AXES_NUM = 10;
@@ -97,15 +87,12 @@ private:
     std::u16string ToU16(const std::wstring& wstr);
 
     void SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len);
-    void HandleJoyconInput(int index, unsigned char* buff);
-
-    //     for vibration only
-    std::array<VibrateData, MAX_JOYSTICKS_NUM> vibrateStates_;
+    void HandleJoyconInput(int index, unsigned char* buff, bool is_left);
 
 public:
     static bool Initialize();
 
-    static void Terminate() { instance_ = nullptr; }
+    static void Terminate();
 
     static std::shared_ptr<Joystick>& GetInstance();
 
@@ -125,11 +112,7 @@ public:
 
     const char16_t* GetJoystickName(int32_t index) const;
 
-    //    for vibration only
-
-    void RefreshVibrateState();
-
-    void SetVibration(int16_t index, float high_freq, float low_freq, float high_amp, float low_amp, int life_time);
+    void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
 }  // namespace Altseed

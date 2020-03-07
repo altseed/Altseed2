@@ -13,6 +13,8 @@
 #define DUALSHOCK4_PRODUCT_ID 0x0
 #define XBOX360_PRODUCT_ID 0x0
 
+#define JOYCON_L
+
 namespace Altseed {
 
 std::shared_ptr<Joystick> Joystick::instance_ = nullptr;
@@ -25,12 +27,30 @@ bool Joystick::Initialize() {
     for (int32_t i = 0; i < MAX_JOYSTICKS_NUM; i++) {
         instance_->currentHit_[i].fill(false);
         instance_->preHit_[i].fill(false);
-        instance_->vibrateStates_[i] = {};
         //            currentAxis[i].fill(0);
     }
 
     return true;
 };
+
+void Joystick::Terminate() {
+    for (int jind = 0; jind < MAX_JOYSTICKS_NUM; jind++) {
+        if (!instance_->handler_[jind]) return;
+
+        if (instance_->types_[jind] == JoystickType::JoyconL || instance_->types_[jind] == JoystickType::JoyconR) {
+            uint8_t data[0x01];
+            data[0] = 0;
+            instance_->SendSubcommand(instance_->handler_[jind], 0x30, data, 1);
+
+            data[0] = 0x01;
+            instance_->SendSubcommand(instance_->handler_[jind], 0x48, data, 1);
+
+            hid_close(instance_->handler_[jind]);
+        }
+    }
+
+    instance_ = nullptr;
+}
 
 std::shared_ptr<Joystick>& Joystick::GetInstance() { return instance_; }
 
@@ -55,6 +75,7 @@ std::u16string Joystick::ToU16(const std::wstring& wstr) {
         return std::u16string(wstr.cbegin(), wstr.cend());
     }
 }
+
 void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len) {
     uint8_t buf[0x40];
     memset(buf, 0x0, size_t(0x40));
@@ -94,13 +115,18 @@ void Joystick::RefreshConnectedState() {
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
-                //        enable vibration for joycon
+                // enable vibration for joycon
                 uint8_t data[0x01];
-
+                data[0] = 0x01;
                 this->SendSubcommand(dev, 0x48, data, 1);
 
+                // send input report mode
                 data[0] = 0x3F;
                 this->SendSubcommand(dev, 0x03, data, 1);
+
+                // send player light
+                data[0] = (i + 1) % 4;
+                this->SendSubcommand(dev, 0x30, data, 1);
             }
             i++;
         }
@@ -110,64 +136,83 @@ void Joystick::RefreshConnectedState() {
 };
 
 //    NOTE: pushing in stick is handled as button
-void Joystick::HandleJoyconInput(int index, unsigned char* buff) {
+void Joystick::HandleJoyconInput(int index, unsigned char* buff, bool is_left) {
     if (*buff == 0x21) {
         // buttons
-        for (int i = 0; i <= 8; i++) {
-            currentHit_[index][i] = buff[4] & (1 << i);
+        int target_index = 3;
+        if (is_left) {
+            target_index = 5;
         }
+
+        for (int i = 0; i <= 7; i++) {
+            currentHit_[index][i] = buff[target_index] & (1 << i);
+            currentHit_[index][i + 8] = buff[4] & (1 << i);
+        }
+
     } else if (*buff == 0x3F) {
-        //            hundle buttons
-        for (int i = 0; i <= 8; i++) {
-            currentHit_[index][i] = buff[1] & (1 << i);
-            currentHit_[index][i + 8] = buff[2] & (1 << i);
+        // hundle buttons
+
+        // convert 0x3F input report buttons status format to standard input report button status format.
+        int to_standard_buttons[16] = {0, 2, 3, 1, 5, 4, 14, 15, 8, 9, 11, 10, 12, 13, 6, 7};
+
+        for (int i = 0; i <= 7; i++) {
+            currentHit_[index][to_standard_buttons[i]] = buff[1] & (1 << i);
+            currentHit_[index][to_standard_buttons[i + 8]] = buff[2] & (1 << i);
+        }
+
+        // stick
+        int axis_type_H = (int32_t)JoystickAxisType::RightH;
+        int axis_type_V = (int32_t)JoystickAxisType::RightV;
+        if (is_left) {
+            axis_type_H = (int32_t)JoystickAxisType::LeftH;
+            axis_type_V = (int32_t)JoystickAxisType::LeftV;
         }
 
         switch (buff[3]) {
                 //                    Top
             case 0:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 0;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 1;
+                currentAxis_[index][axis_type_H] = 0;
+                currentAxis_[index][axis_type_V] = 1;
                 break;
                 //                    Top-right
             case 1:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 1;
+                currentAxis_[index][axis_type_H] = 1;
+                currentAxis_[index][axis_type_V] = 1;
                 break;
                 //                    Right
             case 2:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 0;
+                currentAxis_[index][axis_type_H] = 1;
+                currentAxis_[index][axis_type_V] = 0;
                 break;
                 //                    Bottom-right
             case 3:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = -1;
+                currentAxis_[index][axis_type_H] = 1;
+                currentAxis_[index][axis_type_V] = -1;
                 break;
                 //                    Bottom
             case 4:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 0;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = -1;
+                currentAxis_[index][axis_type_H] = 0;
+                currentAxis_[index][axis_type_V] = -1;
                 break;
                 //                    Bottom-Left
             case 5:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = -1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = -1;
+                currentAxis_[index][axis_type_H] = -1;
+                currentAxis_[index][axis_type_V] = -1;
                 break;
                 //                    Left
             case 6:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = -1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 0;
+                currentAxis_[index][axis_type_H] = -1;
+                currentAxis_[index][axis_type_V] = 0;
                 break;
                 //                    Top-left
             case 7:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = -1;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 1;
+                currentAxis_[index][axis_type_H] = -1;
+                currentAxis_[index][axis_type_V] = 1;
                 break;
 
             default:
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftH] = 0;
-                currentAxis_[index][(int32_t)JoystickAxisType::LeftV] = 0;
+                currentAxis_[index][axis_type_H] = 0;
+                currentAxis_[index][axis_type_V] = 0;
                 break;
         }
     }
@@ -185,106 +230,59 @@ void Joystick::RefreshInputState() {
         size_t size = 49;
 
         int ret = hid_read(handler_[jind], buff, size);
-        //
         if (!ret) {
             return;
         }
 
-        if (types_[jind] == JoystickType::JoyconL || types_[jind] == JoystickType::JoyconR) {
-            HandleJoyconInput(jind, buff);
+        if (types_[jind] == JoystickType::JoyconL) {
+            HandleJoyconInput(jind, buff, true);
+        } else if (types_[jind] == JoystickType::JoyconR) {
+            HandleJoyconInput(jind, buff, false);
         }
     }
 };
 
-void Joystick::RefreshVibrateState() {
-    //        set output report
-    uint8_t buf[0x40];
-    memset(buf, 0x0, size_t(0x40));
-    buf[0] = 0x01;  // 0x10 for rumble only
-    buf[1] = 0x01;  // Increment by 1 for each packet sent. It loops in 0x0 - 0xF range.
+void Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
+    if (types_[joystickIndex] == Altseed::JoystickType::JoyconL || types_[joystickIndex] == Altseed::JoystickType::JoyconR) {
+        uint8_t buf[0x40];
+        memset(buf, 0x0, size_t(0x40));
+        buf[0] = 0x10;
+        buf[1] = 0x01;
 
-    //        set vibration data
-    uint8_t rumble_data[0x08];
-    memset(rumble_data, 0, size_t(0x08));
+        float freq = std::clamp(frequency, 40.0f, 1252.0f);
+        float amp = std::clamp(amplitude, 0.0f, 1.0f);
 
-    std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+        uint8_t encoded_hex_freq = (uint8_t)round(log2((double)freq / 10.0) * 32.0);
 
-    for (int jind = 0; jind < MAX_JOYSTICKS_NUM; jind++) {
-        if (vibrateStates_[jind].life_time <= 0)
-            //                printf("skipped");
-            continue;
+        uint16_t hf = (encoded_hex_freq - 0x60) * 4;
+        uint8_t lf = encoded_hex_freq - 0x40;
 
-        if (std::chrono::duration_cast<std::chrono::milliseconds>(now - vibrateStates_[jind].pre_time).count() >=
-            vibrateStates_[jind].life_time) {
-            vibrateStates_[jind].life_time = 0;
-            rumble_data[0] = 0x0;
-            rumble_data[1] = 0x1;
-            rumble_data[2] = 0x40;
-            rumble_data[3] = 0x40;
-
-            for (int i = 4; i <= 7; i++) {
-                rumble_data[i] = rumble_data[i - 4];
-            }
-
-            memcpy(buf + 2, rumble_data, 8);
-
-            hid_write(handler_[jind], buf, 0x40);
-
-            vibrateStates_[jind].isSended = false;
-        } else if (!vibrateStates_[jind].isSended) {
-            float hf = clamp(vibrateStates_[jind].high_frequency, 81.75177f, 1252.572266f);
-            float lf = clamp(vibrateStates_[jind].low_frequency, 40.875885f, 626.286133f);
-
-            uint16_t high_f = ((uint8_t)round(log2((double)hf / 10.0) * 32.0) - 0x60) * 4;
-            uint8_t high_amp = clamp(vibrateStates_[jind].high_amplitude, 0.0f, 1.0f);
-
-            uint8_t low_f = (uint8_t)round(log2((double)lf / 10.0) * 32.0) - 0x40;
-            uint8_t low_amp = clamp(vibrateStates_[jind].low_amplitude, 0.0f, 1.0f);
-
-            uint8_t h_a = 0x00;
-            if (high_amp < 0.117) {
-                h_a = ((log2(high_amp * 1000) * 32) - 0x60) / (5 - std::pow(2, high_amp)) - 1;
-            } else if (high_amp >= 0.117 && high_amp < 0.23) {
-                h_a = ((log2(high_amp * 1000) * 32) - 0x60) - 0x5c;
-            } else if (high_amp >= 0.23) {
-                h_a = (((log2(high_amp * 1000) * 32) - 0x60) * 2) - 0xf6;
-            }
-
-            uint8_t encoded = round(h_a) / 2;
-            uint8_t evenOrOdd = encoded % 2;
-
-            if (evenOrOdd > 0) encoded = encoded - 1;
-
-            encoded = encoded >> 1;
-
-            uint8_t l_a = encoded + 0x40;
-
-            rumble_data[0] = high_f & 0xFF;
-            rumble_data[1] = h_a + ((high_f >> 8) & 0xFF);
-
-            rumble_data[2] = low_f + ((l_a >> 8) & 0xFF);
-            rumble_data[3] = l_a & 0xFF;
-
-            for (int i = 4; i <= 7; i++) {
-                rumble_data[i] = rumble_data[i - 4];
-            }
-
-            memcpy(buf + 2, rumble_data, 8);
-
-            hid_write(handler_[jind], buf, 0x31);
-            vibrateStates_[jind].isSended = true;
-
-            for (int i = 0; i <= 3; i++) {
-                printf("\n%d: %x", i, rumble_data[i]);
-            }
+        uint8_t encoded_hex_amp = 0;
+        if (amp > 0.23f)
+            encoded_hex_amp = (uint8_t)round(log2f(amp * 8.7f) * 32.f);
+        else if (amp > 0.12f)
+            encoded_hex_amp = (uint8_t)round(log2f(amp * 17.f) * 16.f);
+        else {
+            encoded_hex_amp = 0;
         }
-    }
-};
+        uint16_t hf_amp = encoded_hex_amp * 2;
+        uint8_t lf_amp = encoded_hex_amp / 2 + 64;
 
-//    life-time is milliseconds.
-//    ex. SetVibration(1, 500.0f, 100.0f, 0.9f, 0.9f, 200)
-void Joystick::SetVibration(int16_t index, float high_freq, float low_freq, float high_amp, float low_amp, int life_time = 500) {
-    vibrateStates_[index] = {high_freq, low_freq, high_amp, low_amp, life_time, false, std::chrono::system_clock::now()};
+        uint8_t byte[0x08];
+
+        byte[0] = hf & 0xFF;
+        byte[1] = hf_amp + ((hf >> 8) & 0xFF);
+
+        byte[2] = lf + ((lf_amp >> 8) & 0xFF);
+        byte[3] = lf_amp & 0xFF;
+
+        for (int i = 4; i <= 7; i++) {
+            byte[i] = byte[i - 4];
+        }
+
+        memcpy(buf + 2, byte, 8);
+        hid_write(handler_[0], buf, sizeof(buf));
+    }
 };
 
 ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const {
@@ -310,23 +308,47 @@ ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButton
         maps.fill(-1);
 
         maps[(int32_t)JoystickButtonType::LeftDown] = 0;
-        maps[(int32_t)JoystickButtonType::LeftRight] = 1;
-        maps[(int32_t)JoystickButtonType::LeftLeft] = 2;
-        maps[(int32_t)JoystickButtonType::LeftUp] = 3;
+        maps[(int32_t)JoystickButtonType::LeftUp] = 1;
+        maps[(int32_t)JoystickButtonType::LeftRight] = 2;
+        maps[(int32_t)JoystickButtonType::LeftLeft] = 3;
 
-        maps[(int32_t)JoystickButtonType::L3] = 4;
-        maps[(int32_t)JoystickButtonType::R3] = 5;
+        maps[(int32_t)JoystickButtonType::R3] = 4;
+        maps[(int32_t)JoystickButtonType::L3] = 5;
+
+        maps[(int32_t)JoystickButtonType::L1] = 6;
+        maps[(int32_t)JoystickButtonType::L2] = 7;
 
         maps[(int32_t)JoystickButtonType::Select] = 8;
         maps[(int32_t)JoystickButtonType::Start] = 9;
-        maps[(int32_t)JoystickButtonType::LeftPush] = 10;
-        maps[(int32_t)JoystickButtonType::RightPush] = 11;
+        maps[(int32_t)JoystickButtonType::RightPush] = 10;
+        maps[(int32_t)JoystickButtonType::LeftPush] = 11;
 
         maps[(int32_t)JoystickButtonType::Home] = 12;
         maps[(int32_t)JoystickButtonType::Capture] = 13;
 
-        maps[(int32_t)JoystickButtonType::L1] = 14;
-        maps[(int32_t)JoystickButtonType::L2] = 15;
+        return GetButtonStateByIndex(joystickIndex, maps[(int32_t)type]);
+    } else if (jtype == JoystickType::JoyconR) {
+        std::array<int, (int32_t)JoystickButtonType::Max> maps;
+        maps.fill(-1);
+
+        maps[(int32_t)JoystickButtonType::RightDown] = 0;
+        maps[(int32_t)JoystickButtonType::RightUp] = 1;
+        maps[(int32_t)JoystickButtonType::RightRight] = 2;
+        maps[(int32_t)JoystickButtonType::RightLeft] = 3;
+
+        maps[(int32_t)JoystickButtonType::R3] = 4;
+        maps[(int32_t)JoystickButtonType::L3] = 5;
+
+        maps[(int32_t)JoystickButtonType::R1] = 6;
+        maps[(int32_t)JoystickButtonType::R2] = 7;
+
+        maps[(int32_t)JoystickButtonType::Select] = 8;
+        maps[(int32_t)JoystickButtonType::Start] = 9;
+        maps[(int32_t)JoystickButtonType::RightPush] = 10;
+        maps[(int32_t)JoystickButtonType::LeftPush] = 11;
+
+        maps[(int32_t)JoystickButtonType::Home] = 12;
+        maps[(int32_t)JoystickButtonType::Capture] = 13;
 
         return GetButtonStateByIndex(joystickIndex, maps[(int32_t)type]);
     }
@@ -344,7 +366,7 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
     auto jtype = GetJoystickType(joystickIndex);
     if (jtype == JoystickType::Other) return 0;
 
-    if (jtype == JoystickType::JoyconL) {
+    if (jtype == JoystickType::JoyconL || jtype == JoystickType::JoyconR) {
         return GetAxisStateByIndex(joystickIndex, (int32_t)type);
     }
 
