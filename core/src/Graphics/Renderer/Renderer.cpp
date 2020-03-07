@@ -119,13 +119,15 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     text->GetMaterial()->SetVector4F(u"weight", Vector4F(0.5f - text->GetWeight() / 255.0f, 0.0f, 0.0f, 0.0f));
 
-    const char16_t* characters = text->GetText();
-    auto charactersLength = std::char_traits<char16_t>::length(characters);
+    const auto& characters = text->GetTextAsStr();
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
-    for (int32_t i = 0; i < charactersLength; i++) {
+    for (size_t i = 0; i < characters.size() - 1; i++) {
         char32_t tmp = 0;
+        ASD_ASSERT(i < characters.size());
+        ASD_ASSERT(i + 1 < characters.size());
+
         ConvChU16ToU32({characters[i], characters[i + 1]}, tmp);
         int32_t character = static_cast<int32_t>(tmp);
 
@@ -205,7 +207,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         else
             offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
 
-        if (i != charactersLength - 1) offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, characters[i + 1]), 0);
+        if (i != characters.size() - 1) offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, characters[i + 1]), 0);
     }
 }
 
