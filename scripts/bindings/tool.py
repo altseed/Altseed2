@@ -9,7 +9,7 @@ with ToolDir as enum_:
 
     enum_.add('None', -1)
     enum_.add('Left', 0)
-    enum_.add('Right', 2)
+    enum_.add('Right', 1)
     enum_.add('Up', 2)
     enum_.add('Down', 3)
 
