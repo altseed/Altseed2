@@ -5,6 +5,7 @@
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "Graphics.h"
+#include "ImageFont.h"
 
 namespace Altseed {
 
@@ -107,6 +108,11 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) { return nullptr; }
+
+std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
+    if (baseFont == nullptr) return nullptr;
+    return std::static_pointer_cast<Font>(MakeAsdShared<ImageFont>(baseFont));
+}
 
 bool Font::Reload() { return false; }
 

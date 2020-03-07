@@ -275,7 +275,7 @@ TEST(Font, ImageFont) {
     auto instance = Altseed::Graphics::GetInstance();
 
     auto baseFont = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
-    auto font = Altseed::ImageFont::CreateImageFont(baseFont);
+    auto font = Altseed::Font::CreateImageFont(baseFont);
     font->AddImageGlyph(u'ロ', Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
 
     auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
