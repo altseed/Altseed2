@@ -17,8 +17,10 @@ TEST(Joystick, GetJoystickName) {
 
     for (int i = 0; i < 16; i++) {
         if (Altseed::Joystick::GetInstance()->IsPresent(i)) {
-            std::cout << "name : " << Altseed::utf16_to_utf8(std::u16string(Altseed::Joystick::GetInstance()->GetJoystickName(i)))
-                      << std::endl;
+            std::cout
+                << "name : "
+                << Altseed::utf16_to_utf8(std::u16string(Altseed::Joystick::GetInstance()->GetJoystickName(i)))
+                << std::endl;
         }
     }
 

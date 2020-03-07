@@ -27,7 +27,7 @@ TEST(Graphics, Initialize) {
     auto instance = Altseed::Graphics::GetInstance();
     EXPECT_TRUE(instance != nullptr);
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -48,7 +48,7 @@ TEST(Graphics, BasicPolygonTextureRender) {
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::BatchVertex v1[4];
@@ -186,7 +186,7 @@ TEST(Graphics, PolygonTextureRenderWithVertexArray) {
     ibv.push_back(3);
     ibv.push_back(0);
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, t1);
@@ -225,7 +225,7 @@ TEST(Graphics, SpriteTexture) {
     s2->SetTransform(trans);
     s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
@@ -240,7 +240,7 @@ TEST(Graphics, SpriteTexture) {
 }
 
 TEST(Graphics, RenderedText) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
 
     auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
 
@@ -302,7 +302,7 @@ TEST(Graphics, RenderedText) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 100 && instance->DoEvents();) {
+    for (int count = 0; count++ < 10 && instance->DoEvents();) {
         EXPECT_TRUE(instance->BeginFrame());
 
         weitText->SetWeight(count / 20.0f - 2.5f);
@@ -313,32 +313,6 @@ TEST(Graphics, RenderedText) {
         }
 
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
-
-        EXPECT_TRUE(instance->EndFrame());
-    }
-
-    Altseed::Core::Terminate();
-}
-
-TEST(Graphics, Tool) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
-
-    int count = 0;
-
-    auto instance = Altseed::Graphics::GetInstance();
-    EXPECT_TRUE(instance != nullptr);
-
-    while (count++ < 100 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
-
-        Altseed::Tool::GetInstance()->NewFrame();
-
-        if (Altseed::Tool::GetInstance()->Begin(u"Test")) {
-            Altseed::Tool::GetInstance()->Text(u"Hoge");
-            Altseed::Tool::GetInstance()->End();
-        }
-
-        Altseed::Tool::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -377,7 +351,7 @@ TEST(Graphics, CameraBasic) {
     auto camera = Altseed::RenderedCamera::Create();
     camera->SetTransform(trans2);
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->SetCamera(camera);

@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-static const int LoopFrames = 500;
+static const int LoopFrames = 5;
 
 template <typename... Args>
 std::u16string format(const std::u16string& fmt, Args... args) {

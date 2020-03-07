@@ -8,7 +8,7 @@ TEST(FPS, Update) {
 
     auto instance = Altseed::Core::GetInstance();
 
-    static const int loopCount = 50;
+    static const int loopCount = 10;
 
     instance->SetFramerateMode(Altseed::FramerateMode::Variable);
 
