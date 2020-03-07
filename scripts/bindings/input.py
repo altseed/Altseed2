@@ -375,24 +375,15 @@ with Joystick as class_:
     # with class_.add_func('RefreshVibrateState') as func:
     #     func.brief = cbg.Description()
     #     func.brief.add('ja', '振動の状態をリセットします。')
-    with class_.add_func('SetVibration') as func:
+    with class_.add_func('Vibrate') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '振動を設定します。')
+        func.brief.add('ja', '指定したジョイスティックコントローラーを振動させます')
         with func.add_arg(int, 'index') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ジョイスティックのインデックス')
-        with func.add_arg(float, 'high_freq') as arg:
+        with func.add_arg(float, 'frequency') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func.add_arg(float, 'low_freq') as arg:
+            arg.brief.add('ja', '周波数')
+        with func.add_arg(float, 'amplitude') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func.add_arg(float, 'high_amp') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func.add_arg(float, 'low_amp') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
-        with func.add_arg(int, 'life_time') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '振幅')

@@ -681,16 +681,13 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Joystick_GetJoystickName(void* cbg_self
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Joystick_SetVibration(void* cbg_self, int32_t index, float high_freq, float low_freq, float high_amp, float low_amp, int32_t life_time) {
+CBGEXPORT void CBGSTDCALL cbg_Joystick_Vibrate(void* cbg_self, int32_t index, float frequency, float amplitude) {
     auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = index;
-    float cbg_arg1 = high_freq;
-    float cbg_arg2 = low_freq;
-    float cbg_arg3 = high_amp;
-    float cbg_arg4 = low_amp;
-    int32_t cbg_arg5 = life_time;
-    cbg_self_->SetVibration(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    float cbg_arg1 = frequency;
+    float cbg_arg2 = amplitude;
+    cbg_self_->Vibrate(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Joystick_Release(void* cbg_self) {
