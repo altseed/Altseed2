@@ -194,7 +194,7 @@ TEST(Font, Weight) {
 //     float weight = 0.0f;
 //     material->SetVector4F(u"weight", Altseed::Vector4F(0.5f - weight / 255.0f, 0, 0, 0));
 
-//     while (count++ < 255 && instance->DoEvents()) {
+//     while (count++ < 10 && instance->DoEvents()) {
 //         EXPECT_TRUE(instance->BeginFrame());
 //         for (auto& s : sprites) {
 //             Altseed::Renderer::GetInstance()->DrawSprite(s);
@@ -254,7 +254,7 @@ TEST(Font, Surrogate) {
     float weight = 0.0f;
     material->SetVector4F(u"weight", Altseed::Vector4F(0.5f - weight / 255.0f, 0.0f, 0.0f, 0.0f));
 
-    while (count++ < 255 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         for (auto& s : sprites) {
@@ -335,7 +335,7 @@ TEST(Font, ImageFont) {
     float weight = 0.0f;
     material->SetVector4F(u"weight", Altseed::Vector4F(0.5f - weight / 255.0f, 0, 0, 0));
 
-    while (count++ < 255 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         EXPECT_TRUE(instance->BeginFrame());
 
         for (auto& s : sprites) {

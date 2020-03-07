@@ -7,10 +7,6 @@
 #include <thread>
 
 TEST(Texture2D, Base) {
-#if defined(__APPLE__) || defined(__linux__)
-    return;
-#endif
-
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
@@ -49,10 +45,6 @@ TEST(Texture2D, Base) {
 }
 
 TEST(Texture2D, Async) {
-#if defined(__APPLE__) || defined(__linux__)
-    return;
-#endif
-
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
 
     // pack files
