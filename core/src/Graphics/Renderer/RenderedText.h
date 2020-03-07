@@ -36,6 +36,9 @@ public:
 
     const char16_t* GetText() const { return text_.c_str(); }
 
+    //! Internal function
+    const std::u16string& GetTextAsStr() const { return text_; }
+
     void SetText(const char16_t* text) { text_ = std::u16string(text); }
 
     Color GetColor() const { return color_; }
