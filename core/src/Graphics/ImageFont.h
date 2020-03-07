@@ -21,7 +21,6 @@ private:
 
 public:
     ImageFont(std::shared_ptr<Font> baseFont);
-    virtual ~ImageFont();
 
     int32_t GetSize() override { return baseFont_->GetSize(); }
     int32_t GetAscent() override { return baseFont_->GetAscent(); }
