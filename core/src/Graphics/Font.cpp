@@ -40,12 +40,6 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
     SetInstanceName(__FILE__);
 }
 
-Font::~Font() {
-    for (auto& i : textures_) {
-        if (i != nullptr) i->Release();
-    }
-}
-
 std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
     if (glyphs_.count(character)) return glyphs_[character];
 
@@ -82,7 +76,6 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {
-        cache->AddRef();
         return cache;
     }
 
@@ -95,7 +88,6 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 
     stbtt_fontinfo info;
     if (!stbtt_InitFont(&info, (unsigned char*)file->GetData(), 0)) {
-        file->Release();
         Log::GetInstance()->Error(
                 LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;

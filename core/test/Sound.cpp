@@ -108,7 +108,7 @@ TEST(Sound, SpectrumAnalyze) {
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
-    std::shared_ptr<asd::FloatArray> spectrumData = asd::CreateAndAddSharedPtr(new asd::FloatArray(8192));
+    std::shared_ptr<asd::FloatArray> spectrumData = asd::CreateSharedPtr(new asd::FloatArray(8192));
 
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
@@ -127,8 +127,6 @@ TEST(Sound, SpectrumAnalyze) {
             analyzed = true;
         }
     }
-
-    spectrumData->Release();
 
     asd::Core::Terminate();
 }

@@ -60,7 +60,6 @@ protected:
 
 public:
     Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
-    virtual ~Font();
 
     virtual int32_t GetSize() { return size_; }
     virtual int32_t GetAscent() { return ascent_; }

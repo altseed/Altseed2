@@ -12,7 +12,6 @@ bool SoundMixer::Initialize(bool isReloadingEnabled) {
     instance_->m_manager = CreateSharedPtr(osm::Manager::Create());
     instance_->m_resources = Resources::GetInstance();
 
-    if (instance_->m_manager != nullptr) { instance_->m_manager->AddRef(); }
     if(!instance_->m_manager->Initialize()) { return false; }
 
     return true;
@@ -22,7 +21,6 @@ void SoundMixer::Terminate() {
 
     if (instance_->m_manager != nullptr) {
         instance_->m_manager->Finalize();
-        instance_->m_manager->Release();
     }
 
     instance_ = nullptr;

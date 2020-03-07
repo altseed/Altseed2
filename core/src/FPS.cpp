@@ -1,6 +1,7 @@
 #include "FPS.h"
 #include <thread>
 #include "Common/Assertion.h"
+#include "Logger/Log.h"
 
 namespace Altseed {
 
@@ -28,14 +29,14 @@ void FPS::Update() {
     }
 
     // 計測処理を行う
-    currentFPS_ = 1.0f / deltaSecond_;
-
     if (framerateMode_ == FramerateMode::Constant) {
         // 固定FPSでは経過時間は一定として扱う
         deltaSecond_ = 1.0f / targetFPS_;
     } else {
         deltaSecond_ = static_cast<float>(deltans.count()) / nano;
     }
+
+    currentFPS_ = 1.0f / deltaSecond_;
 
     previousTime_ = currentTime;
 }
@@ -45,6 +46,11 @@ float FPS::GetCurrentFPS() const { return currentFPS_; }
 
 int32_t FPS::GetTargetFPS() const { return targetFPS_; }
 void FPS::SetTarget(int32_t fps) {
+    if (fps <= 0) {
+        Log::GetInstance()->Error(LogCategory::Core, u"FPS::SetTarget: Target FPS should be larger than zero");
+        return;
+    }
+
     targetFPS_ = fps;
     framens_ = std::chrono::nanoseconds(nano / fps);
 }
