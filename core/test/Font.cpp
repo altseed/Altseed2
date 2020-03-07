@@ -1,9 +1,5 @@
 ﻿
-#include "Graphics/BuiltinShader.h"
-#include "Graphics/Graphics.h"
-#include "Graphics/Renderer/RenderedSprite.h"
-#include "Graphics/Renderer/Renderer.h"
-#include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "Graphics/Font.h"
 
 #include <Core.h>
 #include <gtest/gtest.h>
@@ -11,13 +7,15 @@
 #include <memory>
 
 #include "Common/StringHelper.h"
+#include "Graphics/BuiltinShader.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
-#include "Graphics/Font.h"
+#include "Graphics/Graphics.h"
 #include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Tool/Tool.h"
 
 TEST(Font, Basic) {
@@ -34,13 +32,15 @@ TEST(Font, Basic) {
     material->SetShader(shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-    const char16_t* text = u"こんにちは！ Hello World";
+    const std::u16string text = u"こんにちは！ Hello World";
     Altseed::Vector2F position(100, 100);
-    for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
+    for (size_t i = 0; i < text.size(); i++) {
         int32_t character = 0;
 
         char32_t tmp = 0;
-        Altseed::ConvChU16ToU32({text[i], text[i + 1]}, tmp);
+        ASD_ASSERT(i < text.size());
+
+        Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
             i++;
@@ -63,7 +63,11 @@ TEST(Font, Basic) {
 
         position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
 
-        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(character, text[i + 1]), 0);
+        if (i != text.size() - 1) {
+            Altseed::ConvChU16ToU32({text[i + 1], i + 2 < text.size() ? text[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            position += Altseed::Vector2F(font->GetKerning(character, next), 0);
+        }
     }
 
     float weight = 0.0f;
@@ -96,13 +100,15 @@ TEST(Font, Weight) {
     material->SetShader(shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-    const char16_t* text = u"こんにちは！ Hello World";
+    const std::u16string text = u"こんにちは！ Hello World";
     Altseed::Vector2F position(100, 100);
-    for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
+    for (size_t i = 0; i < text.size(); i++) {
         int32_t character = 0;
 
         char32_t tmp = 0;
-        Altseed::ConvChU16ToU32({text[i], text[i + 1]}, tmp);
+        ASD_ASSERT(i < text.size());
+
+        Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
             i++;
@@ -125,7 +131,11 @@ TEST(Font, Weight) {
 
         position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
 
-        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(character, text[i + 1]), 0);
+        if (i != text.size() - 1) {
+            Altseed::ConvChU16ToU32({text[i + 1], i + 2 < text.size() ? text[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            position += Altseed::Vector2F(font->GetKerning(character, next), 0);
+        }
     }
 
     while (count++ < 100 && instance->DoEvents()) {
@@ -159,37 +169,43 @@ TEST(Font, Weight) {
 //     material->SetShader(shader);
 
 //     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-//     const char16_t* text = u"こんにちは！ Hello World";
+//     const std::u16string text = u"こんにちは！ Hello World";
 //     Altseed::Vector2F position(100, 100);
-//     for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
-//         int32_t character = 0;
+//     for (size_t i = 0; i < text.size(); i++) {
+//     int32_t character = 0;
 
-//         char32_t tmp = 0;
-//         Altseed::ConvChU16ToU32({text[i], text[i + 1]}, tmp);
-//         character = (int32_t)tmp;
-//         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
-//             i++;
-//         }
+//     char32_t tmp = 0;
+//     ASD_ASSERT(i < text.size());
 
-//         auto glyph = font->GetGlyph(character);
-//         if (glyph == nullptr) continue;
-
-//         auto tempPosition = position + glyph->GetOffset().To2F() + Altseed::Vector2F(0, font->GetAscent());
-//         auto sprite = Altseed::RenderedSprite::Create();
-//         sprite->SetMaterial(material);
-//         sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
-
-//         Altseed::Matrix44F trans;
-//         trans.SetTranslation(tempPosition.X, tempPosition.Y, 0);
-//         sprite->SetTransform(trans);
-
-//         sprite->SetSrc(Altseed::RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y));
-//         sprites.push_back(sprite);
-
-//         position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
-
-//         if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(character, text[i + 1]), 0);
+//     Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
+//     character = (int32_t)tmp;
+//     if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
+//         i++;
 //     }
+
+//     auto glyph = font -> GetGlyph(character);
+//     if (glyph == nullptr) continue;
+
+//     auto tempPosition = position + glyph -> GetOffset().To2F() + Altseed::Vector2F(0, font->GetAscent());
+//     auto sprite = Altseed::RenderedSprite::Create();
+//     sprite->SetMaterial(material);
+//     sprite->SetTexture(font->GetFontTexture(glyph->GetTextureIndex()));
+//
+//     Altseed::Matrix44F trans;
+//     trans.SetTranslation(tempPosition.X, tempPosition.Y, 0);
+//     sprite->SetTransform(trans);
+//
+//     sprite->SetSrc(Altseed::RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y));
+//     sprites.push_back(sprite);
+
+//     position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
+
+//     if (i != text.size() - 1) {
+//         Altseed::ConvChU16ToU32({text[i + 1], i + 2 < text.size() ? text[i + 2] : u'\0'}, tmp);
+//         int32_t next = static_cast<int32_t>(tmp);
+//         position += Altseed::Vector2F(font->GetKerning(character, next), 0);
+//     }
+//}
 
 //     float weight = 0.0f;
 //     material->SetVector4F(u"weight", Altseed::Vector4F(0.5f - weight / 255.0f, 0, 0, 0));
@@ -220,12 +236,15 @@ TEST(Font, Surrogate) {
     material->SetShader(shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-    const char16_t* text = u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷";
+    const std::u16string text = u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷";
     Altseed::Vector2F position(100, 100);
-    for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
+    for (size_t i = 0; i < text.size(); i++) {
         int32_t character = 0;
+
         char32_t tmp = 0;
-        Altseed::ConvChU16ToU32({text[i], text[i + 1]}, tmp);
+        ASD_ASSERT(i < text.size());
+
+        Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
             i++;
@@ -248,7 +267,11 @@ TEST(Font, Surrogate) {
 
         position += Altseed::Vector2F(glyph->GetGlyphWidth(), 0);
 
-        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(character, text[i + 1]), 0);
+        if (i != text.size() - 1) {
+            Altseed::ConvChU16ToU32({text[i + 1], i + 2 < text.size() ? text[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            position += Altseed::Vector2F(font->GetKerning(character, next), 0);
+        }
     }
 
     float weight = 0.0f;
@@ -283,12 +306,13 @@ TEST(Font, ImageFont) {
     material->SetShader(shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-    const char16_t* text = u"AltseedロAltseed";
+    const std::u16string text = u"AltseedロAltseed";
     Altseed::Vector2F position(100, 100);
-    for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
+    for (size_t i = 0; i < text.size(); i++) {
         int32_t character = 0;
         char32_t tmp = 0;
-        Altseed::ConvChU16ToU32({text[i], text[i + 1]}, tmp);
+        ASD_ASSERT(i < text.size());
+        Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
             i++;
@@ -325,11 +349,15 @@ TEST(Font, ImageFont) {
             sprite->SetSrc(Altseed::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
 
             position += Altseed::Vector2F((float)texture->GetSize().X * font->GetSize() / texture->GetSize().Y, 0);
-		}
+        }
 
         sprites.push_back(sprite);
 
-        if (i != std::char_traits<char16_t>::length(text) - 1) position += Altseed::Vector2F(font->GetKerning(character, text[i + 1]), 0);
+        if (i != text.size() - 1) {
+            Altseed::ConvChU16ToU32({text[i + 1], i + 2 < text.size() ? text[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            position += Altseed::Vector2F(font->GetKerning(character, next), 0);
+        }
     }
 
     float weight = 0.0f;

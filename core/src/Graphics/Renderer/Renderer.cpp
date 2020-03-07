@@ -123,12 +123,11 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
-    for (size_t i = 0; i < characters.size() - 1; i++) {
+    for (size_t i = 0; i < characters.size(); i++) {
         char32_t tmp = 0;
         ASD_ASSERT(i < characters.size());
-        ASD_ASSERT(i + 1 < characters.size());
 
-        ConvChU16ToU32({characters[i], characters[i + 1]}, tmp);
+        ConvChU16ToU32({characters[i], i + 1 < characters.size() ? characters[i + 1] : u'\0'}, tmp);
         int32_t character = static_cast<int32_t>(tmp);
 
         // Surrogate pair
@@ -207,7 +206,11 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         else
             offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
 
-        if (i != characters.size() - 1) offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, characters[i + 1]), 0);
+        if (i != characters.size() - 1) {
+            ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, next), 0);
+        }
     }
 }
 
