@@ -125,7 +125,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     Vector2F offset(0, 0);
     for (size_t i = 0; i < characters.size(); i++) {
         char32_t tmp = 0;
-        ASD_ASSERT(i < characters.size());
+        ASD_ASSERT(i < characters.size(), "buffer overrun");
 
         ConvChU16ToU32({characters[i], i + 1 < characters.size() ? characters[i + 1] : u'\0'}, tmp);
         int32_t character = static_cast<int32_t>(tmp);

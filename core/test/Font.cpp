@@ -38,7 +38,7 @@ TEST(Font, Basic) {
         int32_t character = 0;
 
         char32_t tmp = 0;
-        ASD_ASSERT(i < text.size());
+        ASD_ASSERT(i < text.size(), "buffer overrun");
 
         Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
@@ -106,7 +106,7 @@ TEST(Font, Weight) {
         int32_t character = 0;
 
         char32_t tmp = 0;
-        ASD_ASSERT(i < text.size());
+        ASD_ASSERT(i < text.size(), "buffer overrun");
 
         Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
@@ -175,7 +175,7 @@ TEST(Font, Weight) {
 //     int32_t character = 0;
 
 //     char32_t tmp = 0;
-//     ASD_ASSERT(i < text.size());
+//     ASD_ASSERT(i < text.size(), "buffer overrun");
 
 //     Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
 //     character = (int32_t)tmp;
@@ -242,7 +242,7 @@ TEST(Font, Surrogate) {
         int32_t character = 0;
 
         char32_t tmp = 0;
-        ASD_ASSERT(i < text.size());
+        ASD_ASSERT(i < text.size(), "buffer overrun");
 
         Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
@@ -311,7 +311,8 @@ TEST(Font, ImageFont) {
     for (size_t i = 0; i < text.size(); i++) {
         int32_t character = 0;
         char32_t tmp = 0;
-        ASD_ASSERT(i < text.size());
+        ASD_ASSERT(i < text.size(), "buffer overrun");
+
         Altseed::ConvChU16ToU32({text[i], i + 1 < text.size() ? text[i + 1] : u'\0'}, tmp);
         character = (int32_t)tmp;
         if (text[i] >= 0xD800 && text[i] <= 0xDBFF) {
