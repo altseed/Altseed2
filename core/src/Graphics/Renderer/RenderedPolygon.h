@@ -23,7 +23,7 @@ private:
 public:
     static std::shared_ptr<RenderedPolygon> Create();
 
-    std::shared_ptr<VertexArray>& GetVertexes();
+    std::shared_ptr<VertexArray> GetVertexes();
     void SetVertexes(std::shared_ptr<VertexArray> vertexes);
     void SetVertexesByVector2F(std::shared_ptr<Vector2FArray> vertexes);
 

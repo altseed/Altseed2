@@ -62,18 +62,22 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
-    std::shared_ptr<VertexArray> vs = polygon->GetVertexes();
+    std::vector<BatchVertex> vs;
+    vs.resize(polygon->GetVertexes()->GetCount());
+    for(int i = 0; i < vs.size(); ++i) {
+        vs[i] = polygon->GetVertexes()->GetVector()[i];
+        vs[i].Pos = polygon->GetTransform().Transform3D(vs[i].Pos);
+    }
 
     std::vector<int> ib;
-    ib.reserve((vs->GetCount() - 2) * 3);
-    for(int i = 0; i < vs->GetCount() - 2; ++i)
-    {
+    ib.resize((vs.size() - 2) * 3);
+    for(int i = 0; i < vs.size() - 2; ++i) {
         ib[i * 3 + 0] = 0;
         ib[i * 3 + 1] = i + 1;
         ib[i * 3 + 2] = i + 2;
     }
 
-    batchRenderer_->Draw((BatchVertex*)(vs->GetData()), ib.data(), vs->GetCount(), ib.size(), polygon->GetTexture(), polygon->GetMaterial(), nullptr);
+    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), polygon->GetTexture(), polygon->GetMaterial(), nullptr);
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {

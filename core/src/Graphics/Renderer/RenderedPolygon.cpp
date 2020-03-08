@@ -4,7 +4,7 @@ namespace Altseed {
 
 std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() { return MakeAsdShared<RenderedPolygon>(); }
 
-std::shared_ptr<VertexArray>& RenderedPolygon::GetVertexes() { return vertexes_; }
+std::shared_ptr<VertexArray> RenderedPolygon::GetVertexes() { return vertexes_; }
 
 void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) { vertexes_ = vertexes; }
 
@@ -24,16 +24,15 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
 
         if(vertexes->GetVector()[i].X < xMin) { xMin = vertexes->GetVector()[i].X; }
         if(vertexes->GetVector()[i].X > xMax) { xMax = vertexes->GetVector()[i].X; }
-        if(vertexes->GetVector()[i].Y < yMin) { yMin = vertexes->GetVector()[i].X; }
-        if(vertexes->GetVector()[i].Y > yMax) { yMax = vertexes->GetVector()[i].X; }
+        if(vertexes->GetVector()[i].Y < yMin) { yMin = vertexes->GetVector()[i].Y; }
+        if(vertexes->GetVector()[i].Y > yMax) { yMax = vertexes->GetVector()[i].Y; }
     }
 
     for(int i = 0; i < vertexes->GetCount(); ++i) {
         vertexes_->GetVector()[i].UV1.X = (vertexes_->GetVector()[i].Pos.X - xMin) / (xMax - xMin);
         vertexes_->GetVector()[i].UV1.Y = (vertexes_->GetVector()[i].Pos.Y - yMin) / (yMax - yMin);
-        vertexes_->GetVector()[i].UV1 = vertexes_->GetAt(i).UV2;
+        vertexes_->GetVector()[i].UV2 = vertexes_->GetVector()[i].UV1;
         vertexes_->GetVector()[i].Col = Color(255, 255, 255, 255);
-        vertexes_->GetVector()[i].Pos = GetTransform().Transform3D(vertexes_->GetAt(i).Pos);
     }
 }
 
