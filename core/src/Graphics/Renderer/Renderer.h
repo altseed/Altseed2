@@ -45,7 +45,7 @@ public:
             std::shared_ptr<Int32Array> ib,
             const std::shared_ptr<Texture2D>& texture = nullptr,
             const std::shared_ptr<Material>& material = nullptr);
-            
+
     void DrawPolygon(std::shared_ptr<RenderedPolygon> text);
 
     void DrawSprite(std::shared_ptr<RenderedSprite> sprite);

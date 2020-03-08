@@ -12,27 +12,46 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
     vertexes_ = MakeAsdShared<VertexArray>();
     vertexes_->Resize(vertexes->GetCount());
 
-    float xMin = vertexes->GetVector()[0].X;
-    float xMax = vertexes->GetVector()[0].X;
-    float yMin = vertexes->GetVector()[0].Y;
-    float yMax = vertexes->GetVector()[0].Y;
-
-    for(int i = 0; i < vertexes->GetCount(); ++i) {
-        vertexes_->GetVector()[i].Pos.X = vertexes->GetVector()[i].X;
-        vertexes_->GetVector()[i].Pos.Y = vertexes->GetVector()[i].Y;
-        vertexes_->GetVector()[i].Pos.Z = 0.5f;
-
-        if(vertexes->GetVector()[i].X < xMin) { xMin = vertexes->GetVector()[i].X; }
-        if(vertexes->GetVector()[i].X > xMax) { xMax = vertexes->GetVector()[i].X; }
-        if(vertexes->GetVector()[i].Y < yMin) { yMin = vertexes->GetVector()[i].Y; }
-        if(vertexes->GetVector()[i].Y > yMax) { yMax = vertexes->GetVector()[i].Y; }
+    float xMin, xMax, yMin, yMax;
+    {
+        auto& v = vertexes->GetVector()[0];
+        xMin = v.X;
+        xMax = v.X;
+        yMin = v.Y;
+        yMax = v.Y;
     }
 
-    for(int i = 0; i < vertexes->GetCount(); ++i) {
-        vertexes_->GetVector()[i].UV1.X = (vertexes_->GetVector()[i].Pos.X - xMin) / (xMax - xMin);
-        vertexes_->GetVector()[i].UV1.Y = (vertexes_->GetVector()[i].Pos.Y - yMin) / (yMax - yMin);
-        vertexes_->GetVector()[i].UV2 = vertexes_->GetVector()[i].UV1;
-        vertexes_->GetVector()[i].Col = Color(255, 255, 255, 255);
+    // 頂点座標をコピー
+    for (int i = 0; i < vertexes->GetCount(); ++i) {
+        auto& dst = vertexes_->GetVector()[i].Pos;
+        auto& src = vertexes->GetVector()[i];
+
+        dst.X = src.X;
+        dst.Y = src.Y;
+        dst.Z = 0.5f;
+
+        // 頂点の存在範囲
+        if (src.X < xMin) {
+            xMin = src.X;
+        }
+        if (src.X > xMax) {
+            xMax = src.X;
+        }
+        if (src.Y < yMin) {
+            yMin = src.Y;
+        }
+        if (src.Y > yMax) {
+            yMax = src.Y;
+        }
+    }
+
+	// UV, 色を生成
+    for (int i = 0; i < vertexes->GetCount(); ++i) {
+        auto& dst = vertexes_->GetVector()[i];
+        dst.UV1.X = (dst.Pos.X - xMin) / (xMax - xMin);
+        dst.UV1.Y = (dst.Pos.Y - yMin) / (yMax - yMin);
+        dst.UV2 = dst.UV1;
+        dst.Col = Color(255, 255, 255, 255);
     }
 }
 
@@ -48,4 +67,4 @@ std::shared_ptr<Material> RenderedPolygon::GetMaterial() const { return material
 
 void RenderedPolygon::SetMaterial(const std::shared_ptr<Material>& material) { material_ = material; }
 
-} // namespace Altseed
+}  // namespace Altseed
