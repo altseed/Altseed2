@@ -1165,6 +1165,13 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_GetFontTexture(void* cbg_self, int32_t index
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int32_t c2) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
@@ -1190,7 +1197,7 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_CreateImageFont(void* baseFont) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Font>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph(void* cbg_self, int32_t character, void* texture) {
+CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph_Internal(void* cbg_self, int32_t character, void* texture) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;

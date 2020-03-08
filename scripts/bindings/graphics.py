@@ -289,6 +289,13 @@ with Font as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '文字2')
         func.is_public = True
+    with class_.add_func('GetPath') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        func.is_public = False
+        func.return_value.type_ = ctypes.c_wchar_p
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '読み込んだファイルのパス')
     with class_.add_func('CalcTextureSize') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テキストを描画したときのサイズを取得します')
@@ -316,7 +323,7 @@ with Font as class_:
             arg.brief.add('ja', 'ベースとなるフォント')
         func.is_public = True
         func.is_static = True
-    with class_.add_func('AddImageGlyph') as func:
+    with class_.add_func('AddImageGlyph_Internal') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ文字を追加する')
         with func.add_arg(int, 'character') as arg:
@@ -325,7 +332,7 @@ with Font as class_:
         with func.add_arg(Texture2D, 'texture') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'テクスチャ')
-        func.is_public = True
+        func.is_public = False
     with class_.add_func('GetImageGlyph') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ文字を取得する')
