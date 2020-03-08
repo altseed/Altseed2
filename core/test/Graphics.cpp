@@ -14,6 +14,7 @@
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Math/Matrix44F.h"
@@ -313,6 +314,70 @@ TEST(Graphics, RenderedText) {
         }
 
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, RenderedPolygon) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedPolygon", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto texture = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+
+    EXPECT_TRUE(texture != nullptr);
+
+    auto polygon = Altseed::RenderedPolygon::Create();
+
+    polygon->SetTexture(texture);
+    polygon->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+
+    auto vertexes = std::make_shared<Altseed::Vector2FArray>();
+    vertexes->Resize(4);
+    vertexes->GetVector()[0] = Altseed::Vector2F(200, 100);
+    vertexes->GetVector()[1] = Altseed::Vector2F(300, 200);
+    vertexes->GetVector()[2] = Altseed::Vector2F(200, 300);
+    vertexes->GetVector()[3] = Altseed::Vector2F(100, 200);
+
+    polygon->SetVertexesByVector2F(vertexes);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, Tool) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+    EXPECT_TRUE(instance != nullptr);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Tool::GetInstance()->NewFrame();
+
+        if (Altseed::Tool::GetInstance()->Begin(u"Test")) {
+            Altseed::Tool::GetInstance()->Text(u"Hoge");
+            Altseed::Tool::GetInstance()->End();
+        }
+
+        Altseed::Tool::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }

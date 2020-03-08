@@ -2,13 +2,14 @@
 
 namespace Altseed {
 
-static std::shared_ptr<RenderedPolygon> Create() { return MakeAsdShared<RenderedPolygon>(); }
+std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() { return MakeAsdShared<RenderedPolygon>(); }
 
 std::shared_ptr<VertexArray>& RenderedPolygon::GetVertexes() { return vertexes_; }
 
 void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) { vertexes_ = vertexes; }
 
 void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> vertexes) {
+    vertexes_ = MakeAsdShared<VertexArray>();
     vertexes_->Resize(vertexes->GetCount());
 
     float xMin = vertexes->GetVector()[0].X;
