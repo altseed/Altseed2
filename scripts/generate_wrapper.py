@@ -3,9 +3,10 @@ import ctypes, sys, os
 from bindings import define
 from bindings import CppBindingGenerator as cbg
 
+os.chdir(os.path.dirname(__file__))
+
 if __name__ == '__main__':
     
-    # os.chdir(os.path.dirname(__file__))
 
     # generate
     sharedObjectGenerator = cbg.SharedObjectGenerator(define)
