@@ -65,4 +65,6 @@ bool StreamFile::Reload() {
     return true;
 }
 
+const char16_t* StreamFile::GetPath() const { return m_fileReader->GetFullPath().c_str(); }
+
 }  // namespace Altseed

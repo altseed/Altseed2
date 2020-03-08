@@ -1934,6 +1934,13 @@ CBGEXPORT void CBGSTDCALL cbg_StreamFile_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_StaticFile_Create(const char16_t* path) {
     const char16_t* cbg_arg0 = path;
     std::shared_ptr<Altseed::StaticFile> cbg_ret = Altseed::StaticFile::Create(cbg_arg0);

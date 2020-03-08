@@ -36,6 +36,8 @@ public:
     bool GetIsInPackage() const;
 
     bool Reload() override;
+
+    const char16_t* GetPath() const;
 };
 
 }  // namespace Altseed
