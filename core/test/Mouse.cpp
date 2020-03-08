@@ -50,8 +50,8 @@ TEST(Mouse, GetMouseInput) {
     Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Normal);
     mode = Altseed::Mouse::GetInstance()->GetCursorMode();
     EXPECT_EQ(mode, Altseed::CursorMode::Normal);
-
-    while (Altseed::Core::GetInstance()->DoEvent()) {
+    
+    for (int count = 0; Altseed::Core::GetInstance()->DoEvent() && count < 10; count++) {
         // testing MouseButton inputs.
         for (int i = 0; i < 8; i++) {
             auto bs = Altseed::Mouse::GetInstance()->GetMouseButtonState((Altseed::MouseButtons)i);
@@ -63,6 +63,7 @@ TEST(Mouse, GetMouseInput) {
         if (wheel != 0) {
             //            std::cout << wheel << "\n";
         }
+        std::cout << std::endl;
     }
 
     Altseed::Core::Terminate();

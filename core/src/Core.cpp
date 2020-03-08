@@ -108,6 +108,8 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
 
     Core::instance->fps_ = std::make_unique<FPS>();
 
+    Altseed::Joystick::GetInstance()->RefreshConnectedState();
+
     return Core::instance != nullptr;
 }
 
@@ -144,7 +146,8 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed::Mouse::GetInstance()->RefreshInputState();
-    Altseed::Joystick::GetInstance()->RefreshConnectedState();
+    Altseed::Joystick::GetInstance()->RefreshInputState();
+    Altseed::Joystick::GetInstance()->RefreshVibrateState();
 
     Core::instance->fps_->Update();
 

@@ -5,6 +5,7 @@
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "Graphics.h"
+#include "ImageFont.h"
 
 namespace Altseed {
 
@@ -37,12 +38,6 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
     AddFontTexture();
 
     SetInstanceName(__FILE__);
-}
-
-Font::~Font() {
-    for (auto& i : textures_) {
-        if (i != nullptr) i->Release();
-    }
 }
 
 std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
@@ -81,7 +76,6 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {
-        cache->AddRef();
         return cache;
     }
 
@@ -94,7 +88,6 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 
     stbtt_fontinfo info;
     if (!stbtt_InitFont(&info, (unsigned char*)file->GetData(), 0)) {
-        file->Release();
         Log::GetInstance()->Error(
                 LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
@@ -107,6 +100,11 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) { return nullptr; }
+
+std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
+    if (baseFont == nullptr) return nullptr;
+    return std::static_pointer_cast<Font>(MakeAsdShared<ImageFont>(baseFont));
+}
 
 bool Font::Reload() { return false; }
 

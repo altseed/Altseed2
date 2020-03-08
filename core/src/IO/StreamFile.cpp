@@ -58,10 +58,9 @@ bool StreamFile::Reload() {
     if (m_fileReader->GetIsInPackage()) return false;
     auto path = m_fileReader->GetFullPath();
 
-    m_fileReader->Release();
     m_buffer->Clear();
 
-    m_fileReader = std::make_shared<BaseFileReader>(path);
+    m_fileReader = MakeAsdShared<BaseFileReader>(path);
 
     return true;
 }

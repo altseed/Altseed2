@@ -24,7 +24,6 @@ private:
 public:
 
     Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
-    ~Sound();
 
     /**
     @brief  音を読み込む

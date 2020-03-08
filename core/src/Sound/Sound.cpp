@@ -9,13 +9,7 @@ Sound::Sound(
         bool isDecompressed)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
 
-    if(m_sound != nullptr) m_sound->AddRef();
-
     SetInstanceName(__FILE__);
-}
-
-Sound::~Sound() {
-    if(m_sound != nullptr) m_sound->Release();
 }
 
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
@@ -32,7 +26,6 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     // Get data & Create OSM sound & null check
     auto sound = CreateSharedPtr(soundMixer->m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
     if (sound == nullptr) {
-        staticFile->Release();
         Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }

@@ -93,7 +93,6 @@ define.classes.append(BuiltinShader)
 define.classes.append(Shader)
 define.classes.append(Glyph)
 define.classes.append(Font)
-define.classes.append(ImageFont)
 
 # tool
 define.enums.append(ToolDir)

@@ -300,9 +300,9 @@ with Joystick as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定したジョイスティックが親であったらtrue，それ以外でfalse')
-    with class_.add_func('RefreshInputState') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'インプットの状態をリセットします。')
+    # with class_.add_func('RefreshInputState') as func:
+    #     func.brief = cbg.Description()
+    #     func.brief.add('ja', 'インプットの状態をリセットします。')
     with class_.add_func('RefreshConnectedState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '接続の状態をリセットします。')
@@ -372,9 +372,9 @@ with Joystick as class_:
         func.return_value.type_ = ctypes.c_wchar_p
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定したインデックスのジョイスティックの名前')
-    with class_.add_func('RefreshVibrateState') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '振動の状態をリセットします。')
+    # with class_.add_func('RefreshVibrateState') as func:
+    #     func.brief = cbg.Description()
+    #     func.brief.add('ja', '振動の状態をリセットします。')
     with class_.add_func('SetVibration') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '振動を設定します。')
