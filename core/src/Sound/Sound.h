@@ -75,6 +75,10 @@ public:
     */
     float GetLength();
 
+    const char16_t* GetPath() const;
+
+    bool GetIsDecompressed() const;
+
 #if !SWIG
 
     std::shared_ptr<osm::Sound> GetSound() { return m_sound; }

@@ -53,6 +53,10 @@ void Sound::SetIsLoopingMode(bool isLoopingMode) { m_sound->SetIsLoopingMode(isL
 
 float Sound::GetLength() { return m_sound->GetLength(); }
 
+const char16_t* Sound::GetPath() const { return m_filePath; }
+
+bool Sound::GetIsDecompressed() const { return m_isDecompressed; }
+
 bool Sound::Reload() {
     /*
     auto ls = m_sound->GetLoopStartingPoint();

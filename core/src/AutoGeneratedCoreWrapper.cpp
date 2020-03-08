@@ -1324,6 +1324,13 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_GetFontTexture(void* cbg_self, int32_t index
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int32_t c2) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
@@ -1349,7 +1356,7 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_CreateImageFont(void* baseFont) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Font>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph(void* cbg_self, int32_t character, void* texture) {
+CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph_Internal(void* cbg_self, int32_t character, void* texture) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;
@@ -2093,6 +2100,13 @@ CBGEXPORT void CBGSTDCALL cbg_StreamFile_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_StaticFile_Create(const char16_t* path) {
     const char16_t* cbg_arg0 = path;
     std::shared_ptr<Altseed::StaticFile> cbg_ret = Altseed::StaticFile::Create(cbg_arg0);
@@ -2214,6 +2228,20 @@ CBGEXPORT void* CBGSTDCALL cbg_Sound_Load(const char16_t* path, bool isDecompres
     bool cbg_arg1 = isDecompressed;
     std::shared_ptr<Altseed::Sound> cbg_ret = Altseed::Sound::Load(cbg_arg0, cbg_arg1);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Sound_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsDecompressed(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsDecompressed();
+    return cbg_ret;
 }
 
 CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {

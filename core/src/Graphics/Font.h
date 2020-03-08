@@ -84,6 +84,8 @@ public:
 
     bool Reload() override;
 
+    const char16_t* GetPath() const;
+
 private:
     void AddFontTexture();
     void AddGlyph(const int32_t character);

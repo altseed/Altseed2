@@ -72,6 +72,8 @@ Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction,
     return direction == WritingDirection::Horizontal ? Vector2I(w, h) : Vector2I(h, w);
 }
 
+const char16_t* Font::GetPath() const { return file_->GetPath(); }
+
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
