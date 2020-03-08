@@ -57,22 +57,22 @@ TEST(Sound, SoundResume) {
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
         double time = static_cast<double>(clock() - start) / CLOCKS_PER_SEC * 1000.0;
 
-        if(stage == 0) {
-            if(time > 1500) {
+        if (stage == 0) {
+            if (time > 1500) {
                 mixer->Pause(id_bgm);
                 ++stage;
             }
         }
 
-        else if(stage == 1) {
-            if(time > 2500) {
+        else if (stage == 1) {
+            if (time > 2500) {
                 mixer->Resume(id_bgm);
                 ++stage;
             }
         }
 
-        else if(stage == 2) {
-            if(time > 3500) {
+        else if (stage == 2) {
+            if (time > 3500) {
                 mixer->Stop(id_bgm);
                 ++stage;
             }
@@ -112,7 +112,7 @@ TEST(Sound, SpectrumAnalyze) {
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
         mixer->GetSpectrumData(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
-        for(int i = 0; i < 8192; ++i) {
+        for (int i = 0; i < 8192; ++i) {
             std::cout << "spactrumData[" << i << "] = " << spectrumData->GetVector()[i] << std::endl;
         }
     }

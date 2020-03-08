@@ -65,7 +65,6 @@ public:
 };
 
 struct Matrix33F_C {
-
     float Values[3][3];
 
     operator Matrix33F() const;

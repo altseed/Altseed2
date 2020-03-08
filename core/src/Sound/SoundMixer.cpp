@@ -7,18 +7,21 @@ std::shared_ptr<SoundMixer> SoundMixer::instance_ = nullptr;
 
 bool SoundMixer::Initialize(bool isReloadingEnabled) {
     instance_ = CreateSharedPtr(new SoundMixer());
-    if(instance_ == nullptr) { return false; }
+    if (instance_ == nullptr) {
+        return false;
+    }
 
     instance_->m_manager = CreateSharedPtr(osm::Manager::Create());
     instance_->m_resources = Resources::GetInstance();
 
-    if(!instance_->m_manager->Initialize()) { return false; }
+    if (!instance_->m_manager->Initialize()) {
+        return false;
+    }
 
     return true;
 }
 
 void SoundMixer::Terminate() {
-
     if (instance_->m_manager != nullptr) {
         instance_->m_manager->Finalize();
     }
@@ -30,8 +33,7 @@ std::shared_ptr<SoundMixer>& SoundMixer::GetInstance() { return instance_; }
 
 int32_t SoundMixer::Play(std::shared_ptr<Sound> sound) {
     if (m_manager == nullptr) return -1;
-    if (sound == nullptr)
-    {
+    if (sound == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"SoundMixer::Play: failed, sound is null");
         return -1;
     }

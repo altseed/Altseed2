@@ -12,9 +12,9 @@
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
 #include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
-#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Math/Matrix44F.h"
@@ -340,15 +340,14 @@ TEST(Graphics, RenderedPolygon) {
     auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
     vertexes->Resize(12);
     vertexes->GetVector()[0] = Altseed::Vector2F(0, 0);
-    for(int i = 0; i <= 10; ++i)
-    {
+    for (int i = 0; i <= 10; ++i) {
         float argument = 0.2 * M_PI * i;
         float pos_x = (i % 2 ? 100 : 200) * -sin(argument);
         float pos_y = (i % 2 ? 100 : 200) * -cos(argument);
         vertexes->GetVector()[i + 1] = Altseed::Vector2F(pos_x, pos_y);
     }
     polygon->SetVertexesByVector2F(vertexes);
-    
+
     auto transform = Altseed::Matrix44F();
     transform.SetTranslation(250, 250, 0);
     polygon->SetTransform(transform);

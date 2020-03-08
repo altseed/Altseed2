@@ -1,10 +1,9 @@
-#include "BaseObject.h"
 #include "Configuration.h"
+#include "BaseObject.h"
 
 namespace Altseed {
 
-std::shared_ptr<Configuration> Configuration::Create()
-{
+std::shared_ptr<Configuration> Configuration::Create() {
     auto res = MakeAsdShared<Configuration>();
     return res;
 }
@@ -12,19 +11,19 @@ std::shared_ptr<Configuration> Configuration::Create()
 Configuration::Configuration() {}
 Configuration::~Configuration() {}
 
- bool Configuration::GetIsFullscreenMode() const { return isFullscreenMode_; }
+bool Configuration::GetIsFullscreenMode() const { return isFullscreenMode_; }
 
 void Configuration::SetIsFullscreenMode(bool isFullscreenMode) { isFullscreenMode_ = isFullscreenMode; }
 
- bool Configuration::GetIsResizable() const { return isResizable_; }
+bool Configuration::GetIsResizable() const { return isResizable_; }
 
 void Configuration::SetIsResizable(bool isResizable) { isResizable_ = isResizable; }
 
- bool Configuration::GetEnabledConsoleLogging() const { return enabledConsoleLogging_; }
+bool Configuration::GetEnabledConsoleLogging() const { return enabledConsoleLogging_; }
 
-void Configuration::SetEnabledConsoleLogging(bool enabledConsoleLogging) { enabledConsoleLogging_  = enabledConsoleLogging; }
+void Configuration::SetEnabledConsoleLogging(bool enabledConsoleLogging) { enabledConsoleLogging_ = enabledConsoleLogging; }
 
- bool Configuration::GetEnabledFileLogging() const { return enabledFileLogging_; }
+bool Configuration::GetEnabledFileLogging() const { return enabledFileLogging_; }
 
 void Configuration::SetEnabledFileLogging(bool enabeldFileLogging) { enabledFileLogging_ = enabeldFileLogging; }
 

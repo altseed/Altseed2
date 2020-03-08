@@ -64,9 +64,9 @@ public:
     */
     void RenderToRenderTarget(std::shared_ptr<Material> material);
 
-     /**
-       @brief  (internal function) Set render target with a real screen
-   */
+    /**
+      @brief  (internal function) Set render target with a real screen
+  */
     void SetRenderTargetWithScreen();
 
     /**

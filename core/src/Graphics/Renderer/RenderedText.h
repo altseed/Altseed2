@@ -18,7 +18,6 @@ private:
     Color color_;
     float weight_;
 
-
 public:
     static std::shared_ptr<RenderedText> Create();
 

@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <memory>
 #include "../../Common/Array.h"
-#include "../Color.h"
 #include "../../Math/RectF.h"
+#include "../Color.h"
 
 namespace Altseed {
 
@@ -37,4 +37,4 @@ public:
     void SetMaterial(const std::shared_ptr<Material>& material);
 };
 
-} // namespace Altseed
+}  // namespace Altseed

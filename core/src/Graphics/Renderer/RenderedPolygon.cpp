@@ -45,7 +45,7 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         }
     }
 
-	// UV, F‚ğ¶¬
+    // UV, F‚ğ¶¬
     for (int i = 0; i < vertexes->GetCount(); ++i) {
         auto& dst = vertexes_->GetVector()[i];
         dst.UV1.X = (dst.Pos.X - xMin) / (xMax - xMin);

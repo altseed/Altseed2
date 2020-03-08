@@ -1,8 +1,8 @@
-#include <Core.h>
-#include <Graphics/Graphics.h>
-#include <Graphics/CommandList.h>
-#include <Tool/Tool.h>
 #include <Common/StringHelper.h>
+#include <Core.h>
+#include <Graphics/CommandList.h>
+#include <Graphics/Graphics.h>
+#include <Tool/Tool.h>
 
 #include <gtest/gtest.h>
 #include <memory>
@@ -35,7 +35,7 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
 
         Altseed::Tool::GetInstance()->NewFrame();
 
-        if(update != nullptr) update(t);
+        if (update != nullptr) update(t);
 
         Altseed::Tool::GetInstance()->Render();
 
@@ -45,24 +45,24 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
     Altseed::Core::Terminate();
 }
 
-TEST(Tool, Window){
+TEST(Tool, Window) {
     auto flags = {
-        // Altseed::ToolWindow::NoTitleBar,
-        Altseed::ToolWindow::NoResize,
-        Altseed::ToolWindow::NoMove,
-        // Altseed::ToolWindow::NoScrollbar,
-        Altseed::ToolWindow::NoScrollWithMouse,
-        Altseed::ToolWindow::NoCollapse,
-        // Altseed::ToolWindow::NoBackground,
-        // Altseed::ToolWindow::NoBringToFrontOnFocus,
-        // Altseed::ToolWindow::NoNav,
-        // Altseed::ToolWindow::NoSavedSettings,
-        // Altseed::ToolWindow::AlwaysAutoResize,
-        // Altseed::ToolWindow::NoFocusOnAppearing,
+            // Altseed::ToolWindow::NoTitleBar,
+            Altseed::ToolWindow::NoResize,
+            Altseed::ToolWindow::NoMove,
+            // Altseed::ToolWindow::NoScrollbar,
+            Altseed::ToolWindow::NoScrollWithMouse,
+            Altseed::ToolWindow::NoCollapse,
+            // Altseed::ToolWindow::NoBackground,
+            // Altseed::ToolWindow::NoBringToFrontOnFocus,
+            // Altseed::ToolWindow::NoNav,
+            // Altseed::ToolWindow::NoSavedSettings,
+            // Altseed::ToolWindow::AlwaysAutoResize,
+            // Altseed::ToolWindow::NoFocusOnAppearing,
     };
 
     int32_t _flag = 0;
-    for(const auto& f : flags) {
+    for (const auto& f : flags) {
         _flag |= static_cast<int32_t>(f);
     }
 
@@ -71,14 +71,14 @@ TEST(Tool, Window){
     ToolTestTemplate(LoopFrames, [&flag](std::shared_ptr<Altseed::Tool> t) {
         t->SetNextWindowPos(Altseed::Vector2F());
         t->SetNextWindowSize(Altseed::Vector2F(320, 720));
-        if(t->Begin(u"Window1", flag)) {
+        if (t->Begin(u"Window1", flag)) {
             t->Text(u"Text");
             t->End();
         }
 
         t->SetNextWindowPos(Altseed::Vector2F(320, 0));
         t->SetNextWindowSize(Altseed::Vector2F(320, 720));
-        if(t->Begin(u"Window2", flag)) {
+        if (t->Begin(u"Window2", flag)) {
             t->Text(u"Text");
             t->End();
         }
@@ -100,7 +100,9 @@ TEST(Tool, Text) {
             t->Unindent();
 
             t->Separator();
-            t->TextWrapped(u"Even very long sentences are automatically wrapped according to the width of the window and displayed on the next line");
+            t->TextWrapped(
+                    u"Even very long sentences are automatically wrapped according to the width of the window and displayed on the next "
+                    u"line");
             t->NewLine();
 
             t->PushTextWrapPos(200.0f);
@@ -112,8 +114,7 @@ TEST(Tool, Text) {
 }
 
 TEST(Tool, Japanese) {
-    ToolTestTemplate(
-        LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
+    ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
         if (t->Begin(u"日本語")) {
             t->Dummy(Altseed::Vector2F(10, 10));
             t->Text(u"通常のテキスト");
@@ -145,11 +146,13 @@ TEST(Tool, Button) {
 
     ToolTestTemplate(LoopFrames, [&isOpen, &radio, &counter](std::shared_ptr<Altseed::Tool> t) {
         if (t->Begin(u"Button")) {
-            if(t->Button(u"open/close##1", Altseed::Vector2F())) { isOpen = !isOpen; }
+            if (t->Button(u"open/close##1", Altseed::Vector2F())) {
+                isOpen = !isOpen;
+            }
             t->SameLine();
             t->CheckBox(u"open/close##2", &isOpen);
 
-            for(int i = 0; i < 3; i++) {
+            for (int i = 0; i < 3; i++) {
                 if (t->RadioButton(format(u"Radio Button %d", i).c_str(), &radio)) {
                     radio = i;
                 }
@@ -176,8 +179,8 @@ TEST(Tool, Button) {
             t->End();
         }
 
-        if(isOpen) {
-            if(t->Begin(u"Another Window")) {
+        if (isOpen) {
+            if (t->Begin(u"Another Window")) {
                 t->Text(u"aaaaa");
                 t->End();
             }
@@ -189,7 +192,7 @@ TEST(Tool, Input) {
     int current = 0;
 
     ToolTestTemplate(LoopFrames, [&current](std::shared_ptr<Altseed::Tool> t) {
-        if(t->Begin(u"Input")) {
+        if (t->Begin(u"Input")) {
             t->LabelText(u"label", u"value");
 
             const char* items[] = {"AAA", "BBB", "CCC"};
@@ -203,18 +206,21 @@ TEST(Tool, Input) {
             t->InputTextWithHint(u"InputText##2", u"placeholder", str1, 128);
 
             static char str2[128] = "";
-            t->InputTextMultiline(u"InputText##3", str1, 128, Altseed::Vector2F(-1, t->GetTextLineHeight() * 3), Altseed::ToolInputText::AllowTabInput);
+            t->InputTextMultiline(
+                    u"InputText##3", str1, 128, Altseed::Vector2F(-1, t->GetTextLineHeight() * 3), Altseed::ToolInputText::AllowTabInput);
 
             static char buf2[64] = "";
             t->InputTextWithHint(u"Input Numbers", u"only 0123456789.+-*/", buf2, 64, Altseed::ToolInputText::CharsDecimal);
 
             static char bufpass[64] = "password123";
 
-            t->InputText(u"Password", bufpass, 64,
-                static_cast<Altseed::ToolInputText>(
-                    static_cast<int32_t>(Altseed::ToolInputText::Password) | static_cast<int32_t>(Altseed::ToolInputText::CharsNoBlank)
-                )
-            );
+            t->InputText(
+                    u"Password",
+                    bufpass,
+                    64,
+                    static_cast<Altseed::ToolInputText>(
+                            static_cast<int32_t>(Altseed::ToolInputText::Password) |
+                            static_cast<int32_t>(Altseed::ToolInputText::CharsNoBlank)));
 
             static int i0 = 123;
             static float f0 = 0.001f;
@@ -231,7 +237,7 @@ TEST(Tool, Input) {
 
 TEST(Tool, Slider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
-        if(t->Begin(u"Slider")){
+        if (t->Begin(u"Slider")) {
             static int i1 = 50, i2 = 42;
             t->DragInt(u"DragInt", &i1, 1, 0, 0);
             t->DragInt(u"%", &i2, 1, 0, 100);
@@ -257,7 +263,7 @@ TEST(Tool, Slider) {
             t->DragFloatRange2(u"range", &begin, &end, 0.2f, 0.0f, 100.0f);
 
             static float vec3f[4] = {0.10f, 0.20f, 0.30f};
-            
+
             t->SliderFloat3(u"SliderFloat3", vec3f, 1.0f, 0.0f, 1.0f);
 
             static float x = 1.0f, y = 2.0f, z = 3.0f;
@@ -278,7 +284,7 @@ TEST(Tool, Slider) {
 
 TEST(Tool, VSlider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
-        if(t->Begin(u"VSlider")) {
+        if (t->Begin(u"VSlider")) {
             static float values[7] = {0.0f, 0.60f, 0.35f, 0.9f, 0.70f, 0.20f, 0.0f};
             for (int i = 0; i < 7; i++) {
                 if (i > 0) t->SameLine();
@@ -288,7 +294,6 @@ TEST(Tool, VSlider) {
                 t->VSliderFloat(u"##v", Altseed::Vector2F(18, 160), &values[i], 0.0f, 1.0f);
 
                 if (t->IsItemActive() || t->IsItemHovered()) {
-
                     t->SetTooltip(format(u"%.3f", values[i]).c_str());
                 }
 
@@ -309,9 +314,8 @@ TEST(Tool, Color) {
             t->ColorEdit4(u"Color2", col2);  // RGBAのアルファ付き
 
             auto flag = static_cast<Altseed::ToolColorEdit>(
-                    static_cast<int32_t>(Altseed::ToolColorEdit::Float)
-                    | static_cast<int32_t>(Altseed::ToolColorEdit::NoInputs)
-                    | static_cast<int32_t>(Altseed::ToolColorEdit::NoLabel)
+                    static_cast<int32_t>(Altseed::ToolColorEdit::Float) | static_cast<int32_t>(Altseed::ToolColorEdit::NoInputs) |
+                    static_cast<int32_t>(Altseed::ToolColorEdit::NoLabel)
 
             );
             t->ColorEdit3(u"Color ID", col1, flag);
@@ -342,7 +346,7 @@ TEST(Tool, Selectable) {
             t->Selectable(u"Selectable 2", &selection[1]);
 
             if (t->Selectable(u"Selectable 3", &selection[2], Altseed::ToolSelectable::AllowDoubleClick))
-            if (t->IsMouseDoubleClicked(0)) selection[2] = !selection[2];
+                if (t->IsMouseDoubleClicked(0)) selection[2] = !selection[2];
 
             t->Selectable(u"Selectable 5", &selection[4], Altseed::ToolSelectable::Disabled);
 
@@ -364,14 +368,18 @@ TEST(Tool, Table) {
             }
             t->Columns(1, false);
             t->Separator();
-            
+
             t->Columns(4, "columnListID");
             t->Separator();
 
-            t->Text(u"ID"); t->NextColumn();
-            t->Text(u"Name"); t->NextColumn();
-            t->Text(u"Path"); t->NextColumn();
-            t->Text(u"Hovered"); t->NextColumn();
+            t->Text(u"ID");
+            t->NextColumn();
+            t->Text(u"Name");
+            t->NextColumn();
+            t->Text(u"Path");
+            t->NextColumn();
+            t->Text(u"Hovered");
+            t->NextColumn();
 
             t->Separator();
             const char* names[3] = {"One", "Two", "Three"};

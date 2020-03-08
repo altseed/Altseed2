@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Rendered.h"
 #include "../../Math/Vector2F.h"
+#include "Rendered.h"
 
 namespace Altseed {
 

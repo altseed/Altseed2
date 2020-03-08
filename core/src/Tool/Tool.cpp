@@ -91,8 +91,8 @@ inline ImVec2 toImVec2(const Vector2F& v) { return ImVec2(v.X, v.Y); }
 
 inline ImVec4 toImVec4(const Vector4F& v) { return ImVec4(v.X, v.Y, v.Z, v.W); }
 
-const ImWchar* toImGlyphRanges(ImGuiIO &io, ToolGlyphRanges ranges) {
-    switch(ranges) {
+const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRanges ranges) {
+    switch (ranges) {
         case ToolGlyphRanges::Cyrillic:
             return io.Fonts->GetGlyphRangesCyrillic();
         case ToolGlyphRanges::Japanese:
@@ -101,7 +101,7 @@ const ImWchar* toImGlyphRanges(ImGuiIO &io, ToolGlyphRanges ranges) {
             return io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         case ToolGlyphRanges::Korean:
             return io.Fonts->GetGlyphRangesKorean();
-        
+
         default:
             Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
         case ToolGlyphRanges::Default:
@@ -110,7 +110,7 @@ const ImWchar* toImGlyphRanges(ImGuiIO &io, ToolGlyphRanges ranges) {
 }
 
 bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges) {
-    auto &io = ImGui::GetIO();
+    auto& io = ImGui::GetIO();
     auto path_ = utf16_to_utf8(path);
     auto font = io.Fonts->AddFontFromFileTTF(path_.c_str(), sizePixels, nullptr, toImGlyphRanges(io, ranges));
 
@@ -392,12 +392,8 @@ void Tool::ResetMouseDragDelta(int button) { ImGui::ResetMouseDragDelta(button);
 
 void Tool::SetNextWindowContentSize(Vector2F size) { ImGui::SetNextWindowContentSize(toImVec2(size)); }
 
-void Tool::SetNextWindowPos(Vector2F pos, ToolCond cond) {
-    ImGui::SetNextWindowPos(toImVec2(pos));
-}
+void Tool::SetNextWindowPos(Vector2F pos, ToolCond cond) { ImGui::SetNextWindowPos(toImVec2(pos)); }
 
-void Tool::SetNextWindowSize(Vector2F size, ToolCond cond) {
-    ImGui::SetNextWindowSize(toImVec2(size));
-}
+void Tool::SetNextWindowSize(Vector2F size, ToolCond cond) { ImGui::SetNextWindowSize(toImVec2(size)); }
 
 }  // namespace Altseed

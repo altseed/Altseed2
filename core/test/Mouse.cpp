@@ -50,7 +50,7 @@ TEST(Mouse, GetMouseInput) {
     Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Normal);
     mode = Altseed::Mouse::GetInstance()->GetCursorMode();
     EXPECT_EQ(mode, Altseed::CursorMode::Normal);
-    
+
     for (int count = 0; Altseed::Core::GetInstance()->DoEvent() && count < 10; count++) {
         // testing MouseButton inputs.
         for (int i = 0; i < 8; i++) {

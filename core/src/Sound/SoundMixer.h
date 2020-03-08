@@ -22,7 +22,6 @@ using FFTWindow = osm::FFTWindow;
 @brief  音を管理するクラス
 */
 class SoundMixer : public BaseObject {
-
     friend class Sound;
 
 private:

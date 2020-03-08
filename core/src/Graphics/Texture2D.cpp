@@ -24,7 +24,7 @@ Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI
 Texture2D::~Texture2D() {
     if (sourcePath_ != u"") {
         resources_->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
-        resources_ = nullptr;    
+        resources_ = nullptr;
     }
 
     m_texture = nullptr;

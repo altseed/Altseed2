@@ -6,9 +6,9 @@
 #include <stack>
 
 #include "../Common/StringHelper.h"
+#include "../Logger/Log.h"
 #include "../Platform/FileSystem.h"
 #include "PackFileReader.h"
-#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -30,8 +30,8 @@ void File::Terminate() { instance = nullptr; }
 
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
-std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) { 
-	std::shared_ptr<BaseFileReader> reader = nullptr;
+std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
+    std::shared_ptr<BaseFileReader> reader = nullptr;
     std::lock_guard<std::mutex> lock(m_rootMtx);
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
@@ -65,14 +65,16 @@ bool File::AddRootDirectory(const char16_t* path) {
 
 bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* password) {
     if (!FileSystem::GetIsFile(path)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackageWithPassword: File '{0}' is not found", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"File::AddRootPackageWithPassword: File '{0}' is not found", utf16_to_utf8(path).c_str());
         return false;
     }
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
     if (zip_ == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackageWithPassword: Failed to open '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"File::AddRootPackageWithPassword: Failed to open '{0}'", utf16_to_utf8(path).c_str());
         return false;
     }
 
@@ -151,15 +153,15 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
 
 bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
     if (!FileSystem::GetIsDirectory(srcPath)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::PackWithPassword: Directory '{0}' is not found", utf16_to_utf8(srcPath).c_str());
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"File::PackWithPassword: Directory '{0}' is not found", utf16_to_utf8(srcPath).c_str());
         return false;
     }
 
     int error;
     zip_t* zip_ = zip_open(utf16_to_utf8(dstPath).c_str(), ZIP_TRUNCATE | ZIP_CREATE, &error);
     if (zip_ == nullptr) {
-        Log::GetInstance()->Error(
-                LogCategory::Core, u"File::PackWithPassword: Filed to create '{0}'", utf16_to_utf8(dstPath).c_str());
+        Log::GetInstance()->Error(LogCategory::Core, u"File::PackWithPassword: Filed to create '{0}'", utf16_to_utf8(dstPath).c_str());
         return false;
     }
 
@@ -175,7 +177,7 @@ bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, co
 
     auto res = MakePackage(zip_, srcPath, true);
     zip_close(zip_);
-    if(!res) {
+    if (!res) {
         Log::GetInstance()->Error(LogCategory::Core, u"File::PackWithPassword: Filed to MakePackage '{0}'", utf16_to_utf8(srcPath).c_str());
     }
     return res;

@@ -1,8 +1,8 @@
 #pragma once
 #include <spdlog/spdlog.h>
 #include <memory>
-#include <string>
 #include <sstream>
+#include <string>
 
 #include "../BaseObject.h"
 #include "../Common/Assertion.h"
@@ -111,9 +111,7 @@ public:
         std::stringstream ss;
         ss << "[" << filename << "]"
            << "[" << funcname << "]"
-           << "[" << linenum << "]"
-           << utf16_to_utf8(format).c_str()
-        ;
+           << "[" << linenum << "]" << utf16_to_utf8(format).c_str();
         Write(LogCategory::Core, LogLevel::Critical, utf8_to_utf16(ss.str()).c_str(), args...);
     }
 

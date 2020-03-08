@@ -334,7 +334,7 @@ public:
     void SetNextItemWidth(int width);
 
     void PushItemWidth(float width);
-    
+
     void PopItemWidth();
 
     void PushButtonRepeat(bool repeat);

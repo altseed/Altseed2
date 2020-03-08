@@ -75,7 +75,7 @@ public:
 
     Vector3I To3I() const;
 
-	operator Vector3F_C() const;
+    operator Vector3F_C() const;
 };
 
 struct Vector3F_C {

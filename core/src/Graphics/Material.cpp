@@ -1,9 +1,9 @@
 ﻿#include "Material.h"
-#include "BuiltinShader.h"
-#include "../Logger/Log.h"
-#include "../Common/StringHelper.h"
 #include <glslang/Public/ShaderLang.h>
 #include <spirv_cross/spirv.hpp>
+#include "../Common/StringHelper.h"
+#include "../Logger/Log.h"
+#include "BuiltinShader.h"
 
 namespace Altseed {
 
@@ -86,7 +86,8 @@ Vector4F MaterialPropertyBlockCollection::GetVector4F(const char16_t* key) const
         }
     }
 
-    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetVector4F: '{0}' is not found", utf16_to_utf8(key).c_str());
+    Log::GetInstance()->Error(
+            LogCategory::Core, u"MaterialPropertyBlockCollection::GetVector4F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 
@@ -98,7 +99,8 @@ Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) con
         }
     }
 
-    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetMatrix44F: '{0}' is not found", utf16_to_utf8(key).c_str());
+    Log::GetInstance()->Error(
+            LogCategory::Core, u"MaterialPropertyBlockCollection::GetMatrix44F: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 
@@ -110,7 +112,8 @@ std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const cha
         }
     }
 
-    Log::GetInstance()->Error(LogCategory::Core, u"MaterialPropertyBlockCollection::GetTexture: '{0}' is not found", utf16_to_utf8(key).c_str());
+    Log::GetInstance()->Error(
+            LogCategory::Core, u"MaterialPropertyBlockCollection::GetTexture: '{0}' is not found", utf16_to_utf8(key).c_str());
     return ret;
 }
 

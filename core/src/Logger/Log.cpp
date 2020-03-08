@@ -21,7 +21,7 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
 
         std::vector<spdlog::sink_ptr> multi_sinks_;
 
-        if(enabledConsoleLogging) {
+        if (enabledConsoleLogging) {
             const auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
             multi_sinks_.push_back(console_sink);
         }
@@ -57,7 +57,7 @@ void Log::Terminate() { instance_ = nullptr; }
 std::shared_ptr<Log>& Log::GetInstance() { return instance_; }
 
 void Log::SetLevel(LogCategory category, LogLevel level) {
-    if(!instance_->enabledLogging_) return;
+    if (!instance_->enabledLogging_) return;
     loggers_[(int32_t)category]->set_level((spdlog::level::level_enum)level);
 }
 

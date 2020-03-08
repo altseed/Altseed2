@@ -15,14 +15,12 @@ class Resources;
 */
 class Sound : public Resource {
 private:
-
     std::shared_ptr<osm::Sound> m_sound;
 
     const char16_t* m_filePath;
     const bool m_isDecompressed;
 
 public:
-
     Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
 
     /**

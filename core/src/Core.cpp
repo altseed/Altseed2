@@ -30,11 +30,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     windowParameter.IsFullscreenMode = config->GetIsFullscreenMode();
     windowParameter.IsResizable = config->GetIsResizable();
 
-    if (!Log::Initialize(
-        config->GetEnabledConsoleLogging(),
-        config->GetEnabledFileLogging(),
-        config->GetLogFilename())
-    ) {
+    if (!Log::Initialize(config->GetEnabledConsoleLogging(), config->GetEnabledFileLogging(), config->GetLogFilename())) {
         Core::instance = nullptr;
         std::cout << "Log::Initialize failed" << std::endl;
         return false;
@@ -153,28 +149,16 @@ bool Core::DoEvent() {
     return Altseed::Window::GetInstance()->DoEvent();
 }
 
-const float Core::GetDeltaSecond() {
-    return Core::instance->fps_->GetDeltaSecond();
-}
+const float Core::GetDeltaSecond() { return Core::instance->fps_->GetDeltaSecond(); }
 
-const float Core::GetCurrentFPS() {
-    return Core::instance->fps_->GetCurrentFPS();
-}
+const float Core::GetCurrentFPS() { return Core::instance->fps_->GetCurrentFPS(); }
 
-const int32_t Core::GetTargetFPS() {
-    return Core::instance->fps_->GetTargetFPS();
-}
+const int32_t Core::GetTargetFPS() { return Core::instance->fps_->GetTargetFPS(); }
 
-void Core::SetTargetFPS(int32_t fps) {
-    Core::instance->fps_->SetTarget(fps);
-}
+void Core::SetTargetFPS(int32_t fps) { Core::instance->fps_->SetTarget(fps); }
 
-const FramerateMode Core::GetFramerateMode() {
-    return Core::instance->fps_->GetFramerateMode();
-}
+const FramerateMode Core::GetFramerateMode() { return Core::instance->fps_->GetFramerateMode(); }
 
-void Core::SetFramerateMode(FramerateMode framerateMode) {
-    Core::instance->fps_->SetFramerateMode(framerateMode);
-}
+void Core::SetFramerateMode(FramerateMode framerateMode) { Core::instance->fps_->SetFramerateMode(framerateMode); }
 
 }  // namespace Altseed

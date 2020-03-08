@@ -33,7 +33,7 @@ public:
 
     std::shared_ptr<StreamFile> CreateStreamFile(const char16_t* path);
 
-	std::shared_ptr<BaseFileReader> CreateFileReader(const char16_t* path);
+    std::shared_ptr<BaseFileReader> CreateFileReader(const char16_t* path);
 
     bool AddRootDirectory(const char16_t* path);
 

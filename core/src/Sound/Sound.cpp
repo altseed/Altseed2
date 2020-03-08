@@ -3,12 +3,8 @@
 
 namespace Altseed {
 
-Sound::Sound(
-        const char16_t* filePath,
-        std::shared_ptr<osm::Sound> sound,
-        bool isDecompressed)
+Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
-
     SetInstanceName(__FILE__);
 }
 
@@ -26,7 +22,8 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     // Get data & Create OSM sound & null check
     auto sound = CreateSharedPtr(soundMixer->m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
     if (sound == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(
+                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
