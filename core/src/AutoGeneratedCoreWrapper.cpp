@@ -2071,6 +2071,20 @@ CBGEXPORT void* CBGSTDCALL cbg_Sound_Load(const char16_t* path, bool isDecompres
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Sound_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsDecompressed(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsDecompressed();
+    return cbg_ret;
+}
+
 CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {
     auto cbg_self_ = (Altseed::Sound*)(cbg_self);
 
