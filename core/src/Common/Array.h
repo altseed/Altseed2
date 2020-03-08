@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "../BaseObject.h"
+#include "../Graphics/BatchRenderer.h"
+#include "../Math/Vector2F.h"
 
 namespace Altseed {
 
@@ -96,5 +98,6 @@ using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
 using FloatArray = Array<float>;
 using VertexArray = Array<BatchVertex>;
+using Vector2FArray = Array<Vector2F>;
 
 }  // namespace Altseed

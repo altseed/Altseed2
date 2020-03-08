@@ -11,6 +11,9 @@
 #include "RenderedCamera.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
+#include "RenderedPolygon.h"
+#include "../Font.h"
+#include "../../Logger/Log.h"
 
 namespace Altseed {
 
@@ -56,6 +59,25 @@ void Renderer::DrawPolygon(
             texture,
             material,
             nullptr);
+}
+
+void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
+    std::vector<BatchVertex> vs;
+    vs.resize(polygon->GetVertexes()->GetCount());
+    for(int i = 0; i < vs.size(); ++i) {
+        vs[i] = polygon->GetVertexes()->GetVector()[i];
+        vs[i].Pos = polygon->GetTransform().Transform3D(vs[i].Pos);
+    }
+
+    std::vector<int> ib;
+    ib.resize((vs.size() - 2) * 3);
+    for(int i = 0; i < vs.size() - 2; ++i) {
+        ib[i * 3 + 0] = 0;
+        ib[i * 3 + 1] = i + 1;
+        ib[i * 3 + 2] = i + 2;
+    }
+
+    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), polygon->GetTexture(), polygon->GetMaterial(), nullptr);
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {

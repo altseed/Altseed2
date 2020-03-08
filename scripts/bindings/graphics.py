@@ -425,6 +425,52 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
 
+RenderedPolygon = cbg.Class('Altseed', 'RenderedPolygon')
+with RenderedPolygon as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'ポリゴンのクラス')
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ポリゴンを作成します。')
+        func.return_value.type_ = RenderedPolygon
+        func.is_static = True
+    with class_.add_func('GetVertexes') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点情報を取得します。')
+        func.return_value.type_ = VertexArray
+    with class_.add_func('SetVertexes') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点情報を設定します。')
+        with func.add_arg(VertexArray, 'vertexes') as arg:
+            func.brief = cbg.Description()
+            func.brief.add('ja', '頂点情報')
+    with class_.add_func('SetVertexesByVector2F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点情報を設定します。')
+        with func.add_arg(Vector2FArray, 'vertexes') as arg:
+            func.brief = cbg.Description()
+            func.brief.add('ja', '頂点情報')
+    with class_.add_property(Texture2D, 'Texture') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(RectF, 'Src') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画範囲を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(Matrix44F, 'Transform') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '変換行列を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(Material, 'Material') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
 
 RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
 with RenderedCamera as class_:

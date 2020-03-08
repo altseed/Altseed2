@@ -52,6 +52,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuiltinShader.h"
 
@@ -502,6 +503,76 @@ CBGEXPORT int32_t CBGSTDCALL cbg_FloatArray_GetCount(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_FloatArray_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::FloatArray*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Clear(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    cbg_self_->Clear();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Resize(void* cbg_self, int32_t size) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = size;
+    cbg_self_->Resize(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Vector2FArray_GetData(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->GetData();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Assign(void* cbg_self, void* ptr, int32_t size) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    int32_t cbg_arg1 = size;
+    cbg_self_->Assign(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_CopyTo(void* cbg_self, void* ptr) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    void* cbg_arg0 = ptr;
+    cbg_self_->CopyTo(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Vector2FArray_GetAt(void* cbg_self, int32_t index) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetAt(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_SetAt(void* cbg_self, int32_t index, void* value) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_arg0 = index;
+    Altseed::Vector2F_C cbg_arg1 = (*((Altseed::Vector2F_C*)value));
+    cbg_self_->SetAt(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Vector2FArray_Create(int32_t size) {
+    int32_t cbg_arg0 = size;
+    std::shared_ptr<Altseed::Vector2FArray> cbg_ret = Altseed::Vector2FArray::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Vector2FArray>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Vector2FArray_GetCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCount();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Vector2FArray_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Vector2FArray*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -1058,6 +1129,94 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, void* value)
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedText_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_Create() {
+    std::shared_ptr<Altseed::RenderedPolygon> cbg_ret = Altseed::RenderedPolygon::Create();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedPolygon>(cbg_ret);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::VertexArray> cbg_ret = cbg_self_->GetVertexes();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::VertexArray>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexes(void* cbg_self, void* vertexes) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)vertexes);
+    cbg_self_->SetVertexes(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexesByVector2F(void* cbg_self, void* vertexes) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)vertexes);
+    cbg_self_->SetVertexesByVector2F(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetTexture(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetTexture(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Texture2D> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    cbg_self_->SetTexture(cbg_arg0);
+}
+
+CBGEXPORT Altseed::RectF_C CBGSTDCALL cbg_RenderedPolygon_GetSrc(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    Altseed::RectF_C cbg_ret = cbg_self_->GetSrc();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetSrc(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    Altseed::RectF_C cbg_arg0 = (*((Altseed::RectF_C*)value));
+    cbg_self_->SetSrc(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedPolygon_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetTransform(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
+    cbg_self_->SetTransform(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetMaterial(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_ret = cbg_self_->GetMaterial();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Material>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetMaterial(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)value);
+    cbg_self_->SetMaterial(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
     cbg_self_->Release();
 }

@@ -278,6 +278,72 @@ with FloatArray as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
+Vector2FArray = cbg.Class('Altseed', 'Vector2FArray')
+with Vector2FArray as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '2次元ベクトルの配列のクラスを表します。')
+
+    with class_.add_func("Clear") as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データをクリアします。')
+
+    with class_.add_property(int, "Count") as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '格納されている要素の数を取得します。')
+        prop_.has_getter = True
+
+    with class_.add_func('Resize') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'サイズを変更します。')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+
+    with class_.add_func("GetData") as func:
+        func.return_value.type_ = ctypes.c_void_p
+
+    with class_.add_func("Assign") as func:
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーするデータの先頭のポインタ')
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コピーする要素の個数')
+
+    with class_.add_func('CopyTo') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'データを指定したポインタにコピーします。')
+        with func.add_arg(ctypes.c_void_p, "ptr") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ポインタ')
+
+    with class_.add_func('GetAt') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インデックスアクセス')
+        func.return_value.type_ = Vector2F
+        with func.add_arg(int, "index") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'インデックス')
+
+    with class_.add_func('SetAt') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インデックスアクセス')
+        with func.add_arg(int, "index") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'インデックス')
+        with func.add_arg(Vector2F, "value") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '値')
+
+    with class_.add_func("Create") as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを作成します。')
+        func.return_value.type_ = class_
+        with func.add_arg(int, "size") as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '要素数')
+        func.is_static = True
+
 ResourceType = cbg.Enum('Altseed', 'ResourceType')
 with ResourceType as enum_:
     enum_.brief = cbg.Description()

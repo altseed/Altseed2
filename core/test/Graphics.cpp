@@ -14,6 +14,7 @@
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Math/Matrix44F.h"
@@ -313,6 +314,76 @@ TEST(Graphics, RenderedText) {
         }
 
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, RenderedPolygon) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedPolygon", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto texture = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+
+    EXPECT_TRUE(texture != nullptr);
+
+    auto polygon = Altseed::RenderedPolygon::Create();
+
+    polygon->SetTexture(texture);
+    polygon->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+    auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
+    vertexes->Resize(12);
+    vertexes->GetVector()[0] = Altseed::Vector2F(0, 0);
+    for(int i = 0; i <= 10; ++i)
+    {
+        float argument = 0.2 * M_PI * i;
+        float pos_x = (i % 2 ? 100 : 200) * -sin(argument);
+        float pos_y = (i % 2 ? 100 : 200) * -cos(argument);
+        vertexes->GetVector()[i + 1] = Altseed::Vector2F(pos_x, pos_y);
+    }
+    polygon->SetVertexesByVector2F(vertexes);
+    
+    auto transform = Altseed::Matrix44F();
+    transform.SetTranslation(250, 250, 0);
+    polygon->SetTransform(transform);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, Tool) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+    EXPECT_TRUE(instance != nullptr);
+
+    while (count++ < 100 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Tool::GetInstance()->NewFrame();
+
+        if (Altseed::Tool::GetInstance()->Begin(u"Test")) {
+            Altseed::Tool::GetInstance()->Text(u"Hoge");
+            Altseed::Tool::GetInstance()->End();
+        }
+
+        Altseed::Tool::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
