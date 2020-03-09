@@ -323,7 +323,7 @@ with Font as class_:
             arg.brief.add('ja', 'ベースとなるフォント')
         func.is_public = True
         func.is_static = True
-    with class_.add_func('AddImageGlyph_Internal') as func:
+    with class_.add_func('AddImageGlyph') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ文字を追加する')
         with func.add_arg(int, 'character') as arg:
