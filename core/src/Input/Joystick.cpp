@@ -111,7 +111,7 @@ void Joystick::RefreshConnectedState() {
             if (dev) hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
 
-            names_[i] = ToU16(std::wstring(device->product_string));
+            if (device->product_string != nullptr) names_[i] = ToU16(std::wstring(device->product_string));
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
