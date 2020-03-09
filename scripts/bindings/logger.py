@@ -19,8 +19,7 @@ LogCategory = cbg.Enum('Altseed', 'LogCategory')
 with LogCategory as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ログの範囲を表します。')
-    # Core用なので公開しない
-    # enum_.add('Core', 0)
+    enum_.add('Core', 0)
     enum_.add('Engine', 1)
     enum_.add('User', 2)
 

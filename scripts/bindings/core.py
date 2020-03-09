@@ -52,6 +52,7 @@ Core = cbg.Class('Altseed', 'Core')
 with Core as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'C++のCoreとの仲介を担うクラス')
+    class_.is_public = False
     with class_.add_func('Initialize') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '初期化処理を行います。')
