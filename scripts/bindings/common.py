@@ -359,6 +359,7 @@ Resources = cbg.Class('Altseed', 'Resources')
 with Resources as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'リソースのクラスを表します。')
+    class_.is_public=False
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')
