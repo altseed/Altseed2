@@ -464,7 +464,8 @@ with ToolWindow as enum_:
         v.brief.add('en', 'Never load/save settings in .ini file')
         v.brief.add('ja', '.iniファイルの設定をロード/保存しない')
 
-    with enum_.add('NoMouseInputs', 1 << 9) as v:
+    _NoMouseInputs = 1 << 9
+    with enum_.add('NoMouseInputs', _NoMouseInputs) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'Disable catching mouse, hovering test with pass through.')
@@ -518,8 +519,8 @@ with ToolWindow as enum_:
         v.brief.add('en', 'No gamepad/keyboard navigation within the window')
         v.brief.add('ja', 'ウィンドウ内にゲームパッド/キーボードナビゲーションはありません')
 
-    _NoNavFocu = 1 << 19
-    with enum_.add('NoNavFocus', _NoNavFocu) as v:
+    _NoNavFocus = 1 << 19
+    with enum_.add('NoNavFocus', _NoNavFocus) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'No focusing toward this window with gamepad/keyboard navigation (e.g. skipped by CTRL+TAB)')
@@ -536,7 +537,7 @@ with ToolWindow as enum_:
     enum_.add('NoDecoration', _NoTitleBar |
               _NoResize | _NoScrollbar | _NoCollapse)
 
-    enum_.add('NoInputs', NoMouseInputs | _NoNavInputs | _NoNavFocus)
+    enum_.add('NoInputs', _NoMouseInputs | _NoNavInputs | _NoNavFocus)
 
 ToolTabBar = cbg.Enum('Altseed', 'ToolTabBar')
 with ToolTabBar as enum_:
