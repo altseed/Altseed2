@@ -4,6 +4,7 @@ import sys
 
 Window = cbg.Class('Altseed', 'Window')
 with Window as class_:
+    class_.is_public=False
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()

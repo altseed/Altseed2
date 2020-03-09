@@ -46,6 +46,7 @@ Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
+    class_.is_public = False
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')
@@ -347,6 +348,7 @@ with Font as class_:
 Rendered = cbg.Class('Altseed', 'Rendered')
 with Rendered as class_:
     class_.brief('ja', '描画されるオブジェクトの基本クラスを表します')
+    class_.is_public = False
     with class_.add_property(Matrix44F, 'Transform') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '変換行列を取得または設定します。')
@@ -358,6 +360,7 @@ with RenderedSprite as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'スプライトのクラス')
+    class_.is_public = False
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを作成します。')
@@ -389,6 +392,7 @@ with RenderedText as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テキストのクラス')
+    class_.is_public = False
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -437,6 +441,7 @@ with RenderedPolygon as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポリゴンのクラス')
+    class_.is_public = False
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ポリゴンを作成します。')
@@ -484,12 +489,14 @@ with RenderedCamera as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
+    class_.is_public = False
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
     class_.is_public = True
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
+    class_.is_public = False
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')
