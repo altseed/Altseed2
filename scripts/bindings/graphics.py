@@ -19,7 +19,7 @@ with CommandList as class_:
 
 Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
-    class_.briedf = cbg.Description()
+    class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
 
 BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
@@ -348,7 +348,7 @@ with Font as class_:
 
 Rendered = cbg.Class('Altseed', 'Rendered')
 with Rendered as class_:
-    class_.briedf = cbg.Description()
+    class_.brief = cbg.Description()
     class_.brief.add('ja', '描画されるオブジェクトの基本クラスを表します')
     class_.is_public = False
     with class_.add_property(Matrix44F, 'Transform') as prop:
