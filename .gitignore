@@ -1,4 +1,7 @@
-build/
+build
+.ionide
+.vs
+.vscode
 
 # Prerequisites
 *.d
@@ -32,8 +35,6 @@ build/
 *.exe
 *.out
 *.app
-/.vs
-/.vscode
 
 # Mac
 .DS_Store
