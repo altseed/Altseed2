@@ -1,9 +1,14 @@
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!                                          !!
-// !!  THIS FILE IS AUTO GENERATED.            !!
-// !!  YOUR COMMIT ON THI FILE WILL BE WIPED.  !!
-// !!                                          !!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+//   このファイルは自動生成されました。
+//   このファイルへの変更は消失することがあります。
+//
+//   THIS FILE IS AUTO GENERATED.
+//   YOUR COMMITMENT ON THIS FILE WILL BE WIPED. 
+//
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #include <stdio.h>
 #include <stdint.h>
@@ -1324,19 +1329,19 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_GetFontTexture(void* cbg_self, int32_t index
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    const char16_t* cbg_ret = cbg_self_->GetPath();
-    return cbg_ret;
-}
-
 CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int32_t c2) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
     int32_t cbg_arg0 = c1;
     int32_t cbg_arg1 = c2;
     int32_t cbg_ret = cbg_self_->GetKerning(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
     return cbg_ret;
 }
 
@@ -1361,7 +1366,7 @@ CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph_Internal(void* cbg_self, int32_
 
     int32_t cbg_arg0 = character;
     std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
-    cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
+    cbg_self_->AddImageGlyph_Internal(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_Font_GetImageGlyph(void* cbg_self, int32_t character) {
@@ -2059,6 +2064,13 @@ CBGEXPORT void* CBGSTDCALL cbg_StreamFile_GetTempBuffer(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Int8Array>(cbg_ret);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_StreamFile_Reload(void* cbg_self) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
@@ -2098,13 +2110,6 @@ CBGEXPORT void CBGSTDCALL cbg_StreamFile_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
     cbg_self_->Release();
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
-    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
-
-    const char16_t* cbg_ret = cbg_self_->GetPath();
-    return cbg_ret;
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_StaticFile_Create(const char16_t* path) {
