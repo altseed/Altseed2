@@ -21,7 +21,7 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         yMax = v.Y;
     }
 
-    // ’¸“_À•W‚ğƒRƒs[
+    // ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Rï¿½sï¿½[
     for (int i = 0; i < vertexes->GetCount(); ++i) {
         auto& dst = vertexes_->GetVector()[i].Pos;
         auto& src = vertexes->GetVector()[i];
@@ -30,7 +30,7 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         dst.Y = src.Y;
         dst.Z = 0.5f;
 
-        // ’¸“_‚Ì‘¶İ”ÍˆÍ
+        // ï¿½ï¿½ï¿½_ï¿½Ì‘ï¿½ï¿½İ”Íˆï¿½
         if (src.X < xMin) {
             xMin = src.X;
         }
@@ -45,7 +45,7 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         }
     }
 
-    // UV, F‚ğ¶¬
+    // UV, ï¿½Fï¿½ğ¶ï¿½
     for (int i = 0; i < vertexes->GetCount(); ++i) {
         auto& dst = vertexes_->GetVector()[i];
         dst.UV1.X = (dst.Pos.X - xMin) / (xMax - xMin);
