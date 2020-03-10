@@ -69,7 +69,7 @@ public:
      * @brief 配列をコピーする
      * 危険！：C# 連携用！Core内部で使う機会はほぼないはず。ptrは予めコピーに十分な領域を確保すること
      */
-    void CopyTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size()); }
+    void CopyTo(void* ptr) { std::memcpy(ptr, this->vector_.data(), this->vector_.size() * sizeof(T)); }
 
     /**
      * @brief インデックスアクセス
