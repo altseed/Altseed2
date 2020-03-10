@@ -1,8 +1,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //
-//   ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍŽ©“®¶¬‚³‚ê‚Ü‚µ‚½B
-//   ‚±‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ì•ÏX‚ÍÁŽ¸‚·‚é‚±‚Æ‚ª‚ ‚è‚Ü‚·B
+//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚
+//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®å¤‰æ›´ã¯æ¶ˆå¤±ã™ã‚‹ã“ã¨ãŒã‚ã‚Šã¾ã™ã€‚
 //
 //   THIS FILE IS AUTO GENERATED.
 //   YOUR COMMITMENT ON THIS FILE WILL BE WIPED. 
@@ -935,21 +935,18 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawText(void* cbg_self, void* text) {
     cbg_self_->DrawText(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* polygon) {
+    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderedPolygon> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderedPolygon>((Altseed::RenderedPolygon*)polygon);
+    cbg_self_->DrawPolygon(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
     std::shared_ptr<Altseed::CommandList> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
     cbg_self_->Render(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* vertexBuffer, void* indexBuffer, void* texture, void* material) {
-    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
-
-    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)vertexBuffer);
-    std::shared_ptr<Altseed::Int32Array> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Int32Array>((Altseed::Int32Array*)indexBuffer);
-    std::shared_ptr<Altseed::Texture2D> cbg_arg2 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
-    std::shared_ptr<Altseed::Material> cbg_arg3 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)material);
-    cbg_self_->DrawPolygon(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
@@ -968,6 +965,20 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
     cbg_self_->Release();
+}
+
+CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_Rendered_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Rendered_SetTransform(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
+    cbg_self_->SetTransform(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Rendered_Release(void* cbg_self) {
