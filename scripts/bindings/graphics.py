@@ -517,6 +517,11 @@ with Renderer as class_:
         func.brief.add('ja', 'テキストを描画します。')
         func.add_arg(RenderedText, 'text')
         func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_func('DrawPolygon') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ポリゴンを描画します。')
+        func.add_arg(RenderedPolygon, 'polygon')
+        func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
@@ -524,17 +529,3 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コマンドリスト')
         func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('DrawPolygon') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'ポリゴンを描画します')
-        with func.add_arg(VertexArray, 'vertexBuffer') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '頂点バッファ')
-        with func.add_arg(Int32Array, 'indexBuffer') as arg:
-            arg.brief = cbg.Description()
-        with func.add_arg(Texture2D, 'texture') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャ')
-        with func.add_arg(Material, 'material') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'マテリアル')
