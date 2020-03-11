@@ -1,8 +1,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //
-//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚
-//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®å¤‰æ›´ã¯æ¶ˆå¤±ã™ã‚‹ã“ã¨ãŒã‚ã‚Šã¾ã™ã€‚
+//   ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍŽ©“®¶¬‚³‚ê‚Ü‚µ‚½B
+//   ‚±‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ì•ÏX‚ÍÁŽ¸‚·‚é‚±‚Æ‚ª‚ ‚è‚Ü‚·B
 //
 //   THIS FILE IS AUTO GENERATED.
 //   YOUR COMMITMENT ON THIS FILE WILL BE WIPED. 
@@ -1020,20 +1020,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetSrc(void* cbg_self, void* value)
     cbg_self_->SetSrc(cbg_arg0);
 }
 
-CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedSprite_GetTransform(void* cbg_self) {
-    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTransform(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
-    cbg_self_->SetTransform(cbg_arg0);
-}
-
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_GetMaterial(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
@@ -1057,20 +1043,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_RenderedText_Create() {
     std::shared_ptr<Altseed::RenderedText> cbg_ret = Altseed::RenderedText::Create();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedText>(cbg_ret);
-}
-
-CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedText_GetTransform(void* cbg_self) {
-    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetTransform(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
-    cbg_self_->SetTransform(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedText_GetMaterial(void* cbg_self) {
@@ -1201,20 +1173,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetSrc(void* cbg_self, void* value
 
     Altseed::RectF_C cbg_arg0 = (*((Altseed::RectF_C*)value));
     cbg_self_->SetSrc(cbg_arg0);
-}
-
-CBGEXPORT Altseed::Matrix44F_C CBGSTDCALL cbg_RenderedPolygon_GetTransform(void* cbg_self) {
-    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetTransform(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
-
-    Altseed::Matrix44F_C cbg_arg0 = (*((Altseed::Matrix44F_C*)value));
-    cbg_self_->SetTransform(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetMaterial(void* cbg_self) {
