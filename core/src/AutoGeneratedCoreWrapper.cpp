@@ -1126,6 +1126,13 @@ CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_Create() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedPolygon>(cbg_ret);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexesByVector2F(void* cbg_self, void* vertexes) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)vertexes);
+    cbg_self_->SetVertexesByVector2F(cbg_arg0);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
@@ -1133,18 +1140,11 @@ CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::VertexArray>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexes(void* cbg_self, void* vertexes) {
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexes(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
-    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)vertexes);
+    std::shared_ptr<Altseed::VertexArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::VertexArray>((Altseed::VertexArray*)value);
     cbg_self_->SetVertexes(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexesByVector2F(void* cbg_self, void* vertexes) {
-    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
-
-    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)vertexes);
-    cbg_self_->SetVertexesByVector2F(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetTexture(void* cbg_self) {
