@@ -449,22 +449,17 @@ with RenderedPolygon as class_:
         func.brief.add('ja', 'ポリゴンを作成します。')
         func.return_value.type_ = RenderedPolygon
         func.is_static = True
-    with class_.add_func('GetVertexes') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '頂点情報を取得します。')
-        func.return_value.type_ = VertexArray
-    with class_.add_func('SetVertexes') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '頂点情報を設定します。')
-        with func.add_arg(VertexArray, 'vertexes') as arg:
-            func.brief = cbg.Description()
-            func.brief.add('ja', '頂点情報')
     with class_.add_func('SetVertexesByVector2F') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '頂点情報を設定します。')
         with func.add_arg(Vector2FArray, 'vertexes') as arg:
             func.brief = cbg.Description()
             func.brief.add('ja', '頂点情報')
+    with class_.add_property('Vertexes') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '頂点情報を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
     with class_.add_property(Texture2D, 'Texture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャを取得または設定します。')
