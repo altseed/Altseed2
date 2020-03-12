@@ -378,11 +378,6 @@ with RenderedSprite as class_:
         prop.brief.add('ja', '描画範囲を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
-    with class_.add_property(Matrix44F, 'Transform') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '変換行列を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
@@ -401,12 +396,6 @@ with RenderedText as class_:
         func.brief.add('ja', 'テキストを作成します。')
         func.return_value.type_ = RenderedText
         func.is_static = True
-
-    with class_.add_property(Matrix44F, 'Transform') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '変換行列を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
 
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
@@ -473,11 +462,6 @@ with RenderedPolygon as class_:
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '描画範囲を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-    with class_.add_property(Matrix44F, 'Transform') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '変換行列を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     with class_.add_property(Material, 'Material') as prop:
