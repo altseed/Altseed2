@@ -455,7 +455,7 @@ with RenderedPolygon as class_:
         with func.add_arg(Vector2FArray, 'vertexes') as arg:
             func.brief = cbg.Description()
             func.brief.add('ja', '頂点情報')
-    with class_.add_property('Vertexes') as prop:
+    with class_.add_property(VertexArray, 'Vertexes') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '頂点情報を取得または設定します。')
         prop.has_getter = True
