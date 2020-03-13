@@ -10,7 +10,7 @@ with StaticFile as class_:
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込んだStaticFileの新しいインスタンスを生成します。')
+        func.brief.add('ja', '指定ファイルを読み込んだ<see cref="StaticFile"/>の新しいインスタンスを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
@@ -18,7 +18,7 @@ with StaticFile as class_:
         func.return_value.type_ = StaticFile
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
-            'ja', 'pathで読み込んだファイルを格納するStaticFileの新しいインスタンスを生成します。')
+            'ja', 'pathで読み込んだファイルを格納する<see cref="StaticFile"/>の新しいインスタンスを生成します。')
     with class_.add_func('GetBuffer') as func:
         func.is_public = False
         func.brief = cbg.Description()
@@ -51,7 +51,7 @@ with StreamFile as class_:
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定ファイルを読み込むStreamFileの新しいインスタンスを生成します。')
+        func.brief.add('ja', '指定ファイルを読み込む<see cref="StreamFile"/>の新しいインスタンスを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
@@ -59,7 +59,7 @@ with StreamFile as class_:
         func.return_value.type_ = StreamFile
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
-            'ja', 'pathで読み込むファイルを格納するStreamFileの新しいインスタンスを生成します。')
+            'ja', 'pathで読み込むファイルを格納する<see cref="StreamFile"/>の新しいインスタンスを生成します。')
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込むファイルのデータサイズを取得します。')
@@ -162,28 +162,28 @@ with File as class_:
         func.return_value.brief.add('ja', 'pathの示すファイルが存在していたらtrue，それ以外でfalse')
     with class_.add_func('Pack') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定したディレクトリのファイルをパックする')
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', 'パックするファイルのディレクトリ')
         with func.add_arg(ctypes.c_wchar_p, 'dstPath') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', 'パックされたファイル名')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '')
+        func.return_value.brief.add('ja', 'パック処理がうまくいったらtrue，それ以外でfalse')
     with class_.add_func('PackWithPassword') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定したディレクトリのファイルをパスワード付きでパックする')
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', 'パックするファイルのディレクトリ')
         with func.add_arg(ctypes.c_wchar_p, 'dstPath') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', 'パックされたファイル名')
         with func.add_arg(ctypes.c_wchar_p, 'password') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', 'かけるパスワード')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '')
+        func.return_value.brief.add('ja', 'パック処理がうまくいったらtrue，それ以外でfalse')

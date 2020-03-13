@@ -21,14 +21,14 @@ with Sound as class_:
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
-        class_.brief.add('ja', '音声ファイルを読み込みます。')
+        func.brief.add('ja', '音声ファイルを読み込みます。')
         func.is_static = True
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('読み込む音声ファイルのパス')
+            arg.brief.add('ja', '読み込む音声ファイルのパス')
         with func.add_arg(bool, 'isDecompressed') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('音を再生する前にデータを全て解凍するか?')
+            arg.brief.add('ja', '音を再生する前にデータを全て解凍するか?')
         func.return_value.type_ = Sound
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだ音源データ')
@@ -74,6 +74,8 @@ with Sound as class_:
 
 SoundMixer = cbg.Class('Altseed', 'SoundMixer')
 with SoundMixer as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '音源を操作するクラス')
 
     with class_.add_func('GetInstance') as func:
         func.is_static = True
@@ -133,7 +135,7 @@ with SoundMixer as class_:
             arg.brief.add('ja', '音のID')
         with func.add_arg(float, 'volume') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '音量(0.0〜1.0')
+            arg.brief.add('ja', '音量(0.0〜1.0)')
 
     with class_.add_func('FadeIn') as func:
         func.brief = cbg.Description()

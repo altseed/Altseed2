@@ -9,7 +9,9 @@ with Configuration as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'Coreを初期化する際の設定を保持すクラス')
 
-    class_.add_constructor()
+    with class_.add_constructor() as c:
+        c.brief = cbg.Description()
+        c.brief.add('ja', '新しいインスタンスを生成する')
 
     with class_.add_property(bool, 'IsFullscreenMode') as prop:
         prop.brief = cbg.Description()
@@ -45,8 +47,12 @@ FramerateMode = cbg.Enum('Altseed', 'FramerateMode')
 with FramerateMode as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'フレームレートモード')
-    enum_.add('Variable')
-    enum_.add('Constant')
+    with enum_.add('Variable') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '可変フレームレート')
+    with enum_.add('Constant') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '固定フレームレート')
 
 Core = cbg.Class('Altseed', 'Core')
 with Core as class_:

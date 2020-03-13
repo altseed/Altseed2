@@ -8,10 +8,18 @@ with ToolDir as enum_:
     enum_.brief.add('ja', 'ImGuiで使用する方向')
 
     enum_.add('None', -1)
-    enum_.add('Left', 0)
-    enum_.add('Right', 1)
-    enum_.add('Up', 2)
-    enum_.add('Down', 3)
+    with enum_.add('Left', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左方向')
+    with enum_.add('Right', 1) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右方向')
+    with enum_.add('Up', 2) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '上方向')
+    with enum_.add('Down', 3) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '下方向')
 
 ToolCond = cbg.Enum('Altseed', 'ToolCond')
 with ToolCond as enum_:
@@ -604,11 +612,21 @@ with ToolGlyphRanges as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', 'キリル文字')
 
-    enum_.add('Japanese')
-    enum_.add('ChineseFull')
-    enum_.add('ChineseSimplifiedCommon')
-    enum_.add('Korean')
-    enum_.add('Thai')
+    with enum_.add('Japanese') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '日本語')
+    with enum_.add('ChineseFull') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '繁体字中国語')
+    with enum_.add('ChineseSimplifiedCommon') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '簡体字中国語')
+    with enum_.add('Korean') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '韓国語')
+    with enum_.add('Thai') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'タイ語')
 
 Tool = cbg.Class('Altseed', 'Tool')
 with Tool as class_:

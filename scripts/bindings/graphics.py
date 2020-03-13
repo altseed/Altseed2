@@ -37,7 +37,7 @@ with BuiltinShader as class_:
         func.brief.add('ja', 'シェーダを取得します。')
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'シェーダ')
+        func.return_value.brief.add('ja', '<paramref name="type"/>に対応した種類のビルド済みの<see cref="Shader"/>のインスタンス')
         with func.add_arg(BuiltinShaderType, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの種類')
@@ -117,72 +117,84 @@ with Material as class_:
     class_.brief.add('ja', 'マテリアル')
     with class_.add_constructor() as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '新しいインスタンスを生成する')
         func.is_public = True
     with class_.add_func('GetVector4F') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Vector4F"/>のインスタンスを取得する')
         func.return_value.type_ = Vector4F
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Vector4F"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
         func.is_public = True
     with class_.add_func('SetVector4F') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Vector4F"/>の値を設定する')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
         with func.add_arg(Vector4F, 'value') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '設定する<see cref="Vector4F"/>のインスタンスの値')
         func.is_public = True
     with class_.add_func('GetMatrix44F') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Matrix44F"/>のインスタンスを取得する')
         func.return_value.type_ = Matrix44F
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Matrix44F"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
         func.is_public = True
     with class_.add_func('SetMatrix44F') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Matrix44F"/>の値を設定する')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
         with func.add_arg(Matrix44F, 'value') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '設定する<see cref="Matrix44F"/>のインスタンスの値')
         func.is_public = True
     with class_.add_func('GetTexture') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>のインスタンスを取得する')
         func.return_value.type_ = Texture2D
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Texture2D"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
         func.is_public = True
     with class_.add_func('SetTexture') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '')
+        func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>の値を設定する')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
         with func.add_arg(Texture2D, 'value') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')
+            arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
         func.is_public = True
     with class_.add_property(Shader, 'Shader') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '')
+        prop.brief.add('ja', '使用するシェーダを取得する')
         prop.has_getter = True
         prop.has_setter = True
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:
-    enum_.add('Vertical')
-    enum_.add('Horizontal')
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'テキストの描画方向')
+    with enum_.add('Vertical') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '縦書き')
+    with enum_.add('Horizontal') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '横書き')
 
 Glyph = cbg.Class('Altseed', 'Glyph', cbg.CacheMode.ThreadSafeCache)
 with Glyph as class_:
@@ -238,7 +250,7 @@ with Font as class_:
         func.brief.add('ja', '動的にフォントを生成します')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'フォント')
+        func.return_value.brief.add('ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
@@ -252,7 +264,7 @@ with Font as class_:
         func.brief.add('ja', '静的にフォントを生成します')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'フォント')
+        func.return_value.brief.add('ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
@@ -489,22 +501,28 @@ with Renderer as class_:
     with class_.add_func('DrawSprite') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを描画します。')
-        func.add_arg(RenderedSprite, 'sprite')
+        with func.add_arg(RenderedSprite, 'sprite') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画する<see cref="RenderedSprite"/>のインスタンス')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('DrawText') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テキストを描画します。')
-        func.add_arg(RenderedText, 'text')
+        with func.add_arg(RenderedText, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画する<see cref="RenderedText"/>のインスタンス')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('DrawPolygon') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ポリゴンを描画します。')
-        func.add_arg(RenderedPolygon, 'polygon')
+        with func.add_arg(RenderedPolygon, 'polygon') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画する<see cref="RenderedPolygon"/>のインスタンス')
         func.is_public = True  # TODO：Engine側できちんと隠す
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
         with func.add_arg(CommandList, 'commandList') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', 'コマンドリスト')
+            arg.brief.add('ja', '描画するコマンドリスト')
         func.is_public = True  # TODO：Engine側できちんと隠す

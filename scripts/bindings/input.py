@@ -8,32 +8,62 @@ ButtonState = cbg.Enum('Altseed', 'ButtonState')
 with ButtonState as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ボタンの押下状態を表します。')
-    enum.add('Free', 0)
-    enum.add('Push', 1)
-    enum.add('Hold', 3)
-    enum.add('Release', 2)
+    with enum.add('Free', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'ボタンが押されていない状態')
+    with enum.add('Push', 1) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'ボタンが押された瞬間の状態')
+    with enum.add('Hold', 3) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'ボタンが押されている状態')
+    with enum.add('Release', 2) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'ボタンが話された瞬間の状態')
 
 Keys = cbg.Enum('Altseed', 'Keys')
 with Keys as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'キーボードのキーの種類を表します。')
-    enum.add('Unknown')
+    with enum.add('Unknown') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '未知のキー')
     enum.add('Space')
     enum.add('Apostrophe')
     enum.add('Comma')
     enum.add('Minus')
     enum.add('Period')
     enum.add('Slash')
-    enum.add('Num0')
-    enum.add('Num1')
-    enum.add('Num2')
-    enum.add('Num3')
-    enum.add('Num4')
-    enum.add('Num5')
-    enum.add('Num6')
-    enum.add('Num7')
-    enum.add('Num8')
-    enum.add('Num9')
+    with enum.add('Num0') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの0')
+    with enum.add('Num1') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの1')
+    with enum.add('Num2') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの2')
+    with enum.add('Num3') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの3')
+    with enum.add('Num4') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの4')
+    with enum.add('Num5') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの5')
+    with enum.add('Num6') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの6')
+    with enum.add('Num7') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの7')
+    with enum.add('Num8') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの8')
+    with enum.add('Num9') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'テンキーの9')
     enum.add('Semicolon')
     enum.add('Equal')
     enum.add('A')
@@ -170,22 +200,44 @@ MouseButtons = cbg.Enum('Altseed', 'MouseButtons')
 with MouseButtons as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'マウスのボタンの種類を表します。')
-    enum.add('ButtonLeft', 0)
-    enum.add('ButtonRight', 1)
-    enum.add('ButtonMiddle', 2)
-    enum.add('SubButton1', 3)
-    enum.add('SubButton2', 4)
-    enum.add('SubButton3', 5)
-    enum.add('SubButton4', 6)
-    enum.add('SubButton5', 7)
+    with enum.add('ButtonLeft', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左ボタン')
+    with enum.add('ButtonRight', 1) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '中央ボタン')
+    with enum.add('ButtonMiddle', 2) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右ボタン')
+    with enum.add('SubButton1', 3) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'サブボタン1')
+    with enum.add('SubButton2', 4) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'サブボタン2')
+    with enum.add('SubButton3', 5) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'サブボタン3')
+    with enum.add('SubButton4', 6) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'サブボタン4')
+    with enum.add('SubButton5', 7) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'サブボタン5')
 
 CursorMode = cbg.Enum('Altseed', 'CursorMode')
 with CursorMode as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'カーソルの状態を表します。')
-    enum.add('Normal', 0x00034001)
-    enum.add('Hidden', 0x00034002)
-    enum.add('Disable', 0x00034003)
+    with enum.add('Normal', 0x00034001) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '通常の状態')
+    with enum.add('Hidden', 0x00034002) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '隠れている状態')
+    with enum.add('Disable', 0x00034003) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '使用できない状態')
 
 Mouse = cbg.Class('Altseed', 'Mouse')
 with Mouse as class_:
@@ -210,12 +262,10 @@ with Mouse as class_:
         prop.brief.add('ja', 'カーソルのモードを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
-    with class_.add_func('GetWheel') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'マウスホイールの回転量を取得します。')
-        func.return_value.type_ = float
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'マウスカーソルの回転量')
+    with class_.add_property(float, 'Wheel') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マウスホイールの回転量を取得します。')
+        prop.has_getter = True
     with class_.add_func('GetMouseButtonState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'マウスボタンの状態を取得します。')
@@ -230,39 +280,95 @@ JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの種類を表します。')
-    enum.add('Other', 0)
-    enum.add('PS4', 8200)
-    enum.add('XBOX360', 8199)
-    enum.add('JoyconL', 8198)
-    enum.add('JoyconR', 8197)
+    with enum.add('Other', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '未知の種類のジョイスティック')
+    with enum.add('PS4', 8200) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'PlayStation4のジョイスティック')
+    with enum.add('XBOX360', 8199) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'XBOX360のジョイスティック')
+    with enum.add('JoyconL', 8198) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'NintendoSwitchの左ジョイスティック')
+    with enum.add('JoyconR', 8197) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'NintendoSwitchの右ジョイスティック')
 
 JoystickButtonType = cbg.Enum('Altseed', 'JoystickButtonType')
 with JoystickButtonType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックのボタンの種類を表します。')
-    enum.add('Start')
-    enum.add('Select')
-    enum.add('Home')
-    enum.add('Release')
-    enum.add('Capture')
-    enum.add('LeftUp')
-    enum.add('LeftDown')
-    enum.add('LeftLeft')
-    enum.add('LeftRight')
-    enum.add('LeftPush')
-    enum.add('RightUp')
-    enum.add('RightRight')
-    enum.add('RightLeft')
-    enum.add('RightDown')
-    enum.add('RightPush')
-    enum.add('L1')
-    enum.add('R1')
-    enum.add('L2')
-    enum.add('R2')
-    enum.add('L3')
-    enum.add('R3')
-    enum.add('LeftStart')
-    enum.add('RightStart')
+    with enum.add('Start') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'スタートボタン')
+    with enum.add('Select') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'セレクトボタン')
+    with enum.add('Home') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'ホームボタン')
+    with enum.add('Release') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'リリースボタン')
+    with enum.add('Capture') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'キャプチャーボタン')
+    with enum.add('LeftUp') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左十字キー上')
+    with enum.add('LeftDown') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左十字キー下')
+    with enum.add('LeftLeft') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左十字キー左')
+    with enum.add('LeftRight') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左十字キー右')
+    with enum.add('LeftPush') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左')
+    with enum.add('RightUp') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右十字キー上')
+    with enum.add('RightRight') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右十字キー右')
+    with enum.add('RightLeft') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右十字キー左')
+    with enum.add('RightDown') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右十字キー下')
+    with enum.add('RightPush') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右')
+    with enum.add('L1') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Lボタン1')
+    with enum.add('R1') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Rボタン1')
+    with enum.add('L2') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Lボタン2')
+    with enum.add('R2') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Rボタン2')
+    with enum.add('L3') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Lボタン3')
+    with enum.add('R3') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Rボタン3')
+    with enum.add('LeftStart') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左スタートボタン')
+    with enum.add('RightStart') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右スタートボタン')
     enum.add('Max')
 
 JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
