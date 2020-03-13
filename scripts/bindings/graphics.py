@@ -1,4 +1,4 @@
-﻿from . import CppBindingGenerator as cbg
+from . import CppBindingGenerator as cbg
 import ctypes
 
 from .common import *
@@ -181,8 +181,14 @@ with Material as class_:
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:
-    enum_.add('Vertical')
-    enum_.add('Horizontal')
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'テキストの描画方向')
+    with enum_.add('Vertical') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '縦書き')
+    with enum_.add('Horizontal') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '横書き')
 
 Glyph = cbg.Class('Altseed', 'Glyph', cbg.CacheMode.ThreadSafeCache)
 with Glyph as class_:

@@ -45,8 +45,12 @@ FramerateMode = cbg.Enum('Altseed', 'FramerateMode')
 with FramerateMode as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'フレームレートモード')
-    enum_.add('Variable')
-    enum_.add('Constant')
+    with enum_.add('Variable') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '可変フレームレート')
+    with enum_.add('Constant') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '固定フレームレート')
 
 Core = cbg.Class('Altseed', 'Core')
 with Core as class_:
