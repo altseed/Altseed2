@@ -36,34 +36,34 @@ with Keys as enum:
     enum.add('Slash')
     with enum.add('Num0') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの0')
+        v.brief.add('ja', 'テンキーの0')
     with enum.add('Num1') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの1')
+        v.brief.add('ja', 'テンキーの1')
     with enum.add('Num2') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの2')
+        v.brief.add('ja', 'テンキーの2')
     with enum.add('Num3') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの3')
+        v.brief.add('ja', 'テンキーの3')
     with enum.add('Num4') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの4')
+        v.brief.add('ja', 'テンキーの4')
     with enum.add('Num5') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの5')
+        v.brief.add('ja', 'テンキーの5')
     with enum.add('Num6') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの6')
+        v.brief.add('ja', 'テンキーの6')
     with enum.add('Num7') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの7')
+        v.brief.add('ja', 'テンキーの7')
     with enum.add('Num8') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの8')
+        v.brief.add('ja', 'テンキーの8')
     with enum.add('Num9') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '数字キーの9')
+        v.brief.add('ja', 'テンキーの9')
     enum.add('Semicolon')
     enum.add('Equal')
     enum.add('A')
@@ -317,31 +317,31 @@ with JoystickButtonType as enum:
         v.brief.add('ja', 'キャプチャーボタン')
     with enum.add('LeftUp') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左上')
+        v.brief.add('ja', '左十字キー上')
     with enum.add('LeftDown') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左下')
+        v.brief.add('ja', '左十字キー下')
     with enum.add('LeftLeft') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左二回押し')
+        v.brief.add('ja', '左十字キー左')
     with enum.add('LeftRight') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左のち右')
+        v.brief.add('ja', '左十字キー右')
     with enum.add('LeftPush') as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '左')
     with enum.add('RightUp') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右上')
+        v.brief.add('ja', '右十字キー上')
     with enum.add('RightRight') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右二回押し')
+        v.brief.add('ja', '右十字キー右')
     with enum.add('RightLeft') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右のち左')
+        v.brief.add('ja', '右十字キー左')
     with enum.add('RightDown') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右下')
+        v.brief.add('ja', '右十字キー下')
     with enum.add('RightPush') as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '右')
