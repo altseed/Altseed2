@@ -17,16 +17,16 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
     {
         LLGI::TextureInitializationParameter texParam;
-        texParam.Size = LLGI::Vec2I(TEXTURE_MINIMUM_SIZE, TEXTURE_MINIMUM_SIZE);
+        texParam.Size = LLGI::Vec2I(TextureMinimumSize, TextureMinimumSize);
 
         std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(g->CreateTexture(texParam));
         auto texture_buf = (LLGI::Color8*)texture->Lock();
-        for (int y = 0; y < TEXTURE_MINIMUM_SIZE; y++) {
-            for (int x = 0; x < TEXTURE_MINIMUM_SIZE; x++) {
-                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].R = TEXTURE_DEFAULT_COLOR;
-                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].G = TEXTURE_DEFAULT_COLOR;
-                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].B = TEXTURE_DEFAULT_COLOR;
-                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].A = TEXTURE_DEFAULT_COLOR;
+        for (int y = 0; y < TextureMinimumSize; y++) {
+            for (int x = 0; x < TextureMinimumSize; x++) {
+                texture_buf[x + y * TextureMinimumSize].R = TextureDefaultColor;
+                texture_buf[x + y * TextureMinimumSize].G = TextureDefaultColor;
+                texture_buf[x + y * TextureMinimumSize].B = TextureDefaultColor;
+                texture_buf[x + y * TextureMinimumSize].A = TextureDefaultColor;
             }
         }
         texture->Unlock();
@@ -68,10 +68,10 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
             for (size_t i = 0; i < 4; i++) {
                 vb[i].UV2 = vb[i].UV1;
-                vb[i].Col.R = TEXTURE_DEFAULT_COLOR;
-                vb[i].Col.G = TEXTURE_DEFAULT_COLOR;
-                vb[i].Col.B = TEXTURE_DEFAULT_COLOR;
-                vb[i].Col.A = TEXTURE_DEFAULT_COLOR;
+                vb[i].Col.R = TextureDefaultColor;
+                vb[i].Col.G = TextureDefaultColor;
+                vb[i].Col.B = TextureDefaultColor;
+                vb[i].Col.A = TextureDefaultColor;
             }
 
             ret->blitVB_->Unlock();
