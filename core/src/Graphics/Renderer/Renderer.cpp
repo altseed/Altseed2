@@ -65,7 +65,7 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     RectF src = polygon->GetSrc();
     Vector2F size;
     if (texture == nullptr) {
-        size = Vector2F(16, 16);
+        size = Vector2F(TEXTURE_MINIMUM_SIZE, TEXTURE_MINIMUM_SIZE);
     } else {
         size = texture->GetSize().To2F();
     }
@@ -130,13 +130,18 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 
     for (size_t i = 0; i < 4; i++) {
         if(texture == nullptr) {
-            vs[i].UV1.X = vs[i].UV1.X / 16;
-            vs[i].UV1.Y = vs[i].UV1.Y / 16;
+            vs[i].UV1.X = vs[i].UV1.X / TEXTURE_MINIMUM_SIZE;
+            vs[i].UV1.Y = vs[i].UV1.Y / TEXTURE_MINIMUM_SIZE;
         } else {
             vs[i].UV1.X = vs[i].UV1.X / texture->GetSize().X;
             vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
         }
-        vs[i].Col = Color(255, 255, 255, 255);
+
+        vs[i].Col.R = TEXTURE_DEFAULT_COLOR;
+        vs[i].Col.G = TEXTURE_DEFAULT_COLOR;
+        vs[i].Col.B = TEXTURE_DEFAULT_COLOR;
+        vs[i].Col.A = TEXTURE_DEFAULT_COLOR;
+
         vs[i].UV2 = vs[i].UV1;
 
         vs[i].Pos = sprite->GetTransform().Transform3D(vs[i].Pos);

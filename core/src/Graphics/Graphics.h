@@ -25,6 +25,9 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
+#define TEXTURE_MINIMUM_SIZE 16
+#define TEXTURE_DEFAULT_COLOR 255
+
 namespace Altseed {
 
 class Sprite;

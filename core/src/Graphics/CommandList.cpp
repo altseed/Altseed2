@@ -17,16 +17,16 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
     {
         LLGI::TextureInitializationParameter texParam;
-        texParam.Size = LLGI::Vec2I(16, 16);
+        texParam.Size = LLGI::Vec2I(TEXTURE_MINIMUM_SIZE, TEXTURE_MINIMUM_SIZE);
 
         std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(g->CreateTexture(texParam));
         auto texture_buf = (LLGI::Color8*)texture->Lock();
-        for (int y = 0; y < 16; y++) {
-            for (int x = 0; x < 16; x++) {
-                texture_buf[x + y * 16].R = 255;
-                texture_buf[x + y * 16].G = 255;
-                texture_buf[x + y * 16].B = 255;
-                texture_buf[x + y * 16].A = 255;
+        for (int y = 0; y < TEXTURE_MINIMUM_SIZE; y++) {
+            for (int x = 0; x < TEXTURE_MINIMUM_SIZE; x++) {
+                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].R = TEXTURE_DEFAULT_COLOR;
+                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].G = TEXTURE_DEFAULT_COLOR;
+                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].B = TEXTURE_DEFAULT_COLOR;
+                texture_buf[x + y * TEXTURE_MINIMUM_SIZE].A = TEXTURE_DEFAULT_COLOR;
             }
         }
         texture->Unlock();
@@ -68,7 +68,10 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
             for (size_t i = 0; i < 4; i++) {
                 vb[i].UV2 = vb[i].UV1;
-                vb[i].Col = Color(255, 255, 255, 255);
+                vb[i].Col.R = TEXTURE_DEFAULT_COLOR;
+                vb[i].Col.G = TEXTURE_DEFAULT_COLOR;
+                vb[i].Col.B = TEXTURE_DEFAULT_COLOR;
+                vb[i].Col.A = TEXTURE_DEFAULT_COLOR;
             }
 
             ret->blitVB_->Unlock();
