@@ -31,13 +31,13 @@ with BuiltinShaderType as enum_:
 BuiltinShader = cbg.Class('Altseed', 'BuiltinShader')
 with BuiltinShader as class_:
     class_.brief = cbg.Description()
-    class_.brief.add('ja', 'ビルド済みシェーダの取得を行うクラス')
+    class_.brief.add('ja', '組み込みシェーダの取得を行うクラス')
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'シェーダを取得します。')
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="type"/>に対応した種類のビルド済みの<see cref="Shader"/>のインスタンス')
+        func.return_value.brief.add('ja', '<paramref name="type"/>に対応した種類の組み込みの<see cref="Shader"/>のインスタンス')
         with func.add_arg(BuiltinShaderType, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの種類')
