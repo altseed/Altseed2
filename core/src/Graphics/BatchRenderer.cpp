@@ -87,9 +87,9 @@ void BatchRenderer::Render(CommandList* commandList) {
         std::shared_ptr<Material> material;
         if (batch.material == nullptr) {
             material = matDefaultSprite_;
-            material->SetTexture(u"mainTex", batch.texture);
-        } else
+        } else {
             material = batch.material;
+        }
 
         if (batch.texture != nullptr) {
             material->SetTexture(u"mainTex", batch.texture);

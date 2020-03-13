@@ -328,13 +328,8 @@ TEST(Graphics, RenderedPolygon) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    auto texture = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
-
-    EXPECT_TRUE(texture != nullptr);
-
     auto polygon = Altseed::RenderedPolygon::Create();
 
-    polygon->SetTexture(texture);
     polygon->SetSrc(Altseed::RectF(0, 0, 128, 128));
 
     auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();

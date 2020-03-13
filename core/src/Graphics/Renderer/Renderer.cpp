@@ -60,8 +60,15 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
+    std::shared_ptr<Texture2D> texture = polygon->GetTexture();
+
     RectF src = polygon->GetSrc();
-    Vector2F size = polygon->GetTexture()->GetSize().To2F();
+    Vector2F size;
+    if (texture == nullptr) {
+        size = Vector2F(16, 16);
+    } else {
+        size = texture->GetSize().To2F();
+    }
 
     std::vector<BatchVertex> vs;
     vs.resize(polygon->GetVertexes()->GetCount());
@@ -81,7 +88,7 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
         ib[i * 3 + 2] = i + 2;
     }
 
-    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), polygon->GetTexture(), polygon->GetMaterial(), nullptr);
+    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, polygon->GetMaterial(), nullptr);
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
@@ -93,6 +100,8 @@ void Renderer::Render(std::shared_ptr<CommandList> commandList) {
 }
 
 void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
+    std::shared_ptr<Texture2D> texture = sprite->GetTexture();
+
     std::array<BatchVertex, 4> vs;
     vs[0].Pos.X = 0;
     vs[0].Pos.Y = 0;
@@ -120,8 +129,13 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     vs[3].UV1.Y = sprite->GetSrc().Y + sprite->GetSrc().Height;
 
     for (size_t i = 0; i < 4; i++) {
-        vs[i].UV1.X = vs[i].UV1.X / sprite->GetTexture()->GetSize().X;
-        vs[i].UV1.Y = vs[i].UV1.Y / sprite->GetTexture()->GetSize().Y;
+        if(texture == nullptr) {
+            vs[i].UV1.X = vs[i].UV1.X / 16;
+            vs[i].UV1.Y = vs[i].UV1.Y / 16;
+        } else {
+            vs[i].UV1.X = vs[i].UV1.X / texture->GetSize().X;
+            vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
+        }
         vs[i].Col = Color(255, 255, 255, 255);
         vs[i].UV2 = vs[i].UV1;
 
@@ -136,7 +150,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     ib[4] = 3;
     ib[5] = 0;
 
-    renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, sprite->GetTexture(), sprite->GetMaterial(), nullptr);
+    renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, sprite->GetMaterial(), nullptr);
 }
 
 #ifdef _WIN32
