@@ -2,24 +2,24 @@
 #include "Graphics.h"
 
 namespace Altseed {
-Color::Color() : A(TEXTURE_DEFAULT_COLOR), R(TEXTURE_DEFAULT_COLOR), G(TEXTURE_DEFAULT_COLOR), B(TEXTURE_DEFAULT_COLOR) {}
+Color::Color() : A(TextureDefaultColor), R(TextureDefaultColor), G(TextureDefaultColor), B(TextureDefaultColor) {}
 
 Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : A(a), R(r), G(g), B(b) {}
 
 Color Color::operator*(const Color& right) {
     return Color(
-        R * right.R / TEXTURE_DEFAULT_COLOR,
-        G * right.G / TEXTURE_DEFAULT_COLOR,
-        B * right.B / TEXTURE_DEFAULT_COLOR,
-        A * right.A / TEXTURE_DEFAULT_COLOR
+        R * right.R / TextureDefaultColor,
+        G * right.G / TextureDefaultColor,
+        B * right.B / TextureDefaultColor,
+        A * right.A / TextureDefaultColor
     );
 }
 
 Color& Color::operator*=(const Color& right) {
-    R = R * right.R / TEXTURE_DEFAULT_COLOR;
-    G = G * right.G / TEXTURE_DEFAULT_COLOR;
-    B = B * right.B / TEXTURE_DEFAULT_COLOR;
-    A = A * right.A / TEXTURE_DEFAULT_COLOR;
+    R = R * right.R / TextureDefaultColor;
+    G = G * right.G / TextureDefaultColor;
+    B = B * right.B / TextureDefaultColor;
+    A = A * right.A / TextureDefaultColor;
     return *this;
 }
 
