@@ -1,4 +1,4 @@
-﻿from . import CppBindingGenerator as cbg
+from . import CppBindingGenerator as cbg
 import ctypes
 
 from .common import *
@@ -210,12 +210,10 @@ with Mouse as class_:
         prop.brief.add('ja', 'カーソルのモードを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
-    with class_.add_func('GetWheel') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'マウスホイールの回転量を取得します。')
-        func.return_value.type_ = float
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'マウスカーソルの回転量')
+    with class_.add_property(float, 'Wheel') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マウスホイールの回転量を取得します。')
+        prop.has_getter = True
     with class_.add_func('GetMouseButtonState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'マウスボタンの状態を取得します。')
