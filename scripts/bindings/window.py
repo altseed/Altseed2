@@ -16,5 +16,7 @@ with Window as class_:
         func.is_static = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Title') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ウィンドウに表示するタイトルを取得または設定します')
         prop.has_getter = True
         prop.has_setter = True

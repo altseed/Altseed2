@@ -44,37 +44,37 @@ with Log as class_:
 
     with class_.add_func('Trace') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルTraceでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Trace"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
     
     with class_.add_func('Debug') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルDebugでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Debug"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
     with class_.add_func('Info') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルInfoでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Info"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
     with class_.add_func('Warn') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルWarningでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Warning"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
     with class_.add_func('Error') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルErrorでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Error"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
     with class_.add_func('Critical') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ログレベルCriticalでログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Critical"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 

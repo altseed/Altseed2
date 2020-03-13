@@ -9,7 +9,9 @@ with Configuration as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'Coreを初期化する際の設定を保持すクラス')
 
-    class_.add_constructor()
+    with class_.add_constructor() as c:
+        c.brief = cbg.Description()
+        c.brief.add('ja', '新しいインスタンスを生成する')
 
     with class_.add_property(bool, 'IsFullscreenMode') as prop:
         prop.brief = cbg.Description()
