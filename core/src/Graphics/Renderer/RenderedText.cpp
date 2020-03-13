@@ -14,7 +14,7 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
 
     t->SetMaterial(material);
     t->SetText(u"");
-    t->SetColor(Color(255, 255, 255, 255));
+    t->SetColor(Color(TEXTURE_DEFAULT_COLOR, TEXTURE_DEFAULT_COLOR, TEXTURE_DEFAULT_COLOR, TEXTURE_DEFAULT_COLOR));
 
     return t;
 }

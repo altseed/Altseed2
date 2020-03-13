@@ -91,9 +91,7 @@ void BatchRenderer::Render(CommandList* commandList) {
             material = batch.material;
         }
 
-        if (batch.texture != nullptr) {
-            material->SetTexture(u"mainTex", batch.texture);
-        }
+        material->SetTexture(u"mainTex", batch.texture);
 
         material->SetMatrix44F(u"matView", this->matView_);
         material->SetMatrix44F(u"matProjection", this->matProjection_);
