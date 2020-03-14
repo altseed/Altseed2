@@ -82,6 +82,8 @@ TEST(Tool, Window) {
             t->Text(u"Text");
             t->End();
         }
+
+        EXPECT_FALSE(t->Begin(u""));
     });
 }
 
