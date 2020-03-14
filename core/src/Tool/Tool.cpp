@@ -123,7 +123,13 @@ bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphR
 }
 
 bool Tool::Begin(const char16_t* name, ToolWindow flags) {
-    return ImGui::Begin(utf16_to_utf8(name).c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
+    auto str = utf16_to_utf8(name);
+    if (str.length() > 0) {
+        return ImGui::Begin(str.c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
+    } else {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Tool::Begin: Window's name must contains at least one character");
+        return false;
+    }
 }
 
 void Tool::End() { ImGui::End(); }
