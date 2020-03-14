@@ -7,15 +7,38 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-
-CommandList = cbg.Class('Altseed', 'CommandList')
-with CommandList as class_:
+Texture2D = cbg.Class('Altseed', 'Texture2D')
+with Texture2D as class_:
     class_.brief = cbg.Description()
-    class_.brief.add('ja', 'コマンドリストのクラス')
-    with class_.add_func('SetRenderTargetWithScreen') as func:
+    class_.brief.add('ja', '2Dテクスチャのクラス')
+    with class_.add_func('Load') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '？')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.brief.add('ja', '指定したファイルからテクスチャを読み込みます。')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むファイルのパス')
+        func.return_value.type_ = Texture2D
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'テクスチャ')
+        func.is_static = True
+    with class_.add_func('Reload') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '再読み込みを行います。')
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
+    with class_.add_property(Vector2I, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
+        prop.has_getter = True
+
+RenderTexture = cbg.Class('Altseed', 'RenderTexture')
+with RenderTexture as class_:
+    class_.base_class = Texture2D
+    with class_.add_func('Create') as func:
+        func.add_arg(Vector2I, 'size')
+        func.is_static = True
+        func.return_value.type_ = RenderTexture
 
 Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
@@ -43,73 +66,6 @@ with BuiltinShader as class_:
             arg.brief.add('ja', 'シェーダの種類')
         func.is_public = True
 
-Graphics = cbg.Class('Altseed', 'Graphics')
-with Graphics as class_:
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'グラフィックの制御を行うクラス')
-    class_.is_public = False
-    with class_.add_func('GetInstance') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得します。')
-        func.return_value.type_ = Graphics
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '使用するインスタンス')
-        func.is_public = False
-        func.is_static = True
-    with class_.add_func('BeginFrame') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '描画を開始します。')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '正常に開始した場合は　true 。それ以外の場合は false。')
-        func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_func('EndFrame') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '描画を終了します。')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '正常に終了した場合は　true 。それ以外の場合は false。')
-        func.is_public = True  # TODO：Engine側できちんと隠す
-    with class_.add_property(CommandList, 'CommandList') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'コマンドリストを取得します。')
-        prop.has_getter = True  # TODO：Engine側できちんと隠す
-    with class_.add_property(BuiltinShader, 'BuiltinShader') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '組み込みのシェーダを取得します。')
-        prop.has_getter = True
-    with class_.add_func('DoEvents') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'イベントを処理します。')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')
-        # func.is_public = False
-
-Texture2D = cbg.Class('Altseed', 'Texture2D')
-with Texture2D as class_:
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', '2Dテクスチャのクラス')
-    with class_.add_func('Load') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定したファイルからテクスチャを読み込みます。')
-        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '読み込むファイルのパス')
-        func.return_value.type_ = Texture2D
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'テクスチャ')
-        func.is_static = True
-    with class_.add_func('Reload') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '再読み込みを行います。')
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
-    with class_.add_property(Vector2I, 'Size') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
-        prop.has_getter = True
 
 Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
@@ -184,6 +140,69 @@ with Material as class_:
         prop.brief.add('ja', '使用するシェーダを取得する')
         prop.has_getter = True
         prop.has_setter = True
+
+CommandList = cbg.Class('Altseed', 'CommandList')
+with CommandList as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'コマンドリストのクラス')
+    with class_.add_func('SetRenderTargetWithScreen') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '？')
+        func_.is_public = True  # TODO：Engine側できちんと隠す
+
+    with class_.add_func('GetScreenTexture') as func_:
+        func_.return_value.type_ = RenderTexture
+
+    with class_.add_func('SetRenderTarget') as func_:
+        func_.add_arg(RenderTexture, 'target')
+        with func_.add_arg(RectI, 'viewport') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+
+    with class_.add_func('RenderToRenderTarget') as func_:
+        func_.add_arg(Material, 'material')
+
+Graphics = cbg.Class('Altseed', 'Graphics')
+with Graphics as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'グラフィックの制御を行うクラス')
+    class_.is_public = False
+    with class_.add_func('GetInstance') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを取得します。')
+        func.return_value.type_ = Graphics
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '使用するインスタンス')
+        func.is_public = False
+        func.is_static = True
+    with class_.add_func('BeginFrame') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '描画を開始します。')
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '正常に開始した場合は　true 。それ以外の場合は false。')
+        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_func('EndFrame') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '描画を終了します。')
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '正常に終了した場合は　true 。それ以外の場合は false。')
+        func.is_public = True  # TODO：Engine側できちんと隠す
+    with class_.add_property(CommandList, 'CommandList') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'コマンドリストを取得します。')
+        prop.has_getter = True  # TODO：Engine側できちんと隠す
+    with class_.add_property(BuiltinShader, 'BuiltinShader') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '組み込みのシェーダを取得します。')
+        prop.has_getter = True
+    with class_.add_func('DoEvents') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'イベントを処理します。')
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')
+        # func.is_public = False
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:
