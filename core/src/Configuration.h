@@ -6,31 +6,35 @@ namespace Altseed {
 
 class Configuration : public BaseObject {
 private:
-    bool isFullscreenMode_ = false;
+    bool isFullscreen_ = false;
     bool isResizable_ = false;
-    bool enabledConsoleLogging_ = true;
-    bool enabledFileLogging_ = true;
-    std::u16string logFilename_ = u"Log.txt";
+    bool consoleLoggingEnabled_ = false;
+    bool fileLoggingEnabled_ = false;
+    bool toolEnabled_ = false;
+    std::u16string logFileName_ = u"Log.txt";
 
 public:
     Configuration();
     ~Configuration();
     static std::shared_ptr<Configuration> Create();
 
-    bool GetIsFullscreenMode() const;
-    void SetIsFullscreenMode(bool isFullscreenMode);
+    bool GetIsFullscreen() const;
+    void SetIsFullscreen(bool isFullscreen);
 
     bool GetIsResizable() const;
     void SetIsResizable(bool isResizable);
 
-    bool GetEnabledConsoleLogging() const;
-    void SetEnabledConsoleLogging(bool enabledConsoleLogging);
+    bool GetConsoleLoggingEnabled() const;
+    void SetConsoleLoggingEnabled(bool fileLoggingEnabled);
 
-    bool GetEnabledFileLogging() const;
-    void SetEnabledFileLogging(bool enabeldFileLogging);
+    bool GetFileLoggingEnabled() const;
+    void SetFileLoggingEnabled(bool enabeldFileLogging);
 
-    const char16_t* GetLogFilename();
-    void SetLogFilename(const char16_t* logFilename);
+    bool GetToolEnabled() const;
+    void SetToolEnabled(bool toolEnabled);
+
+    const char16_t* GetLogFileName();
+    void SetLogFileName(const char16_t* logFileName);
 };
 
 }  // namespace Altseed

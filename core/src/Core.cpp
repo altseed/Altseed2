@@ -22,15 +22,16 @@ std::shared_ptr<Core> Core::instance = nullptr;
 
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
     Core::instance = MakeAsdShared<Core>();
+    Core::instance->config_ = config;
 
     WindowInitializationParameter windowParameter;
     windowParameter.Title = title;
     windowParameter.WindowWidth = width;
     windowParameter.WindowHeight = height;
-    windowParameter.IsFullscreenMode = config->GetIsFullscreenMode();
+    windowParameter.IsFullscreenMode = config->GetIsFullscreen();
     windowParameter.IsResizable = config->GetIsResizable();
 
-    if (!Log::Initialize(config->GetEnabledConsoleLogging(), config->GetEnabledFileLogging(), config->GetLogFilename())) {
+    if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
         Core::instance = nullptr;
         std::cout << "Log::Initialize failed" << std::endl;
         return false;
@@ -96,10 +97,12 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!Tool::Initialize(Graphics::GetInstance())) {
-        LOG_CRITICAL(u"Tool::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (config->GetToolEnabled()) {
+        if (!Tool::Initialize(Graphics::GetInstance())) {
+            LOG_CRITICAL(u"Tool::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
     Core::instance->fps_ = std::make_unique<FPS>();
@@ -121,7 +124,7 @@ void Core::Terminate() {
         obj->OnTerminating();
     }
 
-    Tool::Terminate();
+    if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
     Renderer::Terminate();
     Window::Terminate();
     Keyboard::Terminate();

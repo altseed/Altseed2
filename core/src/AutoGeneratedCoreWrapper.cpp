@@ -1,8 +1,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //
-//   ‚±‚Ìƒtƒ@ƒCƒ‹‚ÍŽ©“®¶¬‚³‚ê‚Ü‚µ‚½B
-//   ‚±‚Ìƒtƒ@ƒCƒ‹‚Ö‚Ì•ÏX‚ÍÁŽ¸‚·‚é‚±‚Æ‚ª‚ ‚è‚Ü‚·B
+//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªå‹•ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚
+//   ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®å¤‰æ›´ã¯æ¶ˆå¤±ã™ã‚‹ã“ã¨ãŒã‚ã‚Šã¾ã™ã€‚
 //
 //   THIS FILE IS AUTO GENERATED.
 //   YOUR COMMITMENT ON THIS FILE WILL BE WIPED. 
@@ -83,18 +83,18 @@ CBGEXPORT void* CBGSTDCALL cbg_Configuration_Constructor_0() {
     return new Altseed::Configuration();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsFullscreenMode(void* cbg_self) {
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsFullscreen(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->GetIsFullscreenMode();
+    bool cbg_ret = cbg_self_->GetIsFullscreen();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsFullscreenMode(void* cbg_self, bool value) {
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsFullscreen(void* cbg_self, bool value) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
     bool cbg_arg0 = value;
-    cbg_self_->SetIsFullscreenMode(cbg_arg0);
+    cbg_self_->SetIsFullscreen(cbg_arg0);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsResizable(void* cbg_self) {
@@ -111,46 +111,60 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsResizable(void* cbg_self, bool 
     cbg_self_->SetIsResizable(cbg_arg0);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledConsoleLogging(void* cbg_self) {
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetConsoleLoggingEnabled(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->GetEnabledConsoleLogging();
+    bool cbg_ret = cbg_self_->GetConsoleLoggingEnabled();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledConsoleLogging(void* cbg_self, bool value) {
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetConsoleLoggingEnabled(void* cbg_self, bool value) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
     bool cbg_arg0 = value;
-    cbg_self_->SetEnabledConsoleLogging(cbg_arg0);
+    cbg_self_->SetConsoleLoggingEnabled(cbg_arg0);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetEnabledFileLogging(void* cbg_self) {
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetFileLoggingEnabled(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->GetEnabledFileLogging();
+    bool cbg_ret = cbg_self_->GetFileLoggingEnabled();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledFileLogging(void* cbg_self, bool value) {
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetFileLoggingEnabled(void* cbg_self, bool value) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
     bool cbg_arg0 = value;
-    cbg_self_->SetEnabledFileLogging(cbg_arg0);
+    cbg_self_->SetFileLoggingEnabled(cbg_arg0);
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetLogFilename(void* cbg_self) {
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetLogFileName(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
-    const char16_t* cbg_ret = cbg_self_->GetLogFilename();
+    const char16_t* cbg_ret = cbg_self_->GetLogFileName();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetLogFilename(void* cbg_self, const char16_t* value) {
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetLogFileName(void* cbg_self, const char16_t* value) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
     const char16_t* cbg_arg0 = value;
-    cbg_self_->SetLogFilename(cbg_arg0);
+    cbg_self_->SetLogFileName(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetToolEnabled(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetToolEnabled();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetToolEnabled(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetToolEnabled(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Configuration_Release(void* cbg_self) {
@@ -637,13 +651,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Mouse_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Mouse>(cbg_ret);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Mouse_GetWheel(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetWheel();
-    return cbg_ret;
-}
-
 CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32_t button) {
     auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
 
@@ -678,6 +685,13 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_SetCursorMode(void* cbg_self, int32_t value)
 
     Altseed::CursorMode cbg_arg0 = (Altseed::CursorMode)value;
     cbg_self_->SetCursorMode(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Mouse_GetWheel(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWheel();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
@@ -1398,6 +1412,18 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_End(void* cbg_self) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
     cbg_self_->End();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NewFrame(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->NewFrame();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Render(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    cbg_self_->Render();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_Dummy(void* cbg_self, void* size) {

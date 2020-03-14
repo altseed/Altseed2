@@ -13,7 +13,7 @@ with Configuration as class_:
         c.brief = cbg.Description()
         c.brief.add('ja', '新しいインスタンスを生成する')
 
-    with class_.add_property(bool, 'IsFullscreenMode') as prop:
+    with class_.add_property(bool, 'IsFullscreen') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '全画面モードかどうかを取得または設定します。')
         prop.has_getter = True
@@ -25,21 +25,27 @@ with Configuration as class_:
         prop.has_getter = True
         prop.has_setter = True
 
-    with class_.add_property(bool, 'EnabledConsoleLogging') as prop:
+    with class_.add_property(bool, 'ConsoleLoggingEnabled') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログをコンソールに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
-    with class_.add_property(bool, 'EnabledFileLogging') as prop:
+    with class_.add_property(bool, 'FileLoggingEnabled') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログをファイルに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
     
-    with class_.add_property(ctypes.c_wchar_p, 'LogFilename') as prop:
+    with class_.add_property(ctypes.c_wchar_p, 'LogFileName') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログファイル名を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+
+    with class_.add_property(bool, 'ToolEnabled') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ツール機能を使用するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 

@@ -23,9 +23,9 @@ TEST(Log, WriteWithConfiguration) {
 
     for (const auto c : bools) {
         for (const auto f : bools) {
-            config->SetEnabledConsoleLogging(c);
-            config->SetEnabledFileLogging(f);
-            config->SetLogFilename(log_filename.c_str());
+            config->SetConsoleLoggingEnabled(c);
+            config->SetFileLoggingEnabled(f);
+            config->SetLogFileName(log_filename.c_str());
             EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
             Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Core, Altseed::LogLevel::Info);
             Altseed::Log::GetInstance()->Info(Altseed::LogCategory::Core, u"Hello, world");
