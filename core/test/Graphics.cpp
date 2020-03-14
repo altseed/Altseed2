@@ -430,3 +430,44 @@ TEST(Graphics, CameraBasic) {
 
     Altseed::Core::Terminate();
 }
+
+TEST(Graphics, BackgroundBugcheck) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+
+    EXPECT_TRUE(t1 != nullptr);
+    EXPECT_TRUE(t2 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed::RenderedSprite::Create();
+
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+    auto trans = Altseed::Matrix44F();
+    trans.SetTranslation(200, 200, 0);
+    s2->SetTexture(t2);
+    s2->SetTransform(trans);
+    s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
+
+    while (count++ < 10 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        instance->GetCommandList()->SetRenderTargetWithScreen();
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
