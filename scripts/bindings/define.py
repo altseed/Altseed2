@@ -81,6 +81,7 @@ define.structs.append(Color)
 
 define.classes.append(Graphics)
 define.classes.append(Texture2D)
+define.classes.append(RenderTexture)
 define.classes.append(Material)
 define.classes.append(Renderer)
 define.classes.append(CommandList)

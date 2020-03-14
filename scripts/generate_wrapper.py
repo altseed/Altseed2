@@ -30,6 +30,7 @@ if __name__ == '__main__':
 #include "Graphics/Graphics.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Texture2D.h"
+#include "Graphics/RenderTexture.h"
 #include "Graphics/Font.h"
 #include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/Renderer.h"

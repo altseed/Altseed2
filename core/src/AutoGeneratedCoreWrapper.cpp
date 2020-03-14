@@ -52,6 +52,7 @@
 #include "Graphics/Graphics.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Texture2D.h"
+#include "Graphics/RenderTexture.h"
 #include "Graphics/Font.h"
 #include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/Renderer.h"
@@ -858,6 +859,18 @@ CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_RenderTexture_Create(void* size) {
+    Altseed::Vector2I_C cbg_arg0 = (*((Altseed::Vector2I_C*)size));
+    std::shared_ptr<Altseed::RenderTexture> cbg_ret = Altseed::RenderTexture::Create(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderTexture>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderTexture_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderTexture*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Material_Constructor_0() {
     return new Altseed::Material();
 }
@@ -973,6 +986,28 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTargetWithScreen(void* cbg_se
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
     cbg_self_->SetRenderTargetWithScreen();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_CommandList_GetScreenTexture(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderTexture> cbg_ret = cbg_self_->GetScreenTexture();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderTexture>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTarget(void* cbg_self, void* target, void* viewport) {
+    auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderTexture> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderTexture>((Altseed::RenderTexture*)target);
+    Altseed::RectI_C cbg_arg1 = (*((Altseed::RectI_C*)viewport));
+    cbg_self_->SetRenderTarget(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTarget(void* cbg_self, void* material) {
+    auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)material);
+    cbg_self_->RenderToRenderTarget(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {
