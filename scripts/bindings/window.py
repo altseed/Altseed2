@@ -1,4 +1,5 @@
 from . import CppBindingGenerator as cbg
+from .math import Vector2I
 import ctypes
 import sys
 
@@ -20,3 +21,9 @@ with Window as class_:
         prop.brief.add('ja', 'ウィンドウに表示するタイトルを取得または設定します')
         prop.has_getter = True
         prop.has_setter = True
+
+    with class_.add_property(Vector2I, "Size") as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ウィンドウサイズを取得します')
+        prop.has_getter = True
+        

@@ -2596,6 +2596,13 @@ CBGEXPORT void CBGSTDCALL cbg_Window_SetTitle(void* cbg_self, const char16_t* va
     cbg_self_->SetTitle(cbg_arg0);
 }
 
+CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Window_GetSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Window*)(cbg_self);
+
+    Altseed::Vector2I_C cbg_ret = cbg_self_->GetSize();
+    return (cbg_ret);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Window*)(cbg_self);
 
