@@ -32,6 +32,8 @@ Texture2D::~Texture2D() {
 
 bool Texture2D::Reload() { return false; }
 
+const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
+
 Vector2I Texture2D::GetSize() const { return size_; }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {

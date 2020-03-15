@@ -30,6 +30,9 @@ public:
     bool Reload() override;
 
     Vector2I GetSize() const;
+
+    const char16_t* GetPath() const;
+
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
 
     static std::shared_ptr<Texture2D> Load(const char16_t* path);
