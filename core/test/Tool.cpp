@@ -19,7 +19,9 @@ std::u16string format(const std::u16string& fmt, Args... args) {
 }
 
 static void ToolTestTemplate(const int loopCount, std::function<void(std::shared_ptr<Altseed::Tool>)> update) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, Altseed::Configuration::Create()));
+    auto config = Altseed::Configuration::Create();
+    config->SetToolEnabled(true);
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, config));
 
     int count = 0;
 

@@ -87,7 +87,9 @@ TEST(Joystick, Initialize) {
         }
     }
 
-    CheckVibration(0);
+    if (Altseed::Joystick::GetInstance()->IsPresent(0)) {
+        CheckVibration(0);
+    }
 
     Altseed::Core::Terminate();
 }
