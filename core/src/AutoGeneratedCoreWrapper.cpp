@@ -846,6 +846,13 @@ CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Reload(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Texture2D_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
 CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
 

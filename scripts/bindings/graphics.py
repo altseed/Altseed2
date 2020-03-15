@@ -31,6 +31,13 @@ with Texture2D as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
+    with class_.add_func('GetPath') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        func.is_public = False
+        func.return_value.type_ = ctypes.c_wchar_p
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '読み込んだファイルのパス')
 
 RenderTexture = cbg.Class('Altseed', 'RenderTexture')
 with RenderTexture as class_:
