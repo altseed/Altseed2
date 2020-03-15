@@ -930,18 +930,20 @@ CBGEXPORT void CBGSTDCALL cbg_Material_SetTexture(void* cbg_self, const char16_t
     cbg_self_->SetTexture(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Material_GetShader(void* cbg_self) {
+CBGEXPORT void* CBGSTDCALL cbg_Material_GetShader(void* cbg_self, int32_t shaderStage) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
-    std::shared_ptr<Altseed::Shader> cbg_ret = cbg_self_->GetShader();
+    Altseed::ShaderStageType cbg_arg0 = (Altseed::ShaderStageType)shaderStage;
+    std::shared_ptr<Altseed::Shader> cbg_ret = cbg_self_->GetShader(cbg_arg0);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, void* value) {
+CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, int32_t shaderStage, void* shader) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
-    std::shared_ptr<Altseed::Shader> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Shader>((Altseed::Shader*)value);
-    cbg_self_->SetShader(cbg_arg0);
+    Altseed::ShaderStageType cbg_arg0 = (Altseed::ShaderStageType)shaderStage;
+    std::shared_ptr<Altseed::Shader> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Shader>((Altseed::Shader*)shader);
+    cbg_self_->SetShader(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
@@ -1269,6 +1271,14 @@ CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 
     cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Shader_Create(const char16_t* code, const char16_t* name, int32_t shaderStage) {
+    const char16_t* cbg_arg0 = code;
+    const char16_t* cbg_arg1 = name;
+    Altseed::ShaderStageType cbg_arg2 = (Altseed::ShaderStageType)shaderStage;
+    std::shared_ptr<Altseed::Shader> cbg_ret = Altseed::Shader::Create(cbg_arg0, cbg_arg1, cbg_arg2);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Shader_Release(void* cbg_self) {

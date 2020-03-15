@@ -17,7 +17,7 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     matDefaultSprite_ = MakeAsdShared<Material>();
     auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
-    matDefaultSprite_->SetShader(ps);
+    matDefaultSprite_->SetShader(ShaderStageType::Pixel, ps);
 }
 
 void BatchRenderer::Draw(
@@ -113,12 +113,13 @@ void BatchRenderer::Render(CommandList* commandList) {
         commandList->GetLL()->SetPipelineState(material->GetPipelineState(commandList->GetCurrentRenderPass()).get());
 
         // constant buffer
-        commandList->StoreUniforms(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-        commandList->StoreUniforms(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+        commandList->StoreUniforms(commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+        commandList->StoreUniforms(commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
-        commandList->StoreTextures(commandList, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-        commandList->StoreTextures(commandList, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+        commandList->StoreTextures(
+                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+        commandList->StoreTextures(commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
         commandList->GetLL()->Draw(batch.IndexCount / 3);
