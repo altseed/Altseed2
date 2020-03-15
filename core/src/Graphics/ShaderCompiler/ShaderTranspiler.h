@@ -8,12 +8,6 @@
 #include "../Shader.h"
 
 namespace Altseed {
-
-enum class ShaderStageType {
-    Vertex,
-    Pixel,
-};
-
 class SPIRV {
 private:
     std::vector<uint32_t> data_;

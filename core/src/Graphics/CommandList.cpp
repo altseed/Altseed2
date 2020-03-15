@@ -101,7 +101,7 @@ void CommandList::StartFrame() {
         copyMaterial_ = MakeAsdShared<Material>();
         auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
         auto ps = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
-        copyMaterial_->SetShader(ps);
+        copyMaterial_->SetShader(ShaderStageType::Pixel, ps);
     }
 
     // Generate internal screen
@@ -189,12 +189,12 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
 
     // constant buffer
-    StoreUniforms(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreUniforms(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+    StoreUniforms(this, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreUniforms(this, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
     // texture
-    StoreTextures(this, material->GetVertexShader(), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-    StoreTextures(this, material->GetShader(), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+    StoreTextures(this, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+    StoreTextures(this, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
     // draw
     currentCommandList_->Draw(2);

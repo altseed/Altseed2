@@ -29,7 +29,7 @@ TEST(Font, Basic) {
 
     auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
+    material->SetShader(Altseed::ShaderStageType::Pixel, shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
     const std::u16string text = u"こんにちは！ Hello World";
@@ -97,7 +97,7 @@ TEST(Font, Weight) {
 
     auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
+    material->SetShader(Altseed::ShaderStageType::Pixel, shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
     const std::u16string text = u"こんにちは！ Hello World";
@@ -233,7 +233,7 @@ TEST(Font, Surrogate) {
 
     auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
+    material->SetShader(Altseed::ShaderStageType::Pixel, shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
     const std::u16string text = u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷";
@@ -303,7 +303,7 @@ TEST(Font, ImageFont) {
 
     auto shader = instance->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
+    material->SetShader(Altseed::ShaderStageType::Pixel, shader);
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
     const std::u16string text = u"AltseedロAltseed";

@@ -47,10 +47,21 @@ with RenderTexture as class_:
         func.is_static = True
         func.return_value.type_ = RenderTexture
 
+ShaderStageType = cbg.Enum('Altseed', 'ShaderStageType')
+with ShaderStageType as enum_:
+    enum_.add('Vertex')
+    enum_.add('Pixel')
+
 Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
+    with class_.add_func('Create') as func:
+        func.add_arg(ctypes.c_wchar_p, 'code')
+        func.add_arg(ctypes.c_wchar_p, 'name')
+        func.add_arg(ShaderStageType, 'shaderStage')
+        func.return_value.type_ = Shader
+        func.is_static = True
 
 BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
@@ -142,11 +153,13 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
         func.is_public = True
-    with class_.add_property(Shader, 'Shader') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '使用するシェーダを取得する')
-        prop.has_getter = True
-        prop.has_setter = True
+    with class_.add_func('GetShader') as func:
+        func.add_arg(ShaderStageType, 'shaderStage')
+        func.return_value.type_ = Shader
+    with class_.add_func('SetShader') as func:
+        func.add_arg(ShaderStageType, 'shaderStage')
+        func.add_arg(Shader, 'shader')
+    
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:

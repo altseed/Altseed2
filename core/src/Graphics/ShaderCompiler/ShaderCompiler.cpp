@@ -95,7 +95,7 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
 
     auto shaderLLGI = LLGI::CreateSharedPtr(graphics_->GetGraphicsLLGI()->CreateShader(data.data(), static_cast<int32_t>(data.size())));
 
-    auto ret = CreateSharedPtr(new Shader(availableCode, spirvReflection_->Textures, spirvReflection_->Uniforms, shaderLLGI));
+    auto ret = CreateSharedPtr(new Shader(availableCode, spirvReflection_->Textures, spirvReflection_->Uniforms, shaderLLGI, shaderStage));
     return ret;
 }
 

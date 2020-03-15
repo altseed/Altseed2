@@ -131,6 +131,30 @@ std::shared_ptr<Texture2D> Material::GetTexture(const char16_t* key) const { ret
 
 void Material::SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value) { propertyBlock_->SetTexture(key, value); }
 
+std::shared_ptr<Shader> Material::GetShader(ShaderStageType shaderStage) const {
+    switch(shaderStage) {
+        case ShaderStageType::Vertex:
+            return vertexShader_;
+        case ShaderStageType::Pixel:
+            return pixelShader_;
+        default:
+            ASD_ASSERT(false, "Invalid ShaderStageType in Material::GetShader");
+    }
+}
+
+void Material::SetShader(ShaderStageType shaderStage, std::shared_ptr<Shader>& shader) {
+    switch (shaderStage) {
+        case ShaderStageType::Vertex:
+            vertexShader_ = shader;
+            return;
+        case ShaderStageType::Pixel:
+            pixelShader_ = shader;
+            return;
+        default:
+            ASD_ASSERT(false, "Invalid ShaderStageType in Material::SetShader");
+    }
+}
+
 std::shared_ptr<MaterialPropertyBlock> Material::GetPropertyBlock() const { return propertyBlock_; }
 
 std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass* renderPass) {
@@ -148,7 +172,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
 
     auto piplineState = LLGI::CreateSharedPtr(g->CreatePiplineState());
     piplineState->SetShader(LLGI::ShaderStageType::Vertex, vertexShader_->Get());
-    piplineState->SetShader(LLGI::ShaderStageType::Pixel, shader_->Get());
+    piplineState->SetShader(LLGI::ShaderStageType::Pixel, pixelShader_->Get());
     piplineState->Culling = LLGI::CullingMode::DoubleSide;
     piplineState->SetRenderPassPipelineState(renderPassPipelineState.get());
 

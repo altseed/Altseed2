@@ -7,6 +7,11 @@
 
 namespace Altseed {
 
+enum class ShaderStageType {
+    Vertex,
+    Pixel,
+};
+
 struct ShaderReflectionUniform {
     std::u16string Name;
     int32_t Offset = 0;
@@ -25,6 +30,7 @@ private:
     int32_t uniformSize_ = 0;
 
     std::shared_ptr<LLGI::Shader> shader_ = nullptr;
+    ShaderStageType stage_;
 
 public:
     virtual ~Shader() {}
@@ -37,13 +43,16 @@ public:
     Shader(std::string code,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
-           std::shared_ptr<LLGI::Shader> shader);
+           std::shared_ptr<LLGI::Shader> shader,
+           ShaderStageType stage);
 
     int32_t GetUniformSize() const { return uniformSize_; }
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
     LLGI::Shader* Get() const { return shader_.get(); }
+
+    static std::shared_ptr<Shader> Create(const char16_t* code, const char16_t* name, ShaderStageType shaderStage);
 };
 
 }  // namespace Altseed

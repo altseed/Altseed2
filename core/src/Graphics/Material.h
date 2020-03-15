@@ -11,6 +11,7 @@
 
 namespace Altseed {
 
+enum class ShaderStageType;
 class Shader;
 class Texture2D;
 
@@ -47,7 +48,7 @@ public:
 class Material : public BaseObject {
 private:
     std::shared_ptr<Shader> vertexShader_;
-    std::shared_ptr<Shader> shader_;
+    std::shared_ptr<Shader> pixelShader_;
     std::shared_ptr<MaterialPropertyBlock> propertyBlock_;
 
     std::map<std::shared_ptr<LLGI::RenderPassPipelineState>, std::shared_ptr<LLGI::PipelineState>> pipelineStates_;
@@ -64,9 +65,8 @@ public:
     std::shared_ptr<Texture2D> GetTexture(const char16_t* key) const;
     void SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value);
 
-    std::shared_ptr<Shader> GetVertexShader() const { return vertexShader_; }
-    std::shared_ptr<Shader> GetShader() const { return shader_; }
-    void SetShader(std::shared_ptr<Shader>& shader) { shader_ = shader; }
+    std::shared_ptr<Shader> GetShader(Altseed::ShaderStageType shaderStage) const;
+    void SetShader(Altseed::ShaderStageType shaderStage, std::shared_ptr<Shader>& shader);
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 

@@ -10,7 +10,7 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
 
     auto shader = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
+    material->SetShader(ShaderStageType::Pixel, shader);
 
     t->SetMaterial(material);
     t->SetText(u"");
