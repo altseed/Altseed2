@@ -1294,6 +1294,13 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Shader_GetCode(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Shader_GetName(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Shader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetName();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Shader_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Shader*)(cbg_self);
 

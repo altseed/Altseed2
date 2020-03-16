@@ -66,6 +66,13 @@ with Shader as class_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(ctypes.c_wchar_p, 'Code') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'インスタンス生成に使用したコードを取得します')
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '名前を取得します')
         prop_.has_getter = True
         prop_.has_setter = False
 
