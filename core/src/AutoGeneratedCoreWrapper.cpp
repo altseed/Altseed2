@@ -1272,9 +1272,9 @@ CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Shader_Create(const char16_t* code, const char16_t* name, int32_t shaderStage) {
-    const char16_t* cbg_arg0 = code;
-    const char16_t* cbg_arg1 = name;
+CBGEXPORT void* CBGSTDCALL cbg_Shader_Create(const char16_t* name, const char16_t* code, int32_t shaderStage) {
+    const char16_t* cbg_arg0 = name;
+    const char16_t* cbg_arg1 = code;
     Altseed::ShaderStageType cbg_arg2 = (Altseed::ShaderStageType)shaderStage;
     std::shared_ptr<Altseed::Shader> cbg_ret = Altseed::Shader::Create(cbg_arg0, cbg_arg1, cbg_arg2);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);

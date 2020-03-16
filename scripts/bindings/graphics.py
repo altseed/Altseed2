@@ -59,12 +59,12 @@ with Shader as class_:
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コードをコンパイルしてシェーダを生成する')
-        with func.add_arg(ctypes.c_wchar_p, 'code') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'コンパイルするコード')
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの名前')
+        with func.add_arg(ctypes.c_wchar_p, 'code') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コンパイルするコード')
         with func.add_arg(ShaderStageType, 'shaderStage') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')            
