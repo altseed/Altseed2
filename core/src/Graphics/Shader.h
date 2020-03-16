@@ -27,6 +27,7 @@ struct ShaderReflectionTexture {
 class Shader : public BaseObject {
 private:
     std::string code_;
+    std::string name_;
     std::vector<ShaderReflectionTexture> textures_;
     std::vector<ShaderReflectionUniform> uniforms_;
     int32_t uniformSize_ = 0;
@@ -43,6 +44,7 @@ public:
     please use ShaderCompiler to generate a shader
 */
     Shader(std::string code,
+           std::string name,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
            std::shared_ptr<LLGI::Shader> shader,
@@ -58,7 +60,11 @@ public:
 
     const char16_t* GetCode() const { return utf8_to_utf16(code_).c_str(); }
 
-    ShaderStageType GetStageType() const { return stage_; }
+    const char16_t* GetName() const { return utf8_to_utf16(name_).c_str(); }
+
+    ShaderStageType GetStageType() const {
+        return stage_;
+    }
 };
 
 }  // namespace Altseed
