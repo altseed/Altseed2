@@ -1,5 +1,4 @@
 ﻿#include "Shader.h"
-#include "../Common/StringHelper.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 namespace Altseed {
 
@@ -9,7 +8,7 @@ Shader::Shader(
         const std::vector<ShaderReflectionUniform>& uniforms,
         std::shared_ptr<LLGI::Shader> shader,
         ShaderStageType stage)
-    : textures_(textures), uniforms_(uniforms), shader_(shader), stage_(stage) {
+    : code_(code), textures_(textures), uniforms_(uniforms), shader_(shader), stage_(stage) {
     for (const auto& u : uniforms_) {
         uniformSize_ = std::max(u.Offset + u.Size, uniformSize_);
     }

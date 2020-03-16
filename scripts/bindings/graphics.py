@@ -62,6 +62,12 @@ with Shader as class_:
         func.add_arg(ShaderStageType, 'shaderStage')
         func.return_value.type_ = Shader
         func.is_static = True
+    with class_.add_property(ShaderStageType, 'StageType') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(ctypes.c_wchar_p, 'Code') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
 
 BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
@@ -157,7 +163,6 @@ with Material as class_:
         func.add_arg(ShaderStageType, 'shaderStage')
         func.return_value.type_ = Shader
     with class_.add_func('SetShader') as func:
-        func.add_arg(ShaderStageType, 'shaderStage')
         func.add_arg(Shader, 'shader')
     
 

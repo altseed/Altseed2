@@ -101,7 +101,7 @@ void CommandList::StartFrame() {
         copyMaterial_ = MakeAsdShared<Material>();
         auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
         auto ps = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
-        copyMaterial_->SetShader(ShaderStageType::Pixel, ps);
+        copyMaterial_->SetShader(ps);
     }
 
     // Generate internal screen

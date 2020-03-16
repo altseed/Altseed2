@@ -938,12 +938,11 @@ CBGEXPORT void* CBGSTDCALL cbg_Material_GetShader(void* cbg_self, int32_t shader
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, int32_t shaderStage, void* shader) {
+CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, void* shader) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
-    Altseed::ShaderStageType cbg_arg0 = (Altseed::ShaderStageType)shaderStage;
-    std::shared_ptr<Altseed::Shader> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Shader>((Altseed::Shader*)shader);
-    cbg_self_->SetShader(cbg_arg0, cbg_arg1);
+    std::shared_ptr<Altseed::Shader> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Shader>((Altseed::Shader*)shader);
+    cbg_self_->SetShader(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
@@ -1279,6 +1278,20 @@ CBGEXPORT void* CBGSTDCALL cbg_Shader_Create(const char16_t* code, const char16_
     Altseed::ShaderStageType cbg_arg2 = (Altseed::ShaderStageType)shaderStage;
     std::shared_ptr<Altseed::Shader> cbg_ret = Altseed::Shader::Create(cbg_arg0, cbg_arg1, cbg_arg2);
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Shader_GetStageType(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Shader*)(cbg_self);
+
+    Altseed::ShaderStageType cbg_ret = cbg_self_->GetStageType();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Shader_GetCode(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Shader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetCode();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Shader_Release(void* cbg_self) {

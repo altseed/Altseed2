@@ -7,6 +7,9 @@
 #include <cmath>
 #include <memory>
 
+#include "Logger/Log.h"
+#include "Common/StringHelper.h"
+#include "Graphics/BuiltinShader.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
@@ -16,6 +19,7 @@
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/Shader.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Math/Matrix44F.h"
 #include "Tool/Tool.h"
@@ -32,6 +36,20 @@ TEST(Graphics, Initialize) {
         EXPECT_TRUE(instance->BeginFrame());
         EXPECT_TRUE(instance->EndFrame());
     }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, Shader) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 800, 600, Altseed::Configuration::Create()));
+
+    auto shader = Altseed::Graphics::GetInstance()->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::SpriteUnlitPS);
+
+    EXPECT_TRUE(shader != nullptr);
+
+    EXPECT_TRUE(shader->GetStageType() == Altseed::ShaderStageType::Pixel);
+
+    Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, shader->GetCode());
 
     Altseed::Core::Terminate();
 }

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../BaseObject.h"
+#include "../Common/StringHelper.h"
 #include "Graphics.h"
 
 namespace Altseed {
@@ -25,6 +26,7 @@ struct ShaderReflectionTexture {
 
 class Shader : public BaseObject {
 private:
+    std::string code_;
     std::vector<ShaderReflectionTexture> textures_;
     std::vector<ShaderReflectionUniform> uniforms_;
     int32_t uniformSize_ = 0;
@@ -53,6 +55,10 @@ public:
     LLGI::Shader* Get() const { return shader_.get(); }
 
     static std::shared_ptr<Shader> Create(const char16_t* code, const char16_t* name, ShaderStageType shaderStage);
+
+    const char16_t* GetCode() const { return utf8_to_utf16(code_).c_str(); }
+
+    ShaderStageType GetStageType() const { return stage_; }
 };
 
 }  // namespace Altseed

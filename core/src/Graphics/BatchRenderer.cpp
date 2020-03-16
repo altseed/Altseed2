@@ -17,7 +17,7 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     matDefaultSprite_ = MakeAsdShared<Material>();
     auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
-    matDefaultSprite_->SetShader(ShaderStageType::Pixel, ps);
+    matDefaultSprite_->SetShader(ps);
 }
 
 void BatchRenderer::Draw(
