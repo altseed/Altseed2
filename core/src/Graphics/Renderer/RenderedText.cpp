@@ -8,11 +8,6 @@ namespace Altseed {
 std::shared_ptr<RenderedText> RenderedText::Create() {
     auto t = MakeAsdShared<RenderedText>();
 
-    auto shader = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
-    auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    material->SetShader(shader);
-
-    t->SetMaterial(material);
     t->SetText(u"");
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
 

@@ -50,6 +50,8 @@ private:
     int32_t ibOffset_ = 0;
 
     std::shared_ptr<Material> matDefaultSprite_;
+    std::shared_ptr<Material> matDefaultText_;
+
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
     Matrix44F matView_;
     Matrix44F matProjection_;
@@ -71,6 +73,9 @@ public:
     void SetViewProjectionWithWindowsSize(const Vector2I& windowSize);
 
     void SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection);
+
+    std::shared_ptr<Material> GetMaterialDefaultSprite() const { return matDefaultSprite_; }
+    std::shared_ptr<Material> GetMaterialDefaultText() const { return matDefaultText_; }
 };
 
 }  // namespace Altseed
