@@ -57,10 +57,20 @@ with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
     with class_.add_func('Create') as func:
-        func.add_arg(ctypes.c_wchar_p, 'code')
-        func.add_arg(ctypes.c_wchar_p, 'name')
-        func.add_arg(ShaderStageType, 'shaderStage')
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'コードをコンパイルしてシェーダを生成する')
+        with func.add_arg(ctypes.c_wchar_p, 'code') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コンパイルするコード')
+        with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'シェーダの名前')
+        with func.add_arg(ShaderStageType, 'shaderStage') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '')            
         func.return_value.type_ = Shader
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True
     with class_.add_property(ShaderStageType, 'StageType') as prop_:
         prop_.has_getter = True
