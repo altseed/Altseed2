@@ -1252,6 +1252,39 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_RenderedCamera_Create() {
+    std::shared_ptr<Altseed::RenderedCamera> cbg_ret = Altseed::RenderedCamera::Create();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedCamera>(cbg_ret);
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RenderedCamera_GetCenterOffset(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetCenterOffset();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_SetCenterOffset(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = (*((Altseed::Vector2F_C*)value));
+    cbg_self_->SetCenterOffset(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedCamera_GetTargetTexture(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderTexture> cbg_ret = cbg_self_->GetTargetTexture();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderTexture>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_SetTargetTexture(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderTexture> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderTexture>((Altseed::RenderTexture*)value);
+    cbg_self_->SetTargetTexture(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
 

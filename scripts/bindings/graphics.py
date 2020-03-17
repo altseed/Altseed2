@@ -544,6 +544,21 @@ with RenderedCamera as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'RenderedCameraを作成します。')
+        func.return_value.type_ = RenderedCamera
+        func.is_static = True
+    with class_.add_property(Vector2F, 'CenterOffset') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'CenterOffsetを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+    with class_.add_property(RenderTexture, 'TargetTexture') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'TargetTextureを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
