@@ -20,6 +20,8 @@ private:
     const char16_t* m_filePath;
     const bool m_isDecompressed;
 
+    static std::mutex m_soundMtx;
+
 public:
     Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
 

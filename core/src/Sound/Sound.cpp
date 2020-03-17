@@ -3,14 +3,23 @@
 
 namespace Altseed {
 
+std::mutex Sound::m_soundMtx;
+
 Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
     SetInstanceName(__FILE__);
 }
 
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
+    std::lock_guard<std::mutex> lock(m_soundMtx);
+
     auto soundMixer = SoundMixer::GetInstance();
     if (soundMixer->m_manager == nullptr) return nullptr;
+
+    auto cache = std::dynamic_pointer_cast<Sound>(soundMixer->m_resources->GetResourceContainer(ResourceType::Sound)->Get(path));
+    if (cache != nullptr) {
+        return cache;
+    }
 
     // Create static file & null check
     auto staticFile = StaticFile::Create(path);

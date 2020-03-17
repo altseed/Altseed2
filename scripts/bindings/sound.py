@@ -14,7 +14,7 @@ with FFTWindow as enum:
     enum.add('Blackman')
     enum.add('BlackmanHarris')
 
-Sound = cbg.Class('Altseed', 'Sound')
+Sound = cbg.Class('Altseed', 'Sound', cbg.CacheMode.ThreadSafeCache)
 with Sound as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源のクラス')
