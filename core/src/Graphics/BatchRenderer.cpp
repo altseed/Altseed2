@@ -14,10 +14,15 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateIndexBuffer(4, IndexBufferMax));
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
-    matDefaultSprite_ = MakeAsdShared<Material>();
     auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
+    auto fontPs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
+    matDefaultSprite_ = MakeAsdShared<Material>();
+    matDefaultSprite_->SetShader(vs);
     matDefaultSprite_->SetShader(ps);
+    matDefaultText_ = MakeAsdShared<Material>();
+    matDefaultText_->SetShader(vs);
+    matDefaultText_->SetShader(fontPs);
 }
 
 void BatchRenderer::Draw(

@@ -6,12 +6,13 @@
 #include "../../Window/Window.h"
 #include "../CommandList.h"
 #include "../Font.h"
-#include "../Graphics.h"
 #include "../RenderTexture.h"
 #include "RenderedCamera.h"
 #include "RenderedPolygon.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
+#include "../Graphics.h"
+#include "../BuiltinShader.h"
 
 namespace Altseed {
 
@@ -21,6 +22,7 @@ std::shared_ptr<Renderer>& Renderer::GetInstance() { return instance_; }
 
 bool Renderer::Initialize(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics) {
     instance_ = MakeAsdShared<Renderer>(window, graphics);
+
     return true;
 }
 
@@ -88,7 +90,13 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
         ib[i * 3 + 2] = i + 2;
     }
 
-    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, polygon->GetMaterial(), nullptr);
+    auto material = polygon->GetMaterial();
+
+    if (material == nullptr) {
+        material = batchRenderer_->GetMaterialDefaultSprite();
+    }
+
+    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
@@ -155,16 +163,28 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     ib[4] = 3;
     ib[5] = 0;
 
-    renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, sprite->GetMaterial(), nullptr);
+    auto material = sprite->GetMaterial();
+
+    if (material == nullptr) {
+        material = batchRenderer_->GetMaterialDefaultSprite();
+    }
+
+    renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
 }
 
 #ifdef _WIN32
 #undef DrawText
 #endif
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
-    text->GetMaterial()->SetVector4F(u"weight", Vector4F(0.5f - text->GetWeight() / 255.0f, 0.0f, 0.0f, 0.0f));
-
     const auto& characters = text->GetTextAsStr();
+
+    auto material = text->GetMaterial();
+
+    if (material == nullptr) {
+        material = batchRenderer_->GetMaterialDefaultText();
+    }
+
+    material->SetVector4F(u"weight", Vector4F(0.5f - text->GetWeight() / 255.0f, 0.0f, 0.0f, 0.0f));
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
@@ -244,7 +264,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
         }
 
-        renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? text->GetMaterial() : nullptr, nullptr);
+        renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? material : nullptr, nullptr);
 
         if (glyph != nullptr)
             offset += Vector2F(glyph->GetGlyphWidth(), 0);
