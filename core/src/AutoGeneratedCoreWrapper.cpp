@@ -984,6 +984,19 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList)
     cbg_self_->Render(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Renderer_SetCamera(void* cbg_self, void* commandList) {
+    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
+
+    std::shared_ptr<Altseed::RenderedCamera> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderedCamera>((Altseed::RenderedCamera*)commandList);
+    cbg_self_->SetCamera(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Renderer_ResetCamera(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
+
+    cbg_self_->ResetCamera();
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
