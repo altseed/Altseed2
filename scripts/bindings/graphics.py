@@ -562,7 +562,6 @@ with RenderedCamera as class_:
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
-    class_.is_public = True
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
     class_.is_public = False
@@ -580,25 +579,35 @@ with Renderer as class_:
         with func.add_arg(RenderedSprite, 'sprite') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedSprite"/>のインスタンス')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.is_public = False
     with class_.add_func('DrawText') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テキストを描画します。')
         with func.add_arg(RenderedText, 'text') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedText"/>のインスタンス')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.is_public = False
     with class_.add_func('DrawPolygon') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ポリゴンを描画します。')
         with func.add_arg(RenderedPolygon, 'polygon') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedPolygon"/>のインスタンス')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.is_public = False
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
         with func.add_arg(CommandList, 'commandList') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画するコマンドリスト')
-        func.is_public = True  # TODO：Engine側できちんと隠す
+        func.is_public = False
+    with class_.add_func('SetCamera') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '使用するカメラを設定します。')
+        with func.add_arg(RenderedCamera, 'commandList') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画するカメラ')
+        func.is_public = False
+    with class_.add_func('ResetCamera') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '使用するカメラの設定をリセットします。')
