@@ -198,7 +198,8 @@ with CommandList as class_:
     with class_.add_func('SetRenderTarget') as func_:
         func_.add_arg(RenderTexture, 'target')
         with func_.add_arg(RectI, 'viewport') as arg:
-            arg.called_by = cbg.ArgCalledBy.Ref
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'viewport')
 
     with class_.add_func('RenderToRenderTarget') as func_:
         func_.add_arg(Material, 'material')

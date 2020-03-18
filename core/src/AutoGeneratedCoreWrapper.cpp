@@ -1016,11 +1016,11 @@ CBGEXPORT void* CBGSTDCALL cbg_CommandList_GetScreenTexture(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderTexture>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTarget(void* cbg_self, void* target, Altseed::RectI_C * viewport) {
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTarget(void* cbg_self, void* target, Altseed::RectI_C viewport) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
     std::shared_ptr<Altseed::RenderTexture> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::RenderTexture>((Altseed::RenderTexture*)target);
-    Altseed::RectI_C* cbg_arg1 = viewport;
+    Altseed::RectI_C cbg_arg1 = viewport;
     cbg_self_->SetRenderTarget(cbg_arg0, cbg_arg1);
 }
 
