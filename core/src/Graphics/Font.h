@@ -56,7 +56,7 @@ private:
 
     Vector2I currentTexturePosition_;
 
-    static ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> m_fontMtx;
+    static ThreadSafeMap<std::u16string, std::mutex> m_fontMtx;
 
 protected:
     Font();

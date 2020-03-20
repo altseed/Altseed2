@@ -9,7 +9,7 @@
 #include "Graphics.h"
 
 namespace Altseed {
-ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> Texture2D::mtxs;
+ThreadSafeMap<std::u16string, std::mutex> Texture2D::mtxs;
 
 Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath) {
     sourcePath_ = sourcePath;
@@ -35,8 +35,8 @@ bool Texture2D::Reload() { return false; }
 Vector2I Texture2D::GetSize() const { return size_; }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
-    Locked<std::shared_ptr<std::mutex>> locked = mtxs[path].Lock();
-    std::lock_guard<std::mutex> lock(*locked.Get());
+    Locked<std::mutex> locked = mtxs[path].Lock();
+    std::lock_guard<std::mutex> lock(locked.Get());
 
     auto resources = Resources::GetInstance();
     // TODO
