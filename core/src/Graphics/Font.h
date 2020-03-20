@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "../Common/Resource.h"
+#include "../Common/ThreadSafeMap.h"
 #include "../IO/StaticFile.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector2I.h"
@@ -54,6 +55,8 @@ private:
     Vector2I textureSize_;
 
     Vector2I currentTexturePosition_;
+
+    static ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> m_fontMtx;
 
 protected:
     Font();

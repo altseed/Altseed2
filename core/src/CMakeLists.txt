@@ -19,6 +19,7 @@ set(core_files
     Common/Resources.cpp
     Common/StringHelper.h
     Common/Assertion.h
+    Common/ThreadSafeMap.h
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
     Graphics/BuiltinShader.h

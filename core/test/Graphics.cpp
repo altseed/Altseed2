@@ -348,8 +348,6 @@ TEST(Graphics, RenderedPolygon) {
 
     auto polygon = Altseed::RenderedPolygon::Create();
 
-    polygon->SetSrc(Altseed::RectF(0, 0, 128, 128));
-
     auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
     vertexes->Resize(12);
     vertexes->GetVector()[0] = Altseed::Vector2F(0, 0);
@@ -360,6 +358,9 @@ TEST(Graphics, RenderedPolygon) {
         vertexes->GetVector()[i + 1] = Altseed::Vector2F(pos_x, pos_y);
     }
     polygon->SetVertexesByVector2F(vertexes);
+
+    for(int i = 0; i < 12; ++i)
+        polygon->GetVertexes()->GetVector()[i].Col = Altseed::Color(255, 0, 0, 255);
 
     auto transform = Altseed::Matrix44F();
     transform.SetTranslation(250, 250, 0);
