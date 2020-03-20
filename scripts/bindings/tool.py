@@ -125,6 +125,9 @@ with ToolTreeNode as enum_:
 
 ToolInputText = cbg.Enum('Altseed', 'ToolInputText')
 with ToolInputText as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'Toolにおいてインプットされるテキストの設定を表します')
+
     enum_.add('None', 0)
 
     with enum_.add('CharsDecimal', 1 << 0) as v:
@@ -231,6 +234,9 @@ with ToolInputText as enum_:
 
 ToolColorEdit = cbg.Enum('Altseed', 'ToolColorEdit')
 with ToolColorEdit as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'Toolにおける色の設定を表します')
+
     enum_.add('None', 0)
 
     with enum_.add('NoAlpha', 1 << 1) as v:
@@ -416,6 +422,9 @@ with ToolSelectable as enum_:
 
 ToolWindow = cbg.Enum('Altseed', 'ToolWindow')
 with ToolWindow as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'Toolのウィンドウにおける設定を表します')
+
     enum_.add('None', 0)
 
     _NoTitleBar = 1 << 0
@@ -549,6 +558,9 @@ with ToolWindow as enum_:
 
 ToolTabBar = cbg.Enum('Altseed', 'ToolTabBar')
 with ToolTabBar as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'Toolのタブバーにおける設定を表します')
+
     enum_.add('None', 0)
     with enum_.add('Reorderable', 1 << 0) as v:
         v.brief = cbg.Description()

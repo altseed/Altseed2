@@ -104,10 +104,18 @@ with Keys as enum:
     enum.add('Backspace')
     enum.add('Insert')
     enum.add('Delete')
-    enum.add('Right')
-    enum.add('Left')
-    enum.add('Down')
-    enum.add('Up')
+    with enum.add('Right') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '矢印キー右')
+    with enum.add('Left') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '矢印キー左')
+    with enum.add('Down') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '矢印キー下')
+    with enum.add('Up') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '矢印キー上')
     enum.add('PageUp')
     enum.add('PageDown')
     enum.add('Home')
@@ -159,14 +167,30 @@ with Keys as enum:
     enum.add('KeypadAdd')
     enum.add('KeypadEnter')
     enum.add('KeypadEqual')
-    enum.add('LeftShift')
-    enum.add('LeftControl')
-    enum.add('LeftAlt')
-    enum.add('LeftWin')
-    enum.add('RightShift')
-    enum.add('RightControl')
-    enum.add('RightAlt')
-    enum.add('RightWin')
+    with enum.add('LeftShift') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左側のShiftキー')
+    with enum.add('LeftControl') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左側のCtrlキー')
+    with enum.add('LeftAlt') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左側のAltキー')
+    with enum.add('LeftWin') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左側のWinキー')
+    with enum.add('RightShift') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右側のShiftキー')
+    with enum.add('RightControl') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右側のCtrlキー')
+    with enum.add('RightAlt') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右側のAltキー')
+    with enum.add('RightWin') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右側のWinキー')
     enum.add('Menu')
     enum.add('Last')
     enum.add('MAX')

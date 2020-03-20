@@ -41,6 +41,8 @@ with Texture2D as class_:
 
 RenderTexture = cbg.Class('Altseed', 'RenderTexture')
 with RenderTexture as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'ポストエフェクトやカメラにおける描画先のクラス')
     class_.base_class = Texture2D
     with class_.add_func('Create') as func:
         func.add_arg(Vector2I, 'size')
@@ -88,6 +90,8 @@ with Shader as class_:
 
 BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'ビルド済みシェーダの種類を表します')
     enum_.add('SpriteUnlitVS')
     enum_.add('SpriteUnlitPS')
     enum_.add('FontUnlitPS')
@@ -177,10 +181,20 @@ with Material as class_:
             arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
         func.is_public = True
     with class_.add_func('GetShader') as func:
-        func.add_arg(ShaderStageType, 'shaderStage')
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定した種類のシェーダを取得する')
+        with func.add_arg(ShaderStageType, 'shaderStage') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '検索するシェーダのタイプ')
         func.return_value.type_ = Shader
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '<paramref name="shaderStage"/>に一致するタイプのシェーダ')
     with class_.add_func('SetShader') as func:
-        func.add_arg(Shader, 'shader')
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'シェーダを設定する')
+        with func.add_arg(Shader, 'shader') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '設定するシェーダ')
     
 
 CommandList = cbg.Class('Altseed', 'CommandList')
