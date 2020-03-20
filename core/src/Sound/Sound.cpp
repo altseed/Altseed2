@@ -3,7 +3,7 @@
 
 namespace Altseed {
 
-std::mutex Sound::m_soundMtx;
+ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> Sound::m_soundMtx;
 
 Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
@@ -11,7 +11,8 @@ Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool i
 }
 
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
-    std::lock_guard<std::mutex> lock(m_soundMtx);
+    Locked<std::shared_ptr<std::mutex>> locked = m_soundMtx[path].Lock();
+    std::lock_guard<std::mutex> lock(*locked.Get());
 
     auto soundMixer = SoundMixer::GetInstance();
     if (soundMixer->m_manager == nullptr) return nullptr;

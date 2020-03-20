@@ -8,12 +8,13 @@
 #include <vector>
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
+#include "../Common/ThreadSafeMap.h"
 #include "../Math/Vector2I.h"
 
 namespace Altseed {
 class Texture2D : public Resource {
 private:
-    static std::map<std::u16string, std::shared_ptr<std::mutex>> mtxs;
+    static ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> mtxs;
 
     std::u16string sourcePath_;
     std::shared_ptr<Resources> resources_ = nullptr;
