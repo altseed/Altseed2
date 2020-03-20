@@ -12,7 +12,7 @@ namespace Altseed {
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
-ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> Font::m_fontMtx;
+ThreadSafeMap<std::u16string, std::mutex> Font::m_fontMtx;
 
 Font::Font()
     : resources_(nullptr),
@@ -73,8 +73,8 @@ Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction,
 const char16_t* Font::GetPath() const { return file_->GetPath(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
-    Locked<std::shared_ptr<std::mutex>> locked = m_fontMtx[path].Lock();
-    std::lock_guard<std::mutex> lock(*locked.Get());
+    Locked<std::mutex> locked = m_fontMtx[path].Lock();
+    std::lock_guard<std::mutex> lock(locked.Get());
     
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));

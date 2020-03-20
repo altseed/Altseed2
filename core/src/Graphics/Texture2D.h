@@ -14,7 +14,7 @@
 namespace Altseed {
 class Texture2D : public Resource {
 private:
-    static ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> mtxs;
+    static ThreadSafeMap<std::u16string, std::mutex> mtxs;
 
     std::u16string sourcePath_;
     std::shared_ptr<Resources> resources_ = nullptr;

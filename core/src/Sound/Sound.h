@@ -21,7 +21,7 @@ private:
     const char16_t* m_filePath;
     const bool m_isDecompressed;
 
-    static ThreadSafeMap<std::u16string, std::shared_ptr<std::mutex>> m_soundMtx;
+    static ThreadSafeMap<std::u16string, std::mutex> m_soundMtx;
 
 public:
     Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
