@@ -29,7 +29,6 @@ bool Renderer::Initialize(std::shared_ptr<Window> window, std::shared_ptr<Graphi
 void Renderer::Terminate() { instance_ = nullptr; }
 
 Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics) : window_(window), graphics_(graphics) {
-    renderedBatchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
     batchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
     ResetCamera();
 }
@@ -100,10 +99,7 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
 }
 
 void Renderer::Render(std::shared_ptr<CommandList> commandList) {
-    renderedBatchRenderer_->Render(commandList.get());
-    renderedBatchRenderer_->ResetCache();
     batchRenderer_->Render(commandList.get());
-
     batchRenderer_->ResetCache();
 }
 
@@ -169,7 +165,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
         material = batchRenderer_->GetMaterialDefaultSprite();
     }
 
-    renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
+    batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
 }
 
 #ifdef _WIN32
@@ -264,7 +260,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
         }
 
-        renderedBatchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? material : nullptr, nullptr);
+        batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? material : nullptr, nullptr);
 
         if (glyph != nullptr)
             offset += Vector2F(glyph->GetGlyphWidth(), 0);
@@ -287,7 +283,6 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
         Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen();
     }
 
-    renderedBatchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
     batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
 }
 
@@ -295,7 +290,6 @@ void Renderer::ResetCamera() {
     int32_t w, h = 0;
     window_->GetSize(w, h);
     batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
-    renderedBatchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
 }
 
 }  // namespace Altseed

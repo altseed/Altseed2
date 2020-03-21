@@ -107,12 +107,18 @@ void CommandList::StartFrame() {
     // Generate internal screen
     {
         auto r = Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(50, 50, 50, 255), true, true);
+
         auto g = Graphics::GetInstance()->GetGraphicsLLGI();
         if (internalScreen_ == nullptr || internalScreen_->GetSize().X != r->GetRenderTexture(0)->GetSizeAs2D().X ||
             internalScreen_->GetSize().Y != r->GetRenderTexture(0)->GetSizeAs2D().Y) {
             auto size = r->GetRenderTexture(0)->GetSizeAs2D();
             internalScreen_ = RenderTexture::Create(Vector2I(size.X, size.Y));
         }
+
+        r->SetIsColorCleared(true);
+        r->SetIsDepthCleared(true);
+        r->SetClearColor(LLGI::Color8(50, 50, 50, 255));
+
     }
 
     memoryPool_->NewFrame();
@@ -154,9 +160,6 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
 
         LLGI::Texture* texture = target->GetNativeTexture().get();
         auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((const LLGI::Texture**)&texture, 1, nullptr));
-        renderPass->SetIsColorCleared(true);
-        renderPass->SetIsDepthCleared(true);
-        renderPass->SetClearColor(LLGI::Color8(50, 50, 50, 255));
         RenderPassCache cache;
         cache.Life = 5;
         cache.Stored = renderPass;

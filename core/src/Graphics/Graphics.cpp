@@ -56,7 +56,6 @@ bool Graphics::BeginFrame() {
 }
 
 bool Graphics::EndFrame() {
-    commandList_->SetRenderTargetWithScreen();
     commandList_->PresentInternal();
     commandList_->EndFrame();
     graphics_->Execute(commandList_->GetLL());

@@ -22,7 +22,6 @@ private:
     static std::shared_ptr<Renderer> instance_;
     std::shared_ptr<Window> window_;
     std::shared_ptr<Graphics> graphics_;
-    std::shared_ptr<BatchRenderer> renderedBatchRenderer_;
     std::shared_ptr<BatchRenderer> batchRenderer_;
     std::vector<std::shared_ptr<RenderedCamera>> cameras_;
 
