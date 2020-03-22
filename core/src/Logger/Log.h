@@ -1,5 +1,6 @@
 #pragma once
 #include <spdlog/spdlog.h>
+
 #include <memory>
 #include <sstream>
 #include <string>
@@ -20,7 +21,12 @@ enum class LogLevel : int32_t {
     Off = SPDLOG_LEVEL_OFF,
 };
 
-enum class LogCategory : int32_t { Core = 0, Engine, User };
+enum class LogCategory : int32_t {
+    Core = 0,
+    Graphics = 1,
+    Engine = 2,
+    User = 3,
+};
 
 #ifdef _WIN32
 #define __FILENAME__ strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__

@@ -41,6 +41,7 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
         };
 
         create_logger(LogCategory::Core, "Core");
+        create_logger(LogCategory::Graphics, "Graphics");
         create_logger(LogCategory::Engine, "Engine");
         create_logger(LogCategory::User, "User");
 

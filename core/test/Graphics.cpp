@@ -7,13 +7,13 @@
 #include <cmath>
 #include <memory>
 
-#include "Logger/Log.h"
 #include "Common/StringHelper.h"
 #include "Graphics/BuiltinShader.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
+#include "Graphics/FrameDebugger.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
@@ -21,6 +21,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Shader.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "Logger/Log.h"
 #include "Math/Matrix44F.h"
 #include "Tool/Tool.h"
 
@@ -55,7 +56,13 @@ TEST(Graphics, Shader) {
 }
 
 TEST(Graphics, BasicPolygonTextureRender) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicPolygonTextureRender", 1280, 720, Altseed::Configuration::Create()));
+    auto config = Altseed::Configuration::Create();
+    config->SetFileLoggingEnabled(true);
+    config->SetConsoleLoggingEnabled(true);
+    config->SetLogFileName(u"BasicPolygonTextureRender.txt");
+
+    EXPECT_TRUE(Altseed::Core::Initialize(u"BasicPolygonTextureRender", 1280, 720, config));
+    Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Graphics, Altseed::LogLevel::Trace);
 
     int count = 0;
 
@@ -68,6 +75,8 @@ TEST(Graphics, BasicPolygonTextureRender) {
     EXPECT_TRUE(t2 != nullptr);
 
     while (count++ < 10 && instance->DoEvents()) {
+
+        if (count == 2) Altseed::FrameDebugger::GetInstance()->Start();
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::BatchVertex v1[4];
@@ -114,6 +123,8 @@ TEST(Graphics, BasicPolygonTextureRender) {
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 2) Altseed::FrameDebugger::GetInstance()->DumpToLog();
     }
 
     Altseed::Core::Terminate();
@@ -359,8 +370,7 @@ TEST(Graphics, RenderedPolygon) {
     }
     polygon->SetVertexesByVector2F(vertexes);
 
-    for(int i = 0; i < 12; ++i)
-        polygon->GetVertexes()->GetVector()[i].Col = Altseed::Color(255, 0, 0, 255);
+    for (int i = 0; i < 12; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed::Color(255, 0, 0, 255);
 
     auto transform = Altseed::Matrix44F();
     transform.SetTranslation(250, 250, 0);

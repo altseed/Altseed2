@@ -2,6 +2,7 @@
 
 #include "../Graphics/Graphics.h"
 #include "BuiltinShader.h"
+#include "FrameDebugger.h"
 #include "RenderTexture.h"
 
 namespace Altseed {
@@ -118,7 +119,6 @@ void CommandList::StartFrame() {
         r->SetIsColorCleared(true);
         r->SetIsDepthCleared(true);
         r->SetClearColor(LLGI::Color8(50, 50, 50, 255));
-
     }
 
     memoryPool_->NewFrame();
@@ -148,6 +148,8 @@ void CommandList::EndFrame() {
         currentRenderPass_ = nullptr;
     }
     currentCommandList_->End();
+
+    FrameDebugger::GetInstance()->EndFrame();
 }
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
@@ -176,6 +178,8 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     currentCommandList_->BeginRenderPass(renderPassCaches_[target].Stored.get());
     currentRenderPass_ = renderPassCaches_[target].Stored;
     isInRenderPass_ = true;
+
+    FrameDebugger::GetInstance()->SetRenderTarget(target);
 }
 
 void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
@@ -223,6 +227,8 @@ void CommandList::SetRenderTargetWithScreen() {
     currentCommandList_->BeginRenderPass(r.get());
     currentRenderPass_ = r;
     isInRenderPass_ = true;
+
+    FrameDebugger::GetInstance()->SetRenderTarget(internalScreen_);
 }
 
 void CommandList::PresentInternal() {
