@@ -3,6 +3,7 @@
 #include "../Graphics/Graphics.h"
 #include "BuiltinShader.h"
 #include "CommandList.h"
+#include "FrameDebugger.h "
 #include "Material.h"
 
 namespace Altseed {
@@ -60,6 +61,8 @@ void BatchRenderer::Draw(
 
     b.VertexCount += vbCount;
     b.IndexCount += ibCount;
+
+    FrameDebugger::GetInstance()->Draw(vbCount, ibCount);
 }
 
 void BatchRenderer::Render(CommandList* commandList) {
@@ -118,16 +121,21 @@ void BatchRenderer::Render(CommandList* commandList) {
         commandList->GetLL()->SetPipelineState(material->GetPipelineState(commandList->GetCurrentRenderPass()).get());
 
         // constant buffer
-        commandList->StoreUniforms(commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-        commandList->StoreUniforms(commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+        commandList->StoreUniforms(
+                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+        commandList->StoreUniforms(
+                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
         commandList->StoreTextures(
                 commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
-        commandList->StoreTextures(commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+        commandList->StoreTextures(
+                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
         commandList->GetLL()->Draw(batch.IndexCount / 3);
+
+        FrameDebugger::GetInstance()->Render(batch.IndexCount);
     }
 }
 

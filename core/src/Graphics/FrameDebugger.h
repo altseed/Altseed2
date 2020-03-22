@@ -14,9 +14,9 @@ enum class FrameEventType {
     SetRenderTarget,
     BeginRenderPass,
     EndRenderPass,
-    BeginCommandList,
-    EndCommandList,
+    EndFrame,
     Render,
+    Draw,
 };
 
 class FrameEvent : public BaseObject {
@@ -28,6 +28,17 @@ class FrameEventSetRenderTarget : public FrameEvent {
 public:
     Vector2I TargetSize;
     int64_t Ptr;
+};
+
+class FrameEventDraw : public FrameEvent {
+public:
+    int32_t VbCount;
+    int32_t IbCount;
+};
+
+class FrameEventRender : public FrameEvent {
+public:
+    int32_t IndexCount;
 };
 
 class FrameDebugger : public BaseObject {
@@ -51,8 +62,8 @@ public:
     void SetRenderTarget(const std::shared_ptr<RenderTexture>& target);
     void BeginRenderPass();
     void EndRenderPass();
-    void BeginCommandList();
-    void Render();
     void EndFrame();
+    void Draw(const int32_t vbCount, const int32_t ibCount);
+    void Render(const int32_t indexCount);
 };
 }  // namespace Altseed

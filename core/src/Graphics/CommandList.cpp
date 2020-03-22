@@ -173,6 +173,7 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
 
     if (isInRenderPass_) {
         currentCommandList_->EndRenderPass();
+        FrameDebugger::GetInstance()->EndRenderPass();
     }
 
     currentCommandList_->BeginRenderPass(renderPassCaches_[target].Stored.get());
@@ -180,6 +181,7 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     isInRenderPass_ = true;
 
     FrameDebugger::GetInstance()->SetRenderTarget(target);
+    FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
 void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
@@ -208,6 +210,8 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
 
     // draw
     currentCommandList_->Draw(2);
+
+    FrameDebugger::GetInstance()->Render(2);
 }
 
 void CommandList::SetRenderTargetWithScreen() {
@@ -222,6 +226,7 @@ void CommandList::SetRenderTargetWithScreen() {
 
     if (isInRenderPass_) {
         currentCommandList_->EndRenderPass();
+        FrameDebugger::GetInstance()->EndRenderPass();
     }
 
     currentCommandList_->BeginRenderPass(r.get());
@@ -229,6 +234,7 @@ void CommandList::SetRenderTargetWithScreen() {
     isInRenderPass_ = true;
 
     FrameDebugger::GetInstance()->SetRenderTarget(internalScreen_);
+    FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
 void CommandList::PresentInternal() {

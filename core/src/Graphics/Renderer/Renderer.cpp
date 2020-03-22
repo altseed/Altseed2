@@ -4,15 +4,15 @@
 #include "../../Logger/Log.h"
 #include "../../Math/Vector2I.h"
 #include "../../Window/Window.h"
+#include "../BuiltinShader.h"
 #include "../CommandList.h"
 #include "../Font.h"
+#include "../Graphics.h"
 #include "../RenderTexture.h"
 #include "RenderedCamera.h"
 #include "RenderedPolygon.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
-#include "../Graphics.h"
-#include "../BuiltinShader.h"
 
 namespace Altseed {
 
@@ -133,7 +133,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     vs[3].UV1.Y = sprite->GetSrc().Y + sprite->GetSrc().Height;
 
     for (size_t i = 0; i < 4; i++) {
-        if(texture == nullptr) {
+        if (texture == nullptr) {
             vs[i].UV1.X = vs[i].UV1.X / TextureMinimumSize;
             vs[i].UV1.Y = vs[i].UV1.Y / TextureMinimumSize;
         } else {
