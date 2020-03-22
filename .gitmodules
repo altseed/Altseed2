@@ -34,3 +34,6 @@
 [submodule "thirdparty/OpenSoundMixer"]
 	path = thirdparty/OpenSoundMixer
 	url = https://github.com/altseed/OpenSoundMixer.git
+[submodule "thirdparty/fcl"]
+	path = thirdparty/fcl
+	url = https://github.com/flexible-collision-library/fcl.git
