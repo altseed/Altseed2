@@ -674,13 +674,13 @@ with Tool as class_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.is_public = false
+        func_.is_public = False
 
     with class_.add_func('Render') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.is_public = false
+        func_.is_public = False
 
     with class_.add_func('Dummy') as func_:
         func_.brief = cbg.Description()
