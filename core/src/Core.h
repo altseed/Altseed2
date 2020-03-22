@@ -27,7 +27,7 @@ private:
 
     std::unique_ptr<FPS> fps_;
 
-	std::shared_ptr<Configuration> config_;
+    std::shared_ptr<Configuration> config_;
 
 public:
     //! register a base object

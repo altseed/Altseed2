@@ -75,7 +75,6 @@ TEST(Graphics, BasicPolygonTextureRender) {
     EXPECT_TRUE(t2 != nullptr);
 
     while (count++ < 10 && instance->DoEvents()) {
-
         if (count == 2) Altseed::FrameDebugger::GetInstance()->Start();
         EXPECT_TRUE(instance->BeginFrame());
 

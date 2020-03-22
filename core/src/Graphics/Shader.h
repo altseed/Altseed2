@@ -62,9 +62,7 @@ public:
 
     const char16_t* GetName() const { return utf8_to_utf16(name_).c_str(); }
 
-    ShaderStageType GetStageType() const {
-        return stage_;
-    }
+    ShaderStageType GetStageType() const { return stage_; }
 };
 
 }  // namespace Altseed

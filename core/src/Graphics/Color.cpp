@@ -8,11 +8,10 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : A(a), R(r), G(g), B(b
 
 Color Color::operator*(const Color& right) {
     return Color(
-        R * right.R / TextureDefaultColor,
-        G * right.G / TextureDefaultColor,
-        B * right.B / TextureDefaultColor,
-        A * right.A / TextureDefaultColor
-    );
+            R * right.R / TextureDefaultColor,
+            G * right.G / TextureDefaultColor,
+            B * right.B / TextureDefaultColor,
+            A * right.A / TextureDefaultColor);
 }
 
 Color& Color::operator*=(const Color& right) {

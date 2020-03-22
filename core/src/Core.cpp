@@ -1,8 +1,8 @@
 #include "Core.h"
 
 #include "BaseObject.h"
-#include "Graphics/Graphics.h"
 #include "Graphics/FrameDebugger.h"
+#include "Graphics/Graphics.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
@@ -91,7 +91,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         Core::instance = nullptr;
         return false;
     }
-
 
     if (!SoundMixer::Initialize(false)) {
         LOG_CRITICAL(u"SoundMixer::Initialize failed");

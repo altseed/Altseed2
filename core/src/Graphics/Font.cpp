@@ -75,7 +75,7 @@ const char16_t* Font::GetPath() const { return file_->GetPath(); }
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
     Locked<std::mutex> locked = m_fontMtx[path].Lock();
     std::lock_guard<std::mutex> lock(locked.Get());
-    
+
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr) {

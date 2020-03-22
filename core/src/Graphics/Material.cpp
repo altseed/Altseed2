@@ -132,7 +132,7 @@ std::shared_ptr<Texture2D> Material::GetTexture(const char16_t* key) const { ret
 void Material::SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value) { propertyBlock_->SetTexture(key, value); }
 
 std::shared_ptr<Shader> Material::GetShader(ShaderStageType shaderStage) const {
-    switch(shaderStage) {
+    switch (shaderStage) {
         case ShaderStageType::Vertex:
             return vertexShader_;
         case ShaderStageType::Pixel:
