@@ -4,6 +4,7 @@
 #include "BuiltinShader.h"
 #include "Camera.h"
 #include "CommandList.h"
+#include "FrameDebugger.h"
 
 #ifdef _WIN32
 #pragma comment(lib, "d3dcompiler.lib")
@@ -62,6 +63,7 @@ bool Graphics::EndFrame() {
 
     platform_->Present();
 
+    FrameDebugger::GetInstance()->EndFrame();
     return true;
 }
 

@@ -2,6 +2,7 @@
 
 #include "BaseObject.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/FrameDebugger.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
@@ -44,7 +45,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     }
 
     if (!Keyboard::Initialize(Window::GetInstance())) {
-        LOG_CRITICAL(u"Kayboad::Initialize failed");
+        LOG_CRITICAL(u"Kayboard::Initialize failed");
         Core::instance = nullptr;
         return false;
     }
@@ -84,6 +85,13 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         Core::instance = nullptr;
         return false;
     }
+
+    if (!FrameDebugger::Initialize()) {
+        LOG_CRITICAL(u"FrameDebugger::Initialize failed");
+        Core::instance = nullptr;
+        return false;
+    }
+
 
     if (!SoundMixer::Initialize(false)) {
         LOG_CRITICAL(u"SoundMixer::Initialize failed");

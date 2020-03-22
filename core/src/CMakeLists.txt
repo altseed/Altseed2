@@ -30,6 +30,8 @@ set(core_files
     Graphics/CommandList.cpp
     Graphics/Font.h
     Graphics/Font.cpp
+    Graphics/FrameDebugger.h
+    Graphics/FrameDebugger.cpp
     Graphics/ImageFont.h
     Graphics/ImageFont.cpp
     Graphics/Graphics.h
