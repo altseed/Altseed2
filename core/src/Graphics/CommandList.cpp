@@ -114,6 +114,7 @@ void CommandList::StartFrame() {
             internalScreen_->GetSize().Y != r->GetRenderTexture(0)->GetSizeAs2D().Y) {
             auto size = r->GetRenderTexture(0)->GetSizeAs2D();
             internalScreen_ = RenderTexture::Create(Vector2I(size.X, size.Y));
+            internalScreen_->SetInstanceName(u"InternalScreen");
         }
 
         r->SetIsColorCleared(true);

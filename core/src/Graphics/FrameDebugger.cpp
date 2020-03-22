@@ -25,7 +25,11 @@ void FrameDebugger::DumpToLog() {
             } break;
             case FrameEventType::SetRenderTarget: {
                 auto e2 = static_cast<FrameEventSetRenderTarget*>(e.get());
-                Write(u"SetRenderTarget: Target Size:({0}, {1}) Ptr:{2}", e2->TargetSize.X, e2->TargetSize.Y, e2->Ptr);
+                if (e2->Name != u"") {
+                    Write(u"SetRenderTarget: Target Size:({0}, {1}) Name:{2}", e2->TargetSize.X, e2->TargetSize.Y, utf16_to_utf8(e2->Name));
+                } else {
+                    Write(u"SetRenderTarget: Target Size:({0}, {1}) Ptr:{2}", e2->TargetSize.X, e2->TargetSize.Y, e2->Ptr);
+                }
             } break;
             case FrameEventType::BeginRenderPass: {
                 Write(u"BeginRenderPass");
@@ -66,6 +70,7 @@ void FrameDebugger::SetRenderTarget(const std::shared_ptr<RenderTexture>& target
 
     auto e = MakeAsdShared<FrameEventSetRenderTarget>();
     e->Type = FrameEventType::SetRenderTarget;
+    e->Name = target->GetInstanceName();
     e->TargetSize = target->GetSize();
     e->Ptr = reinterpret_cast<int64_t>(target.get());
     events_.push_back(e);
