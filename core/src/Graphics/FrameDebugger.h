@@ -26,6 +26,7 @@ public:
 
 class FrameEventSetRenderTarget : public FrameEvent {
 public:
+    std::u16string Name;
     Vector2I TargetSize;
     int64_t Ptr;
 };
