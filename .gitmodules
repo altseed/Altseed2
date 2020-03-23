@@ -37,3 +37,9 @@
 [submodule "thirdparty/fcl"]
 	path = thirdparty/fcl
 	url = https://github.com/flexible-collision-library/fcl.git
+[submodule "thirdparty/libccd"]
+	path = thirdparty/libccd
+	url = https://github.com/danfis/libccd.git
+[submodule "thirdparty/eigen"]
+	path = thirdparty/eigen
+	url = https://gitlab.com/libeigen/eigen.git

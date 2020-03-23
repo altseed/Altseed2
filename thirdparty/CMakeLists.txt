@@ -187,6 +187,45 @@ endif()
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/SPIRV-Cross/lib)
 
+# Windows CI will time out because of this
+if(MSVC)
+else()
+
+# libccd
+ExternalProject_Add(
+    ExternalProject_libccd
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libccd
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/libccd
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/libccd
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/libccd
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=true
+                    -DBUILD_SHARED_LIBS=OFF
+)
+
+# fcl
+ExternalProject_Add(
+    ExternalProject_fcl
+    DEPENDS         ExternalProject_libccd
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/fcl
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/fcl
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/fcl
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/fcl
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DEIGEN3_INCLUDE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/eigen
+                    -DCCD_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/libccd/include
+                    -DCCD_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/libccd/lib/libccd.a
+                    -DBUILD_SHARED_LIBS=OFF
+)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/fcl/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/fcl/lib)
+
+endif()
+
 # hidapi
 add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 
