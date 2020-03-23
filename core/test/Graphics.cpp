@@ -447,7 +447,10 @@ TEST(Graphics, RenderTexture) {
 
     auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     EXPECT_TRUE(t1 != nullptr);
+    t1->SetInstanceName("t1");
+
     auto rt = Altseed::RenderTexture::Create(Altseed::Vector2I(200, 200));
+    rt->SetInstanceName("rt");
 
     auto s1 = Altseed::RenderedSprite::Create();
     s1->SetTexture(t1);

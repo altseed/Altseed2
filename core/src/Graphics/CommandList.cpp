@@ -260,6 +260,7 @@ void CommandList::StoreTextures(
         if (v.get() == nullptr) {
             commandList->GetLL()->SetTexture(
                     proxyTexture_.get(), LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Linear, info.Offset, shaderStage);
+            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
 
         } else {
             commandList->GetLL()->SetTexture(
@@ -268,6 +269,7 @@ void CommandList::StoreTextures(
                     LLGI::TextureMinMagFilter::Linear,
                     info.Offset,
                     shaderStage);
+            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
         }
     }
 }
@@ -289,12 +291,14 @@ void CommandList::StoreUniforms(
         if (info.Size == sizeof(float) * 4) {
             auto v = matPropBlockCollection->GetVector4F(info.Name.c_str());
             memcpy(bufv + info.Offset, &v, info.Size);
+            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
         }
 
         if (info.Size == sizeof(float) * 16) {
             auto v = matPropBlockCollection->GetMatrix44F(info.Name.c_str());
             v.SetTransposed();
             memcpy(bufv + info.Offset, &v, info.Size);
+            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
         }
     }
 

@@ -4,8 +4,11 @@
 #include <vector>
 
 #include "../BaseObject.h"
+#include "../Math/Matrix44F.h"
 #include "../Math/Vector2I.h"
+#include "../Math/Vector4F.h"
 #include "RenderTexture.h"
+#include "Shader.h"
 
 namespace Altseed {
 
@@ -17,6 +20,13 @@ enum class FrameEventType {
     EndFrame,
     Render,
     Draw,
+    Uniform,
+    Texture,
+};
+
+enum class FrameEventUniformType {
+    Vector,
+    Matrix,
 };
 
 class FrameEvent : public BaseObject {
@@ -40,6 +50,21 @@ public:
 class FrameEventRender : public FrameEvent {
 public:
     int32_t IndexCount;
+};
+
+class FrameEventUniform : public FrameEvent {
+public:
+    ShaderStageType StageType;
+    FrameEventUniformType DataType;
+    std::u16string Name;
+    Vector4F Vector;
+    Matrix44F Matrix;
+};
+
+class FrameEventTexture : public FrameEvent {
+public:
+    ShaderStageType StageType;
+    std::u16string Name;
 };
 
 class FrameDebugger : public BaseObject {
@@ -66,5 +91,8 @@ public:
     void EndFrame();
     void Draw(const int32_t vbCount, const int32_t ibCount);
     void Render(const int32_t indexCount);
+    void Uniform(const ShaderStageType stageType, const std::u16string name, const Vector4F& vector);
+    void Uniform(const ShaderStageType stageType, const std::u16string name, const Matrix44F& matrix);
+    void Texture(const ShaderStageType stageType, const std::u16string name);
 };
 }  // namespace Altseed

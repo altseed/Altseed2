@@ -48,6 +48,45 @@ void FrameDebugger::DumpToLog() {
                 auto e2 = static_cast<FrameEventDraw*>(e.get());
                 Write(u"Draw: VertexCount:{0} IndexCount:{1}", e2->VbCount, e2->IbCount);
             } break;
+            case FrameEventType::Uniform: {
+                auto e2 = static_cast<FrameEventUniform*>(e.get());
+                auto stage = e2->StageType == ShaderStageType::Pixel ? "Pixel" : "Vertex";
+                if (e2->DataType == FrameEventUniformType::Vector) {
+                    auto v = e2->Vector;
+                    Write(u"Uniform: Stage:{0} Name:{1} Vector:({2}, {3}, {4}, {5})", stage, utf16_to_utf8(e2->Name), v.X, v.Y, v.Z, v.W);
+                } else {
+                    auto m = e2->Matrix.Values;
+                    Write(u"Uniform: Stage:{0} Name:{1} matrix:(\n"
+                          u"{2},\t{3},\t{4},\t{5},\n"
+                          u"{6},\t{7},\t{8},\t{9}, \n"
+                          u"{10},\t{11},\t{12},\t{13}, \n"
+                          u"{14},\t{15},\t{16},\t{17})",
+                          stage,
+                          utf16_to_utf8(e2->Name),
+                          m[0][0],
+                          m[0][1],
+                          m[0][2],
+                          m[0][3],
+                          m[1][0],
+                          m[1][1],
+                          m[1][2],
+                          m[1][3],
+                          m[2][0],
+                          m[2][1],
+                          m[2][2],
+                          m[2][3],
+                          m[3][0],
+                          m[3][1],
+                          m[3][2],
+                          m[3][3]);
+                }
+
+            } break;
+            case FrameEventType::Texture: {
+                auto e2 = static_cast<FrameEventTexture*>(e.get());
+                auto stage = e2->StageType == ShaderStageType::Pixel ? "Pixel" : "Vertex";
+                Write(u"Texture: Stage:{0} Name:{1}", stage, utf16_to_utf8(e2->Name));
+            } break;
             default:
                 FrameDebugger::GetInstance()->Write(u"Unknown Event");
                 break;
@@ -113,6 +152,37 @@ void FrameDebugger::Render(const int32_t indexCount) {
     auto e = MakeAsdShared<FrameEventRender>();
     e->Type = FrameEventType::Render;
     e->IndexCount = indexCount;
+    events_.push_back(e);
+}
+
+void FrameDebugger::Uniform(const ShaderStageType stageType, const std::u16string name, const Vector4F& vector) {
+    if (!isEnabled_) return;
+    auto e = MakeAsdShared<FrameEventUniform>();
+    e->Type = FrameEventType::Uniform;
+    e->StageType = stageType;
+    e->Name = name;
+    e->DataType = FrameEventUniformType::Vector;
+    e->Vector = vector;
+    events_.push_back(e);
+}
+
+void FrameDebugger::Uniform(const ShaderStageType stageType, const std::u16string name, const Matrix44F& matrix) {
+    if (!isEnabled_) return;
+    auto e = MakeAsdShared<FrameEventUniform>();
+    e->Type = FrameEventType::Uniform;
+    e->StageType = stageType;
+    e->Name = name;
+    e->DataType = FrameEventUniformType::Matrix;
+    e->Matrix = matrix;
+    events_.push_back(e);
+}
+
+void FrameDebugger::Texture(const ShaderStageType stageType, const std::u16string name) {
+    if (!isEnabled_) return;
+    auto e = MakeAsdShared<FrameEventTexture>();
+    e->Type = FrameEventType::Texture;
+    e->StageType = stageType;
+    e->Name = name;
     events_.push_back(e);
 }
 
