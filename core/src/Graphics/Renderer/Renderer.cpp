@@ -276,12 +276,15 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 }
 
 void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
+    std::shared_ptr<RenderTexture> texture;
     if (camera->GetTargetTexture() != nullptr) {
-        RectI viewport(Vector2I(0, 0), camera->GetTargetTexture()->GetSize());
-        Graphics::GetInstance()->GetCommandList()->SetRenderTarget(camera->GetTargetTexture(), viewport);
+        texture = camera->GetTargetTexture();
     } else {
-        Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen();
+        texture = Graphics::GetInstance()->GetCommandList()->GetScreenTexture();
     }
+
+    RectI viewport(Vector2I(0, 0), texture->GetSize());
+    Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, viewport);
 
     batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
 }

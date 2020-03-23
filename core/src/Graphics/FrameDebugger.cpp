@@ -31,6 +31,9 @@ void FrameDebugger::DumpToLog() {
                     Write(u"SetRenderTarget: Target Size:({0}, {1}) Ptr:{2}", e2->TargetSize.X, e2->TargetSize.Y, e2->Ptr);
                 }
             } break;
+            case FrameEventType::SetRenderTargetWithRealScreen: {
+                Write(u"SetRenderTargetWithRealScreen");
+            } break;
             case FrameEventType::BeginRenderPass: {
                 Write(u"BeginRenderPass");
             } break;
@@ -112,6 +115,14 @@ void FrameDebugger::SetRenderTarget(const std::shared_ptr<RenderTexture>& target
     e->Name = target->GetInstanceName();
     e->TargetSize = target->GetSize();
     e->Ptr = reinterpret_cast<int64_t>(target.get());
+    events_.push_back(e);
+}
+
+void FrameDebugger::SetRenderTargetWithRealScreen() {
+    if (!isEnabled_) return;
+
+    auto e = MakeAsdShared<FrameEventSetRenderTargetWithRealScreen>();
+    e->Type = FrameEventType::SetRenderTargetWithRealScreen;
     events_.push_back(e);
 }
 

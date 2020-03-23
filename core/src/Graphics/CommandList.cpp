@@ -234,7 +234,7 @@ void CommandList::SetRenderTargetWithScreen() {
     currentRenderPass_ = r;
     isInRenderPass_ = true;
 
-    FrameDebugger::GetInstance()->SetRenderTarget(internalScreen_);
+    FrameDebugger::GetInstance()->SetRenderTargetWithRealScreen();
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 

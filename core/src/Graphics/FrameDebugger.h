@@ -15,6 +15,7 @@ namespace Altseed {
 enum class FrameEventType {
     Clear,
     SetRenderTarget,
+    SetRenderTargetWithRealScreen,
     BeginRenderPass,
     EndRenderPass,
     EndFrame,
@@ -40,6 +41,11 @@ public:
     Vector2I TargetSize;
     int64_t Ptr;
 };
+
+class FrameEventSetRenderTargetWithRealScreen : public FrameEvent {
+public:
+};
+
 
 class FrameEventDraw : public FrameEvent {
 public:
@@ -86,6 +92,7 @@ public:
 
     void Clear();
     void SetRenderTarget(const std::shared_ptr<RenderTexture>& target);
+    void SetRenderTargetWithRealScreen();
     void BeginRenderPass();
     void EndRenderPass();
     void EndFrame();
