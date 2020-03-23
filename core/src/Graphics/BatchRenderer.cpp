@@ -137,6 +137,9 @@ void BatchRenderer::Render(CommandList* commandList) {
 
         FrameDebugger::GetInstance()->Render(batch.IndexCount);
     }
+
+     vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());
+    ibOffset_ += static_cast<int32_t> (rawIndexBuffer_.size());
 }
 
 void BatchRenderer::ResetCache() {

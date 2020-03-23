@@ -454,12 +454,14 @@ TEST(Graphics, RenderTexture) {
 
     auto s1 = Altseed::RenderedSprite::Create();
     s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 200, 200));
 
     auto s2 = Altseed::RenderedSprite::Create();
     {
         auto transform = Altseed::Matrix44F().SetTranslation(200, 200, 0);
         s2->SetTransform(transform);
         s2->SetTexture(rt);
+        s2->SetSrc(Altseed::RectF(0, 0, 200, 200));
     }
     auto camera = Altseed::RenderedCamera::Create();
     { camera->SetTargetTexture(rt); }
