@@ -5,7 +5,7 @@ from .math import Vector2F, Vector4F
 ToolDir = cbg.Enum('Altseed', 'ToolDir')
 with ToolDir as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'ImGuiで使用する方向')
+    enum_.brief.add('ja', 'ツール機能で使用する方向')
 
     enum_.add('None', -1)
     with enum_.add('Left', 0) as v:
@@ -126,7 +126,7 @@ with ToolTreeNode as enum_:
 ToolInputText = cbg.Enum('Altseed', 'ToolInputText')
 with ToolInputText as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'Toolにおいてインプットされるテキストの設定を表します')
+    enum_.brief.add('ja', 'ツール機能においてインプットされるテキストの設定を表します')
 
     enum_.add('None', 0)
 
@@ -235,7 +235,7 @@ with ToolInputText as enum_:
 ToolColorEdit = cbg.Enum('Altseed', 'ToolColorEdit')
 with ToolColorEdit as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'Toolにおける色の設定を表します')
+    enum_.brief.add('ja', 'ツール機能における色の設定を表します')
 
     enum_.add('None', 0)
 
@@ -423,7 +423,7 @@ with ToolSelectable as enum_:
 ToolWindow = cbg.Enum('Altseed', 'ToolWindow')
 with ToolWindow as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'Toolのウィンドウにおける設定を表します')
+    enum_.brief.add('ja', 'ツール機能のウィンドウにおける設定を表します')
 
     enum_.add('None', 0)
 
@@ -559,7 +559,7 @@ with ToolWindow as enum_:
 ToolTabBar = cbg.Enum('Altseed', 'ToolTabBar')
 with ToolTabBar as enum_:
     enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'Toolのタブバーにおける設定を表します')
+    enum_.brief.add('ja', 'ツール機能のタブバーにおける設定を表します')
 
     enum_.add('None', 0)
     with enum_.add('Reorderable', 1 << 0) as v:
@@ -616,7 +616,7 @@ ToolGlyphRanges = cbg.Enum('Altseed', 'ToolGlyphRanges')
 with ToolGlyphRanges as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('en', 'Don\'t bit operation')
-    enum_.brief.add('ja', 'Tool機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。')
+    enum_.brief.add('ja', 'ツール機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。')
 
     enum_.add('Default')
 

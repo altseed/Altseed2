@@ -20,8 +20,9 @@ with LogCategory as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ログの範囲を表します。')
     enum_.add('Core', 0)
-    enum_.add('Engine', 1)
-    enum_.add('User', 2)
+    enum_.add('Graphics', 2)
+    enum_.add('Engine', 3)
+    enum_.add('User', 4)
 
 Log = cbg.Class('Altseed', 'Log')
 with Log as class_:
