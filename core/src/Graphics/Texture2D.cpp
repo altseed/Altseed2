@@ -1,5 +1,6 @@
 ﻿#include "Texture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include <libpng16/png.h>
 #include <stb_image.h>
 
 #include "../Common/Resources.h"
@@ -35,6 +36,43 @@ bool Texture2D::Reload() { return false; }
 const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
 
 Vector2I Texture2D::GetSize() const { return size_; }
+
+void Texture2D::Save(const char16_t* path) {
+    FILE* f;
+    fopen_s(&f, utf16_to_utf8(path).c_str(), "wb");
+
+    png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_infop ip = png_create_info_struct(pp);
+
+    png_init_io(pp, f);
+    png_set_IHDR(
+            pp,
+            ip,
+            GetSize().X,
+            GetSize().Y,
+            8,
+            PNG_COLOR_TYPE_RGBA,
+            PNG_INTERLACE_NONE,
+            PNG_COMPRESSION_TYPE_DEFAULT,
+            PNG_FILTER_TYPE_DEFAULT);
+
+    png_bytep raw1D = (png_bytep)malloc(GetSize().Y * png_get_rowbytes(pp, ip));
+    png_bytepp raw2D = (png_bytepp)malloc(GetSize().Y * sizeof(png_bytep));
+    for (int i = 0; i < GetSize().Y; i++) raw2D[i] = &raw1D[i * png_get_rowbytes(pp, ip)];
+
+    auto buf = (uint8_t*)GetNativeTexture()->Lock();
+    for (size_t i = 0; i < GetSize().X * GetSize().Y * 4; i++) raw1D[i] = buf[i];
+    GetNativeTexture()->Unlock();
+
+    png_write_info(pp, ip);
+    png_write_image(pp, raw2D);
+    png_write_end(pp, ip);
+
+    png_destroy_write_struct(&pp, &ip);
+    fclose(f);
+    free(raw1D);
+    free(raw2D);
+}
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     Locked<std::mutex> locked = mtxs[path].Lock();
