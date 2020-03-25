@@ -341,7 +341,8 @@ add_dependencies(
     ExternalProject_libpng
     ExternalProject_libzip
     ExternalProject_glslang
-    ExternalProject_SPIRV-Cross)
+    ExternalProject_SPIRV-Cross
+    box2d)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
