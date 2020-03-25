@@ -20,6 +20,8 @@ set(core_files
     Common/StringHelper.h
     Common/Assertion.h
     Common/ThreadSafeMap.h
+    Common/BinaryWriter.h
+    Common/BinaryReader.h
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
     Graphics/BuiltinShader.h
