@@ -14,6 +14,7 @@
 #include "Graphics/Graphics.h"
 #include "Graphics/ImageFont.h"
 #include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Tool/Tool.h"
@@ -371,6 +372,49 @@ TEST(Font, ImageFont) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Font, StaticFont) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
+
+    EXPECT_TRUE(Altseed::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/test.a2f", 100, u"Hello, world! こんにちは"));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
+    auto staticFont = Altseed::Font::LoadStaticFont(u"TestData/test.a2f");
+
+    std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
+
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"Hello, world! こんにちは");
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+        texts.push_back(t);
+    }
+
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(staticFont);
+        t->SetText(u"Hello, world! こんにちは");
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 200, 0));
+        texts.push_back(t);
+    }
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        for (const auto& t : texts) {
+            Altseed::Renderer::GetInstance()->DrawText(t);
+        }
+
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
         EXPECT_TRUE(instance->EndFrame());
     }
 
