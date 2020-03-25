@@ -208,7 +208,9 @@ void FrameDebugger::Texture(const ShaderStageType stageType, const std::u16strin
 }
 
 void FrameDebugger::DumpTexture() {
-    auto r = Graphics::GetInstance()->GetCommandList()->GetCurrentRenderPass();
+    auto cmdList =  Graphics::GetInstance()->GetCommandList();
+    cmdList->GetLL()->WaitUntilCompleted();
+    auto r = cmdList->GetCurrentRenderPass();
     for (int i = 0; i < r->GetRenderTextureCount(); i++) {
         auto texture = r->GetRenderTexture(i);
         auto data = Graphics::GetInstance()->GetGraphicsLLGI()->CaptureRenderTarget(texture);
