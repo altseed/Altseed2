@@ -62,11 +62,16 @@ void BatchRenderer::Draw(
     b.VertexCount += vbCount;
     b.IndexCount += ibCount;
 
-    FrameDebugger::GetInstance()->Draw(vbCount, ibCount);
+    if (FrameDebugger::GetInstance()->Draw(vbCount, ibCount)) {
+        Render();
+        FrameDebugger::GetInstance()->DumpTexture();
+    }
 }
 
-void BatchRenderer::Render(CommandList* commandList) {
+void BatchRenderer::Render() {
     if (batches_.size() == 0) return;
+
+    auto commandList = Graphics::GetInstance()->GetCommandList();
 
     if (VertexBufferMax < vbOffset_ + rawVertexBuffer_.size()) {
         vbOffset_ = 0;
@@ -122,15 +127,15 @@ void BatchRenderer::Render(CommandList* commandList) {
 
         // constant buffer
         commandList->StoreUniforms(
-                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
         commandList->StoreUniforms(
-                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
         commandList->StoreTextures(
-                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
         commandList->StoreTextures(
-                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
         commandList->GetLL()->Draw(batch.IndexCount / 3);
@@ -138,8 +143,8 @@ void BatchRenderer::Render(CommandList* commandList) {
         FrameDebugger::GetInstance()->Render(batch.IndexCount);
     }
 
-     vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());
-    ibOffset_ += static_cast<int32_t> (rawIndexBuffer_.size());
+    vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());
+    ibOffset_ += static_cast<int32_t>(rawIndexBuffer_.size());
 }
 
 void BatchRenderer::ResetCache() {

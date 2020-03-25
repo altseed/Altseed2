@@ -79,7 +79,7 @@ TEST(Font, Basic) {
         for (auto& s : sprites) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
         EXPECT_TRUE(instance->EndFrame());
     }
 
@@ -148,7 +148,7 @@ TEST(Font, Weight) {
         for (auto& s : sprites) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
         EXPECT_TRUE(instance->EndFrame());
     }
 
@@ -215,7 +215,7 @@ TEST(Font, Weight) {
 //         for (auto& s : sprites) {
 //             Altseed::Renderer::GetInstance()->DrawSprite(s);
 //         }
-//         Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+//         Altseed::Renderer::GetInstance()->Render();
 //         EXPECT_TRUE(instance->EndFrame());
 //     }
 
@@ -283,7 +283,7 @@ TEST(Font, Surrogate) {
         for (auto& s : sprites) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
         EXPECT_TRUE(instance->EndFrame());
     }
 
@@ -370,7 +370,7 @@ TEST(Font, ImageFont) {
         for (auto& s : sprites) {
             Altseed::Renderer::GetInstance()->DrawSprite(s);
         }
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
         EXPECT_TRUE(instance->EndFrame());
     }
 

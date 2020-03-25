@@ -1,7 +1,16 @@
 #include "FrameDebugger.h"
 
+#include <sstream>
+
 #include "../Common/StringHelper.h"
 #include "../Logger/Log.h"
+#include "CommandList.h"
+#include "Graphics.h"
+
+//#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+//#include "../../../thirdparty/stb/stb_image.h"
+#include "../../../thirdparty/stb/stb_image_write.h"
 
 namespace Altseed {
 
@@ -149,13 +158,14 @@ void FrameDebugger::EndFrame() {
     isEnabled_ = false;
 }
 
-void FrameDebugger::Draw(const int32_t vbCount, const int32_t ibCount) {
-    if (!isEnabled_) return;
+bool FrameDebugger::Draw(const int32_t vbCount, const int32_t ibCount) {
+    if (!isEnabled_) return false;
     auto e = MakeAsdShared<FrameEventDraw>();
     e->Type = FrameEventType::Draw;
     e->VbCount = vbCount;
     e->IbCount = ibCount;
     events_.push_back(e);
+    return true;
 }
 
 void FrameDebugger::Render(const int32_t indexCount) {
@@ -195,6 +205,20 @@ void FrameDebugger::Texture(const ShaderStageType stageType, const std::u16strin
     e->StageType = stageType;
     e->Name = name;
     events_.push_back(e);
+}
+
+void FrameDebugger::DumpTexture() {
+    auto r = Graphics::GetInstance()->GetCommandList()->GetCurrentRenderPass();
+    for (int i = 0; i < r->GetRenderTextureCount(); i++) {
+        auto texture = r->GetRenderTexture(i);
+        auto data = Graphics::GetInstance()->GetGraphicsLLGI()->CaptureRenderTarget(texture);
+        auto size = texture->GetSizeAs2D();
+        std::stringstream ss;
+        ss << "RenderTarget" << (renderTargetCount++) << ".png";
+        auto str = ss.str();
+        stbi_write_png(str.c_str(), size.X, size.Y, 4, data.data(), size.X * 4);
+        Write(u"RenderTarget Dumped to {}", str);
+    }
 }
 
 template <typename... Args>

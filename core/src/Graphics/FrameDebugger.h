@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../BaseObject.h"
+#include "../LLGI/src/LLGI.Texture.h"
 #include "../Math/Matrix44F.h"
 #include "../Math/Vector2I.h"
 #include "../Math/Vector4F.h"
@@ -46,7 +47,6 @@ class FrameEventSetRenderTargetWithRealScreen : public FrameEvent {
 public:
 };
 
-
 class FrameEventDraw : public FrameEvent {
 public:
     int32_t VbCount;
@@ -83,6 +83,8 @@ private:
     template <typename... Args>
     void Write(const char16_t* format, const Args&... args);
 
+    int32_t renderTargetCount = 0;
+
 public:
     static bool Initialize();
     static std::shared_ptr<FrameDebugger>& GetInstance();
@@ -96,10 +98,12 @@ public:
     void BeginRenderPass();
     void EndRenderPass();
     void EndFrame();
-    void Draw(const int32_t vbCount, const int32_t ibCount);
+    bool Draw(const int32_t vbCount, const int32_t ibCount);
     void Render(const int32_t indexCount);
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Vector4F& vector);
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Matrix44F& matrix);
     void Texture(const ShaderStageType stageType, const std::u16string name);
+
+    void DumpTexture();
 };
 }  // namespace Altseed

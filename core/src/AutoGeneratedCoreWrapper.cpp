@@ -977,11 +977,10 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* polygon
     cbg_self_->DrawPolygon(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self, void* commandList) {
+CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self) {
     auto cbg_self_ = (Altseed::Renderer*)(cbg_self);
 
-    std::shared_ptr<Altseed::CommandList> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::CommandList>((Altseed::CommandList*)commandList);
-    cbg_self_->Render(cbg_arg0);
+    cbg_self_->Render();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_SetCamera(void* cbg_self, void* commandList) {

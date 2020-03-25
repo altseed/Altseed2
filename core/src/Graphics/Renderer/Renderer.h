@@ -54,7 +54,7 @@ public:
 #endif
     void DrawText(std::shared_ptr<RenderedText> text);
 
-    void Render(std::shared_ptr<CommandList> commandList);
+    void Render();
 
     void SetCamera(std::shared_ptr<RenderedCamera> camera);
 

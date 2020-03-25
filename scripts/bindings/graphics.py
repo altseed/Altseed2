@@ -69,7 +69,7 @@ with Shader as class_:
             arg.brief.add('ja', 'コンパイルするコード')
         with func.add_arg(ShaderStageType, 'shaderStage') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '')            
+            arg.brief.add('ja', '')
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
@@ -105,7 +105,8 @@ with BuiltinShader as class_:
         func.brief.add('ja', 'シェーダを取得します。')
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="type"/>に対応した種類の組み込みの<see cref="Shader"/>のインスタンス')
+        func.return_value.brief.add(
+            'ja', '<paramref name="type"/>に対応した種類の組み込みの<see cref="Shader"/>のインスタンス')
         with func.add_arg(BuiltinShaderType, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの種類')
@@ -125,7 +126,8 @@ with Material as class_:
         func.brief.add('ja', '指定した名前を持つ<see cref="Vector4F"/>のインスタンスを取得する')
         func.return_value.type_ = Vector4F
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Vector4F"/>のインスタンス')
+        func.return_value.brief.add(
+            'ja', '<paramref name="key"/>を名前として持つ<see cref="Vector4F"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
@@ -145,7 +147,8 @@ with Material as class_:
         func.brief.add('ja', '指定した名前を持つ<see cref="Matrix44F"/>のインスタンスを取得する')
         func.return_value.type_ = Matrix44F
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Matrix44F"/>のインスタンス')
+        func.return_value.brief.add(
+            'ja', '<paramref name="key"/>を名前として持つ<see cref="Matrix44F"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
@@ -165,7 +168,8 @@ with Material as class_:
         func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>のインスタンスを取得する')
         func.return_value.type_ = Texture2D
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="key"/>を名前として持つ<see cref="Texture2D"/>のインスタンス')
+        func.return_value.brief.add(
+            'ja', '<paramref name="key"/>を名前として持つ<see cref="Texture2D"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
@@ -188,14 +192,15 @@ with Material as class_:
             arg.brief.add('ja', '検索するシェーダのタイプ')
         func.return_value.type_ = Shader
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="shaderStage"/>に一致するタイプのシェーダ')
+        func.return_value.brief.add(
+            'ja', '<paramref name="shaderStage"/>に一致するタイプのシェーダ')
     with class_.add_func('SetShader') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'シェーダを設定する')
         with func.add_arg(Shader, 'shader') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定するシェーダ')
-    
+
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
@@ -326,7 +331,8 @@ with Font as class_:
         func.brief.add('ja', '動的にフォントを生成します')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
+        func.return_value.brief.add(
+            'ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
@@ -340,7 +346,8 @@ with Font as class_:
         func.brief.add('ja', '静的にフォントを生成します')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
+        func.return_value.brief.add(
+            'ja', '<paramref name="path"/>の指定するファイルから生成されたフォント')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
@@ -559,27 +566,32 @@ with RenderedCamera as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
+
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'RenderedCameraを作成します。')
         func.return_value.type_ = RenderedCamera
         func.is_static = True
+
     with class_.add_property(Vector2F, 'CenterOffset') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'CenterOffsetを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+
     with class_.add_property(RenderTexture, 'TargetTexture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'TargetTextureを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
 
+
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
     class_.is_public = False
+
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')
@@ -588,6 +600,7 @@ with Renderer as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
+
     with class_.add_func('DrawSprite') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'スプライトを描画します。')
@@ -595,6 +608,7 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedSprite"/>のインスタンス')
         func.is_public = False
+
     with class_.add_func('DrawText') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テキストを描画します。')
@@ -602,6 +616,7 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedText"/>のインスタンス')
         func.is_public = False
+
     with class_.add_func('DrawPolygon') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ポリゴンを描画します。')
@@ -609,13 +624,12 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedPolygon"/>のインスタンス')
         func.is_public = False
+
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
-        with func.add_arg(CommandList, 'commandList') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '描画するコマンドリスト')
         func.is_public = False
+
     with class_.add_func('SetCamera') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラを設定します。')
@@ -623,6 +637,7 @@ with Renderer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画するカメラ')
         func.is_public = False
+
     with class_.add_func('ResetCamera') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラの設定をリセットします。')
