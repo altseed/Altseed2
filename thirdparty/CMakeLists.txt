@@ -226,6 +226,12 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/f
 
 endif()
 
+# box2d
+set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "disable box2d unit test" FORCE)
+set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "disable box2d testbed" FORCE)
+add_subdirectory(box2d)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/box2d/include)
+
 # hidapi
 add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 
