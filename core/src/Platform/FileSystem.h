@@ -12,10 +12,7 @@ public:
     static int32_t GetLastWriteTime(const std::u16string& path);
     static void GetChildPaths(const std::u16string& path, std::vector<std::u16string>& childPaths);
     static int32_t GetFileSize(const std::u16string& path);
-
-#ifdef _WIN32
-#undef CreateDirectory
-#endif
     static bool CreateDirectory(const std::u16string& path);
+    static std::u16string GetParentPath(const std::u16string& path);
 };
 }  // namespace Altseed

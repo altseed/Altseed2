@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dirent.h>
+#include <libgen.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 
@@ -70,5 +71,7 @@ bool FileSystem::CreateDirectory(const std::u16string& path) {
 
     return true;
 }
+
+std::u16string FileSystem::GetParentPath(const std::u16string& path) { return utf8_to_ut16(dirname(utf16_to_utf8(path))); }
 
 }  // namespace Altseed
