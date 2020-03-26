@@ -1,4 +1,4 @@
-﻿#define STB_TRUETYPE_IMPLEMENTATION
+#define STB_TRUETYPE_IMPLEMENTATION
 
 #include "Font.h"
 #include <string>
@@ -212,7 +212,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
 #ifdef _WIN32
     fs.open((wchar_t*)staticFontPath, std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #else
-    fs.open(utf16_to_utf8(staticFontPath).c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
+    fs.open(utf16_to_utf8(staticFontPath).c_str(), std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #endif
     if (!fs.is_open()) return false;
 

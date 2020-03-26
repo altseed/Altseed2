@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <LLGI.Base.h>
 #include <map>
@@ -32,7 +32,7 @@ public:
 
     Vector2I GetSize() const;
 
-	void Save(const char16_t* path);
+	bool Save(const char16_t* path);
 
     const char16_t* GetPath() const;
 

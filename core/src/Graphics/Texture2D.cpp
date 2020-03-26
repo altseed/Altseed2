@@ -1,4 +1,4 @@
-﻿#include "Texture2D.h"
+#include "Texture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <libpng16/png.h>
 #include <stb_image.h>
@@ -37,9 +37,14 @@ const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
 
 Vector2I Texture2D::GetSize() const { return size_; }
 
-void Texture2D::Save(const char16_t* path) {
+bool Texture2D::Save(const char16_t* path) {
     FILE* f;
+#ifdef _WIN32
     fopen_s(&f, utf16_to_utf8(path).c_str(), "wb");
+#else
+    f = fopen(utf16_to_utf8(path).c_str(), "wb");
+#endif
+    if (f == NULL) return false;
 
     png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     png_infop ip = png_create_info_struct(pp);
@@ -72,6 +77,8 @@ void Texture2D::Save(const char16_t* path) {
     fclose(f);
     free(raw1D);
     free(raw2D);
+    
+    return true;
 }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {

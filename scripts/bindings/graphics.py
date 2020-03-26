@@ -42,6 +42,9 @@ with Texture2D as class_:
         func.brief = cbg.Description()
         func.brief.add('ja', 'png画像として保存します')
         func.is_public = True
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '成功したか否か')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '保存先')

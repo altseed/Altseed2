@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <libgen.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 
 #include "../Common/StringHelper.h"
@@ -72,6 +73,12 @@ bool FileSystem::CreateDirectory(const std::u16string& path) {
     return true;
 }
 
-std::u16string FileSystem::GetParentPath(const std::u16string& path) { return utf8_to_ut16(dirname(utf16_to_utf8(path))); }
+std::u16string FileSystem::GetParentPath(const std::u16string& path) {
+    char* tmp = new char[utf16_to_utf8(path).size() + 1];
+    strcpy(tmp, utf16_to_utf8(path).c_str());
+    std::u16string res(utf8_to_utf16(dirname(tmp)));
+    delete [] tmp;
+    return res;
+}
 
 }  // namespace Altseed
