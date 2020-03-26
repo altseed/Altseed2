@@ -56,7 +56,7 @@ public:
 
     LLGI::Shader* Get() const { return shader_.get(); }
 
-    static std::shared_ptr<Shader> Create(const char16_t* code, const char16_t* name, ShaderStageType shaderStage);
+    static std::shared_ptr<Shader> Create(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 
     const char16_t* GetCode() const { return utf8_to_utf16(code_).c_str(); }
 
