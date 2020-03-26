@@ -119,7 +119,7 @@ TEST(Graphics, BasicPolygonTextureRender) {
 
         Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, 4, 6, t1);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
 
@@ -221,7 +221,7 @@ TEST(Graphics, PolygonTextureRenderWithVertexArray) {
         Altseed::Renderer::GetInstance()->DrawPolygon(v1, ib, t1);
         Altseed::Renderer::GetInstance()->DrawPolygon(v2, ib);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -260,7 +260,7 @@ TEST(Graphics, SpriteTexture) {
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -341,7 +341,7 @@ TEST(Graphics, RenderedText) {
             Altseed::Renderer::GetInstance()->DrawText(t);
         }
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -379,7 +379,7 @@ TEST(Graphics, RenderedPolygon) {
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -425,7 +425,7 @@ TEST(Graphics, CameraBasic) {
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
@@ -476,11 +476,11 @@ TEST(Graphics, RenderTexture) {
         auto r = Altseed::Renderer::GetInstance();
         r->SetCamera(camera);
         r->DrawSprite(s1);
-        r->Render(instance->GetCommandList());
+        r->Render();
 
         r->SetCamera(camera2);
         r->DrawSprite(s2);
-        r->Render(instance->GetCommandList());
+        r->Render();
 
         EXPECT_TRUE(instance->EndFrame());
         if (count == 2) Altseed::FrameDebugger::GetInstance()->DumpToLog();
@@ -522,7 +522,7 @@ TEST(Graphics, BackgroundBugcheck) {
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }

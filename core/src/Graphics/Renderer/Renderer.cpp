@@ -98,8 +98,8 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
 }
 
-void Renderer::Render(std::shared_ptr<CommandList> commandList) {
-    batchRenderer_->Render(commandList.get());
+void Renderer::Render() {
+    batchRenderer_->Render();
     batchRenderer_->ResetCache();
 }
 

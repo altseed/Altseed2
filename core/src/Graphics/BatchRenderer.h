@@ -67,7 +67,7 @@ public:
             const std::shared_ptr<Material>& material,
             const std::shared_ptr<MaterialPropertyBlock>& propBlock);
 
-    void Render(CommandList* commandList);
+    void Render();
     void ResetCache();
 
     void SetViewProjectionWithWindowsSize(const Vector2I& windowSize);

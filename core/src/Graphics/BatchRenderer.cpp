@@ -65,8 +65,10 @@ void BatchRenderer::Draw(
     FrameDebugger::GetInstance()->Draw(vbCount, ibCount);
 }
 
-void BatchRenderer::Render(CommandList* commandList) {
+void BatchRenderer::Render() {
     if (batches_.size() == 0) return;
+
+    auto commandList = Graphics::GetInstance()->GetCommandList();
 
     if (VertexBufferMax < vbOffset_ + rawVertexBuffer_.size()) {
         vbOffset_ = 0;
@@ -122,15 +124,15 @@ void BatchRenderer::Render(CommandList* commandList) {
 
         // constant buffer
         commandList->StoreUniforms(
-                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
         commandList->StoreUniforms(
-                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
         commandList->StoreTextures(
-                commandList, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
         commandList->StoreTextures(
-                commandList, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
+                commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
         commandList->GetLL()->Draw(batch.IndexCount / 3);

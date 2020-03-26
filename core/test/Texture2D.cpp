@@ -133,7 +133,7 @@ TEST(Texture2D, Save) {
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
