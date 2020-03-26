@@ -38,6 +38,16 @@ with Texture2D as class_:
         func.return_value.type_ = ctypes.c_wchar_p
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだファイルのパス')
+    with class_.add_func('Save') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'png画像として保存します')
+        func.is_public = True
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '成功したか否か')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '保存先')
 
 RenderTexture = cbg.Class('Altseed', 'RenderTexture')
 with RenderTexture as class_:
@@ -344,6 +354,26 @@ with Font as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
+        func.is_public = True
+        func.is_static = True
+    with class_.add_func('GenerateFontFile') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'a2fフォントを生成します')
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '生成できたか否か')
+        with func.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むtruetypeフォントのパス')
+        with func.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '生成するa2fフォントのパス')
+        with func.add_arg(int, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フォントのサイズ')    
+        with func.add_arg(ctypes.c_wchar_p, 'characters') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'フォント化させる文字列')
         func.is_public = True
         func.is_static = True
     with class_.add_func('GetGlyph') as func:

@@ -1,5 +1,3 @@
-#pragma once
-
 #if __GNUC__ >= 8
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -30,5 +28,7 @@ void FileSystem::GetChildPaths(const std::u16string& path, std::vector<std::u16s
 int32_t FileSystem::GetFileSize(const std::u16string& path) { return fs::file_size(path); }
 
 bool FileSystem::CreateDirectory(const std::u16string& path) { return fs::create_directory(path); }
+
+std::u16string FileSystem::GetParentPath(const std::u16string& path) { return fs::path(path).parent_path().u16string(); }
 
 }  // namespace Altseed

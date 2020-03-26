@@ -45,6 +45,7 @@ ExternalProject_Add(
                     -DPNG_BUILD_ZLIB=ON
                     -DPNG_SHARED=OFF
                     -DPNG_TESTS=OFF
+                    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng/lib)

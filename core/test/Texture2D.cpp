@@ -2,6 +2,9 @@
 #include <Graphics/Texture2D.h>
 #include <IO/File.h>
 #include <gtest/gtest.h>
+#include "Graphics/Graphics.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/Renderer.h"
 
 #include <string>
 #include <thread>
@@ -90,6 +93,50 @@ TEST(Texture2D, Async) {
 
     EXPECT_EQ(testCache, test1);
     EXPECT_EQ(testPackCache, testPack1);
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Texture2D, Save) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    std::shared_ptr<Altseed::Texture2D> test = nullptr;
+    EXPECT_NE(test = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
+
+    test->Save(u"copy.png");
+
+    std::shared_ptr<Altseed::Texture2D> copy = nullptr;
+    EXPECT_NE(copy = Altseed::Texture2D::Load(u"copy.png"), nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed::RenderedSprite::Create();
+
+    auto scale = Altseed::Matrix44F();
+    scale.SetScale(0.5f, 0.5f, 0);
+
+    s1->SetTexture(test);
+    s1->SetTransform(scale);
+    s1->SetSrc(Altseed::RectF(0, 0, test->GetSize().X, test->GetSize().Y));
+
+    auto position = Altseed::Matrix44F();
+    position.SetTranslation(200, 200, 0);
+    s2->SetTexture(copy);
+    s2->SetTransform(position * scale);
+    s2->SetSrc(Altseed::RectF(0, 0, copy->GetSize().X, copy->GetSize().Y));
+
+    int count = 0;
+    while (count++ < 10 && instance->DoEvents()) {
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+
+        Altseed::Renderer::GetInstance()->Render(instance->GetCommandList());
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
 
     Altseed::Core::Terminate();
 }

@@ -46,7 +46,6 @@ private:
     int32_t ascent_, descent_, lineGap_;
 
     int32_t size_;
-    float weight_;
 
     std::shared_ptr<StaticFile> file_;
 
@@ -58,10 +57,8 @@ private:
 
     static ThreadSafeMap<std::u16string, std::mutex> m_fontMtx;
 
-protected:
-    Font();
-
 public:
+    Font();
     Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
 
     virtual int32_t GetSize() { return size_; }
@@ -81,6 +78,8 @@ public:
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
     static std::shared_ptr<Font> CreateImageFont(std::shared_ptr<Font> baseFont);
+
+	static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters);
 
     virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
     virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }
