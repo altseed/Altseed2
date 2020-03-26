@@ -1,5 +1,3 @@
-#pragma once
-
 #if __GNUC__ >= 8
 #include <filesystem>
 namespace fs = std::filesystem;
