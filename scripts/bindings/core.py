@@ -8,6 +8,9 @@ Configuration = cbg.Class('Altseed', 'Configuration')
 with Configuration as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'Coreを初期化する際の設定を保持すクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
+    class_.handleCache = False
 
     with class_.add_constructor() as c:
         c.brief = cbg.Description()
@@ -18,36 +21,42 @@ with Configuration as class_:
         prop.brief.add('ja', '全画面モードかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
     
     with class_.add_property(bool, 'IsResizable') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(bool, 'ConsoleLoggingEnabled') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログをコンソールに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(bool, 'FileLoggingEnabled') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログをファイルに出力するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
     
     with class_.add_property(ctypes.c_wchar_p, 'LogFileName') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログファイル名を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(bool, 'ToolEnabled') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ツール機能を使用するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 FramerateMode = cbg.Enum('Altseed', 'FramerateMode')
 with FramerateMode as enum_:

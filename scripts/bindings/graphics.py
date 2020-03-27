@@ -7,10 +7,12 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-Texture2D = cbg.Class('Altseed', 'Texture2D')
+Texture2D = cbg.Class('Altseed', 'Texture2D', cbg.CacheMode.ThreadSafeCache)
 with Texture2D as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '2Dテクスチャのクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.CallBackType = cbg.CallBackType.Enable
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
@@ -34,14 +36,14 @@ with Texture2D as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
+        prop.serialized = True
 
-    with class_.add_func('GetPath') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        func.is_public = False
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのパス')
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        prop.is_public = False
+        prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_func('Save') as func:
         func.brief = cbg.Description()
@@ -60,6 +62,9 @@ with RenderTexture as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポストエフェクトやカメラにおける描画先のクラス')
     class_.base_class = Texture2D
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
+    class_.is_Sealed = True
+    class_.CallBackType = cbg.CallBackType.Enable
 
     with class_.add_func('Create') as func:
         func.add_arg(Vector2I, 'size')
@@ -77,6 +82,7 @@ Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -98,18 +104,21 @@ with Shader as class_:
     with class_.add_property(ShaderStageType, 'StageType') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
+        prop_.serialized = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Code') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', 'インスタンス生成に使用したコードを取得します')
         prop_.has_getter = True
         prop_.has_setter = False
+        prop_.serialized = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '名前を取得します')
         prop_.has_getter = True
         prop_.has_setter = False
+        prop_.serialized = True
 
 BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
@@ -141,6 +150,7 @@ Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マテリアル')
+    class_.SerializeType = cbg.SerializeType.AttributeOnly
 
     with class_.add_constructor() as func:
         func.brief = cbg.Description()
@@ -355,6 +365,8 @@ Font = cbg.Class('Altseed', 'Font', cbg.CacheMode.ThreadSafeCache)
 with Font as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'フォント')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.CallBackType = cbg.CallBackType.Enable
 
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
@@ -389,7 +401,7 @@ with Font as class_:
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'フォントのサイズ')
-        func.is_public = True
+        func.is_public = False
         func.is_static = True
 
     with class_.add_func('LoadStaticFont') as func:
@@ -402,7 +414,7 @@ with Font as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
-        func.is_public = True
+        func.is_public = False
         func.is_static = True
 
     with class_.add_func('GenerateFontFile') as func:
@@ -461,13 +473,11 @@ with Font as class_:
             arg.brief.add('ja', '文字2')
         func.is_public = True
 
-    with class_.add_func('GetPath') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        func.is_public = False
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのパス')
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        prop.is_public = False
+        prop.has_getter = True
 
     with class_.add_func('CalcTextureSize') as func:
         func.brief = cbg.Description()
@@ -526,6 +536,8 @@ with Rendered as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '描画されるオブジェクトの基本クラスを表します')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.AttributeOnly
+    
     with class_.add_property(Matrix44F, 'Transform') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '変換行列を取得または設定します。')
@@ -539,6 +551,7 @@ with RenderedSprite as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'スプライトのクラス')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -551,18 +564,21 @@ with RenderedSprite as class_:
         prop.brief.add('ja', 'テクスチャを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '描画範囲を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 
 RenderedText = cbg.Class('Altseed', 'RenderedText')
@@ -571,6 +587,7 @@ with RenderedText as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テキストのクラス')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -583,30 +600,35 @@ with RenderedText as class_:
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Text') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テキストを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(Font, 'Font') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'フォントを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(float, 'Weight') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '文字の太さを取得または設定します。(0 ~ 255)')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(Color, 'Color') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '色を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 
 RenderedPolygon = cbg.Class('Altseed', 'RenderedPolygon')
@@ -615,6 +637,7 @@ with RenderedPolygon as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポリゴンのクラス')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -634,24 +657,28 @@ with RenderedPolygon as class_:
         prop.brief.add('ja', '頂点情報を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(Texture2D, 'Texture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '描画範囲を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
 with RenderedCamera as class_:
@@ -659,6 +686,7 @@ with RenderedCamera as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -671,12 +699,14 @@ with RenderedCamera as class_:
         prop.brief.add('ja', 'CenterOffsetを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(RenderTexture, 'TargetTexture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'TargetTextureを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:
