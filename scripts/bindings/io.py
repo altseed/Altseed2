@@ -8,6 +8,9 @@ StaticFile = cbg.Class('Altseed', 'StaticFile', cbg.CacheMode.ThreadSafeCache)
 with StaticFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
+    
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定ファイルを読み込んだ<see cref="StaticFile"/>の新しいインスタンスを生成します。')
@@ -19,6 +22,7 @@ with StaticFile as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
             'ja', 'pathで読み込んだファイルを格納する<see cref="StaticFile"/>の新しいインスタンスを生成します。')
+
     with class_.add_func('GetBuffer') as func:
         func.is_public = False
         func.brief = cbg.Description()
@@ -26,18 +30,23 @@ with StaticFile as class_:
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだファイルのデータ')
+
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.has_getter = True
+
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルのデータサイズを取得します。')
         prop.has_getter = True
+
     with class_.add_property(bool, 'IsInPackage') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得します。')
         prop.has_getter = True
+
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '再読み込みを行います。')
@@ -49,6 +58,10 @@ StreamFile = cbg.Class('Altseed', 'StreamFile', cbg.CacheMode.ThreadSafeCache)
 with StreamFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
+    class_.CallBackType = cbg.CallBackType.Enable
+
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定ファイルを読み込む<see cref="StreamFile"/>の新しいインスタンスを生成します。')
@@ -60,14 +73,18 @@ with StreamFile as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
             'ja', 'pathで読み込むファイルを格納する<see cref="StreamFile"/>の新しいインスタンスを生成します。')
+
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込むファイルのデータサイズを取得します。')
         prop.has_getter = True
+
     with class_.add_property(int, 'CurrentPosition') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '現在読み込んでいるファイル上の位置を取得します。')
         prop.has_getter = True
+        prop.serialized = True
+
     with class_.add_func('Read') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定した分ファイルを読み込む')
@@ -77,6 +94,7 @@ with StreamFile as class_:
         func.return_value.type_ = int
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込まれたデータサイズ')
+
     with class_.add_func('GetTempBuffer') as func:
         func.is_public = False
         func.brief = cbg.Description()
@@ -84,21 +102,23 @@ with StreamFile as class_:
         func.return_value.type_ = Int8Array
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '現在読み込んでいるファイルのデータ')
+        
     with class_.add_property(int, 'TempBufferSize') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '現在読み込んでいるファイルのデータサイズを取得します。')
         prop.has_getter = True
+
     with class_.add_property(bool, 'IsInPackage') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込むファイルがファイルパッケージ内に格納されているかどうかを取得します。')
         prop.has_getter = True
-    with class_.add_func('GetPath') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        func.is_public = False
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのパス')
+
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        prop.is_public = False
+        prop.has_getter = True
+
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '再読み込みを行います。')

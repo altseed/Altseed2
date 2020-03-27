@@ -18,6 +18,8 @@ with Int8Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '8ビット整数の配列のクラスを表します。')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
@@ -27,6 +29,7 @@ with Int8Array as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
+        prop_.serialized = True
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -86,6 +89,8 @@ with Int32Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
@@ -95,6 +100,7 @@ with Int32Array as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
+        prop_.serialized = True
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -153,6 +159,8 @@ with VertexArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '頂点データの配列のクラスを表します。')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
@@ -162,6 +170,7 @@ with VertexArray as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
+        prop_.serialized = True
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -220,6 +229,8 @@ with FloatArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '浮動小数点数の配列のクラスを表します。')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
@@ -229,6 +240,7 @@ with FloatArray as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
+        prop_.serialized = True
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -287,6 +299,8 @@ with Vector2FArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '2次元ベクトルの配列のクラスを表します。')
     class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
@@ -296,6 +310,7 @@ with Vector2FArray as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
+        prop_.serialized = True
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()

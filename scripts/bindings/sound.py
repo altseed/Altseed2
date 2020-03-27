@@ -18,6 +18,8 @@ Sound = cbg.Class('Altseed', 'Sound', cbg.CacheMode.ThreadSafeCache)
 with Sound as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源のクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
@@ -38,39 +40,40 @@ with Sound as class_:
         prop.brief.add('ja', 'ループ開始地点(秒)を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(float, 'LoopEndPoint') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ループ終了地点(秒)を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(bool, 'IsLoopingMode') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ループするかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(float, 'Length') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '音源の長さ(秒)を取得します。')
         prop.has_getter = True
         
-    with class_.add_func('GetPath') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        func.is_public = False
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '読み込んだファイルのパス')
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        prop.is_public = False
+        prop.has_getter = True
+        prop.serialized = True
         
-    with class_.add_func('GetIsDecompressed') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '音源を解凍するかどうかを取得する')
-        func.is_public = False
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '音源を解凍するかどうか')
+    with class_.add_property(bool, 'IsDecompressed') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '音源を解凍するかどうかを取得する')
+        prop.is_public = False
+        prop.has_getter = True
+        prop.serialized = True
 
 SoundMixer = cbg.Class('Altseed', 'SoundMixer')
 with SoundMixer as class_:
