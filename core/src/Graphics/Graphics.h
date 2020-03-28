@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "../Math/Vector2F.h"
+#include "Color.h"
 #include "../Window/Window.h"
 #include "LLGIWindow.h"
 #include "Material.h"
@@ -61,6 +62,8 @@ class Graphics : public BaseObject {
 
     LLGI::Compiler* compiler_;
 
+    Color clearColor_;
+
 public:
     static std::shared_ptr<Graphics>& GetInstance();
 
@@ -90,5 +93,8 @@ public:
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }
+
+    Color GetClearColor() const { return clearColor_; }
+    void SetClearColor(Color clearColor) { clearColor_ = clearColor; }
 };
 }  // namespace Altseed

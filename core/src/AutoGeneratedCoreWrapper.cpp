@@ -820,6 +820,20 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetBuiltinShader(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::BuiltinShader>(cbg_ret);
 }
 
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Graphics_GetClearColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetClearColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Graphics_SetClearColor(void* cbg_self, Altseed::Color_C value) {
+    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = value;
+    cbg_self_->SetClearColor(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 

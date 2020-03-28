@@ -322,6 +322,13 @@ with Graphics as class_:
         func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')
         func.is_public = False
 
+    with class_.add_property(Color, 'ClearColor') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'クリア色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:

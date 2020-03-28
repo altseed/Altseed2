@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <LLGI.Graphics.h>
 #include <stdint.h>
 
 namespace Altseed {
@@ -21,6 +22,8 @@ public:
     bool operator==(const Color& right);
 
     operator Color_C() const;
+
+    LLGI::Color8 ToLL() const { return LLGI::Color8(R, G, B, A); }
 };
 
 struct Color_C {

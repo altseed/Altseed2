@@ -44,6 +44,8 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
     instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
     instance->commandList_ = CommandList::Create();
 
+    instance->clearColor_ = Color(50, 50, 50, 255);
+
     return true;
 }
 
