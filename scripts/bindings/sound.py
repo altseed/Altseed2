@@ -67,6 +67,7 @@ with Sound as class_:
         prop.is_public = False
         prop.has_getter = True
         prop.serialized = True
+        prop.null_deserialized = False
         
     with class_.add_property(bool, 'IsDecompressed') as prop:
         prop.brief = cbg.Description()
@@ -79,6 +80,7 @@ SoundMixer = cbg.Class('Altseed', 'SoundMixer')
 with SoundMixer as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源を操作するクラス')
+    class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
         func.is_static = True

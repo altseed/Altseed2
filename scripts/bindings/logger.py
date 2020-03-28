@@ -28,6 +28,7 @@ Log = cbg.Class('Altseed', 'Log')
 with Log as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ログを出力するクラス')
+    class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()

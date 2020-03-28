@@ -130,6 +130,8 @@ File = cbg.Class('Altseed', 'File')
 with File as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ファイル制御を行うクラス')
+    class_.is_Sealed = True
+    
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')

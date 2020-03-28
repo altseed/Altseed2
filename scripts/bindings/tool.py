@@ -642,6 +642,7 @@ with ToolGlyphRanges as enum_:
 
 Tool = cbg.Class('Altseed', 'Tool')
 with Tool as class_:
+    class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
         func.is_static = True
