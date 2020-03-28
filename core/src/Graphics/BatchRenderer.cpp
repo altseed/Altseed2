@@ -31,7 +31,7 @@ void BatchRenderer::Draw(
         const int32_t* ib,
         int32_t vbCount,
         int32_t ibCount,
-        const std::shared_ptr<Texture2D>& texture,
+        const std::shared_ptr<TextureBase>& texture,
         const std::shared_ptr<Material>& material,
         const std::shared_ptr<MaterialPropertyBlock>& propBlock) {
     if (batches_.size() == 0 || batches_.back().texture != texture || batches_.back().material != material ||

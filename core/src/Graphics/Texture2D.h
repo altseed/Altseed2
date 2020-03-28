@@ -10,18 +10,16 @@
 #include "../Common/Resources.h"
 #include "../Common/ThreadSafeMap.h"
 #include "../Math/Vector2I.h"
+#include "TextureBase.h"
 
 namespace Altseed {
-class Texture2D : public Resource {
+class Texture2D : public TextureBase {
 private:
     static ThreadSafeMap<std::u16string, std::mutex> mtxs;
 
     std::u16string sourcePath_;
-    std::shared_ptr<Resources> resources_ = nullptr;
 
 protected:
-    std::shared_ptr<LLGI::Texture> m_texture = nullptr;
-    Vector2I size_;
     Texture2D(){};
 
 public:
@@ -29,15 +27,7 @@ public:
     virtual ~Texture2D();
 
     bool Reload() override;
-
-    Vector2I GetSize() const;
-
-	bool Save(const char16_t* path);
-
-    const char16_t* GetPath() const;
-
-    std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
-
     static std::shared_ptr<Texture2D> Load(const char16_t* path);
+    const char16_t* GetPath() const;
 };
 }  // namespace Altseed

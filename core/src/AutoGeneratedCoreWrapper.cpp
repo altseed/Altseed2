@@ -826,6 +826,27 @@ CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_TextureBase_Save(void* cbg_self, const char16_t* path) {
+    auto cbg_self_ = (Altseed::TextureBase*)(cbg_self);
+
+    const char16_t* cbg_arg0 = path;
+    bool cbg_ret = cbg_self_->Save(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_TextureBase_GetSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::TextureBase*)(cbg_self);
+
+    Altseed::Vector2I_C cbg_ret = cbg_self_->GetSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_TextureBase_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::TextureBase*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Texture2D_Load(const char16_t* path) {
     const char16_t* cbg_arg0 = path;
     std::shared_ptr<Altseed::Texture2D> cbg_ret = Altseed::Texture2D::Load(cbg_arg0);
@@ -844,21 +865,6 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Texture2D_GetPath(void* cbg_self) {
 
     const char16_t* cbg_ret = cbg_self_->GetPath();
     return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Save(void* cbg_self, const char16_t* path) {
-    auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    bool cbg_ret = cbg_self_->Save(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Texture2D_GetSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Texture2D*)(cbg_self);
-
-    Altseed::Vector2I_C cbg_ret = cbg_self_->GetSize();
-    return (cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
@@ -919,15 +925,15 @@ CBGEXPORT void* CBGSTDCALL cbg_Material_GetTexture(void* cbg_self, const char16_
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
     const char16_t* cbg_arg0 = key;
-    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture(cbg_arg0);
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed::TextureBase> cbg_ret = cbg_self_->GetTexture(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Material_SetTexture(void* cbg_self, const char16_t* key, void* value) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
     const char16_t* cbg_arg0 = key;
-    std::shared_ptr<Altseed::Texture2D> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    std::shared_ptr<Altseed::TextureBase> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::TextureBase>((Altseed::TextureBase*)value);
     cbg_self_->SetTexture(cbg_arg0, cbg_arg1);
 }
 
@@ -1065,14 +1071,14 @@ CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_Create() {
 CBGEXPORT void* CBGSTDCALL cbg_RenderedSprite_GetTexture(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture();
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed::TextureBase> cbg_ret = cbg_self_->GetTexture();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetTexture(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    std::shared_ptr<Altseed::TextureBase> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::TextureBase>((Altseed::TextureBase*)value);
     cbg_self_->SetTexture(cbg_arg0);
 }
 
@@ -1448,13 +1454,6 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int
     return cbg_ret;
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    const char16_t* cbg_ret = cbg_self_->GetPath();
-    return cbg_ret;
-}
-
 CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Font_CalcTextureSize(void* cbg_self, const char16_t* text, int32_t direction, bool isEnableKerning) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
@@ -1512,6 +1511,13 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetLineGap();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
     return cbg_ret;
 }
 
@@ -2186,13 +2192,6 @@ CBGEXPORT void* CBGSTDCALL cbg_StreamFile_GetTempBuffer(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Int8Array>(cbg_ret);
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
-    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
-
-    const char16_t* cbg_ret = cbg_self_->GetPath();
-    return cbg_ret;
-}
-
 CBGEXPORT bool CBGSTDCALL cbg_StreamFile_Reload(void* cbg_self) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
@@ -2225,6 +2224,13 @@ CBGEXPORT bool CBGSTDCALL cbg_StreamFile_GetIsInPackage(void* cbg_self) {
     auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
 
     bool cbg_ret = cbg_self_->GetIsInPackage();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_StreamFile_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::StreamFile*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
     return cbg_ret;
 }
 
@@ -2357,20 +2363,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Sound_Load(const char16_t* path, bool isDecompres
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Sound>(cbg_ret);
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Sound_GetPath(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
-
-    const char16_t* cbg_ret = cbg_self_->GetPath();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsDecompressed(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->GetIsDecompressed();
-    return cbg_ret;
-}
-
 CBGEXPORT float CBGSTDCALL cbg_Sound_GetLoopStartingPoint(void* cbg_self) {
     auto cbg_self_ = (Altseed::Sound*)(cbg_self);
 
@@ -2417,6 +2409,20 @@ CBGEXPORT float CBGSTDCALL cbg_Sound_GetLength(void* cbg_self) {
     auto cbg_self_ = (Altseed::Sound*)(cbg_self);
 
     float cbg_ret = cbg_self_->GetLength();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Sound_GetPath(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetPath();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Sound_GetIsDecompressed(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Sound*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsDecompressed();
     return cbg_ret;
 }
 

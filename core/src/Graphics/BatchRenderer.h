@@ -13,7 +13,7 @@ namespace Altseed {
 class Graphics;
 class CommandList;
 class Material;
-class Texture2D;
+class TextureBase;
 class MaterialPropertyBlock;
 class MaterialPropertyBlockCollection;
 class Shader;
@@ -31,7 +31,7 @@ private:
     static const int32_t IndexBufferMax = 1024 * 200 * 4;
 
     struct Batch {
-        std::shared_ptr<Texture2D> texture;
+        std::shared_ptr<TextureBase> texture;
         std::shared_ptr<Material> material;
         std::shared_ptr<MaterialPropertyBlock> propBlock;
 
@@ -63,7 +63,7 @@ public:
             const int32_t* ib,
             int32_t vbCount,
             int32_t ibCount,
-            const std::shared_ptr<Texture2D>& texture,
+            const std::shared_ptr<TextureBase>& texture,
             const std::shared_ptr<Material>& material,
             const std::shared_ptr<MaterialPropertyBlock>& propBlock);
 

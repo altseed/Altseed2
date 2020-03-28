@@ -7,12 +7,46 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
+TextureBase = cbg.Class('Altseed', 'TextureBase',
+                        cbg.CacheMode.ThreadSafeCache)
+with TextureBase as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'テクスチャのベースクラス')
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.CallBackType = cbg.CallBackType.Enable
+
+    with class_.add_property(Vector2I, 'Size') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
+        prop.has_getter = True
+        prop.serialized = True
+
+    with class_.add_func('Save') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'png画像として保存します')
+        func.is_public = True
+        func.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '成功したか否か')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '保存先')
+
+
 Texture2D = cbg.Class('Altseed', 'Texture2D', cbg.CacheMode.ThreadSafeCache)
 with Texture2D as class_:
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '2Dテクスチャのクラス')
+    class_.brief.add('ja', 'テクスチャのクラス')
+    class_.base_class = TextureBase
     class_.SerializeType = cbg.SerializeType.Interface
     class_.CallBackType = cbg.CallBackType.Enable
+
+    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
+        prop.is_public = False
+        prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
@@ -32,36 +66,12 @@ with Texture2D as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
 
-    with class_.add_property(Vector2I, 'Size') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
-        prop.has_getter = True
-        prop.serialized = True
-
-    with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        prop.is_public = False
-        prop.has_getter = True
-        prop.serialized = True
-
-    with class_.add_func('Save') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'png画像として保存します')
-        func.is_public = True
-        func.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '成功したか否か')
-        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '保存先')
-
 
 RenderTexture = cbg.Class('Altseed', 'RenderTexture')
 with RenderTexture as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポストエフェクトやカメラにおける描画先のクラス')
-    class_.base_class = Texture2D
+    class_.base_class = TextureBase
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
     class_.CallBackType = cbg.CallBackType.Enable
@@ -206,7 +216,7 @@ with Material as class_:
     with class_.add_func('GetTexture') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>のインスタンスを取得する')
-        func.return_value.type_ = Texture2D
+        func.return_value.type_ = TextureBase
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
             'ja', '<paramref name="key"/>を名前として持つ<see cref="Texture2D"/>のインスタンス')
@@ -221,7 +231,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
-        with func.add_arg(Texture2D, 'value') as arg:
+        with func.add_arg(TextureBase, 'value') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
         func.is_public = True
@@ -537,7 +547,7 @@ with Rendered as class_:
     class_.brief.add('ja', '描画されるオブジェクトの基本クラスを表します')
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.AttributeOnly
-    
+
     with class_.add_property(Matrix44F, 'Transform') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '変換行列を取得または設定します。')
@@ -559,7 +569,7 @@ with RenderedSprite as class_:
         func.return_value.type_ = RenderedSprite
         func.is_static = True
 
-    with class_.add_property(Texture2D, 'Texture') as prop:
+    with class_.add_property(TextureBase, 'Texture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャを取得または設定します。')
         prop.has_getter = True

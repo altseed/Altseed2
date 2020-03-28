@@ -8,17 +8,18 @@
 #include "../Math/Matrix44F.h"
 #include "../Math/Vector4F.h"
 #include "Shader.h"
+#include "TextureBase.h"
 
 namespace Altseed {
 
 enum class ShaderStageType;
 class Shader;
-class Texture2D;
+class TextureBase;
 
 class MaterialPropertyBlock : public BaseObject {
     std::unordered_map<std::u16string, Vector4F> vector4s_;
     std::unordered_map<std::u16string, Matrix44F> matrix44s_;
-    std::unordered_map<std::u16string, std::shared_ptr<Texture2D>> textures_;
+    std::unordered_map<std::u16string, std::shared_ptr<TextureBase>> textures_;
 
 public:
     Vector4F GetVector4F(const char16_t* key) const;
@@ -29,9 +30,9 @@ public:
     void SetMatrix44F(const char16_t* key, const Matrix44F& value);
     bool GetMatrix44F(const char16_t* key, Matrix44F& value);
 
-    std::shared_ptr<Texture2D> GetTexture(const char16_t* key) const;
-    void SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value);
-    bool GetTexture(const char16_t* key, std::shared_ptr<Texture2D>& value);
+    std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
+    void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
+    bool GetTexture(const char16_t* key, std::shared_ptr<TextureBase>& value);
 };
 
 class MaterialPropertyBlockCollection : public BaseObject {
@@ -42,7 +43,7 @@ public:
     void Clear();
     Vector4F GetVector4F(const char16_t* key) const;
     Matrix44F GetMatrix44F(const char16_t* key) const;
-    std::shared_ptr<Texture2D> GetTexture(const char16_t* key) const;
+    std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
 };
 
 class Material : public BaseObject {
@@ -62,8 +63,8 @@ public:
     Matrix44F GetMatrix44F(const char16_t* key) const;
     void SetMatrix44F(const char16_t* key, const Matrix44F& value);
 
-    std::shared_ptr<Texture2D> GetTexture(const char16_t* key) const;
-    void SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value);
+    std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
+    void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
 
     std::shared_ptr<Shader> GetShader(Altseed::ShaderStageType shaderStage) const;
     void SetShader(std::shared_ptr<Shader>& shader);

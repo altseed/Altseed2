@@ -51,7 +51,7 @@ bool MaterialPropertyBlock::GetMatrix44F(const char16_t* key, Matrix44F& value) 
     return false;
 }
 
-std::shared_ptr<Texture2D> MaterialPropertyBlock::GetTexture(const char16_t* key) const {
+std::shared_ptr<TextureBase> MaterialPropertyBlock::GetTexture(const char16_t* key) const {
     auto it = textures_.find(key);
 
     if (it != textures_.end()) return it->second;
@@ -60,9 +60,9 @@ std::shared_ptr<Texture2D> MaterialPropertyBlock::GetTexture(const char16_t* key
     return nullptr;
 }
 
-void MaterialPropertyBlock::SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value) { textures_[key] = value; }
+void MaterialPropertyBlock::SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value) { textures_[key] = value; }
 
-bool MaterialPropertyBlock::GetTexture(const char16_t* key, std::shared_ptr<Texture2D>& value) {
+bool MaterialPropertyBlock::GetTexture(const char16_t* key, std::shared_ptr<TextureBase>& value) {
     auto it = textures_.find(key);
 
     if (it != textures_.end()) {
@@ -104,8 +104,8 @@ Matrix44F MaterialPropertyBlockCollection::GetMatrix44F(const char16_t* key) con
     return ret;
 }
 
-std::shared_ptr<Texture2D> MaterialPropertyBlockCollection::GetTexture(const char16_t* key) const {
-    std::shared_ptr<Texture2D> ret;
+std::shared_ptr<TextureBase> MaterialPropertyBlockCollection::GetTexture(const char16_t* key) const {
+    std::shared_ptr<TextureBase> ret;
     for (int32_t i = static_cast<int32_t>(blocks_.size()) - 1; i >= 0; i--) {
         if (blocks_[i]->GetTexture(key, ret)) {
             return ret;
@@ -127,9 +127,9 @@ Matrix44F Material::GetMatrix44F(const char16_t* key) const { return propertyBlo
 
 void Material::SetMatrix44F(const char16_t* key, const Matrix44F& value) { propertyBlock_->SetMatrix44F(key, value); }
 
-std::shared_ptr<Texture2D> Material::GetTexture(const char16_t* key) const { return propertyBlock_->GetTexture(key); }
+std::shared_ptr<TextureBase> Material::GetTexture(const char16_t* key) const { return propertyBlock_->GetTexture(key); }
 
-void Material::SetTexture(const char16_t* key, const std::shared_ptr<Texture2D>& value) { propertyBlock_->SetTexture(key, value); }
+void Material::SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value) { propertyBlock_->SetTexture(key, value); }
 
 std::shared_ptr<Shader> Material::GetShader(ShaderStageType shaderStage) const {
     switch (shaderStage) {

@@ -104,7 +104,7 @@ void Renderer::Render() {
 }
 
 void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
-    std::shared_ptr<Texture2D> texture = sprite->GetTexture();
+    auto texture = sprite->GetTexture();
 
     std::array<BatchVertex, 4> vs;
     vs[0].Pos.X = 0;

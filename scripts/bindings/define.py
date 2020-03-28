@@ -81,6 +81,7 @@ define.structs.append(BatchVertex)
 define.structs.append(Color)
 
 define.classes.append(Graphics)
+define.classes.append(TextureBase)
 define.classes.append(Texture2D)
 define.classes.append(RenderTexture)
 define.classes.append(Material)

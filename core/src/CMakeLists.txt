@@ -66,6 +66,8 @@ set(core_files
     Graphics/ShaderCompiler/ShaderTranspiler.cpp
     Graphics/Texture2D.h
     Graphics/Texture2D.cpp
+    Graphics/TextureBase.h
+    Graphics/TextureBase.cpp
     IO/BaseFileReader.h
     IO/BaseFileReader.cpp
     IO/File.h

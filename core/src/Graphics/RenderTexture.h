@@ -13,16 +13,21 @@
 #include "../Common/Resources.h"
 #include "../Math/Vector2I.h"
 #include "Graphics.h"
-#include "Texture2D.h"
+#include "TextureBase.h"
 
 namespace Altseed {
-class RenderTexture : public Texture2D {
+class RenderTexture : public TextureBase {
 public:
     RenderTexture(const std::shared_ptr<LLGI::Texture>& texture);
     RenderTexture(Vector2I size);
     virtual ~RenderTexture();
 
     static std::shared_ptr<RenderTexture> Create(Vector2I size);
+
+    bool Reload() override {
+        assert(false);
+        return false;
+    };
 };
 
 }  // namespace Altseed
