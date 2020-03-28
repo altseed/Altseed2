@@ -565,13 +565,14 @@ with Rendered as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '描画されるオブジェクトの基本クラスを表します')
     class_.is_public = False
-    class_.SerializeType = cbg.SerializeType.AttributeOnly
+    class_.SerializeType = cbg.SerializeType.Interface
 
     with class_.add_property(Matrix44F, 'Transform') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '変換行列を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 
 RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
@@ -580,7 +581,7 @@ with RenderedSprite as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'スプライトのクラス')
     class_.is_public = False
-    class_.SerializeType = cbg.SerializeType.Interface
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
@@ -617,7 +618,7 @@ with RenderedText as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テキストのクラス')
     class_.is_public = False
-    class_.SerializeType = cbg.SerializeType.Interface
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
@@ -668,7 +669,7 @@ with RenderedPolygon as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポリゴンのクラス')
     class_.is_public = False
-    class_.SerializeType = cbg.SerializeType.Interface
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
@@ -718,7 +719,7 @@ with RenderedCamera as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
-    class_.SerializeType = cbg.SerializeType.Interface
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
