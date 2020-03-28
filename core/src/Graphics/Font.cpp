@@ -116,6 +116,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     BinaryReader reader(file);
 
     auto font = MakeAsdShared<Font>();
+    font->file_ = file;
     font->size_ = reader.Get<int32_t>();
     font->ascent_ = reader.Get<int32_t>();
     font->descent_ = reader.Get<int32_t>();
