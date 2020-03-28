@@ -199,6 +199,8 @@ Keyboard = cbg.Class('Altseed', 'Keyboard')
 with Keyboard as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'キーボードを表します。')
+    class_.is_Sealed = True
+
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetKeyState') as func:
         func.brief = cbg.Description()
@@ -267,6 +269,8 @@ Mouse = cbg.Class('Altseed', 'Mouse')
 with Mouse as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マウスを表します。')
+    class_.is_Sealed = True
+
     # Initialize は Core 内部で呼び出されるので Engine には公開しない
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
@@ -412,6 +416,8 @@ Joystick = cbg.Class('Altseed', 'Joystick')
 with Joystick as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ジョイスティックを表すクラス')
+    class_.is_Sealed = True
+    
     # Core 内部で呼び出されるので Initialize は Engineに公開しない
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()

@@ -40,6 +40,7 @@ with Texture2D as class_:
     class_.base_class = TextureBase
     class_.SerializeType = cbg.SerializeType.Interface
     class_.CallBackType = cbg.CallBackType.Enable
+    class_.is_Sealed = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
         prop.brief = cbg.Description()
@@ -47,6 +48,7 @@ with Texture2D as class_:
         prop.is_public = False
         prop.has_getter = True
         prop.serialized = True
+        prop.null_deserialized = False
 
     with class_.add_func('Load') as func:
         func.brief = cbg.Description()
@@ -74,7 +76,7 @@ with RenderTexture as class_:
     class_.base_class = TextureBase
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
-    class_.CallBackType = cbg.CallBackType.Enable
+    class_.CallBackType = cbg.CallBackType.Enable_Usebase
 
     with class_.add_func('Create') as func:
         func.add_arg(Vector2I, 'size')
@@ -93,6 +95,7 @@ with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -142,6 +145,7 @@ BuiltinShader = cbg.Class('Altseed', 'BuiltinShader')
 with BuiltinShader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '組み込みシェーダの取得を行うクラス')
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -161,6 +165,7 @@ with Material as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マテリアル')
     class_.SerializeType = cbg.SerializeType.AttributeOnly
+    class_.is_Sealed = True
 
     with class_.add_constructor() as func:
         func.brief = cbg.Description()
@@ -259,6 +264,8 @@ CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'コマンドリストのクラス')
+    class_.is_Sealed = True
+
     with class_.add_func('SetRenderTargetWithScreen') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('ja', '？')
@@ -282,6 +289,7 @@ with Graphics as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
     class_.is_public = False
+    class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
@@ -346,6 +354,7 @@ Glyph = cbg.Class('Altseed', 'Glyph', cbg.CacheMode.ThreadSafeCache)
 with Glyph as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '文字情報')
+    class_.is_Sealed = True
 
     with class_.add_property(Vector2I, 'TextureSize') as prop:
         prop.brief = cbg.Description()
@@ -384,6 +393,7 @@ with Font as class_:
     class_.brief.add('ja', 'フォント')
     class_.SerializeType = cbg.SerializeType.Interface
     class_.CallBackType = cbg.CallBackType.Enable
+    class_.is_Sealed = True
 
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
@@ -465,6 +475,7 @@ with Font as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '文字')
         func.is_public = True
+
     with class_.add_func('GetFontTexture') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '文字列テクスチャを得る')
@@ -495,6 +506,7 @@ with Font as class_:
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.is_public = False
         prop.has_getter = True
+        prop.null_deserialized = False
 
     with class_.add_func('CalcTextureSize') as func:
         func.brief = cbg.Description()
@@ -569,6 +581,7 @@ with RenderedSprite as class_:
     class_.brief.add('ja', 'スプライトのクラス')
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -605,6 +618,7 @@ with RenderedText as class_:
     class_.brief.add('ja', 'テキストのクラス')
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -655,6 +669,7 @@ with RenderedPolygon as class_:
     class_.brief.add('ja', 'ポリゴンのクラス')
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -704,6 +719,7 @@ with RenderedCamera as class_:
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.is_Sealed = True
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
@@ -730,6 +746,7 @@ with Renderer as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
     class_.is_public = False
+    class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
