@@ -425,6 +425,11 @@ with Font as class_:
         prop.brief.add('ja', 'フォントの行間の距離を取得する')
         prop.has_getter = True
 
+    with class_.add_property(bool, 'IsStaticFont') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'StaticFontか否か')
+        prop.has_getter = True
+
     with class_.add_func('LoadDynamicFont') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '動的にフォントを生成します')
@@ -439,7 +444,7 @@ with Font as class_:
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'フォントのサイズ')
-        func.is_public = False
+        func.is_public = True
         func.is_static = True
 
     with class_.add_func('LoadStaticFont') as func:
@@ -453,7 +458,7 @@ with Font as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
             arg.nullable = False
-        func.is_public = False
+        func.is_public = True
         func.is_static = True
 
     with class_.add_func('GenerateFontFile') as func:
@@ -518,7 +523,6 @@ with Font as class_:
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
-        prop.is_public = False
         prop.has_getter = True
         prop.null_deserialized = False
 

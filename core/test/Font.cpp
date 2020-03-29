@@ -399,7 +399,7 @@ TEST(Font, StaticFont) {
     {
         auto t = Altseed::RenderedText::Create();
         t->SetFont(staticFont);
-        t->SetText(u"Hello, world! こんにちは");
+        t->SetText(u"Hello, world! こんにちは------");
         t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 200, 0));
         texts.push_back(t);
     }

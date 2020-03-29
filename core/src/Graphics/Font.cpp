@@ -1,12 +1,14 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
-#include "Font.h"
+#include <sstream>
 #include <string>
+
 #include "../Common/BinaryReader.h"
 #include "../Common/BinaryWriter.h"
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "../Platform/FileSystem.h"
+#include "Font.h"
 #include "Graphics.h"
 #include "ImageFont.h"
 
@@ -30,10 +32,11 @@ Font::Font()
       lineGap_(0),
       scale_(0),
       fontinfo_(stbtt_fontinfo()),
-      textureSize_(Vector2I(2000, 2000)) {}
+      textureSize_(Vector2I(2000, 2000)),
+      isStaticFont_(true) {}
 
 Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size)
-    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), textureSize_(Vector2I(2000, 2000)) {
+    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), textureSize_(Vector2I(2000, 2000)), isStaticFont_(false) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
@@ -46,15 +49,30 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
 }
 
 std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
-    if (glyphs_.count(character)) return glyphs_[character];
+    if (glyphs_.count(character))
+        return glyphs_[character];
+    else if (GetIsStaticFont()) {
+        std::string tmp;
+        tmp += (char32_t)character;
+        Log::GetInstance()->Warn(LogCategory::Core, u"Glyph for '{0}' character not found", tmp.c_str());
+
+        return glyphs_[u'\0'];
+    }
 
     AddGlyph(character);
     return glyphs_[character];
 }
 
 int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
+    if (GetIsStaticFont()) {
+        if (kernings_.count(std::make_pair(c1, c2)) != 0)
+            return kernings_[std::make_pair(c1, c2)];
+        else
+            return 0;
+    }
+
     int kern;
-    kern = stbtt_GetCodepointKernAdvance(&fontinfo_, (char16_t)c1, (char16_t)c2);
+    kern = stbtt_GetCodepointKernAdvance(&fontinfo_, c1, c2);
     return kern * scale_;
 }
 
@@ -85,7 +103,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && !cache->GetIsStaticFont()) {
         return cache;
     }
 
@@ -110,6 +128,15 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
+    Locked<std::mutex> locked = m_fontMtx[path].Lock();
+    std::lock_guard<std::mutex> lock(locked.Get());
+
+    auto resources = Resources::GetInstance();
+    auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
+    if (cache != nullptr && cache->GetIsStaticFont()) {
+        return cache;
+    }
+
     auto file = StaticFile::Create(path);
     if (file == nullptr) return nullptr;
 
@@ -145,6 +172,10 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
         auto glyph = MakeAsdShared<Glyph>(textureSize, index, position, size, offset, width);
         font->glyphs_[character] = glyph;
+
+		for (size_t l = 0; l < glyphCount; l++) {
+            font->kernings_[std::make_pair(reader.Get<int32_t>(), reader.Get<int32_t>())] = reader.Get<int32_t>();
+        }
     }
 
     return font;
@@ -168,6 +199,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
 
     // add characters
     std::u16string addCharacters(characters);
+    addCharacters += u'\0';
     std::map<int32_t, std::shared_ptr<Glyph>> glyphs;
     for (size_t i = 0; i < addCharacters.size(); i++) {
         char32_t tmp = 0;
@@ -197,11 +229,16 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
         writer.Push(glyph.second->GetSize());
         writer.Push(glyph.second->GetOffset());
         writer.Push(glyph.second->GetGlyphWidth());
+        for (auto glyph2 : glyphs) {
+            writer.Push(glyph.first);
+            writer.Push(glyph2.first);
+            writer.Push(font->GetKerning(glyph.first, glyph2.first));
+        }
     }
 
     // save font textures
-    auto textureDir =
-            FileSystem::GetParentPath(staticFontPath) + (FileSystem::GetParentPath(staticFontPath).size() == 0 ? u"Textures" : u"/Textures");
+    auto textureDir = FileSystem::GetParentPath(staticFontPath) +
+                      (FileSystem::GetParentPath(staticFontPath).size() == 0 ? u"Textures" : u"/Textures");
     if (!FileSystem::GetIsDirectory(textureDir.c_str()))
         if (!FileSystem::CreateDirectory(textureDir.c_str())) return false;
     int i = 0;
@@ -237,7 +274,7 @@ void Font::AddFontTexture() {
 }
 
 void Font::AddGlyph(const int32_t character) {
-    if (file_ == nullptr) return;
+    if (GetIsStaticFont()) return;
 
     Vector2I offset;
     int32_t w, h, glyphW;
