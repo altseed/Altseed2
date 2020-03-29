@@ -22,7 +22,7 @@ protected:
     std::recursive_mutex m_readerMtx;
 
 public:
-    BaseFileReader(const std::u16string& path);
+    BaseFileReader(const std::u16string& path, bool isInPackage = false);
     virtual ~BaseFileReader();
 
     int64_t GetPosition() const { return m_position; }
