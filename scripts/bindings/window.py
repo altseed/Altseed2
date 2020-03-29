@@ -22,6 +22,7 @@ with Window as class_:
         prop.brief.add('ja', 'ウィンドウに表示するタイトルを取得または設定します')
         prop.has_getter = True
         prop.has_setter = True
+        prop.nullable = False
 
     with class_.add_property(Vector2I, "Size") as prop:
         prop.brief = cbg.Description()

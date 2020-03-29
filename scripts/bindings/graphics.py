@@ -31,6 +31,7 @@ with TextureBase as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '保存先')
+            arg.nullable = False
 
 
 Texture2D = cbg.Class('Altseed', 'Texture2D', cbg.CacheMode.ThreadSafeCache)
@@ -56,6 +57,7 @@ with Texture2D as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
+            arg.nullable = False
         func.return_value.type_ = Texture2D
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'テクスチャ')
@@ -103,9 +105,11 @@ with Shader as class_:
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの名前')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'code') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コンパイルするコード')
+            arg.nullable = False
         with func.add_arg(ShaderStageType, 'shaderStage') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')
@@ -182,6 +186,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
+            arg.nullable = False
         func.is_public = True
 
     with class_.add_func('SetVector4F') as func:
@@ -190,6 +195,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
+            arg.nullable = False
         with func.add_arg(Vector4F, 'value') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Vector4F"/>のインスタンスの値')
@@ -205,6 +211,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
+            arg.nullable = False
         func.is_public = True
 
     with class_.add_func('SetMatrix44F') as func:
@@ -213,6 +220,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
+            arg.nullable = False
         with func.add_arg(Matrix44F, 'value') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Matrix44F"/>のインスタンスの値')
@@ -228,6 +236,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
+            arg.nullable = False
         func.is_public = True
 
     with class_.add_func('SetTexture') as func:
@@ -236,6 +245,7 @@ with Material as class_:
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
+            arg.nullable = False
         with func.add_arg(TextureBase, 'value') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
@@ -425,6 +435,7 @@ with Font as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
+            arg.nullable = False
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'フォントのサイズ')
@@ -441,6 +452,7 @@ with Font as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むフォントのパス')
+            arg.nullable = False
         func.is_public = False
         func.is_static = True
 
@@ -453,9 +465,11 @@ with Font as class_:
         with func.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むtruetypeフォントのパス')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '生成するa2fフォントのパス')
+            arg.nullable = False
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'フォントのサイズ')
@@ -534,6 +548,7 @@ with Font as class_:
         with func.add_arg(Font, 'baseFont') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ベースとなるフォント')
+            arg.nullable = False
         func.is_public = True
         func.is_static = True
 

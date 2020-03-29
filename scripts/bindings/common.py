@@ -83,7 +83,6 @@ with Int8Array as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-
 Int32Array = cbg.Class('Altseed', 'Int32Array')
 with Int32Array as class_:
     class_.brief = cbg.Description()

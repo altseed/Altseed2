@@ -17,6 +17,7 @@ with StaticFile as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
+            arg.nullable = False
         func.is_static = True
         func.return_value.type_ = StaticFile
         func.return_value.brief = cbg.Description()
@@ -68,6 +69,7 @@ with StreamFile as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルのパス')
+            arg.nullable = False
         func.is_static = True
         func.return_value.type_ = StreamFile
         func.return_value.brief = cbg.Description()
@@ -146,6 +148,7 @@ with File as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '追加するディレクトリ')
+            arg.nullable = False
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '追加処理がうまくいったらtrue，それ以外でfalse')
@@ -155,9 +158,11 @@ with File as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルパッケージのパス')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'password') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルパッケージのパスワード')
+            arg.nullable = False
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込み処理がうまくいったらtrue，それ以外でfalse')
@@ -167,6 +172,7 @@ with File as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルパッケージのパス')
+            arg.nullable = False
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込み処理がうまくいったらtrue，それ以外でfalse')
@@ -188,9 +194,11 @@ with File as class_:
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックするファイルのディレクトリ')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'dstPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックされたファイル名')
+            arg.nullable = False
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'パック処理がうまくいったらtrue，それ以外でfalse')
@@ -200,12 +208,15 @@ with File as class_:
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックするファイルのディレクトリ')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'dstPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックされたファイル名')
+            arg.nullable = False
         with func.add_arg(ctypes.c_wchar_p, 'password') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'かけるパスワード')
+            arg.nullable = False
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'パック処理がうまくいったらtrue，それ以外でfalse')
