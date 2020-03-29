@@ -425,6 +425,11 @@ with Font as class_:
         prop.brief.add('ja', 'フォントの行間の距離を取得する')
         prop.has_getter = True
 
+    with class_.add_property(bool, 'IsStaticFont') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'StaticFontか否か')
+        prop.has_getter = True
+
     with class_.add_func('LoadDynamicFont') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '動的にフォントを生成します')

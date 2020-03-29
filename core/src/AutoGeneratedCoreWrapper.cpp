@@ -1528,6 +1528,13 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Font_GetIsStaticFont(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsStaticFont();
+    return cbg_ret;
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
 
