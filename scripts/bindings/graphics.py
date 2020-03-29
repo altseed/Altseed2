@@ -409,6 +409,7 @@ with Font as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'フォントのサイズを取得する')
         prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_property(int, 'Ascent') as prop:
         prop.brief = cbg.Description()
@@ -429,6 +430,7 @@ with Font as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'StaticFontか否か')
         prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_func('LoadDynamicFont') as func:
         func.brief = cbg.Description()
