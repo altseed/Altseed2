@@ -28,6 +28,7 @@ with Sound as class_:
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込む音声ファイルのパス')
+            arg.nullable = False
         with func.add_arg(bool, 'isDecompressed') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音を再生する前にデータを全て解凍するか?')
@@ -93,6 +94,7 @@ with SoundMixer as class_:
         with func.add_arg(Sound, 'sound') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音源データ')
+            arg.nullable = False
         func.return_value.type_ = int
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '再生中の音のID')
