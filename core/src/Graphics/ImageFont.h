@@ -27,6 +27,8 @@ public:
     int32_t GetDescent() override { return baseFont_->GetDescent(); }
     int32_t GetLineGap() override { return baseFont_->GetLineGap(); }
 
+    bool GetIsStaticFont() override { return baseFont_->GetIsStaticFont(); }
+
     std::shared_ptr<Glyph> GetGlyph(const int32_t character) override { return baseFont_->GetGlyph(character); }
     std::shared_ptr<Texture2D> GetFontTexture(int32_t index) override { return baseFont_->GetFontTexture(index); }
 

@@ -55,6 +55,9 @@ private:
 
     Vector2I currentTexturePosition_;
 
+    bool isStaticFont_;
+    std::map<std::pair<int32_t, int32_t>, int32_t> kernings_;
+
     static ThreadSafeMap<std::u16string, std::mutex> m_fontMtx;
 
 public:
@@ -65,6 +68,7 @@ public:
     virtual int32_t GetAscent() { return ascent_; }
     virtual int32_t GetDescent() { return descent_; }
     virtual int32_t GetLineGap() { return lineGap_; }
+    virtual bool GetIsStaticFont() { return isStaticFont_; }
 
     virtual std::shared_ptr<Glyph> GetGlyph(const int32_t character);
     virtual std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
@@ -79,7 +83,7 @@ public:
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
     static std::shared_ptr<Font> CreateImageFont(std::shared_ptr<Font> baseFont);
 
-	static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters);
+    static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters);
 
     virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
     virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }

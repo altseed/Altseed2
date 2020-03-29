@@ -9,11 +9,13 @@
 #include <string>
 #include <vector>
 #include "../Graphics/Color.h"
+#include "../IO/StaticFile.h"
 #include "../Math/Matrix44F.h"
 #include "../Math/RectF.h"
 #include "../Math/RectI.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
+#include "Assertion.h"
 
 namespace Altseed {
 class BinaryReader {
@@ -23,7 +25,7 @@ protected:
 
 public:
     BinaryReader(std::shared_ptr<StaticFile> file) {
-        ASD_ASSERT(file != nullptr, "static file is null")
+        ASD_ASSERT(file != nullptr, "static file is null");
         data.resize(file->GetSize());
         memcpy(reinterpret_cast<char*>(&data[0]), file->GetData(), file->GetSize());
         idx = 0;
