@@ -16,11 +16,17 @@ private:
     double radius_;
 
 public:
-    Vector2F GetPosition() const;
-    void SetPositoin(Vector2F position);
+    CircleCollider();
 
+    static std::shared_ptr<CircleCollider> Create();
+
+    // 半径
     double GetRadius() const;
     void SetRadius(double radius);
+
+    // 位置
+    Vector2F GetPosition() const;
+    void SetPosition(Vector2F position);
 
     bool GetIsCollidedWith(std::shared_ptr<Collider> shape) override;
 };

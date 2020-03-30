@@ -11,6 +11,7 @@ from .math import *
 from .logger import *
 from .tool import *
 from .window import *
+from .physics import *
 
 # サポートされない型
 # u16string は const char16_t* として扱われることになる
@@ -125,3 +126,8 @@ define.classes.append(Log)
 
 # Window
 define.classes.append(Window)
+
+# physics
+define.classes.append(Collider)
+define.classes.append(CircleCollider)
+define.classes.append(PolygonCollider)
