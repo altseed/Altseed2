@@ -14,6 +14,7 @@ set(core_test_files
     Texture2D.cpp
     Font.cpp
     ShaderCompiler.cpp
+    Physics.cpp
     Sound.cpp
     Log.cpp
     Keyboard.cpp
@@ -66,6 +67,7 @@ target_link_libraries(
     gtest
     spdlog
     hidapi
+    box2d
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 )
