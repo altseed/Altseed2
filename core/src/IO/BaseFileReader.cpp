@@ -6,8 +6,8 @@
 
 namespace Altseed {
 
-BaseFileReader::BaseFileReader(const std::u16string& path) : BaseObject(), m_path(path), m_length(-1), m_position(0) {
-    if (!GetIsInPackage()) {
+BaseFileReader::BaseFileReader(const std::u16string& path, bool isInPackage) : BaseObject(), m_path(path), m_length(-1), m_position(0) {
+    if (!isInPackage) {
         std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
 
 #ifdef _WIN32
@@ -15,6 +15,7 @@ BaseFileReader::BaseFileReader(const std::u16string& path) : BaseObject(), m_pat
 #else
         m_file.open(utf16_to_utf8(path).c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
 #endif
+        ASD_ASSERT(!m_file.fail(), utf16_to_utf8(u"fail to open file : " + path).c_str());
     }
 }
 

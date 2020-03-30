@@ -47,6 +47,7 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
             reader = MakeAsdShared<BaseFileReader>((*i)->GetPath() + path);
+            break;
         }
     }
     return reader;
