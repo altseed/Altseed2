@@ -8,9 +8,14 @@
 namespace Altseed {
 std::mutex StaticFile::m_staticFileMtx;
 
-StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) {
+StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) {
     std::vector<uint8_t> buffer;
-    m_fileReader->ReadAllBytes(buffer);
+    reader->ReadAllBytes(buffer);
+
+    path_ = reader->GetFullPath().c_str();
+    size_ = reader->GetSize();
+    isInPackage_ = reader->GetIsInPackage();
+
     m_buffer = MakeAsdShared<Int8Array>();
     for (auto i : buffer) {
         m_buffer->GetVector().push_back(i);
@@ -41,23 +46,28 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
 
 const std::shared_ptr<Int8Array>& StaticFile::GetBuffer() const { return m_buffer; }
 
-const char16_t* StaticFile::GetPath() const { return m_fileReader->GetFullPath().c_str(); }
+const char16_t* StaticFile::GetPath() const { return path_.c_str(); }
 
 const void* StaticFile::GetData() const { return m_buffer->GetData(); }
 
-int32_t StaticFile::GetSize() { return m_fileReader->GetSize(); }
+int32_t StaticFile::GetSize() { return size_; }
 
-bool StaticFile::GetIsInPackage() const { return m_fileReader->GetIsInPackage(); }
+bool StaticFile::GetIsInPackage() const { return isInPackage_; }
 
 bool StaticFile::Reload() {
-    if (m_fileReader->GetIsInPackage()) return false;
-    auto path = m_fileReader->GetFullPath();
+    if (isInPackage_) return false;
+    auto path = path_;
 
     m_buffer->Clear();
 
-    m_fileReader = MakeAsdShared<BaseFileReader>(path);
+    auto reader = MakeAsdShared<BaseFileReader>(path);
+
+    path_ = reader->GetFullPath().c_str();
+    size_ = reader->GetSize();
+    isInPackage_ = reader->GetIsInPackage();
+
     std::vector<uint8_t> buffer;
-    m_fileReader->ReadAllBytes(buffer);
+    reader->ReadAllBytes(buffer);
     for (auto i : buffer) {
         m_buffer->GetVector().push_back(i);
     }

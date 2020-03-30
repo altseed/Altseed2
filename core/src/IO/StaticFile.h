@@ -13,8 +13,11 @@ class File;
 
 class StaticFile : public Resource {
 private:
-    std::shared_ptr<BaseFileReader> m_fileReader;
     std::shared_ptr<Int8Array> m_buffer;
+
+    std::u16string path_;
+    int32_t size_;
+    bool isInPackage_;
 
     static std::mutex m_staticFileMtx;
 
