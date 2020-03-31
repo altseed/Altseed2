@@ -19,8 +19,8 @@
 #include <vector>
 
 #include "../Math/Vector2F.h"
-#include "Color.h"
 #include "../Window/Window.h"
+#include "Color.h"
 #include "LLGIWindow.h"
 #include "Material.h"
 #include "Shader.h"
@@ -37,6 +37,20 @@ class Material;
 class Camera;
 class BuiltinShader;
 class CommandList;
+
+enum class GraphicsDeviceType {
+    Default,
+    DirectX12,
+    Metal,
+    Vulkan,
+};
+
+struct GraphicsInitializationParameter {
+    GraphicsDeviceType Device;
+    bool WaitVSync;
+
+    operator LLGI::PlatformParameter() const;
+};
 
 struct VSConstants {
     std::array<float, 16> View;
@@ -67,7 +81,7 @@ class Graphics : public BaseObject {
 public:
     static std::shared_ptr<Graphics>& GetInstance();
 
-    static bool Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType = LLGI::DeviceType::Default);
+    static bool Initialize(std::shared_ptr<Window>& window, GraphicsInitializationParameter& parameter);
 
     bool BeginFrame();
 

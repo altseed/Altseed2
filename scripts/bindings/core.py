@@ -4,17 +4,34 @@ import sys
 
 from .common import *
 
+GraphicsDeviceType = cbg.Enum('Altseed', 'GraphicsDeviceType')
+with GraphicsDeviceType as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', '描画方法を表します。')
+    with enum_.add('Default') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '実行環境をもとに自動選択')
+    with enum_.add('DirectX') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'DirectX')
+    with enum_.add('Metal') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Metal')
+    with enum_.add('Vulkan') as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Vulkan')
+
 Configuration = cbg.Class('Altseed', 'Configuration')
 with Configuration as class_:
     class_.brief = cbg.Description()
-    class_.brief.add('ja', 'Coreを初期化する際の設定を保持すクラス')
+    class_.brief.add('ja', 'Altseed2 の設定を表すクラス')
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
     class_.handleCache = False
 
     with class_.add_constructor() as c:
         c.brief = cbg.Description()
-        c.brief.add('ja', '新しいインスタンスを生成する')
+        c.brief.add('ja', '新しいインスタンスを生成します。')
 
     with class_.add_property(bool, 'IsFullscreen') as prop:
         prop.brief = cbg.Description()
@@ -26,6 +43,20 @@ with Configuration as class_:
     with class_.add_property(bool, 'IsResizable') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '画面サイズ可変かどうかを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(GraphicsDeviceType, 'DeviceType') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画方法を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+    
+    with class_.add_property(bool, 'WaitVSync') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '垂直同期信号を待つかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseObject.h"
+#include "Graphics/Graphics.h"
 
 namespace Altseed {
 
@@ -8,9 +9,14 @@ class Configuration : public BaseObject {
 private:
     bool isFullscreen_ = false;
     bool isResizable_ = false;
+    GraphicsDeviceType deviceType_ = GraphicsDeviceType::Default;
+    bool waitVSync_ = false;
+    
     bool consoleLoggingEnabled_ = false;
     bool fileLoggingEnabled_ = false;
+
     bool toolEnabled_ = false;
+
     std::u16string logFileName_ = u"Log.txt";
 
 public:
@@ -23,6 +29,12 @@ public:
 
     bool GetIsResizable() const;
     void SetIsResizable(bool isResizable);
+
+    GraphicsDeviceType GetDeviceType() const;
+    void SetDeviceType(GraphicsDeviceType deviceType);
+
+    bool GetWaitVSync() const;
+    void SetWaitVSync(bool waitVSync);
 
     bool GetConsoleLoggingEnabled() const;
     void SetConsoleLoggingEnabled(bool fileLoggingEnabled);

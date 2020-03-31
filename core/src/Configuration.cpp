@@ -19,6 +19,14 @@ bool Configuration::GetIsResizable() const { return isResizable_; }
 
 void Configuration::SetIsResizable(bool isResizable) { isResizable_ = isResizable; }
 
+GraphicsDeviceType Configuration::GetDeviceType() const { return deviceType_; }
+
+void Configuration::SetDeviceType(GraphicsDeviceType deviceType) { deviceType_ = deviceType; }
+
+bool Configuration::GetWaitVSync() const { return waitVSync_; }
+
+void Configuration::SetWaitVSync(bool waitVSync) { waitVSync_ = waitVSync; }
+
 bool Configuration::GetConsoleLoggingEnabled() const { return consoleLoggingEnabled_; }
 
 void Configuration::SetConsoleLoggingEnabled(bool consoleLoggingEnabled) { consoleLoggingEnabled_ = consoleLoggingEnabled; }

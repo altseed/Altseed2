@@ -3,15 +3,9 @@
 #include <LLGI.Compiler.h>
 #include "../../BaseObject.h"
 #include "ShaderTranspiler.h"
+#include "../Graphics.h"
 
 namespace Altseed {
-
-enum class GraphicsDeviceType : int32_t {
-    DirectX12,
-    Metal,
-    Vulkan,
-    Other,
-};
 
 class Graphics;
 class Shader;

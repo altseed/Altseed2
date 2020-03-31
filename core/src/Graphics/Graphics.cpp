@@ -17,16 +17,40 @@
 
 namespace Altseed {
 
+GraphicsInitializationParameter::operator LLGI::PlatformParameter() const {
+    LLGI::PlatformParameter pp;
+
+    switch (this->Device) {
+        case GraphicsDeviceType::Default:
+            pp.Device = LLGI::DeviceType::Default;
+            break;
+        case GraphicsDeviceType::DirectX12:
+            pp.Device = LLGI::DeviceType::DirectX12;
+            break;
+        case GraphicsDeviceType::Metal:
+            pp.Device = LLGI::DeviceType::Metal;
+            break;
+        case GraphicsDeviceType::Vulkan:
+            pp.Device = LLGI::DeviceType::Vulkan;
+            break;
+    }
+    pp.WaitVSync = this->WaitVSync;
+
+    return pp;
+}
+
 std::shared_ptr<Graphics> Graphics::instance = nullptr;
 
 std::shared_ptr<Graphics>& Graphics::GetInstance() { return instance; }
 
-bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType deviceType) {
+bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializationParameter& parameter) {
     instance = CreateSharedPtr(new Graphics());
+
+    LLGI::PlatformParameter pp = parameter;
 
     instance->window_ = window;
     instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
-    instance->platform_ = LLGI::CreatePlatform(deviceType, instance->llgiWindow_.get());
+    instance->platform_ = LLGI::CreatePlatform(pp, instance->llgiWindow_.get());
     if (instance->platform_ == nullptr) {
         LOG_CRITICAL(u"Graphics::Initialize: Failed to CreatePlatform");
         return false;
@@ -39,7 +63,7 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, LLGI::DeviceType devi
         return false;
     }
 
-    instance->compiler_ = LLGI::CreateCompiler(deviceType);
+    instance->compiler_ = LLGI::CreateCompiler(pp.Device);
 
     instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
     instance->commandList_ = CommandList::Create();

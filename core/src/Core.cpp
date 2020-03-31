@@ -1,5 +1,9 @@
 #include "Core.h"
 
+#include <ctime>
+#include <iostream>
+#include <sstream>
+
 #include "BaseObject.h"
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Graphics.h"
@@ -14,10 +18,6 @@
 #include "Tool/Tool.h"
 #include "Window/Window.h"
 
-#include <ctime>
-#include <iostream>
-#include <sstream>
-
 namespace Altseed {
 std::shared_ptr<Core> Core::instance = nullptr;
 
@@ -31,6 +31,10 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = config->GetIsFullscreen();
     windowParameter.IsResizable = config->GetIsResizable();
+
+    GraphicsInitializationParameter graphicsParameter;
+    graphicsParameter.Device = config->GetDeviceType();
+    graphicsParameter.WaitVSync = config->GetWaitVSync();
 
     if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
         Core::instance = nullptr;
@@ -74,7 +78,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!Graphics::Initialize(Window::GetInstance())) {
+    if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
         LOG_CRITICAL(u"Graphics::Initialize failed");
         Core::instance = nullptr;
         return false;

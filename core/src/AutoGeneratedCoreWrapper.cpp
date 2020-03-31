@@ -112,6 +112,34 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsResizable(void* cbg_self, bool 
     cbg_self_->SetIsResizable(cbg_arg0);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_Configuration_GetDeviceType(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    Altseed::GraphicsDeviceType cbg_ret = cbg_self_->GetDeviceType();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetDeviceType(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    Altseed::GraphicsDeviceType cbg_arg0 = (Altseed::GraphicsDeviceType)value;
+    cbg_self_->SetDeviceType(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetWaitVSync(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetWaitVSync();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetWaitVSync(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetWaitVSync(cbg_arg0);
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetConsoleLoggingEnabled(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 
