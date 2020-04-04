@@ -14,5 +14,6 @@ public:
     static int32_t GetFileSize(const std::u16string& path);
     static bool CreateDirectory(const std::u16string& path);
     static std::u16string GetParentPath(const std::u16string& path);
+    static std::u16string GetAbusolutePath(const std::u16string& path);
 };
 }  // namespace Altseed
