@@ -31,4 +31,8 @@ bool FileSystem::CreateDirectory(const std::u16string& path) { return fs::create
 
 std::u16string FileSystem::GetParentPath(const std::u16string& path) { return fs::path(path).parent_path().u16string(); }
 
+std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) {
+    return fs::absolute(path).u16string();
+}
+
 }  // namespace Altseed

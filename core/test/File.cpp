@@ -1,5 +1,6 @@
 ﻿#include <Core.h>
 #include <IO/File.h>
+#include <Platform/FileSystem.h>
 #include <gtest/gtest.h>
 #include <zip.h>
 
@@ -16,6 +17,9 @@ TEST(File, FileRoot) {
 
     // default root
     EXPECT_TRUE(Altseed::File::GetInstance()->Exists(u"TestData/IO/test.txt"));
+
+    // absolute path
+    EXPECT_TRUE(Altseed::File::GetInstance()->Exists(Altseed::FileSystem::GetAbusolutePath(u"TestData/IO/test.txt").c_str()));
 
     // add directory root
     EXPECT_TRUE(Altseed::File::GetInstance()->AddRootDirectory(u"TestData/IO/root/"));

@@ -81,4 +81,9 @@ std::u16string FileSystem::GetParentPath(const std::u16string& path) {
     return res;
 }
 
+std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) {
+    // not impliment
+    return path;
+}
+
 }  // namespace Altseed

@@ -50,6 +50,11 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
             break;
         }
     }
+
+    if (reader == nullptr && FileSystem::GetIsFile(path)) {
+        reader = MakeAsdShared<BaseFileReader>(path);
+    }
+
     return reader;
 }
 
@@ -128,6 +133,7 @@ bool File::Exists(const char16_t* path) const {
             return true;
     }
 
+    if (FileSystem::GetIsFile(path)) return true;
     return false;
 }
 
