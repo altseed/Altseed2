@@ -77,6 +77,11 @@
 
 #include "Logger/Log.h"
 
+#include "Physics/Collider/Collider.h"
+#include "Physics/Collider/CircleCollider.h"
+#include "Physics/Collider/RectangleCollider.h"
+#include "Physics/Collider/PolygonCollider.h"
+
     
 extern "C" {
 
@@ -2681,6 +2686,42 @@ CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Window_GetSize(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Window*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_CircleCollider_Constructor_0() {
+    return new Altseed::CircleCollider();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CircleCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CircleCollider*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Constructor_0() {
+    return new Altseed::RectangleCollider();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Constructor_0() {
+    return new Altseed::PolygonCollider();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::PolygonCollider*)(cbg_self);
 
     cbg_self_->Release();
 }
