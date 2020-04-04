@@ -284,7 +284,11 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
     }
 
     RectI viewport(Vector2I(0, 0), texture->GetSize());
-    Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, viewport);
+    RenderPassParameter param;
+    param.ClearColor = Graphics::GetInstance()->GetClearColor();
+    param.ColorCare = RenderTargetCareType::Clear;
+    param.DepthCare = RenderTargetCareType::Clear;
+    Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, param);
 
     batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
 }

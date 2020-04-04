@@ -18,6 +18,29 @@ namespace Altseed {
 class Graphics;
 class RenderTexture;
 
+enum class RenderTargetCareType : int32_t {
+    DontCare,
+    Clear,
+};
+
+struct RenderPassParameter_C;
+
+struct RenderPassParameter {
+    Color ClearColor = Color(0, 0, 0, 0);
+    RenderTargetCareType ColorCare = RenderTargetCareType::Clear;
+    RenderTargetCareType DepthCare = RenderTargetCareType::Clear;
+
+    operator RenderPassParameter_C() const;
+};
+
+struct RenderPassParameter_C {
+    Color_C ClearColor;
+    RenderTargetCareType ColorCare;
+    RenderTargetCareType DepthCare;
+
+    operator RenderPassParameter() const;
+};
+
 class CommandList : public BaseObject {
 private:
     struct RenderPassCache {
@@ -55,7 +78,7 @@ public:
 
     void SetScissor(const RectI& scissor);
 
-    void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport);
+    void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
     /**
         @brief	apply material and render to target texture.
