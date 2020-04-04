@@ -2,12 +2,15 @@
 #include <Graphics/Texture2D.h>
 #include <IO/File.h>
 #include <gtest/gtest.h>
+
+#include <chrono>
+#include <string>
+#include <thread>
+
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
-
-#include <string>
-#include <thread>
+#include "Logger/Log.h"
 
 TEST(Texture2D, Base) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
@@ -137,6 +140,32 @@ TEST(Texture2D, Save) {
 
         EXPECT_TRUE(instance->EndFrame());
     }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Texture2D, Cache) {
+    auto config = Altseed::Configuration::Create();
+    config->SetFileLoggingEnabled(true);
+    config->SetLogFileName(u"cache.txt"); 
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
+
+    auto start = std::chrono::system_clock::now();  // 計測開始時間
+    std::shared_ptr<Altseed::Texture2D> testPng = nullptr;
+    EXPECT_NE(testPng = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
+    auto end = std::chrono::system_clock::now();  // 計測終了時間
+    int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();  //処理に要した時間をミリ秒に変換
+
+    // cache test
+    auto start2 = std::chrono::system_clock::now();
+    std::shared_ptr<Altseed::Texture2D> testCache = nullptr;
+    EXPECT_NE(testCache = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
+    auto end2 = std::chrono::system_clock::now();  // 計測終了時間
+    EXPECT_EQ(testPng, testCache);
+    int elapsed2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();  //処理に要した時間をミリ秒に変換
+
+    Altseed::Log::GetInstance()->Write(
+            Altseed::LogCategory::Core, Altseed::LogLevel::Info, u"{0}, {1}", static_cast<int>(elapsed), static_cast<int>(elapsed2));
 
     Altseed::Core::Terminate();
 }
