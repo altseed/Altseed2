@@ -277,7 +277,9 @@ void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
     Vector2I offset;
-    int32_t w, h, glyphW;
+    int32_t w = 0;
+    int32_t h = 0;
+    int32_t glyphW = 0;
 
     uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, GetSize() / 2, 128, 1, &w, &h, &offset.X, &offset.Y);
     stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
