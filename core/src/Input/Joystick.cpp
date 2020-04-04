@@ -20,16 +20,17 @@ namespace Altseed {
 std::shared_ptr<Joystick> Joystick::instance_ = nullptr;
 
 bool Joystick::Initialize() {
-    instance_ = MakeAsdShared<Joystick>();
-    instance_->types_.fill(JoystickType::Other);
-    instance_->globalCount_ = 0;
+    if (instance_ == nullptr) {
+        instance_ = MakeAsdShared<Joystick>();
+        instance_->types_.fill(JoystickType::Other);
+        instance_->globalCount_ = 0;
+    }
 
     for (int32_t i = 0; i < MAX_JOYSTICKS_NUM; i++) {
         instance_->currentHit_[i].fill(false);
         instance_->preHit_[i].fill(false);
         //            currentAxis[i].fill(0);
     }
-
     return true;
 };
 
@@ -101,17 +102,19 @@ void Joystick::RefreshConnectedState() {
     const char* path;
     int i = 0;
 
+    //    hid_device_info* device = devices;
     while (device) {
         path = device->path;
 
         if (device->product_id == JOYCON_L_PRODUCT_ID || device->product_id == JOYCON_R_PRODUCT_ID ||
             device->product_id == DUALSHOCK4_PRODUCT_ID || device->product_id == XBOX360_PRODUCT_ID) {
             hid_device* dev = hid_open(device->vendor_id, device->product_id, device->serial_number);
+            if (!dev) return;
 
-            if (dev) hid_set_nonblocking(dev, 1);
+            hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
 
-            names_[i] = ToU16(std::wstring(device->product_string));
+            if (device->product_string != nullptr) names_[i] = ToU16(std::wstring(device->product_string));
             types_[i] = (JoystickType)device->product_id;
 
             if (types_[i] == JoystickType::JoyconL || types_[i] == JoystickType::JoyconR) {
