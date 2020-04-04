@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Collider.h"
+#include "RectangleCollider.h"
 #include "PolygonCollider.h"
 #include "../../Math/Vector2F.h"
 
 namespace Altseed {
 
 class CircleCollider : public Collider {
+    friend class RectangleCollider;
     friend class PolygonCollider;
 
 private:
@@ -17,8 +19,6 @@ private:
 
 public:
     CircleCollider();
-
-    static std::shared_ptr<CircleCollider> Create();
 
     // 半径
     double GetRadius() const;

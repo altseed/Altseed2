@@ -1,11 +1,12 @@
 #include <Physics/Collider/CircleCollider.h>
+#include <Physics/Collider/RectangleCollider.h>
 #include <Physics/Collider/PolygonCollider.h>
 #include <gtest/gtest.h>
 #include <memory>
 
 TEST(Physics, CollisionWithCircles) {
-    auto collider1 = Altseed::CircleCollider::Create();
-    auto collider2 = Altseed::CircleCollider::Create();
+    auto collider1 = Altseed::MakeAsdShared<Altseed::CircleCollider>();
+    auto collider2 = Altseed::MakeAsdShared<Altseed::CircleCollider>();
     collider1->AddRef();
     collider2->AddRef();
     collider1->SetPosition(Altseed::Vector2F(100, 100));
@@ -17,9 +18,23 @@ TEST(Physics, CollisionWithCircles) {
     collider2->Release();
 }
 
+TEST(Physics, CollisionWithRectangles) {
+    auto collider1 = Altseed::MakeAsdShared<Altseed::RectangleCollider>();
+    auto collider2 = Altseed::MakeAsdShared<Altseed::RectangleCollider>();
+    collider1->AddRef();
+    collider2->AddRef();
+    collider1->SetPosition(Altseed::Vector2F(50, 50));
+    collider1->SetSize(Altseed::Vector2F(200, 200));
+    collider2->SetPosition(Altseed::Vector2F(200, 200));
+    collider1->SetSize(Altseed::Vector2F(240, 180));
+    EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
+    collider1->Release();
+    collider2->Release();
+}
+
 TEST(Physics, CollisionWithPolygons) {
-    auto collider1 = Altseed::PolygonCollider::Create();
-    auto collider2 = Altseed::PolygonCollider::Create();
+    auto collider1 = Altseed::MakeAsdShared<Altseed::PolygonCollider>();
+    auto collider2 = Altseed::MakeAsdShared<Altseed::PolygonCollider>();
 
     collider1->AddRef();
     collider2->AddRef();

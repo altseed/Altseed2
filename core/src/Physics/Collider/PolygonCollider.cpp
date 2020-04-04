@@ -2,9 +2,11 @@
 
 namespace Altseed {
 
-PolygonCollider::PolygonCollider() { }
-
-std::shared_ptr<PolygonCollider> PolygonCollider::Create() { return MakeAsdShared<PolygonCollider>(); }
+PolygonCollider::PolygonCollider() {
+    vertexes_ = nullptr;
+    position_ = Vector2F(0, 0);
+    rotation_ = 0;
+}
 
 std::shared_ptr<Vector2FArray> PolygonCollider::GetVertexes() const { return vertexes_; }
 void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
@@ -42,6 +44,14 @@ bool PolygonCollider::GetIsCollidedWith(std::shared_ptr<Collider> collider) {
     if(circle != nullptr) {
         for(auto triangle : triangles_) {
             if(b2TestOverlap(&triangle, 0, &circle->shape_, 0, transform_, circle->transform_)) return true;
+        }
+        return false;
+    }
+
+    auto rectangle = std::dynamic_pointer_cast<CircleCollider>(collider);
+    if(rectangle != nullptr) {
+        for(auto triangle : triangles_) {
+            if(b2TestOverlap(&triangle, 0, &rectangle->shape_, 0, transform_, rectangle->transform_)) return true;
         }
         return false;
     }
