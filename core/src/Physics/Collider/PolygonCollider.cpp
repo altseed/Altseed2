@@ -24,21 +24,7 @@ void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
     }
 }
 
-Vector2F PolygonCollider::GetPosition() const { return position_; }
-void PolygonCollider::SetPosition(Vector2F position) {
-    position_ = position;
-    transform_.p = b2Vec2(position.X, position.Y);
-    transformMatrix_ = transformMatrix_.SetTranslation(position.X, position.Y, 0);
-}
-
-double PolygonCollider::GetRotation() const { return rotation_; }
-void PolygonCollider::SetRotation(double rotation) {
-    rotation_ = rotation;
-    transform_.q = b2Rot(rotation);
-    transformMatrix_ = transformMatrix_.SetRotationZ(rotation);
-}
-
-bool PolygonCollider::GetIsCollidedWith(std::shared_ptr<Collider> collider) {
+bool PolygonCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
 
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {

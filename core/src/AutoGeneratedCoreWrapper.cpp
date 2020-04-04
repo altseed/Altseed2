@@ -2690,6 +2690,46 @@ CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Collider_Constructor_0() {
+    return new Altseed::Collider();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Collider_GetIsCollided(void* cbg_self, void* collider) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Collider> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Collider>((Altseed::Collider*)collider);
+    bool cbg_ret = cbg_self_->GetIsCollided(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Collider_GetPosition(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetPosition();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Collider_SetPosition(void* cbg_self, Altseed::Vector2F_C value) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetPosition(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Collider_GetRotation(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetRotation();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Collider_SetRotation(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::Collider*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetRotation(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Collider*)(cbg_self);
 
@@ -2698,6 +2738,28 @@ CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
 
 CBGEXPORT void* CBGSTDCALL cbg_CircleCollider_Constructor_0() {
     return new Altseed::CircleCollider();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_CircleCollider_GetIsCollided(void* cbg_self, void* collider) {
+    auto cbg_self_ = (Altseed::CircleCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Collider> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Collider>((Altseed::Collider*)collider);
+    bool cbg_ret = cbg_self_->GetIsCollided(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_CircleCollider_GetRadius(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CircleCollider*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetRadius();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CircleCollider_SetRadius(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::CircleCollider*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetRadius(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CircleCollider_Release(void* cbg_self) {
@@ -2710,6 +2772,42 @@ CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Constructor_0() {
     return new Altseed::RectangleCollider();
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_RectangleCollider_GetIsCollided(void* cbg_self, void* collider) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Collider> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Collider>((Altseed::Collider*)collider);
+    bool cbg_ret = cbg_self_->GetIsCollided(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetSize(void* cbg_self, Altseed::Vector2F_C value) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetSize(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetCenterPosition(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetCenterPosition();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetCenterPosition(void* cbg_self, Altseed::Vector2F_C value) {
+    auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetCenterPosition(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RectangleCollider*)(cbg_self);
 
@@ -2718,6 +2816,28 @@ CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
 
 CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Constructor_0() {
     return new Altseed::PolygonCollider();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_PolygonCollider_GetIsCollided(void* cbg_self, void* collider) {
+    auto cbg_self_ = (Altseed::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Collider> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Collider>((Altseed::Collider*)collider);
+    bool cbg_ret = cbg_self_->GetIsCollided(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetVertexes(void* cbg_self) {
+    auto cbg_self_ = (Altseed::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Vector2FArray> cbg_ret = cbg_self_->GetVertexes();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Vector2FArray>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetVertexes(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)value);
+    cbg_self_->SetVertexes(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_Release(void* cbg_self) {

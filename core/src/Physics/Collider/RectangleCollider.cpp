@@ -17,27 +17,22 @@ RectangleCollider::RectangleCollider() {
 Vector2F RectangleCollider::GetSize() const { return size_; }
 void RectangleCollider::SetSize(Vector2F size) {
     size_ = size;
-    shape_.m_vertices[0] = b2Vec2(0, 0);
-    shape_.m_vertices[1] = b2Vec2(size.X, 0);
-    shape_.m_vertices[2] = b2Vec2(size.X, size.Y);
-    shape_.m_vertices[3] = b2Vec2(0, size.Y);
+    shape_.m_vertices[0] = b2Vec2(      0 - center_.X,       0 - center_.Y);
+    shape_.m_vertices[1] = b2Vec2(size_.X - center_.X,       0 - center_.Y);
+    shape_.m_vertices[2] = b2Vec2(size_.X - center_.X, size_.Y - center_.Y);
+    shape_.m_vertices[3] = b2Vec2(      0 - center_.X, size_.Y - center_.Y);
 }
 
-Vector2F RectangleCollider::GetPosition() const { return position_; }
-void RectangleCollider::SetPosition(Vector2F position) {
-    position_ = position;
-    transform_.p = b2Vec2(position.X, position.Y);
-    transformMatrix_ = transformMatrix_.SetTranslation(position.X, position.Y, 0);
+Vector2F RectangleCollider::GetCenterPosition() const { return center_; }
+void RectangleCollider::SetCenterPosition(Vector2F center) {
+    center_ = center;
+    shape_.m_vertices[0] = b2Vec2(      0 - center_.X,       0 - center_.Y);
+    shape_.m_vertices[1] = b2Vec2(size_.X - center_.X,       0 - center_.Y);
+    shape_.m_vertices[2] = b2Vec2(size_.X - center_.X, size_.Y - center_.Y);
+    shape_.m_vertices[3] = b2Vec2(      0 - center_.X, size_.Y - center_.Y);
 }
 
-double RectangleCollider::GetRotation() const { return rotation_; }
-void RectangleCollider::SetRotation(double rotation) {
-    rotation_ = rotation;
-    transform_.q = b2Rot(rotation);
-    transformMatrix_ = transformMatrix_.SetRotationZ(rotation);
-}
-
-bool RectangleCollider::GetIsCollidedWith(std::shared_ptr<Collider> collider) {
+bool RectangleCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
     
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {
