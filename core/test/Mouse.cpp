@@ -1,6 +1,7 @@
-﻿#include <Core.h>
+#include <Core.h>
 #include <Input/Mouse.h>
 #include <gtest/gtest.h>
+
 #include <string>
 #define STR(var) #var
 
@@ -21,6 +22,7 @@ TEST(Mouse, Initialize) {
 
         i++;
     }
+    Altseed::Mouse::GetInstance()->SetCursorImage(u"TestData/IO/AltseedPink.png", Altseed::Vector2I(200, 200));
 
     Altseed::Core::Terminate();
 }
@@ -50,7 +52,7 @@ TEST(Mouse, GetMouseInput) {
     Altseed::Mouse::GetInstance()->SetCursorMode(Altseed::CursorMode::Normal);
     mode = Altseed::Mouse::GetInstance()->GetCursorMode();
     EXPECT_EQ(mode, Altseed::CursorMode::Normal);
-    
+
     for (int count = 0; Altseed::Core::GetInstance()->DoEvent() && count < 10; count++) {
         // testing MouseButton inputs.
         for (int i = 0; i < 8; i++) {
