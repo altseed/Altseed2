@@ -7,6 +7,22 @@
 
 namespace Altseed {
 
+RenderPassParameter::operator RenderPassParameter_C() const {
+    auto m = RenderPassParameter();
+    m.ClearColor = ClearColor;
+    m.ColorCare = ColorCare;
+    m.DepthCare = DepthCare;
+    return m;
+}
+
+RenderPassParameter_C::operator RenderPassParameter() const {
+    auto m = RenderPassParameter_C();
+    m.ClearColor = ClearColor;
+    m.ColorCare = ColorCare;
+    m.DepthCare = DepthCare;
+    return m;
+}
+
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
     auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128));
@@ -152,7 +168,7 @@ void CommandList::EndFrame() {
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
 
-void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RectI& viewport) {
+void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
     auto it = renderPassCaches_.find(target);
 
     if (it == renderPassCaches_.end()) {
@@ -160,12 +176,6 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
 
         LLGI::Texture* texture = target->GetNativeTexture().get();
         auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((const LLGI::Texture**)&texture, 1, nullptr));
-        
-        auto cc = Graphics::GetInstance()->GetClearColor().ToLL();
-
-        renderPass->SetIsColorCleared(true);
-        renderPass->SetIsDepthCleared(true);
-        renderPass->SetClearColor(cc);
 
         RenderPassCache cache;
         cache.Life = 5;
@@ -175,6 +185,10 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
         // extend life to avoid to remove
         it->second.Life = 5;
     }
+
+    renderPassCaches_[target].Stored->SetIsColorCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
+    renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
+    renderPassCaches_[target].Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
 
     if (isInRenderPass_) {
         currentCommandList_->EndRenderPass();

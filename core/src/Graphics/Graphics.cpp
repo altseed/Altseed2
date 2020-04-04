@@ -77,8 +77,11 @@ bool Graphics::BeginFrame() {
     if (!platform_->NewFrame()) return false;
 
     commandList_->StartFrame();
-    RectI viewport(Vector2I(0, 0), commandList_->GetScreenTexture()->GetSize());
-    commandList_->SetRenderTarget(commandList_->GetScreenTexture(), viewport);
+    RenderPassParameter param;
+    param.ClearColor = Graphics::GetInstance()->GetClearColor();
+    param.ColorCare = RenderTargetCareType::Clear;
+    param.DepthCare = RenderTargetCareType::Clear;
+    commandList_->SetRenderTarget(commandList_->GetScreenTexture(), param);
     return true;
 }
 

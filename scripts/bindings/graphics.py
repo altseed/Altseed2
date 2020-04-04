@@ -270,6 +270,16 @@ with Material as class_:
             arg.brief.add('ja', '設定するシェーダ')
 
 
+RenderPassParameter = cbg.Struct('Altseed', 'RenderPassParameter_C', 'RenderPassParameter')
+
+RenderTargetCareType = cbg.Enum('Altseed', 'RenderTargetCareType')
+with RenderTargetCareType as enum_:
+    enum_.brief = cbg.Description()
+    with enum_.add('DontCare') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Clear') as v:
+        v.brief = cbg.Description()
+
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
     class_.brief = cbg.Description()
@@ -286,9 +296,8 @@ with CommandList as class_:
 
     with class_.add_func('SetRenderTarget') as func_:
         func_.add_arg(RenderTexture, 'target')
-        with func_.add_arg(RectI, 'viewport') as arg:
+        with func_.add_arg(RenderPassParameter, 'renderPassParameter') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', 'viewport')
 
     with class_.add_func('RenderToRenderTarget') as func_:
         func_.add_arg(Material, 'material')
