@@ -12,7 +12,7 @@ with Collider as class_:
 CircleCollider = cbg.Class('Altseed', 'CircleCollider')
 with CircleCollider as class_:
     class_.add_constructor()
-    class_.base_class('Altseed', 'Collider')
+    class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '円形コライダのクラス')
     with class_.add_property(float, 'Radius') as prop_:
@@ -34,7 +34,7 @@ with CircleCollider as class_:
 RectangleCollider = cbg.Class('Altseed', 'RectangleCollider')
 with RectangleCollider as class_:
     class_.add_constructor()
-    class_.base_class('Altseed', 'Collider')
+    class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '多角形コライダのクラス')
     with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
@@ -61,7 +61,7 @@ with RectangleCollider as class_:
 PolygonCollider = cbg.Class('Altseed', 'PolygonCollider')
 with PolygonCollider as class_:
     class_.add_constructor()
-    class_.base_class('Altseed', 'Collider')
+    class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '多角形コライダのクラス')
     with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
