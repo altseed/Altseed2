@@ -38,10 +38,8 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     std::lock_guard<std::mutex> lock(locked.Get());
 
     auto resources = Resources::GetInstance();
-    // TODO
     auto cache = std::dynamic_pointer_cast<Texture2D>(resources->GetResourceContainer(ResourceType::Texture2D)->Get(path));
     if (cache != nullptr) {
-        cache->AddRef();
         return cache;
     }
 
