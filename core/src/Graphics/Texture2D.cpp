@@ -1,4 +1,5 @@
 #include "Texture2D.h"
+
 #include <libpng16/png.h>
 #include <stb_image.h>
 
@@ -9,7 +10,7 @@
 #include "Graphics.h"
 
 namespace Altseed {
-ThreadSafeMap<std::u16string, std::mutex> Texture2D::mtxs;
+std::mutex Texture2D::mtx;
 
 Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath)
     : TextureBase(resources, texture) {
@@ -21,6 +22,7 @@ Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI
 }
 
 Texture2D::~Texture2D() {
+    std::lock_guard<std::mutex> lock(mtx);
     if (sourcePath_ != u"") {
         resources_->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
         resources_ = nullptr;
@@ -34,12 +36,11 @@ bool Texture2D::Reload() { return false; }
 const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
-    Locked<std::mutex> locked = mtxs[path].Lock();
-    std::lock_guard<std::mutex> lock(locked.Get());
+    std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Texture2D>(resources->GetResourceContainer(ResourceType::Texture2D)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 

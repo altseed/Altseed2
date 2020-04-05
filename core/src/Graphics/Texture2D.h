@@ -15,7 +15,7 @@
 namespace Altseed {
 class Texture2D : public TextureBase {
 private:
-    static ThreadSafeMap<std::u16string, std::mutex> mtxs;
+    static std::mutex mtx;
 
     std::u16string sourcePath_;
 

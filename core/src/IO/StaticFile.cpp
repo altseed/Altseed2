@@ -8,7 +8,8 @@
 namespace Altseed {
 std::mutex StaticFile::m_staticFileMtx;
 
-StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) {
+StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader, std::shared_ptr<Resources>& resources, std::u16string path)
+    : sourcePath_(path), resources_(resources) {
     std::vector<uint8_t> buffer;
     reader->ReadAllBytes(buffer);
 
@@ -22,14 +23,20 @@ StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader) {
     }
 }
 
-StaticFile::~StaticFile() {}
+StaticFile::~StaticFile() {
+    std::lock_guard<std::mutex> lock(m_staticFileMtx);
+    if (sourcePath_ != u"") {
+        resources_->GetResourceContainer(ResourceType::StaticFile)->Unregister(sourcePath_);
+        resources_ = nullptr;
+    }
+}
 
 std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_staticFileMtx);
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 
@@ -37,7 +44,7 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
 
     if (reader == nullptr) return nullptr;
 
-    auto res = MakeAsdShared<StaticFile>(reader);
+    auto res = MakeAsdShared<StaticFile>(reader, resources, path);
 
     resources->GetResourceContainer(ResourceType::StaticFile)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
@@ -46,7 +53,7 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
 
 const std::shared_ptr<Int8Array>& StaticFile::GetBuffer() const { return m_buffer; }
 
-const char16_t* StaticFile::GetPath() const { return path_.c_str(); }
+const char16_t* StaticFile::GetPath() const { return sourcePath_.c_str(); }
 
 const void* StaticFile::GetData() const { return m_buffer->GetData(); }
 

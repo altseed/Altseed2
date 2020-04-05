@@ -5,7 +5,7 @@
 #include "Graphics.h"
 
 namespace Altseed {
-ImageFont::ImageFont(std::shared_ptr<Font> baseFont) : baseFont_(baseFont), Font() {}
+ImageFont::ImageFont(std::shared_ptr<Font> baseFont) : baseFont_(baseFont), Font(u"") {}
 
 Vector2I ImageFont::CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning) { return Vector2I(); }
 

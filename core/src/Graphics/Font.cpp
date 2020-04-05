@@ -1,5 +1,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 
+#include "Font.h"
+
 #include <sstream>
 #include <string>
 
@@ -8,7 +10,6 @@
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "../Platform/FileSystem.h"
-#include "Font.h"
 #include "Graphics.h"
 #include "ImageFont.h"
 
@@ -21,9 +22,9 @@ namespace Altseed {
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
-ThreadSafeMap<std::u16string, std::mutex> Font::m_fontMtx;
+std::mutex Font::mtx;
 
-Font::Font()
+Font::Font(std::u16string path)
     : resources_(nullptr),
       file_(nullptr),
       size_(0),
@@ -33,10 +34,22 @@ Font::Font()
       scale_(0),
       fontinfo_(stbtt_fontinfo()),
       textureSize_(Vector2I(2000, 2000)),
-      isStaticFont_(true) {}
+      isStaticFont_(true),
+      sourcePath_(path) {}
 
-Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size)
-    : resources_(resources), file_(file), fontinfo_(fontinfo), size_(size), textureSize_(Vector2I(2000, 2000)), isStaticFont_(false) {
+Font::Font(
+        std::shared_ptr<Resources>& resources,
+        std::shared_ptr<StaticFile>& file,
+        stbtt_fontinfo fontinfo,
+        int32_t size,
+        std::u16string path)
+    : resources_(resources),
+      file_(file),
+      fontinfo_(fontinfo),
+      size_(size),
+      textureSize_(Vector2I(2000, 2000)),
+      isStaticFont_(false),
+      sourcePath_(path) {
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
@@ -46,6 +59,14 @@ Font::Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& f
     AddFontTexture();
 
     SetInstanceName(__FILE__);
+}
+
+Font::~Font() {
+    std::lock_guard<std::mutex> lock(mtx);
+    if (resources_ != nullptr && sourcePath_ != u"") {
+        resources_->GetResourceContainer(ResourceType::Font)->Unregister(sourcePath_);
+        resources_ = nullptr;
+    }
 }
 
 std::shared_ptr<Glyph> Font::GetGlyph(const int32_t character) {
@@ -95,15 +116,14 @@ Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction,
     return direction == WritingDirection::Horizontal ? Vector2I(w, h) : Vector2I(h, w);
 }
 
-const char16_t* Font::GetPath() const { return file_->GetPath(); }
+const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
-    Locked<std::mutex> locked = m_fontMtx[path].Lock();
-    std::lock_guard<std::mutex> lock(locked.Get());
+    std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
-    if (cache != nullptr && !cache->GetIsStaticFont()) {
+    if (cache != nullptr && cache->GetRef() > 0 && !cache->GetIsStaticFont()) {
         return cache;
     }
 
@@ -121,19 +141,18 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
         return nullptr;
     }
 
-    auto res = MakeAsdShared<Font>(resources, file, info, size);
+    auto res = MakeAsdShared<Font>(resources, file, info, size, path);
     resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
-    Locked<std::mutex> locked = m_fontMtx[path].Lock();
-    std::lock_guard<std::mutex> lock(locked.Get());
+    std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
-    if (cache != nullptr && cache->GetIsStaticFont()) {
+    if (cache != nullptr && cache->GetRef() > 0 && cache->GetIsStaticFont()) {
         return cache;
     }
 
@@ -142,7 +161,8 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
     BinaryReader reader(file);
 
-    auto font = MakeAsdShared<Font>();
+    auto font = MakeAsdShared<Font>(path);
+    font->resources_ = resources;
     font->file_ = file;
     font->size_ = reader.Get<int32_t>();
     font->ascent_ = reader.Get<int32_t>();
@@ -173,7 +193,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
         auto glyph = MakeAsdShared<Glyph>(textureSize, index, position, size, offset, width);
         font->glyphs_[character] = glyph;
 
-		for (size_t l = 0; l < glyphCount; l++) {
+        for (size_t l = 0; l < glyphCount; l++) {
             font->kernings_[std::make_pair(reader.Get<int32_t>(), reader.Get<int32_t>())] = reader.Get<int32_t>();
         }
     }

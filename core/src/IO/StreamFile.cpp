@@ -5,16 +5,25 @@
 namespace Altseed {
 std::mutex StreamFile::m_streamFileMtx;
 
-StreamFile::StreamFile(std::shared_ptr<BaseFileReader> reader) : m_fileReader(reader) { m_buffer = MakeAsdShared<Int8Array>(); }
+StreamFile::StreamFile(std::shared_ptr<BaseFileReader> reader, std::shared_ptr<Resources>& resources, std::u16string path)
+    : m_fileReader(reader), sourcePath_(path), resources_(resources) {
+    m_buffer = MakeAsdShared<Int8Array>();
+}
 
-StreamFile::~StreamFile() {}
+StreamFile::~StreamFile() {
+    std::lock_guard<std::mutex> lock(m_streamFileMtx);
+    if (sourcePath_ != u"") {
+        resources_->GetResourceContainer(ResourceType::StreamFile)->Unregister(sourcePath_);
+        resources_ = nullptr;
+    }
+}
 
 std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 
@@ -22,7 +31,7 @@ std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
 
     if (reader == nullptr) return nullptr;
 
-    auto res = MakeAsdShared<StreamFile>(reader);
+    auto res = MakeAsdShared<StreamFile>(reader, resources, path);
 
     resources->GetResourceContainer(ResourceType::StreamFile)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
@@ -65,6 +74,6 @@ bool StreamFile::Reload() {
     return true;
 }
 
-const char16_t* StreamFile::GetPath() const { return m_fileReader->GetFullPath().c_str(); }
+const char16_t* StreamFile::GetPath() const { return sourcePath_.c_str(); }
 
 }  // namespace Altseed

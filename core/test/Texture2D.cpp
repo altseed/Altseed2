@@ -144,28 +144,36 @@ TEST(Texture2D, Save) {
     Altseed::Core::Terminate();
 }
 
+void* test(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed::Texture2D> cbg_ret = Altseed::Texture2D::Load(cbg_arg0);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+}
+
 TEST(Texture2D, Cache) {
     auto config = Altseed::Configuration::Create();
     config->SetFileLoggingEnabled(true);
-    config->SetLogFileName(u"cache.txt"); 
+    config->SetLogFileName(u"cache.txt");
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
 
     auto start = std::chrono::system_clock::now();  // 計測開始時間
-    std::shared_ptr<Altseed::Texture2D> testPng = nullptr;
-    EXPECT_NE(testPng = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
+    std::shared_ptr<Altseed::Texture2D> testPng = Altseed::CreateAndAddSharedPtr((Altseed::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
+    EXPECT_NE(testPng, nullptr);
     auto end = std::chrono::system_clock::now();  // 計測終了時間
     int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();  //処理に要した時間をミリ秒に変換
 
     // cache test
     auto start2 = std::chrono::system_clock::now();
-    std::shared_ptr<Altseed::Texture2D> testCache = nullptr;
-    EXPECT_NE(testCache = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"), nullptr);
+    std::shared_ptr<Altseed::Texture2D> testCache =
+            Altseed::CreateAndAddSharedPtr((Altseed::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
+    EXPECT_NE(testCache, nullptr);
     auto end2 = std::chrono::system_clock::now();  // 計測終了時間
     EXPECT_EQ(testPng, testCache);
     int elapsed2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();  //処理に要した時間をミリ秒に変換
 
     Altseed::Log::GetInstance()->Write(
             Altseed::LogCategory::Core, Altseed::LogLevel::Info, u"{0}, {1}", static_cast<int>(elapsed), static_cast<int>(elapsed2));
-
+    Altseed::Log::GetInstance()->Write(
+            Altseed::LogCategory::Core, Altseed::LogLevel::Info, u"{0}, {1}", (uintptr_t)testPng.get(), (uintptr_t)testCache.get());
     Altseed::Core::Terminate();
 }
