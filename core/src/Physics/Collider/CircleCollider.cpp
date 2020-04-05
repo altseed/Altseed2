@@ -10,20 +10,13 @@ CircleCollider::CircleCollider() {
     shape_.m_radius = 0;
 }
 
-Vector2F CircleCollider::GetPosition() const { return position_; }
-void CircleCollider::SetPosition(Vector2F position) {
-    position_ = position;
-    transform_.p = b2Vec2(position.X, position.Y);
-    transformMatrix_ = transformMatrix_.SetTranslation(position.X, position.Y, 0);
-}
-
 double CircleCollider::GetRadius() const { return radius_; }
 void CircleCollider::SetRadius(double radius) {
     radius_ = radius;
     shape_.m_radius = radius;
 }
 
-bool CircleCollider::GetIsCollidedWith(std::shared_ptr<Collider> collider) {
+bool CircleCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
     
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {

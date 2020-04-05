@@ -15,8 +15,7 @@ private:
     b2PolygonShape shape_;
     
     Vector2F size_;
-    Vector2F position_;
-    double rotation_;
+    Vector2F center_;
     
 public:
     RectangleCollider();
@@ -25,15 +24,11 @@ public:
     Vector2F GetSize() const;
     void SetSize(Vector2F size);
 
-    // 位置
-    Vector2F GetPosition() const;
-    void SetPosition(Vector2F position);
+    // 中心座標
+    Vector2F GetCenterPosition() const;
+    void SetCenterPosition(Vector2F center);
 
-    // 回転
-    double GetRotation() const;
-    void SetRotation(double rotation);
-
-    bool GetIsCollidedWith(std::shared_ptr<Collider> shape) override;
+    bool GetIsCollided(std::shared_ptr<Collider> shape) override;
 };
     
 } // namespace Altseed
