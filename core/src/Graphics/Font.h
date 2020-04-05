@@ -55,14 +55,18 @@ private:
 
     Vector2I currentTexturePosition_;
 
+    std::u16string sourcePath_;
+
     bool isStaticFont_;
     std::map<std::pair<int32_t, int32_t>, int32_t> kernings_;
 
-    static ThreadSafeMap<std::u16string, std::mutex> m_fontMtx;
+    static std::mutex mtx;
 
 public:
-    Font();
-    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size);
+    Font(std::u16string path);
+    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, std::u16string path);
+
+    virtual ~Font();
 
     virtual int32_t GetSize() { return size_; }
     virtual int32_t GetAscent() { return ascent_; }

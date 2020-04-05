@@ -21,10 +21,13 @@ private:
     const char16_t* m_filePath;
     const bool m_isDecompressed;
 
-    static ThreadSafeMap<std::u16string, std::mutex> m_soundMtx;
+    std::shared_ptr<Resources> resources_;
+
+    static std::mutex mtx;
 
 public:
-    Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed);
+    Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources);
+    virtual ~Sound();
 
     /**
     @brief  音を読み込む

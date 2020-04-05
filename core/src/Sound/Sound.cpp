@@ -1,24 +1,30 @@
 ﻿#include "Sound.h"
+
 #include "../Logger/Log.h"
 
 namespace Altseed {
 
-ThreadSafeMap<std::u16string, std::mutex> Sound::m_soundMtx;
+std::mutex Sound::mtx;
 
-Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed)
-    : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed) {
+Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources)
+    : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed), resources_(resources) {
     SetInstanceName(__FILE__);
 }
 
+Sound::~Sound() {
+    std::lock_guard<std::mutex> lock(mtx);
+    resources_->GetResourceContainer(ResourceType::Sound)->Unregister(GetPath());
+    resources_ = nullptr;
+}
+
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
-    Locked<std::mutex> locked = m_soundMtx[path].Lock();
-    std::lock_guard<std::mutex> lock(locked.Get());
+    std::lock_guard<std::mutex> lock(mtx);
 
     auto soundMixer = SoundMixer::GetInstance();
     if (soundMixer->m_manager == nullptr) return nullptr;
 
     auto cache = std::dynamic_pointer_cast<Sound>(soundMixer->m_resources->GetResourceContainer(ResourceType::Sound)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 
@@ -38,7 +44,7 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     }
 
     // Create sound & register to container
-    auto soundRet = MakeAsdShared<Sound>(path, sound, isDecompressed);
+    auto soundRet = MakeAsdShared<Sound>(path, sound, isDecompressed, soundMixer->m_resources);
     auto soundContainer = soundMixer->m_resources->GetResourceContainer(ResourceType::Sound);
     auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
     soundContainer->Register(path, soundInfo);

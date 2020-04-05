@@ -28,7 +28,12 @@ public:
             m_modifiedTime = ResourceContainer::GetModifiedTime(path);
         }
 
-        std::shared_ptr<Resource> GetResourcePtr();
+        std::shared_ptr<Resource> GetResourcePtr() {
+            if (!m_resourcePtr.expired()) return m_resourcePtr.lock();
+            auto tmp = CreateAndAddSharedPtr<Resource>(rawPtr_);
+            m_resourcePtr = tmp;
+            return tmp;
+        }
 
         const std::u16string& GetPath() { return m_path; }
 
@@ -54,22 +59,14 @@ public:
     const std::map<std::u16string, std::shared_ptr<ResourceInfomation>>& GetAllResouces() { return resources; }
 
     std::shared_ptr<Resource> Get(const std::u16string key) {
-        if (resources.count(key) > 0) {
-            auto tmp = resources[key]->GetResourcePtr();
-            if (tmp == nullptr) {
-                std::lock_guard<std::mutex> lock(resourceMtx_);
-                resources.erase(key);
-            }
-            return tmp;
-        }
+        std::lock_guard<std::mutex> lock(resourceMtx_);
+        if (resources.count(key) > 0) return resources[key]->GetResourcePtr();
         return nullptr;
     }
 
     void Register(const std::u16string path, std::shared_ptr<ResourceInfomation> resource) {
-        {
-            std::lock_guard<std::mutex> lock(resourceMtx_);
-            resources[path] = resource;
-        }
+        std::lock_guard<std::mutex> lock(resourceMtx_);
+        resources[path] = resource;
     }
 
     void Unregister(const std::u16string path) {
