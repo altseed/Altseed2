@@ -1,6 +1,7 @@
-﻿#include <Core.h>
+#include <Core.h>
 #include <Input/Mouse.h>
 #include <gtest/gtest.h>
+
 #include <string>
 #define STR(var) #var
 
@@ -21,6 +22,7 @@ TEST(Mouse, Initialize) {
 
         i++;
     }
+    Altseed::Mouse::GetInstance()->SetCursorImage(u"TestData/IO/AltseedPink.png", Altseed::Vector2I(200, 200));
 
     Altseed::Core::Terminate();
 }

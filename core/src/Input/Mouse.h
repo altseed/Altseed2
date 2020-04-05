@@ -4,6 +4,7 @@
 #include <array>
 #include <functional>
 
+#include "../IO/StaticFile.h"
 #include "../Math/Vector2F.h"
 #include "../Window/Window.h"
 #include "ButtonState.h"
@@ -70,7 +71,14 @@ private:
 
     std::array<bool, KEY_NUM> currentState_;
     std::array<bool, KEY_NUM> oldState_;
-
+    bool LoadPNGImage(
+            void* data,
+            int32_t size,
+            bool rev,
+            int32_t& imagewidth,
+            int32_t& imageheight,
+            ::std::vector<uint8_t>& imagedst,
+            const char16_t* path);
     float wheel_ = 0;
 
 public:
@@ -93,6 +101,8 @@ public:
     ButtonState GetMouseButtonState(MouseButtons button) const;
 
     void SetCursorMode(CursorMode mode);
+
+    void SetCursorImage(const char16_t* path, Vector2I hotspot);
 
     CursorMode GetCursorMode() const;
 };
