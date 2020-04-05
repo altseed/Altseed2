@@ -152,14 +152,14 @@ std::shared_ptr<Cursor> Cursor::Create(const char16_t* path, Vector2I hotspot) {
     auto f = StaticFile::Create(path);
     if (f == nullptr) {
         //        Log::GetInstance()->Error(LogCategory::Core, u"Mouse::SetCursorImage: Failed to create static file from '{0}'", path);
-        return;
+        return nullptr;
     }
 
     int32_t width, height;
     std::vector<uint8_t> dst;
     if (!LoadPNGImage((void*)f->GetData(), f->GetSize(), false, width, height, dst, path)) {
         //        Log::GetInstance()->Error(LogCategory::Core, u"Mouse::LoadPNGImage: Failed to load png image from '{0}'", path);
-        return;
+        return nullptr;
     }
 
     GLFWimage img;
@@ -170,7 +170,7 @@ std::shared_ptr<Cursor> Cursor::Create(const char16_t* path, Vector2I hotspot) {
     auto cursor = glfwCreateCursor(&img, hotspot.X, hotspot.Y);
     if (cursor == nullptr) {
         //        Log::GetInstance()->Error(LogCategory::Core, u"Mouse::LoadPNGImage: Failed to create cursor from '{0}'", path);
-        return;
+        return nullptr;
     }
 
     auto res = MakeAsdShared<Cursor>(cursor);
