@@ -454,6 +454,7 @@ with Joystick as class_:
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定インデックスのボタンの状態')
+        func.is_public = False
     with class_.add_func('GetButtonStateByType') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ボタンの状態を種類から取得します。')
@@ -466,6 +467,7 @@ with Joystick as class_:
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定種類のボタンの状態')
+        func.is_public = False
     with class_.add_func('GetJoystickType') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定インデックスのジョイスティックの種類を取得します。')
@@ -487,6 +489,7 @@ with Joystick as class_:
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定インデックスの軸の状態')
+        func.is_public = False
     with class_.add_func('GetAxisStateByType') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '軸の状態を軸の種類で取得します。')
@@ -499,6 +502,7 @@ with Joystick as class_:
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定種類の軸の状態')
+        func.is_public = False
     with class_.add_func('GetJoystickName') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ジョイスティックの名前を取得します。')
