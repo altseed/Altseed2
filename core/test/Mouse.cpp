@@ -22,8 +22,8 @@ TEST(Mouse, Initialize) {
 
         i++;
     }
-    Altseed::Mouse::GetInstance()->SetCursorImage(u"TestData/IO/AltseedPink.png", Altseed::Vector2I(200, 200));
-
+    auto cursor = Altseed::Cursor::Create(u"TestData/Input/altseed_logo.png", Altseed::Vector2I(16, 16));
+    Altseed::Mouse::GetInstance()->SetCursorImage(cursor);
     Altseed::Core::Terminate();
 }
 
