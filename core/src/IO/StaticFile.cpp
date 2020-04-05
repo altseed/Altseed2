@@ -36,7 +36,7 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
 
     auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
-    if (cache != nullptr) {
+    if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 

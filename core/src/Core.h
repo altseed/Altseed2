@@ -42,9 +42,6 @@ public:
         baseObjects.erase(o);
     }
 
-    //! for core
-    bool GetIsRegistered(BaseObject* o) { return baseObjects.count(o) > 0; }
-
     //! get the number of base objects
     int32_t GetBaseObjectCount() const {
         return (int32_t)baseObjects.size();
