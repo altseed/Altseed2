@@ -42,8 +42,13 @@ public:
         baseObjects.erase(o);
     }
 
+    //! for core
+    bool GetIsRegistered(BaseObject* o) { return baseObjects.count(o) > 0; }
+
     //! get the number of base objects
-    int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
+    int32_t GetBaseObjectCount() const {
+        return (int32_t)baseObjects.size();
+    }
 
     //! Initialize core and create a singleton
     static bool Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config);

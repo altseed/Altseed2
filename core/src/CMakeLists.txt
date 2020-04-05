@@ -15,6 +15,7 @@ set(core_files
     Common/Array.h
     Common/Resource.h
     Common/ResourceContainer.h
+    Common/ResourceContainer.cpp
     Common/Resources.h
     Common/Resources.cpp
     Common/StringHelper.h

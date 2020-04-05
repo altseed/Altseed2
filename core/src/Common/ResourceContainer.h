@@ -16,17 +16,19 @@ public:
     class ResourceInfomation {
     private:
         std::weak_ptr<Resource> m_resourcePtr;
+        Resource* rawPtr_;
         std::u16string m_path;
         int32_t m_modifiedTime;
 
     public:
         ResourceInfomation(std::shared_ptr<Resource> resource, std::u16string path) {
             m_resourcePtr = resource;
+            rawPtr_ = resource.get();
             m_path = path;
             m_modifiedTime = ResourceContainer::GetModifiedTime(path);
         }
 
-        std::shared_ptr<Resource> GetResourcePtr() { return m_resourcePtr.lock(); }
+        std::shared_ptr<Resource> GetResourcePtr();
 
         const std::u16string& GetPath() { return m_path; }
 
@@ -52,7 +54,14 @@ public:
     const std::map<std::u16string, std::shared_ptr<ResourceInfomation>>& GetAllResouces() { return resources; }
 
     std::shared_ptr<Resource> Get(const std::u16string key) {
-        if (resources.count(key) > 0) return resources[key]->GetResourcePtr();
+        if (resources.count(key) > 0) {
+            auto tmp = resources[key]->GetResourcePtr();
+            if (tmp == nullptr) {
+                std::lock_guard<std::mutex> lock(resourceMtx_);
+                resources.erase(key);
+            }
+            return tmp;
+        }
         return nullptr;
     }
 
