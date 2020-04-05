@@ -7,8 +7,7 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-TextureBase = cbg.Class('Altseed', 'TextureBase',
-                        cbg.CacheMode.ThreadSafeCache)
+TextureBase = cbg.Class('Altseed', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのベースクラス')
@@ -228,27 +227,27 @@ with Material as class_:
 
     with class_.add_func('GetTexture') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>のインスタンスを取得する')
+        func.brief.add('ja', '指定した名前を持つ<see cref="TextureBase"/>のインスタンスを取得する')
         func.return_value.type_ = TextureBase
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
-            'ja', '<paramref name="key"/>を名前として持つ<see cref="Texture2D"/>のインスタンス')
+            'ja', '<paramref name="key"/>を名前として持つ<see cref="TextureBase"/>のインスタンス')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
+            arg.brief.add('ja', '検索する<see cref="TextureBase"/>のインスタンスの名前')
             arg.nullable = False
         func.is_public = True
 
     with class_.add_func('SetTexture') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した名前を持つ<see cref="Texture2D"/>の値を設定する')
+        func.brief.add('ja', '指定した名前を持つ<see cref="TextureBase"/>の値を設定する')
         with func.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '検索する<see cref="Texture2D"/>のインスタンスの名前')
+            arg.brief.add('ja', '検索する<see cref="TextureBase"/>のインスタンスの名前')
             arg.nullable = False
         with func.add_arg(TextureBase, 'value') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '設定する<see cref="Texture2D"/>のインスタンスの値')
+            arg.brief.add('ja', '設定する<see cref="TextureBase"/>のインスタンスの値')
         func.is_public = True
 
     with class_.add_func('GetShader') as func:
@@ -277,8 +276,10 @@ with RenderTargetCareType as enum_:
     enum_.brief = cbg.Description()
     with enum_.add('DontCare') as v:
         v.brief = cbg.Description()
+        v.brief.add('ja', 'クリアしない')
     with enum_.add('Clear') as v:
         v.brief = cbg.Description()
+        v.brief.add('ja', 'クリアする')
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
@@ -722,7 +723,7 @@ with RenderedPolygon as class_:
         prop.has_setter = True
         prop.serialized = True
 
-    with class_.add_property(Texture2D, 'Texture') as prop:
+    with class_.add_property(TextureBase, 'Texture') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャを取得または設定します。')
         prop.has_getter = True
