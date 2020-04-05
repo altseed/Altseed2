@@ -83,6 +83,8 @@ set(core_files
     IO/StreamFile.h
     IO/StreamFile.cpp
     Input/ButtonState.h
+    Input/Cursor.h
+    Input/Cursor.cpp
     Input/Joystick.h
     Input/Joystick.cpp
     Input/Keyboard.h

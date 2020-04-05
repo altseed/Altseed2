@@ -195,6 +195,28 @@ with Keys as enum:
     enum.add('Last')
     enum.add('MAX')
 
+Cursor = cbg.Class('Altseed', 'Cursor')
+with Cursor as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'カーソルを表します')
+    class_.is_Sealed = True
+    
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したpng画像を読み込んだ<see cref="Cursor"/>のインスタンスを生成します。')
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むpng画像のパス')
+            arg.nullable = False
+        with func.add_arg(Vector2I, 'hot') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'カーソルのクリック判定座標を指定します。カーソル画像はここが中心となります。')
+
+        func.is_static = True
+        func.return_value.type_ = Cursor
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '指定したpng画像を読み込んだ<see cref="Cursor"/>のインスタンス')
+
 Keyboard = cbg.Class('Altseed', 'Keyboard')
 with Keyboard as class_:
     class_.brief = cbg.Description()
@@ -303,6 +325,12 @@ with Mouse as class_:
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'マウスボタンの状態')
+    with class_.add_func('SetCursorImage') as func:
+            func.brief = cbg.Description()
+            func.brief.add('ja', 'カーソル画像をセットします。')
+            with func.add_arg(Cursor, 'cursor') as arg:
+                arg.brief = cbg.Description()
+                arg.brief.add('ja', '状態を取得するマウスのボタン')
 
 JoystickType = cbg.Enum('Altseed', 'JoystickType')
 with JoystickType as enum:
