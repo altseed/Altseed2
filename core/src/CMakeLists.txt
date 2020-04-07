@@ -120,6 +120,14 @@ set(core_files
     Math/Vector4F.cpp
     Math/Vector4I.h
     Math/Vector4I.cpp
+    Physics/Collider/Collider.h
+    Physics/Collider/Collider.cpp
+    Physics/Collider/CircleCollider.h
+    Physics/Collider/CircleCollider.cpp
+    Physics/Collider/RectangleCollider.h
+    Physics/Collider/RectangleCollider.cpp
+    Physics/Collider/PolygonCollider.h
+    Physics/Collider/PolygonCollider.cpp
     Platform/FileSystem.h
     Sound/Sound.h
     Sound/Sound.cpp
@@ -216,6 +224,7 @@ target_link_libraries(
     OpenSoundMixer
     zip
     imgui
+    box2d
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
 
