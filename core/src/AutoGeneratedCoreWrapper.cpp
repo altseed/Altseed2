@@ -661,6 +661,19 @@ CBGEXPORT void CBGSTDCALL cbg_Resources_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Cursor_Create(const char16_t* path, Altseed::Vector2I_C hot) {
+    const char16_t* cbg_arg0 = path;
+    Altseed::Vector2I_C cbg_arg1 = hot;
+    std::shared_ptr<Altseed::Cursor> cbg_ret = Altseed::Cursor::Create(cbg_arg0, cbg_arg1);
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Cursor>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Cursor_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Cursor*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self, int32_t key) {
     auto cbg_self_ = (Altseed::Keyboard*)(cbg_self);
 
@@ -691,6 +704,13 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32
     Altseed::MouseButtons cbg_arg0 = (Altseed::MouseButtons)button;
     Altseed::ButtonState cbg_ret = cbg_self_->GetMouseButtonState(cbg_arg0);
     return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Mouse_SetCursorImage(void* cbg_self, void* cursor) {
+    auto cbg_self_ = (Altseed::Mouse*)(cbg_self);
+
+    std::shared_ptr<Altseed::Cursor> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Cursor>((Altseed::Cursor*)cursor);
+    cbg_self_->SetCursorImage(cbg_arg0);
 }
 
 CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_Mouse_GetPosition(void* cbg_self) {
@@ -1273,14 +1293,14 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexes(void* cbg_self, void* 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetTexture(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_ret = cbg_self_->GetTexture();
-    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed::TextureBase> cbg_ret = cbg_self_->GetTexture();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetTexture(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)value);
+    std::shared_ptr<Altseed::TextureBase> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::TextureBase>((Altseed::TextureBase*)value);
     cbg_self_->SetTexture(cbg_arg0);
 }
 
