@@ -59,9 +59,9 @@ RectF RenderedPolygon::GetSrc() const { return src_; }
 
 void RenderedPolygon::SetSrc(const RectF& src) { src_ = src; }
 
-std::shared_ptr<Texture2D> RenderedPolygon::GetTexture() const { return texture_; }
+std::shared_ptr<TextureBase> RenderedPolygon::GetTexture() const { return texture_; }
 
-void RenderedPolygon::SetTexture(const std::shared_ptr<Texture2D>& texture) { texture_ = texture; }
+void RenderedPolygon::SetTexture(const std::shared_ptr<TextureBase>& texture) { texture_ = texture; }
 
 std::shared_ptr<Material> RenderedPolygon::GetMaterial() const { return material_; }
 

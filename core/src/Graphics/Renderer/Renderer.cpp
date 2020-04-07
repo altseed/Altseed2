@@ -61,7 +61,7 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
-    std::shared_ptr<Texture2D> texture = polygon->GetTexture();
+    std::shared_ptr<TextureBase> texture = polygon->GetTexture();
 
     RectF src = polygon->GetSrc();
     Vector2F size;
