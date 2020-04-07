@@ -24,7 +24,7 @@ void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
     }
 }
 
-bool PolygonCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
+bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
 
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {

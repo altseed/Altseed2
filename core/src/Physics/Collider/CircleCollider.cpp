@@ -16,7 +16,7 @@ void CircleCollider::SetRadius(double radius) {
     shape_.m_radius = radius;
 }
 
-bool CircleCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
+bool CircleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {

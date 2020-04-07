@@ -13,7 +13,7 @@ TEST(Physics, CollisionWithCircles) {
     collider1->SetRadius(250);
     collider2->SetPosition(Altseed::Vector2F(400, 500));
     collider2->SetRadius(350);
-    EXPECT_TRUE(collider1->GetIsCollided(collider2));
+    EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
     collider1->Release();
     collider2->Release();
 }
@@ -27,7 +27,7 @@ TEST(Physics, CollisionWithRectangles) {
     collider1->SetSize(Altseed::Vector2F(200, 200));
     collider2->SetPosition(Altseed::Vector2F(200, 200));
     collider1->SetSize(Altseed::Vector2F(240, 180));
-    EXPECT_TRUE(collider1->GetIsCollided(collider2));
+    EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
     collider1->Release();
     collider2->Release();
 }
@@ -60,7 +60,7 @@ TEST(Physics, CollisionWithPolygons) {
     collider1->SetPosition(Altseed::Vector2F(100, 100));
     collider2->SetVertexes(vertexes2);
     collider2->SetPosition(Altseed::Vector2F(200, 150));
-    EXPECT_TRUE(collider1->GetIsCollided(collider2));
+    EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
 
     vertexes1->Release();
     vertexes2->Release();

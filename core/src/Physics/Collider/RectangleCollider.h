@@ -16,6 +16,8 @@ private:
     
     Vector2F size_;
     Vector2F center_;
+
+    bool GetIsCollidedWith_(std::shared_ptr<Collider> shape) override;
     
 public:
     RectangleCollider();
@@ -27,8 +29,6 @@ public:
     // 中心座標
     Vector2F GetCenterPosition() const;
     void SetCenterPosition(Vector2F center);
-
-    bool GetIsCollided(std::shared_ptr<Collider> shape) override;
 };
     
 } // namespace Altseed

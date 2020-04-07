@@ -16,14 +16,14 @@ private:
 
     double radius_;
 
+    bool GetIsCollidedWith_(std::shared_ptr<Collider> shape) override;
+
 public:
     CircleCollider();
 
     // 半径
     double GetRadius() const;
     void SetRadius(double radius);
-
-    bool GetIsCollided(std::shared_ptr<Collider> shape) override;
 };
     
 } // namespace Altseed
