@@ -17,14 +17,14 @@ private:
     
     std::shared_ptr<Vector2FArray> vertexes_;
 
+    bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) override;
+
 public:
     PolygonCollider();
 
     // 頂点
     std::shared_ptr<Vector2FArray> GetVertexes() const;
     void SetVertexes(std::shared_ptr<Vector2FArray> vertexes);
-
-    bool GetIsCollided(std::shared_ptr<Collider> collider) override;
 };
     
 } // namespace Altseed

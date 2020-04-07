@@ -18,10 +18,12 @@ protected:
     Vector2F position_;
     double rotation_;
 
+    virtual bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) { throw "Not implemented."; }
+
 public:
     Collider();
 
-    virtual bool GetIsCollided(std::shared_ptr<Collider> shape);
+    bool GetIsCollidedWith(std::shared_ptr<Collider> collider);
 
     // 位置
     Vector2F GetPosition() const;

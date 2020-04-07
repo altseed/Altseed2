@@ -7,8 +7,6 @@ Collider::Collider() {
     transformMatrix_.SetIdentity();
 }
 
-bool Collider::GetIsCollided(std::shared_ptr<Collider> shape) { throw "Not Implemented"; }
-
 Vector2F Collider::GetPosition() const { return position_; }
 void Collider::SetPosition(Vector2F position) {
     position_ = position;
@@ -24,5 +22,7 @@ void Collider::SetRotation(double rotation) {
 }
 
 Matrix44F Collider::GetTransform() { return transformMatrix_; }
+
+bool Collider::GetIsCollidedWith(std::shared_ptr<Collider> collider) { return GetIsCollidedWith_(collider); }
 
 } // namespace Altseed

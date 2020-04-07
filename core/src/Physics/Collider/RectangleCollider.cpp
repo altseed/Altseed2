@@ -32,7 +32,7 @@ void RectangleCollider::SetCenterPosition(Vector2F center) {
     shape_.m_vertices[3] = b2Vec2(      0 - center_.X, size_.Y - center_.Y);
 }
 
-bool RectangleCollider::GetIsCollided(std::shared_ptr<Collider> collider) {
+bool RectangleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if(circle != nullptr) {

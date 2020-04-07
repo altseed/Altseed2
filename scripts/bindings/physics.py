@@ -20,7 +20,7 @@ with Collider as class_:
         prop_.has_setter = True
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', 'コライダの回転情報を取得・設定します。')
-    with class_.add_func('GetIsCollided') as func_:
+    with class_.add_func('GetIsCollidedWith') as func_:
         func_.add_arg(Collider, 'collider')
         func_.return_value.type_ = bool
         func_.brief = cbg.Description()
@@ -37,11 +37,6 @@ with CircleCollider as class_:
         prop_.has_setter = True
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '円形コライダの半径を取得・設定します。')
-    with class_.add_func('GetIsCollided') as func_:
-        func_.add_arg(Collider, 'collider')
-        func_.return_value.type_ = bool
-        func_.brief = cbg.Description()
-        func.brief.add('ja', '指定したコライダとの衝突判定を行います。')
 
 RectangleCollider = cbg.Class('Altseed', 'RectangleCollider')
 with RectangleCollider as class_:
@@ -59,11 +54,6 @@ with RectangleCollider as class_:
         prop_.has_setter = True
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '矩形コライダの中心の位置を取得・設定します。')
-    with class_.add_func('GetIsCollided') as func_:
-        func_.add_arg(Collider, 'collider')
-        func_.return_value.type_ = bool
-        func_.brief = cbg.Description()
-        func.brief.add('ja', '指定したコライダとの衝突判定を行います。')
 
 PolygonCollider = cbg.Class('Altseed', 'PolygonCollider')
 with PolygonCollider as class_:
@@ -71,13 +61,13 @@ with PolygonCollider as class_:
     class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '多角形コライダのクラス')
-    with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-        prop_.brief = cbg.Description()
-        prop_.brief.add('ja', '多角形コライダの頂点の座標を取得・設定します。')
-    with class_.add_func('GetIsCollided') as func_:
-        func_.add_arg(Collider, 'collider')
-        func_.return_value.type_ = bool
+    with class_.add_func('GetVertexes') as func_:
+        func_.is_public = False
+        func_.return_value.type_ = Vector2FArray
         func_.brief = cbg.Description()
-        func.brief.add('ja', '指定したコライダとの衝突判定を行います。')
+        func_.brief.add('ja', '多角形コライダの頂点の座標を取得します。')
+    with class_.add_func('SetVertexes') as func_:
+        func_.is_public = False
+        func_.add_arg(Vector2FArray, 'vertexes')
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '多角形コライダの頂点の座標を設定します。')

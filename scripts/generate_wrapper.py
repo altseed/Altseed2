@@ -50,6 +50,11 @@ if __name__ == '__main__':
 #include "IO/BaseFileReader.h"
 #include "IO/PackFileReader.h"
 
+#include "Physics/Collider/Collider.h"
+#include "Physics/Collider/CircleCollider.h"
+#include "Physics/Collider/RectangleCollider.h"
+#include "Physics/Collider/PolygonCollider.h"
+
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 
