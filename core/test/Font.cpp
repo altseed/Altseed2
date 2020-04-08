@@ -154,7 +154,7 @@ TEST(Font, Weight) {
 TEST(Font, Surrogate) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
 
-    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
 
     std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
 

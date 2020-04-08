@@ -180,8 +180,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         material = batchRenderer_->GetMaterialDefaultText();
     }
 
-    material->SetVector4F(
-            u"weight", Vector4F(128 - text->GetWeight(), 0.0f, 0.0f, 0.0f));
+    material->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
     material->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
     material->SetVector4F(
             u"scale",
