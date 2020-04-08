@@ -180,7 +180,12 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         material = batchRenderer_->GetMaterialDefaultText();
     }
 
-    material->SetVector4F(u"weight", Vector4F(0.5f - text->GetWeight() / 255.0f, 0.0f, 0.0f, 0.0f));
+    material->SetVector4F(
+            u"weight", Vector4F(128 - text->GetWeight(), 0.0f, 0.0f, 0.0f));
+    material->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
+    material->SetVector4F(
+            u"scale",
+            Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
@@ -219,7 +224,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
             pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
 
-            scale = Vector2F(1, 1);
+            scale = Vector2F(1, 1) * text->GetFont()->GetActualScale();
         }
 
         int ib[] = {0, 1, 2, 2, 3, 0};

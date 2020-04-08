@@ -29,6 +29,11 @@ public:
 
     bool GetIsStaticFont() override { return baseFont_->GetIsStaticFont(); }
 
+    int GetActualSize() override { return baseFont_->GetActualSize(); }
+    float GetPixelDistScale() override { return baseFont_->GetPixelDistScale(); }
+    float GetActualScale() override { return baseFont_->GetActualScale(); }
+    float GetScale() override { return baseFont_->GetScale(); }
+
     std::shared_ptr<Glyph> GetGlyph(const int32_t character) override { return baseFont_->GetGlyph(character); }
     std::shared_ptr<Texture2D> GetFontTexture(int32_t index) override { return baseFont_->GetFontTexture(index); }
 

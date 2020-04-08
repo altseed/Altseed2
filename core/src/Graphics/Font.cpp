@@ -28,10 +28,12 @@ Font::Font(std::u16string path)
     : resources_(nullptr),
       file_(nullptr),
       size_(0),
+      actualSize_(0),
       ascent_(0),
       descent_(0),
       lineGap_(0),
       scale_(0),
+      actualScale_(0),
       fontinfo_(stbtt_fontinfo()),
       textureSize_(Vector2I(2000, 2000)),
       isStaticFont_(true),
@@ -47,9 +49,14 @@ Font::Font(
       file_(file),
       fontinfo_(fontinfo),
       size_(size),
+      actualSize_(size),
+      actualScale_(1),
       textureSize_(Vector2I(2000, 2000)),
       isStaticFont_(false),
       sourcePath_(path) {
+    size_ = size_ > 80 ? size_ : 80;
+    actualScale_ = size_ > 80 ? 1 : (actualSize_ / 80.0f);
+
     scale_ = stbtt_ScaleForPixelHeight(&fontinfo_, size_);
 
     stbtt_GetFontVMetrics(&fontinfo_, &ascent_, &descent_, &lineGap_);
@@ -64,7 +71,8 @@ Font::Font(
 Font::~Font() {
     std::lock_guard<std::mutex> lock(mtx);
     if (resources_ != nullptr && sourcePath_ != u"") {
-        resources_->GetResourceContainer(ResourceType::Font)->Unregister(sourcePath_);
+        resources_->GetResourceContainer(ResourceType::Font)
+                ->Unregister(sourcePath_ + (isStaticFont_ ? u"" : utf8_to_utf16(std::to_string(GetSize()))));
         resources_ = nullptr;
     }
 }
@@ -94,7 +102,7 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 
     int kern;
     kern = stbtt_GetCodepointKernAdvance(&fontinfo_, c1, c2);
-    return kern * scale_;
+    return kern * scale_ * actualScale_;
 }
 
 Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning) {
@@ -122,7 +130,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
     std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();
-    auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
+    auto cache = std::dynamic_pointer_cast<Font>(
+            resources->GetResourceContainer(ResourceType::Font)->Get(path + utf8_to_utf16(std::to_string(size))));
     if (cache != nullptr && cache->GetRef() > 0 && !cache->GetIsStaticFont()) {
         return cache;
     }
@@ -142,7 +151,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
     }
 
     auto res = MakeAsdShared<Font>(resources, file, info, size, path);
-    resources->GetResourceContainer(ResourceType::Font)->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+    resources->GetResourceContainer(ResourceType::Font)
+            ->Register(path + utf8_to_utf16(std::to_string(size)), std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;
 }
@@ -165,10 +175,12 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     font->resources_ = resources;
     font->file_ = file;
     font->size_ = reader.Get<int32_t>();
+    font->actualSize_ = reader.Get<int32_t>();
     font->ascent_ = reader.Get<int32_t>();
     font->descent_ = reader.Get<int32_t>();
     font->lineGap_ = reader.Get<int32_t>();
     font->scale_ = reader.Get<float>();
+    font->actualScale_ = reader.Get<float>();
     font->textureSize_ = reader.Get<Vector2I>();
 
     int textureCount = reader.Get<int32_t>();
@@ -211,10 +223,12 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
 
     auto font = Font::LoadDynamicFont(dynamicFontPath, size);
     writer.Push(font->size_);
+    writer.Push(font->actualSize_);
     writer.Push(font->ascent_);
     writer.Push(font->descent_);
     writer.Push(font->lineGap_);
     writer.Push(font->scale_);
+    writer.Push(font->actualScale_);
     writer.Push(font->textureSize_);
 
     // add characters
@@ -301,9 +315,10 @@ void Font::AddGlyph(const int32_t character) {
     int32_t h = 0;
     int32_t glyphW = 0;
 
-    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, GetSize() / 2, 128, 1, &w, &h, &offset.X, &offset.Y);
+    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, size_ / 2, 128, GetPixelDistScale(), &w, &h, &offset.X, &offset.Y);
     stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
-    glyphW *= scale_;
+    glyphW *= scale_ * actualScale_;
+    offset = (offset.To2F() * actualScale_).To2I();
 
     if (data == nullptr) {
         auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(w, h), offset, glyphW);
@@ -326,7 +341,8 @@ void Font::AddGlyph(const int32_t character) {
             for (int32_t x = currentTexturePosition_.X; x < currentTexturePosition_.X + w; x++) {
                 buf[x + y * textureSize_.X].R = data[i];
                 buf[x + y * textureSize_.X].G = data[i];
-                buf[x + y * textureSize_.X].B = data[i++];
+                buf[x + y * textureSize_.X].B = data[i];
+                buf[x + y * textureSize_.X].A = data[i++];
             }
         }
         llgiTexture->Unlock();
