@@ -64,6 +64,8 @@ SamplerState mainSamp : register(s0);
 cbuffer Consts : register(b1)
 {
     float4 weight;
+    float4 pixelDistScale;
+    float4 scale;
 };
 struct PS_INPUT
 {
@@ -76,13 +78,13 @@ float4 main(PS_INPUT input) : SV_TARGET
 { 
     float4 c;
     c = mainTex.Sample(mainSamp, input.UV1);
-
-    c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), (c - weight.xxxx) * 255);
-    c = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), c + weight.xxxx);
+    c = c * 255.0f;
+    c = (c - weight.xxxx) / pixelDistScale.xxxx;
+    c = c * scale.xxxx;
+    c = c + 0.5f;
 
     if (c.r <= 0) discard;
-
-    return lerp(input.Color * c.r, input.Color, c.r > 1.0f);
+    return lerp(input.Color * c.r, input.Color, c.r >= 1.0f);
 }
 )";
 

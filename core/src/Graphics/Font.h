@@ -42,10 +42,11 @@ private:
     std::shared_ptr<Resources> resources_;
 
     stbtt_fontinfo fontinfo_;
-    float scale_;
+    float scale_, actualScale_;
     int32_t ascent_, descent_, lineGap_;
 
     int32_t size_;
+    int32_t actualSize_;
 
     std::shared_ptr<StaticFile> file_;
 
@@ -68,11 +69,16 @@ public:
 
     virtual ~Font();
 
-    virtual int32_t GetSize() { return size_; }
-    virtual int32_t GetAscent() { return ascent_; }
-    virtual int32_t GetDescent() { return descent_; }
-    virtual int32_t GetLineGap() { return lineGap_; }
+    virtual int32_t GetSize() { return actualSize_; }
+    virtual int32_t GetAscent() { return ascent_ * actualScale_; }
+    virtual int32_t GetDescent() { return descent_ * actualScale_; }
+    virtual int32_t GetLineGap() { return lineGap_ * actualScale_; }
     virtual bool GetIsStaticFont() { return isStaticFont_; }
+
+    virtual int GetActualSize() { return actualSize_; }
+    virtual float GetPixelDistScale() { return size_ / 2; }
+    virtual float GetActualScale() { return actualScale_; }
+    virtual float GetScale() { return scale_; }
 
     virtual std::shared_ptr<Glyph> GetGlyph(const int32_t character);
     virtual std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {
