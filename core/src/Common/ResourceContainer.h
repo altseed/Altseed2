@@ -29,10 +29,11 @@ public:
         }
 
         std::shared_ptr<Resource> GetResourcePtr() {
-            if (!m_resourcePtr.expired()) return m_resourcePtr.lock();
-            auto tmp = CreateAndAddSharedPtr<Resource>(rawPtr_);
-            m_resourcePtr = tmp;
-            return tmp;
+            auto res = m_resourcePtr.lock();
+            if (res != nullptr) return res;
+            res = CreateAndAddSharedPtr<Resource>(rawPtr_);
+            m_resourcePtr = res;
+            return res;
         }
 
         const std::u16string& GetPath() { return m_path; }
