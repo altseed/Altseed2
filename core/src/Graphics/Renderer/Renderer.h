@@ -59,6 +59,14 @@ public:
     void SetCamera(std::shared_ptr<RenderedCamera> camera);
 
     void ResetCamera();
+
+    private:
+
+    void GeneratePolygonBatchRenderer(std::shared_ptr<RenderedPolygon> text);
+
+    void GenerateSprite(std::shared_ptr<RenderedSprite> sprite);
+
+    void GenerateText(std::shared_ptr<RenderedText> text);
 };
 
 }  // namespace Altseed
