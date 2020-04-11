@@ -590,3 +590,66 @@ TEST(Graphics, Culling) {
 
     Altseed::Core::Terminate();
 }
+
+TEST(Graphics, CullingTooManySprite) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 40);
+    auto t = Altseed::RenderedText::Create();
+    t->SetFont(font);
+    t->SetText((u"FPS: " + Altseed::utf8_to_utf16(std::to_string(Altseed::Core::GetInstance()->GetCurrentFPS())) + u"Drawing Rendered: " +
+                Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                       .c_str());
+    t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+
+    std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
+
+    while (count++ < 1000 && Altseed::Core::GetInstance()->DoEvent() && instance->DoEvents()) {
+        auto trans = Altseed::Matrix44F();
+        trans.SetTranslation(200, 300 + count, 0);
+        s1->SetTransform(trans);
+
+        for (int32_t i = 0; i < 10; i++) {
+            auto s2 = Altseed::RenderedSprite::Create();
+            s2->SetTexture(t1);
+            s2->SetSrc(Altseed::RectF(0, 0, 128, 128));
+            s2->SetTransform(Altseed::Matrix44F().SetTranslation(0, 1000, 0));
+            sprites.push_back(s2);
+        }
+
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        EXPECT_TRUE(instance->BeginFrame());
+
+        t->SetText((u"FPS: " + Altseed::utf8_to_utf16(std::to_string(Altseed::Core::GetInstance()->GetCurrentFPS())) +
+                    u" Drawing Rendered: " +
+                    Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                           .c_str());
+
+        Altseed::Renderer::GetInstance()->DrawText(t);
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+
+        for (auto& s : sprites) {
+            Altseed::Renderer::GetInstance()->DrawSprite(s);
+        }
+
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
