@@ -2,6 +2,7 @@
 
 #include "Rendered.h"
 
+#include <box2d/box2d.h>
 #include <stdio.h>
 #include <memory>
 #include "../../Common/Array.h"
@@ -35,6 +36,8 @@ public:
 
     std::shared_ptr<Material> GetMaterial() const;
     void SetMaterial(const std::shared_ptr<Material>& material);
+
+    b2AABB GetAABB() override;
 };
 
 }  // namespace Altseed

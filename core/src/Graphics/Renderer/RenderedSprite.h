@@ -30,6 +30,8 @@ public:
 
     std::shared_ptr<Material> GetMaterial() const;
     void SetMaterial(const std::shared_ptr<Material>& material);
+
+    b2AABB GetAABB() override;
 };
 
 }  // namespace Altseed

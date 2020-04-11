@@ -6,6 +6,7 @@
 #include <set>
 
 #include "../../BaseObject.h"
+#include "../../Math/RectF.h"
 
 namespace Altseed {
 class Rendered;
@@ -14,26 +15,32 @@ private:
     static std::shared_ptr<CullingSystem> instance_;
 
     b2DynamicTree dynamicTree_;
-    std::map<int32_t, std::shared_ptr<Rendered>> proxyIdRenderedMap_;
-    std::map<std::shared_ptr<Rendered>, int32_t> renderedProxyIdMap_;
+    std::map<int32_t, Rendered*> proxyIdRenderedMap_;
+    std::map<Rendered*, int32_t> renderedProxyIdMap_;
     std::map<int32_t, b2AABB> proxyIdAABBMap_;
 
     std::set<int32_t> updateIds_;
+    int32_t drawingRenderedCount_;
 
 public:
     CullingSystem();
     virtual ~CullingSystem();
 
-    static std::shared_ptr<CullingSystem>& GetInstance() { return instance_; }
+    static std::shared_ptr<CullingSystem>& GetInstance();
 
     static bool Initialize();
 
     static void Terminate();
 
-    void Register(std::shared_ptr<Rendered> rendered);
-    void RequestUpdate(std::shared_ptr<Rendered> rendered);
-    void Update();
-    void Unregister(std::shared_ptr<Rendered> rendered);
+    void Register(Rendered* rendered);
+    void RequestUpdateAABB(Rendered* rendered);
+    void UpdateAABB();
+    void Cull(RectF rect);
+    void Unregister(Rendered* rendered);
+
+    int32_t GetDrawingRenderedCount() { return drawingRenderedCount_; }
+
+    bool QueryCallback(int32_t id);
 };
 
 }  // namespace Altseed

@@ -17,6 +17,7 @@
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
+#include "Graphics/Renderer/CullingSystem.h"
 
 namespace Altseed {
 std::shared_ptr<Core> Core::instance = nullptr;
@@ -78,6 +79,12 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
+	if (!CullingSystem::Initialize()) {
+        LOG_CRITICAL(u"CullingSystem::Initialize failed");
+        Core::instance = nullptr;
+        return false;
+    }
+
     if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
         LOG_CRITICAL(u"Graphics::Initialize failed");
         Core::instance = nullptr;
@@ -102,7 +109,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance())) {
+    if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance(), CullingSystem::GetInstance())) {
         LOG_CRITICAL(u"Renderer::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -143,6 +150,7 @@ void Core::Terminate() {
     Joystick::Terminate();
     Resources::Terminate();
     File::Terminate();
+    CullingSystem::Terminate();
     Graphics::Terminate();
     ShaderCompiler::Terminate();
     SoundMixer::Terminate();

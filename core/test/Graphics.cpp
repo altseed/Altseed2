@@ -14,6 +14,7 @@
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
 #include "Graphics/FrameDebugger.h"
+#include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
@@ -255,6 +256,8 @@ TEST(Graphics, SpriteTexture) {
     s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
 
     while (count++ < 10 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
@@ -331,7 +334,9 @@ TEST(Graphics, RenderedText) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 10 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         weitText->SetWeight(count / 20.0f - 2.5f);
@@ -376,6 +381,8 @@ TEST(Graphics, RenderedPolygon) {
     polygon->SetTransform(transform);
 
     while (count++ < 100 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
@@ -418,7 +425,9 @@ TEST(Graphics, CameraBasic) {
     auto camera = Altseed::RenderedCamera::Create();
     camera->SetTransform(trans2);
 
-    while (count++ < 10 && instance->DoEvents()) {
+    while (count++ < 100 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->SetCamera(camera);
@@ -471,6 +480,8 @@ TEST(Graphics, RenderTexture) {
     while (count++ < 60 && instance->DoEvents()) {
         if (count == 2) Altseed::FrameDebugger::GetInstance()->Start();
 
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         auto r = Altseed::Renderer::GetInstance();
@@ -515,12 +526,62 @@ TEST(Graphics, BackgroundBugcheck) {
     s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
 
     while (count++ < 10 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         instance->GetCommandList()->SetRenderTargetWithScreen();
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
+
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Graphics, Culling) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 80);
+    auto t = Altseed::RenderedText::Create();
+    t->SetFont(font);
+    t->SetText((u"Drawing Rendered: " +
+                Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                       .c_str());
+    t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+
+    while (count++ < 1000 && instance->DoEvents()) {
+        auto trans = Altseed::Matrix44F();
+        trans.SetTranslation(200, 300 + count, 0);
+        s1->SetTransform(trans);
+
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        EXPECT_TRUE(instance->BeginFrame());
+
+        t->SetText((u"Drawing Rendered: " +
+                    Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                           .c_str());
+
+        Altseed::Renderer::GetInstance()->DrawText(t);
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
 
         Altseed::Renderer::GetInstance()->Render();
 

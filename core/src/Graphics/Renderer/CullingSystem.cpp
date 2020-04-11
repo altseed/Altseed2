@@ -3,9 +3,13 @@
 #include "Rendered.h"
 
 namespace Altseed {
-CullingSystem::CullingSystem() {}
+std::shared_ptr<CullingSystem> CullingSystem::instance_ = nullptr;
+
+CullingSystem::CullingSystem() : drawingRenderedCount_(0) {}
 
 CullingSystem::~CullingSystem() {}
+
+std::shared_ptr<CullingSystem>& CullingSystem::GetInstance() { return instance_; }
 
 bool CullingSystem::Initialize() {
     instance_ = MakeAsdShared<CullingSystem>();
@@ -22,14 +26,27 @@ void CullingSystem::Register(Rendered* rendered) {
     proxyIdAABBMap_[id] = aabb;
 }
 
-void CullingSystem::RequestUpdate(Rendered* rendered) { updateIds_.insert(renderedProxyIdMap_[rendered]); }
+void CullingSystem::RequestUpdateAABB(Rendered* rendered) { updateIds_.insert(renderedProxyIdMap_[rendered]); }
 
-void CullingSystem::Update() {
+void CullingSystem::UpdateAABB() {
     for (auto& id : updateIds_) {
         auto newAABB = proxyIdRenderedMap_[id]->GetAABB();
         dynamicTree_.MoveProxy(id, newAABB, newAABB.GetCenter() - proxyIdAABBMap_[id].GetCenter());
         proxyIdAABBMap_[id] = newAABB;
     }
+    updateIds_.clear();
+}
+
+void CullingSystem::Cull(RectF rect) {
+    drawingRenderedCount_ = 0;
+    for (auto& renderedProxyId : renderedProxyIdMap_) {
+        renderedProxyId.first->SetIsDrawn(false);
+    }
+
+    b2AABB aabb;
+    aabb.lowerBound = b2Vec2(rect.X, rect.Y);
+    aabb.upperBound = b2Vec2(rect.X + rect.Width, rect.Y + rect.Height);
+    dynamicTree_.Query(instance_.get(), aabb);
 }
 
 void CullingSystem::Unregister(Rendered* rendered) {
@@ -38,6 +55,12 @@ void CullingSystem::Unregister(Rendered* rendered) {
     renderedProxyIdMap_.erase(rendered);
     proxyIdRenderedMap_.erase(id);
     proxyIdAABBMap_.erase(id);
+}
+
+bool CullingSystem::QueryCallback(int32_t id) {
+    drawingRenderedCount_++;
+    proxyIdRenderedMap_[id]->SetIsDrawn(true);
+    return true;
 }
 
 }  // namespace Altseed
