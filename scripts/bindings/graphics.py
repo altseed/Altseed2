@@ -605,6 +605,10 @@ with Rendered as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(int, 'Id') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'BaseObjectのIdを取得します')
+        prop.has_getter = True
 
 RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
 with RenderedSprite as class_:
@@ -828,3 +832,34 @@ with Renderer as class_:
     with class_.add_func('ResetCamera') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラの設定をリセットします。')
+
+CullingSystem = cbg.Class('Altseed', 'CullingSystem')
+with CullingSystem as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'カリングのクラス')
+    class_.is_public = False
+    class_.is_Sealed = True
+
+    with class_.add_func('GetInstance') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを取得します。')
+        func.return_value.type_ = CullingSystem
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '使用するインスタンス')
+        func.is_public = False
+        func.is_static = True
+
+    with class_.add_func('UpdateAABB') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'RenderedのAABBを更新します')
+        func.is_public = False
+
+    with class_.add_property(int, 'DrawingRenderedCount') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画されているRenderedの個数を取得する')
+        prop.has_getter = True
+
+    with class_.add_property(Int32Array, 'DrawingRenderedIds') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画されているRenderedのIdの配列を取得する')
+        prop.has_getter = True

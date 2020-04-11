@@ -78,7 +78,7 @@ with PolygonCollider as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '多角形コライダのクラス')
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
-    with class_.add_property(VertexArray, 'Vertexes') as prop_:
+    with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = True
