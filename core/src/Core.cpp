@@ -7,6 +7,7 @@
 #include "BaseObject.h"
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
@@ -17,7 +18,6 @@
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
-#include "Graphics/Renderer/CullingSystem.h"
 
 namespace Altseed {
 std::shared_ptr<Core> Core::instance = nullptr;
@@ -79,7 +79,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-	if (!CullingSystem::Initialize()) {
+    if (!CullingSystem::Initialize()) {
         LOG_CRITICAL(u"CullingSystem::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -160,6 +160,8 @@ void Core::Terminate() {
 }
 
 std::shared_ptr<Core>& Core::GetInstance() { return instance; }
+
+Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();

@@ -29,11 +29,14 @@ private:
 
     std::shared_ptr<Configuration> config_;
 
+	int32_t maxBaseObjectId_;
+
 public:
     //! register a base object
-    void Register(BaseObject* o) {
+    int32_t Register(BaseObject* o) {
         std::lock_guard<std::mutex> lock(baseObjectMtx_);
         baseObjects.insert(o);
+        return maxBaseObjectId_++;
     }
 
     //! unregister a base object
@@ -56,6 +59,8 @@ public:
 
     //! Get instance
     static std::shared_ptr<Core>& GetInstance();
+
+	Core();
 
     bool DoEvent();
 

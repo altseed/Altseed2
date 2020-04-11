@@ -6,6 +6,7 @@
 #include <set>
 
 #include "../../BaseObject.h"
+#include "../../Common/Array.h"
 #include "../../Math/RectF.h"
 
 namespace Altseed {
@@ -20,7 +21,8 @@ private:
     std::map<int32_t, b2AABB> proxyIdAABBMap_;
 
     std::set<int32_t> updateIds_;
-    int32_t drawingRenderedCount_;
+
+    std::shared_ptr<Int32Array> drawingRenderedIds_;
 
 public:
     CullingSystem();
@@ -38,7 +40,8 @@ public:
     void Cull(RectF rect);
     void Unregister(Rendered* rendered);
 
-    int32_t GetDrawingRenderedCount() { return drawingRenderedCount_; }
+    int32_t GetDrawingRenderedCount() { return drawingRenderedIds_->GetCount(); }
+    std::shared_ptr<Int32Array> GetDrawingRenderedIds() { return drawingRenderedIds_; }
 
     bool QueryCallback(int32_t id);
 };

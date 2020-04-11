@@ -21,6 +21,7 @@ private:
     std::shared_ptr<Core> core_;
 
     std::u16string instanceName_;
+    int32_t id_;
 
 public:
     BaseObject();
@@ -47,6 +48,8 @@ public:
 
     //! Get current reference counter
     int32_t GetRef() const { return reference_; }
+
+    int32_t GetId() const { return id_; }
 
     virtual void OnTerminating() {}
 };

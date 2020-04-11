@@ -5,7 +5,7 @@
 namespace Altseed {
 std::shared_ptr<CullingSystem> CullingSystem::instance_ = nullptr;
 
-CullingSystem::CullingSystem() : drawingRenderedCount_(0) {}
+CullingSystem::CullingSystem() { drawingRenderedIds_ = MakeAsdShared<Int32Array>(); }
 
 CullingSystem::~CullingSystem() {}
 
@@ -38,7 +38,8 @@ void CullingSystem::UpdateAABB() {
 }
 
 void CullingSystem::Cull(RectF rect) {
-    drawingRenderedCount_ = 0;
+    drawingRenderedIds_->Clear();
+
     for (auto& renderedProxyId : renderedProxyIdMap_) {
         renderedProxyId.first->SetIsDrawn(false);
     }
@@ -58,7 +59,7 @@ void CullingSystem::Unregister(Rendered* rendered) {
 }
 
 bool CullingSystem::QueryCallback(int32_t id) {
-    drawingRenderedCount_++;
+    drawingRenderedIds_->GetVector().push_back(proxyIdRenderedMap_[id]->GetId());
     proxyIdRenderedMap_[id]->SetIsDrawn(true);
     return true;
 }
