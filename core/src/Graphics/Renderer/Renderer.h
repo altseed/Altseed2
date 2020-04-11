@@ -23,15 +23,17 @@ private:
     std::shared_ptr<Window> window_;
     std::shared_ptr<Graphics> graphics_;
     std::shared_ptr<BatchRenderer> batchRenderer_;
+    std::shared_ptr<CullingSystem> cullingSystem_;
     std::vector<std::shared_ptr<RenderedCamera>> cameras_;
 
 public:
-    Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics);
+    Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem);
     virtual ~Renderer();
 
     static std::shared_ptr<Renderer>& GetInstance();
 
-    static bool Initialize(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics);
+    static bool Initialize(
+            std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem);
 
     static void Terminate();
 

@@ -56,6 +56,8 @@ set(core_files
     Graphics/Renderer/RenderedPolygon.cpp
     Graphics/Renderer/Renderer.h
     Graphics/Renderer/Renderer.cpp
+    Graphics/Renderer/CullingSystem.h
+    Graphics/Renderer/CullingSystem.cpp
     Graphics/Shader.h
     Graphics/Shader.cpp
     Graphics/ShaderCompiler/ResourceLimits.h

@@ -1,12 +1,17 @@
 #include "RenderedPolygon.h"
 
+#include "CullingSystem.h"
+
 namespace Altseed {
 
 std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() { return MakeAsdShared<RenderedPolygon>(); }
 
 std::shared_ptr<VertexArray> RenderedPolygon::GetVertexes() { return vertexes_; }
 
-void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) { vertexes_ = vertexes; }
+void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) {
+    vertexes_ = vertexes;
+    cullingSystem_->RequestUpdateAABB(this);
+}
 
 void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> vertexes) {
     vertexes_ = MakeAsdShared<VertexArray>();
@@ -53,6 +58,8 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         dst.UV2 = dst.UV1;
         dst.Col = Color(255, 255, 255, 255);
     }
+
+    cullingSystem_->RequestUpdateAABB(this);
 }
 
 RectF RenderedPolygon::GetSrc() const { return src_; }
@@ -66,5 +73,18 @@ void RenderedPolygon::SetTexture(const std::shared_ptr<TextureBase>& texture) { 
 std::shared_ptr<Material> RenderedPolygon::GetMaterial() const { return material_; }
 
 void RenderedPolygon::SetMaterial(const std::shared_ptr<Material>& material) { material_ = material; }
+
+b2AABB RenderedPolygon::GetAABB() {
+    if (GetVertexes()->GetCount() == 0) return b2AABB();
+    b2AABB res;
+    res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
+    res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
+    for (int i = 0; i < GetVertexes()->GetCount(); ++i) {
+        auto v = transform_.Transform3D(GetVertexes()->GetAt(i).Pos);
+        res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
+        res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
+    }
+    return res;
+}
 
 }  // namespace Altseed

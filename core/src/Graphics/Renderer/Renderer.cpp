@@ -20,15 +20,17 @@ std::shared_ptr<Renderer> Renderer::instance_;
 
 std::shared_ptr<Renderer>& Renderer::GetInstance() { return instance_; }
 
-bool Renderer::Initialize(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics) {
-    instance_ = MakeAsdShared<Renderer>(window, graphics);
+bool Renderer::Initialize(
+        std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem) {
+    instance_ = MakeAsdShared<Renderer>(window, graphics, cullingSystem);
 
     return true;
 }
 
 void Renderer::Terminate() { instance_ = nullptr; }
 
-Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics) : window_(window), graphics_(graphics) {
+Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem)
+    : window_(window), graphics_(graphics), cullingSystem_(cullingSystem) {
     batchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
     ResetCamera();
 }
@@ -61,6 +63,8 @@ void Renderer::DrawPolygon(
 }
 
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
+    if (!polygon->GetIsDrawn()) return;
+
     std::shared_ptr<TextureBase> texture = polygon->GetTexture();
 
     RectF src = polygon->GetSrc();
@@ -104,6 +108,8 @@ void Renderer::Render() {
 }
 
 void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
+    if (!sprite->GetIsDrawn()) return;
+
     auto texture = sprite->GetTexture();
 
     std::array<BatchVertex, 4> vs;
@@ -172,6 +178,8 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 #undef DrawText
 #endif
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
+    if (!text->GetIsDrawn()) return;
+
     const auto& characters = text->GetTextAsStr();
 
     auto material = text->GetMaterial();
@@ -182,9 +190,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     material->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
     material->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    material->SetVector4F(
-            u"scale",
-            Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
+    material->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
     // 改行を想定してVector2F
     Vector2F offset(0, 0);
@@ -295,6 +301,9 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
     Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, param);
 
     batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
+    auto aabb = camera->GetAABB();
+    cullingSystem_->Cull(
+            RectF(aabb.lowerBound.x, aabb.lowerBound.y, aabb.upperBound.x - aabb.lowerBound.x, aabb.upperBound.y - aabb.lowerBound.y));
 }
 
 void Renderer::ResetCamera() {

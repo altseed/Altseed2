@@ -7,6 +7,7 @@
 #include "BaseObject.h"
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "IO/File.h"
@@ -78,6 +79,12 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
+    if (!CullingSystem::Initialize()) {
+        LOG_CRITICAL(u"CullingSystem::Initialize failed");
+        Core::instance = nullptr;
+        return false;
+    }
+
     if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
         LOG_CRITICAL(u"Graphics::Initialize failed");
         Core::instance = nullptr;
@@ -102,7 +109,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance())) {
+    if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance(), CullingSystem::GetInstance())) {
         LOG_CRITICAL(u"Renderer::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -143,6 +150,7 @@ void Core::Terminate() {
     Joystick::Terminate();
     Resources::Terminate();
     File::Terminate();
+    CullingSystem::Terminate();
     Graphics::Terminate();
     ShaderCompiler::Terminate();
     SoundMixer::Terminate();
@@ -152,6 +160,8 @@ void Core::Terminate() {
 }
 
 std::shared_ptr<Core>& Core::GetInstance() { return instance; }
+
+Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();

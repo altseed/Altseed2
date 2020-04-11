@@ -1124,6 +1124,13 @@ CBGEXPORT void CBGSTDCALL cbg_Rendered_SetTransform(void* cbg_self, Altseed::Mat
     cbg_self_->SetTransform(cbg_arg0);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_Rendered_GetId(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetId();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Rendered_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
 
@@ -1597,6 +1604,37 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Font_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Font*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_CullingSystem_GetInstance() {
+    std::shared_ptr<Altseed::CullingSystem> cbg_ret = Altseed::CullingSystem::GetInstance();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::CullingSystem>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CullingSystem_UpdateAABB(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CullingSystem*)(cbg_self);
+
+    cbg_self_->UpdateAABB();
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_CullingSystem_GetDrawingRenderedCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CullingSystem*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetDrawingRenderedCount();
+    return cbg_ret;
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_CullingSystem_GetDrawingRenderedIds(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CullingSystem*)(cbg_self);
+
+    std::shared_ptr<Altseed::Int32Array> cbg_ret = cbg_self_->GetDrawingRenderedIds();
+    return (void*)Altseed::AddAndGetSharedPtr<Altseed::Int32Array>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed::CullingSystem*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -2893,10 +2931,10 @@ CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetVertexes(void* cbg_self) {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Vector2FArray>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetVertexes(void* cbg_self, void* vertexes) {
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetVertexes(void* cbg_self, void* value) {
     auto cbg_self_ = (Altseed::PolygonCollider*)(cbg_self);
 
-    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)vertexes);
+    std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)value);
     cbg_self_->SetVertexes(cbg_arg0);
 }
 

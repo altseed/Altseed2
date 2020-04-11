@@ -10,7 +10,7 @@ BaseObject::BaseObject() : reference_(1) {
 
     // for Core
     if (core_ != nullptr) {
-        core_->Register(this);
+        id_ = core_->Register(this);
     }
 }
 
