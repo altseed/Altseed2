@@ -536,6 +536,7 @@ with Font as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.has_getter = True
+        prop.serialized = True
         prop.null_deserialized = False
 
     with class_.add_func('CalcTextureSize') as func:

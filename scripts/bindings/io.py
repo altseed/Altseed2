@@ -37,6 +37,7 @@ with StaticFile as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
@@ -120,6 +121,7 @@ with StreamFile as class_:
         prop.brief.add('ja', '読み込んだファイルのパスを取得します。')
         prop.is_public = False
         prop.has_getter = True
+        prop.serialized = True
 
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
