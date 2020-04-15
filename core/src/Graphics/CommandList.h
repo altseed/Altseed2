@@ -113,9 +113,13 @@ public:
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
 
+    void Draw(int32_t instanceCount);
+
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;
     LLGI::CommandList* GetLL() const;
+
+    void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);
 };
 
 }  // namespace Altseed

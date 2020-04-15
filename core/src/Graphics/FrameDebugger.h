@@ -77,6 +77,7 @@ class FrameDebugger : public BaseObject {
 private:
     static std::shared_ptr<FrameDebugger> instance_;
 
+    int32_t dumpId_ = 0;
     bool isEnabled_;
     std::vector<std::shared_ptr<FrameEvent>> events_;
 
@@ -101,5 +102,8 @@ public:
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Vector4F& vector);
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Matrix44F& matrix);
     void Texture(const ShaderStageType stageType, const std::u16string name);
+
+    int32_t GetAndAddDumpID();
+    bool GetIsEnabled() const;
 };
 }  // namespace Altseed

@@ -16,6 +16,7 @@
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
 #include "Sound/SoundMixer.h"
+#include "System/SynchronizationContext.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
 
@@ -123,6 +124,8 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         }
     }
 
+    SynchronizationContext::Initialize();
+
     Core::instance->fps_ = std::make_unique<FPS>();
 
     Altseed::Joystick::GetInstance()->RefreshConnectedState();
@@ -141,6 +144,9 @@ void Core::Terminate() {
     for (auto obj : Core::instance->baseObjects) {
         obj->OnTerminating();
     }
+
+    SynchronizationContext::GetInstance()->Run();
+    SynchronizationContext::Terminate();
 
     if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
     Renderer::Terminate();
@@ -167,6 +173,8 @@ bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed::Mouse::GetInstance()->RefreshInputState();
     Altseed::Joystick::GetInstance()->RefreshInputState();
+
+    SynchronizationContext::GetInstance()->Run();
 
     Core::instance->fps_->Update();
 
