@@ -53,6 +53,7 @@ private:
     LLGI::CommandList* currentCommandList_ = nullptr;
     std::shared_ptr<LLGI::SingleFrameMemoryPool> memoryPool_;
     std::shared_ptr<LLGI::CommandListPool> commandListPool_;
+    std::shared_ptr<RenderTexture> currentRenderTarget_;
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
     bool isInRenderPass_ = false;
 
@@ -77,6 +78,14 @@ public:
     void EndFrame();
 
     void SetScissor(const RectI& scissor);
+
+    void BeginRenderPass(std::shared_ptr<RenderTexture> target, std::shared_ptr<LLGI::RenderPass> renderPass);
+
+    void EndRenderPass();
+
+    void PauseRenderPass();
+
+    void ResumeRenderPass();
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
@@ -112,6 +121,13 @@ public:
             std::shared_ptr<Shader> shader,
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
+
+    /**
+        @brief Call CopyTexture outside of RenderPass
+    */
+    void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
+
+    std::shared_ptr<RenderTexture> GetCurrentRenderTarget() const;
 
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;

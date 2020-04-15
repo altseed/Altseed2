@@ -167,6 +167,7 @@ bool Core::DoEvent() {
     Altseed::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed::Mouse::GetInstance()->RefreshInputState();
     Altseed::Joystick::GetInstance()->RefreshInputState();
+    Renderer::GetInstance()->DoEvent();
 
     Core::instance->fps_->Update();
 

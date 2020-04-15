@@ -29,6 +29,20 @@ bool Renderer::Initialize(
 
 void Renderer::Terminate() { instance_ = nullptr; }
 
+void Renderer::DoEvent() {
+    for (auto& c : renderTextureCaches_) {
+        c.second.Life--;
+    }
+
+    for (auto it = renderTextureCaches_.begin(); it != renderTextureCaches_.end();) {
+        if (it->second.Life == 0) {
+            it = renderTextureCaches_.erase(it);
+        } else {
+            it++;
+        }
+    }
+}
+
 Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem)
     : window_(window), graphics_(graphics), cullingSystem_(cullingSystem) {
     batchRenderer_ = std::make_shared<BatchRenderer>(graphics_);
@@ -283,6 +297,30 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, next), 0);
         }
     }
+}
+
+void Renderer::RenderPostEffect(std::shared_ptr<Material> material) {
+    Render();
+
+    auto commandlist = Graphics::GetInstance()->GetCommandList();
+    auto target = commandlist->GetCurrentRenderTarget();
+    if (target == nullptr) Log::GetInstance()->Error(LogCategory::Core, u"Renderer::RenderPostEffect: CurrentRenderTarget is null");
+
+    auto sizeKey = RenderTextureCacheKey(target->GetSize());
+    auto buffer = renderTextureCaches_.find(sizeKey);
+    if (buffer == renderTextureCaches_.end()) {
+        auto rt = Altseed::RenderTexture::Create(target->GetSize());
+        RenderTextureCache cache;
+        cache.Life = 5;
+        cache.Stored = rt;
+        renderTextureCaches_[sizeKey] = cache;
+    } else {
+        buffer->second.Life = 5;
+    }
+
+    commandlist->CopyTexture(target, renderTextureCaches_[sizeKey].Stored);
+    material->SetTexture(u"mainTex", renderTextureCaches_[sizeKey].Stored);
+    commandlist->RenderToRenderTarget(material);
 }
 
 void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
