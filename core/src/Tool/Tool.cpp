@@ -1,3 +1,5 @@
+#include <nfd.h>
+
 #include "Tool.h"
 #include "../Common/StringHelper.h"
 #include "Platform/ImGuiPlatform.h"
@@ -401,5 +403,96 @@ void Tool::SetNextWindowContentSize(Vector2F size) { ImGui::SetNextWindowContent
 void Tool::SetNextWindowPos(Vector2F pos, ToolCond cond) { ImGui::SetNextWindowPos(toImVec2(pos)); }
 
 void Tool::SetNextWindowSize(Vector2F size, ToolCond cond) { ImGui::SetNextWindowSize(toImVec2(size)); }
+
+//! for Dialog
+static std::u16string temp;
+
+const char16_t* Tool::OpenDialog(const char16_t* filter, const char16_t* defaultPath) {
+    auto filterList_ = utf16_to_utf8(filter);
+    auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+    nfdchar_t* outPath = NULL;
+    nfdresult_t result = NFD_OpenDialog(filterList_.c_str(), defaultPath_.c_str(), &outPath);
+
+    if (result == NFD_OKAY) {
+        temp = utf8_to_utf16(outPath);
+        free(outPath);
+        return temp.c_str();
+    } else if (result == NFD_CANCEL) {
+        temp = u"";
+        return temp.c_str();
+    }
+
+    temp = u"";
+    return temp.c_str();
+}
+
+const char16_t* Tool::OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath) {
+    auto filterList_ = utf16_to_utf8(filter);
+    auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+    nfdpathset_t pathSet;
+    nfdresult_t result = NFD_OpenDialogMultiple(filterList_.c_str(), defaultPath_.c_str(), &pathSet);
+    if (result == NFD_OKAY) {
+        temp = u"";
+        size_t i;
+        for (i = 0; i < NFD_PathSet_GetCount(&pathSet); ++i) {
+            nfdchar_t* path = NFD_PathSet_GetPath(&pathSet, i);
+            if (i != 0) temp += u",";
+            temp += utf8_to_utf16(path);
+        }
+        NFD_PathSet_Free(&pathSet);
+
+        return temp.c_str();
+    } else if (result == NFD_CANCEL) {
+        temp = u"";
+        return temp.c_str();
+    } else {
+        temp = u"";
+        return temp.c_str();
+    }
+
+    temp = u"";
+    return temp.c_str();
+}
+
+const char16_t* Tool::SaveDialog(const char16_t* filter, const char16_t* defaultPath) {
+    auto filterList_ = utf16_to_utf8(filter);
+    auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+    nfdchar_t* outPath = NULL;
+    nfdresult_t result = NFD_SaveDialog(filterList_.c_str(), defaultPath_.c_str(), &outPath);
+
+    if (result == NFD_OKAY) {
+        temp = utf8_to_utf16(outPath);
+        free(outPath);
+        return temp.c_str();
+    } else if (result == NFD_CANCEL) {
+        temp = u"";
+        return temp.c_str();
+    }
+
+    temp = u"";
+    return temp.c_str();
+}
+
+const char16_t* Tool::PickFolder(const char16_t* defaultPath) {
+    auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+    nfdchar_t* outPath = NULL;
+    nfdresult_t result = NFD_PickFolder(defaultPath_.c_str(), &outPath);
+
+    if (result == NFD_OKAY) {
+        temp = utf8_to_utf16(outPath);
+        free(outPath);
+        return temp.c_str();
+    } else if (result == NFD_CANCEL) {
+        temp = u"";
+        return temp.c_str();
+    }
+
+    temp = u"";
+    return temp.c_str();
+}
 
 }  // namespace Altseed

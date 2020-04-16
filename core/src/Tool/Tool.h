@@ -382,6 +382,14 @@ public:
     void SetNextWindowPos(Vector2F pos, ToolCond cond = ToolCond::None);
 
     void SetNextWindowSize(Vector2F size, ToolCond cond = ToolCond::None);
+
+    const char16_t* OpenDialog(const char16_t* filter, const char16_t* defaultPath);
+
+    const char16_t* OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath);
+
+    const char16_t* SaveDialog(const char16_t* filter, const char16_t* defaultPath);
+
+    const char16_t* PickFolder(const char16_t* defaultPath);
 };
 
 }  // namespace Altseed

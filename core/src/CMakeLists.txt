@@ -228,6 +228,7 @@ target_link_libraries(
     OpenSoundMixer
     zip
     imgui
+    nativefiledialog
     box2d
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
@@ -361,7 +362,8 @@ add_dependencies(
     ExternalProject_libzip
     ExternalProject_glslang
     ExternalProject_SPIRV-Cross
-    box2d)
+    box2d
+    nativefiledialog)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
