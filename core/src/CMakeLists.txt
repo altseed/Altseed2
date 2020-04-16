@@ -139,6 +139,8 @@ set(core_files
     Tool/Tool.cpp
     Window/Window.h
     Window/Window.cpp
+    System/SynchronizationContext.h
+    System/SynchronizationContext.cpp
 )
 
 # imgui

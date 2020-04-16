@@ -1,6 +1,14 @@
 #include "CommandList.h"
 
+#ifdef _WIN32
+#define STBI_WINDOWS_UTF8
+#endif
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>>
+
 #include "../Graphics/Graphics.h"
+#include "../System/SynchronizationContext.h"
 #include "BuiltinShader.h"
 #include "FrameDebugger.h"
 #include "RenderTexture.h"
@@ -327,10 +335,57 @@ void CommandList::StoreUniforms(
     LLGI::SafeRelease(cb);
 }
 
+void CommandList::Draw(int32_t instanceCount) {
+    GetLL()->Draw(instanceCount);
+    FrameDebugger::GetInstance()->Render(instanceCount);
+
+    if (FrameDebugger::GetInstance()->GetIsEnabled()) {
+        auto id = FrameDebugger::GetInstance()->GetAndAddDumpID();
+
+        auto texture = currentRenderPass_->GetRenderTexture(0);
+
+        auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y));
+
+        currentCommandList_->EndRenderPass();
+
+        currentCommandList_->CopyTexture(texture, target->GetNativeTexture().get());
+
+        currentRenderPass_->SetIsColorCleared(false);
+        currentRenderPass_->SetIsDepthCleared(false);
+
+        currentCommandList_->BeginRenderPass(currentRenderPass_.get());
+
+        auto name = "frame_" + std::to_string(id) + ".png";
+
+        SaveRenderTexture(utf8_to_utf16(name).c_str(), target);
+    }
+}
+
 LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }
 
 LLGI::RenderPass* CommandList::GetCurrentRenderPass() const { return currentRenderPass_.get(); }
 
 LLGI::CommandList* CommandList::GetLL() const { return currentCommandList_; }
+
+void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture) {
+    if (currentCommandList_ == nullptr) return;
+
+    currentCommandList_->AddRef();
+    auto commandList = LLGI::CreateSharedPtr(currentCommandList_);
+    std::u16string filepath(path);
+
+    auto screen = texture;
+
+    auto f = [commandList, filepath, screen]() -> void {
+        commandList->WaitUntilCompleted();
+        auto data = Graphics::GetInstance()->GetGraphicsLLGI()->CaptureRenderTarget(screen->GetNativeTexture().get());
+
+        auto path8 = utf16_to_utf8(filepath.c_str());
+
+        stbi_write_png(path8.c_str(), screen->GetSize().X, screen->GetSize().Y, 4, data.data(), screen->GetSize().X * 4);
+    };
+
+    SynchronizationContext::GetInstance()->AddEvent(f);
+}
 
 }  // namespace Altseed

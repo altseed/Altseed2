@@ -135,9 +135,7 @@ void BatchRenderer::Render() {
                 commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // draw
-        commandList->GetLL()->Draw(batch.IndexCount / 3);
-
-        FrameDebugger::GetInstance()->Render(batch.IndexCount);
+        commandList->Draw(batch.IndexCount / 3);
     }
 
      vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());

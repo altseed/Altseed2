@@ -14,7 +14,10 @@ bool FrameDebugger::Initialize() {
     return true;
 }
 
-void FrameDebugger::Start() { isEnabled_ = true; }
+void FrameDebugger::Start() {
+    isEnabled_ = true; 
+    dumpId_ = 0;
+}
 
 void FrameDebugger::DumpToLog() {
     FrameDebugger::GetInstance()->Write(u"================ Frame Debug Start ================");
@@ -196,6 +199,13 @@ void FrameDebugger::Texture(const ShaderStageType stageType, const std::u16strin
     e->Name = name;
     events_.push_back(e);
 }
+
+int32_t FrameDebugger::GetAndAddDumpID() {
+    dumpId_++;
+    return dumpId_;
+}
+
+bool FrameDebugger::GetIsEnabled() const { return isEnabled_; }
 
 template <typename... Args>
 void FrameDebugger::Write(const char16_t* format, const Args&... args) {

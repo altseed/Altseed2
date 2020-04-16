@@ -266,6 +266,11 @@ TEST(Graphics, SpriteTexture) {
         Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take screenshot
+        if (count == 5) {
+            //Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
+        }
     }
 
     Altseed::Core::Terminate();
