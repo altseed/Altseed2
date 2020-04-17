@@ -259,7 +259,7 @@ TEST(File, StaticFileAsync) {
     EXPECT_EQ(testCache, test1);
     EXPECT_EQ(testPackCache, testPack2);
 
-    test1->GetBuffer() == testPack1->GetBuffer();
+    // test1->GetBuffer() == testPack1->GetBuffer();
     EXPECT_EQ(test1->GetBuffer()->GetVector(), testPack1->GetBuffer()->GetVector());
     EXPECT_EQ(test2->GetBuffer()->GetVector(), testPack2->GetBuffer()->GetVector());
     EXPECT_EQ(test3->GetBuffer()->GetVector(), testPack3->GetBuffer()->GetVector());

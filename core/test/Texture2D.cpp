@@ -156,20 +156,20 @@ TEST(Texture2D, Cache) {
     config->SetLogFileName(u"cache.txt");
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
 
-    auto start = std::chrono::system_clock::now();  // Œv‘ªŠJnŠÔ
+    auto start = std::chrono::system_clock::now();  // è¨ˆæ¸¬é–‹å§‹æ™‚é–“
     std::shared_ptr<Altseed::Texture2D> testPng = Altseed::CreateAndAddSharedPtr((Altseed::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
     EXPECT_NE(testPng, nullptr);
-    auto end = std::chrono::system_clock::now();  // Œv‘ªI—¹ŠÔ
-    int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();  //ˆ—‚É—v‚µ‚½ŠÔ‚ğƒ~ƒŠ•b‚É•ÏŠ·
+    auto end = std::chrono::system_clock::now();  // è¨ˆæ¸¬çµ‚äº†æ™‚é–“
+    int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();  //å‡¦ç†ã«è¦ã—ãŸæ™‚é–“ã‚’ãƒŸãƒªç§’ã«å¤‰æ›
 
     // cache test
     auto start2 = std::chrono::system_clock::now();
     std::shared_ptr<Altseed::Texture2D> testCache =
             Altseed::CreateAndAddSharedPtr((Altseed::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
     EXPECT_NE(testCache, nullptr);
-    auto end2 = std::chrono::system_clock::now();  // Œv‘ªI—¹ŠÔ
+    auto end2 = std::chrono::system_clock::now();  // è¨ˆæ¸¬çµ‚äº†æ™‚é–“
     EXPECT_EQ(testPng, testCache);
-    int elapsed2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();  //ˆ—‚É—v‚µ‚½ŠÔ‚ğƒ~ƒŠ•b‚É•ÏŠ·
+    int elapsed2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();  //å‡¦ç†ã«è¦ã—ãŸæ™‚é–“ã‚’ãƒŸãƒªç§’ã«å¤‰æ›
 
     Altseed::Log::GetInstance()->Write(
             Altseed::LogCategory::Core, Altseed::LogLevel::Info, u"{0}, {1}", static_cast<int>(elapsed), static_cast<int>(elapsed2));
