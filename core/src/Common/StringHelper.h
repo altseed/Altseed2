@@ -3,6 +3,7 @@
 #include <array>
 #include <codecvt>
 #include <locale>
+#include <string>
 
 namespace Altseed {
 
@@ -172,6 +173,19 @@ static bool ConvChU16ToU32(const std::array<char16_t, 2>& u16Ch, char32_t& u32Ch
     }
 
     return true;
+}
+
+static std::u16string ToString(int32_t v) {
+    auto str = std::to_string(v);
+
+    std::u16string s;
+    s.reserve(str.size());
+
+    for (auto c : str) {
+        s += static_cast<char16_t>(c);
+    }
+
+    return s;
 }
 
 }  // namespace Altseed

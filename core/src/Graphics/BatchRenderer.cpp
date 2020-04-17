@@ -3,7 +3,6 @@
 #include "../Graphics/Graphics.h"
 #include "BuiltinShader.h"
 #include "CommandList.h"
-#include "FrameDebugger.h"
 #include "Material.h"
 
 namespace Altseed {
@@ -61,8 +60,6 @@ void BatchRenderer::Draw(
 
     b.VertexCount += vbCount;
     b.IndexCount += ibCount;
-
-    FrameDebugger::GetInstance()->Draw(vbCount, ibCount);
 }
 
 void BatchRenderer::Render() {
@@ -115,9 +112,9 @@ void BatchRenderer::Render() {
         }
 
         // VB, IB
-        commandList->GetLL()->SetVertexBuffer(
+        commandList->SetVertexBuffer(
                 vertexBuffer_.get(), sizeof(BatchVertex), (vbOffset_ + batch.VertexOffset) * sizeof(BatchVertex));
-        commandList->GetLL()->SetIndexBuffer(indexBuffer_.get(), (ibOffset_ + batch.IndexOffset) * sizeof(int32_t));
+        commandList->SetIndexBuffer(indexBuffer_.get(), (ibOffset_ + batch.IndexOffset) * sizeof(int32_t));
 
         // pipeline state
         commandList->GetLL()->SetPipelineState(material->GetPipelineState(commandList->GetCurrentRenderPass()).get());

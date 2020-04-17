@@ -23,6 +23,8 @@ enum class FrameEventType {
     Draw,
     Uniform,
     Texture,
+    SetVertexBuffer,
+    SetIndexBuffer,
 };
 
 enum class FrameEventUniformType {
@@ -56,6 +58,18 @@ public:
 class FrameEventRender : public FrameEvent {
 public:
     int32_t IndexCount;
+    std::u16string RTImagePath;
+};
+
+class FrameEventSetVertexBuffer : public FrameEvent {
+public:
+    int32_t Stride;
+    int32_t Offset;
+};
+
+class FrameEventSetIndexBuffer : public FrameEvent {
+public:
+    int32_t Offset;
 };
 
 class FrameEventUniform : public FrameEvent {
@@ -77,6 +91,7 @@ class FrameDebugger : public BaseObject {
 private:
     static std::shared_ptr<FrameDebugger> instance_;
 
+    int32_t debugId_ = 0;
     int32_t dumpId_ = 0;
     bool isEnabled_;
     std::vector<std::shared_ptr<FrameEvent>> events_;
@@ -89,6 +104,7 @@ public:
     static std::shared_ptr<FrameDebugger>& GetInstance();
 
     void Start();
+    void End();
     void DumpToLog();
 
     void Clear();
@@ -97,13 +113,16 @@ public:
     void BeginRenderPass();
     void EndRenderPass();
     void EndFrame();
-    void Draw(const int32_t vbCount, const int32_t ibCount);
-    void Render(const int32_t indexCount);
+
+    void Render(const int32_t indexCount, std::u16string rtImagePath);
+    void SetVertexBuffer(int32_t stride, int32_t offset);
+    void SetIndexBuffer(int32_t offset);
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Vector4F& vector);
     void Uniform(const ShaderStageType stageType, const std::u16string name, const Matrix44F& matrix);
     void Texture(const ShaderStageType stageType, const std::u16string name);
 
-    int32_t GetAndAddDumpID();
+    std::u16string GetDebuggingRenderTargetFileNameAndMoveNext();
+
     bool GetIsEnabled() const;
 };
 }  // namespace Altseed

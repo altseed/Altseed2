@@ -15,9 +15,13 @@ bool FrameDebugger::Initialize() {
 }
 
 void FrameDebugger::Start() {
-    isEnabled_ = true; 
+    isEnabled_ = true;
     dumpId_ = 0;
+    debugId_++;
+    events_.clear();
 }
+
+void FrameDebugger::End() { isEnabled_ = false; }
 
 void FrameDebugger::DumpToLog() {
     FrameDebugger::GetInstance()->Write(u"================ Frame Debug Start ================");
@@ -48,11 +52,19 @@ void FrameDebugger::DumpToLog() {
             } break;
             case FrameEventType::Render: {
                 auto e2 = static_cast<FrameEventRender*>(e.get());
-                Write(u"Render: IndexCount:{0}", e2->IndexCount);
+                Write(u"Render: IndexCount:{0} RT:{1}", e2->IndexCount, utf16_to_utf8(e2->RTImagePath));
             } break;
             case FrameEventType::Draw: {
                 auto e2 = static_cast<FrameEventDraw*>(e.get());
                 Write(u"Draw: VertexCount:{0} IndexCount:{1}", e2->VbCount, e2->IbCount);
+            } break;
+            case FrameEventType::SetVertexBuffer: {
+                auto e2 = static_cast<FrameEventSetVertexBuffer*>(e.get());
+                Write(u"VertexBuffer: Stride:{0} Offset:{1}", e2->Stride, e2->Offset);
+            } break;
+            case FrameEventType::SetIndexBuffer: {
+                auto e2 = static_cast<FrameEventSetIndexBuffer*>(e.get());
+                Write(u"IndexBuffer: Offset:{0}", e2->Offset);
             } break;
             case FrameEventType::Uniform: {
                 auto e2 = static_cast<FrameEventUniform*>(e.get());
@@ -152,20 +164,29 @@ void FrameDebugger::EndFrame() {
     isEnabled_ = false;
 }
 
-void FrameDebugger::Draw(const int32_t vbCount, const int32_t ibCount) {
-    if (!isEnabled_) return;
-    auto e = MakeAsdShared<FrameEventDraw>();
-    e->Type = FrameEventType::Draw;
-    e->VbCount = vbCount;
-    e->IbCount = ibCount;
-    events_.push_back(e);
-}
-
-void FrameDebugger::Render(const int32_t indexCount) {
+void FrameDebugger::Render(const int32_t indexCount, std::u16string rtImagePath) {
     if (!isEnabled_) return;
     auto e = MakeAsdShared<FrameEventRender>();
     e->Type = FrameEventType::Render;
     e->IndexCount = indexCount;
+    e->RTImagePath = rtImagePath;
+    events_.push_back(e);
+}
+
+void FrameDebugger::SetVertexBuffer(int32_t stride, int32_t offset) {
+    if (!isEnabled_) return;
+    auto e = MakeAsdShared<FrameEventSetVertexBuffer>();
+    e->Type = FrameEventType::SetVertexBuffer;
+    e->Stride = stride;
+    e->Offset = offset;
+    events_.push_back(e);
+}
+
+void FrameDebugger::SetIndexBuffer(int32_t offset) {
+    if (!isEnabled_) return;
+    auto e = MakeAsdShared<FrameEventSetIndexBuffer>();
+    e->Type = FrameEventType::SetIndexBuffer;
+    e->Offset = offset;
     events_.push_back(e);
 }
 
@@ -200,9 +221,15 @@ void FrameDebugger::Texture(const ShaderStageType stageType, const std::u16strin
     events_.push_back(e);
 }
 
-int32_t FrameDebugger::GetAndAddDumpID() {
-    dumpId_++;
-    return dumpId_;
+std::u16string FrameDebugger::GetDebuggingRenderTargetFileNameAndMoveNext() {
+    std::u16string ret;
+    ret += u"rt_";
+    ret += ToString(debugId_);
+    ret += u"_";
+    ret += ToString(dumpId_);
+    ret += u".png";
+    dumpId_ += 1;
+    return ret;
 }
 
 bool FrameDebugger::GetIsEnabled() const { return isEnabled_; }

@@ -102,6 +102,10 @@ public:
     */
     void RequireNotToPresent();
 
+    void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
+
+    void SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset);
+
     void StoreUniforms(
             CommandList* commandList,
             std::shared_ptr<Shader> shader,

@@ -235,10 +235,7 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     StoreTextures(this, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
     StoreTextures(this, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
-    // draw
-    currentCommandList_->Draw(2);
-
-    FrameDebugger::GetInstance()->Render(2);
+    Draw(2);
 }
 
 void CommandList::SetRenderTargetWithScreen() {
@@ -300,6 +297,16 @@ void CommandList::StoreTextures(
     }
 }
 
+void CommandList::SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset) {
+    GetLL()->SetVertexBuffer(vb, stride, offset);
+    FrameDebugger::GetInstance()->SetVertexBuffer(stride, offset);
+}
+
+void CommandList::SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset) {
+    GetLL()->SetIndexBuffer(ib, offset);
+    FrameDebugger::GetInstance()->SetIndexBuffer(offset);
+}
+
 void CommandList::StoreUniforms(
         CommandList* commandList,
         std::shared_ptr<Shader> shader,
@@ -337,17 +344,15 @@ void CommandList::StoreUniforms(
 
 void CommandList::Draw(int32_t instanceCount) {
     GetLL()->Draw(instanceCount);
-    FrameDebugger::GetInstance()->Render(instanceCount);
 
     if (FrameDebugger::GetInstance()->GetIsEnabled()) {
-        auto id = FrameDebugger::GetInstance()->GetAndAddDumpID();
+        auto path = FrameDebugger::GetInstance()->GetDebuggingRenderTargetFileNameAndMoveNext();
+        FrameDebugger::GetInstance()->Render(instanceCount, path);
 
         auto texture = currentRenderPass_->GetRenderTexture(0);
-
         auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y));
 
         currentCommandList_->EndRenderPass();
-
         currentCommandList_->CopyTexture(texture, target->GetNativeTexture().get());
 
         currentRenderPass_->SetIsColorCleared(false);
@@ -355,9 +360,7 @@ void CommandList::Draw(int32_t instanceCount) {
 
         currentCommandList_->BeginRenderPass(currentRenderPass_.get());
 
-        auto name = "frame_" + std::to_string(id) + ".png";
-
-        SaveRenderTexture(utf8_to_utf16(name).c_str(), target);
+        SaveRenderTexture(path.c_str(), target);
     }
 }
 
