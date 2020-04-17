@@ -303,6 +303,12 @@ with CommandList as class_:
     with class_.add_func('RenderToRenderTarget') as func_:
         func_.add_arg(Material, 'material')
 
+    with class_.add_func('CopyTexture') as func_:
+        with func_.add_arg(RenderTexture, 'src') as arg_:
+            arg_.nullable = False
+        with func_.add_arg(RenderTexture, 'dst') as arg_:
+            arg_.nullable = False
+
 
 Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:

@@ -12,6 +12,7 @@
 #include "BuiltinShader.h"
 #include "FrameDebugger.h"
 #include "RenderTexture.h"
+#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -165,9 +166,7 @@ void CommandList::StartFrame() {
 
 void CommandList::EndFrame() {
     if (isInRenderPass_) {
-        currentCommandList_->EndRenderPass();
-        isInRenderPass_ = false;
-        currentRenderPass_ = nullptr;
+        EndRenderPass();
     }
     currentCommandList_->End();
 
@@ -175,6 +174,58 @@ void CommandList::EndFrame() {
 }
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
+
+void CommandList::BeginRenderPass(std::shared_ptr<RenderTexture> target, std::shared_ptr<LLGI::RenderPass> renderPass) {
+    if (isInRenderPass_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::BeginRenderPass: invalid CommandList state");
+        return;
+    }
+
+    currentCommandList_->BeginRenderPass(renderPass.get());
+    currentRenderPass_ = renderPass;
+    isInRenderPass_ = true;
+
+    FrameDebugger::GetInstance()->SetRenderTarget(target);
+    FrameDebugger::GetInstance()->BeginRenderPass();
+}
+
+void CommandList::EndRenderPass() {
+    if (!isInRenderPass_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: invalid CommandList state");
+        return;
+    }
+    
+    currentCommandList_->EndRenderPass();
+    FrameDebugger::GetInstance()->EndRenderPass();
+    isInRenderPass_ = false;
+    currentRenderPass_ = nullptr;
+}
+
+void CommandList::PauseRenderPass() {
+    if (!isInRenderPass_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: invalid CommandList state");
+        return;
+    }
+
+    currentCommandList_->EndRenderPass();
+    FrameDebugger::GetInstance()->EndRenderPass();
+    isInRenderPass_ = false;
+}
+
+void CommandList::ResumeRenderPass() {
+    if (isInRenderPass_ || currentRenderPass_ == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::ResumeRenderPass: invalid CommandList state");
+        return;
+    }
+
+    currentRenderPass_->SetIsColorCleared(false);
+    currentRenderPass_->SetIsDepthCleared(false);
+
+    currentCommandList_->BeginRenderPass(currentRenderPass_.get());
+    isInRenderPass_ = true;
+
+    FrameDebugger::GetInstance()->BeginRenderPass();
+}
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
     auto it = renderPassCaches_.find(target);
@@ -198,17 +249,11 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
     renderPassCaches_[target].Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
 
-    if (isInRenderPass_) {
-        currentCommandList_->EndRenderPass();
-        FrameDebugger::GetInstance()->EndRenderPass();
+    if (isInRenderPass_){
+        EndRenderPass();
     }
-
-    currentCommandList_->BeginRenderPass(renderPassCaches_[target].Stored.get());
-    currentRenderPass_ = renderPassCaches_[target].Stored;
-    isInRenderPass_ = true;
-
-    FrameDebugger::GetInstance()->SetRenderTarget(target);
-    FrameDebugger::GetInstance()->BeginRenderPass();
+    
+    BeginRenderPass(target, renderPassCaches_[target].Stored);
 }
 
 void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
@@ -249,16 +294,10 @@ void CommandList::SetRenderTargetWithScreen() {
     }
 
     if (isInRenderPass_) {
-        currentCommandList_->EndRenderPass();
-        FrameDebugger::GetInstance()->EndRenderPass();
+        EndRenderPass();
     }
 
-    currentCommandList_->BeginRenderPass(r.get());
-    currentRenderPass_ = r;
-    isInRenderPass_ = true;
-
-    FrameDebugger::GetInstance()->SetRenderTargetWithRealScreen();
-    FrameDebugger::GetInstance()->BeginRenderPass();
+    BeginRenderPass(internalScreen_, r);
 }
 
 void CommandList::PresentInternal() {
@@ -361,6 +400,24 @@ void CommandList::Draw(int32_t instanceCount) {
         currentCommandList_->BeginRenderPass(currentRenderPass_.get());
 
         SaveRenderTexture(path.c_str(), target);
+    }
+}
+
+void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst) {
+    auto srcSize = src->GetSize();
+    auto dstSize = dst->GetSize();
+
+    if (srcSize != dstSize) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::CopyTexture failed, src's size ({}, {}) is not equal to dst's size ({}, {})", srcSize.X, srcSize.Y, dstSize.X, dstSize.Y);
+        return;
+    }
+
+    if(isInRenderPass_) {
+        PauseRenderPass();
+        currentCommandList_->CopyTexture(src->GetNativeTexture().get(), dst->GetNativeTexture().get());
+        ResumeRenderPass();
+    } else {
+        currentCommandList_->CopyTexture(src->GetNativeTexture().get(), dst->GetNativeTexture().get());
     }
 }
 

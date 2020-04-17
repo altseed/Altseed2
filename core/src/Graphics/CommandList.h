@@ -78,6 +78,14 @@ public:
 
     void SetScissor(const RectI& scissor);
 
+    void BeginRenderPass(std::shared_ptr<RenderTexture> target, std::shared_ptr<LLGI::RenderPass> renderPass);
+
+    void EndRenderPass();
+
+    void PauseRenderPass();
+
+    void ResumeRenderPass();
+
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
     /**
@@ -118,6 +126,8 @@ public:
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
 
     void Draw(int32_t instanceCount);
+
+    void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
 
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;
