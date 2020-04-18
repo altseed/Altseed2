@@ -49,13 +49,14 @@ public:
 
     Vector3I& operator/=(const int32_t& o);
 
-    float GetLength() const { return sqrt(GetSquaredLength()); }
+    float GetLength() const { return sqrt(static_cast<float>(GetSquaredLength()));
+    }
 
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z; }
     static int32_t Dot(const Vector3I& v1, const Vector3I& v2);
     static Vector3I Cross(const Vector3I& v1, const Vector3I& v2);
     static Vector3I Add(Vector3I v1, Vector3I v2) { return Vector3I(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z); }
-    static Vector3I Subtract(Vector3I v1, Vector3I v2);
+    static Vector3I Subtract(Vector3I v1, Vector3I v2) { return Vector3I(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z); }
     static Vector3I Divide(const Vector3I& v1, const Vector3I& v2) { return Vector3I(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z); }
     static Vector3I DivideByScalar(const Vector3I& v1, float v2) { return Vector3I(v1.X / v2, v1.Y / v2, v1.Z / v2); }
     static float Distance(const Vector3I& v1, const Vector3I& v2);

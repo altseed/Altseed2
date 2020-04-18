@@ -20,6 +20,7 @@ set(core_test_files
     Keyboard.cpp
     Mouse.cpp
     Joystick.cpp
+    main.cpp
 )
 
 # specify project filters

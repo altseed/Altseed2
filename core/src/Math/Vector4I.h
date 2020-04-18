@@ -17,7 +17,7 @@ public:
     Vector4I();
     Vector4I(int32_t x, int32_t y, int32_t z, int32_t w);
 
-    float GetLength() const { return sqrt(GetSquaredLength()); }
+    float GetLength() const { return sqrt(static_cast<float>(GetSquaredLength())); }
 
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
