@@ -206,6 +206,12 @@ set_target_properties(spdlog PROPERTIES POSITION_INDEPENDENT_CODE ON)
 add_subdirectory(imgui EXCLUDE_FROM_ALL)
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/imgui)
 
+# nativefiledialog
+set(NFD_BUILD_UNIT_TESTS OFF CACHE BOOL "disable NFD unit test" FORCE)
+add_subdirectory(nativefiledialog)
+set_property(TARGET nativefiledialog PROPERTY POSITION_INDEPENDENT_CODE ON)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/nativefiledialog/src/include)
+
 # LLGI
 set(BUILD_TEST_TEMP ${BUILD_TEST})
 set(BUILD_TEST OFF)

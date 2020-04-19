@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <vector>
 #include <array>
 #include <codecvt>
 #include <locale>
@@ -186,6 +187,21 @@ static std::u16string ToString(int32_t v) {
     }
 
     return s;
+}
+
+static std::vector<std::u16string> split(const std::u16string& s, char16_t delim) {
+    std::vector<std::u16string> elems;
+    std::u16string item;
+    for (char16_t ch : s) {
+        if (ch == delim) {
+            if (!item.empty()) elems.push_back(item);
+            item.clear();
+        } else {
+            item += ch;
+        }
+    }
+    if (!item.empty()) elems.push_back(item);
+    return elems;
 }
 
 }  // namespace Altseed

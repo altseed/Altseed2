@@ -228,6 +228,7 @@ target_link_libraries(
     OpenSoundMixer
     zip
     imgui
+    nativefiledialog
     box2d
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
@@ -310,9 +311,13 @@ elseif(APPLE)
     )
 
 else()
-
+    FIND_PACKAGE(PkgConfig REQUIRED)
+    PKG_CHECK_MODULES(GTK3 REQUIRED gtk+-3.0)
     find_package(X11 REQUIRED)
-    target_link_libraries(Altseed_Core PRIVATE ${X11_LIBRARIES})
+    target_link_libraries(Altseed_Core 
+        PRIVATE
+        ${X11_LIBRARIES}
+        ${GTK3_LIBRARIES})
 
     target_link_libraries(
         Altseed_Core
@@ -361,7 +366,8 @@ add_dependencies(
     ExternalProject_libzip
     ExternalProject_glslang
     ExternalProject_SPIRV-Cross
-    box2d)
+    box2d
+    nativefiledialog)
 
 # export all functions to out of dll for testing
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
