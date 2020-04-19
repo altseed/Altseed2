@@ -56,6 +56,7 @@ jobs:
             sudo apt -y install libssl-dev
             sudo apt -y install libglu1-mesa-dev mesa-common-dev
             sudo apt -y install libpulse-dev
+            sudo apt -y install libgtk-3-dev
 
       - task: CMake@1
         inputs:
