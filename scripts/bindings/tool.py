@@ -1,6 +1,8 @@
 from . import CppBindingGenerator as cbg
 import ctypes
 from .math import Vector2F, Vector4F
+from .common import *
+from .graphics import *
 
 ToolDir = cbg.Enum('Altseed', 'ToolDir')
 with ToolDir as enum_:
@@ -640,6 +642,225 @@ with ToolGlyphRanges as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', 'タイ語')
 
+ToolFocused = cbg.Enum('Altseed', 'ToolFocused')
+with ToolFocused as enum_:
+    enum_.brief = cbg.Description()
+
+    enum_.add('None')
+
+    with enum_.add('ChildWindows') as v:
+        v.brief = cbg.Description()
+    with enum_.add('RootWindow') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AnyWindow') as v:
+        v.brief = cbg.Description()
+    with enum_.add('RootAndChildWindows') as v:
+        v.brief = cbg.Description()
+
+ToolColor = cbg.Enum('Altseed', 'ToolColor')
+with ToolColor as enum_:
+    enum_.brief = cbg.Description()
+
+    with enum_.add('Text') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TextDisabled') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ChildBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PopupBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Border') as v:
+        v.brief = cbg.Description()
+    with enum_.add('BorderShadow') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FrameBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FrameBgHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FrameBgActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TitleBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TitleBgActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TitleBgCollapsed') as v:
+        v.brief = cbg.Description()
+    with enum_.add('MenuBarBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarGrab') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarGrabHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarGrabActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('CheckMark') as v:
+        v.brief = cbg.Description()
+    with enum_.add('SliderGrab') as v:
+        v.brief = cbg.Description()
+    with enum_.add('SliderGrabActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Button') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ButtonHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ButtonActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Header') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeaderHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeaderActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Separator') as v:
+        v.brief = cbg.Description()
+    with enum_.add('SeparatorHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('SeparatorActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ResizeGrip') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ResizeGripHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ResizeGripActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('Tab') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TabHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TabActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TabUnfocused') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TabUnfocusedActive') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PlotLines') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PlotLinesHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PlotHistogram') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PlotHistogramHovered') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TextSelectedBg') as v:
+        v.brief = cbg.Description()
+    with enum_.add('DragDropTarget') as v:
+        v.brief = cbg.Description()
+    with enum_.add('NavHighlight') as v:  
+        v.brief = cbg.Description()
+    with enum_.add('NavWindowingHighlight') as v: 
+        v.brief = cbg.Description()
+    with enum_.add('NavWindowingDimBg') as v: 
+        v.brief = cbg.Description()
+    with enum_.add('ModalWindowDimBg') as v: 
+        v.brief = cbg.Description()
+    with enum_.add('COUNT') as v: 
+        v.brief = cbg.Description()
+
+ToolStyleVar = cbg.Enum('Altseed', 'ToolStyleVar')
+with ToolStyleVar as enum_:
+    enum_.brief = cbg.Description()
+
+    with enum_.add('Alpha') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowPadding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowBorderSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowMinSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('WindowTitleAlign') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ChildRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ChildBorderSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PopupRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PopupBorderSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FramePadding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FrameRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('FrameBorderSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ItemSpacing') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ItemInnerSpacing') as v:
+        v.brief = cbg.Description()
+    with enum_.add('IndentSpacing') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ScrollbarRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('GrabMinSize') as v:
+        v.brief = cbg.Description()
+    with enum_.add('GrabRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('TabRounding') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ButtonTextAlign') as v:
+        v.brief = cbg.Description()
+    with enum_.add('SelectableTextAlign') as v:
+        v.brief = cbg.Description()
+    with enum_.add('COUNT') as v:
+        v.brief = cbg.Description()
+
+ToolCombo = cbg.Enum('Altseed', 'ToolCombo')
+with ToolCombo as enum_:
+    enum_.brief = cbg.Description()
+
+    with enum_.add('None') as v:
+        v.brief = cbg.Description()
+    with enum_.add('PopupAlignLeft') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeightSmall') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeightRegular') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeightLarge') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeightLargest') as v:
+        v.brief = cbg.Description()
+    with enum_.add('NoArrowButton') as v:
+        v.brief = cbg.Description()
+    with enum_.add('NoPreview') as v:
+        v.brief = cbg.Description()
+    with enum_.add('HeightMask_') as v:
+        v.brief = cbg.Description()
+
+ToolHovered = cbg.Enum('Altseed', 'ToolHovered')
+with ToolHovered as enum_:
+    enum_.brief = cbg.Description()
+
+    with enum_.add('None') as v:
+        v.brief = cbg.Description()
+    with enum_.add('ChildWindows') as v:
+        v.brief = cbg.Description()
+    with enum_.add('RootWindow') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AnyWindow') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AllowWhenBlockedByPopup') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AllowWhenBlockedByActiveItem') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AllowWhenOverlapped') as v:
+        v.brief = cbg.Description()
+    with enum_.add('AllowWhenDisabled') as v:
+        v.brief = cbg.Description()
+    with enum_.add('RectOnly') as v:
+        v.brief = cbg.Description()
+    with enum_.add('RootAndChildWindows') as v:
+        v.brief = cbg.Description()
+
 Tool = cbg.Class('Altseed', 'Tool')
 with Tool as class_:
     class_.is_Sealed = True
@@ -649,14 +870,14 @@ with Tool as class_:
         func.is_public = False
         func.return_value.type_ = Tool
 
-    # with class_.add_func('AddFontFromFileTTF') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', 'Load font from path. Packed files are not supported.')
-    #     func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
-    #     func_.add_arg(ctypes.c_wchar_p, 'path')
-    #     func_.add_arg(float, 'sizePixels')
-    #     func_.add_arg(ToolGlyphRanges, 'ranges')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('AddFontFromFileTTF') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', 'Load font from path. Packed files are not supported.')
+        func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
+        func_.add_arg(ctypes.c_wchar_p, 'path')
+        func_.add_arg(float, 'sizePixels')
+        func_.add_arg(ToolGlyphRanges, 'ranges')
+        func_.return_value.type_ = bool
 
     with class_.add_func('Begin') as func_:
         func_.brief = cbg.Description()
@@ -809,24 +1030,16 @@ with Tool as class_:
         func_.add_arg(Vector2F, 'size')
         func_.return_value.type_ = bool
 
-    # with class_.add_func('Combo') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     func_.add_arg(const char* [], 'items') # TODO
-    #     func_.add_arg(int, 'count')
-    #     func_.return_value.type_ = bool
-
-    # with class_.add_func('ListBox') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     func_.add_arg(int*, 'current')
-    #     func_.add_arg(const char* [], 'items') # TODO
-    #     func_.add_arg(int, 'count')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('ListBox') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(int, 'current') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(ctypes.c_wchar_p, 'items_separated_by_tabs')
+        func_.add_arg(int, 'popup_max_height_in_items')
+        func_.return_value.type_ = bool
 
     with class_.add_func('Selectable') as func_:
         func_.brief = cbg.Description()
@@ -838,37 +1051,37 @@ with Tool as class_:
         func_.add_arg(ToolSelectable, 'flags')
         func_.return_value.type_ = bool
 
-    # with class_.add_func('InputText') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(STRING, 'buf') as arg: # TODO
-    #     func_.add_arg(int, 'bufSize')
-    #     func_.add_arg(ToolInputText, 'flags')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputText') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(ctypes.c_wchar_p, 'input')
+        func_.add_arg(int, 'max_length')
+        func_.add_arg(ToolInputText, 'flags')
+        func_.return_value.type_ = ctypes.c_wchar_p
 
-    # with class_.add_func('InputTextWithHint') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     func_.add_arg(ctypes.c_wchar_p, 'hit')
-    #     with func_.add_arg(STRING, 'buf') as arg: # TODO
-    #     func_.add_arg(int, 'bufSize')
-    #     func_.add_arg(ToolInputText, 'flags')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputTextWithHint') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(ctypes.c_wchar_p, 'hit')
+        func_.add_arg(ctypes.c_wchar_p, 'input')
+        func_.add_arg(int, 'max_length')
+        func_.add_arg(ToolInputText, 'flags')
+        func_.return_value.type_ = ctypes.c_wchar_p
 
-    # with class_.add_func('InputTextMultiline') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     ffunc_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(string, 'buf') as arg: # TODO
-    #     func_.add_arg(int, 'bufSize')
-    #     func_.add_arg(Vector2F, 'size')
-    #     func_.add_arg(ToolInputText, 'flags')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputTextMultiline') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(ctypes.c_wchar_p, 'input')
+        func_.add_arg(int, 'max_length')
+        func_.add_arg(Vector2F, 'size')
+        func_.add_arg(ToolInputText, 'flags')
+        func_.return_value.type_ = ctypes.c_wchar_p
 
     with class_.add_func('InputInt') as func_:
         func_.brief = cbg.Description()
@@ -879,29 +1092,29 @@ with Tool as class_:
             arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
 
-    # with class_.add_func('InputInt2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(IntArray, 'array') as arg: # TODO
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputInt2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('InputInt3') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'array') as arg:
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputInt3') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('InputInt4') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'array') as arg:
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputInt4') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.return_value.type_ = bool
 
     with class_.add_func('InputFloat') as func_:
         func_.brief = cbg.Description()
@@ -912,29 +1125,29 @@ with Tool as class_:
             arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
 
-    # with class_.add_func('InputFloat2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputFloat2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('InputFloat3') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputFloat3') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('InputFloat4') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.return_value.type_ = bool
+    with class_.add_func('InputFloat4') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.return_value.type_ = bool
 
     with class_.add_func('SliderInt') as func_:
         func_.brief = cbg.Description()
@@ -948,38 +1161,38 @@ with Tool as class_:
         func_.add_arg(int, 'valueMax')
         func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderInt2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(int, 'valueMin')
-    #     func_.add_arg(int, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderInt2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(int, 'valueMin')
+        func_.add_arg(int, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderInt3') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(int, 'valueMin')
-    #     func_.add_arg(int, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderInt3') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(int, 'valueMin')
+        func_.add_arg(int, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderInt4') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(int, 'valueMin')
-    #     func_.add_arg(int, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderInt4') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(Int32Array, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(int, 'valueMin')
+        func_.add_arg(int, 'valueMax')
+        func_.return_value.type_ = bool
 
     with class_.add_func('SliderFloat') as func_:
         func_.brief = cbg.Description()
@@ -993,38 +1206,38 @@ with Tool as class_:
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderFloat2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(float, 'valueMin')
-    #     func_.add_arg(float, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderFloat2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(float, 'valueMin')
+        func_.add_arg(float, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderFloat3') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(float, 'valueMin')
-    #     func_.add_arg(float, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderFloat3') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(float, 'valueMin')
+        func_.add_arg(float, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('SliderFloat4') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'array') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(float, 'valueMin')
-    #     func_.add_arg(float, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('SliderFloat4') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'array')
+        func_.add_arg(float, 'speed')
+        func_.add_arg(float, 'valueMin')
+        func_.add_arg(float, 'valueMax')
+        func_.return_value.type_ = bool
 
     with class_.add_func('SliderAngle') as func_:
         func_.brief = cbg.Description()
@@ -1083,47 +1296,53 @@ with Tool as class_:
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
 
-    # with class_.add_func('DragIntRange2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(int, 'currentMin') as arg:
-    #     with func_.add_arg(int, 'currentMax') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(int, 'valueMin')
-    #     func_.add_arg(int, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('DragIntRange2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(int, 'currentMin') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        with func_.add_arg(int, 'currentMax') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(float, 'speed')
+        func_.add_arg(int, 'valueMin')
+        func_.add_arg(int, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('DragFloatRange2') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(float, 'currentMin') as arg:
-    #     with func_.add_arg(float, 'currentMax') as arg:
-    #     func_.add_arg(float, 'speed')
-    #     func_.add_arg(float, 'valueMin')
-    #     func_.add_arg(float, 'valueMax')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('DragFloatRange2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(float, 'currentMin') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        with func_.add_arg(float, 'currentMax') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(float, 'speed')
+        func_.add_arg(float, 'valueMin')
+        func_.add_arg(float, 'valueMax')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('ColorEdit3') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(Vector4F, 'color') as arg:
-    #     func_.add_arg(ToolColorEdit, 'flags')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('ColorEdit3') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(Color, 'color') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(ToolColorEdit, 'flags')
+        func_.return_value.type_ = bool
 
-    # with class_.add_func('ColorEdit4') as func_:
-    #     func_.brief = cbg.Description()
-    #     func_.brief.add('en', '')
-    #     func_.brief.add('ja', '')
-    #     func_.add_arg(ctypes.c_wchar_p, 'label')
-    #     with func_.add_arg(Vector4F, 'color') as arg:
-    #     func_.add_arg(ToolColorEdit, 'flags')
-    #     func_.return_value.type_ = bool
+    with class_.add_func('ColorEdit4') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(Color, 'color') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(ToolColorEdit, 'flags')
+        func_.return_value.type_ = bool
 
     with class_.add_func('OpenPopup') as func_:
         func_.brief = cbg.Description()
@@ -1276,12 +1495,6 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
 
-    with class_.add_func('SetNextItemWidth') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(float, 'width')
-
     with class_.add_func('PushItemWidth') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -1340,16 +1553,6 @@ with Tool as class_:
         func_.return_value.type_ = bool
 
     with class_.add_func('SetScrollHere') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-
-    with class_.add_func('SetScrollHereX') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-
-    with class_.add_func('SetScrollHereY') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
@@ -1421,9 +1624,819 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(Vector2F, 'size')
+        func_.add_arg(ToolCond, 'cond')
 
     with class_.add_func('SetNextWindowPos') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(Vector2F, 'pos')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('IsWindowAppearing') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsWindowCollapsed') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsWindowFocused') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolFocused, 'flags')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsWindowHovered') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolFocused, 'flags')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('GetWindowPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('SetNextWindowCollapsed') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(bool, 'collapsed')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetNextWindowFocus') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('SetNextWindowBgAlpha') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'alpha')
+
+    with class_.add_func('SetWindowPosWithCond') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'pos')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowSizeWithCond') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'pos')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowCollapsedWithCond') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(bool, 'collapsed')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowFocus') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('SetWindowFontScale') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'scale')
+
+    with class_.add_func('SetWindowPosByName') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'name')
+        func_.add_arg(Vector2F, 'pos')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowSizeByName') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'name')
+        func_.add_arg(Vector2F, 'pos')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowCollapsedByName') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'name')
+        func_.add_arg(bool, 'collapsed')
+        func_.add_arg(ToolCond, 'cond')
+
+    with class_.add_func('SetWindowFocusByName') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'name')
+
+    with class_.add_func('GetContentRegionMax') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetContentRegionAvail') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionMin') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionMax') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollX') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollY') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollMaxX') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollMaxY') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('SetScrollX') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'scroll_x')
+
+    with class_.add_func('SetScrollY') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'scroll_y')
+
+    with class_.add_func('SetScrollHereX') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'center_x_ratio')
+
+    with class_.add_func('SetScrollHereY') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'center_y_ratio')
+
+    with class_.add_func('SetScrollFromPosX') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'local_x')
+        func_.add_arg(float, 'center_x_ratio')
+
+    with class_.add_func('SetScrollFromPosY') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'local_y')
+        func_.add_arg(float, 'center_y_ratio')
+
+    with class_.add_func('PushStyleColor') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolColor, 'idx')
+        func_.add_arg(Color, 'col')
+
+    with class_.add_func('PopStyleColor') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'count')
+
+    with class_.add_func('PushStyleVarFloat') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolStyleVar, 'idx')
+        func_.add_arg(float, 'val')
+
+    with class_.add_func('PushStyleVarVector2F') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolStyleVar, 'idx')
+        func_.add_arg(Vector2F, 'val')
+
+    with class_.add_func('PopStyleVar') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'count')
+    
+    with class_.add_func('GetStyleColor') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolColor, 'idx')
+        func_.return_value.type_ = Color
+
+    with class_.add_func('GetFontTexUvWhitePixel') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('SetNextItemWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'item_width')
+
+    with class_.add_func('CalcItemWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('PushAllowKeyboardFocus') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(bool, 'allow_keyboard_focus')
+
+    with class_.add_func('PopAllowKeyboardFocus') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('Spacing') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+    
+    with class_.add_func('BeginGroup') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('EndGroup') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('GetCursorPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('SetCursorPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'local_pos')
+    
+    with class_.add_func('GetCursorStartPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetCursorScreenPos') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('AlignTextToFramePadding') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('GetTextLineHeightWithSpacing') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+    
+    with class_.add_func('GetFrameHeight') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+    
+    with class_.add_func('GetFrameHeightWithSpacing') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('SmallButton') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('Image') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Texture2D, 'texture')
+        func_.add_arg(Vector2F, 'size')
+        func_.add_arg(Vector2F, 'uv0')
+        func_.add_arg(Vector2F, 'uv1')
+        func_.add_arg(Vector4F, 'tint_col')
+        func_.add_arg(Vector4F, 'border_col')
+
+    with class_.add_func('ImageButton') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Texture2D, 'texture')
+        func_.add_arg(Vector2F, 'size')
+        func_.add_arg(Vector2F, 'uv0')
+        func_.add_arg(Vector2F, 'uv1')
+        func_.add_arg(int, 'frame_padding')
+        func_.add_arg(Vector4F, 'tint_col')
+        func_.add_arg(Vector4F, 'border_col')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('Checkbox') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(bool, 'v') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.return_value.type_ = bool
+
+    # with class_.add_func('CheckboxFlags') as func_:
+    #     func_.brief = cbg.Description()
+    #     func_.brief.add('en', '')
+    #     func_.brief.add('ja', '')
+    #     func_.add_arg(ctypes.c_wchar_p, 'label')
+    #     with func_.add_arg(bool, 'v') as arg:
+    #         arg.called_by = cbg.ArgCalledBy.Ref
+    #     func_.return_value.type_ = bool
+
+    with class_.add_func('ProgressBar') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(float, 'fraction')
+        func_.add_arg(Vector2F, 'size_arg')
+        func_.add_arg(ctypes.c_wchar_p, 'overlay')
+
+    with class_.add_func('Bullet') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('BeginCombo') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(ctypes.c_wchar_p, 'preview_value')
+        func_.add_arg(ToolCombo, 'flags')
+
+    with class_.add_func('EndCombo') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('Combo') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(int, 'current_item') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(ctypes.c_wchar_p, 'items_separated_by_tabs')
+        func_.add_arg(int, 'popup_max_height_in_items')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('ColorButton') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'desc_id')
+        with func_.add_arg(Color, 'col') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(ToolColorEdit, 'flags')
+        func_.add_arg(Vector2F, 'size')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('SetColorEditOptions') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolColorEdit, 'flags')
+
+    with class_.add_func('GetTreeNodeToLabelSpacing') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('ListBoxHeader') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'flags')
+        func_.add_arg(Vector2F, 'size')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('ListBoxFooter') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('PlotLines') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'values')
+        func_.add_arg(int, 'values_count')
+        func_.add_arg(int, 'values_offset')
+        func_.add_arg(ctypes.c_wchar_p, 'overlay_text')
+        func_.add_arg(float, 'scale_min')
+        func_.add_arg(float, 'scale_max')
+        func_.add_arg(Vector2F, 'graph_size')
+        func_.add_arg(int, 'stride')
+
+    with class_.add_func('PlotHistogram') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.add_arg(FloatArray, 'values')
+        func_.add_arg(int, 'values_count')
+        func_.add_arg(int, 'values_offset')
+        func_.add_arg(ctypes.c_wchar_p, 'overlay_text')
+        func_.add_arg(float, 'scale_min')
+        func_.add_arg(float, 'scale_max')
+        func_.add_arg(Vector2F, 'graph_size')
+        func_.add_arg(int, 'stride')
+
+    with class_.add_func('ValueBool') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'prefix')
+        func_.add_arg(bool, 'b')
+
+    with class_.add_func('ValueInt') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'prefix')
+        func_.add_arg(int, 'v')
+
+    with class_.add_func('ValueFloat') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'prefix')
+        func_.add_arg(float, 'v')
+        func_.add_arg(ctypes.c_wchar_p, 'float_format')
+
+    with class_.add_func('BeginMainMenuBar') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('EndMainMenuBar') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('BeginPopupContextItem') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'str_id')
+        func_.add_arg(int, 'mouse_button')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('BeginPopupContextWindow') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'str_id')
+        func_.add_arg(int, 'mouse_button')
+        func_.add_arg(bool, 'also_over_items')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('BeginPopupContextVoid') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'str_id')
+        func_.add_arg(int, 'mouse_button')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('BeginPopupModalEx') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'name')
+        with func_.add_arg(bool, 'p_open') as arg:
+            arg.called_by = cbg.ArgCalledBy.Out
+        func_.add_arg(ToolWindow, 'flags')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('OpenPopupOnItemClick') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'str_id')
+        func_.add_arg(int, 'mouse_button')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsPopupOpen') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'str_id')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('CloseCurrentPopup') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('GetColumnIndex') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = int
+
+    with class_.add_func('GetColumnWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'column_index')
+        func_.return_value.type_ = float
+
+    with class_.add_func('SetColumnWidth') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'column_index')
+        func_.add_arg(float, 'width')
+
+    with class_.add_func('GetColumnOffset') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'column_index')
+        func_.return_value.type_ = float
+
+    with class_.add_func('SetColumnOffset') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'column_index')
+        func_.add_arg(float, 'offset_x')
+
+    with class_.add_func('GetColumnsCount') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = int
+
+    with class_.add_func('SetTabItemClosed') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'tab_or_docked_window_label')
+
+    with class_.add_func('PushClipRect') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'clip_rect_min')
+        func_.add_arg(Vector2F, 'clip_rect_max')
+        func_.add_arg(bool, 'intersect_with_current_clip_rect')
+
+    with class_.add_func('PopClipRect') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+    
+    with class_.add_func('SetItemDefaultFocus') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('SetKeyboardFocusHere') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'offset')
+
+    with class_.add_func('IsItemHoveredWithFlags') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ToolHovered, 'flags')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsItemFocused') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsItemClicked') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(int, 'mouse_button')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsItemVisible') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsItemEdited') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('IsItemActivated') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('IsItemDeactivated') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('IsItemDeactivatedAfterEdit') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('IsAnyItemHovered') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('IsAnyItemActive') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+    
+    with class_.add_func('IsAnyItemFocused') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = bool
+
+    with class_.add_func('GetItemRectMin') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetItemRectMax') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetItemRectSize') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('SetItemAllowOverlap') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+
+    with class_.add_func('IsRectVisible') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'size')
+
+    with class_.add_func('IsRectVisibleVector2F2') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(Vector2F, 'rect_min')
+        func_.add_arg(Vector2F, 'rect_max')
+
+    with class_.add_func('GetTime') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetClipboardText') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.return_value.type_ = ctypes.c_wchar_p
+
+    with class_.add_func('SetClipboardText') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'text')
+
+    with class_.add_func('LoadIniSettingsFromDisk') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'ini_filename')
+
+    with class_.add_func('SaveIniSettingsToDisk') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'ini_filename')
+
+    with class_.add_func('OpenDialog') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'filter')
+        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.return_value.type_ = ctypes.c_wchar_p
+    
+    with class_.add_func('OpenDialogMultiple') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'filter')
+        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.return_value.type_ = ctypes.c_wchar_p
+
+    with class_.add_func('SaveDialog') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'filter')
+        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.return_value.type_ = ctypes.c_wchar_p
+
+    with class_.add_func('PickFolder') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('en', '')
+        func_.brief.add('ja', '')
+        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.return_value.type_ = ctypes.c_wchar_p

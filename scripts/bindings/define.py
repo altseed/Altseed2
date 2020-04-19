@@ -113,6 +113,11 @@ define.enums.append(ToolSelectable)
 define.enums.append(ToolWindow)
 define.enums.append(ToolTabBar)
 define.enums.append(ToolGlyphRanges)
+define.enums.append(ToolFocused)
+define.enums.append(ToolColor)
+define.enums.append(ToolStyleVar)
+define.enums.append(ToolCombo)
+define.enums.append(ToolHovered)
 define.classes.append(Tool)
 
 # io
