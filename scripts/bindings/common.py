@@ -17,7 +17,7 @@ Int8Array = cbg.Class('Altseed', 'Int8Array')
 with Int8Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '8ビット整数の配列のクラスを表します。')
-    class_.is_public = False
+    class_.is_public = True
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
@@ -87,7 +87,7 @@ Int32Array = cbg.Class('Altseed', 'Int32Array')
 with Int32Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
-    class_.is_public = False
+    class_.is_public = True
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
@@ -227,7 +227,7 @@ FloatArray = cbg.Class('Altseed', 'FloatArray')
 with FloatArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '浮動小数点数の配列のクラスを表します。')
-    class_.is_public = False
+    class_.is_public = True
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
@@ -297,7 +297,7 @@ Vector2FArray = cbg.Class('Altseed', 'Vector2FArray')
 with Vector2FArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '2次元ベクトルの配列のクラスを表します。')
-    class_.is_public = False
+    class_.is_public = True
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
