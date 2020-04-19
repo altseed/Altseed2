@@ -1,13 +1,14 @@
+#include <Common/Array.h>
 #include <Common/StringHelper.h>
 #include <Core.h>
 #include <Graphics/CommandList.h>
 #include <Graphics/Graphics.h>
 #include <Tool/Tool.h>
-
 #include <gtest/gtest.h>
+
 #include <memory>
 
-static const int LoopFrames = 5;
+static const int LoopFrames = 500;
 
 template <typename... Args>
 std::u16string format(const std::u16string& fmt, Args... args) {
@@ -199,36 +200,46 @@ TEST(Tool, Input) {
         if (t->Begin(u"Input")) {
             t->LabelText(u"label", u"value");
 
-            const char* items[] = {"AAA", "BBB", "CCC"};
+            const char16_t* items = u"AAA\tBBB\tCCC";
             t->Combo(u"DropDown List", &current, items, 3);
 
-            t->Text(format(u"Current: %d (%s)", current, items[current]).c_str());
+            t->Text(format(u"Current: %d (%s)", current, Altseed::split(items, '\t')[current]).c_str());
 
-            static char str0[128] = "";
-            t->InputText(u"InputText##1", str0, 128);
-            static char str1[128] = "";
-            t->InputTextWithHint(u"InputText##2", u"placeholder", str1, 128);
+            static std::u16string str0 = u"";
+            auto res = t->InputText(u"InputText##1", str0.c_str(), 1024);
+            if (res != nullptr) str0 = res;
 
-            static char str2[128] = "";
-            t->InputTextMultiline(
-                    u"InputText##3", str1, 128, Altseed::Vector2F(-1, t->GetTextLineHeight() * 3), Altseed::ToolInputText::AllowTabInput);
+            static std::u16string str1 = u"";
+            res = t->InputTextWithHint(u"InputText##2", u"placeholder", str1.c_str(), 1024);
+            if (res != nullptr) str1 = res;
 
-            static char buf2[64] = "";
-            t->InputTextWithHint(u"Input Numbers", u"only 0123456789.+-*/", buf2, 64, Altseed::ToolInputText::CharsDecimal);
+            static std::u16string str2 = u"";
+            res = t->InputTextMultiline(
+                    u"InputText##3",
+                    str2.c_str(),
+                    1024,
+                    Altseed::Vector2F(-1, t->GetTextLineHeight() * 3),
+                    Altseed::ToolInputText::AllowTabInput);
+            if (res != nullptr) str2 = res;
 
-            static char bufpass[64] = "password123";
+            static std::u16string buf2 = u"";
+            res = t->InputTextWithHint(u"Input Numbers", u"only 0123456789.+-*/", buf2.c_str(), 256, Altseed::ToolInputText::CharsDecimal);
+            if (res != nullptr) buf2 = res;
 
-            t->InputText(
+            static std::u16string bufpass = u"password123";
+
+            res = t->InputText(
                     u"Password",
-                    bufpass,
-                    64,
+                    bufpass.c_str(),
+                    16, 
                     static_cast<Altseed::ToolInputText>(
                             static_cast<int32_t>(Altseed::ToolInputText::Password) |
                             static_cast<int32_t>(Altseed::ToolInputText::CharsNoBlank)));
+            if (res != nullptr) bufpass = res;
 
             static int i0 = 123;
             static float f0 = 0.001f;
-            static float vec3[3] = {0.10f, 0.20f, 0.30f};
+            static std::shared_ptr<Altseed::FloatArray> vec3 = Altseed::FloatArray::Create(3);
 
             t->InputInt(u"InputInt", &i0);
             t->InputFloat(u"InputFloat", &f0);
@@ -266,7 +277,7 @@ TEST(Tool, Slider) {
             static float begin = 10, end = 90;
             t->DragFloatRange2(u"range", &begin, &end, 0.2f, 0.0f, 100.0f);
 
-            static float vec3f[4] = {0.10f, 0.20f, 0.30f};
+            static std::shared_ptr<Altseed::FloatArray> vec3f = Altseed::FloatArray::Create(3);
 
             t->SliderFloat3(u"SliderFloat3", vec3f, 1.0f, 0.0f, 1.0f);
 
@@ -311,18 +322,18 @@ TEST(Tool, VSlider) {
 TEST(Tool, Color) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
         if (t->Begin(u"Color")) {
-            static float col1[3] = {1.0f, 0.0f, 0.2f};
-            static float col2[4] = {0.4f, 0.7f, 0.0f, 0.5f};
+            static Altseed::Color col1 = Altseed::Color(10, 20, 50, 100);
+            static Altseed::Color col2 = Altseed::Color(10, 20, 50, 100);
 
-            t->ColorEdit3(u"Color1", col1);  // RGB
-            t->ColorEdit4(u"Color2", col2);  // RGBAのアルファ付き
+            t->ColorEdit3(u"Color1", &col1);  // RGB
+            t->ColorEdit4(u"Color2", &col2);  // RGBAのアルファ付き
 
             auto flag = static_cast<Altseed::ToolColorEdit>(
                     static_cast<int32_t>(Altseed::ToolColorEdit::Float) | static_cast<int32_t>(Altseed::ToolColorEdit::NoInputs) |
                     static_cast<int32_t>(Altseed::ToolColorEdit::NoLabel)
 
             );
-            t->ColorEdit3(u"Color ID", col1, flag);
+            t->ColorEdit3(u"Color ID", &col1, flag);
             t->End();
         }
     });
@@ -331,7 +342,7 @@ TEST(Tool, Color) {
 TEST(Tool, ListBox) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
         if (t->Begin(u"ListBox")) {
-            const char* items[] = {"Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"};
+            const char16_t* items = u"Apple\tBanana\tCherry\tKiwi\tMango\tOrange\tPineapple\tStrawberry\tWatermelon";
             static int current = 1;
 
             t->ListBox(u"ListBox", &current, items, 9);
@@ -498,12 +509,12 @@ TEST(Tool, Popup) {
     });
 }
 
-TEST(Tool, SaveDialog) {
-    auto config = Altseed::Configuration::Create();
-    config->SetToolEnabled(true);
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
-
-    Altseed::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
-
-    Altseed::Core::Terminate();
-}
+//TEST(Tool, SaveDialog) {
+//    auto config = Altseed::Configuration::Create();
+//    config->SetToolEnabled(true);
+//    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
+//
+//    Altseed::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
+//
+//    Altseed::Core::Terminate();
+//}
