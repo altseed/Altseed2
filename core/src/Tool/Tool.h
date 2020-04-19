@@ -1,4 +1,5 @@
 #pragma once
+#include <cfloat>
 
 #include "../Common/Array.h"
 #include "../Graphics/Graphics.h"
