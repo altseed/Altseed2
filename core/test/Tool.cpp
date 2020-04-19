@@ -203,7 +203,7 @@ TEST(Tool, Input) {
             const char16_t* items = u"AAA\tBBB\tCCC";
             t->Combo(u"DropDown List", &current, items, 3);
 
-            t->Text(format(u"Current: %d (%s)", current, Altseed::split(items, '\t')[current]).c_str());
+            t->Text(format(u"Current: %d (%s)", current, Altseed::split(items, '\t')[current].c_str()).c_str());
 
             static std::u16string str0 = u"";
             auto res = t->InputText(u"InputText##1", str0.c_str(), 1024);
