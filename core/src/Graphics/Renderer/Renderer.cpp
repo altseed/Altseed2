@@ -79,9 +79,6 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     vs.resize(polygon->GetVertexes()->GetCount());
     for (int i = 0; i < vs.size(); ++i) {
         vs[i] = polygon->GetVertexes()->GetVector()[i];
-        vs[i].UV1.X = (src.X + vs[i].UV1.X * src.Width) / size.X;
-        vs[i].UV1.Y = (src.Y + vs[i].UV1.Y * src.Width) / size.Y;
-        vs[i].UV2 = vs[i].UV1;
         vs[i].Pos = polygon->GetTransform().Transform3D(vs[i].Pos);
     }
 
