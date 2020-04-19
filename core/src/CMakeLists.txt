@@ -311,9 +311,13 @@ elseif(APPLE)
     )
 
 else()
-
+    FIND_PACKAGE(PkgConfig REQUIRED)
+    PKG_CHECK_MODULES(GTK3 REQUIRED gtk+-3.0)
     find_package(X11 REQUIRED)
-    target_link_libraries(Altseed_Core PRIVATE ${X11_LIBRARIES})
+    target_link_libraries(Altseed_Core 
+        PRIVATE
+        ${X11_LIBRARIES}
+        ${GTK3_LIBRARIES})
 
     target_link_libraries(
         Altseed_Core
