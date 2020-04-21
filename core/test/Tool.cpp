@@ -509,12 +509,12 @@ TEST(Tool, Popup) {
     });
 }
 
-//TEST(Tool, SaveDialog) {
-//    auto config = Altseed::Configuration::Create();
-//    config->SetToolEnabled(true);
-//    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
-//
-//    Altseed::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
-//
-//    Altseed::Core::Terminate();
-//}
+TEST(Tool, SaveDialog) {
+    auto config = Altseed::Configuration::Create();
+    config->SetToolEnabled(true);
+    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, config));
+
+    Altseed::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
+
+    Altseed::Core::Terminate();
+}
