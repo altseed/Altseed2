@@ -15,6 +15,8 @@ public:
     LLGI::Vec2I GetWindowSize() const override;
     GLFWwindow* GetGlfwWindow() const { return glfwWindow; }
 
+    LLGI::Vec2I GetFrameBufferSize() const override;
+
     bool OnNewFrame() override { return glfwWindowShouldClose(glfwWindow) == GL_FALSE; }
 };
 

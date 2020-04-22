@@ -85,7 +85,7 @@ void Tool::Render() {
 
 #if defined(__APPLE__)
     // HACK for retina
-    ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
+    //ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
 #endif
 
     platform_->RenderDrawData(ImGui::GetDrawData(), Graphics::GetInstance()->GetCommandList()->GetLL());
