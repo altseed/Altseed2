@@ -342,6 +342,10 @@ with Graphics as class_:
         func.return_value.brief.add('ja', '正常に終了した場合は　true 。それ以外の場合は false。')
         func.is_public = False
 
+    with class_.add_property(CommandList, 'CommandList') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+
     with class_.add_property(BuiltinShader, 'BuiltinShader') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '組み込みのシェーダを取得します。')
@@ -831,7 +835,7 @@ with Renderer as class_:
     with class_.add_func('SetCamera') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラを設定します。')
-        with func.add_arg(RenderedCamera, 'commandList') as arg:
+        with func.add_arg(RenderedCamera, 'camera') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画するカメラ')
         func.is_public = False
