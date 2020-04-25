@@ -6,6 +6,7 @@
 
 using namespace std::string_literals;
 
+/*
 TEST(Keyboard, Initialize) {
     char16_t s16[] = u"test";
 
@@ -24,13 +25,14 @@ TEST(Keyboard, Initialize) {
 
     Altseed::Core::Terminate();
 }
+*/
 
 TEST(Keyboard, GetKeyState) {
     char16_t s16[] = u"test";
 
     EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
 
-    for (int count = 0; Altseed::Core::GetInstance()->DoEvent() && count < 10; count++) {
+    for (int count = 0; Altseed::Core::GetInstance()->DoEvent() && count < 100000; count++) {
         for (int i = 0; i < static_cast<int>(Altseed::Keys::MAX); i++) {
             auto bs = Altseed::Keyboard::GetInstance()->GetKeyState((Altseed::Keys)i);
             if (bs != Altseed::ButtonState::Free) std::cout << i;

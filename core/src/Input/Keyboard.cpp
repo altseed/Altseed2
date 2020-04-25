@@ -142,12 +142,15 @@ void Keyboard::RefleshKeyStates() {
 
     oldState_ = currentState_;
 
-    for (int32_t i = 0; i < 121; i++) {
-        currentState_[i] = (bool)glfwGetKey(w_, keyCodes[i]);
+    for (size_t i = 0; i < currentState_.size(); i++) {
+        currentState_[i] = glfwGetKey(w_, keyCodes[i]) > 0;
     }
 }
 ButtonState Keyboard::GetKeyState(Keys key) const {
     int index = (int32_t)key;
+
+    ASD_ASSERT(currentState_.size() > index && index >= 0, "Invalid keycode.");
+
     return static_cast<ButtonState>((currentState_[index] ? 1 : 0) | (oldState_[index] ? 2 : 0));
 }
 

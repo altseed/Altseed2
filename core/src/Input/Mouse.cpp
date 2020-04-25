@@ -11,7 +11,7 @@ std::shared_ptr<Mouse> Mouse::instance_ = nullptr;
 
 static double wheelTemp = 0;
 static bool wheelCalled = false;
-std::function<void(double x, double y)> wheelCallback;
+static std::function<void(double x, double y)> wheelCallback;
 
 static void GetWheelInternal(GLFWwindow* wHandle, double x, double y) {
     wheelTemp = y;
@@ -46,7 +46,7 @@ void Mouse::RefreshInputState() {
     oldState_ = currentState_;
 
     for (int32_t i = 0; i < KEY_NUM; i++) {
-        currentState_[i] = (bool)glfwGetMouseButton(w, i);
+        currentState_[i] = glfwGetMouseButton(w, i) > 0;
     }
 }
 
@@ -68,6 +68,9 @@ float Mouse::GetWheel() const { return wheel_; }
 
 ButtonState Mouse::GetMouseButtonState(MouseButtons button) const {
     int index = (int32_t)button;
+
+    ASD_ASSERT(0 <= index && index < currentState_.size(), "Invalid Button.");
+
     return static_cast<ButtonState>((currentState_[index] ? 1 : 0) | (oldState_[index] ? 2 : 0));
 }
 
