@@ -1104,6 +1104,14 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTarget(void* cbg_self, void* 
     cbg_self_->SetRenderTarget(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTexture(void* cbg_self, void* material, void* target) {
+    auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)material);
+    std::shared_ptr<Altseed::RenderTexture> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::RenderTexture>((Altseed::RenderTexture*)target);
+    cbg_self_->RenderToRenderTexture(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTarget(void* cbg_self, void* material) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 

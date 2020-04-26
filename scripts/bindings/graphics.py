@@ -300,6 +300,10 @@ with CommandList as class_:
         with func_.add_arg(RenderPassParameter, 'renderPassParameter') as arg:
             arg.brief = cbg.Description()
 
+    with class_.add_func('RenderToRenderTexture') as func_:
+        func_.add_arg(Material, 'material')
+        func_.add_arg(RenderTexture, 'target')
+
     with class_.add_func('RenderToRenderTarget') as func_:
         func_.add_arg(Material, 'material')
 
