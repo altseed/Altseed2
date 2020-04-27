@@ -67,7 +67,7 @@ public:
     void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
 
     std::shared_ptr<Shader> GetShader(Altseed::ShaderStageType shaderStage) const;
-    void SetShader(std::shared_ptr<Shader>& shader);
+    void SetShader(const std::shared_ptr<Shader>& shader);
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 
