@@ -54,6 +54,7 @@ private:
     std::shared_ptr<LLGI::SingleFrameMemoryPool> memoryPool_;
     std::shared_ptr<LLGI::CommandListPool> commandListPool_;
     std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
+    std::shared_ptr<RenderTexture> currentRenderTarget_;
     bool isInRenderPass_ = false;
 
     std::shared_ptr<RenderTexture> internalScreen_;
@@ -87,6 +88,8 @@ public:
     void ResumeRenderPass();
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
+
+    void RenderToRenderTexture(std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target);
 
     /**
         @brief	apply material and render to target texture.

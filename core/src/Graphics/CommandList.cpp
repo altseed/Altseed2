@@ -183,6 +183,7 @@ void CommandList::BeginRenderPass(std::shared_ptr<RenderTexture> target, std::sh
 
     currentCommandList_->BeginRenderPass(renderPass.get());
     currentRenderPass_ = renderPass;
+    currentRenderTarget_ = target;
     isInRenderPass_ = true;
 
     FrameDebugger::GetInstance()->SetRenderTarget(target);
@@ -199,6 +200,7 @@ void CommandList::EndRenderPass() {
     FrameDebugger::GetInstance()->EndRenderPass();
     isInRenderPass_ = false;
     currentRenderPass_ = nullptr;
+    currentRenderTarget_ = nullptr;
 }
 
 void CommandList::PauseRenderPass() {
@@ -254,6 +256,24 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     }
     
     BeginRenderPass(target, renderPassCaches_[target].Stored);
+}
+
+void CommandList::RenderToRenderTexture(std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target) {
+    auto currentTarget = currentRenderTarget_;
+
+    RenderPassParameter param;
+    param.ClearColor = Graphics::GetInstance()->GetClearColor();
+    param.ColorCare = RenderTargetCareType::Clear;
+    param.DepthCare = RenderTargetCareType::Clear;
+
+    SetRenderTarget(target, param);
+    RenderToRenderTarget(material);
+
+    if(currentTarget != nullptr) {
+        param.ColorCare = RenderTargetCareType::DontCare;
+        param.DepthCare = RenderTargetCareType::DontCare;
+        SetRenderTarget(currentTarget, param);
+    }
 }
 
 void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
