@@ -688,6 +688,55 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 )";
 
+TEST(Graphics, RenderToRenderTexture) {
+    auto config = Altseed::Configuration::Create();
+    config->SetConsoleLoggingEnabled(true);
+
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RnderToRenderTexture", 1280, 720, config));
+
+    auto instance = Altseed::Graphics::GetInstance();
+    auto cmdList = instance->GetCommandList();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 400, 400));
+
+    auto ps = Altseed::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed::ShaderStageType::Pixel);
+    auto material = Altseed::MakeAsdShared<Altseed::Material>();
+    material->SetShader(ps);
+
+    auto target = Altseed::RenderTexture::Create(Altseed::Vector2I(500, 500));
+
+    auto s2 = Altseed::RenderedSprite::Create();
+    s2->SetTexture(target);
+    s2->SetSrc(Altseed::RectF(0, 0, 500, 500));
+    s2->SetTransform(Altseed::Matrix44F().SetTranslation(400.0f, 400.0f, 0));
+
+    int count = 0;
+    while (count++ < 180 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+
+        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->Render();
+
+        material->SetTexture(u"mainTex", cmdList->GetScreenTexture());
+        cmdList->RenderToRenderTexture(material, target);
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
 TEST(Graphics, PostEffect) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
 
