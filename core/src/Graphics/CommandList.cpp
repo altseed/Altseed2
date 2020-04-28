@@ -8,11 +8,11 @@
 #include <stb_image_write.h>
 
 #include "../Graphics/Graphics.h"
+#include "../Logger/Log.h"
 #include "../System/SynchronizationContext.h"
 #include "BuiltinShader.h"
 #include "FrameDebugger.h"
 #include "RenderTexture.h"
-#include "../Logger/Log.h"
 
 namespace Altseed {
 
@@ -195,7 +195,7 @@ void CommandList::EndRenderPass() {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: invalid CommandList state");
         return;
     }
-    
+
     currentCommandList_->EndRenderPass();
     FrameDebugger::GetInstance()->EndRenderPass();
     isInRenderPass_ = false;
@@ -251,10 +251,10 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
     renderPassCaches_[target].Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
 
-    if (isInRenderPass_){
+    if (isInRenderPass_) {
         EndRenderPass();
     }
-    
+
     BeginRenderPass(target, renderPassCaches_[target].Stored);
 }
 
@@ -269,7 +269,7 @@ void CommandList::RenderToRenderTexture(std::shared_ptr<Material> material, std:
     SetRenderTarget(target, param);
     RenderToRenderTarget(material);
 
-    if(currentTarget != nullptr) {
+    if (currentTarget != nullptr) {
         param.ColorCare = RenderTargetCareType::DontCare;
         param.DepthCare = RenderTargetCareType::DontCare;
         SetRenderTarget(currentTarget, param);
@@ -405,10 +405,14 @@ void CommandList::Draw(int32_t instanceCount) {
     GetLL()->Draw(instanceCount);
 
     if (FrameDebugger::GetInstance()->GetIsEnabled()) {
+        auto texture = currentRenderPass_->GetRenderTexture(0);
+        if (texture->GetType() == LLGI::TextureType::Screen) {
+            return;
+        }
+
         auto path = FrameDebugger::GetInstance()->GetDebuggingRenderTargetFileNameAndMoveNext();
         FrameDebugger::GetInstance()->Render(instanceCount, path);
 
-        auto texture = currentRenderPass_->GetRenderTexture(0);
         auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y));
 
         currentCommandList_->EndRenderPass();
@@ -428,11 +432,17 @@ void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_pt
     auto dstSize = dst->GetSize();
 
     if (srcSize != dstSize) {
-        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::CopyTexture failed, src's size ({}, {}) is not equal to dst's size ({}, {})", srcSize.X, srcSize.Y, dstSize.X, dstSize.Y);
+        Log::GetInstance()->Error(
+                LogCategory::Core,
+                u"CommandList::CopyTexture failed, src's size ({}, {}) is not equal to dst's size ({}, {})",
+                srcSize.X,
+                srcSize.Y,
+                dstSize.X,
+                dstSize.Y);
         return;
     }
 
-    if(isInRenderPass_) {
+    if (isInRenderPass_) {
         PauseRenderPass();
         currentCommandList_->CopyTexture(src->GetNativeTexture().get(), dst->GetNativeTexture().get());
         ResumeRenderPass();
