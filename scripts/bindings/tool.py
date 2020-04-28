@@ -1099,6 +1099,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(Int32Array, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('InputInt3') as func_:
         func_.brief = cbg.Description()
@@ -1107,6 +1108,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(Int32Array, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('InputInt4') as func_:
         func_.brief = cbg.Description()
@@ -1115,6 +1117,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(Int32Array, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('InputFloat') as func_:
         func_.brief = cbg.Description()
@@ -1132,6 +1135,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(FloatArray, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('InputFloat3') as func_:
         func_.brief = cbg.Description()
@@ -1140,6 +1144,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(FloatArray, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('InputFloat4') as func_:
         func_.brief = cbg.Description()
@@ -1148,6 +1153,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(FloatArray, 'array')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderInt') as func_:
         func_.brief = cbg.Description()
@@ -1171,6 +1177,7 @@ with Tool as class_:
         func_.add_arg(int, 'valueMin')
         func_.add_arg(int, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderInt3') as func_:
         func_.brief = cbg.Description()
@@ -1182,6 +1189,7 @@ with Tool as class_:
         func_.add_arg(int, 'valueMin')
         func_.add_arg(int, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderInt4') as func_:
         func_.brief = cbg.Description()
@@ -1193,6 +1201,7 @@ with Tool as class_:
         func_.add_arg(int, 'valueMin')
         func_.add_arg(int, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderFloat') as func_:
         func_.brief = cbg.Description()
@@ -1205,6 +1214,7 @@ with Tool as class_:
         func_.add_arg(float, 'valueMin')
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderFloat2') as func_:
         func_.brief = cbg.Description()
@@ -1216,6 +1226,7 @@ with Tool as class_:
         func_.add_arg(float, 'valueMin')
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderFloat3') as func_:
         func_.brief = cbg.Description()
@@ -1227,6 +1238,7 @@ with Tool as class_:
         func_.add_arg(float, 'valueMin')
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderFloat4') as func_:
         func_.brief = cbg.Description()
@@ -1238,6 +1250,7 @@ with Tool as class_:
         func_.add_arg(float, 'valueMin')
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
+        func_.is_public = False
 
     with class_.add_func('SliderAngle') as func_:
         func_.brief = cbg.Description()
@@ -2103,6 +2116,7 @@ with Tool as class_:
         func_.add_arg(float, 'scale_max')
         func_.add_arg(Vector2F, 'graph_size')
         func_.add_arg(int, 'stride')
+        func_.is_public = False
 
     with class_.add_func('PlotHistogram') as func_:
         func_.brief = cbg.Description()
@@ -2117,6 +2131,7 @@ with Tool as class_:
         func_.add_arg(float, 'scale_max')
         func_.add_arg(Vector2F, 'graph_size')
         func_.add_arg(int, 'stride')
+        func_.is_public = False
 
     with class_.add_func('ValueBool') as func_:
         func_.brief = cbg.Description()
