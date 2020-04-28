@@ -26,7 +26,6 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         yMax = v.Y;
     }
 
-    // ���_���W���R�s�[
     for (int i = 0; i < vertexes->GetCount(); ++i) {
         auto& dst = vertexes_->GetVector()[i].Pos;
         auto& src = vertexes->GetVector()[i];
@@ -35,7 +34,6 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         dst.Y = src.Y;
         dst.Z = 0.5f;
 
-        // ���_�̑��ݔ͈�
         if (src.X < xMin) {
             xMin = src.X;
         }
@@ -50,7 +48,7 @@ void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> verte
         }
     }
 
-    // UV, �F�𐶐�
+    // UV, 色を設定
     for (int i = 0; i < vertexes->GetCount(); ++i) {
         auto& dst = vertexes_->GetVector()[i];
         dst.UV1.X = (dst.Pos.X - xMin) / (xMax - xMin);
@@ -76,11 +74,12 @@ void RenderedPolygon::SetMaterial(const std::shared_ptr<Material>& material) { m
 
 b2AABB RenderedPolygon::GetAABB() {
     if (GetVertexes()->GetCount() == 0) return b2AABB();
+
     b2AABB res;
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
     res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
-    for (int i = 0; i < GetVertexes()->GetCount(); ++i) {
-        auto v = transform_.Transform3D(GetVertexes()->GetAt(i).Pos);
+    for (auto&& _v : GetVertexes()->GetVector()) {
+        auto v = transform_.Transform3D(_v.Pos);
         res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }

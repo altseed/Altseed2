@@ -14,7 +14,6 @@
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
 #include "Graphics/FrameDebugger.h"
-#include "Graphics/Material.h"
 #include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
@@ -22,6 +21,7 @@
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Shader.h"
+#include "Graphics/Material.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Logger/Log.h"
 #include "Math/Matrix44F.h"
@@ -270,7 +270,7 @@ TEST(Graphics, SpriteTexture) {
 
         // Take screenshot
         if (count == 5) {
-            // Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
+            //Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
         }
     }
 
@@ -549,51 +549,6 @@ TEST(Graphics, BackgroundBugcheck) {
     Altseed::Core::Terminate();
 }
 
-TEST(Graphics, MassRenderedSprite) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"MassRenderedSprite", 1280, 720, Altseed::Configuration::Create()));
-
-    int count = 0;
-
-    auto instance = Altseed::Graphics::GetInstance();
-
-    auto t = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
-
-    EXPECT_TRUE(t != nullptr);
-
-    std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
-
-    int size = 10;
-
-    for (int x = 0; x < 1280 / size; x++) {
-        for (int y = 0; y < 720 / size; y++) {
-            auto s = Altseed::RenderedSprite::Create();
-            s->SetTexture(t);
-            s->SetSrc(Altseed::RectF(128 * (x % 2), 128 * (y % 2), 128, 128));
-            auto tr1 = Altseed::Matrix44F();
-            auto tr2 = Altseed::Matrix44F();
-            tr1.SetTranslation(x * size, y * size, 0);
-            tr2.SetScale(size / 128.0f, size / 128.0f, 0);
-            s->SetTransform(tr1 * tr2);
-            sprites.push_back(s);
-        }
-    }
-
-    while (count++ < 1000 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-
-        EXPECT_TRUE(instance->BeginFrame());
-
-        for (auto&& s : sprites) Altseed::Renderer::GetInstance()->DrawSprite(s);
-
-        Altseed::Renderer::GetInstance()->Render();
-
-        EXPECT_TRUE(instance->EndFrame());
-    }
-
-    Altseed::Core::Terminate();
-}
-
 TEST(Graphics, Culling) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
 
@@ -762,7 +717,7 @@ TEST(Graphics, PostEffect) {
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
-
+        
         cmdList->CopyTexture(cmdList->GetScreenTexture(), buffer);
         material->SetTexture(u"mainTex", buffer);
         cmdList->RenderToRenderTarget(material);

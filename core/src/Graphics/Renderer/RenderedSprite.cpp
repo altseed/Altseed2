@@ -24,15 +24,17 @@ void RenderedSprite::SetMaterial(const std::shared_ptr<Material>& material) { ma
 
 b2AABB RenderedSprite::GetAABB() {
     b2AABB res;
-    auto vertexes = Array<Vector3F>::Create(4);
-    vertexes->GetVector()[0] = Vector3F(GetSrc().X, GetSrc().Y, 0);
-    vertexes->GetVector()[1] = Vector3F(GetSrc().X + GetSrc().Width, GetSrc().Y, 0);
-    vertexes->GetVector()[2] = Vector3F(GetSrc().X + GetSrc().Width, GetSrc().Y + GetSrc().Height, 0);
-    vertexes->GetVector()[3] = Vector3F(GetSrc().X, GetSrc().Y + GetSrc().Height, 0);
+    auto vertexes = std::array<Vector3F, 4>();
+    auto src = GetSrc();
+    vertexes[0] = Vector3F(0, 0, 0);
+    vertexes[1] = Vector3F(src.Width, 0, 0);
+    vertexes[2] = Vector3F(src.Width, src.Height, 0);
+    vertexes[3] = Vector3F(0, src.Height, 0);
+
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
     res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
-    for (int i = 0; i < vertexes->GetCount(); ++i) {
-        auto v = transform_.Transform3D(vertexes->GetAt(i));
+    for (auto&& _v : vertexes) {
+        auto v = transform_.Transform3D(_v);
         res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }

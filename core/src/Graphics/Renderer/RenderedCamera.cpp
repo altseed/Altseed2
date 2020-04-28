@@ -1,9 +1,9 @@
 #include "RenderedCamera.h"
 
+#include "../../Common/Array.h"
 #include "../../Window/Window.h"
 #include "../Graphics.h"
 #include "../RenderTexture.h"
-#include"../../Common/Array.h"
 
 namespace Altseed {
 
@@ -50,7 +50,7 @@ Matrix44F RenderedCamera::GetCameraMatrix() const {
 
 b2AABB RenderedCamera::GetAABB() {
     b2AABB res;
-	Vector2I windowSize;
+    Vector2I windowSize;
 
     if (targetTexture_ != nullptr) {
         windowSize = targetTexture_->GetSize();
@@ -58,15 +58,16 @@ b2AABB RenderedCamera::GetAABB() {
         windowSize = Window::GetInstance()->GetSize();
     }
 
-    auto vertexes = Array<Vector3F>::Create(4);
-    vertexes->GetVector()[0] = Vector3F(0, 0, 0);
-    vertexes->GetVector()[1] = Vector3F(windowSize.X, 0, 0);
-    vertexes->GetVector()[2] = Vector3F(windowSize.X, windowSize.Y, 0);
-    vertexes->GetVector()[3] = Vector3F(0, windowSize.Y, 0);
+    auto vertexes = std::array<Vector3F, 4>();
+    vertexes[0] = Vector3F(0, 0, 0);
+    vertexes[1] = Vector3F(windowSize.X, 0, 0);
+    vertexes[2] = Vector3F(windowSize.X, windowSize.Y, 0);
+    vertexes[3] = Vector3F(0, windowSize.Y, 0);
+
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
     res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
-    for (int i = 0; i < vertexes->GetCount(); ++i) {
-        auto v = transform_.Transform3D(vertexes->GetAt(i));
+    for (auto&& _v : vertexes) {
+        auto v = transform_.Transform3D(_v);
         res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }

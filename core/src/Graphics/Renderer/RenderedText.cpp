@@ -1,4 +1,5 @@
 #include "RenderedText.h"
+
 #include "../../Math/RectF.h"
 #include "../../Math/Vector4F.h"
 #include "../BuiltinShader.h"
@@ -73,15 +74,15 @@ Vector2F RenderedText::CalcTextureSize() {
 b2AABB RenderedText::GetAABB() {
     b2AABB res;
     auto size = CalcTextureSize();
-    auto vertexes = Array<Vector3F>::Create(4);
-    vertexes->GetVector()[0] = Vector3F();
-    vertexes->GetVector()[1] = Vector3F(size.X, 0, 0);
-    vertexes->GetVector()[2] = Vector3F(size.X, size.Y, 0);
-    vertexes->GetVector()[3] = Vector3F(0, size.Y, 0);
+    auto vertexes = std::array<Vector3F, 4>();
+    vertexes[0] = Vector3F();
+    vertexes[1] = Vector3F(size.X, 0, 0);
+    vertexes[2] = Vector3F(size.X, size.Y, 0);
+    vertexes[3] = Vector3F(0, size.Y, 0);
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
     res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
-    for (int i = 0; i < vertexes->GetCount(); ++i) {
-        auto v = transform_.Transform3D(vertexes->GetAt(i));
+    for (auto&& _v : vertexes) {
+        auto v = transform_.Transform3D(_v);
         res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }
