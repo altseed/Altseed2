@@ -25,7 +25,11 @@ private:
 
 public:
     BaseObject();
+#ifdef NDEBUG
     virtual ~BaseObject();
+#else
+    virtual ~BaseObject() noexcept(false);
+#endif
 
     //! Increase a reference counter
     int32_t AddRef() {

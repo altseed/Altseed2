@@ -14,7 +14,11 @@ BaseObject::BaseObject() : reference_(1) {
     }
 }
 
+#ifdef NDEBUG
 BaseObject::~BaseObject() {
+#else
+BaseObject::~BaseObject() noexcept(false) {
+#endif
     // for Core
     if (core_ != nullptr) {
         core_->Unregister(this);
