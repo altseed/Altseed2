@@ -661,6 +661,13 @@ with RenderedSprite as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
 
 RenderedText = cbg.Class('Altseed', 'RenderedText')
 with RenderedText as class_:

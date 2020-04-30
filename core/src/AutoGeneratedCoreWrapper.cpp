@@ -1207,6 +1207,20 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetMaterial(void* cbg_self, void* v
     cbg_self_->SetMaterial(cbg_arg0);
 }
 
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedSprite_GetColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetColor(void* cbg_self, Altseed::Color_C value) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = value;
+    cbg_self_->SetColor(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
 
