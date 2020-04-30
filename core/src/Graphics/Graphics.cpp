@@ -78,6 +78,10 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
 bool Graphics::BeginFrame() {
     if (!platform_->NewFrame()) return false;
 
+    if (platform_->GetDeviceType() == LLGI::DeviceType::Vulkan) {
+        platform_->SetWindowSize(instance->llgiWindow_->GetWindowSize());
+    }
+
     commandList_->StartFrame();
     RenderPassParameter param;
     param.ClearColor = Graphics::GetInstance()->GetClearColor();
