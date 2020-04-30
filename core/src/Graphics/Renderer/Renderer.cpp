@@ -144,10 +144,10 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
             vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
         }
 
-        vs[i].Col.R = TextureDefaultColor;
-        vs[i].Col.G = TextureDefaultColor;
-        vs[i].Col.B = TextureDefaultColor;
-        vs[i].Col.A = TextureDefaultColor;
+        vs[i].Col.R = sprite->GetColor().R;
+        vs[i].Col.G = sprite->GetColor().G;
+        vs[i].Col.B = sprite->GetColor().B;
+        vs[i].Col.A = sprite->GetColor().A;
 
         vs[i].UV2 = vs[i].UV1;
 
