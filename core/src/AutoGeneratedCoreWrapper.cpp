@@ -1429,6 +1429,41 @@ CBGEXPORT void* CBGSTDCALL cbg_BuiltinShader_Create(void* cbg_self, int32_t type
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Shader>(cbg_ret);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetDownsampleShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetDownsampleShader();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetSepiaShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetSepiaShader();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetGrayScaleShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetGrayScaleShader();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetGaussianBlurShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetGaussianBlurShader();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetLightBloomShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetLightBloomShader();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 

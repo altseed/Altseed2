@@ -162,6 +162,31 @@ with BuiltinShader as class_:
             arg.brief.add('ja', 'シェーダの種類')
         func.is_public = True
 
+    with class_.add_property(ctypes.c_wchar_p, 'DownsampleShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
+    with class_.add_property(ctypes.c_wchar_p, 'SepiaShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
+    with class_.add_property(ctypes.c_wchar_p, 'GrayScaleShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
+    with class_.add_property(ctypes.c_wchar_p, 'GaussianBlurShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
+    with class_.add_property(ctypes.c_wchar_p, 'LightBloomShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
 
 Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
