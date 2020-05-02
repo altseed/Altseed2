@@ -1,6 +1,12 @@
 #pragma once
 #include <map>
 #include "../BaseObject.h"
+#include "../Common/StringHelper.h"
+#include "PostEffect/Downsample_PS.h"
+#include "PostEffect/Sepia_PS.h"
+#include "PostEffect/GrayScale_PS.h"
+#include "PostEffect/GaussianBlur_PS.h"
+#include "PostEffect/LightBloom_PS.h"
 
 namespace Altseed {
 
@@ -18,6 +24,12 @@ private:
 
 public:
     std::shared_ptr<Shader> Create(BuiltinShaderType type);
+
+    const char16_t* GetDownsampleShader() const { return downsample_ps; }
+    const char16_t* GetSepiaShader() const { return sepia_ps; }
+    const char16_t* GetGrayScaleShader() const { return grayscale_ps; }
+    const char16_t* GetGaussianBlurShader() const { return gaussianblur_ps; }
+    const char16_t* GetLightBloomShader() const { return lightbloom_ps; }
 };
 
 }  // namespace Altseed

@@ -660,36 +660,11 @@ TEST(Graphics, CullingTooManySprite) {
     Altseed::Core::Terminate();
 }
 
-const char* PostEffectCode = R"(
-Texture2D mainTex : register(t0);
-SamplerState mainSamp : register(s0);
-cbuffer Consts : register(b1)
-{
-    float4 time;
-};
-struct PS_INPUT
-{
-    float4  Position : SV_POSITION;
-    float4  Color    : COLOR0;
-    float2  UV1 : UV0;
-    float2  UV2 : UV1;
-};
-float4 main(PS_INPUT input) : SV_TARGET 
-{ 
-    if (input.UV1.x > 0.5) {
-        return float4(input.UV1, 1.0, 1.0);
-    }
+TEST(Graphics, RenderToRenderTexture) {
+    auto config = Altseed::Configuration::Create();
+    config->SetConsoleLoggingEnabled(true);
 
-    float x = frac(input.UV1.x + time.x * 0.5 - floor(input.UV1.y * 10) * 0.1);
-
-    float4 tex = mainTex.Sample(mainSamp, float2(x, input.UV1.y));
-    
-    return float4(tex.xyz, 1.0);
-}
-)";
-
-TEST(Graphics, PostEffect) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RnderToRenderTexture", 1280, 720, config));
 
     auto instance = Altseed::Graphics::GetInstance();
     auto cmdList = instance->GetCommandList();
@@ -701,26 +676,32 @@ TEST(Graphics, PostEffect) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed::Shader::Create(u"posteffect", Altseed::utf8_to_utf16(PostEffectCode).c_str(), Altseed::ShaderStageType::Pixel);
+    auto ps = Altseed::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed::ShaderStageType::Pixel);
     auto material = Altseed::MakeAsdShared<Altseed::Material>();
     material->SetShader(ps);
 
-    auto buffer = Altseed::RenderTexture::Create(Altseed::Window::GetInstance()->GetSize());
+    auto target = Altseed::RenderTexture::Create(Altseed::Vector2I(500, 500));
+
+    auto s2 = Altseed::RenderedSprite::Create();
+    s2->SetTexture(target);
+    s2->SetSrc(Altseed::RectF(0, 0, 500, 500));
+    s2->SetTransform(Altseed::Matrix44F().SetTranslation(400.0f, 400.0f, 0));
 
     int count = 0;
     while (count++ < 180 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        material->SetVector4F(u"time", Altseed::Vector4F(count / 180.0, 0.0, 0.0, 0.0));
         EXPECT_TRUE(instance->BeginFrame());
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
         
-        cmdList->CopyTexture(cmdList->GetScreenTexture(), buffer);
-        material->SetTexture(u"mainTex", buffer);
-        cmdList->RenderToRenderTarget(material);
+        material->SetTexture(u"mainTex", cmdList->GetScreenTexture());
+        cmdList->RenderToRenderTexture(material, target);
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
