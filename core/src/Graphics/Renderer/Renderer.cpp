@@ -198,6 +198,15 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         ConvChU16ToU32({characters[i], i + 1 < characters.size() ? characters[i + 1] : u'\0'}, tmp);
         int32_t character = static_cast<int32_t>(tmp);
 
+        // return
+        if (character == '\n') {
+            if (text->GetWritingDirection() == WritingDirection::Horizontal)
+                offset = Vector2F(0, offset.Y + text->GetFont()->GetLineGap());
+            else
+                offset = Vector2F(offset.X - text->GetFont()->GetLineGap(), 0);
+            continue;
+        }
+
         // Surrogate pair
         if (characters[i] >= 0xD800 && characters[i] <= 0xDBFF) {
             i++;
@@ -269,15 +278,25 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
         batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? material : nullptr, nullptr);
 
-        if (glyph != nullptr)
-            offset += Vector2F(glyph->GetGlyphWidth(), 0);
-        else
-            offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
+        if (text->GetWritingDirection() == WritingDirection::Horizontal) {
+            if (glyph != nullptr)
+                offset += Vector2F(glyph->GetGlyphWidth(), 0);
+            else
+                offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
+        } else {
+            if (glyph != nullptr)
+                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X);
+            else
+                offset += Vector2F(0, (float)texture->GetSize().Y * text->GetFont()->GetSize() / texture->GetSize().X);
+        }
 
-        if (i != characters.size() - 1) {
+        if (text->GetIsEnableKerning() && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
-            offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, next), 0);
+            if (text->GetWritingDirection() == WritingDirection::Horizontal)
+                offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, next), 0);
+            else
+                offset += Altseed::Vector2F(0, text->GetFont()->GetKerning(character, next));
         }
     }
 }

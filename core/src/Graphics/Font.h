@@ -87,7 +87,6 @@ public:
     }
 
     virtual int32_t GetKerning(const int32_t c1, const int32_t c2);
-    virtual Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true);
 
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);

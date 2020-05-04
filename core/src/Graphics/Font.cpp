@@ -105,25 +105,6 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
     return kern * scale_ * actualScale_;
 }
 
-Vector2I Font::CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning) {
-    int32_t w = 0;
-    int32_t l = 1;
-    for (int32_t i = 0; i < std::char_traits<char16_t>::length(text); i++) {
-        if (text[i] == '\n') {
-            l++;
-            continue;
-        }
-
-        auto glyph = GetGlyph(text[i]);
-        if (glyph != nullptr) w += glyph->GetGlyphWidth();
-
-        if (isEnableKerning && i != std::char_traits<char16_t>::length(text) - 1) w += GetKerning(text[i], text[i + 1]);
-    }
-
-    int32_t h = (ascent_ - descent_) * l;
-    return direction == WritingDirection::Horizontal ? Vector2I(w, h) : Vector2I(h, w);
-}
-
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
@@ -307,6 +288,8 @@ void Font::AddFontTexture() {
     currentTexturePosition_ = Vector2I();
 }
 
+const int padding = 64;
+
 void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
@@ -315,7 +298,7 @@ void Font::AddGlyph(const int32_t character) {
     int32_t h = 0;
     int32_t glyphW = 0;
 
-    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, size_ / 2, 128, GetPixelDistScale(), &w, &h, &offset.X, &offset.Y);
+    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, padding, 128, GetPixelDistScale(), &w, &h, &offset.X, &offset.Y);
     stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
     glyphW *= scale_ * actualScale_;
     offset = (offset.To2F() * actualScale_).To2I();
@@ -328,7 +311,7 @@ void Font::AddGlyph(const int32_t character) {
 
     if (textureSize_.X < currentTexturePosition_.X + w) {
         currentTexturePosition_.X = 0;
-        currentTexturePosition_.Y += h;
+        currentTexturePosition_.Y += padding * 2 + GetActualSize();
     }
     if (textureSize_.Y < currentTexturePosition_.Y + h) AddFontTexture();
 

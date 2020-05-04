@@ -19,6 +19,8 @@ private:
     std::u16string text_;
     Color color_;
     float weight_;
+    bool isEnableKerning_;
+    WritingDirection writingDirection_;
 
 public:
     static std::shared_ptr<RenderedText> Create();
@@ -40,6 +42,14 @@ public:
 
     const char16_t* GetText() const { return text_.c_str(); }
 
+    void SetIsEnableKerning(bool isEnableKerning) { isEnableKerning_ = isEnableKerning; }
+
+    bool GetIsEnableKerning() { return isEnableKerning_; }
+
+    void SetWritingDirection(WritingDirection wrintingDirection) { writingDirection_ = wrintingDirection; }
+
+    WritingDirection GetWritingDirection() { return writingDirection_; }
+
     //! Internal function
     const std::u16string& GetTextAsStr() const { return text_; }
 
@@ -52,7 +62,7 @@ public:
 
     void SetColor(const Color color) { color_ = color; }
 
-    Vector2F CalcTextureSize();
+    Vector2F GetTextureSize();
 
     b2AABB GetAABB() override;
 };

@@ -37,6 +37,8 @@ TEST(Font, Basic) {
     auto instance = Altseed::Graphics::GetInstance();
 
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {
@@ -70,6 +72,8 @@ TEST(Font, Weight) {
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         t->SetWeight(count / 50.0f - 1.0f);
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {
@@ -169,6 +173,8 @@ TEST(Font, Surrogate) {
     auto instance = Altseed::Graphics::GetInstance();
 
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {
@@ -205,6 +211,8 @@ TEST(Font, ImageFont) {
     }
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {
@@ -249,6 +257,8 @@ TEST(Font, StaticFont) {
     auto instance = Altseed::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {
@@ -318,6 +328,80 @@ TEST(Font, FontSize) {
     auto instance = Altseed::Graphics::GetInstance();
 
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        EXPECT_TRUE(instance->BeginFrame());
+
+        for (const auto& t : texts) {
+            Altseed::Renderer::GetInstance()->DrawText(t);
+        }
+
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Font, Return) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 30);
+
+    std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
+
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(
+                u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n");
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+        texts.push_back(t);
+    }
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        EXPECT_TRUE(instance->BeginFrame());
+
+        for (const auto& t : texts) {
+            Altseed::Renderer::GetInstance()->DrawText(t);
+        }
+
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Font, Vertical) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
+
+    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 30);
+
+    std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
+
+    {
+        auto t = Altseed::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(
+                u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができ"
+                u"ます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n");
+        t->SetWritingDirection(Altseed::WritingDirection::Vertical);
+        t->SetTransform(Altseed::Matrix44F().SetTranslation(300, 0, 0));
+        texts.push_back(t);
+    }
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
         EXPECT_TRUE(instance->BeginFrame());
 
         for (const auto& t : texts) {

@@ -1302,6 +1302,41 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, Altseed::Col
     cbg_self_->SetColor(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_RenderedText_GetIsEnableKerning(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsEnableKerning();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetIsEnableKerning(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsEnableKerning(cbg_arg0);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_RenderedText_GetWritingDirection(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::WritingDirection cbg_ret = cbg_self_->GetWritingDirection();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetWritingDirection(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::WritingDirection cbg_arg0 = (Altseed::WritingDirection)value;
+    cbg_self_->SetWritingDirection(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RenderedText_GetTextureSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Vector2F_C cbg_ret = cbg_self_->GetTextureSize();
+    return (cbg_ret);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedText_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
 
@@ -1598,16 +1633,6 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int
     int32_t cbg_arg1 = c2;
     int32_t cbg_ret = cbg_self_->GetKerning(cbg_arg0, cbg_arg1);
     return cbg_ret;
-}
-
-CBGEXPORT Altseed::Vector2I_C CBGSTDCALL cbg_Font_CalcTextureSize(void* cbg_self, const char16_t* text, int32_t direction, bool isEnableKerning) {
-    auto cbg_self_ = (Altseed::Font*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    Altseed::WritingDirection cbg_arg1 = (Altseed::WritingDirection)direction;
-    bool cbg_arg2 = isEnableKerning;
-    Altseed::Vector2I_C cbg_ret = cbg_self_->CalcTextureSize(cbg_arg0, cbg_arg1, cbg_arg2);
-    return (cbg_ret);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_Font_CreateImageFont(void* baseFont) {

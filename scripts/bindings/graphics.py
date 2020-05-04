@@ -577,24 +577,7 @@ with Font as class_:
         prop.has_getter = True
         prop.serialized = True
         prop.null_deserialized = False
-
-    with class_.add_func('CalcTextureSize') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'テキストを描画したときのサイズを取得します')
-        func.return_value.type_ = Vector2I
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'サイズ')
-        with func.add_arg(ctypes.c_wchar_p, 'text') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テキスト')
-        with func.add_arg(WritingDirection, 'direction') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '文字列の方向')
-        with func.add_arg(bool, 'isEnableKerning') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'カーニングの有無')
-        func.is_public = True
-
+        
     with class_.add_func('CreateImageFont') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ追加対応フォントを生成します')
@@ -744,6 +727,24 @@ with RenderedText as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(bool, 'IsEnableKerning') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'カーニングの有無を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(WritingDirection, 'WritingDirection') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '行の方向を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(Vector2F, 'TextureSize') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テキストを描画したときのサイズを取得します')
+        prop.has_getter = True
 
 RenderedPolygon = cbg.Class('Altseed', 'RenderedPolygon')
 with RenderedPolygon as class_:
