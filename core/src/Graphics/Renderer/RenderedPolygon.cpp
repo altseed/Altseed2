@@ -73,7 +73,7 @@ std::shared_ptr<Material> RenderedPolygon::GetMaterial() const { return material
 void RenderedPolygon::SetMaterial(const std::shared_ptr<Material>& material) { material_ = material; }
 
 b2AABB RenderedPolygon::GetAABB() {
-    if (GetVertexes()->GetCount() == 0) return b2AABB();
+    if (GetVertexes() == nullptr || GetVertexes()->GetCount() == 0) return b2AABB();
 
     b2AABB res;
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);

@@ -38,7 +38,6 @@ public:
     std::shared_ptr<Texture2D> GetFontTexture(int32_t index) override { return baseFont_->GetFontTexture(index); }
 
     int32_t GetKerning(const int32_t c1, const int32_t c2) override { return baseFont_->GetKerning(c1, c2); }
-    Vector2I CalcTextureSize(const char16_t* text, WritingDirection direction, bool isEnableKerning = true) override;
 
     void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) override;
     std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) override;

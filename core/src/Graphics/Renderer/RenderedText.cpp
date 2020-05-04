@@ -10,13 +10,15 @@ namespace Altseed {
 std::shared_ptr<RenderedText> RenderedText::Create() {
     auto t = MakeAsdShared<RenderedText>();
 
+    t->SetIsEnableKerning(true);
+    t->SetWritingDirection(WritingDirection::Horizontal);
     t->SetText(u"");
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
 
     return t;
 }
 
-Vector2F RenderedText::CalcTextureSize() {
+Vector2F RenderedText::GetTextureSize() {
     const auto& characters = GetTextAsStr();
 
     Vector2F offset(0, 0);
@@ -26,6 +28,15 @@ Vector2F RenderedText::CalcTextureSize() {
 
         ConvChU16ToU32({characters[i], i + 1 < characters.size() ? characters[i + 1] : u'\0'}, tmp);
         int32_t character = static_cast<int32_t>(tmp);
+
+        // return
+        if (character == '\n') {
+            if (writingDirection_ == WritingDirection::Horizontal)
+                offset = Vector2F(0, offset.Y + GetFont()->GetLineGap());
+            else
+                offset = Vector2F(offset.X - GetFont()->GetLineGap(), 0);
+            continue;
+        }
 
         // Surrogate pair
         if (characters[i] >= 0xD800 && characters[i] <= 0xDBFF) {
@@ -55,17 +66,27 @@ Vector2F RenderedText::CalcTextureSize() {
             pos = offset + glyph->GetOffset().To2F() + Vector2F(0, GetFont()->GetAscent());
 
             scale = Vector2F(1, 1) * GetFont()->GetActualScale();
+        }
 
+        if (writingDirection_ == WritingDirection::Horizontal) {
             if (glyph != nullptr)
                 offset += Vector2F(glyph->GetGlyphWidth(), 0);
             else
                 offset += Vector2F((float)texture->GetSize().X * GetFont()->GetSize() / texture->GetSize().Y, 0);
+        } else {
+            if (glyph != nullptr)
+                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X);
+            else
+                offset += Vector2F(0, (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X);
+        }
 
-            if (i != characters.size() - 1) {
-                ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
-                int32_t next = static_cast<int32_t>(tmp);
+        if (isEnableKerning_ && i != characters.size() - 1) {
+            ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
+            int32_t next = static_cast<int32_t>(tmp);
+            if (writingDirection_ == WritingDirection::Horizontal) 
                 offset += Altseed::Vector2F(GetFont()->GetKerning(character, next), 0);
-            }
+            else
+                offset += Altseed::Vector2F(0, GetFont()->GetKerning(character, next));
         }
     }
     return offset;
@@ -73,7 +94,7 @@ Vector2F RenderedText::CalcTextureSize() {
 
 b2AABB RenderedText::GetAABB() {
     b2AABB res;
-    auto size = CalcTextureSize();
+    auto size = GetTextureSize();
     auto vertexes = std::array<Vector3F, 4>();
     vertexes[0] = Vector3F();
     vertexes[1] = Vector3F(size.X, 0, 0);
