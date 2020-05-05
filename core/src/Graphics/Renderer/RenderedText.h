@@ -58,10 +58,6 @@ public:
         cullingSystem_->RequestUpdateAABB(this);
     }
 
-    Color GetColor() const { return color_; }
-
-    void SetColor(const Color color) { color_ = color; }
-
     Vector2F GetTextureSize();
 
     b2AABB GetAABB() override;
