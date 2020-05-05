@@ -111,7 +111,7 @@ TEST(Sound, SpectrumAnalyze) {
     int id_bgm = mixer->Play(bgm);
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
-        mixer->GetSpectrumData(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
+        mixer->GetSpectrum(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
         for (int i = 0; i < 8192; ++i) {
             std::cout << "spactrumData[" << i << "] = " << spectrumData->GetVector()[i] << std::endl;
         }

@@ -126,9 +126,9 @@ void SoundMixer::SetPlaybackPosition(int32_t id, float position) {
     return m_manager->SetPlaybackPosition(id, position);
 }
 
-void SoundMixer::GetSpectrumData(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window) {
+void SoundMixer::GetSpectrum(int32_t id, std::shared_ptr<FloatArray>& spectrums, FFTWindow window) {
     if (m_manager == nullptr) return;
-    m_manager->GetSpectrumData(id, spectrums->GetVector(), window);
+    m_manager->GetSpectrum(id, spectrums->GetVector(), window);
 }
 
 void SoundMixer::Reload() {
