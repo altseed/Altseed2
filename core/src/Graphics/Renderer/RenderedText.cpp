@@ -89,6 +89,7 @@ Vector2F RenderedText::GetTextureSize() {
                 offset += Altseed::Vector2F(0, GetFont()->GetKerning(character, next));
         }
     }
+    offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
     return offset;
 }
 
