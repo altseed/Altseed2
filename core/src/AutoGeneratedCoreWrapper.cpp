@@ -3911,13 +3911,13 @@ CBGEXPORT void CBGSTDCALL cbg_SoundMixer_SetPlaybackPosition(void* cbg_self, int
     cbg_self_->SetPlaybackPosition(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_SoundMixer_GetSpectrumData(void* cbg_self, int32_t id, void* spectrums, int32_t window) {
+CBGEXPORT void CBGSTDCALL cbg_SoundMixer_GetSpectrum(void* cbg_self, int32_t id, void* spectrums, int32_t window) {
     auto cbg_self_ = (Altseed::SoundMixer*)(cbg_self);
 
     int32_t cbg_arg0 = id;
     std::shared_ptr<Altseed::FloatArray> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::FloatArray>((Altseed::FloatArray*)spectrums);
     Altseed::FFTWindow cbg_arg2 = (Altseed::FFTWindow)window;
-    cbg_self_->GetSpectrumData(cbg_arg0, cbg_arg1, cbg_arg2);
+    cbg_self_->GetSpectrum(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_SoundMixer_Release(void* cbg_self) {

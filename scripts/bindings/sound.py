@@ -256,7 +256,7 @@ with SoundMixer as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '再生位置(秒)')
 
-    with class_.add_func('GetSpectrumData') as func:
+    with class_.add_func('GetSpectrum') as func:
         func.is_public = False
         func.brief = cbg.Description()
         func.brief.add('ja', '再生中の音のスペクトル情報を取得します。')
