@@ -26,8 +26,8 @@ struct ShaderReflectionTexture {
 
 class Shader : public BaseObject {
 private:
-    std::string code_;
-    std::string name_;
+    std::u16string code_;
+    std::u16string name_;
     std::vector<ShaderReflectionTexture> textures_;
     std::vector<ShaderReflectionUniform> uniforms_;
     int32_t uniformSize_ = 0;
@@ -43,8 +43,8 @@ public:
     @note
     please use ShaderCompiler to generate a shader
 */
-    Shader(std::string code,
-           std::string name,
+    Shader(std::u16string code,
+           std::u16string name,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
            std::shared_ptr<LLGI::Shader> shader,
@@ -58,9 +58,9 @@ public:
 
     static std::shared_ptr<Shader> Create(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 
-    const char16_t* GetCode() const { return utf8_to_utf16(code_).c_str(); }
+    const char16_t* GetCode() const { return code_.c_str(); }
 
-    const char16_t* GetName() const { return utf8_to_utf16(name_).c_str(); }
+    const char16_t* GetName() const { return name_.c_str(); }
 
     ShaderStageType GetStageType() const { return stage_; }
 };
