@@ -3,8 +3,8 @@
 namespace Altseed {
 
 Shader::Shader(
-        std::string code,
-        std::string name,
+        std::u16string code,
+        std::u16string name,
         const std::vector<ShaderReflectionTexture>& textures,
         const std::vector<ShaderReflectionUniform>& uniforms,
         std::shared_ptr<LLGI::Shader> shader,
