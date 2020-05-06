@@ -80,6 +80,8 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     for (int i = 0; i < vs.size(); ++i) {
         vs[i] = polygon->GetVertexes()->GetVector()[i];
         vs[i].Pos = polygon->GetTransform().Transform3D(vs[i].Pos);
+
+        vs[i].Col = polygon->GetColor();
     }
 
     std::vector<int> ib;
@@ -144,10 +146,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
             vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
         }
 
-        vs[i].Col.R = sprite->GetColor().R;
-        vs[i].Col.G = sprite->GetColor().G;
-        vs[i].Col.B = sprite->GetColor().B;
-        vs[i].Col.A = sprite->GetColor().A;
+        vs[i].Col = sprite->GetColor();
 
         vs[i].UV2 = vs[i].UV1;
 

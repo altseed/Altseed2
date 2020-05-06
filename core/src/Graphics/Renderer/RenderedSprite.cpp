@@ -14,10 +14,6 @@ void RenderedSprite::SetSrc(const RectF& src) {
     cullingSystem_->RequestUpdateAABB(this);
 }
 
-Color RenderedSprite::GetColor() const { return color_; }
-
-void RenderedSprite::SetColor(const Color color) { color_ = color; }
-
 std::shared_ptr<TextureBase> RenderedSprite::GetTexture() const { return texture_; }
 
 void RenderedSprite::SetTexture(const std::shared_ptr<TextureBase>& texture) { texture_ = texture; }

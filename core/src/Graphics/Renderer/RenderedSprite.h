@@ -18,7 +18,6 @@ class RenderedSprite : public Rendered {
 private:
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
-    Color color_;
     RectF src_;
 
 public:
@@ -26,9 +25,6 @@ public:
 
     RectF GetSrc() const;
     void SetSrc(const RectF& src);
-
-    Color GetColor() const;
-    void SetColor(const Color color);
 
     std::shared_ptr<TextureBase> GetTexture() const;
     void SetTexture(const std::shared_ptr<TextureBase>& texture);

@@ -628,6 +628,13 @@ with Rendered as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
     with class_.add_property(int, 'Id') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'BaseObjectのIdを取得します')
@@ -665,13 +672,6 @@ with RenderedSprite as class_:
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
-
-    with class_.add_property(Color, 'Color') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '色を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -716,13 +716,6 @@ with RenderedText as class_:
     with class_.add_property(float, 'Weight') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '文字の太さを取得または設定します。(0 ~ 255)')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
-
-    with class_.add_property(Color, 'Color') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '色を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True

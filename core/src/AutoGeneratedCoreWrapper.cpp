@@ -1147,6 +1147,20 @@ CBGEXPORT void CBGSTDCALL cbg_Rendered_SetTransform(void* cbg_self, Altseed::Mat
     cbg_self_->SetTransform(cbg_arg0);
 }
 
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Rendered_GetColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Rendered_SetColor(void* cbg_self, Altseed::Color_C value) {
+    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = value;
+    cbg_self_->SetColor(cbg_arg0);
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Rendered_GetId(void* cbg_self) {
     auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
 
@@ -1205,20 +1219,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetMaterial(void* cbg_self, void* v
 
     std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)value);
     cbg_self_->SetMaterial(cbg_arg0);
-}
-
-CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedSprite_GetColor(void* cbg_self) {
-    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
-
-    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetColor(void* cbg_self, Altseed::Color_C value) {
-    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
-
-    Altseed::Color_C cbg_arg0 = value;
-    cbg_self_->SetColor(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
@@ -1286,20 +1286,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetWeight(void* cbg_self, float value
 
     float cbg_arg0 = value;
     cbg_self_->SetWeight(cbg_arg0);
-}
-
-CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedText_GetColor(void* cbg_self) {
-    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
-
-    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, Altseed::Color_C value) {
-    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
-
-    Altseed::Color_C cbg_arg0 = value;
-    cbg_self_->SetColor(cbg_arg0);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_RenderedText_GetIsEnableKerning(void* cbg_self) {
