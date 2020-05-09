@@ -68,10 +68,14 @@ Tool::Tool(std::shared_ptr<Graphics> graphics) {
 #endif
 }
 
-Tool::~Tool() {
-    platform_.reset();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+Tool::~Tool() { OnTerminating(); }
+
+void Tool::OnTerminating() {
+    if (platform_ != nullptr) {
+        platform_.reset();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
 }
 
 void Tool::NewFrame() {

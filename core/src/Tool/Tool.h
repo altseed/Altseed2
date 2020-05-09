@@ -295,6 +295,8 @@ public:
 
     virtual ~Tool();
 
+    void OnTerminating() override;
+
     void NewFrame();
 
     void Render();
