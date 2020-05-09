@@ -281,6 +281,9 @@ private:
     static std::shared_ptr<Tool> instance_;
     std::shared_ptr<ImguiPlatform> platform_;
 
+    //! to hold graphics device
+    std::shared_ptr<Graphics> graphics_;
+
 public:
     static std::shared_ptr<Tool>& GetInstance();
 

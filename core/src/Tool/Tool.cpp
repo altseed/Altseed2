@@ -34,6 +34,8 @@ bool Tool::Initialize(std::shared_ptr<Graphics> graphics) {
 void Tool::Terminate() { instance_ = nullptr; }
 
 Tool::Tool(std::shared_ptr<Graphics> graphics) {
+    graphics_ = graphics;
+
     auto g = graphics->GetGraphicsLLGI();
     auto p = graphics->GetLLGIPlatform();
     auto w = graphics->GetLLGIWindow();
