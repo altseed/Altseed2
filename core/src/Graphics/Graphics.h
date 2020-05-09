@@ -106,6 +106,5 @@ public:
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }
-
 };
 }  // namespace Altseed

@@ -7,10 +7,10 @@
 #include <string>
 #include <thread>
 
+#include "Graphics/CommandList.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
-#include "Graphics/CommandList.h"
 #include "Logger/Log.h"
 
 TEST(Texture2D, Base) {

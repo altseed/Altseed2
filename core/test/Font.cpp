@@ -228,7 +228,7 @@ TEST(Font, ImageFont) {
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
@@ -279,7 +279,7 @@ TEST(Font, StaticFont) {
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
@@ -355,7 +355,7 @@ TEST(Font, FontSize) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
@@ -396,7 +396,7 @@ TEST(Font, Return) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
@@ -438,7 +438,7 @@ TEST(Font, Vertical) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;

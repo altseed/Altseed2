@@ -17,7 +17,7 @@
 namespace Altseed {
 
 RenderPassParameter::operator RenderPassParameter_C() const {
-    auto m = RenderPassParameter();
+    auto m = RenderPassParameter_C();
     m.ClearColor = ClearColor;
     m.IsColorCleared = IsColorCleared;
     m.IsDepthCleared = IsDepthCleared;
@@ -25,7 +25,7 @@ RenderPassParameter::operator RenderPassParameter_C() const {
 }
 
 RenderPassParameter_C::operator RenderPassParameter() const {
-    auto m = RenderPassParameter_C();
+    auto m = RenderPassParameter();
     m.ClearColor = ClearColor;
     m.IsColorCleared = IsColorCleared;
     m.IsDepthCleared = IsDepthCleared;

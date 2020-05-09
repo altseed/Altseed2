@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../Math/Vector2F.h"
-#include "Rendered.h"
 #include "../CommandList.h"
+#include "Rendered.h"
 
 namespace Altseed {
 
@@ -22,7 +22,7 @@ public:
     std::shared_ptr<RenderTexture> GetTargetTexture();
     void SetTargetTexture(const std::shared_ptr<RenderTexture>& renderPassParameter);
 
-    RenderPassParameter GetRenderPassParameter()const;
+    RenderPassParameter GetRenderPassParameter() const;
     void SetRenderPassParameter(const RenderPassParameter targetTexture);
 
     Matrix44F GetProjectionMatrix() const;

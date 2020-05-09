@@ -1,9 +1,8 @@
 #include <Core.h>
-#include <Graphics/Graphics.h>
 #include <Graphics/CommandList.h>
+#include <Graphics/Graphics.h>
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
-
 
 TEST(FPS, Update) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
