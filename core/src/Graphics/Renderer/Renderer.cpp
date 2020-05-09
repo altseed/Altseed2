@@ -14,6 +14,10 @@
 #include "RenderedSprite.h"
 #include "RenderedText.h"
 
+#ifdef _WIN32
+#undef DrawText
+#endif
+
 namespace Altseed {
 
 std::shared_ptr<Renderer> Renderer::instance_;
@@ -37,31 +41,6 @@ Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> gra
 
 Renderer::~Renderer() {}
 
-void Renderer::DrawPolygon(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Texture2D>& texture) {
-    batchRenderer_->Draw(vb, ib, vbCount, ibCount, texture, nullptr, nullptr);
-}
-
-void Renderer::DrawPolygon(
-        const BatchVertex* vb, const int32_t* ib, int32_t vbCount, int32_t ibCount, const std::shared_ptr<Material>& material) {
-    batchRenderer_->Draw(vb, ib, vbCount, ibCount, nullptr, material, nullptr);
-}
-
-void Renderer::DrawPolygon(
-        std::shared_ptr<VertexArray> vb,
-        std::shared_ptr<Int32Array> ib,
-        const std::shared_ptr<Texture2D>& texture,
-        const std::shared_ptr<Material>& material) {
-    batchRenderer_->Draw(
-            static_cast<BatchVertex*>(vb->GetData()),
-            static_cast<int32_t*>(ib->GetData()),
-            vb->GetCount(),
-            ib->GetCount(),
-            texture,
-            material,
-            nullptr);
-}
-
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     if (!polygon->GetIsDrawn()) return;
 
@@ -75,13 +54,10 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
         size = texture->GetSize().To2F();
     }
 
-    std::vector<BatchVertex> vs;
-    vs.resize(polygon->GetVertexes()->GetCount());
-    for (int i = 0; i < vs.size(); ++i) {
-        vs[i] = polygon->GetVertexes()->GetVector()[i];
-        vs[i].Pos = polygon->GetTransform().Transform3D(vs[i].Pos);
-
-        vs[i].Col = polygon->GetColor();
+    auto vs = std::vector<BatchVertex>(polygon->GetVertexes()->GetVector());
+    for (auto&& v : vs) {
+        // NOTE: Do NOT overwrite UV1, UV2 and Col so that original values which RenderedPolygon provides are applied.
+        v.Pos = polygon->GetTransform().Transform3D(v.Pos);
     }
 
     std::vector<int> ib;
@@ -110,46 +86,39 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     if (!sprite->GetIsDrawn()) return;
 
     auto texture = sprite->GetTexture();
+    auto src = sprite->GetSrc();
 
     std::array<BatchVertex, 4> vs;
     vs[0].Pos.X = 0;
     vs[0].Pos.Y = 0;
     vs[0].Pos.Z = 0.5f;
 
-    vs[1].Pos.X = sprite->GetSrc().Width;
+    vs[1].Pos.X = src.Width;
     vs[1].Pos.Y = 0;
     vs[1].Pos.Z = 0.5f;
 
-    vs[2].Pos.X = sprite->GetSrc().Width;
-    vs[2].Pos.Y = sprite->GetSrc().Height;
+    vs[2].Pos.X = src.Width;
+    vs[2].Pos.Y = src.Height;
     vs[2].Pos.Z = 0.5f;
 
     vs[3].Pos.X = 0.0f;
-    vs[3].Pos.Y = sprite->GetSrc().Height;
+    vs[3].Pos.Y = src.Height;
     vs[3].Pos.Z = 0.5f;
 
-    vs[0].UV1.X = sprite->GetSrc().X;
-    vs[0].UV1.Y = sprite->GetSrc().Y;
-    vs[1].UV1.X = sprite->GetSrc().X + sprite->GetSrc().Width;
-    vs[1].UV1.Y = sprite->GetSrc().Y;
-    vs[2].UV1.X = sprite->GetSrc().X + sprite->GetSrc().Width;
-    vs[2].UV1.Y = sprite->GetSrc().Y + sprite->GetSrc().Height;
-    vs[3].UV1.X = sprite->GetSrc().X;
-    vs[3].UV1.Y = sprite->GetSrc().Y + sprite->GetSrc().Height;
+    vs[0].UV1.X = src.X;
+    vs[0].UV1.Y = src.Y;
+    vs[1].UV1.X = src.X + src.Width;
+    vs[1].UV1.Y = src.Y;
+    vs[2].UV1.X = src.X + src.Width;
+    vs[2].UV1.Y = src.Y + src.Height;
+    vs[3].UV1.X = src.X;
+    vs[3].UV1.Y = src.Y + src.Height;
 
+    auto textureSize = (texture == nullptr ? Vector2I(TextureMinimumSize, TextureMinimumSize) : texture->GetSize()).To2F();
     for (size_t i = 0; i < 4; i++) {
-        if (texture == nullptr) {
-            vs[i].UV1.X = vs[i].UV1.X / TextureMinimumSize;
-            vs[i].UV1.Y = vs[i].UV1.Y / TextureMinimumSize;
-        } else {
-            vs[i].UV1.X = vs[i].UV1.X / texture->GetSize().X;
-            vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
-        }
-
+        vs[i].UV1 /= textureSize;
+        vs[i].UV2 = Vector2F();  // There is no valid UV2 because BatchVertex is NOT provided by RenderedSprite.
         vs[i].Col = sprite->GetColor();
-
-        vs[i].UV2 = vs[i].UV1;
-
         vs[i].Pos = sprite->GetTransform().Transform3D(vs[i].Pos);
     }
 
@@ -170,9 +139,6 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
 }
 
-#ifdef _WIN32
-#undef DrawText
-#endif
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     if (!text->GetIsDrawn()) return;
 
@@ -240,22 +206,21 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         int ib[] = {0, 1, 2, 2, 3, 0};
         std::array<BatchVertex, 4> vs;
 
-        vs[0].Pos.Z = 0.5f;
-        vs[1].Pos.Z = 0.5f;
-        vs[2].Pos.Z = 0.5f;
-        vs[3].Pos.Z = 0.5f;
-
         vs[0].Pos.X = pos.X;
         vs[0].Pos.Y = pos.Y;
+        vs[0].Pos.Z = 0.5f;
 
         vs[1].Pos.X = pos.X + src.Width * scale.X;
         vs[1].Pos.Y = pos.Y;
+        vs[1].Pos.Z = 0.5f;
 
         vs[2].Pos.X = pos.X + src.Width * scale.X;
         vs[2].Pos.Y = pos.Y + src.Height * scale.Y;
+        vs[2].Pos.Z = 0.5f;
 
         vs[3].Pos.X = pos.X;
         vs[3].Pos.Y = pos.Y + src.Height * scale.Y;
+        vs[3].Pos.Z = 0.5f;
 
         vs[0].UV1.X = src.X;
         vs[0].UV1.Y = src.Y;
@@ -266,12 +231,12 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         vs[3].UV1.X = src.X;
         vs[3].UV1.Y = src.Y + src.Height;
 
+        auto textureSize = texture->GetSize().To2F();
         for (size_t i = 0; i < 4; i++) {
-            vs[i].UV1.X = vs[i].UV1.X / texture->GetSize().X;
-            vs[i].UV1.Y = vs[i].UV1.Y / texture->GetSize().Y;
-            vs[i].UV2 = vs[i].UV1;
-
+            vs[i].UV1 /= textureSize;
+            vs[i].UV2 = Vector2F();  // There is no valid UV2 because BatchVertex is NOT provided by RenderedSprite.
             vs[i].Col = text->GetColor();
+
             vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
         }
 

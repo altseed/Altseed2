@@ -628,13 +628,6 @@ with Rendered as class_:
         prop.has_setter = True
         prop.serialized = True
 
-    with class_.add_property(Color, 'Color') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', '色を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
-
     with class_.add_property(int, 'Id') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'BaseObjectのIdを取得します')
@@ -676,6 +669,12 @@ with RenderedSprite as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
 
 RenderedText = cbg.Class('Altseed', 'RenderedText')
 with RenderedText as class_:
@@ -739,6 +738,13 @@ with RenderedText as class_:
         prop.brief.add('ja', 'テキストを描画したときのサイズを取得します')
         prop.has_getter = True
 
+    with class_.add_property(Color, 'Color') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '色を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
 RenderedPolygon = cbg.Class('Altseed', 'RenderedPolygon')
 with RenderedPolygon as class_:
     class_.base_class = Rendered
@@ -754,10 +760,17 @@ with RenderedPolygon as class_:
         func.return_value.type_ = RenderedPolygon
         func.is_static = True
 
-    with class_.add_func('SetVertexesByVector2F') as func:
+    with class_.add_func('CreateVertexesByVector2F') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '頂点情報を設定します。')
         with func.add_arg(Vector2FArray, 'vertexes') as arg:
+            func.brief = cbg.Description()
+            func.brief.add('ja', '頂点情報')
+
+    with class_.add_func('OverwriteVertexesColor') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点の色情報を上書きします。')
+        with func.add_arg(Color, 'color') as arg:
             func.brief = cbg.Description()
             func.brief.add('ja', '頂点情報')
 

@@ -31,8 +31,10 @@ public:
     void SetWeight(float weight) { weight_ = weight; }
 
     std::shared_ptr<Material> GetMaterial() const { return material_; }
-
     void SetMaterial(const std::shared_ptr<Material>& material) { material_ = material; }
+
+    Color GetColor() const { return color_; }
+    void SetColor(const Color color) { color_ = color; }
 
     std::shared_ptr<Font> GetFont() const { return font_; }
 
@@ -44,11 +46,9 @@ public:
     const char16_t* GetText() const { return text_.c_str(); }
 
     void SetIsEnableKerning(bool isEnableKerning) { isEnableKerning_ = isEnableKerning; }
-
     bool GetIsEnableKerning() { return isEnableKerning_; }
 
     void SetWritingDirection(WritingDirection wrintingDirection) { writingDirection_ = wrintingDirection; }
-
     WritingDirection GetWritingDirection() { return writingDirection_; }
 
     //! Internal function

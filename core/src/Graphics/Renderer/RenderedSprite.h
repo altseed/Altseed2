@@ -19,12 +19,16 @@ private:
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
     RectF src_;
+    Color color_;
 
 public:
     static std::shared_ptr<RenderedSprite> Create();
 
     RectF GetSrc() const;
     void SetSrc(const RectF& src);
+
+    Color GetColor() const { return color_; }
+    void SetColor(const Color color) { color_ = color; }
 
     std::shared_ptr<TextureBase> GetTexture() const;
     void SetTexture(const std::shared_ptr<TextureBase>& texture);

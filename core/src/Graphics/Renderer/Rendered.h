@@ -13,7 +13,6 @@ protected:
     Matrix44F transform_;
     std::shared_ptr<CullingSystem> cullingSystem_;
     bool isDrawn_;
-    Color color_;
 
 public:
     Rendered();
@@ -23,9 +22,6 @@ public:
 
     bool SetIsDrawn(bool isDrawn) { return isDrawn_ = isDrawn; }
     bool GetIsDrawn() { return isDrawn_; }
-
-    Color GetColor() const { return color_; }
-    void SetColor(const Color color) { color_ = color; }
 
     virtual b2AABB GetAABB() { return b2AABB(); }
 };

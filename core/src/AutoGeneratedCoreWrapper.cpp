@@ -1147,20 +1147,6 @@ CBGEXPORT void CBGSTDCALL cbg_Rendered_SetTransform(void* cbg_self, Altseed::Mat
     cbg_self_->SetTransform(cbg_arg0);
 }
 
-CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Rendered_GetColor(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
-
-    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Rendered_SetColor(void* cbg_self, Altseed::Color_C value) {
-    auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
-
-    Altseed::Color_C cbg_arg0 = value;
-    cbg_self_->SetColor(cbg_arg0);
-}
-
 CBGEXPORT int32_t CBGSTDCALL cbg_Rendered_GetId(void* cbg_self) {
     auto cbg_self_ = (Altseed::Rendered*)(cbg_self);
 
@@ -1219,6 +1205,20 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetMaterial(void* cbg_self, void* v
 
     std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)value);
     cbg_self_->SetMaterial(cbg_arg0);
+}
+
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedSprite_GetColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetColor(void* cbg_self, Altseed::Color_C value) {
+    auto cbg_self_ = (Altseed::RenderedSprite*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = value;
+    cbg_self_->SetColor(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
@@ -1323,6 +1323,20 @@ CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RenderedText_GetTextureSize(void* c
     return (cbg_ret);
 }
 
+CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_RenderedText_GetColor(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Color_C cbg_ret = cbg_self_->GetColor();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, Altseed::Color_C value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = value;
+    cbg_self_->SetColor(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedText_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
 
@@ -1334,11 +1348,18 @@ CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_Create() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::RenderedPolygon>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetVertexesByVector2F(void* cbg_self, void* vertexes) {
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_CreateVertexesByVector2F(void* cbg_self, void* vertexes) {
     auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
 
     std::shared_ptr<Altseed::Vector2FArray> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Vector2FArray>((Altseed::Vector2FArray*)vertexes);
-    cbg_self_->SetVertexesByVector2F(cbg_arg0);
+    cbg_self_->CreateVertexesByVector2F(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_OverwriteVertexesColor(void* cbg_self, Altseed::Color_C color) {
+    auto cbg_self_ = (Altseed::RenderedPolygon*)(cbg_self);
+
+    Altseed::Color_C cbg_arg0 = color;
+    cbg_self_->OverwriteVertexesColor(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {

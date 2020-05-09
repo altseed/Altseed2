@@ -13,51 +13,53 @@ void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) {
     cullingSystem_->RequestUpdateAABB(this);
 }
 
-void RenderedPolygon::SetVertexesByVector2F(std::shared_ptr<Vector2FArray> vertexes) {
-    vertexes_ = MakeAsdShared<VertexArray>();
-    vertexes_->Resize(vertexes->GetCount());
+void RenderedPolygon::CreateVertexesByVector2F(std::shared_ptr<Vector2FArray> vectors) {
+    vertexes_ = VertexArray::Create(vectors->GetCount());
 
     float xMin, xMax, yMin, yMax;
     {
-        auto& v = vertexes->GetVector()[0];
+        auto& v = vectors->GetVector()[0];
         xMin = v.X;
         xMax = v.X;
         yMin = v.Y;
         yMax = v.Y;
     }
 
-    for (int i = 0; i < vertexes->GetCount(); ++i) {
-        auto& dst = vertexes_->GetVector()[i].Pos;
-        auto& src = vertexes->GetVector()[i];
+    auto count = vertexes_->GetCount();
+    for (int32_t i = 0; i < count; i++) {
+        auto& v = vectors->GetVector()[i];
+        auto& vertex = vertexes_->GetVector()[i];
 
-        dst.X = src.X;
-        dst.Y = src.Y;
-        dst.Z = 0.5f;
+        vertex.Pos = Vector3F(v.X, v.Y, 0.5f);
 
-        if (src.X < xMin) {
-            xMin = src.X;
+        if (v.X < xMin) {
+            xMin = v.X;
         }
-        if (src.X > xMax) {
-            xMax = src.X;
+        if (v.X > xMax) {
+            xMax = v.X;
         }
-        if (src.Y < yMin) {
-            yMin = src.Y;
+        if (v.Y < yMin) {
+            yMin = v.Y;
         }
-        if (src.Y > yMax) {
-            yMax = src.Y;
+        if (v.Y > yMax) {
+            yMax = v.Y;
         }
     }
 
-    // UV, 色を設定
-    for (int i = 0; i < vertexes->GetCount(); ++i) {
-        auto& dst = vertexes_->GetVector()[i];
-        dst.UV1.X = (dst.Pos.X - xMin) / (xMax - xMin);
-        dst.UV1.Y = (dst.Pos.Y - yMin) / (yMax - yMin);
-        dst.UV2 = dst.UV1;
-        dst.Col = Color(255, 255, 255, 255);
+    // UVを設定
+    for (auto&& v : vertexes_->GetVector()) {
+        v.UV1.X = (v.Pos.X - xMin) / (xMax - xMin);
+        v.UV1.Y = (v.Pos.Y - yMin) / (yMax - yMin);
+        v.UV2 = Vector2F();
     }
 
     cullingSystem_->RequestUpdateAABB(this);
+}
+
+void RenderedPolygon::OverwriteVertexesColor(Color color) {
+    for (auto&& v : vertexes_->GetVector()) {
+        v.Col = color;
+    }
 }
 
 RectF RenderedPolygon::GetSrc() const { return src_; }

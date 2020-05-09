@@ -27,7 +27,9 @@ public:
 
     std::shared_ptr<VertexArray> GetVertexes();
     void SetVertexes(std::shared_ptr<VertexArray> vertexes);
-    void SetVertexesByVector2F(std::shared_ptr<Vector2FArray> vertexes);
+
+    void CreateVertexesByVector2F(std::shared_ptr<Vector2FArray> vectors);
+    void OverwriteVertexesColor(Color color);
 
     RectF GetSrc() const;
     void SetSrc(const RectF& src);
