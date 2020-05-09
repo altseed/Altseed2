@@ -818,6 +818,13 @@ with RenderedCamera as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+    
+    with class_.add_property(RenderPassParameter,'RenderPassParameter') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'RenderPassParameterを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
 
 Renderer = cbg.Class('Altseed', 'Renderer')
 with Renderer as class_:

@@ -1446,6 +1446,20 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_SetTargetTexture(void* cbg_self, vo
     cbg_self_->SetTargetTexture(cbg_arg0);
 }
 
+CBGEXPORT Altseed::RenderPassParameter_C CBGSTDCALL cbg_RenderedCamera_GetRenderPassParameter(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    Altseed::RenderPassParameter_C cbg_ret = cbg_self_->GetRenderPassParameter();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_SetRenderPassParameter(void* cbg_self, Altseed::RenderPassParameter_C value) {
+    auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
+
+    Altseed::RenderPassParameter_C cbg_arg0 = value;
+    cbg_self_->SetRenderPassParameter(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedCamera*)(cbg_self);
 
