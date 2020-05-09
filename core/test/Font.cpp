@@ -39,7 +39,12 @@ TEST(Font, Basic) {
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -74,7 +79,12 @@ TEST(Font, Weight) {
         t->SetWeight(count / 50.0f - 1.0f);
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -175,7 +185,12 @@ TEST(Font, Surrogate) {
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -213,7 +228,12 @@ TEST(Font, ImageFont) {
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+        
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -259,7 +279,12 @@ TEST(Font, StaticFont) {
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+        
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -330,7 +355,12 @@ TEST(Font, FontSize) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+        
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -366,7 +396,12 @@ TEST(Font, Return) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+        
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);
@@ -403,7 +438,12 @@ TEST(Font, Vertical) {
     for (int count = 0; count++ < 1000 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+        
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         for (const auto& t : texts) {
             Altseed::Renderer::GetInstance()->DrawText(t);

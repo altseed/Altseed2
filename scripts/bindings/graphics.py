@@ -7,7 +7,8 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-TextureBase = cbg.Class('Altseed', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
+TextureBase = cbg.Class('Altseed', 'TextureBase',
+                        cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのベースクラス')
@@ -294,17 +295,8 @@ with Material as class_:
             arg.brief.add('ja', '設定するシェーダ')
 
 
-RenderPassParameter = cbg.Struct('Altseed', 'RenderPassParameter_C', 'RenderPassParameter')
-
-RenderTargetCareType = cbg.Enum('Altseed', 'RenderTargetCareType')
-with RenderTargetCareType as enum_:
-    enum_.brief = cbg.Description()
-    with enum_.add('DontCare') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'クリアしない')
-    with enum_.add('Clear') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'クリアする')
+RenderPassParameter = cbg.Struct(
+    'Altseed', 'RenderPassParameter_C', 'RenderPassParameter')
 
 CommandList = cbg.Class('Altseed', 'CommandList')
 with CommandList as class_:
@@ -315,7 +307,8 @@ with CommandList as class_:
     with class_.add_func('SetRenderTargetWithScreen') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('ja', '？')
-        func_.is_public = True  # TODO：Engine側できちんと隠す
+        func_.add_arg(RenderPassParameter, 'renderPassparameter')
+        func_.is_public = False
 
     with class_.add_func('GetScreenTexture') as func_:
         func_.return_value.type_ = RenderTexture
@@ -328,6 +321,7 @@ with CommandList as class_:
     with class_.add_func('RenderToRenderTexture') as func_:
         func_.add_arg(Material, 'material')
         func_.add_arg(RenderTexture, 'target')
+        func_.add_arg(RenderPassParameter, 'renderPassparameter')
 
     with class_.add_func('RenderToRenderTarget') as func_:
         func_.add_arg(Material, 'material')
@@ -361,6 +355,7 @@ with Graphics as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '正常に開始した場合は　true 。それ以外の場合は false。')
+        func.add_arg(RenderPassParameter, 'renderPassParmeter')
         func.is_public = False
 
     with class_.add_func('EndFrame') as func:
@@ -388,13 +383,6 @@ with Graphics as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')
         func.is_public = False
-
-    with class_.add_property(Color, 'ClearColor') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'クリア色を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
 
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
@@ -577,7 +565,7 @@ with Font as class_:
         prop.has_getter = True
         prop.serialized = True
         prop.null_deserialized = False
-        
+
     with class_.add_func('CreateImageFont') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'テクスチャ追加対応フォントを生成します')

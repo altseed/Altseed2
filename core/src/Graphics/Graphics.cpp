@@ -70,24 +70,18 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
     instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
     instance->commandList_ = CommandList::Create();
 
-    instance->clearColor_ = Color(50, 50, 50, 255);
-
     return true;
 }
 
-bool Graphics::BeginFrame() {
+bool Graphics::BeginFrame(const RenderPassParameter& renderPassParameter) {
     if (!platform_->NewFrame()) return false;
 
     if (platform_->GetDeviceType() == LLGI::DeviceType::Vulkan) {
         platform_->SetWindowSize(instance->llgiWindow_->GetWindowSize());
     }
 
-    commandList_->StartFrame();
-    RenderPassParameter param;
-    param.ClearColor = Graphics::GetInstance()->GetClearColor();
-    param.ColorCare = RenderTargetCareType::Clear;
-    param.DepthCare = RenderTargetCareType::Clear;
-    commandList_->SetRenderTarget(commandList_->GetScreenTexture(), param);
+    commandList_->StartFrame(renderPassParameter);
+    commandList_->SetRenderTarget(commandList_->GetScreenTexture(), renderPassParameter);
     return true;
 }
 

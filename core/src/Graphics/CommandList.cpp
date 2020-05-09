@@ -19,16 +19,16 @@ namespace Altseed {
 RenderPassParameter::operator RenderPassParameter_C() const {
     auto m = RenderPassParameter();
     m.ClearColor = ClearColor;
-    m.ColorCare = ColorCare;
-    m.DepthCare = DepthCare;
+    m.IsColorCleared = IsColorCleared;
+    m.IsDepthCleared = IsDepthCleared;
     return m;
 }
 
 RenderPassParameter_C::operator RenderPassParameter() const {
     auto m = RenderPassParameter_C();
     m.ClearColor = ClearColor;
-    m.ColorCare = ColorCare;
-    m.DepthCare = DepthCare;
+    m.IsColorCleared = IsColorCleared;
+    m.IsDepthCleared = IsDepthCleared;
     return m;
 }
 
@@ -122,7 +122,7 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
 std::shared_ptr<RenderTexture> CommandList::GetScreenTexture() const { return internalScreen_; }
 
-void CommandList::StartFrame() {
+void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
     if (copyMaterial_ == nullptr) {
         copyMaterial_ = MakeAsdShared<Material>();
         auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
@@ -132,8 +132,8 @@ void CommandList::StartFrame() {
 
     // Generate internal screen
     {
-        auto cc = Graphics::GetInstance()->GetClearColor().ToLL();
-        auto r = Graphics::GetInstance()->GetCurrentScreen(cc, true, true);
+        auto r = Graphics::GetInstance()->GetCurrentScreen(
+                renderPassParameter.ClearColor.ToLL(), renderPassParameter.IsColorCleared, renderPassParameter.IsDepthCleared);
 
         auto g = Graphics::GetInstance()->GetGraphicsLLGI();
         if (internalScreen_ == nullptr || internalScreen_->GetSize().X != r->GetRenderTexture(0)->GetSizeAs2D().X ||
@@ -247,9 +247,9 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
         it->second.Life = 5;
     }
 
-    renderPassCaches_[target].Stored->SetIsColorCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
-    renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.ColorCare == RenderTargetCareType::Clear);
     renderPassCaches_[target].Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
+    renderPassCaches_[target].Stored->SetIsColorCleared(renderPassParameter.IsColorCleared);
+    renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.IsDepthCleared);
 
     if (isInRenderPass_) {
         EndRenderPass();
@@ -258,20 +258,17 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
     BeginRenderPass(target, renderPassCaches_[target].Stored);
 }
 
-void CommandList::RenderToRenderTexture(std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target) {
+void CommandList::RenderToRenderTexture(
+        std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
     auto currentTarget = currentRenderTarget_;
 
-    RenderPassParameter param;
-    param.ClearColor = Graphics::GetInstance()->GetClearColor();
-    param.ColorCare = RenderTargetCareType::Clear;
-    param.DepthCare = RenderTargetCareType::Clear;
-
-    SetRenderTarget(target, param);
+    SetRenderTarget(target, renderPassParameter);
     RenderToRenderTarget(material);
 
     if (currentTarget != nullptr) {
-        param.ColorCare = RenderTargetCareType::DontCare;
-        param.DepthCare = RenderTargetCareType::DontCare;
+        auto param = renderPassParameter;
+        param.IsColorCleared = false;
+        param.IsDepthCleared = false;
         SetRenderTarget(currentTarget, param);
     }
 }
@@ -303,10 +300,11 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     Draw(2);
 }
 
-void CommandList::SetRenderTargetWithScreen() {
+void CommandList::SetRenderTargetWithScreen(const RenderPassParameter& renderPassParameter) {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
-    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(LLGI::Color8(50, 50, 50, 255), true, true));
+    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(
+            renderPassParameter.ClearColor.ToLL(), renderPassParameter.IsColorCleared, renderPassParameter.IsDepthCleared));
     r->AddRef();
 
     if (r == currentRenderPass_) {
@@ -323,7 +321,10 @@ void CommandList::SetRenderTargetWithScreen() {
 void CommandList::PresentInternal() {
     if (isRequiredNotToPresent_) return;
 
-    SetRenderTargetWithScreen();
+    RenderPassParameter parameter;
+    parameter.IsColorCleared = false;
+    parameter.IsDepthCleared = false;
+    SetRenderTargetWithScreen(parameter);
 
     copyMaterial_->SetTexture(u"mainTex", internalScreen_);
     RenderToRenderTarget(copyMaterial_);

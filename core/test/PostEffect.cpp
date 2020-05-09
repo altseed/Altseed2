@@ -77,7 +77,12 @@ TEST(PostEffect, Base) {
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
         material->SetVector4F(u"time", Altseed::Vector4F(count / 180.0, 0.0, 0.0, 0.0));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
@@ -187,7 +192,11 @@ TEST(PostEffect, Sepia) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
@@ -233,7 +242,11 @@ TEST(PostEffect, GrayScale) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
@@ -292,7 +305,11 @@ TEST(PostEffect, GaussianBlur) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
@@ -323,7 +340,7 @@ TEST(PostEffect, GaussianBlur) {
                 tempTexture = Altseed::RenderTexture::Create(size);
             }
 
-            cmdList->RenderToRenderTexture(materialX, tempTexture);
+            cmdList->RenderToRenderTexture(materialX, tempTexture, renderPassParameter);
 
             // DrawOnTexture2DWithMaterial(tempTexture, materialX);
 
@@ -401,7 +418,11 @@ TEST(PostEffect, LightBloom) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
@@ -448,25 +469,25 @@ TEST(PostEffect, LightBloom) {
             material_downsample->SetTexture(u"mainTex", srcBuffer);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X), 0.5f / (float)(size.Y), 0.0f, 0.0f));
-            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture0);
+            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture0, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture0);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             material_downsample->SetVector4F(
                     u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
-            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture1);
+            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture1, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture1);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             material_downsample->SetVector4F(
                     u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
-            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture2);
+            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture2, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture2);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             material_downsample->SetVector4F(
                     u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
-            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture3);
+            cmdList->RenderToRenderTexture(material_downsample, downsampledTexture3, renderPassParameter);
 
             auto blurX = materialX;
 
@@ -485,29 +506,29 @@ TEST(PostEffect, LightBloom) {
             // ブラー1
             blurX->SetTexture(u"blurredTex", downsampledTexture1);
             // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture1);
+            cmdList->RenderToRenderTexture(blurX, tempTexture1, renderPassParameter);
 
             materialY->SetTexture(u"blurredTex", tempTexture1);
             // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(materialY, downsampledTexture1);
+            cmdList->RenderToRenderTexture(materialY, downsampledTexture1, renderPassParameter);
 
             // ブラー2
             blurX->SetTexture(u"blurredTex", downsampledTexture2);
             // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture2);
+            cmdList->RenderToRenderTexture(blurX, tempTexture2, renderPassParameter);
 
             materialY->SetTexture(u"blurredTex", tempTexture2);
             // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(materialY, downsampledTexture2);
+            cmdList->RenderToRenderTexture(materialY, downsampledTexture2, renderPassParameter);
 
             // ブラー3
             blurX->SetTexture(u"blurredTex", downsampledTexture3);
             // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture3);
+            cmdList->RenderToRenderTexture(blurX, tempTexture3, renderPassParameter);
 
             materialY->SetTexture(u"blurredTex", tempTexture3);
             // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(materialY, downsampledTexture3);
+            cmdList->RenderToRenderTexture(materialY, downsampledTexture3, renderPassParameter);
 
             // 合計
             materialSum->SetTexture(u"blurred0Tex", downsampledTexture1);

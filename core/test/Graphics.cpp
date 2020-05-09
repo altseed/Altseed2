@@ -36,7 +36,11 @@ TEST(Graphics, Initialize) {
     EXPECT_TRUE(instance != nullptr);
 
     while (count++ < 10 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
         EXPECT_TRUE(instance->EndFrame());
     }
 
@@ -85,7 +89,12 @@ TEST(Graphics, SpriteTexture) {
     while (count++ < 10 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
@@ -169,7 +178,12 @@ TEST(Graphics, RenderedText) {
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         weitText->SetWeight(count / 20.0f - 2.5f);
         rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
@@ -215,7 +229,12 @@ TEST(Graphics, RenderedPolygon) {
     while (count++ < 100 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
         Altseed::Renderer::GetInstance()->Render();
@@ -260,7 +279,12 @@ TEST(Graphics, CameraBasic) {
     while (count++ < 100 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->SetCamera(camera);
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
@@ -314,7 +338,12 @@ TEST(Graphics, RenderTexture) {
 
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         auto r = Altseed::Renderer::GetInstance();
         r->SetCamera(camera);
@@ -360,9 +389,14 @@ TEST(Graphics, BackgroundBugcheck) {
     while (count++ < 10 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
 
-        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        instance->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
@@ -406,7 +440,12 @@ TEST(Graphics, Culling) {
 
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         t->SetText((u"Drawing Rendered: " +
                     Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
@@ -464,7 +503,12 @@ TEST(Graphics, CullingTooManySprite) {
 
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        EXPECT_TRUE(instance->BeginFrame());
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         t->SetText((u"FPS: " + Altseed::utf8_to_utf16(std::to_string(Altseed::Core::GetInstance()->GetCurrentFPS())) +
                     u" Drawing Rendered: " +
@@ -518,13 +562,17 @@ TEST(Graphics, RenderToRenderTexture) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
 
         material->SetTexture(u"mainTex", cmdList->GetScreenTexture());
-        cmdList->RenderToRenderTexture(material, target);
+        cmdList->RenderToRenderTexture(material, target, renderPassParameter);
 
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
         Altseed::Renderer::GetInstance()->Render();

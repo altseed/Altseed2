@@ -845,10 +845,11 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetInstance() {
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::Graphics>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Graphics_BeginFrame(void* cbg_self) {
+CBGEXPORT bool CBGSTDCALL cbg_Graphics_BeginFrame(void* cbg_self, Altseed::RenderPassParameter_C renderPassParmeter) {
     auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->BeginFrame();
+    Altseed::RenderPassParameter_C cbg_arg0 = renderPassParmeter;
+    bool cbg_ret = cbg_self_->BeginFrame(cbg_arg0);
     return cbg_ret;
 }
 
@@ -878,20 +879,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Graphics_GetBuiltinShader(void* cbg_self) {
 
     std::shared_ptr<Altseed::BuiltinShader> cbg_ret = cbg_self_->GetBuiltinShader();
     return (void*)Altseed::AddAndGetSharedPtr<Altseed::BuiltinShader>(cbg_ret);
-}
-
-CBGEXPORT Altseed::Color_C CBGSTDCALL cbg_Graphics_GetClearColor(void* cbg_self) {
-    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
-
-    Altseed::Color_C cbg_ret = cbg_self_->GetClearColor();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Graphics_SetClearColor(void* cbg_self, Altseed::Color_C value) {
-    auto cbg_self_ = (Altseed::Graphics*)(cbg_self);
-
-    Altseed::Color_C cbg_arg0 = value;
-    cbg_self_->SetClearColor(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_Release(void* cbg_self) {
@@ -1083,10 +1070,11 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTargetWithScreen(void* cbg_self) {
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTargetWithScreen(void* cbg_self, Altseed::RenderPassParameter_C renderPassparameter) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
-    cbg_self_->SetRenderTargetWithScreen();
+    Altseed::RenderPassParameter_C cbg_arg0 = renderPassparameter;
+    cbg_self_->SetRenderTargetWithScreen(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_CommandList_GetScreenTexture(void* cbg_self) {
@@ -1104,12 +1092,13 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTarget(void* cbg_self, void* 
     cbg_self_->SetRenderTarget(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTexture(void* cbg_self, void* material, void* target) {
+CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTexture(void* cbg_self, void* material, void* target, Altseed::RenderPassParameter_C renderPassparameter) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
     std::shared_ptr<Altseed::Material> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Material>((Altseed::Material*)material);
     std::shared_ptr<Altseed::RenderTexture> cbg_arg1 = Altseed::CreateAndAddSharedPtr<Altseed::RenderTexture>((Altseed::RenderTexture*)target);
-    cbg_self_->RenderToRenderTexture(cbg_arg0, cbg_arg1);
+    Altseed::RenderPassParameter_C cbg_arg2 = renderPassparameter;
+    cbg_self_->RenderToRenderTexture(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTarget(void* cbg_self, void* material) {

@@ -27,16 +27,16 @@ struct RenderPassParameter_C;
 
 struct RenderPassParameter {
     Color ClearColor = Color(0, 0, 0, 0);
-    RenderTargetCareType ColorCare = RenderTargetCareType::Clear;
-    RenderTargetCareType DepthCare = RenderTargetCareType::Clear;
+    bool IsColorCleared = true;
+    bool IsDepthCleared = true;
 
     operator RenderPassParameter_C() const;
 };
 
 struct RenderPassParameter_C {
     Color_C ClearColor;
-    RenderTargetCareType ColorCare;
-    RenderTargetCareType DepthCare;
+    bool IsColorCleared;
+    bool IsDepthCleared;
 
     operator RenderPassParameter() const;
 };
@@ -73,7 +73,7 @@ public:
 
     std::shared_ptr<RenderTexture> GetScreenTexture() const;
 
-    void StartFrame();
+    void StartFrame(const RenderPassParameter& renderPassParameter);
 
     void EndFrame();
 
@@ -89,7 +89,8 @@ public:
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
-    void RenderToRenderTexture(std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target);
+    void RenderToRenderTexture(
+            std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
     /**
         @brief	apply material and render to target texture.
@@ -101,7 +102,7 @@ public:
     /**
       @brief  (internal function) Set render target with a real screen
   */
-    void SetRenderTargetWithScreen();
+    void SetRenderTargetWithScreen(const RenderPassParameter& renderPassParameter);
 
     /**
         @brief  (internal function) Present a screen texture into a screen

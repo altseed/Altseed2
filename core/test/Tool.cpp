@@ -33,8 +33,12 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
     EXPECT_TRUE(t != nullptr);
 
     while (count++ < loopCount && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
-        instance->GetCommandList()->SetRenderTargetWithScreen();
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+        instance->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
 
         Altseed::Tool::GetInstance()->NewFrame();
 

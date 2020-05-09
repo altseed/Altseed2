@@ -37,6 +37,7 @@ class Material;
 class Camera;
 class BuiltinShader;
 class CommandList;
+struct RenderPassParameter;
 
 enum class GraphicsDeviceType {
     Default,
@@ -76,14 +77,12 @@ class Graphics : public BaseObject {
 
     LLGI::Compiler* compiler_;
 
-    Color clearColor_;
-
 public:
     static std::shared_ptr<Graphics>& GetInstance();
 
     static bool Initialize(std::shared_ptr<Window>& window, GraphicsInitializationParameter& parameter);
 
-    bool BeginFrame();
+    bool BeginFrame(const RenderPassParameter& renderPassParameter);
 
     bool EndFrame();
 
@@ -108,7 +107,5 @@ public:
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }
 
-    Color GetClearColor() const { return clearColor_; }
-    void SetClearColor(Color clearColor) { clearColor_ = clearColor; }
 };
 }  // namespace Altseed

@@ -10,6 +10,7 @@
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/CommandList.h"
 #include "Logger/Log.h"
 
 TEST(Texture2D, Base) {
@@ -131,7 +132,11 @@ TEST(Texture2D, Save) {
 
     int count = 0;
     while (count++ < 10 && instance->DoEvents()) {
-        EXPECT_TRUE(instance->BeginFrame());
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);

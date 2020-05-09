@@ -15,6 +15,9 @@ void RenderedCamera::SetCenterOffset(const Vector2F& centerOffset) { centerOffse
 std::shared_ptr<RenderTexture> RenderedCamera::GetTargetTexture() { return targetTexture_; }
 void RenderedCamera::SetTargetTexture(const std::shared_ptr<RenderTexture>& targetTexture) { targetTexture_ = targetTexture; }
 
+RenderPassParameter RenderedCamera::GetRenderPassParameter() const { return renderPassParameter_; }
+void RenderedCamera::SetRenderPassParameter(const RenderPassParameter renderPassParameter) { renderPassParameter_ = renderPassParameter; }
+
 Matrix44F RenderedCamera::GetProjectionMatrix() const {
     Matrix44F matProjection;
     Vector2I windowSize;

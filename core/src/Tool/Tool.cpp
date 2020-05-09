@@ -85,8 +85,12 @@ void Tool::NewFrame() {
 }
 
 void Tool::Render() {
+    RenderPassParameter parameter;
+    parameter.IsColorCleared = false;
+    parameter.IsDepthCleared = false;
+
     Graphics::GetInstance()->GetCommandList()->RequireNotToPresent();
-    Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen();
+    Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
     ImGui::Render();
 
 #if defined(__APPLE__)

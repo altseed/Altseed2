@@ -1,7 +1,9 @@
 #include <Core.h>
 #include <Graphics/Graphics.h>
+#include <Graphics/CommandList.h>
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
+
 
 TEST(FPS, Update) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"test", 640, 480, Altseed::Configuration::Create()));
@@ -61,8 +63,13 @@ TEST(FPS, WithGraphics) {
     instance->SetTargetFPS(100000);
     Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, u"TargetFPS: {0}", instance->GetTargetFPS());
 
+    Altseed::RenderPassParameter renderPassParameter;
+    renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+    renderPassParameter.IsColorCleared = true;
+    renderPassParameter.IsDepthCleared = true;
+
     for (auto i = 0; i < loopCount && instance->DoEvent(); i++) {
-        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame());
+        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame(renderPassParameter));
         auto delta = instance->GetDeltaSecond();
         auto fps = instance->GetCurrentFPS();
         Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, u"VariableFPS: 'DeltaSecond:{0}, FPS:{1}'", delta, fps);
@@ -73,7 +80,7 @@ TEST(FPS, WithGraphics) {
     Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, u"TargetFPS: {0}", instance->GetTargetFPS());
 
     for (auto i = 0; i < loopCount && instance->DoEvent(); i++) {
-        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame());
+        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame(renderPassParameter));
         auto delta = instance->GetDeltaSecond();
         auto fps = instance->GetCurrentFPS();
         Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, u"VariableFPS: 'DeltaSecond:{0}, FPS:{1}'", delta, fps);
@@ -87,7 +94,7 @@ TEST(FPS, WithGraphics) {
     instance->DoEvent();
 
     for (auto i = 0; i < loopCount && instance->DoEvent(); i++) {
-        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame());
+        EXPECT_TRUE(Altseed::Graphics::GetInstance()->BeginFrame(renderPassParameter));
         auto delta = instance->GetDeltaSecond();
         auto fps = instance->GetCurrentFPS();
         Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, u"ConstantFPS: 'DeltaSecond:{0}, FPS:{1}'", delta, fps);
