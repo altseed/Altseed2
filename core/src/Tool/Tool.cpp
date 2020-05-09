@@ -85,7 +85,7 @@ void Tool::Render() {
 
 #if defined(__APPLE__)
     // HACK for retina
-    //ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
+    // ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
 #endif
 
     platform_->RenderDrawData(ImGui::GetDrawData(), Graphics::GetInstance()->GetCommandList()->GetLL());
@@ -152,9 +152,7 @@ void Tool::TextUnformatted(const char16_t* text) { ImGui::TextUnformatted(utf16_
 
 void Tool::TextWrapped(const char16_t* text) { ImGui::TextWrapped("%s", utf16_to_utf8(text).c_str()); };
 
-void Tool::TextColored(const Vector4F color, const char16_t* text) {
-    ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str());
-}
+void Tool::TextColored(const Color color, const char16_t* text) { ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str()); }
 
 void Tool::TextDisabled(const char16_t* text) { ImGui::TextDisabled("%s", utf16_to_utf8(text).c_str()); }
 
@@ -448,7 +446,9 @@ void Tool::PopID() { ImGui::PopID(); }
 
 bool Tool::SmallButton(const char16_t* label) { return ImGui::SmallButton(utf16_to_utf8(label).c_str()); }
 
-void Tool::Image(std::shared_ptr<Texture2D> texture, Vector2F size, Vector2F uv0, Vector2F uv1, Vector4F tint_col, Vector4F border_col) {}
+void Tool::Image(std::shared_ptr<Texture2D> texture, Vector2F size, Vector2F uv0, Vector2F uv1, Color tint_col, Color border_col) {
+    Log::GetInstance()->Warn(LogCategory::Core, u"Tool::Image Not Implemented");
+}
 
 bool Tool::ImageButton(
         std::shared_ptr<Texture2D> texture,
@@ -456,8 +456,10 @@ bool Tool::ImageButton(
         Vector2F uv0,
         Vector2F uv1,
         int32_t frame_padding,
-        Vector4F bg_col,
-        Vector4F tint_col) {
+        Color bg_col,
+        Color tint_col) {
+    Log::GetInstance()->Warn(LogCategory::Core, u"Tool::ImageButton Not Implemented");
+
     return false;
 }
 

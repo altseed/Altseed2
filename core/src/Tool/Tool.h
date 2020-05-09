@@ -310,7 +310,7 @@ public:
 
     void TextWrapped(const char16_t* text);
 
-    void TextColored(const Vector4F color, const char16_t* text);
+    void TextColored(const Color color, const char16_t* text);
 
     void TextDisabled(const char16_t* text);
 
@@ -615,8 +615,8 @@ public:
             Vector2F size,
             Vector2F uv0 = Vector2F(0, 0),
             Vector2F uv1 = Vector2F(1, 1),
-            Vector4F tint_col = Vector4F(1, 1, 1, 1),
-            Vector4F border_col = Vector4F(0, 0, 0, 0));
+            Color tint_col = Color(1, 1, 1, 1),
+            Color border_col = Color(0, 0, 0, 0));
 
     bool ImageButton(
             std::shared_ptr<Texture2D> texture,
@@ -624,8 +624,8 @@ public:
             Vector2F uv0 = Vector2F(0, 0),
             Vector2F uv1 = Vector2F(1, 1),
             int32_t frame_padding = -1,
-            Vector4F bg_col = Vector4F(0, 0, 0, 0),
-            Vector4F tint_col = Vector4F(1, 1, 1, 1));
+            Color bg_col = Color(0, 0, 0, 0),
+            Color tint_col = Color(1, 1, 1, 1));
 
     bool Checkbox(const char16_t* label, bool* v);
 

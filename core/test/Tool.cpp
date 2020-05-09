@@ -96,7 +96,7 @@ TEST(Tool, Text) {
             t->Dummy(Altseed::Vector2F(10, 10));
             t->Text(u"Normal Text");
             t->TextUnformatted(u"Unformatted");
-            t->TextColored(Altseed::Vector4F(0.0f, 0.0f, 1.0f, 1.0f), u"Blue Text");
+            t->TextColored(Altseed::Color(0.0f, 0.0f, 255.0f, 255.0f), u"Blue Text");
             t->BulletText(u"aaaaa\n\"bb\"ccccccccccc");
 
             t->Indent();
@@ -124,7 +124,7 @@ TEST(Tool, Japanese) {
             t->Dummy(Altseed::Vector2F(10, 10));
             t->Text(u"通常のテキスト");
             t->TextUnformatted(u"フォーマットされないテキスト");
-            t->TextColored(Altseed::Vector4F(0.0f, 0.0f, 1.0f, 1.0f), u"Blue Text");
+            t->TextColored(Altseed::Color(0.0f, 0.0f, 255.0f, 255.0f), u"Blue Text");
             t->BulletText(u"あああああ\n\"括られ\"アイウエオ");
 
             t->Indent();
@@ -231,7 +231,7 @@ TEST(Tool, Input) {
             res = t->InputText(
                     u"Password",
                     bufpass.c_str(),
-                    16, 
+                    16,
                     static_cast<Altseed::ToolInputText>(
                             static_cast<int32_t>(Altseed::ToolInputText::Password) |
                             static_cast<int32_t>(Altseed::ToolInputText::CharsNoBlank)));
