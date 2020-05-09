@@ -14,7 +14,7 @@ void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
 
     int triangleCount = vertexes->GetCount() - 2;
     triangles_.resize(triangleCount);
-    for(int i = 0; i < triangleCount; ++i) {
+    for (int i = 0; i < triangleCount; ++i) {
         b2PolygonShape triangle;
         triangle.m_count = 3;
         triangle.m_vertices[0] = b2Vec2(vertexes->GetVector()[0].X, vertexes->GetVector()[0].Y);
@@ -25,28 +25,27 @@ void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
 }
 
 bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
-
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if(circle != nullptr) {
-        for(auto triangle : triangles_) {
-            if(b2TestOverlap(&triangle, 0, &circle->shape_, 0, transform_, circle->transform_)) return true;
+    if (circle != nullptr) {
+        for (auto triangle : triangles_) {
+            if (b2TestOverlap(&triangle, 0, &circle->shape_, 0, transform_, circle->transform_)) return true;
         }
         return false;
     }
 
     auto rectangle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if(rectangle != nullptr) {
-        for(auto triangle : triangles_) {
-            if(b2TestOverlap(&triangle, 0, &rectangle->shape_, 0, transform_, rectangle->transform_)) return true;
+    if (rectangle != nullptr) {
+        for (auto triangle : triangles_) {
+            if (b2TestOverlap(&triangle, 0, &rectangle->shape_, 0, transform_, rectangle->transform_)) return true;
         }
         return false;
     }
 
     auto polygon = std::dynamic_pointer_cast<PolygonCollider>(collider);
-    if(polygon != nullptr) {
-        for(auto triangle1 : triangles_) {
-            for(auto triangle2 : polygon->triangles_) {
-                if(b2TestOverlap(&triangle1, 0, &triangle2, 0, transform_, polygon->transform_)) return true;
+    if (polygon != nullptr) {
+        for (auto triangle1 : triangles_) {
+            for (auto triangle2 : polygon->triangles_) {
+                if (b2TestOverlap(&triangle1, 0, &triangle2, 0, transform_, polygon->transform_)) return true;
             }
         }
         return false;
@@ -55,4 +54,4 @@ bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     return false;
 }
 
-} // namespace Altseed
+}  // namespace Altseed

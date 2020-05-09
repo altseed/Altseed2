@@ -77,7 +77,7 @@ std::u16string FileSystem::GetParentPath(const std::u16string& path) {
     char* tmp = new char[utf16_to_utf8(path).size() + 1];
     strcpy(tmp, utf16_to_utf8(path).c_str());
     std::u16string res(utf8_to_utf16(dirname(tmp)));
-    delete [] tmp;
+    delete[] tmp;
     return res;
 }
 

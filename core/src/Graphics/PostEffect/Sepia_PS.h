@@ -1,4 +1,5 @@
-static const char16_t* sepia_ps = uR"(
+static const char16_t* sepia_ps =
+        uR"(
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);
 

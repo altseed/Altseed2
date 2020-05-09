@@ -1,5 +1,7 @@
 #include "FPS.h"
+
 #include <thread>
+
 #include "Common/Assertion.h"
 #include "Logger/Log.h"
 

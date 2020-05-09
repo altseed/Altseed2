@@ -112,8 +112,7 @@ void BatchRenderer::Render() {
         }
 
         // VB, IB
-        commandList->SetVertexBuffer(
-                vertexBuffer_.get(), sizeof(BatchVertex), (vbOffset_ + batch.VertexOffset) * sizeof(BatchVertex));
+        commandList->SetVertexBuffer(vertexBuffer_.get(), sizeof(BatchVertex), (vbOffset_ + batch.VertexOffset) * sizeof(BatchVertex));
         commandList->SetIndexBuffer(indexBuffer_.get(), (ibOffset_ + batch.IndexOffset) * sizeof(int32_t));
 
         // pipeline state
@@ -135,8 +134,8 @@ void BatchRenderer::Render() {
         commandList->Draw(batch.IndexCount / 3);
     }
 
-     vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());
-    ibOffset_ += static_cast<int32_t> (rawIndexBuffer_.size());
+    vbOffset_ += static_cast<int32_t>(rawVertexBuffer_.size());
+    ibOffset_ += static_cast<int32_t>(rawIndexBuffer_.size());
 }
 
 void BatchRenderer::ResetCache() {

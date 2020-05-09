@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+
 #include <memory>
 
 #include "../../Common/Array.h"

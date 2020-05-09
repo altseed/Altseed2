@@ -21,7 +21,6 @@
 #include "Graphics/Shader.h"
 #include "Logger/Log.h"
 
-
 TEST(PostEffect, Base) {
     const char* PostEffectCode = R"(
     Texture2D mainTex : register(t0);
@@ -113,7 +112,7 @@ TEST(PostEffect, Builtin) {
 
     Altseed::Log::GetInstance()->Debug(Altseed::LogCategory::Core, u"Downsample");
     Altseed::Shader::Create(u"Downsample", instance->GetBuiltinShader()->GetDownsampleShader(), Altseed::ShaderStageType::Pixel);
-    
+
     {
         auto baseCode = instance->GetBuiltinShader()->GetGaussianBlurShader();
 
@@ -378,7 +377,8 @@ TEST(PostEffect, LightBloom) {
         auto codeSum = u"#define SUM 1\n" + std::u16string(baseCode);
         materialSum->SetShader(Altseed::Shader::Create(u"Sum", codeSum.c_str(), Altseed::ShaderStageType::Pixel));
 
-        material_downsample->SetShader(Altseed::Shader::Create(u"downsample", instance->GetBuiltinShader()->GetDownsampleShader(), Altseed::ShaderStageType::Pixel));
+        material_downsample->SetShader(Altseed::Shader::Create(
+                u"downsample", instance->GetBuiltinShader()->GetDownsampleShader(), Altseed::ShaderStageType::Pixel));
     }
 
     std::shared_ptr<Altseed::RenderTexture> tempTexture0 = nullptr;
@@ -452,17 +452,20 @@ TEST(PostEffect, LightBloom) {
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture0);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
+            material_downsample->SetVector4F(
+                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture1);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture1);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
+            material_downsample->SetVector4F(
+                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture2);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture2);
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
+            material_downsample->SetVector4F(
+                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture3);
 
             auto blurX = materialX;

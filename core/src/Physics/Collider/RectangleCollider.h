@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Collider.h"
-#include "CircleCollider.h"
-#include "PolygonCollider.h"
 #include "../../Math/Vector2F.h"
+#include "CircleCollider.h"
+#include "Collider.h"
+#include "PolygonCollider.h"
 
 namespace Altseed {
 
@@ -13,12 +13,12 @@ class RectangleCollider : public Collider {
 
 private:
     b2PolygonShape shape_;
-    
+
     Vector2F size_;
     Vector2F center_;
 
     bool GetIsCollidedWith_(std::shared_ptr<Collider> shape) override;
-    
+
 public:
     RectangleCollider();
 
@@ -30,5 +30,5 @@ public:
     Vector2F GetCenterPosition() const;
     void SetCenterPosition(Vector2F center);
 };
-    
-} // namespace Altseed
+
+}  // namespace Altseed

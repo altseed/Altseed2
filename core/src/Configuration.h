@@ -11,7 +11,7 @@ private:
     bool isResizable_ = false;
     GraphicsDeviceType deviceType_ = GraphicsDeviceType::Default;
     bool waitVSync_ = false;
-    
+
     bool consoleLoggingEnabled_ = false;
     bool fileLoggingEnabled_ = false;
 

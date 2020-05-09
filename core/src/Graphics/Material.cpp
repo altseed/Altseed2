@@ -1,6 +1,8 @@
 ﻿#include "Material.h"
 #include <glslang/Public/ShaderLang.h>
+
 #include <spirv_cross/spirv.hpp>
+
 #include "../Common/StringHelper.h"
 #include "../Logger/Log.h"
 #include "BuiltinShader.h"

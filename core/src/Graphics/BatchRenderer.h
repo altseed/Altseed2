@@ -2,7 +2,9 @@
 
 #include <LLGI.Base.h>
 #include <stdint.h>
+
 #include <memory>
+
 #include "../Graphics/Color.h"
 #include "../Math/Matrix44F.h"
 #include "../Math/Vector2F.h"

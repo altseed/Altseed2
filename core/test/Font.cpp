@@ -355,7 +355,8 @@ TEST(Font, Return) {
         auto t = Altseed::RenderedText::Create();
         t->SetFont(font);
         t->SetText(
-                u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n");
+                u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができ"
+                u"ます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n");
         t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
         texts.push_back(t);
     }

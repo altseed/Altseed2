@@ -1,4 +1,5 @@
-static const char16_t* downsample_ps = uR"(
+static const char16_t* downsample_ps =
+        uR"(
 
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);

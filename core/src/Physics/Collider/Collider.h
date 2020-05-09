@@ -1,8 +1,9 @@
 #pragma once
 
+#include <box2d/box2d.h>
+
 #include <memory>
 #include <vector>
-#include <box2d/box2d.h>
 
 #include "../../BaseObject.h"
 #include "../../Math/Matrix44F.h"
@@ -35,5 +36,5 @@ public:
 
     Matrix44F GetTransform();
 };
-    
-} // namespace Altseed
+
+}  // namespace Altseed

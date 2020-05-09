@@ -48,7 +48,6 @@ class FrameEventSetRenderTargetWithRealScreen : public FrameEvent {
 public:
 };
 
-
 class FrameEventDraw : public FrameEvent {
 public:
     int32_t VbCount;

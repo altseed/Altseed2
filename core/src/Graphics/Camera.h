@@ -2,11 +2,13 @@
 
 #include <LLGI.Base.h>
 #include <LLGI.Graphics.h>
+
 #include <map>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
+
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
 #include "../Math/Vector2I.h"

@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Rendered.h"
-
 #include <box2d/box2d.h>
 #include <stdio.h>
+
 #include <memory>
+
 #include "../../Common/Array.h"
 #include "../../Math/RectF.h"
 #include "../Color.h"
+#include "Rendered.h"
 
 namespace Altseed {
 

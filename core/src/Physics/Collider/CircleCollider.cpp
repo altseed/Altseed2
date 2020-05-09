@@ -17,21 +17,20 @@ void CircleCollider::SetRadius(double radius) {
 }
 
 bool CircleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
-    
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if(circle != nullptr) {
+    if (circle != nullptr) {
         return b2TestOverlap(&shape_, 0, &circle->shape_, 0, transform_, circle->transform_);
     }
 
     auto rectangle = std::dynamic_pointer_cast<RectangleCollider>(collider);
-    if(rectangle != nullptr) {
+    if (rectangle != nullptr) {
         return b2TestOverlap(&shape_, 0, &rectangle->shape_, 0, transform_, rectangle->transform_);
     }
 
     auto polygon = std::dynamic_pointer_cast<PolygonCollider>(collider);
-    if(polygon != nullptr) {
-        for(auto triangle : polygon->triangles_) {
-            if(b2TestOverlap(&shape_, 0, &triangle, 0, transform_, polygon->transform_)) return true;
+    if (polygon != nullptr) {
+        for (auto triangle : polygon->triangles_) {
+            if (b2TestOverlap(&shape_, 0, &triangle, 0, transform_, polygon->transform_)) return true;
         }
         return false;
     }
@@ -39,4 +38,4 @@ bool CircleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     return false;
 }
 
-} // namespace Altseed
+}  // namespace Altseed

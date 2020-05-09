@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Collider.h"
-#include "CircleCollider.h"
-#include "RectangleCollider.h"
 #include "../../Common/Array.h"
 #include "../../Math/Vector2F.h"
+#include "CircleCollider.h"
+#include "Collider.h"
+#include "RectangleCollider.h"
 
 namespace Altseed {
 
@@ -14,7 +14,7 @@ class PolygonCollider : public Collider {
 
 private:
     std::vector<b2PolygonShape> triangles_;
-    
+
     std::shared_ptr<Vector2FArray> vertexes_;
 
     bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) override;
@@ -26,5 +26,5 @@ public:
     std::shared_ptr<Vector2FArray> GetVertexes() const;
     void SetVertexes(std::shared_ptr<Vector2FArray> vertexes);
 };
-    
-} // namespace Altseed
+
+}  // namespace Altseed

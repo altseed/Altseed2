@@ -1,5 +1,6 @@
 ﻿#include "ImageFont.h"
 #include <string>
+
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "Graphics.h"

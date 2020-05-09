@@ -23,7 +23,7 @@ public:
     Matrix44F GetProjectionMatrix() const;
     Matrix44F GetCameraMatrix() const;
 
-	b2AABB GetAABB() override;
+    b2AABB GetAABB() override;
 };
 
 }  // namespace Altseed

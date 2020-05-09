@@ -32,12 +32,12 @@
 // ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include "ResourceLimits.h"
+
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
-
-#include "ResourceLimits.h"
 
 namespace glslang {
 

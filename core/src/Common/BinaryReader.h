@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+
 #include "../Graphics/Color.h"
 #include "../IO/StaticFile.h"
 #include "../Math/Matrix44F.h"

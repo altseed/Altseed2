@@ -14,6 +14,7 @@
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
 #include "Graphics/FrameDebugger.h"
+#include "Graphics/Material.h"
 #include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
@@ -21,7 +22,6 @@
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/Shader.h"
-#include "Graphics/Material.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Logger/Log.h"
 #include "Math/Matrix44F.h"
@@ -270,7 +270,7 @@ TEST(Graphics, SpriteTexture) {
 
         // Take screenshot
         if (count == 5) {
-            //Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
+            // Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
         }
     }
 
@@ -696,7 +696,7 @@ TEST(Graphics, RenderToRenderTexture) {
 
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->Render();
-        
+
         material->SetTexture(u"mainTex", cmdList->GetScreenTexture());
         cmdList->RenderToRenderTexture(material, target);
 

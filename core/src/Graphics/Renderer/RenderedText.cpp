@@ -83,7 +83,7 @@ Vector2F RenderedText::GetTextureSize() {
         if (isEnableKerning_ && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
-            if (writingDirection_ == WritingDirection::Horizontal) 
+            if (writingDirection_ == WritingDirection::Horizontal)
                 offset += Altseed::Vector2F(GetFont()->GetKerning(character, next), 0);
             else
                 offset += Altseed::Vector2F(0, GetFont()->GetKerning(character, next));

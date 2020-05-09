@@ -1,12 +1,13 @@
 #pragma once
 #include <map>
+
 #include "../BaseObject.h"
 #include "../Common/StringHelper.h"
 #include "PostEffect/Downsample_PS.h"
-#include "PostEffect/Sepia_PS.h"
-#include "PostEffect/GrayScale_PS.h"
 #include "PostEffect/GaussianBlur_PS.h"
+#include "PostEffect/GrayScale_PS.h"
 #include "PostEffect/LightBloom_PS.h"
+#include "PostEffect/Sepia_PS.h"
 
 namespace Altseed {
 

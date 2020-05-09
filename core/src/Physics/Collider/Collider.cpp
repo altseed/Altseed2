@@ -25,4 +25,4 @@ Matrix44F Collider::GetTransform() { return transformMatrix_; }
 
 bool Collider::GetIsCollidedWith(std::shared_ptr<Collider> collider) { return GetIsCollidedWith_(collider); }
 
-} // namespace Altseed
+}  // namespace Altseed

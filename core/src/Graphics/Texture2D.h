@@ -1,11 +1,13 @@
 #pragma once
 
 #include <LLGI.Base.h>
+
 #include <map>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
+
 #include "../Common/Resource.h"
 #include "../Common/Resources.h"
 #include "../Common/ThreadSafeMap.h"

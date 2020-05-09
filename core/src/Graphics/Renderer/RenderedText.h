@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Rendered.h"
-
 #include <box2d/box2d.h>
 #include <stdio.h>
+
 #include <memory>
+
 #include "../Color.h"
 #include "../Font.h"
 #include "../Material.h"
 #include "CullingSystem.h"
+#include "Rendered.h"
 
 namespace Altseed {
 

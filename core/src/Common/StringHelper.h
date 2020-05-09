@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include <vector>
 #include <array>
 #include <codecvt>
 #include <locale>
 #include <string>
+#include <vector>
 
 namespace Altseed {
 

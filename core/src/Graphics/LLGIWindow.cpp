@@ -32,8 +32,7 @@ LLGI::Vec2I LLGIWindow::GetWindowSize() const {
     return LLGI::Vec2I(w, h);
 }
 
-LLGI::Vec2I LLGIWindow::GetFrameBufferSize() const
-{
+LLGI::Vec2I LLGIWindow::GetFrameBufferSize() const {
     int w, h;
     glfwGetFramebufferSize(glfwWindow, &w, &h);
     return LLGI::Vec2I(w, h);

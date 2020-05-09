@@ -1,4 +1,5 @@
 #include "Configuration.h"
+
 #include "BaseObject.h"
 
 namespace Altseed {

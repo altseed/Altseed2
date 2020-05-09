@@ -1,6 +1,7 @@
 #include <Core.h>
 #include <Input/Keyboard.h>
 #include <gtest/gtest.h>
+
 #include <string>
 #define STR(var) #var
 

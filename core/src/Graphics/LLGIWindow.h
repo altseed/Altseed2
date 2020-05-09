@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "../Common/PlatformIncludes.h"
-
 #include "LLGI.Base.h"
 
 namespace Altseed {

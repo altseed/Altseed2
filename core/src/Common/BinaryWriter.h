@@ -4,12 +4,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
+
 #include "../Graphics/Color.h"
 #include "../Math/Matrix44F.h"
+#include "../Math/RectF.h"
+#include "../Math/RectI.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
-#include "../Math/RectI.h"
-#include "../Math/RectF.h"
 
 namespace Altseed {
 class BinaryWriter {
@@ -77,7 +78,7 @@ public:
         Push(content.Z);
     }
 
-	void Push(Vector2I const& content) {
+    void Push(Vector2I const& content) {
         Push(content.X);
         Push(content.Y);
     }
@@ -94,14 +95,14 @@ public:
         Push(content.A);
     }
 
-	void Push(RectI const& content) {
+    void Push(RectI const& content) {
         Push(content.X);
         Push(content.Y);
         Push(content.Width);
         Push(content.Height);
     }
 
-	void Push(RectF const& content) {
+    void Push(RectF const& content) {
         Push(content.X);
         Push(content.Y);
         Push(content.Width);

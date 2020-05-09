@@ -9,7 +9,7 @@
 // GLFW
 #if _WIN32
 #ifndef GLFW_EXPOSE_NATIVE_WIN32
-    #define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
 #endif
 #define GLFW_EXPOSE_NATIVE_WGL
 #elif __APPLE__

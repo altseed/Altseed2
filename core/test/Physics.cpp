@@ -1,7 +1,8 @@
 #include <Physics/Collider/CircleCollider.h>
-#include <Physics/Collider/RectangleCollider.h>
 #include <Physics/Collider/PolygonCollider.h>
+#include <Physics/Collider/RectangleCollider.h>
 #include <gtest/gtest.h>
+
 #include <memory>
 
 TEST(Physics, CollisionWithCircles) {
@@ -31,16 +32,16 @@ TEST(Physics, CollisionWithPolygons) {
     auto vertexes1 = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
     vertexes1->Resize(4);
     vertexes1->GetVector()[0] = Altseed::Vector2F(-100, -100);
-    vertexes1->GetVector()[1] = Altseed::Vector2F( 100, -100);
-    vertexes1->GetVector()[2] = Altseed::Vector2F( 100,  100);
-    vertexes1->GetVector()[3] = Altseed::Vector2F(-100,  100);
+    vertexes1->GetVector()[1] = Altseed::Vector2F(100, -100);
+    vertexes1->GetVector()[2] = Altseed::Vector2F(100, 100);
+    vertexes1->GetVector()[3] = Altseed::Vector2F(-100, 100);
 
     auto vertexes2 = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
     vertexes2->Resize(4);
     vertexes2->GetVector()[0] = Altseed::Vector2F(-120, -90);
-    vertexes2->GetVector()[1] = Altseed::Vector2F( 120, -90);
-    vertexes2->GetVector()[2] = Altseed::Vector2F( 120,  90);
-    vertexes2->GetVector()[3] = Altseed::Vector2F(-120,  90);
+    vertexes2->GetVector()[1] = Altseed::Vector2F(120, -90);
+    vertexes2->GetVector()[2] = Altseed::Vector2F(120, 90);
+    vertexes2->GetVector()[3] = Altseed::Vector2F(-120, 90);
 
     collider1->SetVertexes(vertexes1);
     collider1->SetPosition(Altseed::Vector2F(100, 100));

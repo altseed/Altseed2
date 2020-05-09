@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Collider.h"
-#include "RectangleCollider.h"
-#include "PolygonCollider.h"
 #include "../../Math/Vector2F.h"
+#include "Collider.h"
+#include "PolygonCollider.h"
+#include "RectangleCollider.h"
 
 namespace Altseed {
 
@@ -25,5 +25,5 @@ public:
     double GetRadius() const;
     void SetRadius(double radius);
 };
-    
-} // namespace Altseed
+
+}  // namespace Altseed

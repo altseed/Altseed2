@@ -65,7 +65,11 @@ private:
 
 public:
     Font(std::u16string path);
-    Font(std::shared_ptr<Resources>& resources, std::shared_ptr<StaticFile>& file, stbtt_fontinfo fontinfo, int32_t size, std::u16string path);
+    Font(std::shared_ptr<Resources>& resources,
+         std::shared_ptr<StaticFile>& file,
+         stbtt_fontinfo fontinfo,
+         int32_t size,
+         std::u16string path);
 
     virtual ~Font();
 
