@@ -1,12 +1,19 @@
-#include <Common/Array.h>
-#include <Common/StringHelper.h>
-#include <Core.h>
-#include <Graphics/CommandList.h>
-#include <Graphics/Graphics.h>
-#include <Tool/Tool.h>
+#include "Tool/Tool.h"
+
 #include <gtest/gtest.h>
 
 #include <memory>
+
+#include "Common/Array.h"
+#include "Common/StringHelper.h"
+#include "Core.h"
+#include "Graphics/CommandList.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Renderer/CullingSystem.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/Renderer.h"
+#include "Math/Matrix44F.h"
+#include "Math/RectF.h"
 
 static const int LoopFrames = 500;
 
@@ -26,27 +33,48 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
-    EXPECT_TRUE(instance != nullptr);
+    auto g = Altseed::Graphics::GetInstance();
+    EXPECT_TRUE(g != nullptr);
 
     auto t = Altseed::Tool::GetInstance();
     EXPECT_TRUE(t != nullptr);
 
-    while (count++ < loopCount && instance->DoEvents()) {
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(Altseed::Vector2F(), t1->GetSize().To2F()));
+    auto trans1 = Altseed::Matrix44F();
+    auto trans2 = Altseed::Matrix44F();
+    trans1.SetTranslation(200, 200, 0);
+    trans2.SetRotationZ(0);
+    s1->SetTransform(trans2 * trans1 * trans2);
+
+    while (count++ < loopCount && g->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+
+        trans2.SetRotationZ(count / 100.0f);
+        s1->SetTransform(trans1 * trans2 * trans1.GetInverted());
+
         Altseed::RenderPassParameter renderPassParameter;
         renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
-        renderPassParameter.IsDepthCleared = true;
-        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
-        instance->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
+        renderPassParameter.IsDepthCleared = false;
+        EXPECT_TRUE(g->BeginFrame(renderPassParameter));
+        g->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
 
         Altseed::Tool::GetInstance()->NewFrame();
 
         if (update != nullptr) update(t);
 
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+
+        Altseed::Renderer::GetInstance()->Render();
         Altseed::Tool::GetInstance()->Render();
 
-        EXPECT_TRUE(instance->EndFrame());
+        EXPECT_TRUE(g->EndFrame());
     }
 
     Altseed::Core::Terminate();
