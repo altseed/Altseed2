@@ -337,7 +337,6 @@ Graphics = cbg.Class('Altseed', 'Graphics')
 with Graphics as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
-    class_.is_public = False
     class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
