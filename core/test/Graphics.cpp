@@ -396,8 +396,6 @@ TEST(Graphics, BackgroundBugcheck) {
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        instance->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
-
         Altseed::Renderer::GetInstance()->DrawSprite(s1);
         Altseed::Renderer::GetInstance()->DrawSprite(s2);
 

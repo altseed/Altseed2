@@ -29,9 +29,12 @@ std::u16string format(const std::u16string& fmt, Args... args) {
 static void ToolTestTemplate(const int loopCount, std::function<void(std::shared_ptr<Altseed::Tool>)> update) {
     auto config = Altseed::Configuration::Create();
     config->SetToolEnabled(true);
+    
     EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, config));
 
     int count = 0;
+
+    //Altseed::Tool::GetInstance()->SetToolUsageMode(Altseed::ToolUsageMode::Main);
 
     auto g = Altseed::Graphics::GetInstance();
     EXPECT_TRUE(g != nullptr);
@@ -63,8 +66,7 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = false;
         EXPECT_TRUE(g->BeginFrame(renderPassParameter));
-        g->GetCommandList()->SetRenderTargetWithScreen(renderPassParameter);
-
+        
         Altseed::Tool::GetInstance()->NewFrame();
 
         if (update != nullptr) update(t);

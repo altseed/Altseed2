@@ -32,6 +32,31 @@ RenderPassParameter_C::operator RenderPassParameter() const {
     return m;
 }
 
+std::shared_ptr<CommandList::RenderPass> CommandList::CreateRenderPass(std::shared_ptr<RenderTexture> target) {
+    auto it = renderPassCaches_.find(target);
+
+    if (it == renderPassCaches_.end()) {
+        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
+
+        LLGI::Texture* texture = target->GetNativeTexture().get();
+        auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((const LLGI::Texture**)&texture, 1, nullptr));
+
+        auto rp = std::make_shared<RenderPass>();
+        rp->Stored = renderPass;
+        rp->RenderTarget = target;
+        RenderPassCache cache;
+        cache.Life = 5;
+        cache.Stored = rp;
+        renderPassCaches_[target] = cache;
+
+        return rp;
+    } else {
+        // extend life to avoid to remove
+        it->second.Life = 5;
+        return it->second.Stored;
+    }
+}
+
 std::shared_ptr<CommandList> CommandList::Create() {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
     auto memoryPool = LLGI::CreateSharedPtr(g->CreateSingleFrameMemoryPool(1024 * 1024 * 16, 128));
@@ -159,9 +184,6 @@ void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
             it++;
         }
     }
-
-    // Reset
-    isRequiredNotToPresent_ = false;
 }
 
 void CommandList::EndFrame() {
@@ -175,18 +197,17 @@ void CommandList::EndFrame() {
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
 
-void CommandList::BeginRenderPass(std::shared_ptr<RenderTexture> target, std::shared_ptr<LLGI::RenderPass> renderPass) {
+void CommandList::BeginRenderPass(std::shared_ptr<RenderPass> renderPass) {
     if (isInRenderPass_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::BeginRenderPass: invalid CommandList state");
         return;
     }
 
-    currentCommandList_->BeginRenderPass(renderPass.get());
+    currentCommandList_->BeginRenderPass(renderPass->Stored.get());
     currentRenderPass_ = renderPass;
-    currentRenderTarget_ = target;
     isInRenderPass_ = true;
 
-    FrameDebugger::GetInstance()->SetRenderTarget(target);
+    FrameDebugger::GetInstance()->SetRenderTarget(renderPass->RenderTarget);
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
@@ -200,7 +221,7 @@ void CommandList::EndRenderPass() {
     FrameDebugger::GetInstance()->EndRenderPass();
     isInRenderPass_ = false;
     currentRenderPass_ = nullptr;
-    currentRenderTarget_ = nullptr;
+    currentRenderPassLL_ = nullptr;
 }
 
 void CommandList::PauseRenderPass() {
@@ -220,47 +241,36 @@ void CommandList::ResumeRenderPass() {
         return;
     }
 
-    currentRenderPass_->SetIsColorCleared(false);
-    currentRenderPass_->SetIsDepthCleared(false);
+    currentRenderPass_->Stored->SetIsColorCleared(false);
+    currentRenderPass_->Stored->SetIsDepthCleared(false);
 
-    currentCommandList_->BeginRenderPass(currentRenderPass_.get());
+    currentCommandList_->BeginRenderPass(currentRenderPass_->Stored.get());
     isInRenderPass_ = true;
 
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
-    auto it = renderPassCaches_.find(target);
+    auto stored = CreateRenderPass(target);
 
-    if (it == renderPassCaches_.end()) {
-        auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-
-        LLGI::Texture* texture = target->GetNativeTexture().get();
-        auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((const LLGI::Texture**)&texture, 1, nullptr));
-
-        RenderPassCache cache;
-        cache.Life = 5;
-        cache.Stored = renderPass;
-        renderPassCaches_[target] = cache;
-    } else {
-        // extend life to avoid to remove
-        it->second.Life = 5;
-    }
-
-    renderPassCaches_[target].Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
-    renderPassCaches_[target].Stored->SetIsColorCleared(renderPassParameter.IsColorCleared);
-    renderPassCaches_[target].Stored->SetIsDepthCleared(renderPassParameter.IsDepthCleared);
+    stored->Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
+    stored->Stored->SetIsColorCleared(renderPassParameter.IsColorCleared);
+    stored->Stored->SetIsDepthCleared(renderPassParameter.IsDepthCleared);
 
     if (isInRenderPass_) {
         EndRenderPass();
     }
 
-    BeginRenderPass(target, renderPassCaches_[target].Stored);
+    BeginRenderPass(renderPassCaches_[target].Stored);
 }
 
 void CommandList::RenderToRenderTexture(
         std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
-    auto currentTarget = currentRenderTarget_;
+    std::shared_ptr<Altseed::RenderTexture> currentTarget;
+
+    if (currentRenderPass_ != nullptr) {
+        currentTarget = currentRenderPass_->RenderTarget;
+    }
 
     SetRenderTarget(target, renderPassParameter);
     RenderToRenderTarget(material);
@@ -287,7 +297,10 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
 
     // pipeline state
-    currentCommandList_->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+    auto renderPass = GetCurrentRenderPass();
+    ASD_ASSERT(renderPass != nullptr, "RenderPass is null.");
+
+    currentCommandList_->SetPipelineState(material->GetPipelineState(renderPass).get());
 
     // constant buffer
     StoreUniforms(this, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
@@ -303,34 +316,39 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
 void CommandList::SetRenderTargetWithScreen(const RenderPassParameter& renderPassParameter) {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
-    auto r = LLGI::CreateSharedPtr(Graphics::GetInstance()->GetCurrentScreen(
-            renderPassParameter.ClearColor.ToLL(), renderPassParameter.IsColorCleared, renderPassParameter.IsDepthCleared));
-    r->AddRef();
-
-    if (r == currentRenderPass_) {
-        return;
+    if (isInRenderPass_) {
+        EndRenderPass();
     }
+
+    auto r = Graphics::GetInstance()->GetCurrentScreen(
+            renderPassParameter.ClearColor.ToLL(), renderPassParameter.IsColorCleared, renderPassParameter.IsDepthCleared);
+
+    currentCommandList_->BeginRenderPass(r);
+    currentRenderPassLL_ = r;
+}
+
+void CommandList::PresentInternal() {
+    if (!isPresentScreenBufferDirectly_) return;
 
     if (isInRenderPass_) {
         EndRenderPass();
     }
 
-    BeginRenderPass(internalScreen_, r);
-}
-
-void CommandList::PresentInternal() {
-    if (isRequiredNotToPresent_) return;
-
-    RenderPassParameter parameter;
-    parameter.IsColorCleared = false;
-    parameter.IsDepthCleared = false;
-    SetRenderTargetWithScreen(parameter);
+    RenderPassParameter param;
+    param.IsColorCleared = true;
+    param.IsDepthCleared = false;
+    param.ClearColor = Color(0, 0, 0, 0);
+    SetRenderTargetWithScreen(param);
 
     copyMaterial_->SetTexture(u"mainTex", internalScreen_);
     RenderToRenderTarget(copyMaterial_);
+
+    EndRenderPass();
 }
 
-void CommandList::RequireNotToPresent() { isRequiredNotToPresent_ = true; }
+bool CommandList::GetIsPresentScreenBufferDirectly() const { return isPresentScreenBufferDirectly_; }
+
+void CommandList::SetIsPresentScreenBufferDirectly(bool value) { isPresentScreenBufferDirectly_ = value; }
 
 void CommandList::StoreTextures(
         CommandList* commandList,
@@ -405,8 +423,8 @@ void CommandList::StoreUniforms(
 void CommandList::Draw(int32_t instanceCount) {
     GetLL()->Draw(instanceCount);
 
-    if (FrameDebugger::GetInstance()->GetIsEnabled()) {
-        auto texture = currentRenderPass_->GetRenderTexture(0);
+    if (FrameDebugger::GetInstance()->GetIsEnabled() && currentRenderPass_ != nullptr) {
+        LLGI::Texture* texture = currentRenderPass_->Stored->GetRenderTexture(0);
         if (texture->GetType() == LLGI::TextureType::Screen) {
             return;
         }
@@ -419,10 +437,10 @@ void CommandList::Draw(int32_t instanceCount) {
         currentCommandList_->EndRenderPass();
         currentCommandList_->CopyTexture(texture, target->GetNativeTexture().get());
 
-        currentRenderPass_->SetIsColorCleared(false);
-        currentRenderPass_->SetIsDepthCleared(false);
+        currentRenderPass_->Stored->SetIsColorCleared(false);
+        currentRenderPass_->Stored->SetIsDepthCleared(false);
 
-        currentCommandList_->BeginRenderPass(currentRenderPass_.get());
+        currentCommandList_->BeginRenderPass(currentRenderPass_->Stored.get());
 
         SaveRenderTexture(path.c_str(), target);
     }
@@ -454,7 +472,20 @@ void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_pt
 
 LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }
 
-LLGI::RenderPass* CommandList::GetCurrentRenderPass() const { return currentRenderPass_.get(); }
+LLGI::RenderPass* CommandList::GetCurrentRenderPass() const {
+    if (currentRenderPassLL_ != nullptr) return currentRenderPassLL_;
+    if (currentRenderPass_ == nullptr) return nullptr;
+    return currentRenderPass_->Stored.get();
+}
+
+LLGI::RenderPass* CommandList::GetScreenRenderPass() {
+    auto renderPass = CreateRenderPass(GetScreenTexture());
+    return renderPass->Stored.get();
+}
+
+LLGI::RenderPass* CommandList::GetActualScreenRenderPass() const {
+    return Graphics::GetInstance()->GetCurrentScreen(Color().ToLL(), false, false);
+}
 
 LLGI::CommandList* CommandList::GetLL() const { return currentCommandList_; }
 

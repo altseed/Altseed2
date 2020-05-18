@@ -78,25 +78,43 @@ void Tool::OnTerminating() {
     }
 }
 
+ToolUsage Tool::GetToolUsage() const { return toolUsageMode_; }
+
+void Tool::SetToolUsage(ToolUsage toolUsageMode) { toolUsageMode_ = toolUsageMode; }
+
 void Tool::NewFrame() {
-    platform_->NewFrame(Graphics::GetInstance()->GetCommandList()->GetCurrentRenderPass());
+    if (toolUsageMode_ == ToolUsage::Main) {
+        auto renderPass = Graphics::GetInstance()->GetCommandList()->GetActualScreenRenderPass();
+        Graphics::GetInstance()->GetCommandList()->SetIsPresentScreenBufferDirectly(false);
+
+        platform_->NewFrame(renderPass);
+    } else if (toolUsageMode_ == ToolUsage::Overwrapped) {
+        // Very Dirty hack
+        // auto renderPass = Graphics::GetInstance()->GetCommandList()->GetScreenRenderPass();
+        auto renderPass = Graphics::GetInstance()->GetCommandList()->GetActualScreenRenderPass();
+        Graphics::GetInstance()->GetCommandList()->SetIsPresentScreenBufferDirectly(true);
+        platform_->NewFrame(renderPass);
+    }
+
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 }
 
 void Tool::Render() {
     RenderPassParameter parameter;
-    parameter.IsColorCleared = false;
+    parameter.IsColorCleared = true;
     parameter.IsDepthCleared = false;
 
-    Graphics::GetInstance()->GetCommandList()->RequireNotToPresent();
-    Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
-    ImGui::Render();
+    if (toolUsageMode_ == ToolUsage::Main) {
+        Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
+    } else if (toolUsageMode_ == ToolUsage::Overwrapped) {
+        // Very dirty hack
+        Graphics::GetInstance()->GetCommandList()->PresentInternal();
+        Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
+        Graphics::GetInstance()->GetCommandList()->SetIsPresentScreenBufferDirectly(false);
+    }
 
-#if defined(__APPLE__)
-    // HACK for retina
-    // ImGui::GetDrawData()->FramebufferScale = ImVec2(1, 1);
-#endif
+    ImGui::Render();
 
     platform_->RenderDrawData(ImGui::GetDrawData(), Graphics::GetInstance()->GetCommandList()->GetLL());
 }

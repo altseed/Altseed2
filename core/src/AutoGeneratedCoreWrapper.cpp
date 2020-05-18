@@ -1070,13 +1070,6 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_SetRenderTargetWithScreen(void* cbg_self, Altseed::RenderPassParameter_C renderPassparameter) {
-    auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
-
-    Altseed::RenderPassParameter_C cbg_arg0 = renderPassparameter;
-    cbg_self_->SetRenderTargetWithScreen(cbg_arg0);
-}
-
 CBGEXPORT void* CBGSTDCALL cbg_CommandList_GetScreenTexture(void* cbg_self) {
     auto cbg_self_ = (Altseed::CommandList*)(cbg_self);
 
@@ -3507,6 +3500,20 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_PickFolder(void* cbg_self, const c
     const char16_t* cbg_arg0 = defaultPath;
     const char16_t* cbg_ret = cbg_self_->PickFolder(cbg_arg0);
     return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetToolUsage(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::ToolUsage cbg_ret = cbg_self_->GetToolUsage();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetToolUsage(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    Altseed::ToolUsage cbg_arg0 = (Altseed::ToolUsage)value;
+    cbg_self_->SetToolUsage(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_Release(void* cbg_self) {

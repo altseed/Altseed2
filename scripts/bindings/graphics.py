@@ -304,12 +304,6 @@ with CommandList as class_:
     class_.brief.add('ja', 'コマンドリストのクラス')
     class_.is_Sealed = True
 
-    with class_.add_func('SetRenderTargetWithScreen') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('ja', '？')
-        func_.add_arg(RenderPassParameter, 'renderPassparameter')
-        func_.is_public = False
-
     with class_.add_func('GetScreenTexture') as func_:
         func_.return_value.type_ = RenderTexture
 

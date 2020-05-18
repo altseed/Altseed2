@@ -4,6 +4,18 @@ from .math import Vector2F, Vector4F
 from .common import *
 from .graphics import *
 
+ToolUsage = cbg.Enum('Altseed', 'ToolUsage')
+with ToolUsage as enum_:
+    enum_.brief = cbg.Description()
+    enum_.brief.add('ja', 'ツール機能の使用方法(描画位置)')
+
+    with enum_.add('Overwrapped', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '画面の上に表示')
+    with enum_.add('Main', 1) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '画面を表示せずにツールのみ表示')
+
 ToolDir = cbg.Enum('Altseed', 'ToolDir')
 with ToolDir as enum_:
     enum_.brief = cbg.Description()
@@ -869,6 +881,12 @@ with Tool as class_:
         func.is_static = True
         func.is_public = False
         func.return_value.type_ = Tool
+
+    with class_.add_property(ToolUsage, 'ToolUsage') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'ツールの使用方法を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
 
     with class_.add_func('AddFontFromFileTTF') as func_:
         func_.brief = cbg.Description()

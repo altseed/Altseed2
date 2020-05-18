@@ -103,6 +103,7 @@ define.classes.append(Font)
 define.classes.append(CullingSystem)
 
 # tool
+define.enums.append(ToolUsage)
 define.enums.append(ToolDir)
 define.enums.append(ToolCond)
 define.enums.append(ToolTreeNode)
