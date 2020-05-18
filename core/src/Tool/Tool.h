@@ -276,6 +276,11 @@ enum class ToolHovered : int32_t {
     RootAndChildWindows = RootWindow | ChildWindows
 };
 
+enum class ToolUsage {
+    Overwrapped,
+    Main,
+};
+
 class Tool : public BaseObject {
 private:
     static std::shared_ptr<Tool> instance_;
@@ -283,6 +288,8 @@ private:
 
     //! to hold graphics device
     std::shared_ptr<Graphics> graphics_;
+
+    ToolUsage toolUsageMode_ = ToolUsage::Overwrapped;
 
 public:
     static std::shared_ptr<Tool>& GetInstance();
@@ -296,6 +303,10 @@ public:
     virtual ~Tool();
 
     void OnTerminating() override;
+
+    ToolUsage GetToolUsage() const;
+
+    void SetToolUsage(ToolUsage toolUsage);
 
     void NewFrame();
 

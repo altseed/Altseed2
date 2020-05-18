@@ -43,9 +43,14 @@ struct RenderPassParameter_C {
 
 class CommandList : public BaseObject {
 private:
+    struct RenderPass {
+        std::shared_ptr<RenderTexture> RenderTarget;
+        std::shared_ptr<LLGI::RenderPass> Stored;
+    };
+
     struct RenderPassCache {
         int32_t Life = 0;
-        std::shared_ptr<LLGI::RenderPass> Stored;
+        std::shared_ptr<RenderPass> Stored;
     };
 
     std::map<std::shared_ptr<RenderTexture>, RenderPassCache> renderPassCaches_;
@@ -53,8 +58,9 @@ private:
     LLGI::CommandList* currentCommandList_ = nullptr;
     std::shared_ptr<LLGI::SingleFrameMemoryPool> memoryPool_;
     std::shared_ptr<LLGI::CommandListPool> commandListPool_;
-    std::shared_ptr<LLGI::RenderPass> currentRenderPass_;
-    std::shared_ptr<RenderTexture> currentRenderTarget_;
+    std::shared_ptr<RenderPass> currentRenderPass_;
+    LLGI::RenderPass* currentRenderPassLL_ = nullptr;
+
     bool isInRenderPass_ = false;
 
     std::shared_ptr<RenderTexture> internalScreen_;
@@ -66,7 +72,9 @@ private:
     std::shared_ptr<LLGI::Texture> proxyTexture_;
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
 
-    bool isRequiredNotToPresent_ = false;
+    bool isPresentScreenBufferDirectly_ = true;
+
+    std::shared_ptr<RenderPass> CreateRenderPass(std::shared_ptr<RenderTexture> target);
 
 public:
     static std::shared_ptr<CommandList> Create();
@@ -79,7 +87,7 @@ public:
 
     void SetScissor(const RectI& scissor);
 
-    void BeginRenderPass(std::shared_ptr<RenderTexture> target, std::shared_ptr<LLGI::RenderPass> renderPass);
+    void BeginRenderPass(std::shared_ptr<RenderPass> renderPass);
 
     void EndRenderPass();
 
@@ -110,9 +118,14 @@ public:
     void PresentInternal();
 
     /**
-        @brief  (internal function) required not to present in this frame
+        @brief  (internal function)
     */
-    void RequireNotToPresent();
+    bool GetIsPresentScreenBufferDirectly() const;
+
+    /**
+        @brief  (internal function)
+    */
+    void SetIsPresentScreenBufferDirectly(bool value);
 
     void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
 
@@ -135,6 +148,11 @@ public:
 
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;
+
+    LLGI::RenderPass* GetScreenRenderPass();
+    
+    LLGI::RenderPass* GetActualScreenRenderPass() const;
+    
     LLGI::CommandList* GetLL() const;
 
     void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);
