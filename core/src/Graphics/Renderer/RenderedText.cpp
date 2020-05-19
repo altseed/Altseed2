@@ -13,6 +13,8 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
     t->SetIsEnableKerning(true);
     t->SetWritingDirection(WritingDirection::Horizontal);
     t->SetText(u"");
+    t->SetCharacterSpace(0);
+    t->SetLineGap(0);
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
 
     return t;
@@ -32,9 +34,9 @@ Vector2F RenderedText::GetTextureSize() {
         // return
         if (character == '\n') {
             if (writingDirection_ == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + GetFont()->GetLineGap());
+                offset = Vector2F(0, offset.Y + GetLineGap());
             else
-                offset = Vector2F(offset.X - GetFont()->GetLineGap(), 0);
+                offset = Vector2F(offset.X - GetLineGap(), 0);
             continue;
         }
 
@@ -80,6 +82,15 @@ Vector2F RenderedText::GetTextureSize() {
                 offset += Vector2F(0, (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X);
         }
 
+        // character spcae
+        if (i != characters.size() - 1) {
+            if (writingDirection_ == WritingDirection::Horizontal)
+                offset += Altseed::Vector2F(GetCharacterSpace(), 0);
+            else
+                offset += Altseed::Vector2F(0, GetCharacterSpace());
+        }
+
+        // kerning
         if (isEnableKerning_ && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);

@@ -22,6 +22,8 @@ private:
     float weight_;
     bool isEnableKerning_;
     WritingDirection writingDirection_;
+    float characterSpace_;
+    float lineGap_;
 
 public:
     static std::shared_ptr<RenderedText> Create();
@@ -40,6 +42,7 @@ public:
 
     void SetFont(const std::shared_ptr<Font>& font) {
         font_ = font;
+        lineGap_ = (float)font_->GetLineGap();
         cullingSystem_->RequestUpdateAABB(this);
     }
 
@@ -48,8 +51,26 @@ public:
     void SetIsEnableKerning(bool isEnableKerning) { isEnableKerning_ = isEnableKerning; }
     bool GetIsEnableKerning() { return isEnableKerning_; }
 
-    void SetWritingDirection(WritingDirection wrintingDirection) { writingDirection_ = wrintingDirection; }
+    void SetWritingDirection(WritingDirection wrintingDirection) {
+        writingDirection_ = wrintingDirection;
+        cullingSystem_->RequestUpdateAABB(this);
+    }
+
     WritingDirection GetWritingDirection() { return writingDirection_; }
+
+    void SetCharacterSpace(float characterSpace) {
+        characterSpace_ = characterSpace;
+        cullingSystem_->RequestUpdateAABB(this);
+    }
+
+    float GetCharacterSpace() { return characterSpace_; }
+
+    void SetLineGap(float lineGap) {
+        lineGap_ = lineGap;
+        cullingSystem_->RequestUpdateAABB(this);
+    }
+
+    float GetLineGap() { return lineGap_; }
 
     //! Internal function
     const std::u16string& GetTextAsStr() const { return text_; }
