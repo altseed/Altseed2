@@ -1298,6 +1298,34 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetWritingDirection(void* cbg_self, i
     cbg_self_->SetWritingDirection(cbg_arg0);
 }
 
+CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetCharacterSpace(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetCharacterSpace();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetCharacterSpace(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetCharacterSpace(cbg_arg0);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetLineGap(void* cbg_self) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetLineGap();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetLineGap(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetLineGap(cbg_arg0);
+}
+
 CBGEXPORT Altseed::Vector2F_C CBGSTDCALL cbg_RenderedText_GetTextureSize(void* cbg_self) {
     auto cbg_self_ = (Altseed::RenderedText*)(cbg_self);
 

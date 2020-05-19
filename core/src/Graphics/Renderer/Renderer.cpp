@@ -154,7 +154,6 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     material->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
     material->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
-    // 改行を想定してVector2F
     Vector2F offset(0, 0);
     for (size_t i = 0; i < characters.size(); i++) {
         char32_t tmp = 0;
@@ -166,9 +165,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         // return
         if (character == '\n') {
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + text->GetFont()->GetLineGap());
+                offset = Vector2F(0, offset.Y + text->GetLineGap());
             else
-                offset = Vector2F(offset.X - text->GetFont()->GetLineGap(), 0);
+                offset = Vector2F(offset.X - text->GetLineGap(), 0);
             continue;
         }
 
@@ -254,6 +253,15 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
                 offset += Vector2F(0, (float)texture->GetSize().Y * text->GetFont()->GetSize() / texture->GetSize().X);
         }
 
+        // character spcae
+        if (i != characters.size() - 1) {
+            if (text->GetWritingDirection() == WritingDirection::Horizontal)
+                offset += Altseed::Vector2F(text->GetCharacterSpace(), 0);
+            else
+                offset += Altseed::Vector2F(0, text->GetCharacterSpace());
+        }
+
+        // kerning
         if (text->GetIsEnableKerning() && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);

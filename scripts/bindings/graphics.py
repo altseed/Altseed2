@@ -714,6 +714,20 @@ with RenderedText as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(float, 'CharacterSpace') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '字間をピクセル単位で取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+    
+    with class_.add_property(float, 'LineGap') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '行間をピクセル単位で取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
     with class_.add_property(Vector2F, 'TextureSize') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テキストを描画したときのサイズを取得します')
