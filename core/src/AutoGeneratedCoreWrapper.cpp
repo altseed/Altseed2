@@ -1530,6 +1530,13 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetLightBloomShader(void*
     return cbg_ret;
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetTextureMixShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetTextureMixShader();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 
