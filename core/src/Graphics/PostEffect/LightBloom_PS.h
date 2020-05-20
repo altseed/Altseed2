@@ -11,14 +11,14 @@ struct PS_INPUT
 
 cbuffer Consts : register(b1)
 {
-    float4 _Resolution;
-    float4 _Intensity;
-    float4 _Threshold;
-    float4 _Exposure;
+    float4 imageSize;
+    float4 intensity;
+    float4 threshold;
+    float4 exposure;
 };
 
-Texture2D _BaseTexture : register(t0);
-SamplerState _BaseSampler : register(s0);
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
 
 static float weight[4];
 
@@ -35,16 +35,16 @@ float gauss(float x, float sigma)
 float3 getColor(float2 uv)
 {
 #ifdef BLUR_X
-    float4 color = _BaseTexture.Sample(_BaseSampler, uv) * _Exposure;
+    float4 color = mainTex.Sample(mainSamp, uv) * exposure;
     color.xyz = min(color.xyz, float4(255.0));
 
 #ifdef LUM_MODE
     float3 lum = getLuminance(color.xyz);
-    float3 bloomedLum = lum - _Threshold;
+    float3 bloomedLum = lum - threshold;
     float3 bloomedPower = min(max(bloomedLum / 2.0, 0.0), 1.0);
     return color.xyz * bloomedPower;
 #else
-    float3 bloomedLum = color.xyz - _Threshold.xyz;
+    float3 bloomedLum = color.xyz - threshold.xyz;
     bloomedLum = max(bloomedLum, float3(0.0, 0.0, 0.0));
     color.xyz = bloomedLum;
     return color;
@@ -53,7 +53,7 @@ float3 getColor(float2 uv)
 #endif
 
 #ifdef BLUR_Y
-    return _BaseTexture.Sample(_BaseSampler, uv);
+    return mainTex.Sample(mainSamp, uv);
 #endif
 }
 
@@ -62,7 +62,7 @@ float4 getGaussianBlur(float2 uv)
     float weightTotal = 0;
     for(int i = 0; i < 4; ++i)
     {
-        weight[i] = gauss(i + 0.5, _Intensity.x);
+        weight[i] = gauss(i + 0.5, intensity.x);
         weightTotal += weight[i] * 2.0;
     }
     
@@ -71,12 +71,12 @@ float4 getGaussianBlur(float2 uv)
     for(int i = 0; i < 4; ++i)
     {
 #ifdef BLUR_X
-        float2 nShiftedUV = uv + float2(-(i + 0.5) / _Resolution.x, 0.0);
-        float2 pShiftedUV = uv + float2(+(i + 0.5) / _Resolution.x, 0.0);
+        float2 nShiftedUV = uv + float2(-(i + 0.5) / imageSize.x, 0.0);
+        float2 pShiftedUV = uv + float2(+(i + 0.5) / imageSize.x, 0.0);
 #endif
 #ifdef BLUR_Y
-        float2 nShiftedUV = uv + float2(0.0, -(i + 0.5) / _Resolution.y);
-        float2 pShiftedUV = uv + float2(0.0, +(i + 0.5) / _Resolution.y);
+        float2 nShiftedUV = uv + float2(0.0, -(i + 0.5) / imageSize.y);
+        float2 pShiftedUV = uv + float2(0.0, +(i + 0.5) / imageSize.y);
 #endif
         outputColor += getColor(nShiftedUV) * weight[i] / weightTotal;
         outputColor += getColor(pShiftedUV) * weight[i] / weightTotal;
