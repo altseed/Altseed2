@@ -325,6 +325,7 @@ void CommandList::SetRenderTargetWithScreen(const RenderPassParameter& renderPas
 
     currentCommandList_->BeginRenderPass(r);
     currentRenderPassLL_ = r;
+    isInRenderPass_ = true;
 }
 
 void CommandList::PresentInternal() {

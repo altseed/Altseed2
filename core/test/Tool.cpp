@@ -34,7 +34,7 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
 
     int count = 0;
 
-    //Altseed::Tool::GetInstance()->SetToolUsageMode(Altseed::ToolUsageMode::Main);
+    // Altseed::Tool::GetInstance()->SetToolUsage(Altseed::ToolUsage::Main);
 
     auto g = Altseed::Graphics::GetInstance();
     EXPECT_TRUE(g != nullptr);

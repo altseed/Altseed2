@@ -101,14 +101,16 @@ void Tool::NewFrame() {
 }
 
 void Tool::Render() {
-    RenderPassParameter parameter;
-    parameter.IsColorCleared = true;
-    parameter.IsDepthCleared = false;
-
     if (toolUsageMode_ == ToolUsage::Main) {
+        RenderPassParameter parameter;
+        parameter.IsColorCleared = true;
+        parameter.IsDepthCleared = false;
         Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
     } else if (toolUsageMode_ == ToolUsage::Overwrapped) {
         // Very dirty hack
+        RenderPassParameter parameter;
+        parameter.IsColorCleared = false;
+        parameter.IsDepthCleared = false;
         Graphics::GetInstance()->GetCommandList()->PresentInternal();
         Graphics::GetInstance()->GetCommandList()->SetRenderTargetWithScreen(parameter);
         Graphics::GetInstance()->GetCommandList()->SetIsPresentScreenBufferDirectly(false);
