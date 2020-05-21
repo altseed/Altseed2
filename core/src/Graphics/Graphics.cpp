@@ -65,6 +65,23 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
         return false;
     }
 
+    auto logInstance = Log::GetInstance();
+    LLGI::SetLogger([logInstance](LLGI::LogType type, const char* c) -> void {
+        auto uc = u"LowLevelGraphics : " + utf8_to_utf16(c);
+
+        if (type == LLGI::LogType::Debug) {
+            logInstance->Debug(Altseed::LogCategory::Core, uc.c_str());
+        } else if (type == LLGI::LogType::Error) {
+            logInstance->Error(Altseed::LogCategory::Core, uc.c_str());
+        } else if (type == LLGI::LogType::Info) {
+            logInstance->Info(Altseed::LogCategory::Core, uc.c_str());
+        } else if (type == LLGI::LogType::Warning) {
+            logInstance->Warn(Altseed::LogCategory::Core, uc.c_str());
+        } else {
+            assert(0);
+        }
+    });
+
     instance->compiler_ = LLGI::CreateCompiler(pp.Device);
 
     instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
@@ -103,6 +120,9 @@ void Graphics::Terminate() {
     instance->graphics_->WaitFinish();
     LLGI::SafeRelease(instance->graphics_);
     LLGI::SafeRelease(instance->platform_);
+
+    LLGI::SetLogger([](LLGI::LogType type, const char* c) -> void {});
+
     instance = nullptr;
 }
 
