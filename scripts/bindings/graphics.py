@@ -188,6 +188,11 @@ with BuiltinShader as class_:
         prop.has_setter = False
         prop.is_public = False
 
+    with class_.add_property(ctypes.c_wchar_p, 'TextureMixShader') as prop:
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = False
+
 
 Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
