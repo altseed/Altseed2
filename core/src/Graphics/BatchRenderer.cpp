@@ -1,6 +1,7 @@
 #include "BatchRenderer.h"
 
 #include "../Graphics/Graphics.h"
+#include "../Logger/Log.h"
 #include "BuiltinShader.h"
 #include "CommandList.h"
 #include "Material.h"
@@ -81,8 +82,15 @@ void BatchRenderer::Render() {
     // TODO need to cause warning
     if (IndexBufferMax < rawIndexBuffer_.size()) return;
 
-    auto pvb = static_cast<BatchVertex*>(vertexBuffer_->Lock()) + vbOffset_;
-    auto pib = static_cast<int32_t*>(indexBuffer_->Lock()) + ibOffset_;
+    auto lockedVB = static_cast<BatchVertex*>(vertexBuffer_->Lock());
+    auto lockedIB = static_cast<int32_t*>(indexBuffer_->Lock());
+
+    if (lockedVB == nullptr || lockedIB == nullptr) {
+        LOG_CRITICAL(u"BatchRenderer : Failed to lock.");    
+    }
+
+    auto pvb = lockedVB + vbOffset_;
+    auto pib = lockedIB + ibOffset_;
 
     memcpy(pvb, rawVertexBuffer_.data(), sizeof(BatchVertex) * rawVertexBuffer_.size());
     memcpy(pib, rawIndexBuffer_.data(), sizeof(int32_t) * rawIndexBuffer_.size());
