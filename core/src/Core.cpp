@@ -50,19 +50,19 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!config->GetIsGraphicsOnly() && !Keyboard::Initialize(Window::GetInstance())) {
+    if (!Keyboard::Initialize(Window::GetInstance())) {
         LOG_CRITICAL(u"Keyboard::Initialize failed");
         Core::instance = nullptr;
         return false;
     }
 
-    if (!config->GetIsGraphicsOnly() && !Mouse::Initialize(Window::GetInstance())) {
+    if (!Mouse::Initialize(Window::GetInstance())) {
         LOG_CRITICAL(u"Mouse::Initialize failed");
         Core::instance = nullptr;
         return false;
     }
 
-    if (!config->GetIsGraphicsOnly() && !Joystick::Initialize()) {
+    if (!Joystick::Initialize()) {
         LOG_CRITICAL(u"Joystick::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -148,12 +148,12 @@ void Core::Terminate() {
     SynchronizationContext::GetInstance()->Run();
     SynchronizationContext::Terminate();
 
-    if (!Core::instance->config_->GetToolEnabled()) Tool::Terminate();
+    if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
     Renderer::Terminate();
     Window::Terminate();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Keyboard::Terminate();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Mouse::Terminate();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Joystick::Terminate();
+    Keyboard::Terminate();
+    Mouse::Terminate();
+    Joystick::Terminate();
     Resources::Terminate();
     File::Terminate();
     CullingSystem::Terminate();
@@ -170,9 +170,9 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Altseed::Keyboard::GetInstance()->RefleshKeyStates();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Altseed::Mouse::GetInstance()->RefreshInputState();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) Altseed::Joystick::GetInstance()->RefreshInputState();
+    Altseed::Keyboard::GetInstance()->RefleshKeyStates();
+    Altseed::Mouse::GetInstance()->RefreshInputState();
+    Altseed::Joystick::GetInstance()->RefreshInputState();
 
     SynchronizationContext::GetInstance()->Run();
 
