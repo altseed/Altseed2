@@ -145,6 +145,20 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetWaitVSync(void* cbg_self, bool va
     cbg_self_->SetWaitVSync(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsGraphicsOnly(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsGraphicsOnly();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsGraphicsOnly(void* cbg_self, bool value) {
+    auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
+
+    bool cbg_arg0 = value;
+    cbg_self_->SetIsGraphicsOnly(cbg_arg0);
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetConsoleLoggingEnabled(void* cbg_self) {
     auto cbg_self_ = (Altseed::Configuration*)(cbg_self);
 

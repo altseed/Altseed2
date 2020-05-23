@@ -60,6 +60,13 @@ with Configuration as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+    
+    with class_.add_property(bool, 'IsGraphicsOnly') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'IO・描画機能以外の機能を無効にします。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
 
     with class_.add_property(bool, 'ConsoleLoggingEnabled') as prop:
         prop.brief = cbg.Description()
