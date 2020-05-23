@@ -28,6 +28,10 @@ bool Configuration::GetWaitVSync() const { return waitVSync_; }
 
 void Configuration::SetWaitVSync(bool waitVSync) { waitVSync_ = waitVSync; }
 
+bool Configuration::GetIsGraphicsOnly() const { return isGraphicsOnly_; }
+
+void Configuration::SetIsGraphicsOnly(bool isGraphicsOnly) { isGraphicsOnly_ = isGraphicsOnly; }
+
 bool Configuration::GetConsoleLoggingEnabled() const { return consoleLoggingEnabled_; }
 
 void Configuration::SetConsoleLoggingEnabled(bool consoleLoggingEnabled) { consoleLoggingEnabled_ = consoleLoggingEnabled; }

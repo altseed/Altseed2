@@ -50,19 +50,19 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!Keyboard::Initialize(Window::GetInstance())) {
+    if (config->GetIsGraphicsOnly() && !Keyboard::Initialize(Window::GetInstance())) {
         LOG_CRITICAL(u"Keyboard::Initialize failed");
         Core::instance = nullptr;
         return false;
     }
 
-    if (!Mouse::Initialize(Window::GetInstance())) {
+    if (config->GetIsGraphicsOnly() && !Mouse::Initialize(Window::GetInstance())) {
         LOG_CRITICAL(u"Mouse::Initialize failed");
         Core::instance = nullptr;
         return false;
     }
 
-    if (!Joystick::Initialize()) {
+    if (config->GetIsGraphicsOnly() && !Joystick::Initialize()) {
         LOG_CRITICAL(u"Joystick::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -104,7 +104,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!SoundMixer::Initialize(false)) {
+    if (config->GetIsGraphicsOnly() && !SoundMixer::Initialize(false)) {
         LOG_CRITICAL(u"SoundMixer::Initialize failed");
         Core::instance = nullptr;
         return false;
@@ -151,15 +151,15 @@ void Core::Terminate() {
     if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
     Renderer::Terminate();
     Window::Terminate();
-    Keyboard::Terminate();
-    Mouse::Terminate();
-    Joystick::Terminate();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Keyboard::Terminate();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Mouse::Terminate();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Joystick::Terminate();
     Resources::Terminate();
     File::Terminate();
     CullingSystem::Terminate();
     Graphics::Terminate();
     ShaderCompiler::Terminate();
-    SoundMixer::Terminate();
+    if (Core::instance->config_->GetIsGraphicsOnly()) SoundMixer::Terminate();
     Log::Terminate();
 
     Core::instance = nullptr;
@@ -170,9 +170,9 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
-    Altseed::Keyboard::GetInstance()->RefleshKeyStates();
-    Altseed::Mouse::GetInstance()->RefreshInputState();
-    Altseed::Joystick::GetInstance()->RefreshInputState();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Altseed::Keyboard::GetInstance()->RefleshKeyStates();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Altseed::Mouse::GetInstance()->RefreshInputState();
+    if (Core::instance->config_->GetIsGraphicsOnly()) Altseed::Joystick::GetInstance()->RefreshInputState();
 
     SynchronizationContext::GetInstance()->Run();
 

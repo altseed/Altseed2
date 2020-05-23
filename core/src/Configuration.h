@@ -11,6 +11,7 @@ private:
     bool isResizable_ = false;
     GraphicsDeviceType deviceType_ = GraphicsDeviceType::Default;
     bool waitVSync_ = false;
+    bool isGraphicsOnly_ = false;
 
     bool consoleLoggingEnabled_ = false;
     bool fileLoggingEnabled_ = false;
@@ -35,6 +36,9 @@ public:
 
     bool GetWaitVSync() const;
     void SetWaitVSync(bool waitVSync);
+
+    bool GetIsGraphicsOnly() const;
+    void SetIsGraphicsOnly(bool isGraphicsOnly);
 
     bool GetConsoleLoggingEnabled() const;
     void SetConsoleLoggingEnabled(bool fileLoggingEnabled);
