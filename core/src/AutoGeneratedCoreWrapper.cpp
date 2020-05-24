@@ -1937,11 +1937,11 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label,
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_CheckBox(void* cbg_self, const char16_t* label, bool * isOpen) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_CheckBox(void* cbg_self, const char16_t* label, bool * v) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    bool* cbg_arg1 = isOpen;
+    bool* cbg_arg1 = v;
     bool cbg_ret = cbg_self_->CheckBox(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -3057,15 +3057,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ImageButton(void* cbg_self, void* texture, Al
     Altseed::Color_C cbg_arg5 = tintColor;
     Altseed::Color_C cbg_arg6 = borderColor;
     bool cbg_ret = cbg_self_->ImageButton(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Checkbox(void* cbg_self, const char16_t* label, bool * v) {
-    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool* cbg_arg1 = v;
-    bool cbg_ret = cbg_self_->Checkbox(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 

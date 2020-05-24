@@ -1020,8 +1020,8 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        with func_.add_arg(bool, 'isOpen') as arg:
-            arg.called_by = cbg.ArgCalledBy.Out
+        with func_.add_arg(bool, 'v') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
 
     with class_.add_func('RadioButton') as func_:
@@ -2030,15 +2030,6 @@ with Tool as class_:
         func_.add_arg(int, 'framePadding')
         func_.add_arg(Color, 'tintColor')
         func_.add_arg(Color, 'borderColor')
-        func_.return_value.type_ = bool
-
-    with class_.add_func('Checkbox') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        with func_.add_arg(bool, 'v') as arg:
-            arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
 
     # with class_.add_func('CheckboxFlags') as func_:
