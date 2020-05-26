@@ -62,6 +62,7 @@ private:
     LLGI::RenderPass* currentRenderPassLL_ = nullptr;
 
     bool isInRenderPass_ = false;
+    bool isInFrame_ = false;
 
     std::shared_ptr<RenderTexture> internalScreen_;
 

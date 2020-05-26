@@ -148,6 +148,13 @@ std::shared_ptr<CommandList> CommandList::Create() {
 std::shared_ptr<RenderTexture> CommandList::GetScreenTexture() const { return internalScreen_; }
 
 void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
+    if (isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::StartFrame: This function must be paired with EndFrame.");
+        return;
+    }
+
+    isInFrame_ = true;
+
     if (copyMaterial_ == nullptr) {
         copyMaterial_ = MakeAsdShared<Material>();
         auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
@@ -187,17 +194,29 @@ void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
 }
 
 void CommandList::EndFrame() {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndFrame: This function must be paired with StartFrame.");
+        return;
+    }
+
     if (isInRenderPass_) {
         EndRenderPass();
     }
     currentCommandList_->End();
 
     FrameDebugger::GetInstance()->EndFrame();
+
+    isInFrame_ = false;
 }
 
 void CommandList::SetScissor(const RectI& scissor) { currentCommandList_->SetScissor(scissor.X, scissor.Y, scissor.Width, scissor.Height); }
 
 void CommandList::BeginRenderPass(std::shared_ptr<RenderPass> renderPass) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::BeginRenderPass: This function must be called in Frame.");
+        return;
+    }
+
     if (isInRenderPass_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::BeginRenderPass: invalid CommandList state");
         return;
@@ -212,6 +231,11 @@ void CommandList::BeginRenderPass(std::shared_ptr<RenderPass> renderPass) {
 }
 
 void CommandList::EndRenderPass() {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: This function must be called in Frame.");
+        return;
+    }
+
     if (!isInRenderPass_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: invalid CommandList state");
         return;
@@ -225,6 +249,11 @@ void CommandList::EndRenderPass() {
 }
 
 void CommandList::PauseRenderPass() {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::PauseRenderPass: This function must be called in Frame.");
+        return;
+    }
+
     if (!isInRenderPass_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::EndRenderPass: invalid CommandList state");
         return;
@@ -236,6 +265,11 @@ void CommandList::PauseRenderPass() {
 }
 
 void CommandList::ResumeRenderPass() {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::ResumeRenderPass: This function must be called in Frame.");
+        return;
+    }
+
     if (isInRenderPass_ || currentRenderPass_ == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::ResumeRenderPass: invalid CommandList state");
         return;
@@ -251,6 +285,11 @@ void CommandList::ResumeRenderPass() {
 }
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SetRenderTarget: This function must be called in Frame.");
+        return;
+    }
+
     auto stored = CreateRenderPass(target);
 
     stored->Stored->SetClearColor(renderPassParameter.ClearColor.ToLL());
@@ -266,6 +305,11 @@ void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const R
 
 void CommandList::RenderToRenderTexture(
         std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::RenderToRenderTexture: This function must be called in Frame.");
+        return;
+    }
+
     std::shared_ptr<Altseed::RenderTexture> currentTarget;
 
     if (currentRenderPass_ != nullptr) {
@@ -284,6 +328,11 @@ void CommandList::RenderToRenderTexture(
 }
 
 void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::RenderToRenderTarget: This function must be called in Frame.");
+        return;
+    }
+
     // default paramter
     Matrix44F matE;
     matE.SetIdentity();
@@ -314,6 +363,11 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
 }
 
 void CommandList::SetRenderTargetWithScreen(const RenderPassParameter& renderPassParameter) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SetRenderTargetWithScreen: This function must be called in Frame.");
+        return;
+    }
+
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
     if (isInRenderPass_) {
@@ -448,6 +502,11 @@ void CommandList::Draw(int32_t instanceCount) {
 }
 
 void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst) {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::CopyTexture: This function must be called in Frame.");
+        return;
+    }
+
     auto srcSize = src->GetSize();
     auto dstSize = dst->GetSize();
 
