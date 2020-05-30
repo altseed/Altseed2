@@ -42,7 +42,10 @@ public:
 
     void SetFont(const std::shared_ptr<Font>& font) {
         font_ = font;
-        lineGap_ = (float)font_->GetLineGap();
+
+        if (font_ != nullptr) {
+            lineGap_ = (float)font_->GetLineGap();
+        }
         cullingSystem_->RequestUpdateAABB(this);
     }
 
