@@ -21,6 +21,12 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
 }
 
 Vector2F RenderedText::GetTextureSize() {
+
+	if (GetFont() == nullptr)
+	{
+        return Vector2F(0, 0);
+	}
+
     const auto& characters = GetTextAsStr();
 
     Vector2F offset(0, 0);

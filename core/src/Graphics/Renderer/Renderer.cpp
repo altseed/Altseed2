@@ -141,6 +141,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     if (!text->GetIsDrawn()) return;
+    if (text->GetFont() == nullptr) return;
 
     const auto& characters = text->GetTextAsStr();
 
