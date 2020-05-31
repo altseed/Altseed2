@@ -631,7 +631,7 @@ public:
             Vector2F size,
             Vector2F uv0 = Vector2F(0, 0),
             Vector2F uv1 = Vector2F(1, 1),
-            Color tint_col = Color(1, 1, 1, 1),
+            Color tint_col = Color(255, 255, 255, 255),
             Color border_col = Color(0, 0, 0, 0));
 
     bool ImageButton(
@@ -641,7 +641,7 @@ public:
             Vector2F uv1 = Vector2F(1, 1),
             int32_t frame_padding = -1,
             Color bg_col = Color(0, 0, 0, 0),
-            Color tint_col = Color(1, 1, 1, 1));
+            Color tint_col = Color(255, 255, 255, 255));
 
     bool Checkbox(const char16_t* label, bool* v);
 

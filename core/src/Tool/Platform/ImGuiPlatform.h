@@ -14,4 +14,6 @@ public:
     virtual void NewFrame(LLGI::RenderPass* renderPass) = 0;
 
     virtual void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) = 0;
+
+    virtual ImTextureID GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList) { return nullptr; }
 };

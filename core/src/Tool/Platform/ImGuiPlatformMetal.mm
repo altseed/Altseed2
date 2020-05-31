@@ -6,6 +6,7 @@
 #include <Metal/LLGI.GraphicsMetal.h>
 #include <Metal/LLGI.Metal_Impl.h>
 #include <Metal/LLGI.RenderPassMetal.h>
+#include <Metal/LLGI.TextureMetal.h>
 
 class ImguiPlatformMetal_Impl
 {
@@ -18,6 +19,7 @@ public:
 
 	void NewFrame(LLGI::RenderPass* renderPass)
     {
+		textures_.clear();
         auto rp = (LLGI::RenderPassMetal*)renderPass;
         ImGui_ImplMetal_NewFrame(rp->GetImpl()->renderPassDescriptor);
     }
@@ -48,4 +50,15 @@ void ImguiPlatformMetal::NewFrame(LLGI::RenderPass* renderPass)
 void ImguiPlatformMetal::RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) 
 {
 	impl->RenderDrawData(draw_data, commandList) ;
+}
+
+ImTextureID ImguiPlatformMetal::GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList)
+{
+    LLGI::SafeAddRef(texture);
+    auto texturePtr = LLGI::CreateSharedPtr(texture);
+    textures_.insert(texturePtr);
+
+    auto t = static_cast<LLGI::TextureMetal*>(texture);
+    auto impl = t->GetImpl();
+    return (__bridge void*)(impl->texture);
 }
