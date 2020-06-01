@@ -494,8 +494,6 @@ bool Tool::ImageButton(
         int32_t frame_padding,
         Color bg_col,
         Color tint_col) {
-    Log::GetInstance()->Warn(LogCategory::Core, u"Tool::ImageButton Not Implemented");
-
     return ImGui::ImageButton(
             platform_->GetTextureIDToRender(texture->GetNativeTexture().get(), Graphics::GetInstance()->GetCommandList()->GetLL()),
             toImVec2(size),
