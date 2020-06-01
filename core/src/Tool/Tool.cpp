@@ -477,7 +477,13 @@ void Tool::PopID() { ImGui::PopID(); }
 bool Tool::SmallButton(const char16_t* label) { return ImGui::SmallButton(utf16_to_utf8(label).c_str()); }
 
 void Tool::Image(std::shared_ptr<Texture2D> texture, Vector2F size, Vector2F uv0, Vector2F uv1, Color tint_col, Color border_col) {
-    Log::GetInstance()->Warn(LogCategory::Core, u"Tool::Image Not Implemented");
+    ImGui::Image(
+            platform_->GetTextureIDToRender(texture->GetNativeTexture().get(), Graphics::GetInstance()->GetCommandList()->GetLL()),
+            toImVec2(size),
+            toImVec2(uv0),
+            toImVec2(uv1),
+            toImVec4(tint_col),
+            toImVec4(border_col));
 }
 
 bool Tool::ImageButton(
@@ -488,9 +494,14 @@ bool Tool::ImageButton(
         int32_t frame_padding,
         Color bg_col,
         Color tint_col) {
-    Log::GetInstance()->Warn(LogCategory::Core, u"Tool::ImageButton Not Implemented");
-
-    return false;
+    return ImGui::ImageButton(
+            platform_->GetTextureIDToRender(texture->GetNativeTexture().get(), Graphics::GetInstance()->GetCommandList()->GetLL()),
+            toImVec2(size),
+            toImVec2(uv0),
+            toImVec2(uv1),
+            frame_padding,
+            toImVec4(bg_col),
+            toImVec4(tint_col));
 }
 
 bool Tool::Checkbox(const char16_t* label, bool* v) { return ImGui::Checkbox(utf16_to_utf8(label).c_str(), v); }

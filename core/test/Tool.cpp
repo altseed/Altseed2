@@ -29,7 +29,7 @@ std::u16string format(const std::u16string& fmt, Args... args) {
 static void ToolTestTemplate(const int loopCount, std::function<void(std::shared_ptr<Altseed::Tool>)> update) {
     auto config = Altseed::Configuration::Create();
     config->SetToolEnabled(true);
-    
+
     EXPECT_TRUE(Altseed::Core::Initialize(u"Tool", 1280, 720, config));
 
     int count = 0;
@@ -66,7 +66,6 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = false;
         EXPECT_TRUE(g->BeginFrame(renderPassParameter));
-        
         Altseed::Tool::GetInstance()->NewFrame();
 
         if (update != nullptr) update(t);
@@ -551,4 +550,17 @@ TEST(Tool, SaveDialog) {
     Altseed::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
 
     Altseed::Core::Terminate();
+}
+
+TEST(Tool, Image) {
+    ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
+        static auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+        EXPECT_TRUE(t1 != nullptr);
+
+        if (t->Begin(u"Image")) {
+            t->Image(t1, Altseed::Vector2F(100, 100));
+            t->ImageButton(t1, Altseed::Vector2F(100, 100));
+            t->End();
+        }
+    });
 }
