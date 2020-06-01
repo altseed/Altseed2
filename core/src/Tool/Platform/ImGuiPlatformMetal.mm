@@ -19,7 +19,6 @@ public:
 
 	void NewFrame(LLGI::RenderPass* renderPass)
     {
-		textures_.clear();
         auto rp = (LLGI::RenderPassMetal*)renderPass;
         ImGui_ImplMetal_NewFrame(rp->GetImpl()->renderPassDescriptor);
     }
@@ -44,6 +43,7 @@ ImguiPlatformMetal::~ImguiPlatformMetal()
 
 void ImguiPlatformMetal::NewFrame(LLGI::RenderPass* renderPass)
 {
+    textures_.clear();
 	impl->NewFrame(renderPass);
 }
 
