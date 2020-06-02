@@ -39,8 +39,17 @@ jobs:
             wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
             sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.1.121-xenial.list http://packages.lunarg.com/vulkan/1.1.121/lunarg-vulkan-1.1.121-xenial.list
             sudo apt update
-            sudo apt -y install vulkan-sdk
+            sudo apt -y install vulkan-sdk clang-format clang-tidy
             
+
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            pip3 install chardet
+            cd .ci
+            python3 check_format.py
+
       - task: Bash@3
         inputs:
           targetType: 'inline'
@@ -60,11 +69,12 @@ jobs:
 
       - task: CMake@1
         inputs:
-          cmakeArgs: '.. -DBUILD_TEST=ON'
+          cmakeArgs: '.. -DBUILD_TEST=ON -D CLANG_TIDY_ENABLED=ON'
 
       - task: CMake@1
         inputs:
           cmakeArgs: '--build . --config Release'
+
   - job: MacOS
     pool:
       vmImage: 'macOS-10.14'

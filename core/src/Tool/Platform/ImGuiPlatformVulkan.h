@@ -7,6 +7,7 @@
 #include <Vulkan/LLGI.RenderPassVulkan.h>
 #include <imgui.h>
 #include <imgui_impl_vulkan.h>
+
 #include "ImGuiPlatform.h"
 
 class ImguiPlatformVulkan : public ImguiPlatform {

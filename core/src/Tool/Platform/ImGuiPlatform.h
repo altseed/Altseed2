@@ -3,7 +3,6 @@
 #include <LLGI.CommandList.h>
 #include <LLGI.Graphics.h>
 #include <LLGI.Platform.h>
-
 #include <imgui.h>
 
 class ImguiPlatform {
