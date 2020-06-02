@@ -7,6 +7,9 @@ endif()
 # solution name
 project(Altseed)
 
+include(cmake/ClangFormat.cmake)
+include(cmake/ClangTidy.cmake)
+
 # option
 option(BUILD_TEST "build test" ON)
 option(SANITIZE_ENABLED "make sanitize enabled" OFF)
@@ -94,7 +97,7 @@ set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_glslang PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_SPIRV-Cross PROPERTIES FOLDER thirdparty)
 
-set_target_properties (box2d PROPERTIES FOLDER thirdparty)
+#set_target_properties (box2d PROPERTIES FOLDER thirdparty)
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)
 set_target_properties (spdlog PROPERTIES FOLDER thirdparty)
 set_target_properties (LLGI PROPERTIES FOLDER thirdparty)

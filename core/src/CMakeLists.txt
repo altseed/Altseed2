@@ -374,3 +374,6 @@ SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 # make c++17 enabled
 SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES CXX_STANDARD 17)
+
+clang_format(Altseed_Core)
+clang_tidy(Altseed_Core)
