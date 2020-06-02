@@ -10,6 +10,10 @@
 
 namespace Altseed {
 
+
+
+
+
 class Core;
 
 class BaseObject {
