@@ -9,8 +9,8 @@ if(CLANG_TIDY_ENABLED)
   if(CLANG_TIDY_EXE)
     message(STATUS "Enable Clang-Tidy ${target}")
     set_target_properties(${target} PROPERTIES
-      C_CLANG_TIDY "${CLANG_TIDY_EXE};-checks=*;-header-filter=${CMAKE_CURRENT_SOURCE_DIR}/*;-fix"
-      CXX_CLANG_TIDY "${CLANG_TIDY_EXE};-checks=*;-header-filter=${CMAKE_CURRENT_SOURCE_DIR}*;-fix")
+      C_CLANG_TIDY "${CLANG_TIDY_EXE};-header-filter=${CMAKE_CURRENT_SOURCE_DIR}/*"
+      CXX_CLANG_TIDY "${CLANG_TIDY_EXE};-header-filter=${CMAKE_CURRENT_SOURCE_DIR}*")
   else()
     message(STATUS "Clang-tidy is not found.")
   endif()
