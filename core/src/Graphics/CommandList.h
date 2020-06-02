@@ -151,9 +151,9 @@ public:
     LLGI::RenderPass* GetCurrentRenderPass() const;
 
     LLGI::RenderPass* GetScreenRenderPass();
-    
+
     LLGI::RenderPass* GetActualScreenRenderPass() const;
-    
+
     LLGI::CommandList* GetLL() const;
 
     void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);

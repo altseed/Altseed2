@@ -108,3 +108,6 @@ SET_TARGET_PROPERTIES(Altseed_Core_Test PROPERTIES CXX_STANDARD 17)
  if (MSVC)
     set_target_properties(Altseed_Core_Test PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/$(Configuration)")
 endif()
+
+clang_format(Altseed_Core_Test)
+clang_tidy(Altseed_Core_Test)

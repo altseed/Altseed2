@@ -86,7 +86,7 @@ void BatchRenderer::Render() {
     auto lockedIB = static_cast<int32_t*>(indexBuffer_->Lock());
 
     if (lockedVB == nullptr || lockedIB == nullptr) {
-        LOG_CRITICAL(u"BatchRenderer : Failed to lock.");    
+        LOG_CRITICAL(u"BatchRenderer : Failed to lock.");
     }
 
     auto pvb = lockedVB + vbOffset_;

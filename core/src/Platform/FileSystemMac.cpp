@@ -1,5 +1,3 @@
-#pragma once
-
 #include <dirent.h>
 #include <libgen.h>
 #include <stdlib.h>

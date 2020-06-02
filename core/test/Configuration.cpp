@@ -1,8 +1,8 @@
 #include <Configuration.h>
 #include <Core.h>
-#include <Graphics/Renderer/RenderedSprite.h>
-#include <Graphics/Renderer/CullingSystem.h>
 #include <Graphics/CommandList.h>
+#include <Graphics/Renderer/CullingSystem.h>
+#include <Graphics/Renderer/RenderedSprite.h>
 #include <Graphics/Renderer/Renderer.h>
 #include <gtest/gtest.h>
 
