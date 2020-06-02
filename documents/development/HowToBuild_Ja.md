@@ -45,3 +45,13 @@ libssl-dev # to save and load a package with a password
 ### Windows
 
 `build/Altseed.sln` を開き ソリューションごとビルドします。 `Altseed_Core_Test` を実行し、テストが走ったら成功です。
+
+## Clang-format(Mac, Linux)
+
+全てのファイルにclang-formatを適用します。
+
+```
+sh scripts/GenerateProjects_ClangFormat.sh
+cd build_clang_format
+make
+``` 
