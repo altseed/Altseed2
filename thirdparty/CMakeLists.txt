@@ -25,6 +25,7 @@ ExternalProject_Add(
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DASM686=off
                     -DAMD64=off
 )
@@ -41,6 +42,7 @@ ExternalProject_Add(
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/libpng
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
                     -DPNG_BUILD_ZLIB=ON
                     -DPNG_SHARED=OFF
@@ -71,6 +73,7 @@ ExternalProject_Add(
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/libzip
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
                     -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib
                     -DBUILD_SHARED_LIBS=OFF
@@ -95,6 +98,7 @@ ExternalProject_Add(
                     -DCMAKE_DEBUG_POSTFIX=d
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DGLFW_BUILD_EXAMPLES=OFF
                     -DGLFW_BUILD_TESTS=OFF
                     -DGLFW_BUILD_DOCS=OFF
@@ -120,6 +124,7 @@ ExternalProject_Add(
     CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/glslang
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DBUILD_SHARED_LIBS=OFF
                     -DBUILD_TEST=OFF
                     -DENABLE_PCH=OFF
@@ -141,6 +146,7 @@ ExternalProject_Add(
                     -DCMAKE_DEBUG_POSTFIX=d
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DBUILD_SHARED_LIBS=OFF
                     -DSPIRV_CROSS_ENABLE_TESTS=OFF
                     -DSPIRV_CROSS_FORCE_PIC=ON
