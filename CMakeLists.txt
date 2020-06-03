@@ -40,6 +40,9 @@ if(MSVC)
         cmake_policy(SET CMP0091 NEW)
         set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     endif()
+
+    message(${CMAKE_MSVC_RUNTIME_LIBRARY})
+
 endif()
 
 if(MSVC_SANITIZE_ENABLED)
@@ -49,8 +52,6 @@ if(MSVC_SANITIZE_ENABLED)
     add_definitions(-DMSVC_SANITIZE)
 
 endif()
-
-message(${CMAKE_MSVC_RUNTIME_LIBRARY})
 
 # python must be required
 find_package (Python3 COMPONENTS Interpreter)
