@@ -1,4 +1,5 @@
 build
+build_sanitizer
 .ionide
 .vs
 .vscode
