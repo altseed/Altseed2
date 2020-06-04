@@ -1,4 +1,7 @@
 #pragma once
+
+// For address sanitizer on Windows (Caching causes an odr error)
+#define SPDLOG_DISABLE_TID_CACHING
 #include <spdlog/spdlog.h>
 
 #include <memory>
