@@ -208,6 +208,9 @@ add_subdirectory(hidapi EXCLUDE_FROM_ALL)
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 set_target_properties(spdlog PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+# For address sanitizer on Windows (Caching causes an odr error)
+target_compile_options(spdlog PUBLIC -DSPDLOG_NO_TLS)
+
 # imgui
 add_subdirectory(imgui EXCLUDE_FROM_ALL)
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/imgui)

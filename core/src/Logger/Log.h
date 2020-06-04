@@ -1,7 +1,5 @@
 #pragma once
 
-// For address sanitizer on Windows (Caching causes an odr error)
-#define SPDLOG_DISABLE_TID_CACHING
 #include <spdlog/spdlog.h>
 
 #include <memory>
@@ -15,13 +13,13 @@
 namespace Altseed {
 
 enum class LogLevel : int32_t {
-    Trace = SPDLOG_LEVEL_TRACE,
-    Debug = SPDLOG_LEVEL_DEBUG,
-    Info = SPDLOG_LEVEL_INFO,
-    Warn = SPDLOG_LEVEL_WARN,
-    Error = SPDLOG_LEVEL_ERROR,
-    Critical = SPDLOG_LEVEL_CRITICAL,
-    Off = SPDLOG_LEVEL_OFF,
+    Trace = spdlog::level::trace,
+    Debug = spdlog::level::debug,
+    Info = spdlog::level::info,
+    Warn = spdlog::level::warn,
+    Error = spdlog::level::err,
+    Critical = spdlog::level::critical,
+    Off = spdlog::level::off,
 };
 
 enum class LogCategory : int32_t {
