@@ -78,8 +78,8 @@ std::u16string Joystick::ToU16(const std::wstring& wstr) {
 }
 
 void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len) {
-    uint8_t buf[0x40];
-    memset(buf, 0x0, size_t(0x40));
+    std::array<uint8_t, 0x40> buf;
+    buf.fill(0);
 
     buf[0] = 1;  // 0x10 for rumble only
     buf[1] = globalCount_;  // Increment by 1 for each packet sent. It loops in 0x0 - 0xF range.
@@ -91,14 +91,15 @@ void Joystick::SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], 
     }
 
     buf[10] = command;
-    memcpy(buf + 11, data, len);
+    memcpy(buf.data() + 11, data, len);
 
-    hid_write(dev, buf, 0x40);
+    hid_write(dev, buf.data(), 0x40);
 }
 
 void Joystick::RefreshConnectedState() {
     // Get HID handler
-    hid_device_info* device = hid_enumerate(0, 0);
+    hid_device_info* firstDevice = hid_enumerate(0, 0);
+    auto device = firstDevice;
     const char* path;
     int i = 0;
 
@@ -109,7 +110,9 @@ void Joystick::RefreshConnectedState() {
         if (device->product_id == JOYCON_L_PRODUCT_ID || device->product_id == JOYCON_R_PRODUCT_ID ||
             device->product_id == DUALSHOCK4_PRODUCT_ID || device->product_id == XBOX360_PRODUCT_ID) {
             hid_device* dev = hid_open(device->vendor_id, device->product_id, device->serial_number);
-            if (!dev) return;
+            if (!dev) {
+                break;
+            }
 
             hid_set_nonblocking(dev, 1);
             handler_[i] = dev;
@@ -135,7 +138,7 @@ void Joystick::RefreshConnectedState() {
         }
         device = device->next;
     }
-    hid_free_enumeration(device);
+    hid_free_enumeration(firstDevice);
 };
 
 //    NOTE: pushing in stick is handled as button

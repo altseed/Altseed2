@@ -82,7 +82,7 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
         }
     });
 
-    instance->compiler_ = LLGI::CreateCompiler(pp.Device);
+    instance->compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(pp.Device));
 
     instance->BuiltinShader_ = MakeAsdShared<BuiltinShader>();
     instance->commandList_ = CommandList::Create();
