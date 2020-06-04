@@ -24,7 +24,7 @@ static float weight[4];
 
 float3 getLuminance(float3 color)
 {
-    return float3(color.x * 0.300000 + color.y * 0.590000 + color.z * 0.110000);
+    return float3(1, 1, 1) * (color.x * 0.300000 + color.y * 0.590000 + color.z * 0.110000);
 }
 
 float gauss(float x, float sigma)
@@ -36,7 +36,7 @@ float3 getColor(float2 uv)
 {
 #ifdef BLUR_X
     float4 color = mainTex.Sample(mainSamp, uv) * exposure;
-    color.xyz = min(color.xyz, float4(255.0));
+    color.xyz = saturate(color.xyz);
 
 #ifdef LUM_MODE
     float3 lum = getLuminance(color.xyz);
@@ -45,7 +45,7 @@ float3 getColor(float2 uv)
     return color.xyz * bloomedPower;
 #else
     float3 bloomedLum = color.xyz - threshold.xyz;
-    bloomedLum = max(bloomedLum, float3(0.0, 0.0, 0.0));
+    bloomedLum = saturate(bloomedLum);
     color.xyz = bloomedLum;
     return color;
 #endif
@@ -66,7 +66,7 @@ float4 getGaussianBlur(float2 uv)
         weightTotal += weight[i] * 2.0;
     }
     
-    float3 outputColor = float3(0.0);
+    float3 outputColor = float3(0.0, 0.0, 0.0);
 
     for(int i = 0; i < 4; ++i)
     {
