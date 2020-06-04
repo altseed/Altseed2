@@ -75,7 +75,7 @@ class Graphics : public BaseObject {
     LLGI::Platform* platform_;
     LLGI::Graphics* graphics_;
 
-    LLGI::Compiler* compiler_;
+    std::shared_ptr<LLGI::Compiler> compiler_;
 
 public:
     static std::shared_ptr<Graphics>& GetInstance();
