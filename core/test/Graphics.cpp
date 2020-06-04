@@ -103,9 +103,9 @@ TEST(Graphics, SpriteTexture) {
 
         EXPECT_TRUE(instance->EndFrame());
 
-        // Take screenshot
+        // Take a screenshot
         if (count == 5) {
-            // Altseed::Graphics::GetInstance()->TakeScreenshot(u"SpriteTexture.png");
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"SpriteTexture.png");
         }
     }
 
@@ -195,6 +195,11 @@ TEST(Graphics, RenderedText) {
         Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"RenderedText.png");
+        }
     }
 
     Altseed::Core::Terminate();
@@ -240,6 +245,11 @@ TEST(Graphics, RenderedPolygon) {
         Altseed::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"RenderedPolygon.png");
+        }
     }
 
     Altseed::Core::Terminate();

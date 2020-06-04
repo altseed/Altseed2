@@ -15,7 +15,7 @@ option(BUILD_TEST "build test" ON)
 option(SANITIZE_ENABLED "make sanitize enabled" OFF)
 
 if(MSVC)
-    option(USE_MSVC_RUNTIME_LIBRARY_DLL, "Bulid as MultithreadedDLL" ON)
+    option(USE_MSVC_RUNTIME_LIBRARY_DLL "Bulid as MultithreadedDLL" ON)
     option(MSVC_SANITIZE_ENABLED "make sanitize enabled in msvc" OFF)
 endif()
 

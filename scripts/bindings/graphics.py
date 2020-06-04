@@ -382,6 +382,14 @@ with Graphics as class_:
         func.return_value.brief.add('ja', '正常に処理した場合は　true 。それ以外の場合は false。')
         func.is_public = False
 
+    with class_.add_func('SaveScreenshot') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'スクリーンショットを保存します。')
+
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '出力先のパス')
+            arg.nullable = False
 
 WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
 with WritingDirection as enum_:

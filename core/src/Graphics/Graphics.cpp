@@ -205,4 +205,9 @@ std::shared_ptr<LLGI::RenderPass> Graphics::CreateRenderPass(LLGI::Texture* rend
     return LLGI::CreateSharedPtr(graphics_->CreateRenderPass((const LLGI::Texture**)&renderTexture, 1, nullptr));
 }
 
+void Graphics::SaveScreenshot(const char16_t* path) {
+    auto commandList = GetCommandList();
+    commandList->SaveRenderTexture(path, commandList->GetScreenTexture());
+}
+
 }  // namespace Altseed
