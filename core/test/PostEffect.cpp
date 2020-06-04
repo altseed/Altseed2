@@ -474,31 +474,27 @@ TEST(PostEffect, LightBloom) {
             cmdList->CopyTexture(src, srcBuffer);
 
             material_downsample->SetTexture(u"mainTex", srcBuffer);
-            material_downsample->SetVector4F(u"imageSize",
-                Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             // material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X), 0.5f / (float)(size.Y), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture0, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture0);
-            material_downsample->SetVector4F(u"imageSize",
-                Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             // material_downsample->SetVector4F(
             //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture1, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture1);
-            material_downsample->SetVector4F(u"imageSize",
-                Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             // material_downsample->SetVector4F(
             //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture2, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture2);
-            material_downsample->SetVector4F(u"imageSize",
-                Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             // material_downsample->SetVector4F(
             //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
