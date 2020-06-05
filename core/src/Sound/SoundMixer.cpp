@@ -13,8 +13,6 @@ bool SoundMixer::Initialize(bool isReloadingEnabled) {
 
     instance_->m_manager = CreateSharedPtr(osm::Manager::Create());
     instance_->m_resources = Resources::GetInstance();
-        instance_->m_isSoundMixerEnabled = false;
-        return false;
 
     if (!instance_->m_manager->Initialize()) {
         instance_->m_isSoundMixerEnabled = false;
