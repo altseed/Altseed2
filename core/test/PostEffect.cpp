@@ -354,6 +354,11 @@ TEST(PostEffect, GaussianBlur) {
         }
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"GaussianBlur.png");
+        }
     }
 
     Altseed::Core::Terminate();
