@@ -562,6 +562,11 @@ void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<Render
         commandList->WaitUntilCompleted();
         auto data = Graphics::GetInstance()->GetGraphicsLLGI()->CaptureRenderTarget(screen->GetNativeTexture().get());
 
+        if (data.size() == 0) {
+            Log::GetInstance()->Error(LogCategory::Core, u"A format of saveed textures cannot saved because it is unsupported format.");
+            return;
+        }
+
         auto path8 = utf16_to_utf8(filepath.c_str());
 
         stbi_write_png(path8.c_str(), screen->GetSize().X, screen->GetSize().Y, 4, data.data(), screen->GetSize().X * 4);

@@ -155,8 +155,10 @@ TEST(PostEffect, Builtin) {
             Altseed::Shader::Create(u"LightBloom_Y", code.c_str(), Altseed::ShaderStageType::Pixel);
         }
 
+        auto textureMixCode = instance->GetBuiltinShader()->GetTextureMixShader();
+
         {
-            auto code = u"#define SUM 1\n" + std::u16string(baseCode);
+            auto code = std::u16string(textureMixCode);
             Altseed::Log::GetInstance()->Debug(Altseed::LogCategory::Core, u"LightBloom_SUM");
             Altseed::Shader::Create(u"LightBloom_SUM", code.c_str(), Altseed::ShaderStageType::Pixel);
         }
@@ -352,6 +354,11 @@ TEST(PostEffect, GaussianBlur) {
         }
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"GaussianBlur.png");
+        }
     }
 
     Altseed::Core::Terminate();
@@ -391,7 +398,7 @@ TEST(PostEffect, LightBloom) {
         auto codeY = u"#define BLUR_Y 1\n" + std::u16string(baseCode);
         materialY->SetShader(Altseed::Shader::Create(u"Y", codeY.c_str(), Altseed::ShaderStageType::Pixel));
 
-        auto codeSum = u"#define SUM 1\n" + std::u16string(baseCode);
+        auto codeSum = std::u16string(instance->GetBuiltinShader()->GetTextureMixShader());
         materialSum->SetShader(Altseed::Shader::Create(u"Sum", codeSum.c_str(), Altseed::ShaderStageType::Pixel));
 
         material_downsample->SetShader(Altseed::Shader::Create(
@@ -406,6 +413,8 @@ TEST(PostEffect, LightBloom) {
     std::shared_ptr<Altseed::RenderTexture> downsampledTexture1 = nullptr;
     std::shared_ptr<Altseed::RenderTexture> downsampledTexture2 = nullptr;
     std::shared_ptr<Altseed::RenderTexture> downsampledTexture3 = nullptr;
+    std::shared_ptr<Altseed::RenderTexture> sumTexture0 = nullptr;
+    std::shared_ptr<Altseed::RenderTexture> sumTexture1 = nullptr;
     std::shared_ptr<Altseed::RenderTexture> srcBuffer = nullptr;
 
     // Shader Parameter
@@ -461,85 +470,92 @@ TEST(PostEffect, LightBloom) {
                 downsampledTexture2 = Altseed::RenderTexture::Create(size / 8);
                 downsampledTexture3 = Altseed::RenderTexture::Create(size / 16);
 
+                sumTexture0 = Altseed::RenderTexture::Create(size);
+                sumTexture1 = Altseed::RenderTexture::Create(size);
+
                 srcBuffer = Altseed::RenderTexture::Create(size);
             }
 
             cmdList->CopyTexture(src, srcBuffer);
 
             material_downsample->SetTexture(u"mainTex", srcBuffer);
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X), 0.5f / (float)(size.Y), 0.0f, 0.0f));
+            // material_downsample->SetVector4F(u"offset", Altseed::Vector4F(0.5f / (float)(size.X), 0.5f / (float)(size.Y), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture0, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture0);
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(
-                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
+            // material_downsample->SetVector4F(
+            //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture1, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture1);
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(
-                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
+            // material_downsample->SetVector4F(
+            //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture2, renderPassParameter);
 
             material_downsample->SetTexture(u"mainTex", downsampledTexture2);
+            material_downsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
             // material_downsample->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
-            material_downsample->SetVector4F(
-                    u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
+            // material_downsample->SetVector4F(
+            //         u"offset", Altseed::Vector4F(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f), 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(material_downsample, downsampledTexture3, renderPassParameter);
 
-            auto blurX = materialX;
+            materialX->SetVector4F(u"imageSize", Altseed::Vector4F(src->GetSize().X, src->GetSize().Y, 0.0f, 0.0f));
+            materialX->SetVector4F(u"intensity", Altseed::Vector4F(intensity, intensity, intensity, intensity));
+            materialX->SetVector4F(u"threshold", Altseed::Vector4F(threshold, threshold, threshold, threshold));
+            materialX->SetVector4F(u"exposure", Altseed::Vector4F(exposure, exposure, exposure, exposure));
 
-            blurX->SetVector4F(u"weight1", weights1);
-            blurX->SetVector4F(u"weight2", weights2);
-            blurX->SetVector4F(u"threshold_exposure", Altseed::Vector4F(threshold, exposure, 0.0f, 0.0f));
-
-            materialY->SetVector4F(u"weight1", weights1);
-            materialY->SetVector4F(u"weight2", weights2);
-            materialY->SetVector4F(u"threshold_exposure", Altseed::Vector4F(threshold, exposure, 0.0f, 0.0f));
-
-            materialSum->SetVector4F(u"weight1", weights1);
-            materialSum->SetVector4F(u"weight2", weights2);
-            materialSum->SetVector4F(u"threshold_exposure", Altseed::Vector4F(threshold, exposure, 0.0f, 0.0f));
+            materialY->SetVector4F(u"imageSize", Altseed::Vector4F(src->GetSize().X, src->GetSize().Y, 0.0f, 0.0f));
+            materialY->SetVector4F(u"intensity", Altseed::Vector4F(intensity, intensity, intensity, intensity));
+            materialY->SetVector4F(u"threshold", Altseed::Vector4F(threshold, threshold, threshold, threshold));
+            materialY->SetVector4F(u"exposure", Altseed::Vector4F(exposure, exposure, exposure, exposure));
 
             // ブラー1
-            blurX->SetTexture(u"blurredTex", downsampledTexture1);
-            // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture1, renderPassParameter);
+            materialX->SetTexture(u"mainTex", downsampledTexture1);
+            // blurX->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
+            cmdList->RenderToRenderTexture(materialX, tempTexture1, renderPassParameter);
 
-            materialY->SetTexture(u"blurredTex", tempTexture1);
-            // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
+            materialY->SetTexture(u"mainTex", tempTexture1);
+            // materialY->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             cmdList->RenderToRenderTexture(materialY, downsampledTexture1, renderPassParameter);
 
             // ブラー2
-            blurX->SetTexture(u"blurredTex", downsampledTexture2);
-            // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture2, renderPassParameter);
+            materialX->SetTexture(u"mainTex", downsampledTexture2);
+            // blurX->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
+            cmdList->RenderToRenderTexture(materialX, tempTexture2, renderPassParameter);
 
-            materialY->SetTexture(u"blurredTex", tempTexture2);
-            // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
+            materialY->SetTexture(u"mainTex", tempTexture2);
+            // materialY->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             cmdList->RenderToRenderTexture(materialY, downsampledTexture2, renderPassParameter);
 
             // ブラー3
-            blurX->SetTexture(u"blurredTex", downsampledTexture3);
-            // blurX->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
-            cmdList->RenderToRenderTexture(blurX, tempTexture3, renderPassParameter);
+            materialX->SetTexture(u"mainTex", downsampledTexture3);
+            // blurX->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
+            cmdList->RenderToRenderTexture(materialX, tempTexture3, renderPassParameter);
 
-            materialY->SetTexture(u"blurredTex", tempTexture3);
-            // materialY->SetTextureFilterType(u"blurredTex", TextureFilterType::Linear);
+            materialY->SetTexture(u"mainTex", tempTexture3);
+            // materialY->SetTextureFilterType(u"mainTex", TextureFilterType::Linear);
             cmdList->RenderToRenderTexture(materialY, downsampledTexture3, renderPassParameter);
 
             // 合計
-            materialSum->SetTexture(u"blurred0Tex", downsampledTexture1);
-            materialSum->SetTexture(u"blurred1Tex", downsampledTexture2);
-            materialSum->SetTexture(u"blurred2Tex", downsampledTexture3);
-            materialSum->SetTexture(u"blurred3Tex", srcBuffer);
-            // materialSum->SetTextureFilterType(u"blurred0Tex", TextureFilterType::Linear);
-            // materialSum->SetTextureFilterType(u"blurred1Tex", TextureFilterType::Linear);
-            // materialSum->SetTextureFilterType(u"blurred2Tex", TextureFilterType::Linear);
-            // materialSum->SetTextureFilterType(u"blurred3Tex", TextureFilterType::Linear);
+            materialSum->SetTexture(u"mainTex1", src);
+            materialSum->SetTexture(u"mainTex2", downsampledTexture1);
+            materialSum->SetVector4F(u"weight", Altseed::Vector4F(0.5f, 0.5f, 0.5f, 0.5f));
+            cmdList->RenderToRenderTexture(materialY, sumTexture0, renderPassParameter);
 
+            materialSum->SetTexture(u"mainTex1", sumTexture0);
+            materialSum->SetTexture(u"mainTex2", downsampledTexture2);
+            materialSum->SetVector4F(u"weight", Altseed::Vector4F(0.25f, 0.25f, 0.25f, 0.25f));
+            cmdList->RenderToRenderTexture(materialY, sumTexture1, renderPassParameter);
+
+            materialSum->SetTexture(u"mainTex1", sumTexture1);
+            materialSum->SetTexture(u"mainTex2", downsampledTexture3);
+            materialSum->SetVector4F(u"weight", Altseed::Vector4F(0.125f, 0.125f, 0.125f, 0.125f));
             cmdList->RenderToRenderTarget(materialSum);
         }
 
