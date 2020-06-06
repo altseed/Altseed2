@@ -30,8 +30,7 @@ TEST(Sound, SoundLoop) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1;
 
-    if(bgm != nullptr)
-    {
+    if(bgm != nullptr) {
         EXPECT_FALSE(bgm->GetIsLoopingMode());
         bgm->SetIsLoopingMode(true);
         EXPECT_TRUE(bgm->GetIsLoopingMode());
@@ -99,8 +98,7 @@ TEST(Sound, SoundLength) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1, id_se = -1;
 
-    if(bgm != nullptr)
-    {
+    if(bgm != nullptr) {
         id_bgm = mixer->Play(bgm);
         id_se = mixer->Play(se);
 
