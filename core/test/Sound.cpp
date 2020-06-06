@@ -30,7 +30,7 @@ TEST(Sound, SoundLoop) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1;
 
-    if(bgm != nullptr) {
+    if (bgm != nullptr) {
         EXPECT_FALSE(bgm->GetIsLoopingMode());
         bgm->SetIsLoopingMode(true);
         EXPECT_TRUE(bgm->GetIsLoopingMode());
@@ -55,7 +55,7 @@ TEST(Sound, SoundResume) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1;
 
-    if(bgm != nullptr) id_bgm = mixer->Play(bgm);
+    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
 
     clock_t start = clock();
     int stage = 0;
@@ -98,7 +98,7 @@ TEST(Sound, SoundLength) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1, id_se = -1;
 
-    if(bgm != nullptr) {
+    if (bgm != nullptr) {
         id_bgm = mixer->Play(bgm);
         id_se = mixer->Play(se);
 
@@ -120,7 +120,7 @@ TEST(Sound, SpectrumAnalyze) {
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = -1;
 
-    if(bgm != nullptr) id_bgm = mixer->Play(bgm);
+    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
         mixer->GetSpectrum(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
