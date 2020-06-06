@@ -106,8 +106,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
 
     if (!config->GetIsGraphicsOnly() && !SoundMixer::Initialize(false)) {
         LOG_CRITICAL(u"SoundMixer::Initialize failed");
-        Core::instance = nullptr;
-        return false;
     }
 
     if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance(), CullingSystem::GetInstance())) {

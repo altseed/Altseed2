@@ -27,14 +27,18 @@ TEST(Sound, SoundLoop) {
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
-    EXPECT_FALSE(bgm->GetIsLoopingMode());
-    bgm->SetIsLoopingMode(true);
-    EXPECT_TRUE(bgm->GetIsLoopingMode());
-    bgm->SetLoopStartingPoint(1.0);
-    bgm->SetLoopEndPoint(2.5);
-
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = mixer->Play(bgm);
+    int id_bgm = -1;
+
+    if (bgm != nullptr) {
+        EXPECT_FALSE(bgm->GetIsLoopingMode());
+        bgm->SetIsLoopingMode(true);
+        EXPECT_TRUE(bgm->GetIsLoopingMode());
+        bgm->SetLoopStartingPoint(1.0);
+        bgm->SetLoopEndPoint(2.5);
+
+        id_bgm = mixer->Play(bgm);
+    }
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
     }
@@ -49,7 +53,9 @@ TEST(Sound, SoundResume) {
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = mixer->Play(bgm);
+    int id_bgm = -1;
+
+    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
 
     clock_t start = clock();
     int stage = 0;
@@ -90,11 +96,15 @@ TEST(Sound, SoundLength) {
     auto se = asd::Sound::Load(u"TestData/Sound/se1.wav", true);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = mixer->Play(bgm);
-    int id_se = mixer->Play(se);
+    int id_bgm = -1, id_se = -1;
 
-    printf("Length of bgm : %f [sec]\n", bgm->GetLength());
-    printf("Length of se  : %f [sec]\n", se->GetLength());
+    if (bgm != nullptr) {
+        id_bgm = mixer->Play(bgm);
+        id_se = mixer->Play(se);
+
+        printf("Length of bgm : %f [sec]\n", bgm->GetLength());
+        printf("Length of se  : %f [sec]\n", se->GetLength());
+    }
 
     asd::Core::Terminate();
 }
@@ -108,7 +118,9 @@ TEST(Sound, SpectrumAnalyze) {
     auto spectrumData = asd::MakeAsdShared<asd::FloatArray>(8192);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = mixer->Play(bgm);
+    int id_bgm = -1;
+
+    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
         mixer->GetSpectrum(id_bgm, spectrumData, asd::FFTWindow::Rectangular);

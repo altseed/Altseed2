@@ -21,6 +21,7 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     std::lock_guard<std::mutex> lock(mtx);
 
     auto soundMixer = SoundMixer::GetInstance();
+    if (!soundMixer->isSoundMixerEnabled_) return nullptr;
     if (soundMixer->m_manager == nullptr) return nullptr;
 
     auto cache = std::dynamic_pointer_cast<Sound>(soundMixer->m_resources->GetResourceContainer(ResourceType::Sound)->Get(path));
@@ -38,8 +39,7 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     // Get data & Create OSM sound & null check
     auto sound = CreateSharedPtr(soundMixer->m_manager->CreateSound(staticFile->GetData(), staticFile->GetSize(), isDecompressed));
     if (sound == nullptr) {
-        Log::GetInstance()->Error(
-                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(LogCategory::Core, u"Sound::Load: Failed to create sound from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
