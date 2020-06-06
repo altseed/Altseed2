@@ -563,7 +563,7 @@ TEST(Tool, Image) {
 
         static auto rt = Altseed::RenderTexture::Create(Altseed::Vector2I(200, 200));
         static auto camera = Altseed::RenderedCamera::Create();
-        
+
         camera->SetTargetTexture(rt);
 
         Altseed::Renderer::GetInstance()->SetCamera(camera);
