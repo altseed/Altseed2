@@ -8,7 +8,6 @@
 #include <imgui_impl_dx12.h>
 
 #include "ImGuiPlatform.h"
-
 class ImguiPlatformDX12 : public ImguiPlatform {
     const int32_t DescriptorMax = 512;
     LLGI::GraphicsDX12* g_ = nullptr;
@@ -48,12 +47,6 @@ public:
         handleOffset_ = 1;
     }
 
-    void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) override {
-        auto cl = static_cast<LLGI::CommandListDX12*>(commandList);
-        cl->GetCommandList()->SetDescriptorHeaps(1, &srvDescHeap_);
-        ImGui_ImplDX12_RenderDrawData(draw_data, cl->GetCommandList());
-    }
-
     ImTextureID GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList) override {
         auto t = LLGI::CreateSharedPtr(static_cast<LLGI::TextureDX12*>(texture), true);
 
@@ -76,15 +69,26 @@ public:
 
         g_->GetDevice()->CreateShaderResourceView(t->Get(), &srvDesc, cpuDescriptorHandle);
 
-        auto cl = static_cast<LLGI::CommandListDX12*>(commandList);
-
-        if (t->GetType() == LLGI::TextureType::Render) {
-            t->ResourceBarrior(cl->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-        }
-
         auto textureID = reinterpret_cast<ImTextureID>(gpuDescriptorHandle.ptr);
         textures_[t] = textureID;
 
+        handleOffset_ += 1;
+
         return textureID;
+    }
+
+    void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) override {
+        auto cl = static_cast<LLGI::CommandListDX12*>(commandList);
+
+        for (auto tex : textures_) {
+            auto t = LLGI::CreateSharedPtr(static_cast<LLGI::TextureDX12*>(tex.first.get()), true);
+
+            if (t->GetType() == LLGI::TextureType::Render) {
+                t->ResourceBarrior(cl->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+            }
+        }
+
+        cl->GetCommandList()->SetDescriptorHeaps(1, &srvDescHeap_);
+        ImGui_ImplDX12_RenderDrawData(draw_data, cl->GetCommandList());
     }
 };
