@@ -558,8 +558,17 @@ TEST(Tool, Image) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
         static auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
         EXPECT_TRUE(t1 != nullptr);
+        static auto s1 = Altseed::RenderedSprite::Create();
+        s1->SetTexture(t1);
 
         static auto rt = Altseed::RenderTexture::Create(Altseed::Vector2I(200, 200));
+        static auto camera = Altseed::RenderedCamera::Create();
+        
+        camera->SetTargetTexture(rt);
+
+        Altseed::Renderer::GetInstance()->SetCamera(camera);
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->Render();
 
         if (t->Begin(u"Image")) {
             t->Image(t1, Altseed::Vector2F(100, 100));
