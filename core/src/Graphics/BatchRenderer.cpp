@@ -133,6 +133,7 @@ void BatchRenderer::Render() {
                 commandList.get(), material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
         // texture
+        commandList->GetLL()->ResetTextures();
         commandList->StoreTextures(
                 commandList.get(), material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
         commandList->StoreTextures(

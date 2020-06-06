@@ -356,6 +356,7 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
     StoreUniforms(this, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
     // texture
+    currentCommandList_->ResetTextures();
     StoreTextures(this, material->GetShader(ShaderStageType::Vertex), LLGI::ShaderStageType::Vertex, matPropBlockCollection_);
     StoreTextures(this, material->GetShader(ShaderStageType::Pixel), LLGI::ShaderStageType::Pixel, matPropBlockCollection_);
 
