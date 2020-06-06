@@ -1,6 +1,5 @@
 build
 build_sanitizer
-build_clang_tidy
 build_clang_format
 .ionide
 .vs

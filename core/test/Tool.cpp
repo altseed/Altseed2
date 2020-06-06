@@ -9,13 +9,15 @@
 #include "Core.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Graphics.h"
+#include "Graphics/RenderTexture.h"
 #include "Graphics/Renderer/CullingSystem.h"
+#include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Math/Matrix44F.h"
 #include "Math/RectF.h"
 
-static const int LoopFrames = 500;
+static const int LoopFrames = 50000;
 
 template <typename... Args>
 std::u16string format(const std::u16string& fmt, Args... args) {
@@ -556,9 +558,22 @@ TEST(Tool, Image) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed::Tool> t) {
         static auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
         EXPECT_TRUE(t1 != nullptr);
+        static auto s1 = Altseed::RenderedSprite::Create();
+        s1->SetTexture(t1);
+
+        static auto rt = Altseed::RenderTexture::Create(Altseed::Vector2I(200, 200));
+        static auto camera = Altseed::RenderedCamera::Create();
+
+        camera->SetTargetTexture(rt);
+
+        Altseed::Renderer::GetInstance()->SetCamera(camera);
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->Render();
 
         if (t->Begin(u"Image")) {
             t->Image(t1, Altseed::Vector2F(100, 100));
+            t->ImageButton(t1, Altseed::Vector2F(100, 100));
+            t->ImageButton(rt, Altseed::Vector2F(100, 100));
             t->ImageButton(t1, Altseed::Vector2F(100, 100));
             t->End();
         }

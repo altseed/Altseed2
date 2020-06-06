@@ -14,6 +14,8 @@ void SynchronizationContext::Run() {
     for (auto& e : events_) {
         e->Call();
     }
+
+    events_.clear();
 }
 
 void SynchronizationContext::Initialize() { instance_ = MakeAsdShared<SynchronizationContext>(); }

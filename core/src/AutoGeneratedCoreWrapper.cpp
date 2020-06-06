@@ -3044,7 +3044,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_SmallButton(void* cbg_self, const char16_t* l
 CBGEXPORT void CBGSTDCALL cbg_Tool_Image(void* cbg_self, void* texture, Altseed::Vector2F_C size, Altseed::Vector2F_C uv0, Altseed::Vector2F_C uv1, Altseed::Color_C tintColor, Altseed::Color_C borderColor) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
+    std::shared_ptr<Altseed::TextureBase> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::TextureBase>((Altseed::TextureBase*)texture);
     Altseed::Vector2F_C cbg_arg1 = size;
     Altseed::Vector2F_C cbg_arg2 = uv0;
     Altseed::Vector2F_C cbg_arg3 = uv1;
@@ -3056,7 +3056,7 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Image(void* cbg_self, void* texture, Altseed:
 CBGEXPORT bool CBGSTDCALL cbg_Tool_ImageButton(void* cbg_self, void* texture, Altseed::Vector2F_C size, Altseed::Vector2F_C uv0, Altseed::Vector2F_C uv1, int32_t framePadding, Altseed::Color_C tintColor, Altseed::Color_C borderColor) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 
-    std::shared_ptr<Altseed::Texture2D> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::Texture2D>((Altseed::Texture2D*)texture);
+    std::shared_ptr<Altseed::TextureBase> cbg_arg0 = Altseed::CreateAndAddSharedPtr<Altseed::TextureBase>((Altseed::TextureBase*)texture);
     Altseed::Vector2F_C cbg_arg1 = size;
     Altseed::Vector2F_C cbg_arg2 = uv0;
     Altseed::Vector2F_C cbg_arg3 = uv1;

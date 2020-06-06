@@ -627,7 +627,7 @@ public:
     bool SmallButton(const char16_t* label);
 
     void Image(
-            std::shared_ptr<Texture2D> texture,
+            std::shared_ptr<TextureBase> texture,
             Vector2F size,
             Vector2F uv0 = Vector2F(0, 0),
             Vector2F uv1 = Vector2F(1, 1),
@@ -635,7 +635,7 @@ public:
             Color border_col = Color(0, 0, 0, 0));
 
     bool ImageButton(
-            std::shared_ptr<Texture2D> texture,
+            std::shared_ptr<TextureBase> texture,
             Vector2F size,
             Vector2F uv0 = Vector2F(0, 0),
             Vector2F uv1 = Vector2F(1, 1),
