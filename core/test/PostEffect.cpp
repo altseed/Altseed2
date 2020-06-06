@@ -212,6 +212,12 @@ TEST(PostEffect, Sepia) {
         cmdList->RenderToRenderTarget(material);
 
         EXPECT_TRUE(instance->EndFrame());
+
+        
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"PostEffect.Sepia.png");
+        }
     }
 
     Altseed::Core::Terminate();
@@ -262,6 +268,11 @@ TEST(PostEffect, GrayScale) {
         cmdList->RenderToRenderTarget(material);
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"PostEffect.GrayScale.png");
+        }
     }
 
     Altseed::Core::Terminate();
@@ -357,7 +368,7 @@ TEST(PostEffect, GaussianBlur) {
 
         // Take a screenshot
         if (count == 5) {
-            Altseed::Graphics::GetInstance()->SaveScreenshot(u"GaussianBlur.png");
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"PostEffect.GaussianBlur.png");
         }
     }
 
@@ -557,6 +568,11 @@ TEST(PostEffect, LightBloom) {
             materialSum->SetTexture(u"mainTex2", downsampledTexture3);
             materialSum->SetVector4F(u"weight", Altseed::Vector4F(0.125f, 0.125f, 0.125f, 0.125f));
             cmdList->RenderToRenderTarget(materialSum);
+
+            // Take a screenshot
+            if (count == 5) {
+                Altseed::Graphics::GetInstance()->SaveScreenshot(u"PostEffect.LightBloom.png");
+            }
         }
 
         EXPECT_TRUE(instance->EndFrame());
