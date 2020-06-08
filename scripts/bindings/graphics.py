@@ -91,6 +91,13 @@ with ShaderStageType as enum_:
     enum_.add('Vertex')
     enum_.add('Pixel')
 
+AlphaBlendMode = cbg.Enum('Altseed', 'AlphaBlendMode')
+with ShaderStageType as enum_:
+    enum_.add('Opacity')
+    enum_.add('Normal')
+    enum_.add('Add')
+    enum_.add('Subtract')
+    enum_.add('Multiply')
 
 Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
@@ -299,6 +306,11 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定するシェーダ')
 
+    with class_.add_property(AlphaBlendMode,'BlendMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '組み込みのシェーダを取得します。')
+        prop.has_getter = True
+        prop.has_setter = True
 
 RenderPassParameter = cbg.Struct(
     'Altseed', 'RenderPassParameter_C', 'RenderPassParameter')

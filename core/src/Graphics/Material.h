@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <map>
 #include <memory>
 #include <unordered_map>
 
@@ -15,6 +14,27 @@ namespace Altseed {
 enum class ShaderStageType;
 class Shader;
 class TextureBase;
+
+enum class AlphaBlendMode : int32_t { Opacity, Normal, Add, Subtract, Multiply };
+
+struct PipelineStateKey {
+    AlphaBlendMode alphaBlendMode_ = AlphaBlendMode::Normal;
+    std::shared_ptr<LLGI::RenderPassPipelineState> renderPassPipelineState_ = nullptr;
+
+    bool operator==(const PipelineStateKey& value) const {
+        return alphaBlendMode_ == value.alphaBlendMode_ && renderPassPipelineState_ == value.renderPassPipelineState_;
+    };
+
+    struct Hash {
+        typedef std::size_t result_type;
+
+        std::size_t operator()(const PipelineStateKey& key) const {
+            auto ret = std::hash<AlphaBlendMode>()(key.alphaBlendMode_);
+            ret += std::hash<std::shared_ptr<LLGI::RenderPassPipelineState>>()(key.renderPassPipelineState_);
+            return ret;
+        }
+    };
+};
 
 class MaterialPropertyBlock : public BaseObject {
     std::unordered_map<std::u16string, Vector4F> vector4s_;
@@ -52,7 +72,11 @@ private:
     std::shared_ptr<Shader> pixelShader_;
     std::shared_ptr<MaterialPropertyBlock> propertyBlock_;
 
-    std::map<std::shared_ptr<LLGI::RenderPassPipelineState>, std::shared_ptr<LLGI::PipelineState>> pipelineStates_;
+    std::unordered_map<PipelineStateKey, std::shared_ptr<LLGI::PipelineState>, PipelineStateKey::Hash> pipelineStates_;
+
+    AlphaBlendMode alphaBlendMode_;
+
+    void SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& piplineState);
 
 public:
     Material();
@@ -68,6 +92,9 @@ public:
 
     std::shared_ptr<Shader> GetShader(Altseed::ShaderStageType shaderStage) const;
     void SetShader(const std::shared_ptr<Shader>& shader);
+
+    AlphaBlendMode GetBlendMode() const;
+    void SetBlendMode(const AlphaBlendMode value);
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 

@@ -1,4 +1,5 @@
 ﻿#include "Material.h"
+
 #include <glslang/Public/ShaderLang.h>
 
 #include <spirv_cross/spirv.hpp>
@@ -157,13 +158,20 @@ void Material::SetShader(const std::shared_ptr<Shader>& shader) {
     }
 }
 
+AlphaBlendMode Material::GetBlendMode() const { return alphaBlendMode_; }
+
+void Material::SetBlendMode(const AlphaBlendMode value) { alphaBlendMode_ = value; }
+
 std::shared_ptr<MaterialPropertyBlock> Material::GetPropertyBlock() const { return propertyBlock_; }
 
 std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass* renderPass) {
     auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
-    auto renderPassPipelineState = LLGI::CreateSharedPtr(g->CreateRenderPassPipelineState(renderPass));
-    auto it = pipelineStates_.find(renderPassPipelineState);
+    auto key = PipelineStateKey();
+    key.renderPassPipelineState_ = LLGI::CreateSharedPtr(g->CreateRenderPassPipelineState(renderPass));
+    key.alphaBlendMode_ = alphaBlendMode_;
+
+    auto it = pipelineStates_.find(key);
     if (it != pipelineStates_.end()) {
         return it->second;
     }
@@ -176,7 +184,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->SetShader(LLGI::ShaderStageType::Vertex, vertexShader_->Get());
     piplineState->SetShader(LLGI::ShaderStageType::Pixel, pixelShader_->Get());
     piplineState->Culling = LLGI::CullingMode::DoubleSide;
-    piplineState->SetRenderPassPipelineState(renderPassPipelineState.get());
+    piplineState->SetRenderPassPipelineState(key.renderPassPipelineState_.get());
 
     piplineState->VertexLayouts[0] = LLGI::VertexLayoutFormat::R32G32B32_FLOAT;
     piplineState->VertexLayouts[1] = LLGI::VertexLayoutFormat::R8G8B8A8_UNORM;
@@ -192,11 +200,55 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->VertexLayoutSemantics[3] = 1;
     piplineState->VertexLayoutCount = 4;
 
+    SetBlendFuncs(piplineState);
+
     piplineState->Compile();
 
-    pipelineStates_[renderPassPipelineState] = piplineState;
+    pipelineStates_[key] = piplineState;
 
     return piplineState;
+}
+
+void Material::SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& piplineState) {
+    piplineState->IsBlendEnabled = (alphaBlendMode_ != AlphaBlendMode::Opacity);
+    piplineState->BlendSrcFuncAlpha = LLGI::BlendFuncType::One;
+    piplineState->BlendDstFuncAlpha = LLGI::BlendFuncType::One;
+    piplineState->BlendEquationAlpha = LLGI::BlendEquationType::Max;
+
+    switch (alphaBlendMode_) {
+        case AlphaBlendMode::Opacity:
+            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
+            piplineState->BlendDstFunc = LLGI::BlendFuncType::Zero;
+            piplineState->BlendSrcFunc = LLGI::BlendFuncType::One;
+            break;
+
+        case AlphaBlendMode::Normal:
+            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
+            piplineState->BlendDstFunc = LLGI::BlendFuncType::OneMinusSrcAlpha;
+            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
+            break;
+
+        case AlphaBlendMode::Add:
+            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
+            piplineState->BlendDstFunc = LLGI::BlendFuncType::One;
+            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
+            break;
+
+        case AlphaBlendMode::Subtract:
+            piplineState->BlendEquationRGB = LLGI::BlendEquationType::ReverseSub;
+            piplineState->BlendDstFunc = LLGI::BlendFuncType::One;
+            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
+            break;
+
+        case AlphaBlendMode::Multiply:
+            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
+            piplineState->BlendDstFunc = LLGI::BlendFuncType::SrcColor;
+            piplineState->BlendSrcFunc = LLGI::BlendFuncType::Zero;
+            break;
+
+        default:
+            break;
+    }
 }
 
 }  // namespace Altseed

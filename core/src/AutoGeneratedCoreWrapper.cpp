@@ -1034,6 +1034,20 @@ CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, void* shader) {
     cbg_self_->SetShader(cbg_arg0);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_Material_GetBlendMode(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    Altseed::AlphaBlendMode cbg_ret = cbg_self_->GetBlendMode();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Material_SetBlendMode(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed::Material*)(cbg_self);
+
+    Altseed::AlphaBlendMode cbg_arg0 = (Altseed::AlphaBlendMode)value;
+    cbg_self_->SetBlendMode(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed::Material*)(cbg_self);
 
