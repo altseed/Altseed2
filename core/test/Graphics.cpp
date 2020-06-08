@@ -255,6 +255,67 @@ TEST(Graphics, RenderedPolygon) {
     Altseed::Core::Terminate();
 }
 
+TEST(Graphics, AlphaBlend) {
+    auto config = Altseed::Configuration::Create();
+    config->SetConsoleLoggingEnabled(true);
+    config->SetFileLoggingEnabled(true);
+    EXPECT_TRUE(Altseed::Core::Initialize(u"AlphaBlend", 1280, 720, config));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto s1 = Altseed::RenderedSprite::Create();
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed::RectF(0, 0, 256, 256));
+
+    auto builtinShader = Altseed::MakeAsdShared<Altseed::BuiltinShader>();
+    auto m1 = Altseed::MakeAsdShared<Altseed::Material>();
+    m1->SetBlendMode(Altseed::AlphaBlendMode::Add);
+    m1->SetShader(builtinShader->Create(Altseed::BuiltinShaderType::SpriteUnlitVS));
+    m1->SetShader(builtinShader->Create(Altseed::BuiltinShaderType::SpriteUnlitPS));
+
+    auto s2 = Altseed::RenderedSprite::Create();
+    s2->SetMaterial(m1);
+    s2->SetSrc(Altseed::RectF(0, 0, 256, 256));
+    s2->SetTexture(t1);
+
+    auto trans = Altseed::Matrix44F();
+    trans.SetRotationZ(3.14159f);
+    auto trans2 = Altseed::Matrix44F();
+    trans2.SetTranslation(-128, -128, 0);
+    auto trans3 = Altseed::Matrix44F();
+    trans3.SetTranslation(128, 128, 0);
+    s2->SetTransform(trans3 * trans * trans2);
+
+    while (count++ < 10 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+
+        Altseed::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed::Graphics::GetInstance()->SaveScreenshot(u"AlphaBlend.png");
+        }
+    }
+
+    Altseed::Core::Terminate();
+}
+
 TEST(Graphics, CameraBasic) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"CameraBasic", 1280, 720, Altseed::Configuration::Create()));
 
