@@ -92,7 +92,7 @@ with ShaderStageType as enum_:
     enum_.add('Pixel')
 
 AlphaBlendMode = cbg.Enum('Altseed', 'AlphaBlendMode')
-with ShaderStageType as enum_:
+with AlphaBlendMode as enum_:
     enum_.add('Opacity')
     enum_.add('Normal')
     enum_.add('Add')
@@ -306,7 +306,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定するシェーダ')
 
-    with class_.add_property(AlphaBlendMode,'BlendMode') as prop:
+    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '組み込みのシェーダを取得します。')
         prop.has_getter = True
@@ -745,7 +745,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
-    
+
     with class_.add_property(float, 'LineGap') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '行間をピクセル単位で取得または設定します。')
@@ -850,8 +850,8 @@ with RenderedCamera as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
-    
-    with class_.add_property(RenderPassParameter,'RenderPassParameter') as prop:
+
+    with class_.add_property(RenderPassParameter, 'RenderPassParameter') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'RenderPassParameterを取得または設定します。')
         prop.has_getter = True
