@@ -478,6 +478,91 @@ TEST(Graphics, BackgroundBugcheck) {
     Altseed::Core::Terminate();
 }
 
+TEST(Graphics, MaterialNoise) {
+    EXPECT_TRUE(Altseed::Core::Initialize(u"MaterialNoise", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto polygon = Altseed::RenderedPolygon::Create();
+    auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
+    vertexes->Resize(4);
+    auto& vec = vertexes->GetVector();
+    vec[0] = Altseed::Vector2F(0, 0);
+    vec[1] = Altseed::Vector2F(200, 0);
+    vec[2] = Altseed::Vector2F(200, 200);
+    vec[3] = Altseed::Vector2F(0, 200);
+    polygon->CreateVertexesByVector2F(vertexes);
+
+    const char* psCode = R"(
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
+};
+float4 main(PS_INPUT input) : SV_TARGET 
+{ 
+    return float4(input.UV1, 0, 1);
+}
+)";
+
+    auto builtinShader = Altseed::MakeAsdShared<Altseed::BuiltinShader>();
+    auto m1 = Altseed::MakeAsdShared<Altseed::Material>();
+    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed::ShaderStageType::Pixel);
+    m1->SetShader(shader);
+    polygon->SetMaterial(m1);
+
+    auto x = 100.2f;
+    auto transform = Altseed::Matrix44F();
+    transform.SetTranslation(x, -111.3, 0);
+    polygon->SetTransform(transform);
+
+    auto rt = Altseed::RenderTexture::Create(Altseed::Window::GetInstance()->GetSize());
+
+    Altseed::RenderPassParameter renderPassParameter;
+    renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+    renderPassParameter.IsColorCleared = true;
+    renderPassParameter.IsDepthCleared = true;
+    auto camera = Altseed::RenderedCamera::Create();
+    camera->SetRenderPassParameter(renderPassParameter);
+    camera->SetTargetTexture(rt);
+
+    auto sprite = Altseed::RenderedSprite::Create();
+    sprite->SetTexture(rt);
+    sprite->SetSrc(Altseed::RectF(Altseed::Vector2F(),Altseed::Window::GetInstance()->GetSize().To2F()));
+    auto camera2 = Altseed::RenderedCamera::Create();
+    camera2->SetRenderPassParameter(renderPassParameter);
+    camera2->SetTargetTexture(instance->GetCommandList()->GetScreenTexture());
+
+    while (count++ < 10000 && instance->DoEvents()) {
+        Altseed::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        transform.SetTranslation(x += 0.1f, -111, 0);
+        polygon->SetTransform(transform);
+
+        Altseed::Renderer::GetInstance()->SetCamera(camera);
+        Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
+        Altseed::Renderer::GetInstance()->Render();
+
+        Altseed::Renderer::GetInstance()->SetCamera(camera2);
+        Altseed::Renderer::GetInstance()->DrawSprite(sprite);
+        Altseed::Renderer::GetInstance()->Render();
+
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed::Core::Terminate();
+}
+
 TEST(Graphics, Culling) {
     EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
 
