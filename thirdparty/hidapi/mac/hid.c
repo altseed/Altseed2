@@ -434,6 +434,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 			struct hid_device_info *tmp;
 			io_object_t iokit_dev;
 			kern_return_t res;
+			uint64_t entry_id;
 			io_string_t path;
 
 			/* VID/PID match. Create the record. */
@@ -460,6 +461,16 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 				cur_dev->path = strdup(path);
 			else
 				cur_dev->path = strdup("");
+
+			/* Fill in the kernel_entry_id */
+			res = IORegistryEntryGetRegistryEntryID(iokit_dev, &entry_id);
+			if (res == KERN_SUCCESS) {
+				if ((cur_dev->path = calloc(32 + 3 + 1, 1)) != NULL) {
+					sprintf(cur_dev->path, "id:%llu", entry_id);
+				}
+			} else {
+				cur_dev->path = strdup("");
+			}
 
 			/* Serial Number */
 			get_serial_number(dev, buf, BUF_LEN);
@@ -689,10 +700,28 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 	if (hid_init() < 0)
 		return NULL;
 
-	/* Get the IORegistry entry for the given path */
-	entry = IORegistryEntryFromPath(kIOMasterPortDefault, path);
-	if (entry == MACH_PORT_NULL) {
-		/* Path wasn't valid (maybe device was removed?) */
+	/* Check if the path represents IORegistry path or an IORegistryEntry ID */
+	if (strlen(path) > 3) {
+		if (strncmp("id:", path, 3) == 0) {
+			/* Get the IORegistry entry for the given ID */
+			uint64_t entry_id;
+
+			entry_id = strtoull(path+3, NULL, 10);
+
+			entry = IOServiceGetMatchingService(kIOMasterPortDefault, IORegistryEntryIDMatching(entry_id));
+			if (entry == 0) {
+				/* No service found for ID */
+				goto return_error;
+			}
+		} else {
+			/* Get the IORegistry entry for the given path */
+			entry = IORegistryEntryFromPath(kIOMasterPortDefault, path);
+			if (entry == MACH_PORT_NULL) {
+				/* Path wasn't valid (maybe device was removed?) */
+				goto return_error;
+			}
+		}
+	} else {
 		goto return_error;
 	}
 
