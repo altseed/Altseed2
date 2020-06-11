@@ -120,7 +120,12 @@ std::shared_ptr<TextureBase> MaterialPropertyBlockCollection::GetTexture(const c
     return ret;
 }
 
-Material::Material() { propertyBlock_ = MakeAsdShared<MaterialPropertyBlock>(); }
+Material::Material() {
+    propertyBlock_ = MakeAsdShared<MaterialPropertyBlock>();
+    vertexShader_ = nullptr;
+    pixelShader_ = nullptr;
+    alphaBlendMode_ = AlphaBlendMode::Normal;
+}
 
 Vector4F Material::GetVector4F(const char16_t* key) const { return propertyBlock_->GetVector4F(key); }
 
