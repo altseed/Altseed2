@@ -276,12 +276,13 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
 bool Font::Reload() { return false; }
 
 void Font::AddFontTexture() {
-    uint8_t* data = new uint8_t[textureSize_.X * textureSize_.Y];
+    std::vector<uint8_t> temp;
+    temp.resize(textureSize_.X * textureSize_.Y);
     for (int32_t i = 0; i < textureSize_.X * textureSize_.Y; i++) {
-        data[i] = 0;
+        temp[i] = 0;
     }
 
-    auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, textureSize_.X, textureSize_.Y, 1);
+    auto llgiTexture = Graphics::GetInstance()->CreateTexture(temp.data(), textureSize_.X, textureSize_.Y, 1);
     auto texture = MakeAsdShared<Texture2D>(Resources::GetInstance(), llgiTexture, u"");
     textures_.push_back(texture);
 
