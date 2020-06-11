@@ -401,7 +401,7 @@ TEST(PostEffect, LightBloom) {
 
         auto baseCode = instance->GetBuiltinShader()->GetLightBloomShader();
 
-        auto codeX = u"#define BLUR_X 1\n" + std::u16string(baseCode);
+        auto codeX = u"#define BLUR_X 1\n#define LUM_MODE\n" + std::u16string(baseCode);
         materialX->SetShader(Altseed::Shader::Create(u"X", codeX.c_str(), Altseed::ShaderStageType::Pixel));
 
         auto codeY = u"#define BLUR_Y 1\n" + std::u16string(baseCode);
@@ -466,22 +466,23 @@ TEST(PostEffect, LightBloom) {
             cmdList->CopyTexture(src, srcBuffer);
 
             materialDownsample->SetTexture(u"mainTex", srcBuffer);
-            materialDownsample->SetVector4F(u"imageSize", Altseed::Vector4F(srcBuffer->GetSize().X, srcBuffer->GetSize().Y, 0.0f, 0.0f));
+            materialDownsample->SetVector4F(
+                    u"imageSize", Altseed::Vector4F(downsampledTexture0->GetSize().X, downsampledTexture0->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture0, renderPassParameter);
 
             materialDownsample->SetTexture(u"mainTex", downsampledTexture0);
             materialDownsample->SetVector4F(
-                    u"imageSize", Altseed::Vector4F(downsampledTexture0->GetSize().X, downsampledTexture0->GetSize().Y, 0.0f, 0.0f));
+                    u"imageSize", Altseed::Vector4F(downsampledTexture1->GetSize().X, downsampledTexture1->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture1, renderPassParameter);
 
             materialDownsample->SetTexture(u"mainTex", downsampledTexture1);
             materialDownsample->SetVector4F(
-                    u"imageSize", Altseed::Vector4F(downsampledTexture1->GetSize().X, downsampledTexture1->GetSize().Y, 0.0f, 0.0f));
+                    u"imageSize", Altseed::Vector4F(downsampledTexture2->GetSize().X, downsampledTexture2->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture2, renderPassParameter);
 
             materialDownsample->SetTexture(u"mainTex", downsampledTexture2);
             materialDownsample->SetVector4F(
-                    u"imageSize", Altseed::Vector4F(downsampledTexture2->GetSize().X, downsampledTexture2->GetSize().Y, 0.0f, 0.0f));
+                    u"imageSize", Altseed::Vector4F(downsampledTexture3->GetSize().X, downsampledTexture3->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture3, renderPassParameter);
 
             materialX->SetVector4F(u"intensity", Altseed::Vector4F(intensity, intensity, intensity, intensity));
