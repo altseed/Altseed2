@@ -534,7 +534,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 
     auto sprite = Altseed::RenderedSprite::Create();
     sprite->SetTexture(rt);
-    sprite->SetSrc(Altseed::RectF(Altseed::Vector2F(),Altseed::Window::GetInstance()->GetSize().To2F()));
+    sprite->SetSrc(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
     auto camera2 = Altseed::RenderedCamera::Create();
     camera2->SetRenderPassParameter(renderPassParameter);
     camera2->SetTargetTexture(instance->GetCommandList()->GetScreenTexture());
@@ -542,7 +542,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     while (count++ < 10000 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-        
+
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         transform.SetTranslation(x += 0.1f, -111, 0);
@@ -555,7 +555,6 @@ float4 main(PS_INPUT input) : SV_TARGET
         Altseed::Renderer::GetInstance()->SetCamera(camera2);
         Altseed::Renderer::GetInstance()->DrawSprite(sprite);
         Altseed::Renderer::GetInstance()->Render();
-
 
         EXPECT_TRUE(instance->EndFrame());
     }
