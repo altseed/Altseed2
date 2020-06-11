@@ -299,12 +299,13 @@ void Font::AddGlyph(const int32_t character) {
     int32_t h = 0;
     int32_t glyphW = 0;
 
-    uint8_t* data = stbtt_GetCodepointSDF(&fontinfo_, scale_, character, padding, 128, GetPixelDistScale(), &w, &h, &offset.X, &offset.Y);
+    uint8_t* sdfData =
+            stbtt_GetCodepointSDF(&fontinfo_, scale_, character, padding, 128, GetPixelDistScale(), &w, &h, &offset.X, &offset.Y);
     stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
     glyphW *= scale_ * actualScale_;
     offset = (offset.To2F() * actualScale_).To2I();
 
-    if (data == nullptr) {
+    if (sdfData == nullptr) {
         auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(w, h), offset, glyphW);
         glyphs_[character] = glyph;
         return;
@@ -323,10 +324,10 @@ void Font::AddGlyph(const int32_t character) {
         int i = 0;
         for (int32_t y = currentTexturePosition_.Y; y < currentTexturePosition_.Y + h; y++) {
             for (int32_t x = currentTexturePosition_.X; x < currentTexturePosition_.X + w; x++) {
-                buf[x + y * textureSize_.X].R = data[i];
-                buf[x + y * textureSize_.X].G = data[i];
-                buf[x + y * textureSize_.X].B = data[i];
-                buf[x + y * textureSize_.X].A = data[i++];
+                buf[x + y * textureSize_.X].R = sdfData[i];
+                buf[x + y * textureSize_.X].G = sdfData[i];
+                buf[x + y * textureSize_.X].B = sdfData[i];
+                buf[x + y * textureSize_.X].A = sdfData[i++];
             }
         }
         llgiTexture->Unlock();
@@ -335,6 +336,8 @@ void Font::AddGlyph(const int32_t character) {
 
     auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(w, h), offset, glyphW);
     glyphs_[character] = glyph;
+
+    stbtt_FreeSDF(sdfData, nullptr);
 }
 
 }  // namespace Altseed

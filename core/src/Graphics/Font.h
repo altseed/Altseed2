@@ -29,6 +29,7 @@ private:
 
 public:
     Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth);
+
     Vector2I GetTextureSize() { return textureSize_; }
     int32_t GetTextureIndex() { return textureIndex_; }
     Vector2I GetPosition() { return position_; }
