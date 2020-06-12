@@ -394,14 +394,19 @@ TEST(PostEffect, LightBloom) {
     auto materialY = Altseed::MakeAsdShared<Altseed::Material>();
     auto materialSum = Altseed::MakeAsdShared<Altseed::Material>();
     auto materialDownsample = Altseed::MakeAsdShared<Altseed::Material>();
+    auto materialHighLuminance = Altseed::MakeAsdShared<Altseed::Material>();
 
     {
+        auto codeHighLuminance = u"#define LUM_MODE\n" + std::u16string(instance->GetBuiltinShader()->GetHighLuminanceShader());
+        materialHighLuminance->SetShader(
+                Altseed::Shader::Create(u"highluminance", codeHighLuminance.c_str(), Altseed::ShaderStageType::Pixel));
+
         auto codeDownSample = std::u16string(instance->GetBuiltinShader()->GetDownsampleShader());
         materialDownsample->SetShader(Altseed::Shader::Create(u"downsample", codeDownSample.c_str(), Altseed::ShaderStageType::Pixel));
 
         auto baseCode = instance->GetBuiltinShader()->GetLightBloomShader();
 
-        auto codeX = u"#define BLUR_X 1\n#define LUM_MODE\n" + std::u16string(baseCode);
+        auto codeX = u"#define BLUR_X 1\n" + std::u16string(baseCode);
         materialX->SetShader(Altseed::Shader::Create(u"X", codeX.c_str(), Altseed::ShaderStageType::Pixel));
 
         auto codeY = u"#define BLUR_Y 1\n" + std::u16string(baseCode);
@@ -411,6 +416,7 @@ TEST(PostEffect, LightBloom) {
         materialSum->SetShader(Altseed::Shader::Create(u"Sum", codeSum.c_str(), Altseed::ShaderStageType::Pixel));
     }
 
+    std::shared_ptr<Altseed::RenderTexture> highLuminanceTexture = nullptr;
     std::shared_ptr<Altseed::RenderTexture> tempTexture0 = nullptr;
     std::shared_ptr<Altseed::RenderTexture> tempTexture1 = nullptr;
     std::shared_ptr<Altseed::RenderTexture> tempTexture2 = nullptr;
@@ -446,7 +452,9 @@ TEST(PostEffect, LightBloom) {
             auto src = cmdList->GetScreenTexture();
             auto size = src->GetSize();
 
-            if (tempTexture0 == nullptr) {
+            if (highLuminanceTexture == nullptr) {
+                highLuminanceTexture = Altseed::RenderTexture::Create(size);
+
                 tempTexture0 = Altseed::RenderTexture::Create(size / 2);
                 tempTexture1 = Altseed::RenderTexture::Create(size / 4);
                 tempTexture2 = Altseed::RenderTexture::Create(size / 8);
@@ -465,7 +473,14 @@ TEST(PostEffect, LightBloom) {
 
             cmdList->CopyTexture(src, srcBuffer);
 
-            materialDownsample->SetTexture(u"mainTex", srcBuffer);
+            // 高輝度抽出
+            materialHighLuminance->SetTexture(u"mainTex", srcBuffer);
+            materialHighLuminance->SetVector4F(u"threshold", Altseed::Vector4F(threshold, threshold, threshold, threshold));
+            materialHighLuminance->SetVector4F(u"exposure", Altseed::Vector4F(exposure, exposure, exposure, exposure));
+            cmdList->RenderToRenderTexture(materialHighLuminance, highLuminanceTexture, renderPassParameter);
+
+            // ダウンサンプリング
+            materialDownsample->SetTexture(u"mainTex", highLuminanceTexture);
             materialDownsample->SetVector4F(
                     u"imageSize", Altseed::Vector4F(downsampledTexture0->GetSize().X, downsampledTexture0->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture0, renderPassParameter);
@@ -485,13 +500,9 @@ TEST(PostEffect, LightBloom) {
                     u"imageSize", Altseed::Vector4F(downsampledTexture3->GetSize().X, downsampledTexture3->GetSize().Y, 0.0f, 0.0f));
             cmdList->RenderToRenderTexture(materialDownsample, downsampledTexture3, renderPassParameter);
 
+            // ブラー
             materialX->SetVector4F(u"intensity", Altseed::Vector4F(intensity, intensity, intensity, intensity));
-            materialX->SetVector4F(u"threshold", Altseed::Vector4F(threshold, threshold, threshold, threshold));
-            materialX->SetVector4F(u"exposure", Altseed::Vector4F(exposure, exposure, exposure, exposure));
-
             materialY->SetVector4F(u"intensity", Altseed::Vector4F(intensity, intensity, intensity, intensity));
-            materialY->SetVector4F(u"threshold", Altseed::Vector4F(threshold, threshold, threshold, threshold));
-            materialY->SetVector4F(u"exposure", Altseed::Vector4F(exposure, exposure, exposure, exposure));
 
             Altseed::Vector2I imageSize;
 

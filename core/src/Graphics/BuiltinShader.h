@@ -6,6 +6,7 @@
 #include "PostEffect/Downsample_PS.h"
 #include "PostEffect/GaussianBlur_PS.h"
 #include "PostEffect/GrayScale_PS.h"
+#include "PostEffect/HighLuminance_PS.h"
 #include "PostEffect/LightBloom_PS.h"
 #include "PostEffect/Sepia_PS.h"
 #include "PostEffect/TextureMix_PS.h"
@@ -31,6 +32,7 @@ public:
     const char16_t* GetSepiaShader() const { return sepia_ps; }
     const char16_t* GetGrayScaleShader() const { return grayscale_ps; }
     const char16_t* GetGaussianBlurShader() const { return gaussianblur_ps; }
+    const char16_t* GetHighLuminanceShader() const { return highluminance_ps; }
     const char16_t* GetLightBloomShader() const { return lightbloom_ps; }
     const char16_t* GetTextureMixShader() const { return texturemix_ps; }
 };
