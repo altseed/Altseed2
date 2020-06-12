@@ -350,6 +350,8 @@ public:
 
     bool RadioButton(const char16_t* label, bool active);
 
+    bool RadioButton_2(const char16_t* label, int* v, int v_button);
+
     bool ArrowButton(const char16_t* id, ToolDir dir);
 
     bool InvisibleButton(const char16_t* label, Vector2F size);

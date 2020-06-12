@@ -1970,6 +1970,16 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* l
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton_2(void* cbg_self, const char16_t* label, int32_t* v, int32_t v_button) {
+    auto cbg_self_ = (Altseed::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v;
+    int32_t cbg_arg2 = v_button;
+    bool cbg_ret = cbg_self_->RadioButton_2(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_ArrowButton(void* cbg_self, const char16_t* label, int32_t dir) {
     auto cbg_self_ = (Altseed::Tool*)(cbg_self);
 

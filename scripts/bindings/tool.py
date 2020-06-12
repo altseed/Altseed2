@@ -1032,6 +1032,14 @@ with Tool as class_:
         func_.add_arg(bool, 'active')
         func_.return_value.type_ = bool
 
+    with class_.add_func('RadioButton_2') as func_:
+        func_.add_arg(ctypes.c_wchar_p, 'label')
+        with func_.add_arg(int, 'v') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        func_.add_arg(int, 'v_button')
+        func_.return_value.type_ = bool
+        func_.is_public = False
+
     with class_.add_func('ArrowButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')

@@ -212,6 +212,10 @@ bool Tool::CheckBox(const char16_t* label, bool* is_open) { return ImGui::Checkb
 
 bool Tool::RadioButton(const char16_t* label, bool active) { return ImGui::RadioButton(utf16_to_utf8(label).c_str(), active); }
 
+bool Tool::RadioButton_2(const char16_t* label, int* v, int v_button) {
+    return ImGui::RadioButton(utf16_to_utf8(label).c_str(), v, v_button);
+}
+
 bool Tool::ArrowButton(const char16_t* id, ToolDir dir) {
     return ImGui::ArrowButton(utf16_to_utf8(id).c_str(), static_cast<ImGuiDir>(dir));
 }
