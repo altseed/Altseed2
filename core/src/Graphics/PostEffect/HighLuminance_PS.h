@@ -25,16 +25,16 @@ float3 getLuminance(float3 color)
 
 float4 main(PS_INPUT input) : SV_TARGET 
 {
-    float4 color = mainTex.Sample(mainSamp, input.UV1) * exposure;
+    float4 color = mainTex.Sample(mainSamp, input.UV1);
     color.xyz = saturate(color.xyz);
 
 #ifdef LUM_MODE
     float3 lum = getLuminance(color.xyz);
-    float3 bloomedLum = lum - threshold;
+    float3 bloomedLum = max(0.0, lum - threshold) * exposure;
     float3 bloomedPower = min(max(bloomedLum / 2.0, 0.0), 1.0);
     color.xyz *= bloomedPower;
 #else
-    float3 bloomedLum = color.xyz - threshold.xyz;
+    float3 bloomedLum = max(0.0, color - threshold) * exposure;
     bloomedLum = saturate(bloomedLum);
     color.xyz = bloomedLum;
 #endif
