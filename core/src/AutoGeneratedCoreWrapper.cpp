@@ -1551,6 +1551,13 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetGaussianBlurShader(voi
     return cbg_ret;
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetHighLuminanceShader(void* cbg_self) {
+    auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetHighLuminanceShader();
+    return cbg_ret;
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_BuiltinShader_GetLightBloomShader(void* cbg_self) {
     auto cbg_self_ = (Altseed::BuiltinShader*)(cbg_self);
 
