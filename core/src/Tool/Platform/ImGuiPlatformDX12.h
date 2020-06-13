@@ -1,5 +1,4 @@
-
-#pragma once
+﻿#pragma once
 
 #include <DX12/LLGI.CommandListDX12.h>
 #include <DX12/LLGI.GraphicsDX12.h>

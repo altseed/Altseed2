@@ -1,6 +1,7 @@
 import glob
 import subprocess
 import chardet
+import difflib
 
 hs = glob.glob('../core/**/*.h', recursive=True)
 cpps = glob.glob('../core/**/*.cpp', recursive=True)
@@ -24,7 +25,14 @@ for p in targets:
     original = f.read()
     f.close()
 
+    original = original.replace('\r','')
+    formatted = formatted.replace('\r','')
+    
     if(formatted != original):
+        d = difflib.Differ()
+        diff = d.compare(original.split('\n'), formatted.split('\n'))
+        print('\n'.join(diff))
+
         print('{} is not formatted.'.format(p))
         raise Exception(p)
     

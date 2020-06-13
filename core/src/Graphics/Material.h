@@ -15,7 +15,11 @@ enum class ShaderStageType;
 class Shader;
 class TextureBase;
 
-enum class AlphaBlendMode : int32_t { Opacity, Normal, Add, Subtract, Multiply };
+enum class AlphaBlendMode : int32_t { Opacity,
+                                      Normal,
+                                      Add,
+                                      Subtract,
+                                      Multiply };
 
 struct PipelineStateKey {
     AlphaBlendMode alphaBlendMode_ = AlphaBlendMode::Normal;

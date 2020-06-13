@@ -1,7 +1,7 @@
 ---
 BasedOnStyle: Google
 AccessModifierOffset: -4
-ColumnLimit: 140
+ColumnLimit: 0
 IndentWidth: 4
 DerivePointerAlignment: false
 PointerAlignment: Left

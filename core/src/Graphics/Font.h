@@ -15,7 +15,8 @@
 #include "Texture2D.h"
 
 namespace Altseed {
-enum class WritingDirection : int32_t { Vertical, Horizontal };
+enum class WritingDirection : int32_t { Vertical,
+                                        Horizontal };
 
 class Glyph : public BaseObject {
 private:

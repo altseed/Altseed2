@@ -9,7 +9,9 @@
 
 namespace Altseed {
 
-enum class SeekOrigin { Begin, Current, End };
+enum class SeekOrigin { Begin,
+                        Current,
+                        End };
 
 class BaseFileReader : public BaseObject {
 private:

@@ -250,7 +250,7 @@ enum class ToolCombo : int32_t {
     None = 0,
     PopupAlignLeft = 1 << 0,  // Align the popup toward the left by default
     HeightSmall = 1 << 1,  // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use
-                           // SetNextWindowSizeConstraints() prior to calling BeginCombo()
+    // SetNextWindowSizeConstraints() prior to calling BeginCombo()
     HeightRegular = 1 << 2,  // Max ~8 items visible (default)
     HeightLarge = 1 << 3,  // Max ~20 items visible
     HeightLargest = 1 << 4,  // As many fitting items as possible
@@ -261,7 +261,7 @@ enum class ToolCombo : int32_t {
 
 enum class ToolHovered : int32_t {
     None = 0,  // Return true if directly over the item/window, not obstructed by another window, not obstructed by an
-               // active popup or modal blocking inputs under them.
+    // active popup or modal blocking inputs under them.
     ChildWindows = 1 << 0,  // IsWindowHovered() only: Return true if any children of the window is hovered
     RootWindow = 1 << 1,  // IsWindowHovered() only: Test from root window (top most parent of the current hierarchy)
     AnyWindow = 1 << 2,  // IsWindowHovered() only: Return true if any window is hovered
