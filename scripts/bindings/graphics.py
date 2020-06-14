@@ -210,7 +210,7 @@ Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マテリアル')
-    class_.SerializeType = cbg.SerializeType.AttributeOnly
+    class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
     with class_.add_constructor() as func:
@@ -230,6 +230,7 @@ with Material as class_:
             arg.brief.add('ja', '検索する<see cref="Vector4F"/>のインスタンスの名前')
             arg.nullable = False
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('SetVector4F') as func:
         func.brief = cbg.Description()
@@ -242,6 +243,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Vector4F"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetMatrix44F') as func:
         func.brief = cbg.Description()
@@ -255,6 +257,7 @@ with Material as class_:
             arg.brief.add('ja', '検索する<see cref="Matrix44F"/>のインスタンスの名前')
             arg.nullable = False
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('SetMatrix44F') as func:
         func.brief = cbg.Description()
@@ -267,6 +270,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Matrix44F"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetTexture') as func:
         func.brief = cbg.Description()
@@ -280,6 +284,7 @@ with Material as class_:
             arg.brief.add('ja', '検索する<see cref="TextureBase"/>のインスタンスの名前')
             arg.nullable = False
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('SetTexture') as func:
         func.brief = cbg.Description()
@@ -292,6 +297,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="TextureBase"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetShader') as func:
         func.brief = cbg.Description()
@@ -303,6 +309,7 @@ with Material as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
             'ja', '<paramref name="shaderStage"/>に一致するタイプのシェーダ')
+        func.onlyExtern = True
 
     with class_.add_func('SetShader') as func:
         func.brief = cbg.Description()
@@ -310,6 +317,7 @@ with Material as class_:
         with func.add_arg(Shader, 'shader') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定するシェーダ')
+        func.onlyExtern = True
 
     with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
         prop.brief = cbg.Description()
