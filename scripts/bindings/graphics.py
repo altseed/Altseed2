@@ -242,6 +242,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Vector4F"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetMatrix44F') as func:
         func.brief = cbg.Description()
@@ -267,6 +268,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="Matrix44F"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetTexture') as func:
         func.brief = cbg.Description()
@@ -292,6 +294,7 @@ with Material as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '設定する<see cref="TextureBase"/>のインスタンスの値')
         func.is_public = True
+        func.onlyExtern = True
 
     with class_.add_func('GetShader') as func:
         func.brief = cbg.Description()
