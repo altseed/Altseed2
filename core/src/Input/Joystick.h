@@ -20,12 +20,10 @@ enum class JoystickType : int32_t {
     XBOX360 = 654,
     JoyconL = 8198,
     JoyconR = 8199,
+    ProController = 8201,
 };
 
 enum class JoystickButtonType : int32_t {
-    Start,  /// Joycon plus
-    Select,  /// Joycon minus
-
     Home,
     Capture,
 
@@ -43,10 +41,10 @@ enum class JoystickButtonType : int32_t {
 
     L1,
     R1,
-    L2,  // Joycon ZL
-    R2,  // Joycon ZR
-    L3,  // Joycon SL
-    R3,  // Joycon SR
+    L2,
+    R2,
+    L3,  
+    R3,
 
     LeftStart,  ///< XBOX360 Start, PS4 Options
     RightStart,  ///< XBOX360 Select, PS4 TouchPad
@@ -85,6 +83,11 @@ public:
     int32_t GetVendor() const { return vendor_; }
     int32_t GetProduct() const { return product_; }
     int32_t GetVersion() const { return version_; }
+
+    bool IsJoystickType(JoystickType type) const { return product_ == static_cast<int>(type); }
+
+    bool GetIsAvailableButtonMapping() const;
+    bool GetIsAvailableAxisMapping() const;
 };
 
 class Joystick : public BaseObject {
@@ -95,13 +98,16 @@ private:
 
     static std::shared_ptr<Joystick> instance_;
 
+    int32_t connectedJoystickCount_;
+
+    // std::array<std::unique_ptr<hid_device>, MAX_JOYSTICKS_NUM> hidapiDevices_;
+
     std::array<std::shared_ptr<JoystickInfo>, MAX_BUTTONS_NUM> joystickInfo_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
     std::array<std::array<float, MAX_AXES_NUM>, MAX_JOYSTICKS_NUM> currentAxis_;
 
     std::u16string ToU16(const std::wstring& wstr) const;
-
 
 public:
     Joystick();
@@ -115,6 +121,7 @@ public:
     void RefreshInputState();
 
     bool IsPresent(int32_t joystickIndex) const;
+    int32_t GetConnectedJoystickCount() const;
     std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t joystickIndex) const;
 
     ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;

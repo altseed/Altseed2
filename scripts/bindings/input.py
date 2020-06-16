@@ -470,16 +470,40 @@ with JoystickInfo as class_:
         prop_.is_public = True
 
     with class_.add_property(int, 'Vendor') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '製造者IDを取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True
 
     with class_.add_property(int, 'Product') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '製品IDを取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True
 
     with class_.add_property(int, 'Version') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_func('IsJoystickType') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したジョイスティックの種類に合致するかどうかを取得します。')
+        func.add_arg(JoystickType, 'type')
+        func.return_value.type_ = bool
+
+    with class_.add_property(bool, 'IsAvailableButtonMapping') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'ButtonTypeを利用してボタンの状態を取得できるかどうかを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(bool, 'IsAvailableAxisMapping') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'AxisTypeを利用して軸の状態を取得できるかどうかを取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True
@@ -508,6 +532,13 @@ with Joystick as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定したジョイスティックが存在したらtrue，存在していなかったらfalse')
+
+    with class_.add_property(int, 'ConnectedJoystickCount') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '接続されているジョイスティックの数を取得します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.is_public = True
         
     with class_.add_func('GetJoystickInfo') as func:
         func.brief = cbg.Description()
@@ -530,7 +561,7 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索するボタンのインデックス')
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスのボタンの状態')
+        func.return_value.brief.add('ja', 'ボタンの状態')
         func.is_public = False
         func.onlyExtern = True
 
@@ -545,7 +576,7 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索するボタンの種類')
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定種類のボタンの状態')
+        func.return_value.brief.add('ja', 'ボタンの状態')
         func.is_public = False
         func.onlyExtern = True
 
@@ -560,7 +591,7 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索する軸のインデックス')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスの軸の状態')
+        func.return_value.brief.add('ja', '軸の状態')
         func.is_public = False
         func.onlyExtern = True
 
@@ -575,7 +606,7 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索する軸の種類')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定種類の軸の状態')
+        func.return_value.brief.add('ja', '軸の状態')
         func.is_public = False
         func.onlyExtern = True
 
