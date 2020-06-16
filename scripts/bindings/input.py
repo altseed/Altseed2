@@ -537,7 +537,7 @@ with Joystick as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '接続されているジョイスティックの数を取得します。')
         prop.has_getter = True
-        prop.has_setter = True
+        prop.has_setter = False
         prop.is_public = True
         
     with class_.add_func('GetJoystickInfo') as func:

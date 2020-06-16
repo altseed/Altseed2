@@ -768,6 +768,14 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_IsJoystickType(void* cbg_self, int32_t type) {
+    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
+
+    Altseed::JoystickType cbg_arg0 = (Altseed::JoystickType)type;
+    bool cbg_ret = cbg_self_->IsJoystickType(cbg_arg0);
+    return cbg_ret;
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_JoystickInfo_GetName(void* cbg_self) {
     auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
 
@@ -821,6 +829,20 @@ CBGEXPORT int32_t CBGSTDCALL cbg_JoystickInfo_GetVersion(void* cbg_self) {
     auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetVersion();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_GetIsAvailableButtonMapping(void* cbg_self) {
+    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsAvailableButtonMapping();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_GetIsAvailableAxisMapping(void* cbg_self) {
+    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsAvailableAxisMapping();
     return cbg_ret;
 }
 
@@ -884,6 +906,13 @@ CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByType(void* cbg_self, int32
     int32_t cbg_arg0 = joystickIndex;
     Altseed::JoystickAxisType cbg_arg1 = (Altseed::JoystickAxisType)type;
     float cbg_ret = cbg_self_->GetAxisStateByType(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetConnectedJoystickCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed::Joystick*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetConnectedJoystickCount();
     return cbg_ret;
 }
 
