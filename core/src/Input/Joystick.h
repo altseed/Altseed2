@@ -1,8 +1,8 @@
 #pragma once
+#include <GLFW/glfw3.h>
+// #include <hidapi.h>
 
-#include <hidapi.h>
-#include <stdio.h>
-
+#include <optional>
 #include <array>
 #include <chrono>
 #include <cmath>
@@ -65,6 +65,28 @@ enum class JoystickAxisType : int32_t {
     Max,
 };
 
+class JoystickInfo : BaseObject {
+private:
+    std::u16string name_;
+    int32_t buttonCount_;
+    int32_t axisCount_;
+    std::u16string guid_;
+    int32_t bustype_;
+    int32_t vendor_;
+    int32_t product_;
+    int32_t version_;
+public:
+    JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const char* guid);
+    const char16_t* GetName() const { return name_.c_str(); }
+    int32_t GetButtonCount() const { return buttonCount_; }
+    int32_t GetAxisCount() const { return axisCount_; }
+    const char16_t* GetGUID() const { return guid_.c_str(); }
+    int32_t GetBustype() const { return bustype_; }
+    int32_t GetVendor() const { return vendor_; }
+    int32_t GetProduct() const { return product_; }
+    int32_t GetVersion() const { return version_; }
+};
+
 class Joystick : public BaseObject {
 private:
     static const int MAX_AXES_NUM = 10;
@@ -73,21 +95,14 @@ private:
 
     static std::shared_ptr<Joystick> instance_;
 
-    uint8_t globalCount_;
-
-    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
-
-    std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
-    std::array<std::u16string, MAX_JOYSTICKS_NUM> names_;
-
+    std::array<std::shared_ptr<JoystickInfo>, MAX_BUTTONS_NUM> joystickInfo_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
-    std::array<std::array<float, MAX_AXES_NUM>, static_cast<int>(JoystickAxisType::Max)> currentAxis_;
+    std::array<std::array<float, MAX_AXES_NUM>, MAX_JOYSTICKS_NUM> currentAxis_;
 
-    std::u16string ToU16(const std::wstring& wstr);
+    std::u16string ToU16(const std::wstring& wstr) const;
 
-    void SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len);
-    void HandleJoyconInput(int index, unsigned char* buff, bool is_left);
+    Joystick();
 
 public:
     static bool Initialize();
@@ -98,21 +113,16 @@ public:
 
     void RefreshInputState();
 
-    void RefreshConnectedState();
-
-    bool IsPresent(int32_t joystickIndex);
+    bool IsPresent(int32_t joystickIndex) const;
+    std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t index) const;
 
     ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;
     ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButtonType type) const;
 
-    JoystickType GetJoystickType(int32_t index) const;
-
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const;
 
-    const char16_t* GetJoystickName(int32_t index) const;
-
-    void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
+    // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
 }  // namespace Altseed
