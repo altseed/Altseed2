@@ -86,21 +86,82 @@ TEST(Joystick, Initialize) {
             continue;
         }
         std::cout
-            << "Index: " << i
-            << "Name: " << info->GetName() << std::endl
-            << "ButtonCount: " << info->GetButtonCount() << std::endl
-            << "AxisCount: " << info->GetAxisCount() << std::endl
-            << "GUID: " << info->GetGUID() << std::endl
-            << "Bustype: " << info->GetBustype() << std::endl
-            << "Vendor: " << info->GetVendor() << std::endl
-            << "Product: " << info->GetProduct() << std::endl
-            << "Version: " << info->GetVersion() << std::endl
-        ;
+                << "Index: " << i << std::endl
+                << "Name: " << info->GetName() << std::endl
+                << "ButtonCount: " << info->GetButtonCount() << std::endl
+                << "AxisCount: " << info->GetAxisCount() << std::endl
+                << "GUID: " << info->GetGUID() << std::endl
+                << "Bustype: " << info->GetBustype() << std::endl
+                << "Vendor: " << info->GetVendor() << std::endl
+                << "Product: " << info->GetProduct() << std::endl
+                << "Version: " << info->GetVersion() << std::endl;
     }
 
     // if (Altseed::Joystick::GetInstance()->IsPresent(0)) {
     //     CheckVibration(0);
     // }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Joystick, ButtonState) {
+    char16_t s16[] = u"Initialize";
+
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
+
+    float time = 0.0f;
+    while (Altseed::Core::GetInstance()->DoEvent()) {
+        for (int ji = 0; ji < 16; ji++) {
+            auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+            if (info == nullptr) continue;
+
+            for(int bi = 0; bi < info->GetButtonCount(); bi++) {
+                auto bs = Altseed::Joystick::GetInstance()->GetButtonStateByIndex(ji, bi);
+
+                if (bs == Altseed::ButtonState::Push) {
+                    printf("%d - %d : Push\n", ji, bi);
+                } else if (bs == Altseed::ButtonState::Hold) {
+                    printf("%d - %d : Hold\n", ji, bi);
+                } else if (bs == Altseed::ButtonState::Release) {
+                    printf("%d - %d : Release\n", ji, bi);
+                }
+            }
+
+        }
+
+        time += Altseed::Core::GetInstance()->GetDeltaSecond();
+        if (time > 10.0f) {
+            break;
+        }
+    }
+
+    Altseed::Core::Terminate();
+}
+
+TEST(Joystick, AxisState) {
+    char16_t s16[] = u"Initialize";
+
+    EXPECT_TRUE(Altseed::Core::Initialize(s16, 640, 480, Altseed::Configuration::Create()));
+
+    float time = 0.0f;
+    while (Altseed::Core::GetInstance()->DoEvent()) {
+        for (int ji = 0; ji < 16; ji++) {
+            auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+            if (info == nullptr) continue;
+
+            for (int ai = 0; ai < info->GetAxisCount(); ai++) {
+                auto v = Altseed::Joystick::GetInstance()->GetAxisStateByIndex(ji, ai);
+                if(std::abs(v) > 0.1) {
+                    printf("%d - %d : %f\n", ji, ai, v);
+                }
+            }
+        }
+
+        time += Altseed::Core::GetInstance()->GetDeltaSecond();
+        if (time > 10.0f) {
+            break;
+        }
+    }
 
     Altseed::Core::Terminate();
 }
