@@ -6,13 +6,11 @@
 
 #include "../Common/Miscs.h"
 #include "../Logger/Log.h"
-
 #include "JoystickMapping.h"
 
 namespace Altseed {
 JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const char* guid)
-    : name_(name), buttonCount_(buttonCount), axisCount_(axisCount)
-{
+    : name_(name), buttonCount_(buttonCount), axisCount_(axisCount) {
     guid_ = utf8_to_utf16(std::string(guid));
     unsigned int bustype1, bustype2;
     unsigned int vendor1, vendor2;
@@ -109,7 +107,7 @@ void Joystick::RefreshInputState() {
         for (int i = 0; i < axesCount; ++i) {
             currentAxis_[jind][i] = ax[i];
         }
-        
+
         // Joystickが接続されたフレーム
         if (joystickInfo_[jind] == nullptr) {
             auto name = glfwGetJoystickName(jind);

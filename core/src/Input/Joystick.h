@@ -2,10 +2,10 @@
 #include <GLFW/glfw3.h>
 // #include <hidapi.h>
 
-#include <optional>
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <optional>
 
 #include "../Window/Window.h"
 #include "ButtonState.h"
@@ -43,7 +43,7 @@ enum class JoystickButtonType : int32_t {
     R1,
     L2,
     R2,
-    L3,  
+    L3,
     R3,
 
     LeftStart,  ///< XBOX360 Start, PS4 Options
@@ -73,6 +73,7 @@ private:
     int32_t vendor_;
     int32_t product_;
     int32_t version_;
+
 public:
     JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const char* guid);
     const char16_t* GetName() const { return name_.c_str(); }

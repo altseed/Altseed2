@@ -164,7 +164,7 @@ TEST(Joystick, AxisState) {
 
     if (joystickCount > 0) {
         printJoystickInformation();
-        
+
         float time = 0.0f;
         while (Altseed::Core::GetInstance()->DoEvent()) {
             for (int ji = 0; ji < 16; ji++) {
@@ -173,7 +173,7 @@ TEST(Joystick, AxisState) {
 
                 for (int ai = 0; ai < info->GetAxisCount(); ai++) {
                     auto v = Altseed::Joystick::GetInstance()->GetAxisStateByIndex(ji, ai);
-                    if(std::abs(v) > 0.1) {
+                    if (std::abs(v) > 0.1) {
                         printf("%d - %d : %f\n", ji, ai, v);
                     }
                 }
@@ -192,7 +192,7 @@ TEST(Joystick, AxisState) {
 }
 
 TEST(Joystick, ButtonStateByType) {
-    const std::map<std::string, Altseed::JoystickButtonType> buttonTypes {
+    const std::map<std::string, Altseed::JoystickButtonType> buttonTypes{
             {std::string("Home"), Altseed::JoystickButtonType::Home},
             {std::string("Capture"), Altseed::JoystickButtonType::Capture},
 
@@ -214,7 +214,7 @@ TEST(Joystick, ButtonStateByType) {
             {std::string("R2"), Altseed::JoystickButtonType::R2},
             {std::string("L3"), Altseed::JoystickButtonType::L3},
             {std::string("R3"), Altseed::JoystickButtonType::R3},
-    
+
             {std::string("LeftStart"), Altseed::JoystickButtonType::LeftStart},
             {std::string("RightStart"), Altseed::JoystickButtonType::RightStart},
     };

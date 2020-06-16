@@ -1,7 +1,7 @@
 #pragma once
+#include <map>
 
 #include "Joystick.h"
-#include "map"
 
 namespace Altseed {
 
@@ -169,9 +169,9 @@ static const std::map<int32_t, const std::map<JoystickButtonType, int32_t>> Butt
         {static_cast<int32_t>(JoystickType::ProController), ProControllerButtonMapping},
 };
 
-static const std::map<int32_t, const std::map<JoystickAxisType, int32_t>> AxisMapping {
+static const std::map<int32_t, const std::map<JoystickAxisType, int32_t>> AxisMapping{
         {static_cast<int32_t>(JoystickType::DualShock4), DualShock4AxisMapping},
         {static_cast<int32_t>(JoystickType::XBOX360), XBOX360AxisMapping},
         {static_cast<int32_t>(JoystickType::ProController), ProControllerAxisMapping},
 };
-};
+};  // namespace Altseed
