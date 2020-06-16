@@ -65,7 +65,7 @@ enum class JoystickAxisType : int32_t {
     Max,
 };
 
-class JoystickInfo : BaseObject {
+class JoystickInfo : public BaseObject {
 private:
     std::u16string name_;
     int32_t buttonCount_;
@@ -102,9 +102,10 @@ private:
 
     std::u16string ToU16(const std::wstring& wstr) const;
 
-    Joystick();
 
 public:
+    Joystick();
+
     static bool Initialize();
 
     static void Terminate();
@@ -114,7 +115,7 @@ public:
     void RefreshInputState();
 
     bool IsPresent(int32_t joystickIndex) const;
-    std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t index) const;
+    std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t joystickIndex) const;
 
     ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;
     ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButtonType type) const;

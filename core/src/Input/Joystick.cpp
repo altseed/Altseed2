@@ -94,7 +94,7 @@ void Joystick::RefreshInputState() {
 
         if (joystickInfo_[jind] == nullptr) {
             auto name = glfwGetJoystickName(jind);
-            auto guid = utf8_to_utf16(std::string(glfwGetJoystickGUID(jind)));
+            auto guid = glfwGetJoystickGUID(jind);
             joystickInfo_[jind] = MakeAsdShared<JoystickInfo>(utf8_to_utf16(std::string(name)), buttonsCount, axesCount, guid);
         }
 
@@ -111,13 +111,13 @@ bool Joystick::IsPresent(int32_t joystickIndex) const {
     return (0 <= joystickIndex) && (joystickIndex < MAX_JOYSTICKS_NUM) && joystickInfo_[joystickIndex] != nullptr;
 }
 
-std::shared_ptr<JoystickInfo> Joystick::GetJoystickInfo(int32_t index) const {
-    if (index < 0 || MAX_JOYSTICKS_NUM <= index) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Joystick::GetJoystickInfo: Joystick index '{0}' is out of range.", index);
+std::shared_ptr<JoystickInfo> Joystick::GetJoystickInfo(int32_t joystickIndex) const {
+    if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Joystick::GetJoystickInfo: joystickIndex '{0}' is out of range.", joystickIndex);
         return nullptr;
     }
 
-    return joystickInfo_[index];
+    return joystickInfo_[joystickIndex];
 }
 
 ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const {
@@ -175,5 +175,9 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
     // TODO
     return GetAxisStateByIndex(joystickIndex, -1);
 };
+
+// void Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
+//     Log::GetInstance()->Error(LogCategory::Core, u"Joystick::Vibrate is not supported yet");
+// }
 
 }  // namespace Altseed

@@ -126,8 +126,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
 
     Core::instance->fps_ = std::make_unique<FPS>();
 
-    Altseed::Joystick::GetInstance()->RefreshConnectedState();
-
     return Core::instance != nullptr;
 }
 

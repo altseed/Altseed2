@@ -72,6 +72,7 @@ define.enums.append(JoystickAxisType)
 define.classes.append(Cursor)
 define.classes.append(Keyboard)
 define.classes.append(Mouse)
+define.classes.append(JoystickInfo)
 define.classes.append(Joystick)
 
 # graphics
