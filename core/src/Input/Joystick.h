@@ -1,11 +1,11 @@
 #pragma once
-
-#include <hidapi.h>
-#include <stdio.h>
+#include <GLFW/glfw3.h>
+// #include <hidapi.h>
 
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <optional>
 
 #include "../Window/Window.h"
 #include "ButtonState.h"
@@ -20,12 +20,10 @@ enum class JoystickType : int32_t {
     XBOX360 = 654,
     JoyconL = 8198,
     JoyconR = 8199,
+    ProController = 8201,
 };
 
 enum class JoystickButtonType : int32_t {
-    Start,  /// Joycon plus
-    Select,  /// Joycon minus
-
     Home,
     Capture,
 
@@ -43,10 +41,10 @@ enum class JoystickButtonType : int32_t {
 
     L1,
     R1,
-    L2,  // Joycon ZL
-    R2,  // Joycon ZR
-    L3,  // Joycon SL
-    R3,  // Joycon SR
+    L2,
+    R2,
+    L3,
+    R3,
 
     LeftStart,  ///< XBOX360 Start, PS4 Options
     RightStart,  ///< XBOX360 Select, PS4 TouchPad
@@ -65,6 +63,34 @@ enum class JoystickAxisType : int32_t {
     Max,
 };
 
+class JoystickInfo : public BaseObject {
+private:
+    std::u16string name_;
+    int32_t buttonCount_;
+    int32_t axisCount_;
+    std::u16string guid_;
+    int32_t bustype_;
+    int32_t vendor_;
+    int32_t product_;
+    int32_t version_;
+
+public:
+    JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const char* guid);
+    const char16_t* GetName() const { return name_.c_str(); }
+    int32_t GetButtonCount() const { return buttonCount_; }
+    int32_t GetAxisCount() const { return axisCount_; }
+    const char16_t* GetGUID() const { return guid_.c_str(); }
+    int32_t GetBustype() const { return bustype_; }
+    int32_t GetVendor() const { return vendor_; }
+    int32_t GetProduct() const { return product_; }
+    int32_t GetVersion() const { return version_; }
+
+    bool IsJoystickType(JoystickType type) const { return product_ == static_cast<int>(type); }
+
+    bool GetIsAvailableButtonMapping() const;
+    bool GetIsAvailableAxisMapping() const;
+};
+
 class Joystick : public BaseObject {
 private:
     static const int MAX_AXES_NUM = 10;
@@ -73,23 +99,20 @@ private:
 
     static std::shared_ptr<Joystick> instance_;
 
-    uint8_t globalCount_;
+    int32_t connectedJoystickCount_;
 
-    std::array<hid_device*, MAX_JOYSTICKS_NUM> handler_;
+    // std::array<std::unique_ptr<hid_device>, MAX_JOYSTICKS_NUM> hidapiDevices_;
 
-    std::array<JoystickType, MAX_JOYSTICKS_NUM> types_;
-    std::array<std::u16string, MAX_JOYSTICKS_NUM> names_;
-
+    std::array<std::shared_ptr<JoystickInfo>, MAX_BUTTONS_NUM> joystickInfo_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
-    std::array<std::array<float, MAX_AXES_NUM>, static_cast<int>(JoystickAxisType::Max)> currentAxis_;
+    std::array<std::array<float, MAX_AXES_NUM>, MAX_JOYSTICKS_NUM> currentAxis_;
 
-    std::u16string ToU16(const std::wstring& wstr);
-
-    void SendSubcommand(hid_device* dev, uint8_t command, uint8_t data[], int len);
-    void HandleJoyconInput(int index, unsigned char* buff, bool is_left);
+    std::u16string ToU16(const std::wstring& wstr) const;
 
 public:
+    Joystick();
+
     static bool Initialize();
 
     static void Terminate();
@@ -98,21 +121,17 @@ public:
 
     void RefreshInputState();
 
-    void RefreshConnectedState();
-
-    bool IsPresent(int32_t joystickIndex);
+    bool IsPresent(int32_t joystickIndex) const;
+    int32_t GetConnectedJoystickCount() const;
+    std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t joystickIndex) const;
 
     ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;
     ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButtonType type) const;
 
-    JoystickType GetJoystickType(int32_t index) const;
-
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type) const;
 
-    const char16_t* GetJoystickName(int32_t index) const;
-
-    void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
+    // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
 }  // namespace Altseed

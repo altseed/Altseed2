@@ -442,13 +442,78 @@ with JoystickAxisType as enum:
     enum.add('R2')
     enum.add('Max')
 
+JoystickInfo = cbg.Class('Altseed', 'JoystickInfo')
+with JoystickInfo as class_:
+    with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'ButtonCount') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'AxisCount') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(ctypes.c_wchar_p, 'GUID') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'Bustype') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'Vendor') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '製造者IDを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'Product') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '製品IDを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(int, 'Version') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_func('IsJoystickType') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したジョイスティックの種類に合致するかどうかを取得します。')
+        func.add_arg(JoystickType, 'type')
+        func.return_value.type_ = bool
+
+    with class_.add_property(bool, 'IsAvailableButtonMapping') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'ButtonTypeを利用してボタンの状態を取得できるかどうかを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(bool, 'IsAvailableAxisMapping') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'AxisTypeを利用して軸の状態を取得できるかどうかを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
 Joystick = cbg.Class('Altseed', 'Joystick')
 with Joystick as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ジョイスティックを表すクラス')
     class_.is_Sealed = True
 
-    # Core 内部で呼び出されるので Initialize は Engineに公開しない
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'インスタンスを取得します。')
@@ -457,21 +522,34 @@ with Joystick as class_:
         func.return_value.brief.add('ja', '使用するインスタンス')
         func.is_public = False
         func.is_static = True
+
     with class_.add_func('IsPresent') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定したジョイスティックが親であるかどうかを取得します。')
+        func.brief.add('ja', '指定したジョイスティックが存在しているかどうかを取得します。')
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ジョイスティックのインデックス')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定したジョイスティックが親であったらtrue，それ以外でfalse')
-    # with class_.add_func('RefreshInputState') as func:
-    #     func.brief = cbg.Description()
-    #     func.brief.add('ja', 'インプットの状態をリセットします。')
-    with class_.add_func('RefreshConnectedState') as func:
+        func.return_value.brief.add('ja', '指定したジョイスティックが存在したらtrue，存在していなかったらfalse')
+
+    with class_.add_property(int, 'ConnectedJoystickCount') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '接続されているジョイスティックの数を取得します。')
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = True
+        
+    with class_.add_func('GetJoystickInfo') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '接続の状態をリセットします。')
+        func.brief.add('ja', '指定したジョイスティックの情報を取得します。')
+
+        with func.add_arg(int, 'joystickIndex') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ジョイスティックのインデックス')
+
+        func.return_value.type_ = JoystickInfo
+
     with class_.add_func('GetButtonStateByIndex') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ボタンの状態をインデックスで取得します。')
@@ -483,9 +561,10 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索するボタンのインデックス')
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスのボタンの状態')
+        func.return_value.brief.add('ja', 'ボタンの状態')
         func.is_public = False
         func.onlyExtern = True
+
     with class_.add_func('GetButtonStateByType') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ボタンの状態を種類から取得します。')
@@ -497,18 +576,10 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索するボタンの種類')
         func.return_value.type_ = ButtonState
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定種類のボタンの状態')
+        func.return_value.brief.add('ja', 'ボタンの状態')
         func.is_public = False
         func.onlyExtern = True
-    with class_.add_func('GetJoystickType') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定インデックスのジョイスティックの種類を取得します。')
-        with func.add_arg(int, 'index') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '種類を取得するジョイスティックのインデックス')
-        func.return_value.type_ = JoystickType
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスのジョイスティックの種類')
+
     with class_.add_func('GetAxisStateByIndex') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '軸の状態をインデックスで取得します。')
@@ -520,9 +591,10 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索する軸のインデックス')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定インデックスの軸の状態')
+        func.return_value.brief.add('ja', '軸の状態')
         func.is_public = False
         func.onlyExtern = True
+
     with class_.add_func('GetAxisStateByType') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '軸の状態を軸の種類で取得します。')
@@ -534,30 +606,19 @@ with Joystick as class_:
             arg.brief.add('ja', '状態を検索する軸の種類')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定種類の軸の状態')
+        func.return_value.brief.add('ja', '軸の状態')
         func.is_public = False
         func.onlyExtern = True
-    with class_.add_func('GetJoystickName') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'ジョイスティックの名前を取得します。')
-        with func.add_arg(int, 'index') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '名前を検索するジョイスティックのインデックス')
-        func.return_value.type_ = ctypes.c_wchar_p
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '指定したインデックスのジョイスティックの名前')
-    # with class_.add_func('RefreshVibrateState') as func:
+
+    # with class_.add_func('Vibrate') as func:
     #     func.brief = cbg.Description()
-    #     func.brief.add('ja', '振動の状態をリセットします。')
-    with class_.add_func('Vibrate') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', '指定したジョイスティックコントローラーを振動させます')
-        with func.add_arg(int, 'index') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'ジョイスティックのインデックス')
-        with func.add_arg(float, 'frequency') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '周波数')
-        with func.add_arg(float, 'amplitude') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '振幅')
+    #     func.brief.add('ja', '指定したジョイスティックコントローラーを振動させます。')
+    #     with func.add_arg(int, 'index') as arg:
+    #         arg.brief = cbg.Description()
+    #         arg.brief.add('ja', 'ジョイスティックのインデックス')
+    #     with func.add_arg(float, 'frequency') as arg:
+    #         arg.brief = cbg.Description()
+    #         arg.brief.add('ja', '周波数')
+    #     with func.add_arg(float, 'amplitude') as arg:
+    #         arg.brief = cbg.Description()
+    #         arg.brief.add('ja', '振幅')
