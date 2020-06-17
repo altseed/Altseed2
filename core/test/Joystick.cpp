@@ -82,7 +82,7 @@ void printJoystickInformation() {
             continue;
         }
         std::cout
-                << "Index: " << i << std::endl
+                << "--- Index: " << i << " ---" << std::endl
                 << "Name: " << Altseed::utf16_to_utf8(std::u16string(info->GetName())) << std::endl
                 << "ButtonCount: " << info->GetButtonCount() << std::endl
                 << "AxisCount: " << info->GetAxisCount() << std::endl
@@ -90,8 +90,15 @@ void printJoystickInformation() {
                 << "Bustype: " << info->GetBustype() << std::endl
                 << "Vendor: " << info->GetVendor() << std::endl
                 << "Product: " << info->GetProduct() << std::endl
-                << "Version: " << info->GetVersion() << std::endl
-                << std::endl;
+                << "Version: " << info->GetVersion() << std::endl;
+
+        if (info->GetIsGamepad()) {
+            std::cout
+                    << "--- Gamepad ---" << std::endl
+                    << "GamepadName: " << Altseed::utf16_to_utf8(std::u16string(info->GetGamepadName())) << std::endl;
+        }
+
+        std::cout << std::endl;
     }
 }
 
@@ -193,30 +200,21 @@ TEST(Joystick, AxisState) {
 
 TEST(Joystick, ButtonStateByType) {
     const std::map<std::string, Altseed::JoystickButtonType> buttonTypes{
-            {std::string("Home"), Altseed::JoystickButtonType::Home},
-            {std::string("Capture"), Altseed::JoystickButtonType::Capture},
-
-            {std::string("LeftUp"), Altseed::JoystickButtonType::LeftUp},
-            {std::string("LeftDown"), Altseed::JoystickButtonType::LeftDown},
-            {std::string("LeftLeft"), Altseed::JoystickButtonType::LeftLeft},
-            {std::string("LeftRight"), Altseed::JoystickButtonType::LeftRight},
-            {std::string("LeftPush"), Altseed::JoystickButtonType::LeftPush},
-
-            {std::string("RightUp"), Altseed::JoystickButtonType::RightUp},
+            {std::string("RightDown"), Altseed::JoystickButtonType::RightDown},
             {std::string("RightRight"), Altseed::JoystickButtonType::RightRight},
             {std::string("RightLeft"), Altseed::JoystickButtonType::RightLeft},
-            {std::string("RightDown"), Altseed::JoystickButtonType::RightDown},
-            {std::string("RightPush"), Altseed::JoystickButtonType::RightPush},
-
-            {std::string("L1"), Altseed::JoystickButtonType::L1},
-            {std::string("R1"), Altseed::JoystickButtonType::R1},
-            {std::string("L2"), Altseed::JoystickButtonType::L2},
-            {std::string("R2"), Altseed::JoystickButtonType::R2},
-            {std::string("L3"), Altseed::JoystickButtonType::L3},
-            {std::string("R3"), Altseed::JoystickButtonType::R3},
-
-            {std::string("LeftStart"), Altseed::JoystickButtonType::LeftStart},
-            {std::string("RightStart"), Altseed::JoystickButtonType::RightStart},
+            {std::string("RightUp"), Altseed::JoystickButtonType::RightUp},
+            {std::string("LeftBumper"), Altseed::JoystickButtonType::LeftBumper},
+            {std::string("RightBumper"), Altseed::JoystickButtonType::RightBumper},
+            {std::string("Back"), Altseed::JoystickButtonType::Back},
+            {std::string("Start"), Altseed::JoystickButtonType::Start},
+            {std::string("Guide"), Altseed::JoystickButtonType::Guide},
+            {std::string("LeftThumb"), Altseed::JoystickButtonType::LeftThumb},
+            {std::string("RightThumb"), Altseed::JoystickButtonType::RightThumb},
+            {std::string("DPadUp"), Altseed::JoystickButtonType::DPadUp},
+            {std::string("DPadRight"), Altseed::JoystickButtonType::DPadRight},
+            {std::string("DPadDown"), Altseed::JoystickButtonType::DPadDown},
+            {std::string("DPadLeft"), Altseed::JoystickButtonType::DPadLeft},
     };
 
     auto config = Altseed::Configuration::Create();
@@ -259,10 +257,10 @@ TEST(Joystick, ButtonStateByType) {
 
 TEST(Joystick, AxisStateByType) {
     const std::map<std::string, Altseed::JoystickAxisType> axisTypes{
-            {std::string("LeftH"), Altseed::JoystickAxisType::LeftH},
-            {std::string("LeftV"), Altseed::JoystickAxisType::LeftV},
-            {std::string("RightH"), Altseed::JoystickAxisType::RightH},
-            {std::string("RightV"), Altseed::JoystickAxisType::RightV},
+            {std::string("LeftX"), Altseed::JoystickAxisType::LeftX},
+            {std::string("LeftY"), Altseed::JoystickAxisType::LeftY},
+            {std::string("RightX"), Altseed::JoystickAxisType::RightX},
+            {std::string("RightY"), Altseed::JoystickAxisType::RightY},
     };
 
     auto config = Altseed::Configuration::Create();
@@ -287,15 +285,15 @@ TEST(Joystick, AxisStateByType) {
                     }
                 }
                 {
-                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::R2);
-                    if (as > -0.5) {
-                        printf("%d - R2 : %f\n", ji, as);
+                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::RightTriger);
+                    if (as > 0.1) {
+                        printf("%d - RightTriger : %f\n", ji, as);
                     }
                 }
                 {
-                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::L2);
-                    if (as > -0.5) {
-                        printf("%d - L2 : %f\n", ji, as);
+                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::LeftTriger);
+                    if (as > 0.1) {
+                        printf("%d - LeftTriger : %f\n", ji, as);
                     }
                 }
             }

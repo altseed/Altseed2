@@ -87,7 +87,6 @@ set(core_files
     Input/ButtonState.h
     Input/Cursor.h
     Input/Cursor.cpp
-    Input/JoystickMapping.h
     Input/Joystick.h
     Input/Joystick.cpp
     Input/Keyboard.h

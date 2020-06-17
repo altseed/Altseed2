@@ -3,7 +3,8 @@
 	url = https://github.com/google/googletest.git
 [submodule "thirdparty/glfw"]
 	path = thirdparty/glfw
-	url = https://github.com/glfw/glfw.git
+	url = https://github.com/altseed/glfw.git
+	branch = altseed2
 [submodule "thirdparty/spdlog"]
 	path = thirdparty/spdlog
 	url = https://github.com/gabime/spdlog.git

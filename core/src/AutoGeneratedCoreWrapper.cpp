@@ -797,6 +797,20 @@ CBGEXPORT int32_t CBGSTDCALL cbg_JoystickInfo_GetAxisCount(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_GetIsGamepad(void* cbg_self) {
+    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsGamepad();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_JoystickInfo_GetGamepadName(void* cbg_self) {
+    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetGamepadName();
+    return cbg_ret;
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_JoystickInfo_GetGUID(void* cbg_self) {
     auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
 
@@ -829,20 +843,6 @@ CBGEXPORT int32_t CBGSTDCALL cbg_JoystickInfo_GetVersion(void* cbg_self) {
     auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetVersion();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_GetIsAvailableButtonMapping(void* cbg_self) {
-    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->GetIsAvailableButtonMapping();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_JoystickInfo_GetIsAvailableAxisMapping(void* cbg_self) {
-    auto cbg_self_ = (Altseed::JoystickInfo*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->GetIsAvailableAxisMapping();
     return cbg_ret;
 }
 

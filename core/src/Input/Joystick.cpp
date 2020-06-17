@@ -6,11 +6,10 @@
 
 #include "../Common/Miscs.h"
 #include "../Logger/Log.h"
-#include "JoystickMapping.h"
 
 namespace Altseed {
-JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const char* guid)
-    : name_(name), buttonCount_(buttonCount), axisCount_(axisCount) {
+JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const bool isGamepad, const std::u16string gamepadName, const char* guid)
+    : name_(name), buttonCount_(buttonCount), axisCount_(axisCount), isGamepad_(isGamepad), gamepadName_(gamepadName) {
     guid_ = utf8_to_utf16(std::string(guid));
     unsigned int bustype1, bustype2;
     unsigned int vendor1, vendor2;
@@ -23,14 +22,6 @@ JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount,
     version_ = (version2 << 8) | version1;
 }
 
-bool JoystickInfo::GetIsAvailableButtonMapping() const {
-    return ButtonMapping.find(product_) != ButtonMapping.end();
-}
-
-bool JoystickInfo::GetIsAvailableAxisMapping() const {
-    return AxisMapping.find(product_) != AxisMapping.end();
-}
-
 std::shared_ptr<Joystick> Joystick::instance_ = nullptr;
 
 Joystick::Joystick() : connectedJoystickCount_(0) {
@@ -40,6 +31,10 @@ Joystick::Joystick() : connectedJoystickCount_(0) {
         currentHit_[i].fill(false);
         preHit_[i].fill(false);
         currentAxis_[i].fill(0.0);
+
+        gamepadCurrentHit_[i].fill(false);
+        gamepadPreHit_[i].fill(false);
+        gamepadCurrentAxis_[i].fill(0.0);
     }
 }
 
@@ -78,16 +73,17 @@ std::u16string Joystick::ToU16(const std::wstring& wstr) const {
 
 void Joystick::RefreshInputState() {
     preHit_ = currentHit_;
+    gamepadPreHit_ = gamepadCurrentHit_;
 
     for (int jind = 0; jind < MAX_JOYSTICKS_NUM; jind++) {
-        auto isPresent = glfwJoystickPresent(jind) == GLFW_TRUE;
+        const auto isPresent = (glfwJoystickPresent(jind) == GLFW_TRUE);
 
-        // Joystickの接続が外れたフレーム
         if (!isPresent) {
             // if(hidapiDevices_[jind] != nullptr) {
             //     hidapiDevices_[jind] = nullptr;
             // }
 
+            // Joystickの接続が外れたフレーム
             if (joystickInfo_[jind] != nullptr) {
                 connectedJoystickCount_--;
                 joystickInfo_[jind] = nullptr;
@@ -97,22 +93,42 @@ void Joystick::RefreshInputState() {
         }
 
         int32_t buttonsCount = 0;
-        auto btns = glfwGetJoystickButtons(jind, &buttonsCount);
+        const auto btns = glfwGetJoystickButtons(jind, &buttonsCount);
         for (int i = 0; i < buttonsCount; ++i) {
-            currentHit_[jind][i] = (bool)btns[i];
+            currentHit_[jind][i] = (btns[i] == GLFW_PRESS);
         }
 
         int32_t axesCount = 0;
-        auto ax = glfwGetJoystickAxes(jind, &axesCount);
+        const auto ax = glfwGetJoystickAxes(jind, &axesCount);
         for (int i = 0; i < axesCount; ++i) {
             currentAxis_[jind][i] = ax[i];
+        }
+
+        // glfwのMappingを利用
+
+        GLFWgamepadstate state;
+        const auto isGamepad = glfwGetGamepadState(jind, &state);
+        if (isGamepad) {
+            for (int i = 0; i < MAX_GAMEPAD_BUTTONS_NUM; i++) {
+                gamepadCurrentHit_[jind][i] = (state.buttons[i] == GLFW_PRESS);
+            }
+
+            for (int i = 0; i < MAX_GAMEPAD_AXES_NUM; i++) {
+                gamepadCurrentAxis_[jind][i] = state.axes[i];
+            }
         }
 
         // Joystickが接続されたフレーム
         if (joystickInfo_[jind] == nullptr) {
             auto name = glfwGetJoystickName(jind);
+
+            auto gamepadName = std::u16string(u"");
+            if (isGamepad) {
+                gamepadName = utf8_to_utf16(std::string(glfwGetGamepadName(jind)));
+            }
+
             auto guid = glfwGetJoystickGUID(jind);
-            joystickInfo_[jind] = MakeAsdShared<JoystickInfo>(utf8_to_utf16(std::string(name)), buttonsCount, axesCount, guid);
+            joystickInfo_[jind] = MakeAsdShared<JoystickInfo>(utf8_to_utf16(std::string(name)), buttonsCount, axesCount, isGamepad, gamepadName, guid);
             connectedJoystickCount_++;
 
             // VendorId, ProductIdをもとにhid_device*を取得してunique_ptrに変換する。
@@ -120,7 +136,7 @@ void Joystick::RefreshInputState() {
         }
 
         // 特定のジョイスティックに対する補正
-        auto info = joystickInfo_[jind];
+        const auto info = joystickInfo_[jind];
         if (info->IsJoystickType(JoystickType::XBOX360)) {
             currentHit_[jind][14] = currentAxis_[jind][4] > 0.8;
             currentHit_[jind][15] = currentAxis_[jind][5] > 0.8;
@@ -151,14 +167,14 @@ ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t butto
         return ButtonState::Free;
     }
 
-    auto buttonCount = joystickInfo_[joystickIndex]->GetButtonCount();
+    const auto buttonCount = joystickInfo_[joystickIndex]->GetButtonCount();
     if (buttonIndex < 0 || buttonCount <= buttonIndex) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByIndex: 'buttonIndex: {0}' is out of range, ButtonCount is", buttonIndex, buttonCount);
         return ButtonState::Free;
     }
 
-    auto current = currentHit_[joystickIndex][buttonIndex];
-    auto pre = preHit_[joystickIndex][buttonIndex];
+    const auto current = currentHit_[joystickIndex][buttonIndex];
+    const auto pre = preHit_[joystickIndex][buttonIndex];
 
     if (current && pre) return ButtonState::Hold;
     if (!current && pre) return ButtonState::Release;
@@ -172,25 +188,22 @@ ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButton
         return ButtonState::Free;
     }
 
-    auto info = joystickInfo_[joystickIndex];
+    const auto info = joystickInfo_[joystickIndex];
 
-    auto productId = info->GetProduct();
-
-    auto mapping = ButtonMapping.find(productId);
-
-    if (mapping == ButtonMapping.end()) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByType: ButtonMapping is not found for joyscitk(index:{0}, name:{1}) ", joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
+    if (!info->GetIsGamepad()) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByType: Joystick(index:{0}, name: {1}) is not gamepad", joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
         return ButtonState::Free;
     }
 
-    auto buttonIndex = mapping->second.find(type);
+    const auto index = static_cast<int32_t>(type);
 
-    if (buttonIndex == mapping->second.end()) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByType: Mapping of ButtonType '{0}' is not found for joyscitk(index:{1}, name:{2}) ", static_cast<int32_t>(type), joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
-        return ButtonState::Free;
-    }
+    const auto current = gamepadCurrentHit_[joystickIndex][index];
+    const auto pre = gamepadPreHit_[joystickIndex][index];
 
-    return GetButtonStateByIndex(joystickIndex, buttonIndex->second);
+    if (current && pre) return ButtonState::Hold;
+    if (!current && pre) return ButtonState::Release;
+    if (current && !pre) return ButtonState::Push;
+    return ButtonState::Free;
 };
 
 float Joystick::GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const {
@@ -214,25 +227,16 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
         return 0.0f;
     }
 
-    auto info = joystickInfo_[joystickIndex];
+    const auto info = joystickInfo_[joystickIndex];
 
-    auto productId = info->GetProduct();
-
-    auto mapping = AxisMapping.find(productId);
-
-    if (mapping == AxisMapping.end()) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetAxisStateByType: AxisMapping is not found for joyscitk(index:{0}, name:{1}) ", joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
+    if (!info->GetIsGamepad()) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetAxisStateByType: Joystick(index:{0}, name: {1}) is not gamepad", joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
         return 0.0f;
     }
 
-    auto axisIndex = mapping->second.find(type);
+    const auto index = static_cast<int32_t>(type);
 
-    if (axisIndex == mapping->second.end()) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetAxisStateByType: Mapping of AxisType '{0}' is not found for joyscitk(index:{1}, name:{2}) ", static_cast<int32_t>(type), joystickIndex, utf16_to_utf8(std::u16string(info->GetName())));
-        return 0.0f;
-    }
-
-    return GetAxisStateByIndex(joystickIndex, axisIndex->second);
+    return gamepadCurrentAxis_[joystickIndex][index];
 };
 
 // void Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
