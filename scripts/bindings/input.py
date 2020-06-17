@@ -341,106 +341,150 @@ with JoystickType as enum:
     with enum.add('Other', 0) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '未知の種類のジョイスティック')
-    with enum.add('PS4', 8200) as v:
+    
+    with enum.add('DualShock3', 616) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'PlayStation4のジョイスティック')
-    with enum.add('XBOX360', 8199) as v:
+        v.brief.add('ja', 'PlayStation DualShock3')
+    
+    with enum.add('DualShock4', 1476) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'PlayStation DualShock4')
+    
+    with enum.add('DualShock4Slim', 2508) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'PlayStation DualShock4Slim')
+
+    with enum.add('XBOX360', 654) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', 'XBOX360のジョイスティック')
+
     with enum.add('JoyconL', 8198) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'NintendoSwitchの左ジョイスティック')
-    with enum.add('JoyconR', 8197) as v:
+        v.brief.add('ja', 'NintendoSwitch 左のJon-Con')
+
+    with enum.add('JoyconR', 8199) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'NintendoSwitchの右ジョイスティック')
+        v.brief.add('ja', 'NintendoSwitch 右のJon-Con')
+
+    with enum.add('ProController', 8201) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'NintendoSwitch ProController')
 
 JoystickButtonType = cbg.Enum('Altseed', 'JoystickButtonType')
 with JoystickButtonType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックのボタンの種類を表します。')
-    with enum.add('Start') as v:
+
+    RightDownButton = 0
+    RightRightButton = 1
+    RightLeftButton = 2
+    RightUpButton = 3
+
+    with enum.add('RightDown', RightDownButton) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Aボタン/Crossボタン')
+
+    with enum.add('RightRight', RightRightButton) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Bボタン/Circleボタン')
+
+    with enum.add('RightLeft', RightLeftButton) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Xボタン/Squareボタン')
+
+    with enum.add('RightUp', RightUpButton) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Yボタン/Triangleボタン')
+
+    with enum.add('LeftBumper', 4) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Lボタン')
+
+    with enum.add('RightBumper', 5) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', 'Rボタン')
+
+    with enum.add('Back', 6) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '戻るボタン')
+
+    with enum.add('Start', 7) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', 'スタートボタン')
-    with enum.add('Select') as v:
+
+    with enum.add('Guide', 8) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'セレクトボタン')
-    with enum.add('Home') as v:
+        v.brief.add('ja', 'ガイドボタン')
+
+    with enum.add('LeftThumb', 9) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'ホームボタン')
-    with enum.add('Release') as v:
+        v.brief.add('ja', '左スティック押し込み')
+
+    with enum.add('RightThumb', 10) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'リリースボタン')
-    with enum.add('Capture') as v:
+        v.brief.add('ja', '右スティック押し込み')
+
+    with enum.add('DPadUp', 11) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'キャプチャーボタン')
-    with enum.add('LeftUp') as v:
+        v.brief.add('ja', '十字キー上')
+
+    with enum.add('DPadRight', 12) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左十字キー上')
-    with enum.add('LeftDown') as v:
+        v.brief.add('ja', '十字キー右')
+
+    with enum.add('DPadDown', 13) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左十字キー下')
-    with enum.add('LeftLeft') as v:
+        v.brief.add('ja', '十字キー下')
+
+    with enum.add('DPadLeft', 14) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左十字キー左')
-    with enum.add('LeftRight') as v:
+        v.brief.add('ja', '十字キー左')
+
+    with enum.add('Cross', RightDownButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左十字キー右')
-    with enum.add('LeftPush') as v:
+        v.brief.add('ja', 'Aボタン/Crossボタン')
+
+    with enum.add('Circle', RightRightButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '左')
-    with enum.add('RightUp') as v:
+        v.brief.add('ja', 'Bボタン/Circleボタン')
+
+    with enum.add('Square', RightLeftButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右十字キー上')
-    with enum.add('RightRight') as v:
+        v.brief.add('ja', 'Xボタン/Squareボタン')
+
+    with enum.add('Triangle', RightUpButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '右十字キー右')
-    with enum.add('RightLeft') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '右十字キー左')
-    with enum.add('RightDown') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '右十字キー下')
-    with enum.add('RightPush') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '右')
-    with enum.add('L1') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Lボタン1')
-    with enum.add('R1') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Rボタン1')
-    with enum.add('L2') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Lボタン2')
-    with enum.add('R2') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Rボタン2')
-    with enum.add('L3') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Lボタン3')
-    with enum.add('R3') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Rボタン3')
-    with enum.add('LeftStart') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '左スタートボタン')
-    with enum.add('RightStart') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '右スタートボタン')
-    enum.add('Max')
+        v.brief.add('ja', 'Yボタン/Triangleボタン')
+
 
 JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
 with JoystickAxisType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの軸の種類を表します。')
-    enum.add('Start')
-    enum.add('LeftH')
-    enum.add('LeftV')
-    enum.add('RightH')
-    enum.add('RightV')
-    enum.add('L2')
-    enum.add('R2')
-    enum.add('Max')
+    with enum.add('LeftX', 0) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左スティック横')
+
+    with enum.add('LeftY', 1) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左スティック縦')
+
+    with enum.add('RightX', 2) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右スティック横')
+
+    with enum.add('RightY', 3) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右スティック縦')
+
+    with enum.add('LeftTriger', 4) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '左トリガー')
+
+    with enum.add('RightTriger', 5) as v:
+        v.brief = cbg.Description()
+        v.brief.add('ja', '右トリガー')
+
 
 JoystickInfo = cbg.Class('Altseed', 'JoystickInfo')
 with JoystickInfo as class_:
@@ -455,6 +499,20 @@ with JoystickInfo as class_:
         prop_.is_public = True
 
     with class_.add_property(int, 'AxisCount') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(bool, 'IsGamepad') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'ジョイスティックがGamepadとして使えるかどうかを取得します。')
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = True
+
+    with class_.add_property(ctypes.c_wchar_p, 'GamepadName') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'ジョイスティックがGamepadとして使える時、その名前を取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True
@@ -494,19 +552,6 @@ with JoystickInfo as class_:
         func.add_arg(JoystickType, 'type')
         func.return_value.type_ = bool
 
-    with class_.add_property(bool, 'IsAvailableButtonMapping') as prop_:
-        prop_.brief = cbg.Description()
-        prop_.brief.add('ja', 'ButtonTypeを利用してボタンの状態を取得できるかどうかを取得します。')
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = True
-
-    with class_.add_property(bool, 'IsAvailableAxisMapping') as prop_:
-        prop_.brief = cbg.Description()
-        prop_.brief.add('ja', 'AxisTypeを利用して軸の状態を取得できるかどうかを取得します。')
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = True
 
 Joystick = cbg.Class('Altseed', 'Joystick')
 with Joystick as class_:
