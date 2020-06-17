@@ -5,7 +5,6 @@
 #include <array>
 #include <chrono>
 #include <cmath>
-#include <optional>
 
 #include "../Window/Window.h"
 #include "ButtonState.h"
