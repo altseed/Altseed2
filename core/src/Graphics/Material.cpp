@@ -185,6 +185,10 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
         vertexShader_ = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     }
 
+    if (pixelShader_ == nullptr) {
+        pixelShader_ = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
+    }
+
     auto piplineState = LLGI::CreateSharedPtr(g->CreatePiplineState());
     piplineState->SetShader(LLGI::ShaderStageType::Vertex, vertexShader_->Get());
     piplineState->SetShader(LLGI::ShaderStageType::Pixel, pixelShader_->Get());
