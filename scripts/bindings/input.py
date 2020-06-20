@@ -382,19 +382,19 @@ with JoystickButtonType as enum:
 
     with enum.add('RightDown', RightDownButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'Aボタン/Crossボタン')
+        v.brief.add('ja', '右側下ボタン')
 
     with enum.add('RightRight', RightRightButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'Bボタン/Circleボタン')
+        v.brief.add('ja', '右側右ボタン')
 
     with enum.add('RightLeft', RightLeftButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'Xボタン/Squareボタン')
+        v.brief.add('ja', '右側左ボタン')
 
     with enum.add('RightUp', RightUpButton) as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', 'Yボタン/Triangleボタン')
+        v.brief.add('ja', '右側上ボタン')
 
     with enum.add('LeftBumper', 4) as v:
         v.brief = cbg.Description()
@@ -439,22 +439,6 @@ with JoystickButtonType as enum:
     with enum.add('DPadLeft', 14) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '十字キー左')
-
-    with enum.add('Cross', RightDownButton) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Aボタン/Crossボタン')
-
-    with enum.add('Circle', RightRightButton) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Bボタン/Circleボタン')
-
-    with enum.add('Square', RightLeftButton) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Xボタン/Squareボタン')
-
-    with enum.add('Triangle', RightUpButton) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'Yボタン/Triangleボタン')
 
 
 JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
