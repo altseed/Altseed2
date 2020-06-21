@@ -1,10 +1,22 @@
 #include "RenderedPolygon.h"
 
+#include "../Material.h"
 #include "CullingSystem.h"
 
 namespace Altseed2 {
 
-std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() { return MakeAsdShared<RenderedPolygon>(); }
+std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() {
+    auto p = MakeAsdShared<RenderedPolygon>();
+    p->SetBlendMode(AlphaBlendMode::Normal);
+    p->SetVertexes(nullptr);
+    p->SetTexture(nullptr);
+    p->SetMaterial(nullptr);
+    return p;
+}
+
+AlphaBlendMode RenderedPolygon::GetBlendMode() const { return blendMode_; };
+
+void RenderedPolygon::SetBlendMode(AlphaBlendMode blendMode) { blendMode_ = blendMode; };
 
 std::shared_ptr<VertexArray> RenderedPolygon::GetVertexes() { return vertexes_; }
 

@@ -321,9 +321,10 @@ with Material as class_:
 
     with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '組み込みのシェーダを取得します。')
+        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
 
 RenderPassParameter = cbg.Struct(
     'Altseed2', 'RenderPassParameter_C', 'RenderPassParameter')
@@ -695,6 +696,13 @@ with RenderedSprite as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
 RenderedText = cbg.Class('Altseed2', 'RenderedText')
 with RenderedText as class_:
     class_.base_class = Rendered
@@ -710,9 +718,16 @@ with RenderedText as class_:
         func.return_value.type_ = RenderedText
         func.is_static = True
 
-    with class_.add_property(Material, 'Material') as prop:
+    with class_.add_property(Material, 'MaterialGlyph') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.brief.add('ja', '文字の描画に使用するマテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(Material, 'MaterialImage') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャ文字の描画に使用するマテリアルを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -778,6 +793,13 @@ with RenderedText as class_:
         prop.has_setter = True
         prop.serialized = True
 
+    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
 RenderedPolygon = cbg.Class('Altseed2', 'RenderedPolygon')
 with RenderedPolygon as class_:
     class_.base_class = Rendered
@@ -831,6 +853,13 @@ with RenderedPolygon as class_:
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True

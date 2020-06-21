@@ -15,7 +15,9 @@ namespace Altseed2 {
 
 class RenderedText : public Rendered {
 private:
-    std::shared_ptr<Material> material_;
+    AlphaBlendMode blendMode_;
+    std::shared_ptr<Material> materialGlyph_;
+    std::shared_ptr<Material> materialImage_;
     std::shared_ptr<Font> font_;
     std::u16string text_;
     Color color_;
@@ -28,12 +30,17 @@ private:
 public:
     static std::shared_ptr<RenderedText> Create();
 
-    float GetWeight() const { return weight_; }
+    AlphaBlendMode GetBlendMode() const;
+    void SetBlendMode(AlphaBlendMode blendMode);
 
+    float GetWeight() const { return weight_; }
     void SetWeight(float weight) { weight_ = weight; }
 
-    std::shared_ptr<Material> GetMaterial() const { return material_; }
-    void SetMaterial(const std::shared_ptr<Material>& material) { material_ = material; }
+    std::shared_ptr<Material> GetMaterialGlyph() const { return materialGlyph_; }
+    void SetMaterialGlyph(const std::shared_ptr<Material>& material) { materialGlyph_ = material; }
+
+    std::shared_ptr<Material> GetMaterialImage() const { return materialImage_; }
+    void SetMaterialImage(const std::shared_ptr<Material>& material) { materialImage_ = material; }
 
     Color GetColor() const { return color_; }
     void SetColor(const Color color) { color_ = color; }

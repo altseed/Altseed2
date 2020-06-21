@@ -18,12 +18,25 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
     auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
     auto fontPs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
-    matDefaultSprite_ = MakeAsdShared<Material>();
-    matDefaultSprite_->SetShader(vs);
-    matDefaultSprite_->SetShader(ps);
-    matDefaultText_ = MakeAsdShared<Material>();
-    matDefaultText_->SetShader(vs);
-    matDefaultText_->SetShader(fontPs);
+    for (int32_t i = 0; i < static_cast<int32_t>(AlphaBlendMode::Max); i++) {
+        auto mode = static_cast<AlphaBlendMode>(i);
+
+        {
+            auto m = MakeAsdShared<Material>();
+            m->SetShader(vs);
+            m->SetShader(ps);
+            m->SetBlendMode(mode);
+            matDefaultSprite_[mode] = m;
+        }
+
+        {
+            auto m = MakeAsdShared<Material>();
+            m->SetShader(vs);
+            m->SetShader(fontPs);
+            m->SetBlendMode(mode);
+            matDefaultText_[mode] = m;
+        }
+    }
 }
 
 void BatchRenderer::Draw(
@@ -99,12 +112,10 @@ void BatchRenderer::Render() {
     indexBuffer_->Unlock();
 
     for (const auto& batch : batches_) {
-        std::shared_ptr<Material> material;
         if (batch.material == nullptr) {
-            material = matDefaultSprite_;
-        } else {
-            material = batch.material;
+            LOG_CRITICAL(u"BatchRenderer : Material not set.");
         }
+        auto material = batch.material;
 
         material->SetTexture(u"mainTex", batch.texture);
 

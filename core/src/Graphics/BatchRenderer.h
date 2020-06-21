@@ -19,6 +19,7 @@ class TextureBase;
 class MaterialPropertyBlock;
 class MaterialPropertyBlockCollection;
 class Shader;
+enum class AlphaBlendMode;
 
 struct BatchVertex {
     Vector3F Pos;
@@ -51,8 +52,8 @@ private:
     int32_t vbOffset_ = 0;
     int32_t ibOffset_ = 0;
 
-    std::shared_ptr<Material> matDefaultSprite_;
-    std::shared_ptr<Material> matDefaultText_;
+    std::unordered_map<AlphaBlendMode, std::shared_ptr<Material>> matDefaultSprite_;
+    std::unordered_map<AlphaBlendMode, std::shared_ptr<Material>> matDefaultText_;
 
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
     Matrix44F matView_;
@@ -76,8 +77,8 @@ public:
 
     void SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection);
 
-    std::shared_ptr<Material> GetMaterialDefaultSprite() const { return matDefaultSprite_; }
-    std::shared_ptr<Material> GetMaterialDefaultText() const { return matDefaultText_; }
+    std::shared_ptr<Material> GetMaterialDefaultSprite(const AlphaBlendMode blendMode) const { return matDefaultSprite_.at(blendMode); }
+    std::shared_ptr<Material> GetMaterialDefaultText(const AlphaBlendMode blendMode) const { return matDefaultText_.at(blendMode); }
 };
 
 }  // namespace Altseed2

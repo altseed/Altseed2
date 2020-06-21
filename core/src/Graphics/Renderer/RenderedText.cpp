@@ -4,21 +4,28 @@
 #include "../../Math/Vector4F.h"
 #include "../BuiltinShader.h"
 #include "../Graphics.h"
+#include "../Material.h"
 
 namespace Altseed2 {
 
 std::shared_ptr<RenderedText> RenderedText::Create() {
     auto t = MakeAsdShared<RenderedText>();
-
+    t->SetBlendMode(AlphaBlendMode::Normal);
     t->SetIsEnableKerning(true);
     t->SetWritingDirection(WritingDirection::Horizontal);
     t->SetText(u"");
     t->SetCharacterSpace(0);
     t->SetLineGap(0);
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
+    t->SetMaterialGlyph(nullptr);
+    t->SetMaterialImage(nullptr);
 
     return t;
 }
+
+AlphaBlendMode RenderedText::GetBlendMode() const { return blendMode_; };
+
+void RenderedText::SetBlendMode(AlphaBlendMode blendMode) { blendMode_ = blendMode; };
 
 Vector2F RenderedText::GetTextureSize() {
     if (GetFont() == nullptr) {

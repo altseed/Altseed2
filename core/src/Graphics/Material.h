@@ -19,7 +19,8 @@ enum class AlphaBlendMode : int32_t { Opacity,
                                       Normal,
                                       Add,
                                       Subtract,
-                                      Multiply };
+                                      Multiply,
+                                      Max };
 
 struct PipelineStateKey {
     AlphaBlendMode alphaBlendMode_ = AlphaBlendMode::Normal;

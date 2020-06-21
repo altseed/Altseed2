@@ -71,7 +71,7 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     auto material = polygon->GetMaterial();
 
     if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultSprite();
+        material = batchRenderer_->GetMaterialDefaultSprite(polygon->GetBlendMode());
     }
 
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
@@ -133,7 +133,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     auto material = sprite->GetMaterial();
 
     if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultSprite();
+        material = batchRenderer_->GetMaterialDefaultSprite(sprite->GetBlendMode());
     }
 
     batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
@@ -145,15 +145,18 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     const auto& characters = text->GetTextAsStr();
 
-    auto material = text->GetMaterial();
-
-    if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultText();
+    auto materialGlyph = text->GetMaterialGlyph();
+    if (materialGlyph == nullptr) {
+        materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetBlendMode());
     }
+    materialGlyph->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
+    materialGlyph->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
+    materialGlyph->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
-    material->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    material->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    material->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
+    auto materialImage = text->GetMaterialImage();
+    if (materialImage == nullptr) {
+        materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetBlendMode());
+    }
 
     Vector2F offset(0, 0);
     for (size_t i = 0; i < characters.size(); i++) {
@@ -240,7 +243,8 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
         }
 
-        batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, glyph != nullptr ? material : nullptr, nullptr);
+        auto material = (glyph == nullptr) ? materialImage : materialGlyph;
+        batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
 
         if (text->GetWritingDirection() == WritingDirection::Horizontal) {
             if (glyph != nullptr)

@@ -17,6 +17,7 @@ class Texture2D;
 
 class RenderedPolygon : public Rendered {
 private:
+    AlphaBlendMode blendMode_;
     std::shared_ptr<VertexArray> vertexes_;
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
@@ -24,6 +25,9 @@ private:
 
 public:
     static std::shared_ptr<RenderedPolygon> Create();
+
+    AlphaBlendMode GetBlendMode() const;
+    void SetBlendMode(AlphaBlendMode blendMode);
 
     std::shared_ptr<VertexArray> GetVertexes();
     void SetVertexes(std::shared_ptr<VertexArray> vertexes);

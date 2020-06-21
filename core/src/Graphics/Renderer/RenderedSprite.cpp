@@ -1,11 +1,22 @@
 #include "RenderedSprite.h"
 
 #include "../../Common/Array.h"
+#include "../Material.h"
 #include "CullingSystem.h"
 
 namespace Altseed2 {
 
-std::shared_ptr<RenderedSprite> RenderedSprite::Create() { return MakeAsdShared<RenderedSprite>(); }
+std::shared_ptr<RenderedSprite> RenderedSprite::Create() {
+    auto s = MakeAsdShared<RenderedSprite>();
+    s->blendMode_ = AlphaBlendMode::Normal;
+    s->texture_ = nullptr;
+    s->material_ = nullptr;
+    return s;
+}
+
+AlphaBlendMode RenderedSprite::GetBlendMode() const { return blendMode_; };
+
+void RenderedSprite::SetBlendMode(AlphaBlendMode blendMode) { blendMode_ = blendMode; };
 
 RectF RenderedSprite::GetSrc() const { return src_; }
 
