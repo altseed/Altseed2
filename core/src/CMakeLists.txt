@@ -214,13 +214,13 @@ endforeach()
 
 
 # create dll
-add_library(Altseed_Core
+add_library(Altseed2_Core
     SHARED
     ${core_files}
 )
 
 target_link_libraries(
-    Altseed_Core
+    Altseed2_Core
     PRIVATE
     spdlog
     hidapi
@@ -258,7 +258,7 @@ target_link_libraries(
 if (MSVC)
 
     target_link_libraries(
-        Altseed_Core
+        Altseed2_Core
         PRIVATE
         debug zlibstaticd
         optimized zlibstatic
@@ -290,7 +290,7 @@ elseif(APPLE)
     find_library(QUARTZ_CORE_LIBRARY QuartzCore)
 
     target_link_libraries(
-        Altseed_Core
+        Altseed2_Core
         PRIVATE
         z
         glslang
@@ -314,13 +314,13 @@ else()
     FIND_PACKAGE(PkgConfig REQUIRED)
     PKG_CHECK_MODULES(GTK3 REQUIRED gtk+-3.0)
     find_package(X11 REQUIRED)
-    target_link_libraries(Altseed_Core 
+    target_link_libraries(Altseed2_Core 
         PRIVATE
         ${X11_LIBRARIES}
         ${GTK3_LIBRARIES})
 
     target_link_libraries(
-        Altseed_Core
+        Altseed2_Core
         PRIVATE
         z
         stdc++fs
@@ -341,25 +341,25 @@ if(MSVC)
 
 else()
     find_package(Threads REQUIRED)
-    target_link_libraries(Altseed_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(Altseed2_Core PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 # to use external projects
 target_include_directories(
-    Altseed_Core 
+    Altseed2_Core 
     PRIVATE 
     ${THIRDPARTY_INCLUDES})
 
 # to use external projects
 target_link_directories(
-    Altseed_Core
+    Altseed2_Core
     PRIVATE
     ${THIRDPARTY_LIBRARY_DIRECTORIES})
 
 # specify dependencies about external projects. 
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
-    Altseed_Core
+    Altseed2_Core
     ExternalProject_glfw
     ExternalProject_zlib
     ExternalProject_libpng
@@ -370,10 +370,10 @@ add_dependencies(
     nativefiledialog)
 
 # export all functions to out of dll for testing
-SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+SET_TARGET_PROPERTIES(Altseed2_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 # make c++17 enabled
-SET_TARGET_PROPERTIES(Altseed_Core PROPERTIES CXX_STANDARD 17)
+SET_TARGET_PROPERTIES(Altseed2_Core PROPERTIES CXX_STANDARD 17)
 
-clang_format(Altseed_Core)
-clang_tidy(Altseed_Core)
+clang_format(Altseed2_Core)
+clang_tidy(Altseed2_Core)

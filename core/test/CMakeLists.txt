@@ -53,19 +53,19 @@ endforeach()
 
 
 # create dll
-add_executable(Altseed_Core_Test
+add_executable(Altseed2_Core_Test
     ${core_test_files}
 )
 
 target_include_directories(
-    Altseed_Core_Test 
+    Altseed2_Core_Test 
     PRIVATE
     ../src)
 
 target_link_libraries(
-    Altseed_Core_Test
+    Altseed2_Core_Test
     PRIVATE
-    Altseed_Core
+    Altseed2_Core
     gtest
     spdlog
     hidapi
@@ -79,35 +79,35 @@ if (MSVC)
 elseif(APPLE)
 else()
     find_package(X11 REQUIRED)
-    target_link_libraries(Altseed_Core_Test PRIVATE ${X11_LIBRARIES})
+    target_link_libraries(Altseed2_Core_Test PRIVATE ${X11_LIBRARIES})
 endif()
 
 # to use external projects
 target_include_directories(
-    Altseed_Core_Test
+    Altseed2_Core_Test
     PRIVATE 
     ${THIRDPARTY_INCLUDES})
 
 # to use external projects
 target_link_directories(
-    Altseed_Core_Test
+    Altseed2_Core_Test
     PRIVATE
     ${THIRDPARTY_LIBRARY_DIRECTORIES})
 
 # specify dependencies about external projects. 
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
-    Altseed_Core_Test
+    Altseed2_Core_Test
     ExternalProject_glfw
     TestData)
 
 
 # make c++17 enabled
-SET_TARGET_PROPERTIES(Altseed_Core_Test PROPERTIES CXX_STANDARD 17)
+SET_TARGET_PROPERTIES(Altseed2_Core_Test PROPERTIES CXX_STANDARD 17)
 
  if (MSVC)
-    set_target_properties(Altseed_Core_Test PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/$(Configuration)")
+    set_target_properties(Altseed2_Core_Test PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/$(Configuration)")
 endif()
 
-clang_format(Altseed_Core_Test)
-clang_tidy(Altseed_Core_Test)
+clang_format(Altseed2_Core_Test)
+clang_tidy(Altseed2_Core_Test)
