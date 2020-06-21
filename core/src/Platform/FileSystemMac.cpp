@@ -84,4 +84,4 @@ std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) {
     return path;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

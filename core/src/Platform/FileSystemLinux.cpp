@@ -33,4 +33,4 @@ std::u16string FileSystem::GetParentPath(const std::u16string& path) { return fs
 
 std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) { return fs::absolute(path).u16string(); }
 
-}  // namespace Altseed
+}  // namespace Altseed2
