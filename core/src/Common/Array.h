@@ -8,7 +8,7 @@
 #include "../Graphics/BatchRenderer.h"
 #include "../Math/Vector2F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 template <typename T>
 class Array : public BaseObject {
@@ -100,4 +100,4 @@ using FloatArray = Array<float>;
 using VertexArray = Array<BatchVertex>;
 using Vector2FArray = Array<Vector2F>;
 
-}  // namespace Altseed
+}  // namespace Altseed2

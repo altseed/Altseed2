@@ -9,7 +9,7 @@
 #include "../../Math/Matrix44F.h"
 #include "../../Math/Vector2F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Collider : public BaseObject {
 protected:
@@ -37,4 +37,4 @@ public:
     Matrix44F GetTransform();
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

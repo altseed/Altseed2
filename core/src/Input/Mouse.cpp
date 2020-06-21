@@ -5,7 +5,7 @@
 
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Mouse> Mouse::instance_ = nullptr;
 
@@ -88,4 +88,4 @@ CursorMode Mouse::GetCursorMode() const {
 
 void Mouse::SetCursorImage(std::shared_ptr<Cursor> cursor) { glfwSetCursor((GLFWwindow*)window_->GetNativeWindow(), cursor->GetNative()); }
 
-};  // namespace Altseed
+};  // namespace Altseed2

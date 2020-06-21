@@ -6,7 +6,7 @@
 #include "Matrix44I.h"
 #include "Vector3I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Vector3I::Vector3I() : X(0), Y(0), Z(0) {}
 
@@ -99,4 +99,4 @@ Vector3I::operator Vector3I_C() const { return Vector3I_C{X, Y, Z}; }
 
 Vector3I_C::operator Vector3I() const { return Vector3I(X, Y, Z); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

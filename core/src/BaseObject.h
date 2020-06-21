@@ -8,7 +8,7 @@
 
 #include "Common/Assertion.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Core;
 
@@ -96,4 +96,4 @@ T* AddAndGetSharedPtr(std::shared_ptr<T> sp) {
     return p;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -5,7 +5,7 @@
 #include "Collider.h"
 #include "PolygonCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class RectangleCollider : public Collider {
     friend class CircleCollider;
@@ -31,4 +31,4 @@ public:
     void SetCenterPosition(Vector2F center);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

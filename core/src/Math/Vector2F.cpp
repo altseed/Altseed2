@@ -2,7 +2,7 @@
 
 #include "Vector2I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 Vector2F::Vector2F() : X(0.0f), Y(0.0f) {}
 
 Vector2F::Vector2F(float x, float y) : X(x), Y(y) {}
@@ -79,4 +79,4 @@ Vector2F::operator Vector2F_C() const { return Vector2F_C{X, Y}; }
 
 Vector2F_C::operator Vector2F() const { return Vector2F(X, Y); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

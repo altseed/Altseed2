@@ -2,7 +2,7 @@
 
 #include "File.h"
 
-namespace Altseed {
+namespace Altseed2 {
 std::mutex StreamFile::m_streamFileMtx;
 
 StreamFile::StreamFile(std::shared_ptr<BaseFileReader> reader, std::shared_ptr<Resources>& resources, std::u16string path)
@@ -76,4 +76,4 @@ bool StreamFile::Reload() {
 
 const char16_t* StreamFile::GetPath() const { return sourcePath_.c_str(); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

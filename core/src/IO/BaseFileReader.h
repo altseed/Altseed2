@@ -7,7 +7,7 @@
 
 #include "../BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class SeekOrigin { Begin,
                         Current,
@@ -41,4 +41,4 @@ public:
 
     virtual bool GetIsInPackage() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

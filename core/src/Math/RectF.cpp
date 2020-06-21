@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace Altseed {
+namespace Altseed2 {
 RectF::RectF() : X(0), Y(0), Width(0), Height(0) {}
 
 RectF::RectF(float x, float y, float width, float height) : X(x), Y(y), Width(width), Height(height) {}
@@ -34,4 +34,4 @@ RectI RectF::ToI() const { return RectI((int32_t)X, (int32_t)Y, (int32_t)Width, 
 RectF::operator RectF_C() const { return RectF_C{X, Y, Width, Height}; }
 
 RectF_C::operator RectF() const { return RectF(X, Y, Width, Height); }
-}  // namespace Altseed
+}  // namespace Altseed2

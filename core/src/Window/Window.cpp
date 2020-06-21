@@ -25,7 +25,7 @@
 #include <GLFW/glfw3native.h>
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 std::shared_ptr<Window> Window::instance_ = nullptr;
 
 std::shared_ptr<Window>& Window::GetInstance() { return instance_; }
@@ -156,4 +156,4 @@ void Window::GetMonitorSize(int32_t& width, int32_t& height) {
     height = videomode->height;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

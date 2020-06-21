@@ -3,7 +3,7 @@
 #include "Graphics.h"
 #include "Texture2D.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture) { m_texture = texture; }
 
@@ -17,4 +17,4 @@ RenderTexture::~RenderTexture() { m_texture = nullptr; }
 
 std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size) { return MakeAsdShared<RenderTexture>(size); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

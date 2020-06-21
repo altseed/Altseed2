@@ -3,7 +3,7 @@ from .math import Vector2I
 import ctypes
 import sys
 
-Window = cbg.Class('Altseed', 'Window')
+Window = cbg.Class('Altseed2', 'Window')
 with Window as class_:
     class_.is_public = False
     class_.is_Sealed = True

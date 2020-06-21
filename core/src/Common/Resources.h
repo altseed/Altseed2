@@ -6,7 +6,7 @@
 #include "../BaseObject.h"
 #include "ResourceContainer.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class ResourceType : int32_t { StaticFile,
                                     StreamFile,
@@ -36,4 +36,4 @@ public:
 
     void Reload();
 };
-}  // namespace Altseed
+}  // namespace Altseed2

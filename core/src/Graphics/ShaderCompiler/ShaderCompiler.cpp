@@ -7,7 +7,7 @@
 #include <DX12/LLGI.CompilerDX12.h>
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<ShaderCompiler> ShaderCompiler::instance_ = nullptr;
 
@@ -105,4 +105,4 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
     return ret;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

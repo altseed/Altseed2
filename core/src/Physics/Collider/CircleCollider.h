@@ -5,7 +5,7 @@
 #include "PolygonCollider.h"
 #include "RectangleCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class CircleCollider : public Collider {
     friend class RectangleCollider;
@@ -26,4 +26,4 @@ public:
     void SetRadius(double radius);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

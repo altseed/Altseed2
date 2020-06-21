@@ -6,7 +6,7 @@
 #include "../Graphics.h"
 #include "ShaderTranspiler.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Graphics;
 class Shader;
@@ -33,4 +33,4 @@ public:
     std::shared_ptr<Shader> Compile(const char* name, const char* code, ShaderStageType shaderStage);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

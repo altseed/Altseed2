@@ -1,7 +1,7 @@
 ﻿#include "SoundMixer.h"
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<SoundMixer> SoundMixer::instance_ = nullptr;
 
@@ -157,4 +157,4 @@ void SoundMixer::Reload() {
     for (auto sound : container->GetAllResouces()) sound.second->Reload(0);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

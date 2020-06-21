@@ -17,7 +17,7 @@
 #undef CreateDirectory
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
@@ -340,4 +340,4 @@ void Font::AddGlyph(const int32_t character) {
     stbtt_FreeSDF(sdfData, nullptr);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

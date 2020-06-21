@@ -3,7 +3,7 @@
 #include "BaseObject.h"
 #include "Graphics/Graphics.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Configuration : public BaseObject {
 private:
@@ -53,4 +53,4 @@ public:
     void SetLogFileName(const char16_t* logFileName);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

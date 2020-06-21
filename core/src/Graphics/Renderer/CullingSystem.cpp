@@ -2,7 +2,7 @@
 
 #include "Rendered.h"
 
-namespace Altseed {
+namespace Altseed2 {
 std::shared_ptr<CullingSystem> CullingSystem::instance_ = nullptr;
 
 CullingSystem::CullingSystem() { drawingRenderedIds_ = MakeAsdShared<Int32Array>(); }
@@ -64,4 +64,4 @@ bool CullingSystem::QueryCallback(int32_t id) {
     return true;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -2,7 +2,7 @@
 #include "Vector2I.h"
 #include "Vector3I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 /**
         @brief	3×3行列を表す構造体。
         @note
@@ -67,4 +67,4 @@ struct Matrix33I_C {
 
     operator Matrix33I() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

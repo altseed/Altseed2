@@ -6,7 +6,7 @@
 #include "../Common/ThreadSafeMap.h"
 #include "SoundMixer.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class SoundMixer;
 class Resources;
@@ -92,4 +92,4 @@ public:
 #endif
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

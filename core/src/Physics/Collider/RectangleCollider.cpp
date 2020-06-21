@@ -1,6 +1,6 @@
 #include "RectangleCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 RectangleCollider::RectangleCollider() {
     size_ = Vector2F(0, 0);
@@ -54,4 +54,4 @@ bool RectangleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     return false;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

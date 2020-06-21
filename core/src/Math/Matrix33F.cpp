@@ -1,6 +1,6 @@
 ﻿#include "Matrix33F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 Matrix33F::Matrix33F() { SetIdentity(); }
 
 Matrix33F& Matrix33F::SetIdentity() {
@@ -194,4 +194,4 @@ Matrix33F_C::operator Matrix33F() const {
     return m;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

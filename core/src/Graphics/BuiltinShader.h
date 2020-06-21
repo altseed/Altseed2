@@ -11,7 +11,7 @@
 #include "PostEffect/Sepia_PS.h"
 #include "PostEffect/TextureMix_PS.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Shader;
 
@@ -37,4 +37,4 @@ public:
     const char16_t* GetTextureMixShader() const { return texturemix_ps; }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

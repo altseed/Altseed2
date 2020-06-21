@@ -16,7 +16,7 @@
 #include "RenderTexture.h"
 #include "Texture2D.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class RenderTexture;
 class Sprites;

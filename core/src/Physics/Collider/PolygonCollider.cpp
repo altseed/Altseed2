@@ -1,6 +1,6 @@
 #include "PolygonCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 PolygonCollider::PolygonCollider() {
     vertexes_ = nullptr;
@@ -54,4 +54,4 @@ bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     return false;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

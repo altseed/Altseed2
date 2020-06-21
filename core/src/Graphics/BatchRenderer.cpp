@@ -6,7 +6,7 @@
 #include "CommandList.h"
 #include "Material.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto gLL = graphics->GetGraphicsLLGI();
@@ -167,4 +167,4 @@ void BatchRenderer::SetViewProjection(const Matrix44F& matView, const Matrix44F&
     matProjection_ = matProjection;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

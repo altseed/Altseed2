@@ -3,7 +3,7 @@ import ctypes
 
 from .common import *
 
-FFTWindow = cbg.Enum('Altseed', 'FFTWindow')
+FFTWindow = cbg.Enum('Altseed2', 'FFTWindow')
 with FFTWindow as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', '音のスペクトル解析に使用する窓関数')
@@ -14,7 +14,7 @@ with FFTWindow as enum:
     enum.add('Blackman')
     enum.add('BlackmanHarris')
 
-Sound = cbg.Class('Altseed', 'Sound', cbg.CacheMode.ThreadSafeCache)
+Sound = cbg.Class('Altseed2', 'Sound', cbg.CacheMode.ThreadSafeCache)
 with Sound as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源のクラス')
@@ -77,7 +77,7 @@ with Sound as class_:
         prop.has_getter = True
         prop.serialized = True
 
-SoundMixer = cbg.Class('Altseed', 'SoundMixer')
+SoundMixer = cbg.Class('Altseed2', 'SoundMixer')
 with SoundMixer as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源を操作するクラス')

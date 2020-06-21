@@ -9,7 +9,7 @@
 #include "Shader.h"
 #include "TextureBase.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class ShaderStageType;
 class Shader;
@@ -94,7 +94,7 @@ public:
     std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
     void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
 
-    std::shared_ptr<Shader> GetShader(Altseed::ShaderStageType shaderStage) const;
+    std::shared_ptr<Shader> GetShader(Altseed2::ShaderStageType shaderStage) const;
     void SetShader(const std::shared_ptr<Shader>& shader);
 
     AlphaBlendMode GetBlendMode() const;
@@ -105,4 +105,4 @@ public:
     std::shared_ptr<LLGI::PipelineState> GetPipelineState(LLGI::RenderPass* renderPass);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

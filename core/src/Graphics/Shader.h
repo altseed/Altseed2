@@ -6,7 +6,7 @@
 #include "../Common/StringHelper.h"
 #include "Graphics.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class ShaderStageType {
     Vertex,
@@ -65,4 +65,4 @@ public:
     ShaderStageType GetStageType() const { return stage_; }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

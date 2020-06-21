@@ -8,7 +8,7 @@ namespace fs = std::experimental::filesystem;
 
 #include "FileSystem.h"
 
-namespace Altseed {
+namespace Altseed2 {
 bool FileSystem::GetIsFile(const std::u16string& path) { return fs::is_regular_file(path); }
 
 bool FileSystem::GetIsDirectory(const std::u16string& path) { return fs::is_directory(path); }

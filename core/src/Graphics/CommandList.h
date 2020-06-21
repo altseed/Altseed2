@@ -13,7 +13,7 @@
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Graphics;
 class RenderTexture;
@@ -159,4 +159,4 @@ public:
     void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

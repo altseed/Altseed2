@@ -7,7 +7,7 @@
 
 #include "../BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class SynchronizationContext : public BaseObject {
 private:
@@ -33,4 +33,4 @@ public:
     static std::shared_ptr<SynchronizationContext>& GetInstance();
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

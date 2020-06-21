@@ -4,7 +4,7 @@ import sys
 
 from .common import *
 
-GraphicsDeviceType = cbg.Enum('Altseed', 'GraphicsDeviceType')
+GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')
 with GraphicsDeviceType as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', '描画方法を表します。')
@@ -21,7 +21,7 @@ with GraphicsDeviceType as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', 'Vulkan')
 
-Configuration = cbg.Class('Altseed', 'Configuration')
+Configuration = cbg.Class('Altseed2', 'Configuration')
 with Configuration as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'Altseed2 の設定を表すクラス')
@@ -96,7 +96,7 @@ with Configuration as class_:
         prop.has_setter = True
         prop.serialized = True
 
-FramerateMode = cbg.Enum('Altseed', 'FramerateMode')
+FramerateMode = cbg.Enum('Altseed2', 'FramerateMode')
 with FramerateMode as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'フレームレートモード')
@@ -107,7 +107,7 @@ with FramerateMode as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', '固定フレームレート')
 
-Core = cbg.Class('Altseed', 'Core')
+Core = cbg.Class('Altseed2', 'Core')
 with Core as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'C++のCoreとの仲介を担うクラス')

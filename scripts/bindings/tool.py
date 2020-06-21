@@ -4,7 +4,7 @@ from .math import Vector2F, Vector4F
 from .common import *
 from .graphics import *
 
-ToolUsage = cbg.Enum('Altseed', 'ToolUsage')
+ToolUsage = cbg.Enum('Altseed2', 'ToolUsage')
 with ToolUsage as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能の使用方法(描画位置)')
@@ -16,7 +16,7 @@ with ToolUsage as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', '画面を表示せずにツールのみ表示')
 
-ToolDir = cbg.Enum('Altseed', 'ToolDir')
+ToolDir = cbg.Enum('Altseed2', 'ToolDir')
 with ToolDir as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能で使用する方向')
@@ -35,7 +35,7 @@ with ToolDir as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', '下方向')
 
-ToolCond = cbg.Enum('Altseed', 'ToolCond')
+ToolCond = cbg.Enum('Altseed2', 'ToolCond')
 with ToolCond as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add(
@@ -69,7 +69,7 @@ with ToolCond as enum_:
         v.brief.add(
             'ja', 'オブジェクト/ウィンドウが非表示/非アクティブになった後（または初めて）表示される場合は、変数を設定します')
 
-ToolTreeNode = cbg.Enum('Altseed', 'ToolTreeNode')
+ToolTreeNode = cbg.Enum('Altseed2', 'ToolTreeNode')
 with ToolTreeNode as enum_:
     enum_.add('None', 0)
     with enum_.add('Selected', 1 << 0) as v:
@@ -137,7 +137,7 @@ with ToolTreeNode as enum_:
 
     enum_.add('CollapsingHeader', (1 << 1) | (1 << 3) | (1 << 4))
 
-ToolInputText = cbg.Enum('Altseed', 'ToolInputText')
+ToolInputText = cbg.Enum('Altseed2', 'ToolInputText')
 with ToolInputText as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能においてインプットされるテキストの設定を表します')
@@ -246,7 +246,7 @@ with ToolInputText as enum_:
         v.brief.add('en', 'Callback on buffer capacity changes request (beyond \'buf_size\' parameter value), allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size). You will be provided a new BufSize in the callback and NEED to honor it.')
         v.brief.add('ja', 'バッファ容量のコールバックはリクエストを変更し（\'buf_size \'パラメータ値を超えて）、文字列が大きくなります。 文字列のサイズを変更する必要がある場合に通知します（サイズのキャッシュを保持する文字列タイプの場合）。 コールバックで新しいBufSizeが提供され、それを尊重する必要があります。')
 
-ToolColorEdit = cbg.Enum('Altseed', 'ToolColorEdit')
+ToolColorEdit = cbg.Enum('Altseed2', 'ToolColorEdit')
 with ToolColorEdit as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能における色の設定を表します')
@@ -400,7 +400,7 @@ with ToolColorEdit as enum_:
         v.brief.add('en', 'Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don\'t want to override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.')
         v.brief.add('ja', 'デフォルトオプション。 `SetColorEditOptions()` を使用して、アプリケーションのデフォルトを設定できます。 意図はおそらくあなたの呼び出しのほとんどでそれらをオーバーライドしたくないことです。 ユーザーがオプションメニューから選択できるようにするか、起動時に`SetColorEditOptions()`を1回呼び出します。')
 
-ToolSelectable = cbg.Enum('Altseed', 'ToolSelectable')
+ToolSelectable = cbg.Enum('Altseed2', 'ToolSelectable')
 with ToolSelectable as enum_:
     with enum_.add('None', 0) as v:
         v.brief = cbg.Description()
@@ -434,7 +434,7 @@ with ToolSelectable as enum_:
             'en', '(WIP) Hit testing to allow subsequent widgets to overlap this one')
         v.brief.add('ja', '(WIP) ヒットテストにより、後続のウィジェットがこのウィジェットとオーバーラップできるようにします')
 
-ToolWindow = cbg.Enum('Altseed', 'ToolWindow')
+ToolWindow = cbg.Enum('Altseed2', 'ToolWindow')
 with ToolWindow as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のウィンドウにおける設定を表します')
@@ -570,7 +570,7 @@ with ToolWindow as enum_:
 
     enum_.add('NoInputs', _NoMouseInputs | _NoNavInputs | _NoNavFocus)
 
-ToolTabBar = cbg.Enum('Altseed', 'ToolTabBar')
+ToolTabBar = cbg.Enum('Altseed2', 'ToolTabBar')
 with ToolTabBar as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のタブバーにおける設定を表します')
@@ -626,7 +626,7 @@ with ToolTabBar as enum_:
     enum_.add('FittingPolicyDefault', _FittingPolicyResizeDown)
 
 
-ToolGlyphRanges = cbg.Enum('Altseed', 'ToolGlyphRanges')
+ToolGlyphRanges = cbg.Enum('Altseed2', 'ToolGlyphRanges')
 with ToolGlyphRanges as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('en', 'Don\'t bit operation')
@@ -654,7 +654,7 @@ with ToolGlyphRanges as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', 'タイ語')
 
-ToolFocused = cbg.Enum('Altseed', 'ToolFocused')
+ToolFocused = cbg.Enum('Altseed2', 'ToolFocused')
 with ToolFocused as enum_:
     enum_.brief = cbg.Description()
 
@@ -669,7 +669,7 @@ with ToolFocused as enum_:
     with enum_.add('RootAndChildWindows') as v:
         v.brief = cbg.Description()
 
-ToolColor = cbg.Enum('Altseed', 'ToolColor')
+ToolColor = cbg.Enum('Altseed2', 'ToolColor')
 with ToolColor as enum_:
     enum_.brief = cbg.Description()
 
@@ -772,7 +772,7 @@ with ToolColor as enum_:
     with enum_.add('COUNT') as v: 
         v.brief = cbg.Description()
 
-ToolStyleVar = cbg.Enum('Altseed', 'ToolStyleVar')
+ToolStyleVar = cbg.Enum('Altseed2', 'ToolStyleVar')
 with ToolStyleVar as enum_:
     enum_.brief = cbg.Description()
 
@@ -825,7 +825,7 @@ with ToolStyleVar as enum_:
     with enum_.add('COUNT') as v:
         v.brief = cbg.Description()
 
-ToolCombo = cbg.Enum('Altseed', 'ToolCombo')
+ToolCombo = cbg.Enum('Altseed2', 'ToolCombo')
 with ToolCombo as enum_:
     enum_.brief = cbg.Description()
 
@@ -848,7 +848,7 @@ with ToolCombo as enum_:
     with enum_.add('HeightMask_') as v:
         v.brief = cbg.Description()
 
-ToolHovered = cbg.Enum('Altseed', 'ToolHovered')
+ToolHovered = cbg.Enum('Altseed2', 'ToolHovered')
 with ToolHovered as enum_:
     enum_.brief = cbg.Description()
 
@@ -873,7 +873,7 @@ with ToolHovered as enum_:
     with enum_.add('RootAndChildWindows') as v:
         v.brief = cbg.Description()
 
-Tool = cbg.Class('Altseed', 'Tool')
+Tool = cbg.Class('Altseed2', 'Tool')
 with Tool as class_:
     class_.is_Sealed = True
 

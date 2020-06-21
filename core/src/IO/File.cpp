@@ -10,7 +10,7 @@
 #include "../Platform/FileSystem.h"
 #include "PackFileReader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<File> File::instance = nullptr;
 
@@ -242,4 +242,4 @@ bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt
     return true;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

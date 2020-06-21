@@ -7,11 +7,11 @@
 #include <chrono>
 #include <cmath>
 
-bool IsPushedOrHolded(int joystickIndex, Altseed::JoystickButtonType btn, int count) {
-    if (Altseed::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed::ButtonState::Free ||
-        Altseed::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed::ButtonState::Release) {
+bool IsPushedOrHolded(int joystickIndex, Altseed2::JoystickButtonType btn, int count) {
+    if (Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed2::ButtonState::Free ||
+        Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed2::ButtonState::Release) {
         return false;
-    } else if (Altseed::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed::ButtonState::Push) {
+    } else if (Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed2::ButtonState::Push) {
         return true;
     } else {
         return (count % 80000 == 0);
@@ -30,43 +30,43 @@ bool IsPushedOrHolded(int joystickIndex, Altseed::JoystickButtonType btn, int co
 //     bool vibrated = false;
 
 //     while (true) {
-//         Altseed::Joystick::GetInstance()->RefreshInputState();
+//         Altseed2::Joystick::GetInstance()->RefreshInputState();
 
-//         if (!vibrated && Altseed::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, Altseed::JoystickButtonType::RightDown) ==
-//                                  Altseed::ButtonState::Push) {
-//             Altseed::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
+//         if (!vibrated && Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, Altseed2::JoystickButtonType::RightDown) ==
+//                                  Altseed2::ButtonState::Push) {
+//             Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
 //             start = std::chrono::system_clock::now();
 //             vibrated = true;
 //         }
 
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::RightRight, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::RightRight, count)) {
 //             frequency += 10.0f;
 //             std::cout << "freq: " << frequency << std::endl;
 //         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::RightLeft, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::RightLeft, count)) {
 //             frequency -= 10.0f;
 //             std::cout << "freq: " << frequency << std::endl;
 //         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::R3, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::R3, count)) {
 //             amplitude += 0.05f;
 //             std::cout << "amp : " << amplitude << std::endl;
 //         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::L3, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::L3, count)) {
 //             amplitude -= 0.05f;
 //             ;
 //             std::cout << "amp : " << amplitude << std::endl;
 //         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::R2, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::R2, count)) {
 //             vibrate_time += 10.0f;
 //             std::cout << "time: " << vibrate_time << std::endl;
 //         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed::JoystickButtonType::R1, count)) {
+//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButtonType::R1, count)) {
 //             vibrate_time -= 10.0f;
 //             std::cout << "time: " << vibrate_time << std::endl;
 //         }
 
 //         if (vibrated && std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() >= vibrate_time) {
-//             Altseed::Joystick::GetInstance()->Vibrate(joystickIndex, 100.0f, 0);
+//             Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, 100.0f, 0);
 //             vibrated = false;
 //         }
 
@@ -77,16 +77,16 @@ bool IsPushedOrHolded(int joystickIndex, Altseed::JoystickButtonType btn, int co
 
 void printJoystickInformation() {
     for (int i = 0; i < 16; i++) {
-        auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(i);
+        auto info = Altseed2::Joystick::GetInstance()->GetJoystickInfo(i);
         if (info == nullptr) {
             continue;
         }
         std::cout
                 << "--- Index: " << i << " ---" << std::endl
-                << "Name: " << Altseed::utf16_to_utf8(std::u16string(info->GetName())) << std::endl
+                << "Name: " << Altseed2::utf16_to_utf8(std::u16string(info->GetName())) << std::endl
                 << "ButtonCount: " << info->GetButtonCount() << std::endl
                 << "AxisCount: " << info->GetAxisCount() << std::endl
-                << "GUID: " << Altseed::utf16_to_utf8(std::u16string(info->GetGUID())) << std::endl
+                << "GUID: " << Altseed2::utf16_to_utf8(std::u16string(info->GetGUID())) << std::endl
                 << "Bustype: " << info->GetBustype() << std::endl
                 << "Vendor: " << info->GetVendor() << std::endl
                 << "Product: " << info->GetProduct() << std::endl
@@ -95,7 +95,7 @@ void printJoystickInformation() {
         if (info->GetIsGamepad()) {
             std::cout
                     << "--- Gamepad ---" << std::endl
-                    << "GamepadName: " << Altseed::utf16_to_utf8(std::u16string(info->GetGamepadName())) << std::endl;
+                    << "GamepadName: " << Altseed2::utf16_to_utf8(std::u16string(info->GetGamepadName())) << std::endl;
         }
 
         std::cout << std::endl;
@@ -103,12 +103,12 @@ void printJoystickInformation() {
 }
 
 TEST(Joystick, Initialize) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetConsoleLoggingEnabled(true);
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Joystick Initialize", 640, 480, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick Initialize", 640, 480, config));
 
-    auto joystickCount = Altseed::Joystick::GetInstance()->GetConnectedJoystickCount();
+    auto joystickCount = Altseed2::Joystick::GetInstance()->GetConnectedJoystickCount();
 
     if (joystickCount > 0) {
         printJoystickInformation();
@@ -116,40 +116,40 @@ TEST(Joystick, Initialize) {
         std::cout << "No joystick is connected" << std::endl;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Joystick, ButtonState) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetConsoleLoggingEnabled(true);
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Joystick ButtonState", 640, 480, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonState", 640, 480, config));
 
-    auto joystickCount = Altseed::Joystick::GetInstance()->GetConnectedJoystickCount();
+    auto joystickCount = Altseed2::Joystick::GetInstance()->GetConnectedJoystickCount();
 
     if (joystickCount > 0) {
         printJoystickInformation();
 
         float time = 0.0f;
-        while (Altseed::Core::GetInstance()->DoEvent()) {
+        while (Altseed2::Core::GetInstance()->DoEvent()) {
             for (int ji = 0; ji < 16; ji++) {
-                auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+                auto info = Altseed2::Joystick::GetInstance()->GetJoystickInfo(ji);
                 if (info == nullptr) continue;
 
                 for (int bi = 0; bi < info->GetButtonCount(); bi++) {
-                    auto bs = Altseed::Joystick::GetInstance()->GetButtonStateByIndex(ji, bi);
+                    auto bs = Altseed2::Joystick::GetInstance()->GetButtonStateByIndex(ji, bi);
 
-                    if (bs == Altseed::ButtonState::Push) {
+                    if (bs == Altseed2::ButtonState::Push) {
                         printf("%d - %d : Push\n", ji, bi);
-                    } else if (bs == Altseed::ButtonState::Hold) {
+                    } else if (bs == Altseed2::ButtonState::Hold) {
                         printf("%d - %d : Hold\n", ji, bi);
-                    } else if (bs == Altseed::ButtonState::Release) {
+                    } else if (bs == Altseed2::ButtonState::Release) {
                         printf("%d - %d : Release\n", ji, bi);
                     }
                 }
             }
 
-            time += Altseed::Core::GetInstance()->GetDeltaSecond();
+            time += Altseed2::Core::GetInstance()->GetDeltaSecond();
             if (time > 10.0f) {
                 break;
             }
@@ -158,35 +158,35 @@ TEST(Joystick, ButtonState) {
         std::cout << "No joystick is connected" << std::endl;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Joystick, AxisState) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetConsoleLoggingEnabled(true);
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Joystick AxisState", 640, 480, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick AxisState", 640, 480, config));
 
-    auto joystickCount = Altseed::Joystick::GetInstance()->GetConnectedJoystickCount();
+    auto joystickCount = Altseed2::Joystick::GetInstance()->GetConnectedJoystickCount();
 
     if (joystickCount > 0) {
         printJoystickInformation();
 
         float time = 0.0f;
-        while (Altseed::Core::GetInstance()->DoEvent()) {
+        while (Altseed2::Core::GetInstance()->DoEvent()) {
             for (int ji = 0; ji < 16; ji++) {
-                auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+                auto info = Altseed2::Joystick::GetInstance()->GetJoystickInfo(ji);
                 if (info == nullptr) continue;
 
                 for (int ai = 0; ai < info->GetAxisCount(); ai++) {
-                    auto v = Altseed::Joystick::GetInstance()->GetAxisStateByIndex(ji, ai);
+                    auto v = Altseed2::Joystick::GetInstance()->GetAxisStateByIndex(ji, ai);
                     if (std::abs(v) > 0.1) {
                         printf("%d - %d : %f\n", ji, ai, v);
                     }
                 }
             }
 
-            time += Altseed::Core::GetInstance()->GetDeltaSecond();
+            time += Altseed2::Core::GetInstance()->GetDeltaSecond();
             if (time > 10.0f) {
                 break;
             }
@@ -195,55 +195,55 @@ TEST(Joystick, AxisState) {
         std::cout << "No joystick is connected" << std::endl;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Joystick, ButtonStateByType) {
-    const std::map<std::string, Altseed::JoystickButtonType> buttonTypes{
-            {std::string("RightDown"), Altseed::JoystickButtonType::RightDown},
-            {std::string("RightRight"), Altseed::JoystickButtonType::RightRight},
-            {std::string("RightLeft"), Altseed::JoystickButtonType::RightLeft},
-            {std::string("RightUp"), Altseed::JoystickButtonType::RightUp},
-            {std::string("LeftBumper"), Altseed::JoystickButtonType::LeftBumper},
-            {std::string("RightBumper"), Altseed::JoystickButtonType::RightBumper},
-            {std::string("Back"), Altseed::JoystickButtonType::Back},
-            {std::string("Start"), Altseed::JoystickButtonType::Start},
-            {std::string("Guide"), Altseed::JoystickButtonType::Guide},
-            {std::string("LeftThumb"), Altseed::JoystickButtonType::LeftThumb},
-            {std::string("RightThumb"), Altseed::JoystickButtonType::RightThumb},
-            {std::string("DPadUp"), Altseed::JoystickButtonType::DPadUp},
-            {std::string("DPadRight"), Altseed::JoystickButtonType::DPadRight},
-            {std::string("DPadDown"), Altseed::JoystickButtonType::DPadDown},
-            {std::string("DPadLeft"), Altseed::JoystickButtonType::DPadLeft},
+    const std::map<std::string, Altseed2::JoystickButtonType> buttonTypes{
+            {std::string("RightDown"), Altseed2::JoystickButtonType::RightDown},
+            {std::string("RightRight"), Altseed2::JoystickButtonType::RightRight},
+            {std::string("RightLeft"), Altseed2::JoystickButtonType::RightLeft},
+            {std::string("RightUp"), Altseed2::JoystickButtonType::RightUp},
+            {std::string("LeftBumper"), Altseed2::JoystickButtonType::LeftBumper},
+            {std::string("RightBumper"), Altseed2::JoystickButtonType::RightBumper},
+            {std::string("Back"), Altseed2::JoystickButtonType::Back},
+            {std::string("Start"), Altseed2::JoystickButtonType::Start},
+            {std::string("Guide"), Altseed2::JoystickButtonType::Guide},
+            {std::string("LeftThumb"), Altseed2::JoystickButtonType::LeftThumb},
+            {std::string("RightThumb"), Altseed2::JoystickButtonType::RightThumb},
+            {std::string("DPadUp"), Altseed2::JoystickButtonType::DPadUp},
+            {std::string("DPadRight"), Altseed2::JoystickButtonType::DPadRight},
+            {std::string("DPadDown"), Altseed2::JoystickButtonType::DPadDown},
+            {std::string("DPadLeft"), Altseed2::JoystickButtonType::DPadLeft},
     };
 
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     // config->SetConsoleLoggingEnabled(true);
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
 
-    auto joystickCount = Altseed::Joystick::GetInstance()->GetConnectedJoystickCount();
+    auto joystickCount = Altseed2::Joystick::GetInstance()->GetConnectedJoystickCount();
 
     if (joystickCount > 0) {
         printJoystickInformation();
 
         float time = 0.0f;
-        while (Altseed::Core::GetInstance()->DoEvent()) {
+        while (Altseed2::Core::GetInstance()->DoEvent()) {
             for (int ji = 0; ji < 16; ji++) {
-                auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+                auto info = Altseed2::Joystick::GetInstance()->GetJoystickInfo(ji);
                 if (info == nullptr) continue;
 
                 for (auto const& x : buttonTypes) {
-                    auto bs = Altseed::Joystick::GetInstance()->GetButtonStateByType(ji, x.second);
-                    if (bs == Altseed::ButtonState::Push) {
+                    auto bs = Altseed2::Joystick::GetInstance()->GetButtonStateByType(ji, x.second);
+                    if (bs == Altseed2::ButtonState::Push) {
                         printf("%d - %s : Push\n", ji, x.first.c_str());
-                    } else if (bs == Altseed::ButtonState::Release) {
+                    } else if (bs == Altseed2::ButtonState::Release) {
                         printf("%d - %s : Release\n", ji, x.first.c_str());
                     }
                 }
             }
 
-            time += Altseed::Core::GetInstance()->GetDeltaSecond();
+            time += Altseed2::Core::GetInstance()->GetDeltaSecond();
             if (time > 10.0f) {
                 break;
             }
@@ -252,53 +252,53 @@ TEST(Joystick, ButtonStateByType) {
         std::cout << "No joystick is connected" << std::endl;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Joystick, AxisStateByType) {
-    const std::map<std::string, Altseed::JoystickAxisType> axisTypes{
-            {std::string("LeftX"), Altseed::JoystickAxisType::LeftX},
-            {std::string("LeftY"), Altseed::JoystickAxisType::LeftY},
-            {std::string("RightX"), Altseed::JoystickAxisType::RightX},
-            {std::string("RightY"), Altseed::JoystickAxisType::RightY},
+    const std::map<std::string, Altseed2::JoystickAxisType> axisTypes{
+            {std::string("LeftX"), Altseed2::JoystickAxisType::LeftX},
+            {std::string("LeftY"), Altseed2::JoystickAxisType::LeftY},
+            {std::string("RightX"), Altseed2::JoystickAxisType::RightX},
+            {std::string("RightY"), Altseed2::JoystickAxisType::RightY},
     };
 
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
 
-    auto joystickCount = Altseed::Joystick::GetInstance()->GetConnectedJoystickCount();
+    auto joystickCount = Altseed2::Joystick::GetInstance()->GetConnectedJoystickCount();
 
     if (joystickCount > 0) {
         printJoystickInformation();
 
         float time = 0.0f;
-        while (Altseed::Core::GetInstance()->DoEvent()) {
+        while (Altseed2::Core::GetInstance()->DoEvent()) {
             for (int ji = 0; ji < 16; ji++) {
-                auto info = Altseed::Joystick::GetInstance()->GetJoystickInfo(ji);
+                auto info = Altseed2::Joystick::GetInstance()->GetJoystickInfo(ji);
                 if (info == nullptr) continue;
 
                 for (auto const& x : axisTypes) {
-                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, x.second);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, x.second);
                     if (std::abs(as) > 0.1) {
                         printf("%d - %s : %f\n", ji, x.first.c_str(), as);
                     }
                 }
                 {
-                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::RightTriger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::RightTriger);
                     if (as > 0.1) {
                         printf("%d - RightTriger : %f\n", ji, as);
                     }
                 }
                 {
-                    auto as = Altseed::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed::JoystickAxisType::LeftTriger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::LeftTriger);
                     if (as > 0.1) {
                         printf("%d - LeftTriger : %f\n", ji, as);
                     }
                 }
             }
 
-            time += Altseed::Core::GetInstance()->GetDeltaSecond();
+            time += Altseed2::Core::GetInstance()->GetDeltaSecond();
             if (time > 10.0f) {
                 break;
             }
@@ -307,5 +307,5 @@ TEST(Joystick, AxisStateByType) {
         std::cout << "No joystick is connected" << std::endl;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }

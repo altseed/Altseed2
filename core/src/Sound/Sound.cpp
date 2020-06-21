@@ -2,7 +2,7 @@
 
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::mutex Sound::mtx;
 
@@ -82,4 +82,4 @@ bool Sound::Reload() {
     return false;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

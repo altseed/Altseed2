@@ -9,7 +9,7 @@
 #include "../Common/Assertion.h"
 #include "../Common/StringHelper.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Log> Log::instance_;
 
@@ -63,4 +63,4 @@ void Log::SetLevel(LogCategory category, LogLevel level) {
     loggers_[(int32_t)category]->set_level((spdlog::level::level_enum)level);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

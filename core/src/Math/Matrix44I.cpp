@@ -5,7 +5,7 @@
 #include "Vector3I.h"
 #include "Vector4I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Matrix44I::Matrix44I() { SetIdentity(); }
 
@@ -143,4 +143,4 @@ Matrix44I_C::operator Matrix44I() const {
     return m;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

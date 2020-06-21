@@ -4,7 +4,7 @@ import ctypes
 from .common import *
 from .math import *
 
-ButtonState = cbg.Enum('Altseed', 'ButtonState')
+ButtonState = cbg.Enum('Altseed2', 'ButtonState')
 with ButtonState as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ボタンの押下状態を表します。')
@@ -21,7 +21,7 @@ with ButtonState as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'ボタンが話された瞬間の状態')
 
-Keys = cbg.Enum('Altseed', 'Keys')
+Keys = cbg.Enum('Altseed2', 'Keys')
 with Keys as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'キーボードのキーの種類を表します。')
@@ -195,7 +195,7 @@ with Keys as enum:
     enum.add('Last')
     enum.add('MAX')
 
-Cursor = cbg.Class('Altseed', 'Cursor')
+Cursor = cbg.Class('Altseed2', 'Cursor')
 with Cursor as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カーソルを表します。')
@@ -219,7 +219,7 @@ with Cursor as class_:
         func.return_value.brief.add(
             'ja', '指定したpng画像を読み込んだ<see cref="Cursor"/>のインスタンス')
 
-Keyboard = cbg.Class('Altseed', 'Keyboard')
+Keyboard = cbg.Class('Altseed2', 'Keyboard')
 with Keyboard as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'キーボードを表します。')
@@ -246,7 +246,7 @@ with Keyboard as class_:
         func.is_static = True
         func.is_public = False
 
-MouseButtons = cbg.Enum('Altseed', 'MouseButtons')
+MouseButtons = cbg.Enum('Altseed2', 'MouseButtons')
 with MouseButtons as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'マウスのボタンの種類を表します。')
@@ -275,7 +275,7 @@ with MouseButtons as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'サブボタン5')
 
-CursorMode = cbg.Enum('Altseed', 'CursorMode')
+CursorMode = cbg.Enum('Altseed2', 'CursorMode')
 with CursorMode as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'カーソルの状態を表します。')
@@ -289,7 +289,7 @@ with CursorMode as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', '使用できない状態')
 
-Mouse = cbg.Class('Altseed', 'Mouse')
+Mouse = cbg.Class('Altseed2', 'Mouse')
 with Mouse as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マウスを表します。')
@@ -334,7 +334,7 @@ with Mouse as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を取得するマウスのボタン')
 
-JoystickType = cbg.Enum('Altseed', 'JoystickType')
+JoystickType = cbg.Enum('Altseed2', 'JoystickType')
 with JoystickType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの種類を表します。')
@@ -370,7 +370,7 @@ with JoystickType as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'NintendoSwitch ProController')
 
-JoystickButtonType = cbg.Enum('Altseed', 'JoystickButtonType')
+JoystickButtonType = cbg.Enum('Altseed2', 'JoystickButtonType')
 with JoystickButtonType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックのボタンの種類を表します。')
@@ -441,7 +441,7 @@ with JoystickButtonType as enum:
         v.brief.add('ja', '十字キー左')
 
 
-JoystickAxisType = cbg.Enum('Altseed', 'JoystickAxisType')
+JoystickAxisType = cbg.Enum('Altseed2', 'JoystickAxisType')
 with JoystickAxisType as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの軸の種類を表します。')
@@ -470,7 +470,7 @@ with JoystickAxisType as enum:
         v.brief.add('ja', '右トリガー')
 
 
-JoystickInfo = cbg.Class('Altseed', 'JoystickInfo')
+JoystickInfo = cbg.Class('Altseed2', 'JoystickInfo')
 with JoystickInfo as class_:
     with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
         prop_.has_getter = True
@@ -537,7 +537,7 @@ with JoystickInfo as class_:
         func.return_value.type_ = bool
 
 
-Joystick = cbg.Class('Altseed', 'Joystick')
+Joystick = cbg.Class('Altseed2', 'Joystick')
 with Joystick as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ジョイスティックを表すクラス')

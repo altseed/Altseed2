@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace Altseed {
+namespace Altseed2 {
 
 // http://hasenpfote36.blogspot.jp/2016/09/stdcodecvt.html
 static constexpr std::codecvt_mode mode = std::codecvt_mode::little_endian;
@@ -204,4 +204,4 @@ static std::vector<std::u16string> split(const std::u16string& s, char16_t delim
     return elems;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

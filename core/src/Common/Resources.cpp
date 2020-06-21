@@ -1,6 +1,6 @@
 ﻿#include "Resources.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Resources> Resources::instance = nullptr;
 
@@ -32,4 +32,4 @@ void Resources::Reload() {
     }
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

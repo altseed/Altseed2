@@ -3,7 +3,7 @@
 #include "../../Common/Array.h"
 #include "CullingSystem.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<RenderedSprite> RenderedSprite::Create() { return MakeAsdShared<RenderedSprite>(); }
 
@@ -41,4 +41,4 @@ b2AABB RenderedSprite::GetAABB() {
     return res;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

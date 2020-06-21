@@ -2,7 +2,7 @@
 
 #include "CullingSystem.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() { return MakeAsdShared<RenderedPolygon>(); }
 
@@ -88,4 +88,4 @@ b2AABB RenderedPolygon::GetAABB() {
     return res;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

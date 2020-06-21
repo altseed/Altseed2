@@ -1,7 +1,7 @@
 #pragma once
 #include "../BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class EasingType : int32_t {
     Linear,
@@ -45,4 +45,4 @@ public:
     int32_t Release();
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

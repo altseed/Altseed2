@@ -2,7 +2,7 @@
 
 #include "CullingSystem.h"
 
-namespace Altseed {
+namespace Altseed2 {
 Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()), isDrawn_(false) { cullingSystem_->Register(this); }
 Rendered::~Rendered() {
     cullingSystem_->Unregister(this);
@@ -15,4 +15,4 @@ void Rendered::SetTransform(const Matrix44F& transform) {
     cullingSystem_->RequestUpdateAABB(this);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

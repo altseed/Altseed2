@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "Texture2D.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Camera::Camera() {
     matView_.fill(0);

@@ -6,7 +6,7 @@
 #include "Collider.h"
 #include "RectangleCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class PolygonCollider : public Collider {
     friend class CircleCollider;
@@ -27,4 +27,4 @@ public:
     void SetVertexes(std::shared_ptr<Vector2FArray> vertexes);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

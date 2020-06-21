@@ -3,7 +3,7 @@
 #include "../Common/StringHelper.h"
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<FrameDebugger> FrameDebugger::instance_;
 
@@ -240,4 +240,4 @@ void FrameDebugger::Write(const char16_t* format, const Args&... args) {
     logger->Write(LogCategory::Graphics, LogLevel::Trace, format, args...);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

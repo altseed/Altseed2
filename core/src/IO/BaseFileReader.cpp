@@ -4,7 +4,7 @@
 
 #include "../Common/StringHelper.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 BaseFileReader::BaseFileReader(const std::u16string& path, bool isInPackage) : BaseObject(), m_path(path), m_length(-1), m_position(0) {
     if (!isInPackage) {
@@ -97,4 +97,4 @@ void BaseFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
 }
 
 bool BaseFileReader::GetIsInPackage() const { return false; }
-}  // namespace Altseed
+}  // namespace Altseed2

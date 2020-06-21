@@ -2,7 +2,7 @@
 #include <Sound/SoundMixer.h>
 #include <gtest/gtest.h>
 
-namespace asd = Altseed;
+namespace asd = Altseed2;
 
 TEST(Sound, SoundPlay) {
     char16_t s16[] = u"Sound Play";

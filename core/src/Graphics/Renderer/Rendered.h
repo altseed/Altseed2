@@ -6,7 +6,7 @@
 #include "../../Math/Matrix44F.h"
 #include "../Color.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class CullingSystem;
 class Rendered : public BaseObject {
 protected:
@@ -26,4 +26,4 @@ public:
     virtual b2AABB GetAABB() { return b2AABB(); }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -20,7 +20,7 @@
 #include "Tool/Tool.h"
 #include "Window/Window.h"
 
-namespace Altseed {
+namespace Altseed2 {
 std::shared_ptr<Core> Core::instance = nullptr;
 
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
@@ -166,15 +166,15 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
-    Altseed::Keyboard::GetInstance()->RefleshKeyStates();
-    Altseed::Mouse::GetInstance()->RefreshInputState();
-    Altseed::Joystick::GetInstance()->RefreshInputState();
+    Altseed2::Keyboard::GetInstance()->RefleshKeyStates();
+    Altseed2::Mouse::GetInstance()->RefreshInputState();
+    Altseed2::Joystick::GetInstance()->RefreshInputState();
 
     SynchronizationContext::GetInstance()->Run();
 
     Core::instance->fps_->Update();
 
-    return Altseed::Window::GetInstance()->DoEvent();
+    return Altseed2::Window::GetInstance()->DoEvent();
 }
 
 const float Core::GetDeltaSecond() { return Core::instance->fps_->GetDeltaSecond(); }
@@ -189,4 +189,4 @@ const FramerateMode Core::GetFramerateMode() { return Core::instance->fps_->GetF
 
 void Core::SetFramerateMode(FramerateMode framerateMode) { Core::instance->fps_->SetFramerateMode(framerateMode); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

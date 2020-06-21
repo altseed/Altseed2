@@ -9,7 +9,7 @@
 #include "../../Common/Array.h"
 #include "../../Math/RectF.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class Rendered;
 class CullingSystem : public BaseObject {
 private:
@@ -46,4 +46,4 @@ public:
     bool QueryCallback(int32_t id);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

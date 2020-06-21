@@ -2,7 +2,7 @@ from . import CppBindingGenerator as cbg
 import ctypes
 import sys
 
-LogLevel = cbg.Enum('Altseed', 'LogLevel')
+LogLevel = cbg.Enum('Altseed2', 'LogLevel')
 with LogLevel as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ログレベルを表します。')
@@ -15,7 +15,7 @@ with LogLevel as enum_:
     enum_.add('Critical', 5)
     enum_.add('Off', 6)
 
-LogCategory = cbg.Enum('Altseed', 'LogCategory')
+LogCategory = cbg.Enum('Altseed2', 'LogCategory')
 with LogCategory as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ログの範囲を表します。')
@@ -24,7 +24,7 @@ with LogCategory as enum_:
     enum_.add('Engine', 2)
     enum_.add('User', 3)
 
-Log = cbg.Class('Altseed', 'Log')
+Log = cbg.Class('Altseed2', 'Log')
 with Log as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ログを出力するクラス')

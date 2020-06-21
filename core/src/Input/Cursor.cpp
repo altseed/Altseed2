@@ -1,6 +1,6 @@
 #include "Cursor.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Cursor::Cursor(GLFWcursor* cursor) { native_ = cursor; }
 
@@ -178,4 +178,4 @@ std::shared_ptr<Cursor> Cursor::Create(const char16_t* path, Vector2I hotspot) {
     return res;
 }
 
-};  // namespace Altseed
+};  // namespace Altseed2

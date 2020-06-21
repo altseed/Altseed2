@@ -3,7 +3,7 @@
 #include "MathTemplate.h"
 #include "Vector4I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 struct Vector4F_C;
 
@@ -67,4 +67,4 @@ public:
 
     operator Vector4F() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

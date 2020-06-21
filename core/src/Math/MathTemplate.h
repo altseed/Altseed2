@@ -5,7 +5,7 @@
 
 #include <cstring>
 
-namespace Altseed {
+namespace Altseed2 {
 
 extern "C" {
 struct Vector2F;
@@ -41,4 +41,4 @@ const float PI = 3.14159265358979f;
 static float DegreeToRadian(float degree) { return degree / 180.0f * PI; }
 
 static float RadianToDegree(float radian) { return radian / PI * 180.0f; }
-}  // namespace Altseed
+}  // namespace Altseed2

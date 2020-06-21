@@ -10,7 +10,7 @@
 #include "../Common/Assertion.h"
 #include "../Common/StringHelper.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class LogLevel : int32_t {
     Trace = spdlog::level::trace,
@@ -125,4 +125,4 @@ public:
     void SetLevel(LogCategory category, LogLevel level);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

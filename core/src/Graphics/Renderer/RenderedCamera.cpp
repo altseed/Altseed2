@@ -5,7 +5,7 @@
 #include "../Graphics.h"
 #include "../RenderTexture.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<RenderedCamera> RenderedCamera::Create() { return MakeAsdShared<RenderedCamera>(); }
 
@@ -77,4 +77,4 @@ b2AABB RenderedCamera::GetAABB() {
     return res;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

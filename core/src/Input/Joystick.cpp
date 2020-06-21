@@ -7,7 +7,7 @@
 #include "../Common/Miscs.h"
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const bool isGamepad, const std::u16string gamepadName, const char* guid)
     : name_(name), buttonCount_(buttonCount), axisCount_(axisCount), isGamepad_(isGamepad), gamepadName_(gamepadName) {
     guid_ = utf8_to_utf16(std::string(guid));
@@ -243,4 +243,4 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxisType type)
 //     Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate is not supported yet");
 // }
 
-}  // namespace Altseed
+}  // namespace Altseed2

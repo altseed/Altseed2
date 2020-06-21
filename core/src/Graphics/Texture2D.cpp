@@ -9,7 +9,7 @@
 #include "../Logger/Log.h"
 #include "Graphics.h"
 
-namespace Altseed {
+namespace Altseed2 {
 std::mutex Texture2D::mtx;
 
 Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath)
@@ -73,4 +73,4 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
 
     return res;
 }
-}  // namespace Altseed
+}  // namespace Altseed2

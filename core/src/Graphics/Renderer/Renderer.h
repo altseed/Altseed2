@@ -12,7 +12,7 @@
 #undef DrawText
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Texture2D;
 class RenderedSprite;
@@ -51,4 +51,4 @@ public:
     void ResetCamera();
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

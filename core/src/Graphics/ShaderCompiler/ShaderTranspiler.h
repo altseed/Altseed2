@@ -9,7 +9,7 @@
 
 #include "../Shader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class SPIRV {
 private:
     std::vector<uint32_t> data_;
@@ -83,4 +83,4 @@ public:
     std::shared_ptr<SPIRV> Generate(const char* code, ShaderStageType shaderStageType);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

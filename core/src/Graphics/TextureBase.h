@@ -13,7 +13,7 @@
 #include "../Common/ThreadSafeMap.h"
 #include "../Math/Vector2I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class TextureBase : public Resource {
 private:
     static ThreadSafeMap<std::u16string, std::mutex> mtxs;
@@ -35,4 +35,4 @@ public:
 
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
 };
-}  // namespace Altseed
+}  // namespace Altseed2

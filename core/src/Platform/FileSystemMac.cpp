@@ -7,7 +7,7 @@
 #include "../Common/StringHelper.h"
 #include "FileSystem.h"
 
-namespace Altseed {
+namespace Altseed2 {
 bool FileSystem::GetIsFile(const std::u16string& path) {
     struct stat st;
 

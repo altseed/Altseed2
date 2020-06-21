@@ -3,7 +3,7 @@
 
 #include "BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class FramerateMode : int32_t {
     Variable,
@@ -36,4 +36,4 @@ public:
     void SetFramerateMode(FramerateMode framerateMode);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -5,7 +5,7 @@
 #include "../BuiltinShader.h"
 #include "../Graphics.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<RenderedText> RenderedText::Create() {
     auto t = MakeAsdShared<RenderedText>();
@@ -89,9 +89,9 @@ Vector2F RenderedText::GetTextureSize() {
         // character spcae
         if (i != characters.size() - 1) {
             if (writingDirection_ == WritingDirection::Horizontal)
-                offset += Altseed::Vector2F(GetCharacterSpace(), 0);
+                offset += Altseed2::Vector2F(GetCharacterSpace(), 0);
             else
-                offset += Altseed::Vector2F(0, GetCharacterSpace());
+                offset += Altseed2::Vector2F(0, GetCharacterSpace());
         }
 
         // kerning
@@ -99,9 +99,9 @@ Vector2F RenderedText::GetTextureSize() {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
             if (writingDirection_ == WritingDirection::Horizontal)
-                offset += Altseed::Vector2F(GetFont()->GetKerning(character, next), 0);
+                offset += Altseed2::Vector2F(GetFont()->GetKerning(character, next), 0);
             else
-                offset += Altseed::Vector2F(0, GetFont()->GetKerning(character, next));
+                offset += Altseed2::Vector2F(0, GetFont()->GetKerning(character, next));
         }
     }
     offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
@@ -126,4 +126,4 @@ b2AABB RenderedText::GetAABB() {
     return res;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

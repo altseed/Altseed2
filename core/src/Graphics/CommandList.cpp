@@ -14,7 +14,7 @@
 #include "FrameDebugger.h"
 #include "RenderTexture.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 RenderPassParameter::operator RenderPassParameter_C() const {
     auto m = RenderPassParameter_C();
@@ -310,7 +310,7 @@ void CommandList::RenderToRenderTexture(
         return;
     }
 
-    std::shared_ptr<Altseed::RenderTexture> currentTarget;
+    std::shared_ptr<Altseed2::RenderTexture> currentTarget;
 
     if (currentRenderPass_ != nullptr) {
         currentTarget = currentRenderPass_->RenderTarget;
@@ -576,4 +576,4 @@ void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<Render
     SynchronizationContext::GetInstance()->AddEvent(f);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

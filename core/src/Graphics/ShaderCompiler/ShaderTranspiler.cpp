@@ -14,7 +14,7 @@
 #include "../../Common/StringHelper.h"
 #include "ResourceLimits.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 EShLanguage GetGlslangShaderStage(ShaderStageType type) {
     if (type == ShaderStageType::Vertex) return EShLanguage::EShLangVertex;
@@ -192,4 +192,4 @@ std::shared_ptr<SPIRV> SPIRVGenerator::Generate(const char* code, ShaderStageTyp
     return std::make_shared<SPIRV>(spirv, shaderStageType);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

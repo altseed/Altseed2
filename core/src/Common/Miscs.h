@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace Altseed {
+namespace Altseed2 {
 
 template <class T>
 constexpr const T& clamp(const T& v, const T& low, const T& high) {
