@@ -6,7 +6,6 @@
 
 #include "Common/StringHelper.h"
 #include "Graphics/BuiltinShader.h"
-#include "Graphics/Camera.h"
 #include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"

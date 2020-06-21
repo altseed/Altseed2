@@ -4,7 +4,6 @@
 
 #include "../Logger/Log.h"
 #include "BuiltinShader.h"
-#include "Camera.h"
 #include "CommandList.h"
 #include "FrameDebugger.h"
 
