@@ -6,7 +6,7 @@
 #include "Matrix44F.h"
 #include "Vector3F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 inline float Rsqrt(float x) {
 #if defined(_M_X86) && defined(__x86__)
@@ -110,4 +110,4 @@ float Vector3F::Distance(const Vector3F& v1, const Vector3F& v2) {
 
 Vector3I Vector3F::To3I() const { return Vector3I((int32_t)X, (int32_t)Y, (int32_t)Z); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

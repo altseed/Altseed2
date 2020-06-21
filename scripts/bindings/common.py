@@ -3,9 +3,9 @@ from .math import *
 
 import ctypes
 
-VoidPtr = cbg.Class('Altseed', 'VoidPtr')
+VoidPtr = cbg.Class('Altseed2', 'VoidPtr')
 
-SeekOrigin = cbg.Enum('Altseed', 'SeekOrigin')
+SeekOrigin = cbg.Enum('Altseed2', 'SeekOrigin')
 with SeekOrigin as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', '')
@@ -13,7 +13,7 @@ with SeekOrigin as enum_:
     enum_.add('Current')
     enum_.add('End')
 
-Int8Array = cbg.Class('Altseed', 'Int8Array')
+Int8Array = cbg.Class('Altseed2', 'Int8Array')
 with Int8Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '8ビット整数の配列のクラスを表します。')
@@ -83,7 +83,7 @@ with Int8Array as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-Int32Array = cbg.Class('Altseed', 'Int32Array')
+Int32Array = cbg.Class('Altseed2', 'Int32Array')
 with Int32Array as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '32ビット整数の配列のクラスを表します。')
@@ -153,7 +153,7 @@ with Int32Array as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-VertexArray = cbg.Class('Altseed', 'VertexArray')
+VertexArray = cbg.Class('Altseed2', 'VertexArray')
 with VertexArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '頂点データの配列のクラスを表します。')
@@ -223,7 +223,7 @@ with VertexArray as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-FloatArray = cbg.Class('Altseed', 'FloatArray')
+FloatArray = cbg.Class('Altseed2', 'FloatArray')
 with FloatArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '浮動小数点数の配列のクラスを表します。')
@@ -293,7 +293,7 @@ with FloatArray as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-Vector2FArray = cbg.Class('Altseed', 'Vector2FArray')
+Vector2FArray = cbg.Class('Altseed2', 'Vector2FArray')
 with Vector2FArray as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '2次元ベクトルの配列のクラスを表します。')
@@ -363,7 +363,7 @@ with Vector2FArray as class_:
             arg.brief.add('ja', '要素数')
         func.is_static = True
 
-ResourceType = cbg.Enum('Altseed', 'ResourceType')
+ResourceType = cbg.Enum('Altseed2', 'ResourceType')
 with ResourceType as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'リソースの種類を表します。')
@@ -384,7 +384,7 @@ with ResourceType as enum_:
         v.brief.add('ja', '<see cref="Altseed.Sound"/>を表す')
     enum_.add('MAX')
 
-Resources = cbg.Class('Altseed', 'Resources')
+Resources = cbg.Class('Altseed2', 'Resources')
 with Resources as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'リソースのクラスを表します。')

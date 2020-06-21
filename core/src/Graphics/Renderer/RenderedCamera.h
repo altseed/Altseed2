@@ -4,7 +4,7 @@
 #include "../CommandList.h"
 #include "Rendered.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class RenderTexture;
 
@@ -31,4 +31,4 @@ public:
     b2AABB GetAABB() override;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -11,7 +11,7 @@
 #include "../Window/Window.h"
 #include "ButtonState.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class Cursor : public BaseObject {
 private:
     //    std::shared_ptr<GLFWcursor>
@@ -36,4 +36,4 @@ public:
     static std::shared_ptr<Cursor> Create(const char16_t* path, Vector2I hot);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

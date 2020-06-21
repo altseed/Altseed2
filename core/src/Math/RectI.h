@@ -5,7 +5,7 @@
 #include "MathTemplate.h"
 #include "Vector2I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 struct RectI_C;
 
@@ -48,4 +48,4 @@ struct RectI_C {
 
     operator RectI() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

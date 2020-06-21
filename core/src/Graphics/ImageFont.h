@@ -12,7 +12,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class ImageFont : public Font {
 private:
@@ -42,4 +42,4 @@ public:
     void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) override;
     std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) override;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

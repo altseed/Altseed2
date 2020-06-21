@@ -5,16 +5,16 @@
 #include <string>
 
 TEST(Window, Base) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"test", 150, 150, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 150, 150, Altseed2::Configuration::Create()));
 
     int i = 0;
-    while (Altseed::Window::GetInstance()->DoEvent() && i < 16) {
-        Altseed::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
+    while (Altseed2::Window::GetInstance()->DoEvent() && i < 16) {
+        Altseed2::Window::GetInstance()->SetSize(150 + i / 2, 150 + i / 3);
 
-        for (int l = 0; l < 10; l++) Altseed::Window::GetInstance()->DoEvent();
+        for (int l = 0; l < 10; l++) Altseed2::Window::GetInstance()->DoEvent();
 
         int32_t w, h;
-        Altseed::Window::GetInstance()->GetSize(w, h);
+        Altseed2::Window::GetInstance()->GetSize(w, h);
 
 #ifdef __linux__
         ASSERT_NEAR(w, 150 + i / 2, 2);
@@ -25,13 +25,13 @@ TEST(Window, Base) {
 #endif
 
         std::u16string title = u"Test";
-        Altseed::Window::GetInstance()->SetTitle(title.c_str());
-        Altseed::Window::GetInstance()->DoEvent();
+        Altseed2::Window::GetInstance()->SetTitle(title.c_str());
+        Altseed2::Window::GetInstance()->DoEvent();
 
-        EXPECT_EQ(std::u16string(Altseed::Window::GetInstance()->GetTitle()), title);
+        EXPECT_EQ(std::u16string(Altseed2::Window::GetInstance()->GetTitle()), title);
 
         i++;
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }

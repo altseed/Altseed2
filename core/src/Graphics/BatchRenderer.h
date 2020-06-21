@@ -10,7 +10,7 @@
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Graphics;
 class CommandList;
@@ -80,4 +80,4 @@ public:
     std::shared_ptr<Material> GetMaterialDefaultText() const { return matDefaultText_; }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

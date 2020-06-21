@@ -20,7 +20,7 @@
 #include "../Graphics/Graphics.h"
 #include "../Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Tool> Tool::instance_;
 
@@ -956,4 +956,4 @@ const char16_t* Tool::PickFolder(const char16_t* defaultPath) {
     return temp.c_str();
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

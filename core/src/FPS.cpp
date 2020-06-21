@@ -5,7 +5,7 @@
 #include "Common/Assertion.h"
 #include "Logger/Log.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 FPS::FPS() {
     previousTime_ = std::chrono::system_clock::now();
@@ -60,4 +60,4 @@ void FPS::SetTarget(int32_t fps) {
 FramerateMode FPS::GetFramerateMode() const { return framerateMode_; }
 void FPS::SetFramerateMode(FramerateMode framerateMode) { framerateMode_ = framerateMode; }
 
-}  // namespace Altseed
+}  // namespace Altseed2

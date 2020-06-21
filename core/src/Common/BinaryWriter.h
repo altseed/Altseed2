@@ -12,7 +12,7 @@
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class BinaryWriter {
 protected:
     std::vector<int8_t> m_data;
@@ -128,4 +128,4 @@ public:
     }
     virtual ~BinaryWriter() {}
 };
-}  // namespace Altseed
+}  // namespace Altseed2

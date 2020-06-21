@@ -2,7 +2,7 @@
 
 #include "../Common/StringHelper.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 PackFile::PackFile(zip_t* zipPtr, bool isUsePassword) : m_zip(zipPtr), m_isUsePassword(isUsePassword) {}
 
@@ -23,4 +23,4 @@ zip_stat_t* PackFile::GetZipStat(const std::u16string& path) {
 
 bool PackFile::GetIsUsePassword() { return m_isUsePassword; }
 
-}  // namespace Altseed
+}  // namespace Altseed2

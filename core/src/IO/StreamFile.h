@@ -7,7 +7,7 @@
 #include "../Common/Resources.h"
 #include "BaseFileReader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class File;
 
 class StreamFile : public Resource {
@@ -44,4 +44,4 @@ public:
     const char16_t* GetPath() const;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

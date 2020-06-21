@@ -2,7 +2,7 @@
 
 #include "MathTemplate.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 struct Vector2I_C;
 
@@ -57,4 +57,4 @@ struct Vector2I_C {
 
     operator Vector2I() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

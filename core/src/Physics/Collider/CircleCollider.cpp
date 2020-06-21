@@ -1,6 +1,6 @@
 #include "CircleCollider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 CircleCollider::CircleCollider() {
     position_ = Vector2F(0, 0);
@@ -38,4 +38,4 @@ bool CircleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     return false;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

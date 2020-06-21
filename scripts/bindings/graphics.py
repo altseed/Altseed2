@@ -7,7 +7,7 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-TextureBase = cbg.Class('Altseed', 'TextureBase',
+TextureBase = cbg.Class('Altseed2', 'TextureBase',
                         cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
@@ -34,7 +34,7 @@ with TextureBase as class_:
             arg.nullable = False
 
 
-Texture2D = cbg.Class('Altseed', 'Texture2D', cbg.CacheMode.ThreadSafeCache)
+Texture2D = cbg.Class('Altseed2', 'Texture2D', cbg.CacheMode.ThreadSafeCache)
 with Texture2D as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのクラス')
@@ -71,7 +71,7 @@ with Texture2D as class_:
         func.return_value.brief.add('ja', '再読み込みに成功したら true。それ以外の場合は false')
 
 
-RenderTexture = cbg.Class('Altseed', 'RenderTexture')
+RenderTexture = cbg.Class('Altseed2', 'RenderTexture')
 with RenderTexture as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'ポストエフェクトやカメラにおける描画先のクラス')
@@ -86,12 +86,12 @@ with RenderTexture as class_:
         func.return_value.type_ = RenderTexture
 
 
-ShaderStageType = cbg.Enum('Altseed', 'ShaderStageType')
+ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
 with ShaderStageType as enum_:
     enum_.add('Vertex')
     enum_.add('Pixel')
 
-AlphaBlendMode = cbg.Enum('Altseed', 'AlphaBlendMode')
+AlphaBlendMode = cbg.Enum('Altseed2', 'AlphaBlendMode')
 with AlphaBlendMode as enum_:
     enum_.add('Opacity')
     enum_.add('Normal')
@@ -99,7 +99,7 @@ with AlphaBlendMode as enum_:
     enum_.add('Subtract')
     enum_.add('Multiply')
 
-Shader = cbg.Class('Altseed', 'Shader', cbg.CacheMode.Cache)
+Shader = cbg.Class('Altseed2', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
@@ -144,7 +144,7 @@ with Shader as class_:
         prop_.has_setter = False
         prop_.serialized = True
 
-BuiltinShaderType = cbg.Enum('Altseed', 'BuiltinShaderType')
+BuiltinShaderType = cbg.Enum('Altseed2', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ビルド済みシェーダの種類を表します')
@@ -152,7 +152,7 @@ with BuiltinShaderType as enum_:
     enum_.add('SpriteUnlitPS')
     enum_.add('FontUnlitPS')
 
-BuiltinShader = cbg.Class('Altseed', 'BuiltinShader')
+BuiltinShader = cbg.Class('Altseed2', 'BuiltinShader')
 with BuiltinShader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '組み込みシェーダの取得を行うクラス')
@@ -206,7 +206,7 @@ with BuiltinShader as class_:
         prop.is_public = False
 
 
-Material = cbg.Class('Altseed', 'Material', cbg.CacheMode.Cache)
+Material = cbg.Class('Altseed2', 'Material', cbg.CacheMode.Cache)
 with Material as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'マテリアル')
@@ -326,9 +326,9 @@ with Material as class_:
         prop.has_setter = True
 
 RenderPassParameter = cbg.Struct(
-    'Altseed', 'RenderPassParameter_C', 'RenderPassParameter')
+    'Altseed2', 'RenderPassParameter_C', 'RenderPassParameter')
 
-CommandList = cbg.Class('Altseed', 'CommandList')
+CommandList = cbg.Class('Altseed2', 'CommandList')
 with CommandList as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'コマンドリストのクラス')
@@ -357,7 +357,7 @@ with CommandList as class_:
             arg_.nullable = False
 
 
-Graphics = cbg.Class('Altseed', 'Graphics')
+Graphics = cbg.Class('Altseed2', 'Graphics')
 with Graphics as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'グラフィックの制御を行うクラス')
@@ -416,7 +416,7 @@ with Graphics as class_:
             arg.brief.add('ja', '出力先のパス')
             arg.nullable = False
 
-WritingDirection = cbg.Enum('Altseed', 'WritingDirection')
+WritingDirection = cbg.Enum('Altseed2', 'WritingDirection')
 with WritingDirection as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'テキストの描画方向')
@@ -428,7 +428,7 @@ with WritingDirection as enum_:
         v.brief.add('ja', '横書き')
 
 
-Glyph = cbg.Class('Altseed', 'Glyph', cbg.CacheMode.ThreadSafeCache)
+Glyph = cbg.Class('Altseed2', 'Glyph', cbg.CacheMode.ThreadSafeCache)
 with Glyph as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '文字情報')
@@ -465,7 +465,7 @@ with Glyph as class_:
         prop.has_getter = True
 
 
-Font = cbg.Class('Altseed', 'Font', cbg.CacheMode.ThreadSafeCache)
+Font = cbg.Class('Altseed2', 'Font', cbg.CacheMode.ThreadSafeCache)
 with Font as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'フォント')
@@ -633,7 +633,7 @@ with Font as class_:
         func.is_public = True
 
 
-Rendered = cbg.Class('Altseed', 'Rendered')
+Rendered = cbg.Class('Altseed2', 'Rendered')
 with Rendered as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '描画されるオブジェクトの基本クラスを表します')
@@ -652,7 +652,7 @@ with Rendered as class_:
         prop.brief.add('ja', 'BaseObjectのIdを取得します')
         prop.has_getter = True
 
-RenderedSprite = cbg.Class('Altseed', 'RenderedSprite')
+RenderedSprite = cbg.Class('Altseed2', 'RenderedSprite')
 with RenderedSprite as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
@@ -695,7 +695,7 @@ with RenderedSprite as class_:
         prop.has_setter = True
         prop.serialized = True
 
-RenderedText = cbg.Class('Altseed', 'RenderedText')
+RenderedText = cbg.Class('Altseed2', 'RenderedText')
 with RenderedText as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
@@ -778,7 +778,7 @@ with RenderedText as class_:
         prop.has_setter = True
         prop.serialized = True
 
-RenderedPolygon = cbg.Class('Altseed', 'RenderedPolygon')
+RenderedPolygon = cbg.Class('Altseed2', 'RenderedPolygon')
 with RenderedPolygon as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
@@ -835,7 +835,7 @@ with RenderedPolygon as class_:
         prop.has_setter = True
         prop.serialized = True
 
-RenderedCamera = cbg.Class('Altseed', 'RenderedCamera')
+RenderedCamera = cbg.Class('Altseed2', 'RenderedCamera')
 with RenderedCamera as class_:
     class_.base_class = Rendered
     class_.brief = cbg.Description()
@@ -871,7 +871,7 @@ with RenderedCamera as class_:
         prop.has_setter = True
         prop.serialized = True
 
-Renderer = cbg.Class('Altseed', 'Renderer')
+Renderer = cbg.Class('Altseed2', 'Renderer')
 with Renderer as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'レンダラのクラス')
@@ -927,7 +927,7 @@ with Renderer as class_:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラの設定をリセットします。')
 
-CullingSystem = cbg.Class('Altseed', 'CullingSystem')
+CullingSystem = cbg.Class('Altseed2', 'CullingSystem')
 with CullingSystem as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カリングのクラス')

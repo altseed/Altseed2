@@ -28,132 +28,132 @@
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
     EXPECT_TRUE(instance != nullptr);
 
     while (count++ < 10 && instance->DoEvents()) {
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, Shader) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"Initialize", 800, 600, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 800, 600, Altseed2::Configuration::Create()));
 
-    auto shader = Altseed::Graphics::GetInstance()->GetBuiltinShader()->Create(Altseed::BuiltinShaderType::SpriteUnlitPS);
+    auto shader = Altseed2::Graphics::GetInstance()->GetBuiltinShader()->Create(Altseed2::BuiltinShaderType::SpriteUnlitPS);
 
     EXPECT_TRUE(shader != nullptr);
 
-    EXPECT_TRUE(shader->GetStageType() == Altseed::ShaderStageType::Pixel);
+    EXPECT_TRUE(shader->GetStageType() == Altseed2::ShaderStageType::Pixel);
 
-    Altseed::Log::GetInstance()->Trace(Altseed::LogCategory::User, shader->GetCode());
+    Altseed2::Log::GetInstance()->Trace(Altseed2::LogCategory::User, shader->GetCode());
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, SpriteTexture) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
-    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
 
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+    s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto trans = Altseed::Matrix44F();
+    auto trans = Altseed2::Matrix44F();
     trans.SetTranslation(200, 200, 0);
     s2->SetTexture(t2);
     s2->SetTransform(trans);
-    s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
+    s2->SetSrc(Altseed2::RectF(128, 128, 256, 256));
 
     while (count++ < 10 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
-        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
 
         // Take a screenshot
         if (count == 5) {
-            Altseed::Graphics::GetInstance()->SaveScreenshot(u"SpriteTexture.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"SpriteTexture.png");
         }
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, RenderedText) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedText", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
 
-    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
 
-    std::vector<std::shared_ptr<Altseed::RenderedText>> texts;
+    std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
     {
-        auto t = Altseed::RenderedText::Create();
+        auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
         t->SetText(u"Hello, world! こんにちは");
-        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
         texts.push_back(t);
     }
 
     {
-        auto t = Altseed::RenderedText::Create();
+        auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
         t->SetText(u"色を指定する。");
-        t->SetColor(Altseed::Color(0, 0, 255, 255));
-        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 100.0f, 0));
+        t->SetColor(Altseed2::Color(0, 0, 255, 255));
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 100.0f, 0));
         texts.push_back(t);
     }
 
-    auto weitText = Altseed::RenderedText::Create();
+    auto weitText = Altseed2::RenderedText::Create();
     {
         weitText->SetText(u"太さを指定する。");
         weitText->SetFont(font);
-        weitText->SetTransform(Altseed::Matrix44F().SetTranslation(0, 200.0f, 0));
+        weitText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 200.0f, 0));
         texts.push_back(weitText);
     }
 
-    auto fontGenyomin = Altseed::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
+    auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
     {
-        auto t = Altseed::RenderedText::Create();
+        auto t = Altseed2::RenderedText::Create();
         t->SetFont(fontGenyomin);
         t->SetText(u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷");
-        t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 300.0f, 0));
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 300.0f, 0));
         texts.push_back(t);
     }
 
-    auto rotatedText = Altseed::RenderedText::Create();
+    auto rotatedText = Altseed2::RenderedText::Create();
     {
         rotatedText->SetFont(font);
         rotatedText->SetText(u"くるくるまわる");
@@ -161,26 +161,26 @@ TEST(Graphics, RenderedText) {
     }
 
     {
-        auto imageFont = Altseed::Font::CreateImageFont(font);
-        imageFont->AddImageGlyph(u'〇', Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
-        auto imageFontText = Altseed::RenderedText::Create();
+        auto imageFont = Altseed2::Font::CreateImageFont(font);
+        imageFont->AddImageGlyph(u'〇', Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
+        auto imageFontText = Altseed2::RenderedText::Create();
         imageFontText->SetFont(imageFont);
         imageFontText->SetText(u"Altseed〇Altseed");
-        imageFontText->SetTransform(Altseed::Matrix44F().SetTranslation(0, 500.0f, 0));
+        imageFontText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 500.0f, 0));
         texts.push_back(imageFontText);
     }
 
-    auto rotatedTrans = Altseed::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
-    Altseed::Matrix44F rotatedRot;
+    auto rotatedTrans = Altseed2::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
+    Altseed2::Matrix44F rotatedRot;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
@@ -189,234 +189,234 @@ TEST(Graphics, RenderedText) {
         rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
 
         for (const auto& t : texts) {
-            Altseed::Renderer::GetInstance()->DrawText(t);
+            Altseed2::Renderer::GetInstance()->DrawText(t);
         }
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
 
         // Take a screenshot
         if (count == 5) {
-            Altseed::Graphics::GetInstance()->SaveScreenshot(u"RenderedText.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"RenderedText.png");
         }
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, RenderedPolygon) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderedPolygon", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedPolygon", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto polygon = Altseed::RenderedPolygon::Create();
+    auto polygon = Altseed2::RenderedPolygon::Create();
 
-    auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
+    auto vertexes = Altseed2::MakeAsdShared<Altseed2::Vector2FArray>();
     vertexes->Resize(12);
-    vertexes->GetVector()[0] = Altseed::Vector2F(0, 0);
+    vertexes->GetVector()[0] = Altseed2::Vector2F(0, 0);
     for (int i = 0; i <= 10; ++i) {
         float argument = 0.2 * M_PI * i;
         float pos_x = (i % 2 ? 100 : 200) * -sin(argument);
         float pos_y = (i % 2 ? 100 : 200) * -cos(argument);
-        vertexes->GetVector()[i + 1] = Altseed::Vector2F(pos_x, pos_y);
+        vertexes->GetVector()[i + 1] = Altseed2::Vector2F(pos_x, pos_y);
     }
     polygon->CreateVertexesByVector2F(vertexes);
 
-    for (int i = 0; i < 12; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed::Color(255, 0, 0, 255);
+    for (int i = 0; i < 12; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed2::Color(255, 0, 0, 255);
 
-    auto transform = Altseed::Matrix44F();
+    auto transform = Altseed2::Matrix44F();
     transform.SetTranslation(250, 250, 0);
     polygon->SetTransform(transform);
 
     while (count++ < 100 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->DrawPolygon(polygon);
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
 
         // Take a screenshot
         if (count == 5) {
-            Altseed::Graphics::GetInstance()->SaveScreenshot(u"RenderedPolygon.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"RenderedPolygon.png");
         }
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, AlphaBlend) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetConsoleLoggingEnabled(true);
     config->SetFileLoggingEnabled(true);
-    EXPECT_TRUE(Altseed::Core::Initialize(u"AlphaBlend", 1280, 720, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"AlphaBlend", 1280, 720, config));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    auto instance = Altseed2::Graphics::GetInstance();
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
     EXPECT_TRUE(t1 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 256, 256));
+    s1->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
-    auto builtinShader = Altseed::MakeAsdShared<Altseed::BuiltinShader>();
-    auto m1 = Altseed::MakeAsdShared<Altseed::Material>();
-    m1->SetBlendMode(Altseed::AlphaBlendMode::Add);
-    m1->SetShader(builtinShader->Create(Altseed::BuiltinShaderType::SpriteUnlitVS));
-    m1->SetShader(builtinShader->Create(Altseed::BuiltinShaderType::SpriteUnlitPS));
+    auto builtinShader = Altseed2::MakeAsdShared<Altseed2::BuiltinShader>();
+    auto m1 = Altseed2::MakeAsdShared<Altseed2::Material>();
+    m1->SetBlendMode(Altseed2::AlphaBlendMode::Add);
+    m1->SetShader(builtinShader->Create(Altseed2::BuiltinShaderType::SpriteUnlitVS));
+    m1->SetShader(builtinShader->Create(Altseed2::BuiltinShaderType::SpriteUnlitPS));
 
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
     s2->SetMaterial(m1);
-    s2->SetSrc(Altseed::RectF(0, 0, 256, 256));
+    s2->SetSrc(Altseed2::RectF(0, 0, 256, 256));
     s2->SetTexture(t1);
 
-    auto trans = Altseed::Matrix44F();
+    auto trans = Altseed2::Matrix44F();
     trans.SetRotationZ(3.14159f);
-    auto trans2 = Altseed::Matrix44F();
+    auto trans2 = Altseed2::Matrix44F();
     trans2.SetTranslation(-128, -128, 0);
-    auto trans3 = Altseed::Matrix44F();
+    auto trans3 = Altseed2::Matrix44F();
     trans3.SetTranslation(128, 128, 0);
     s2->SetTransform(trans3 * trans * trans2);
 
     while (count++ < 10 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
-        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
 
         // Take a screenshot
         if (count == 5) {
-            Altseed::Graphics::GetInstance()->SaveScreenshot(u"AlphaBlend.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"AlphaBlend.png");
         }
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, CameraBasic) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"CameraBasic", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"CameraBasic", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
-    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
 
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+    s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto trans = Altseed::Matrix44F();
+    auto trans = Altseed2::Matrix44F();
     trans.SetTranslation(200, 200, 0);
     s2->SetTexture(t2);
     s2->SetTransform(trans);
-    s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
+    s2->SetSrc(Altseed2::RectF(128, 128, 256, 256));
 
-    auto trans2 = Altseed::Matrix44F();
+    auto trans2 = Altseed2::Matrix44F();
     trans2.SetTranslation(-128, -128, 0);
 
-    auto camera = Altseed::RenderedCamera::Create();
+    auto camera = Altseed2::RenderedCamera::Create();
     camera->SetTransform(trans2);
 
     while (count++ < 100 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->SetCamera(camera);
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
-        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed2::Renderer::GetInstance()->SetCamera(camera);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, RenderTexture) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetFileLoggingEnabled(true);
     config->SetConsoleLoggingEnabled(true);
     config->SetLogFileName(u"RenderTexture.txt");
-    EXPECT_TRUE(Altseed::Core::Initialize(u"RenderTexture", 1280, 720, config));
-    Altseed::Log::GetInstance()->SetLevel(Altseed::LogCategory::Graphics, Altseed::LogLevel::Trace);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderTexture", 1280, 720, config));
+    Altseed2::Log::GetInstance()->SetLevel(Altseed2::LogCategory::Graphics, Altseed2::LogLevel::Trace);
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     EXPECT_TRUE(t1 != nullptr);
     t1->SetInstanceName("t1");
 
-    auto rt = Altseed::RenderTexture::Create(Altseed::Vector2I(200, 200));
+    auto rt = Altseed2::RenderTexture::Create(Altseed2::Vector2I(200, 200));
     rt->SetInstanceName("rt");
 
-    auto s1 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 200, 200));
+    s1->SetSrc(Altseed2::RectF(0, 0, 200, 200));
 
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
     {
-        auto transform = Altseed::Matrix44F().SetTranslation(200, 200, 0);
+        auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
         s2->SetTransform(transform);
         s2->SetTexture(rt);
-        s2->SetSrc(Altseed::RectF(0, 0, 200, 200));
+        s2->SetSrc(Altseed2::RectF(0, 0, 200, 200));
     }
-    auto camera = Altseed::RenderedCamera::Create();
+    auto camera = Altseed2::RenderedCamera::Create();
     { camera->SetTargetTexture(rt); }
 
-    auto camera2 = Altseed::RenderedCamera::Create();
+    auto camera2 = Altseed2::RenderedCamera::Create();
 
     while (count++ < 60 && instance->DoEvents()) {
-        if (count == 2) Altseed::FrameDebugger::GetInstance()->Start();
+        if (count == 2) Altseed2::FrameDebugger::GetInstance()->Start();
 
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        auto r = Altseed::Renderer::GetInstance();
+        auto r = Altseed2::Renderer::GetInstance();
         r->SetCamera(camera);
         r->DrawSprite(s1);
         r->Render();
@@ -426,56 +426,56 @@ TEST(Graphics, RenderTexture) {
         r->Render();
 
         EXPECT_TRUE(instance->EndFrame());
-        if (count == 2) Altseed::FrameDebugger::GetInstance()->DumpToLog();
+        if (count == 2) Altseed2::FrameDebugger::GetInstance()->DumpToLog();
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, BackgroundBugcheck) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
-    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t2 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.jpg");
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(t2 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
 
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+    s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto trans = Altseed::Matrix44F();
+    auto trans = Altseed2::Matrix44F();
     trans.SetTranslation(200, 200, 0);
     s2->SetTexture(t2);
     s2->SetTransform(trans);
-    s2->SetSrc(Altseed::RectF(128, 128, 256, 256));
+    s2->SetSrc(Altseed2::RectF(128, 128, 256, 256));
 
     while (count++ < 10 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
-        Altseed::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s2);
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, VertexTextureFetch) {
@@ -544,217 +544,217 @@ VS_OUTPUT main(VS_INPUT input){
 }
 )";
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"VertexTextureFetch", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"VertexTextureFetch", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/VTF.png");
-    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/VTF.png");
+    auto t2 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
 
-    auto sprite = Altseed::RenderedSprite::Create();
+    auto sprite = Altseed2::RenderedSprite::Create();
     sprite->SetTexture(t2);
-    sprite->SetSrc(Altseed::RectF(0, 0, 256, 256));
+    sprite->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
-    auto material = Altseed::MakeAsdShared<Altseed::Material>();
-    auto vs = Altseed::ShaderCompiler::GetInstance()->Compile("VS", vsCode, Altseed::ShaderStageType::Vertex);
-    //auto ps = Altseed::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed::ShaderStageType::Pixel);
+    auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
+    auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("VS", vsCode, Altseed2::ShaderStageType::Vertex);
+    //auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
     material->SetShader(vs);
     //material->SetShader(ps);
     material->SetTexture(u"vtfTex", t1);
     sprite->SetMaterial(material);
 
-    Altseed::RenderPassParameter renderPassParameter;
-    renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+    Altseed2::RenderPassParameter renderPassParameter;
+    renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
     renderPassParameter.IsColorCleared = true;
     renderPassParameter.IsDepthCleared = true;
 
     while (count++ < 10000 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawSprite(sprite);
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->DrawSprite(sprite);
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, Culling) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
 
     EXPECT_TRUE(t1 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
 
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+    s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 80);
-    auto t = Altseed::RenderedText::Create();
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 80);
+    auto t = Altseed2::RenderedText::Create();
     t->SetFont(font);
     t->SetText((u"Drawing Rendered: " +
-                Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                        .c_str());
-    t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+    t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
 
     while (count++ < 100 && instance->DoEvents()) {
-        auto trans = Altseed::Matrix44F();
+        auto trans = Altseed2::Matrix44F();
         trans.SetTranslation(200, 300 + count, 0);
         s1->SetTransform(trans);
 
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         t->SetText((u"Drawing Rendered: " +
-                    Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                    Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                            .c_str());
 
-        Altseed::Renderer::GetInstance()->DrawText(t);
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawText(t);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, CullingTooManySprite) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
 
     EXPECT_TRUE(t1 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
 
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 128, 128));
+    s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 40);
-    auto t = Altseed::RenderedText::Create();
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 40);
+    auto t = Altseed2::RenderedText::Create();
     t->SetFont(font);
-    t->SetText((u"FPS: " + Altseed::utf8_to_utf16(std::to_string(Altseed::Core::GetInstance()->GetCurrentFPS())) + u"Drawing Rendered: " +
-                Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+    t->SetText((u"FPS: " + Altseed2::utf8_to_utf16(std::to_string(Altseed2::Core::GetInstance()->GetCurrentFPS())) + u"Drawing Rendered: " +
+                Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                        .c_str());
-    t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
+    t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
 
-    std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
+    std::vector<std::shared_ptr<Altseed2::RenderedSprite>> sprites;
 
-    while (count++ < 100 && Altseed::Core::GetInstance()->DoEvent() && instance->DoEvents()) {
-        auto trans = Altseed::Matrix44F();
+    while (count++ < 100 && Altseed2::Core::GetInstance()->DoEvent() && instance->DoEvents()) {
+        auto trans = Altseed2::Matrix44F();
         trans.SetTranslation(200, 300 + count, 0);
         s1->SetTransform(trans);
 
         for (int32_t i = 0; i < 10; i++) {
-            auto s2 = Altseed::RenderedSprite::Create();
+            auto s2 = Altseed2::RenderedSprite::Create();
             s2->SetTexture(t1);
-            s2->SetSrc(Altseed::RectF(0, 0, 128, 128));
-            s2->SetTransform(Altseed::Matrix44F().SetTranslation(0, 1000, 0));
+            s2->SetSrc(Altseed2::RectF(0, 0, 128, 128));
+            s2->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 1000, 0));
             sprites.push_back(s2);
         }
 
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        t->SetText((u"FPS: " + Altseed::utf8_to_utf16(std::to_string(Altseed::Core::GetInstance()->GetCurrentFPS())) +
+        t->SetText((u"FPS: " + Altseed2::utf8_to_utf16(std::to_string(Altseed2::Core::GetInstance()->GetCurrentFPS())) +
                     u" Drawing Rendered: " +
-                    Altseed::utf8_to_utf16(std::to_string(Altseed::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
+                    Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                            .c_str());
 
-        Altseed::Renderer::GetInstance()->DrawText(t);
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->DrawText(t);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
 
         for (auto& s : sprites) {
-            Altseed::Renderer::GetInstance()->DrawSprite(s);
+            Altseed2::Renderer::GetInstance()->DrawSprite(s);
         }
 
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, RenderToRenderTexture) {
-    auto config = Altseed::Configuration::Create();
+    auto config = Altseed2::Configuration::Create();
     config->SetConsoleLoggingEnabled(true);
 
-    EXPECT_TRUE(Altseed::Core::Initialize(u"RnderToRenderTexture", 1280, 720, config));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RnderToRenderTexture", 1280, 720, config));
 
-    auto instance = Altseed::Graphics::GetInstance();
+    auto instance = Altseed2::Graphics::GetInstance();
     auto cmdList = instance->GetCommandList();
 
-    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
     EXPECT_TRUE(t1 != nullptr);
 
-    auto s1 = Altseed::RenderedSprite::Create();
+    auto s1 = Altseed2::RenderedSprite::Create();
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed::RectF(0, 0, 400, 400));
+    s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed::ShaderStageType::Pixel);
-    auto material = Altseed::MakeAsdShared<Altseed::Material>();
+    auto ps = Altseed2::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel);
+    auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 
-    auto target = Altseed::RenderTexture::Create(Altseed::Vector2I(500, 500));
+    auto target = Altseed2::RenderTexture::Create(Altseed2::Vector2I(500, 500));
 
-    auto s2 = Altseed::RenderedSprite::Create();
+    auto s2 = Altseed2::RenderedSprite::Create();
     s2->SetTexture(target);
-    s2->SetSrc(Altseed::RectF(0, 0, 500, 500));
-    s2->SetTransform(Altseed::Matrix44F().SetTranslation(400.0f, 400.0f, 0));
+    s2->SetSrc(Altseed2::RectF(0, 0, 500, 500));
+    s2->SetTransform(Altseed2::Matrix44F().SetTranslation(400.0f, 400.0f, 0));
 
     int count = 0;
     while (count++ < 180 && instance->DoEvents()) {
-        Altseed::CullingSystem::GetInstance()->UpdateAABB();
-        Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
-        Altseed::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed::Renderer::GetInstance()->DrawSprite(s1);
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->Render();
 
         material->SetTexture(u"mainTex", cmdList->GetScreenTexture());
         cmdList->RenderToRenderTexture(material, target, renderPassParameter);
 
-        Altseed::Renderer::GetInstance()->DrawSprite(s2);
-        Altseed::Renderer::GetInstance()->Render();
+        Altseed2::Renderer::GetInstance()->DrawSprite(s2);
+        Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
     }
 
-    Altseed::Core::Terminate();
+    Altseed2::Core::Terminate();
 }

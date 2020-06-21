@@ -3,7 +3,7 @@
 #include "../Common/PlatformIncludes.h"
 #include "LLGI.Base.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class LLGIWindow : public LLGI::Window {
 private:
     GLFWwindow* glfwWindow;
@@ -19,4 +19,4 @@ public:
     bool OnNewFrame() override { return glfwWindowShouldClose(glfwWindow) == GL_FALSE; }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

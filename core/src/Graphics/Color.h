@@ -3,7 +3,7 @@
 #include <LLGI.Graphics.h>
 #include <stdint.h>
 
-namespace Altseed {
+namespace Altseed2 {
 
 struct Color_C;
 
@@ -36,4 +36,4 @@ public:
     operator Color() const;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -1,6 +1,6 @@
 ﻿#include "Vector4I.h"
 
-namespace Altseed {
+namespace Altseed2 {
 Vector4I::Vector4I() : X(0), Y(0), Z(0), W(0) {}
 
 Vector4I::Vector4I(int32_t x, int32_t y, int32_t z, int32_t w) : X(x), Y(y), Z(z), W(w) {}
@@ -38,4 +38,4 @@ Vector4F Vector4I::To4F() const { return Vector4F(X, Y, Z, W); }
 Vector4I::operator Vector4I_C() const { return Vector4I_C{X, Y, Z, W}; }
 
 Vector4I_C::operator Vector4I() const { return Vector4I(X, Y, Z, W); }
-}  // namespace Altseed
+}  // namespace Altseed2

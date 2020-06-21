@@ -26,7 +26,7 @@
 #include "Shader.h"
 #include "Texture2D.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 const uint8_t TextureMinimumSize = 16;
 const uint8_t TextureDefaultColor = 255;
@@ -109,4 +109,4 @@ public:
 
     void SaveScreenshot(const char16_t* path);
 };
-}  // namespace Altseed
+}  // namespace Altseed2

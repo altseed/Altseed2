@@ -14,7 +14,7 @@
 #include "../Math/Vector2I.h"
 #include "TextureBase.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class Texture2D : public TextureBase {
 private:
     static std::mutex mtx;
@@ -32,4 +32,4 @@ public:
     static std::shared_ptr<Texture2D> Load(const char16_t* path);
     const char16_t* GetPath() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -2,7 +2,7 @@
 
 #include "BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Configuration> Configuration::Create() {
     auto res = MakeAsdShared<Configuration>();
@@ -48,4 +48,4 @@ const char16_t* Configuration::GetLogFileName() { return logFileName_.c_str(); }
 
 void Configuration::SetLogFileName(const char16_t* logFilename) { logFileName_ = std::u16string(logFilename); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

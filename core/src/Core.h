@@ -11,7 +11,7 @@
 #include "Configuration.h"
 #include "FPS.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class BaseObject;
 
@@ -72,4 +72,4 @@ public:
     const FramerateMode GetFramerateMode();
     void SetFramerateMode(FramerateMode framerateMode);
 };
-}  // namespace Altseed
+}  // namespace Altseed2

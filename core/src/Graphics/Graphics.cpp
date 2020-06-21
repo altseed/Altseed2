@@ -17,7 +17,7 @@
 
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 
 GraphicsInitializationParameter::operator LLGI::PlatformParameter() const {
     LLGI::PlatformParameter pp;
@@ -70,13 +70,13 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
         auto uc = u"LowLevelGraphics : " + utf8_to_utf16(c);
 
         if (type == LLGI::LogType::Debug) {
-            logInstance->Debug(Altseed::LogCategory::Core, uc.c_str());
+            logInstance->Debug(Altseed2::LogCategory::Core, uc.c_str());
         } else if (type == LLGI::LogType::Error) {
-            logInstance->Error(Altseed::LogCategory::Core, uc.c_str());
+            logInstance->Error(Altseed2::LogCategory::Core, uc.c_str());
         } else if (type == LLGI::LogType::Info) {
-            logInstance->Info(Altseed::LogCategory::Core, uc.c_str());
+            logInstance->Info(Altseed2::LogCategory::Core, uc.c_str());
         } else if (type == LLGI::LogType::Warning) {
-            logInstance->Warn(Altseed::LogCategory::Core, uc.c_str());
+            logInstance->Warn(Altseed2::LogCategory::Core, uc.c_str());
         } else {
             assert(0);
         }
@@ -210,4 +210,4 @@ void Graphics::SaveScreenshot(const char16_t* path) {
     commandList->SaveRenderTexture(path, commandList->GetScreenTexture());
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

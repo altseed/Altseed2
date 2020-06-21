@@ -10,7 +10,7 @@
 #include "ButtonState.h"
 #include "Cursor.h"
 
-namespace Altseed {
+namespace Altseed2 {
 enum class MouseButtons : int32_t {
     /**
      @brief 左ボタン
@@ -101,4 +101,4 @@ public:
     CursorMode GetCursorMode() const;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

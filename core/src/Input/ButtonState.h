@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class ButtonState : int32_t {
     Free = 0b00,

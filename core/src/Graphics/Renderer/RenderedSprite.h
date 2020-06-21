@@ -9,7 +9,7 @@
 #include "../TextureBase.h"
 #include "Rendered.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Material;
 class TextureBase;
@@ -39,4 +39,4 @@ public:
     b2AABB GetAABB() override;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

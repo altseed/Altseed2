@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iterator>
 
-namespace Altseed {
+namespace Altseed2 {
 PackFileReader::PackFileReader(zip_file* zipFile, const std::u16string& path, const zip_stat_t* stat)
     : BaseFileReader(path, true), m_zipFile(zipFile), m_isUseBuffer(false) {
     if (stat != nullptr) {
@@ -74,4 +74,4 @@ void PackFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
 
 bool PackFileReader::GetIsInPackage() const { return true; }
 
-}  // namespace Altseed
+}  // namespace Altseed2

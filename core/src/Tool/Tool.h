@@ -8,7 +8,7 @@
 
 class ImguiPlatform;
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Graphics;
 
@@ -791,4 +791,4 @@ public:
     const char16_t* PickFolder(const char16_t* defaultPath);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

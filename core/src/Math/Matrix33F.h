@@ -2,7 +2,7 @@
 #include "Vector2F.h"
 #include "Vector3F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 /**
         @brief	3×3行列を表す構造体。
         @note
@@ -69,4 +69,4 @@ struct Matrix33F_C {
 
     operator Matrix33F() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -9,7 +9,7 @@
 #include "../IO/StaticFile.h"
 #include "Sound.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Sound;
 
@@ -190,4 +190,4 @@ public:
 #endif
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

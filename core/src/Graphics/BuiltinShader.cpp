@@ -3,7 +3,7 @@
 #include "../Logger/Log.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 const char* SpriteUnlitVS = R"(
 cbuffer Consts : register(b0)
@@ -112,4 +112,4 @@ std::shared_ptr<Shader> BuiltinShader::Create(BuiltinShaderType type) {
     return nullptr;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -5,7 +5,7 @@
 
 #include "PackFile.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class FileRoot {
 private:
     std::shared_ptr<PackFile> m_packFile;
@@ -20,4 +20,4 @@ public:
     std::shared_ptr<PackFile> GetPackFile();
     bool IsPack();
 };
-}  // namespace Altseed
+}  // namespace Altseed2

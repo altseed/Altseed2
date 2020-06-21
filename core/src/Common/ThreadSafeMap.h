@@ -7,7 +7,7 @@
 
 #include "../BaseObject.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 template <typename T>
 class Lockable;
@@ -49,4 +49,4 @@ public:
     }
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

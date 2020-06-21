@@ -4,7 +4,7 @@ import sys
 
 from .common import *
 
-Collider = cbg.Class('Altseed', 'Collider')
+Collider = cbg.Class('Altseed2', 'Collider')
 with Collider as class_:
     with class_.add_constructor() as func_:
         func_.is_public = False
@@ -36,7 +36,7 @@ with Collider as class_:
         func_.brief = cbg.Description()
         func_.brief.add('ja', '指定したコライダとの衝突判定を行います。')
 
-CircleCollider = cbg.Class('Altseed', 'CircleCollider')
+CircleCollider = cbg.Class('Altseed2', 'CircleCollider')
 with CircleCollider as class_:
     class_.add_constructor()
     class_.base_class = Collider
@@ -51,7 +51,7 @@ with CircleCollider as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '円形コライダの半径を取得または設定します。')
 
-RectangleCollider = cbg.Class('Altseed', 'RectangleCollider')
+RectangleCollider = cbg.Class('Altseed2', 'RectangleCollider')
 with RectangleCollider as class_:
     class_.add_constructor()
     class_.base_class = Collider
@@ -71,7 +71,7 @@ with RectangleCollider as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '矩形コライダの中心の位置を取得または設定します。')
 
-PolygonCollider = cbg.Class('Altseed', 'PolygonCollider')
+PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
 with PolygonCollider as class_:
     class_.add_constructor()
     class_.base_class = Collider

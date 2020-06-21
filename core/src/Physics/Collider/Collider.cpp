@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Collider::Collider() {
     transform_.SetIdentity();
@@ -25,4 +25,4 @@ Matrix44F Collider::GetTransform() { return transformMatrix_; }
 
 bool Collider::GetIsCollidedWith(std::shared_ptr<Collider> collider) { return GetIsCollidedWith_(collider); }
 
-}  // namespace Altseed
+}  // namespace Altseed2

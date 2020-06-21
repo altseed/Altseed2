@@ -8,7 +8,7 @@
 #include "../Logger/Log.h"
 #include "BuiltinShader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 Vector4F MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
     auto it = vector4s_.find(key);
@@ -260,4 +260,4 @@ void Material::SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& pipline
     }
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

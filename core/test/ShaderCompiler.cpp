@@ -82,12 +82,12 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 
 )";
-    Altseed::SPIRVGenerator generator;
+    Altseed2::SPIRVGenerator generator;
     generator.Initialize();
 
     {
-        auto spirv = generator.Generate(constantVS, Altseed::ShaderStageType::Vertex);
-        auto reflection = Altseed::SPIRVReflection();
+        auto spirv = generator.Generate(constantVS, Altseed2::ShaderStageType::Vertex);
+        auto reflection = Altseed2::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Uniforms) {
@@ -102,8 +102,8 @@ float4 main(PS_INPUT input) : SV_TARGET
     }
 
     {
-        auto spirv = generator.Generate(constantPS, Altseed::ShaderStageType::Pixel);
-        auto reflection = Altseed::SPIRVReflection();
+        auto spirv = generator.Generate(constantPS, Altseed2::ShaderStageType::Pixel);
+        auto reflection = Altseed2::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Uniforms) {
@@ -122,8 +122,8 @@ float4 main(PS_INPUT input) : SV_TARGET
     }
 
     {
-        auto spirv = generator.Generate(texturePS, Altseed::ShaderStageType::Pixel);
-        auto reflection = Altseed::SPIRVReflection();
+        auto spirv = generator.Generate(texturePS, Altseed2::ShaderStageType::Pixel);
+        auto reflection = Altseed2::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Textures) {

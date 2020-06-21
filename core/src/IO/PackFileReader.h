@@ -4,7 +4,7 @@
 
 #include "BaseFileReader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class PackFileReader : public BaseFileReader {
 private:
@@ -26,4 +26,4 @@ public:
 
     bool GetIsInPackage() const override;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

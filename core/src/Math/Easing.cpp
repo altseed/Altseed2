@@ -27,7 +27,7 @@
 #include "../Common/Assertion.h"
 #include "MathTemplate.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 // pseudo method for binding
 int32_t Easing::Release() {
@@ -201,4 +201,4 @@ float Easing::GetEasing(EasingType easing, float t) {
     }
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

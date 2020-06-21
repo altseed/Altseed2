@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace Altseed {
+namespace Altseed2 {
 class FileSystem {
 public:
     static bool GetIsFile(const std::u16string& path);
@@ -16,4 +16,4 @@ public:
     static std::u16string GetParentPath(const std::u16string& path);
     static std::u16string GetAbusolutePath(const std::u16string& path);
 };
-}  // namespace Altseed
+}  // namespace Altseed2

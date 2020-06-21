@@ -5,7 +5,7 @@ if(CMAKE_GENERATOR STREQUAL Xcode)
 endif()
 
 # solution name
-project(Altseed)
+project(Altseed2_Core)
 
 include(cmake/ClangFormat.cmake)
 include(cmake/ClangTidy.cmake)

@@ -6,7 +6,7 @@
 #include "MathTemplate.h"
 #include "Vector4F.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 /**
         @brief	4×4行列を表す構造体
@@ -212,4 +212,4 @@ struct Matrix44F_C {
 
     operator Matrix44F() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

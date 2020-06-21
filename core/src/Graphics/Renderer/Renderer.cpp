@@ -18,7 +18,7 @@
 #undef DrawText
 #endif
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<Renderer> Renderer::instance_;
 
@@ -184,7 +184,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
         auto texture = text->GetFont()->GetImageGlyph(character);
         if (texture != nullptr) {
-            src = RectF(Altseed::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+            src = RectF(Altseed2::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
 
             pos = offset;
 
@@ -257,9 +257,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         // character spcae
         if (i != characters.size() - 1) {
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed::Vector2F(text->GetCharacterSpace(), 0);
+                offset += Altseed2::Vector2F(text->GetCharacterSpace(), 0);
             else
-                offset += Altseed::Vector2F(0, text->GetCharacterSpace());
+                offset += Altseed2::Vector2F(0, text->GetCharacterSpace());
         }
 
         // kerning
@@ -267,9 +267,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed::Vector2F(text->GetFont()->GetKerning(character, next), 0);
+                offset += Altseed2::Vector2F(text->GetFont()->GetKerning(character, next), 0);
             else
-                offset += Altseed::Vector2F(0, text->GetFont()->GetKerning(character, next));
+                offset += Altseed2::Vector2F(0, text->GetFont()->GetKerning(character, next));
         }
     }
 }
@@ -298,4 +298,4 @@ void Renderer::ResetCamera() {
     batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

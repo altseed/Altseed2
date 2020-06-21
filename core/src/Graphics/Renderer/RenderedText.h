@@ -11,7 +11,7 @@
 #include "CullingSystem.h"
 #include "Rendered.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class RenderedText : public Rendered {
 private:
@@ -88,4 +88,4 @@ public:
     b2AABB GetAABB() override;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

@@ -1,6 +1,6 @@
 ﻿#include "LLGIWindow.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 LLGIWindow::LLGIWindow(GLFWwindow* glfwWindow_) : glfwWindow(glfwWindow_) {}
 
@@ -38,4 +38,4 @@ LLGI::Vec2I LLGIWindow::GetFrameBufferSize() const {
     return LLGI::Vec2I(w, h);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

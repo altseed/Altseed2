@@ -18,7 +18,7 @@
 #include "../Math/Vector3F.h"
 #include "Assertion.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class BinaryReader {
 protected:
     std::vector<uint8_t> data;
@@ -234,4 +234,4 @@ inline Matrix44F BinaryReader::Get() {
     return m;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

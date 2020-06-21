@@ -10,7 +10,7 @@
 #include "../Logger/Log.h"
 #include "Graphics.h"
 
-namespace Altseed {
+namespace Altseed2 {
 ThreadSafeMap<std::u16string, std::mutex> TextureBase::mtxs;
 
 TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture) {
@@ -70,4 +70,4 @@ bool TextureBase::Save(const char16_t* path) {
     return true;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

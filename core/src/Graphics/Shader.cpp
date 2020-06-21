@@ -1,6 +1,6 @@
 ﻿#include "Shader.h"
 #include "ShaderCompiler/ShaderCompiler.h"
-namespace Altseed {
+namespace Altseed2 {
 
 Shader::Shader(
         std::u16string code,
@@ -19,4 +19,4 @@ std::shared_ptr<Shader> Shader::Create(const char16_t* name, const char16_t* cod
     return ShaderCompiler::GetInstance()->Compile(utf16_to_utf8(name).c_str(), utf16_to_utf8(code).c_str(), shaderStage);
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

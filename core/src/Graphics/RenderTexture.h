@@ -15,7 +15,7 @@
 #include "Graphics.h"
 #include "TextureBase.h"
 
-namespace Altseed {
+namespace Altseed2 {
 class RenderTexture : public TextureBase {
 public:
     RenderTexture(const std::shared_ptr<LLGI::Texture>& texture);
@@ -30,4 +30,4 @@ public:
     };
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

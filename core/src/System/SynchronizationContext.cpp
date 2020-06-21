@@ -1,6 +1,6 @@
 #include "SynchronizationContext.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 std::shared_ptr<SynchronizationContext> SynchronizationContext::instance_;
 
@@ -24,4 +24,4 @@ void SynchronizationContext::Terminate() { instance_.reset(); }
 
 std::shared_ptr<SynchronizationContext>& SynchronizationContext::GetInstance() { return instance_; }
 
-}  // namespace Altseed
+}  // namespace Altseed2

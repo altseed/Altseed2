@@ -10,7 +10,7 @@
 #include "../Color.h"
 #include "Rendered.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 class Material;
 class Texture2D;
@@ -43,4 +43,4 @@ public:
     b2AABB GetAABB() override;
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

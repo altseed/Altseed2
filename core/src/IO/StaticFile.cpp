@@ -5,7 +5,7 @@
 
 #include "File.h"
 
-namespace Altseed {
+namespace Altseed2 {
 std::mutex StaticFile::m_staticFileMtx;
 
 StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader, std::shared_ptr<Resources>& resources, std::u16string path)
@@ -81,4 +81,4 @@ bool StaticFile::Reload() {
     return true;
 }
 
-}  // namespace Altseed
+}  // namespace Altseed2

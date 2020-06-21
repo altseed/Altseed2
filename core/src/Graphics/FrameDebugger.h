@@ -10,7 +10,7 @@
 #include "RenderTexture.h"
 #include "Shader.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class FrameEventType {
     Clear,
@@ -124,4 +124,4 @@ public:
 
     bool GetIsEnabled() const;
 };
-}  // namespace Altseed
+}  // namespace Altseed2

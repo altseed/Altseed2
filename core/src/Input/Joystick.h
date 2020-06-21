@@ -9,7 +9,7 @@
 #include "../Window/Window.h"
 #include "ButtonState.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 enum class JoystickType : int32_t {
     Other,
@@ -132,4 +132,4 @@ public:
     // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
-}  // namespace Altseed
+}  // namespace Altseed2

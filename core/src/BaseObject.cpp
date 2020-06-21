@@ -3,7 +3,7 @@
 #include "Common/StringHelper.h"
 #include "Core.h"
 
-namespace Altseed {
+namespace Altseed2 {
 
 BaseObject::BaseObject() : reference_(1) {
     core_ = Core::GetInstance();
@@ -34,4 +34,4 @@ void BaseObject::SetInstanceName(const std::u16string& instanceName) { instanceN
 
 void BaseObject::SetInstanceName(const char* instanceName) { SetInstanceName(utf8_to_utf16(instanceName)); }
 
-}  // namespace Altseed
+}  // namespace Altseed2
