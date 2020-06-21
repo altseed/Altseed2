@@ -478,26 +478,13 @@ TEST(Graphics, BackgroundBugcheck) {
     Altseed::Core::Terminate();
 }
 
-TEST(Graphics, MaterialNoise) {
-    EXPECT_TRUE(Altseed::Core::Initialize(u"MaterialNoise", 1280, 720, Altseed::Configuration::Create()));
-
-    int count = 0;
-
-    auto instance = Altseed::Graphics::GetInstance();
-
-    auto polygon = Altseed::RenderedPolygon::Create();
-    auto vertexes = Altseed::MakeAsdShared<Altseed::Vector2FArray>();
-    vertexes->Resize(4);
-    auto& vec = vertexes->GetVector();
-    vec[0] = Altseed::Vector2F(0, 0);
-    vec[1] = Altseed::Vector2F(200, 0);
-    vec[2] = Altseed::Vector2F(200, 200);
-    vec[3] = Altseed::Vector2F(0, 200);
-    polygon->CreateVertexesByVector2F(vertexes);
-
+TEST(Graphics, VertexTextureFetch) {
     const char* psCode = R"(
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);
+Texture2D vtfTex : register(t1);
+SamplerState vtfSamp : register(s1);
+
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
@@ -507,37 +494,81 @@ struct PS_INPUT
 };
 float4 main(PS_INPUT input) : SV_TARGET 
 { 
-    return float4(input.UV1, 0, 1);
+    float4 c;
+    c = mainTex.Sample(mainSamp, input.UV1) * input.Color;
+    return c;
 }
 )";
 
-    auto builtinShader = Altseed::MakeAsdShared<Altseed::BuiltinShader>();
-    auto m1 = Altseed::MakeAsdShared<Altseed::Material>();
-    auto shader = Altseed::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed::ShaderStageType::Pixel);
-    m1->SetShader(shader);
-    polygon->SetMaterial(m1);
+    const char* vsCode = R"(
+cbuffer Consts : register(b0)
+{
+    float4x4 matView;
+    float4x4 matProjection;
+};
+struct VS_INPUT{
+    float3 Position : POSITION0;
+    float4 Color : COLOR0;
+    float2 UV1 : UV0;
+    float2 UV2 : UV1;
+};
+struct VS_OUTPUT{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
+};
 
-    auto x = 100.2f;
-    auto transform = Altseed::Matrix44F();
-    transform.SetTranslation(x, -111.3, 0);
-    polygon->SetTransform(transform);
+Texture2D vtfTex : register(t1);
+SamplerState vtfSamp : register(s1);
+    
+VS_OUTPUT main(VS_INPUT input){
+    int x = input.UV1.x;
+    int y = input.UV1.y;
+    int index = (y == 1 ? 1 - x : x) + 2 * y;
 
-    auto rt = Altseed::RenderTexture::Create(Altseed::Window::GetInstance()->GetSize());
+    float texx = vtfTex.SampleLevel(vtfSamp, float2(index/4.0f, 0/4.0f),0).r; 
+    float texy = vtfTex.SampleLevel(vtfSamp, float2(index/4.0f, 1/4.0f),0).r; 
+    float4 texc = vtfTex.SampleLevel(vtfSamp, float2(index/4.0f, 2/4.0f),0); 
+
+    VS_OUTPUT output;
+    float4 pos = float4(input.Position, 1.0f);
+    pos = mul(matView, pos);
+    pos = mul(matProjection, pos);
+    output.Position = pos;
+    output.UV1 = float2(texx, texy);
+    output.UV2 = input.UV2;
+    output.Color = texc;
+        
+    return output;
+}
+)";
+
+    EXPECT_TRUE(Altseed::Core::Initialize(u"VertexTextureFetch", 1280, 720, Altseed::Configuration::Create()));
+
+    int count = 0;
+
+    auto instance = Altseed::Graphics::GetInstance();
+
+    auto t1 = Altseed::Texture2D::Load(u"TestData/IO/VTF.png");
+    auto t2 = Altseed::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
+
+    auto sprite = Altseed::RenderedSprite::Create();
+    sprite->SetTexture(t2);
+    sprite->SetSrc(Altseed::RectF(0, 0, 256, 256));
+
+    auto material = Altseed::MakeAsdShared<Altseed::Material>();
+    auto vs = Altseed::ShaderCompiler::GetInstance()->Compile("VS", vsCode, Altseed::ShaderStageType::Vertex);
+    //auto ps = Altseed::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed::ShaderStageType::Pixel);
+    material->SetShader(vs);
+    //material->SetShader(ps);
+    material->SetTexture(u"vtfTex", t1);
+    sprite->SetMaterial(material);
 
     Altseed::RenderPassParameter renderPassParameter;
     renderPassParameter.ClearColor = Altseed::Color(50, 50, 50, 255);
     renderPassParameter.IsColorCleared = true;
     renderPassParameter.IsDepthCleared = true;
-    auto camera = Altseed::RenderedCamera::Create();
-    camera->SetRenderPassParameter(renderPassParameter);
-    camera->SetTargetTexture(rt);
-
-    auto sprite = Altseed::RenderedSprite::Create();
-    sprite->SetTexture(rt);
-    sprite->SetSrc(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
-    auto camera2 = Altseed::RenderedCamera::Create();
-    camera2->SetRenderPassParameter(renderPassParameter);
-    camera2->SetTargetTexture(instance->GetCommandList()->GetScreenTexture());
 
     while (count++ < 10000 && instance->DoEvents()) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
@@ -545,14 +576,6 @@ float4 main(PS_INPUT input) : SV_TARGET
 
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        transform.SetTranslation(x += 0.1f, -111, 0);
-        polygon->SetTransform(transform);
-
-        Altseed::Renderer::GetInstance()->SetCamera(camera);
-        Altseed::Renderer::GetInstance()->DrawPolygon(polygon);
-        Altseed::Renderer::GetInstance()->Render();
-
-        Altseed::Renderer::GetInstance()->SetCamera(camera2);
         Altseed::Renderer::GetInstance()->DrawSprite(sprite);
         Altseed::Renderer::GetInstance()->Render();
 
@@ -586,7 +609,7 @@ TEST(Graphics, Culling) {
                        .c_str());
     t->SetTransform(Altseed::Matrix44F().SetTranslation(0, 0, 0));
 
-    while (count++ < 1000 && instance->DoEvents()) {
+    while (count++ < 100 && instance->DoEvents()) {
         auto trans = Altseed::Matrix44F();
         trans.SetTranslation(200, 300 + count, 0);
         s1->SetTransform(trans);
@@ -641,7 +664,7 @@ TEST(Graphics, CullingTooManySprite) {
 
     std::vector<std::shared_ptr<Altseed::RenderedSprite>> sprites;
 
-    while (count++ < 1000 && Altseed::Core::GetInstance()->DoEvent() && instance->DoEvents()) {
+    while (count++ < 100 && Altseed::Core::GetInstance()->DoEvent() && instance->DoEvents()) {
         auto trans = Altseed::Matrix44F();
         trans.SetTranslation(200, 300 + count, 0);
         s1->SetTransform(trans);

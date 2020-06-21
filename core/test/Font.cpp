@@ -352,7 +352,7 @@ TEST(Font, FontSize) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
@@ -393,7 +393,7 @@ TEST(Font, Return) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
@@ -435,7 +435,7 @@ TEST(Font, Vertical) {
 
     auto instance = Altseed::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed::CullingSystem::GetInstance()->UpdateAABB();
         Altseed::CullingSystem::GetInstance()->Cull(Altseed::RectF(Altseed::Vector2F(), Altseed::Window::GetInstance()->GetSize().To2F()));
 
