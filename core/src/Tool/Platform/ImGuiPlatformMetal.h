@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <unordered_set>
 #include "ImGuiPlatform.h"
 
 class ImguiPlatformMetal_Impl;
@@ -19,4 +20,6 @@ public:
     void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) override;
 
     ImTextureID GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList) override;
+
+    void InvalidateDeviceObjects() override;
 };

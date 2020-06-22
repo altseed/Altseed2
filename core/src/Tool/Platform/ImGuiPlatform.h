@@ -15,4 +15,6 @@ public:
     virtual void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) = 0;
 
     virtual ImTextureID GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList) { return nullptr; }
+
+    virtual void InvalidateDeviceObjects() {}
 };

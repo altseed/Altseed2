@@ -1,4 +1,5 @@
-﻿#pragma once
+
+#pragma once
 
 #include <DX12/LLGI.CommandListDX12.h>
 #include <DX12/LLGI.GraphicsDX12.h>
@@ -7,6 +8,7 @@
 #include <imgui_impl_dx12.h>
 
 #include "ImGuiPlatform.h"
+
 class ImguiPlatformDX12 : public ImguiPlatform {
     const int32_t DescriptorMax = 512;
     LLGI::GraphicsDX12* g_ = nullptr;
@@ -22,14 +24,10 @@ public:
         desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
         desc.NumDescriptors = DescriptorMax;
         desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-        if (g_->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&srvDescHeap_)) != S_OK) throw "Failed to initialize.";
+        if (g_->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&srvDescHeap_)) != S_OK)
+            throw "Failed to initialize.";
 
-        ImGui_ImplDX12_Init(
-                g_->GetDevice(),
-                g_->GetSwapBufferCount(),
-                DXGI_FORMAT_R8G8B8A8_UNORM,
-                srvDescHeap_->GetCPUDescriptorHandleForHeapStart(),
-                srvDescHeap_->GetGPUDescriptorHandleForHeapStart());
+        ImGui_ImplDX12_Init(g_->GetDevice(), g_->GetSwapBufferCount(), DXGI_FORMAT_R8G8B8A8_UNORM, srvDescHeap_, srvDescHeap_->GetCPUDescriptorHandleForHeapStart(), srvDescHeap_->GetGPUDescriptorHandleForHeapStart());
 
         handleSize_ = static_cast<int>(g_->GetDevice()->GetDescriptorHandleIncrementSize(desc.Type));
         handleOffset_ = 1;
@@ -90,4 +88,6 @@ public:
         cl->GetCommandList()->SetDescriptorHeaps(1, &srvDescHeap_);
         ImGui_ImplDX12_RenderDrawData(draw_data, cl->GetCommandList());
     }
+
+    void InvalidateDeviceObjects() override { ImGui_ImplDX12_InvalidateDeviceObjects(); }
 };

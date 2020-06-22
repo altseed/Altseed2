@@ -201,7 +201,7 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int3
 }
 
 std::shared_ptr<LLGI::RenderPass> Graphics::CreateRenderPass(LLGI::Texture* renderTexture) {
-    return LLGI::CreateSharedPtr(graphics_->CreateRenderPass((const LLGI::Texture**)&renderTexture, 1, nullptr));
+    return LLGI::CreateSharedPtr(graphics_->CreateRenderPass((LLGI::Texture**)&renderTexture, 1, nullptr));
 }
 
 void Graphics::SaveScreenshot(const char16_t* path) {

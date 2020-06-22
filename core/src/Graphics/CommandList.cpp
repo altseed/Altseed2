@@ -39,7 +39,7 @@ std::shared_ptr<CommandList::RenderPass> CommandList::CreateRenderPass(std::shar
         auto g = Graphics::GetInstance()->GetGraphicsLLGI();
 
         LLGI::Texture* texture = target->GetNativeTexture().get();
-        auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((const LLGI::Texture**)&texture, 1, nullptr));
+        auto renderPass = LLGI::CreateSharedPtr(g->CreateRenderPass((LLGI::Texture**)&texture, 1, nullptr));
 
         auto rp = std::make_shared<RenderPass>();
         rp->Stored = renderPass;

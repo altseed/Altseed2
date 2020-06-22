@@ -23,13 +23,18 @@ public:
 
     void RenderDrawData(ImDrawData* draw_data, LLGI::CommandList* commandList) {
         auto cl = static_cast<LLGI::CommandListMetal*>(commandList);
-        ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), cl->GetImpl()->commandBuffer, cl->GetImpl()->renderEncoder);
+        ImGui_ImplMetal_RenderDrawData(
+                ImGui::GetDrawData(), cl->GetImpl()->commandBuffer, cl->GetImpl()->renderEncoder);
     }
 };
 
-ImguiPlatformMetal::ImguiPlatformMetal(LLGI::Graphics* g) { impl = new ImguiPlatformMetal_Impl(g); }
+ImguiPlatformMetal::ImguiPlatformMetal(LLGI::Graphics* g) {
+    impl = new ImguiPlatformMetal_Impl(g);
+}
 
-ImguiPlatformMetal::~ImguiPlatformMetal() { delete impl; }
+ImguiPlatformMetal::~ImguiPlatformMetal() {
+    delete impl;
+}
 
 void ImguiPlatformMetal::NewFrame(LLGI::RenderPass* renderPass) {
     textures_.clear();
@@ -48,4 +53,8 @@ ImTextureID ImguiPlatformMetal::GetTextureIDToRender(LLGI::Texture* texture, LLG
     auto t = static_cast<LLGI::TextureMetal*>(texture);
     auto impl = t->GetImpl();
     return (__bridge void*)(impl->texture);
+}
+
+void ImguiPlatformMetal::InvalidateDeviceObjects() {
+    ImGui_ImplMetal_DestroyFontsTexture();
 }
