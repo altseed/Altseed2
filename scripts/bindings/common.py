@@ -369,19 +369,19 @@ with ResourceType as enum_:
     enum_.brief.add('ja', 'リソースの種類を表します。')
     with enum_.add('StaticFile') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '<see cref="Altseed.StaticFile"/>を表す')
+        v.brief.add('ja', '<see cref="Altseed2.StaticFile"/>を表す')
     with enum_.add('StreamFile') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '<see cref="Altseed.StreamFile"/>を表す')
+        v.brief.add('ja', '<see cref="Altseed2.StreamFile"/>を表す')
     with enum_.add('Texture2D') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '<see cref="Altseed.Texture2D"/>を表す')
+        v.brief.add('ja', '<see cref="Altseed2.Texture2D"/>を表す')
     with enum_.add('Font') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '<see cref="Altseed.Font"/>を表す')
+        v.brief.add('ja', '<see cref="Altseed2.Font"/>を表す')
     with enum_.add('Sound') as v:
         v.brief = cbg.Description()
-        v.brief.add('ja', '<see cref="Altseed.Sound"/>を表す')
+        v.brief.add('ja', '<see cref="Altseed2.Sound"/>を表す')
     enum_.add('MAX')
 
 Resources = cbg.Class('Altseed2', 'Resources')
