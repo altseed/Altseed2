@@ -734,7 +734,7 @@ void Tool::SetWindowSize(Vector2F size) { ImGui::SetWindowSize(toImVec2(size)); 
 
 bool Tool::IsMousePosValid() { return ImGui::IsMousePosValid(); }
 
-bool Tool::IsMouseDragging() { return ImGui::IsMouseDragging(); }
+bool Tool::IsMouseDragging() { return ImGui::IsMouseDragging(ImGuiMouseButton_Left); }
 
 bool Tool::IsMouseDoubleClicked(int32_t button) { return ImGui::IsMouseDoubleClicked(button); }
 
