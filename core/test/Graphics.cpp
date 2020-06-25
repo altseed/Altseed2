@@ -431,6 +431,71 @@ TEST(Graphics, RenderTexture) {
     Altseed2::Core::Terminate();
 }
 
+TEST(Graphics, RenderTextureSave) {
+    auto config = Altseed2::Configuration::Create();
+    config->SetFileLoggingEnabled(true);
+    config->SetConsoleLoggingEnabled(true);
+    config->SetLogFileName(u"RenderTextureSave.txt");
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderTextureSave", 1280, 720, config));
+    Altseed2::Log::GetInstance()->SetLevel(Altseed2::LogCategory::Graphics, Altseed2::LogLevel::Trace);
+
+    int count = 0;
+
+    auto instance = Altseed2::Graphics::GetInstance();
+
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+    EXPECT_TRUE(t1 != nullptr);
+    t1->SetInstanceName("t1");
+
+    auto rt = Altseed2::RenderTexture::Create(Altseed2::Vector2I(200, 200));
+    rt->SetInstanceName("rt");
+
+    auto s1 = Altseed2::RenderedSprite::Create();
+    s1->SetTexture(t1);
+    s1->SetSrc(Altseed2::RectF(0, 0, 200, 200));
+
+    auto s2 = Altseed2::RenderedSprite::Create();
+    {
+        auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
+        s2->SetTransform(transform);
+        s2->SetTexture(rt);
+        s2->SetSrc(Altseed2::RectF(0, 0, 200, 200));
+    }
+    auto camera = Altseed2::RenderedCamera::Create();
+    { camera->SetTargetTexture(rt); }
+
+    auto camera2 = Altseed2::RenderedCamera::Create();
+
+    while (count++ < 60 && instance->DoEvents()) {
+        if (count == 2) Altseed2::FrameDebugger::GetInstance()->Start();
+
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        auto r = Altseed2::Renderer::GetInstance();
+        r->SetCamera(camera);
+        r->DrawSprite(s1);
+        r->Render();
+
+        r->SetCamera(camera2);
+        r->DrawSprite(s2);
+        r->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+        if (count == 2) Altseed2::FrameDebugger::GetInstance()->DumpToLog();
+
+        rt->Save(u"RenderTextureSave.png");
+    }
+
+    Altseed2::Core::Terminate();
+}
+
 TEST(Graphics, BackgroundBugcheck) {
     EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
 
