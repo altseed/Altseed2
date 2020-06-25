@@ -1,5 +1,6 @@
 #include "CullingSystem.h"
 
+#include "../../Logger/Log.h"
 #include "Rendered.h"
 
 namespace Altseed2 {
@@ -59,6 +60,9 @@ void CullingSystem::Unregister(Rendered* rendered) {
 }
 
 bool CullingSystem::QueryCallback(int32_t id) {
+    if (proxyIdRenderedMap_.find(id) == proxyIdRenderedMap_.end()) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::QueryCallback: Invalid proxy id contaminated.");
+    }
     drawingRenderedIds_->GetVector().push_back(proxyIdRenderedMap_[id]->GetId());
     proxyIdRenderedMap_[id]->SetIsDrawn(true);
     return true;
