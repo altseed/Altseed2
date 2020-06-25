@@ -31,7 +31,18 @@ void CullingSystem::RequestUpdateAABB(Rendered* rendered) { updateIds_.insert(re
 
 void CullingSystem::UpdateAABB() {
     for (auto& id : updateIds_) {
-        auto newAABB = proxyIdRenderedMap_[id]->GetAABB();
+        auto it = proxyIdRenderedMap_.find(id);
+        if (it == proxyIdRenderedMap_.end()) {
+            Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::UpdateAABB: proxy id({0}) is not found.", id);
+            continue;
+        }
+        auto rendered = it->second;
+        if (it == proxyIdRenderedMap_.end()) {
+            Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::UpdateAABB: Invalid proxy id({0}) contaminated.", id);
+            continue;
+        }
+
+        auto newAABB = rendered->GetAABB();
         dynamicTree_.MoveProxy(id, newAABB, newAABB.GetCenter() - proxyIdAABBMap_[id].GetCenter());
         proxyIdAABBMap_[id] = newAABB;
     }
@@ -60,11 +71,19 @@ void CullingSystem::Unregister(Rendered* rendered) {
 }
 
 bool CullingSystem::QueryCallback(int32_t id) {
-    if (proxyIdRenderedMap_.find(id) == proxyIdRenderedMap_.end()) {
-        Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::QueryCallback: Invalid proxy id contaminated.");
+    auto it = proxyIdRenderedMap_.find(id);
+    if (it == proxyIdRenderedMap_.end()) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::QueryCallback: proxy id({0}) is not found.", id);
+        return true;
     }
-    drawingRenderedIds_->GetVector().push_back(proxyIdRenderedMap_[id]->GetId());
-    proxyIdRenderedMap_[id]->SetIsDrawn(true);
+    auto rendered = it->second;
+    if (it == proxyIdRenderedMap_.end()) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CullingSystem::QueryCallback: Invalid proxy id({0}) contaminated.", id);
+        return true;
+    }
+
+    drawingRenderedIds_->GetVector().push_back(rendered->GetId());
+    rendered->SetIsDrawn(true);
     return true;
 }
 
