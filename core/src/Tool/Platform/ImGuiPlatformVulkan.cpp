@@ -123,7 +123,8 @@ ImTextureID ImguiPlatformVulkan::GetTextureIDToRender(LLGI::Texture* texture, LL
     }
 
     auto textureVulkan = static_cast<LLGI::TextureVulkan*>(texture);
-    auto id = ImGui_ImplVulkan_AddTexture(g_->GetDefaultSampler(), textureVulkan->GetView(), (VkImageLayout)textureVulkan->GetImageLayout());
+    auto id =
+            ImGui_ImplVulkan_AddTexture(g_->GetDefaultSampler(), textureVulkan->GetView(), (VkImageLayout)textureVulkan->GetImageLayout());
 
     TextureHolder th;
     th.texture = LLGI::CreateSharedPtr(texture, true);
@@ -132,4 +133,30 @@ ImTextureID ImguiPlatformVulkan::GetTextureIDToRender(LLGI::Texture* texture, LL
 
     textures_[texture] = th;
     return id;
+}
+
+void ImguiPlatformVulkan::CreateFont() {
+    auto sfm = g_->CreateSingleFrameMemoryPool(1024 * 128, 128);
+    auto cl = static_cast<LLGI::CommandListVulkan*>(g_->CreateCommandList(sfm));
+
+    sfm->NewFrame();
+    cl->Begin();
+
+    ImGui_ImplVulkan_CreateFontsTexture(cl->GetCommandBuffer());
+
+    cl->End();
+    g_->Execute(cl);
+    g_->WaitFinish();
+
+    LLGI::SafeRelease(sfm);
+    LLGI::SafeRelease(cl);
+
+    ImGui_ImplVulkan_DestroyFontUploadObjects();
+}
+
+void ImguiPlatformVulkan::DisposeFont() {
+    ImGuiIO& io = ImGui::GetIO();
+    VkDescriptorSet ds = (VkDescriptorSet)io.Fonts->TexID;
+    vkFreeDescriptorSets(g_->GetDevice(), descriptorPool_, 1, &ds);
+    io.Fonts->TexID = nullptr;
 }

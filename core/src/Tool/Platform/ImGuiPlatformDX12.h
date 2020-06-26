@@ -89,5 +89,7 @@ public:
         ImGui_ImplDX12_RenderDrawData(draw_data, cl->GetCommandList());
     }
 
-    void InvalidateDeviceObjects() override { ImGui_ImplDX12_InvalidateDeviceObjects(); }
+    void CreateFont() override { ImGui_ImplDX12_CreateDeviceObjects(); }
+
+    void DisposeFont() override { ImGui_ImplDX12_InvalidateDeviceObjects(); }
 };

@@ -18,7 +18,10 @@
 
 #include "../Graphics/CommandList.h"
 #include "../Graphics/Graphics.h"
+#include "../IO/File.h"
+#include "../IO/StaticFile.h"
 #include "../Logger/Log.h"
+#include "../System/SynchronizationContext.h"
 
 namespace Altseed2 {
 
@@ -150,14 +153,35 @@ const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRanges ranges) {
 }
 
 bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges) {
-    auto& io = ImGui::GetIO();
-    auto path_ = utf16_to_utf8(path);
-    auto font = io.Fonts->AddFontFromFileTTF(path_.c_str(), sizePixels, nullptr, toImGlyphRanges(io, ranges));
+    auto file = StaticFile::Create(path);
 
-    if (font == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
+    if (file == nullptr) {
         return false;
     }
+
+    auto this_ = instance_;
+
+    auto path_ = utf16_to_utf8(path);
+
+    SynchronizationContext::GetInstance()->AddEvent([file, this_, sizePixels, ranges, path_]() -> void {
+        auto& io = ImGui::GetIO();
+
+        this_->platform_->DisposeFont();
+
+        auto buffer = IM_ALLOC(file->GetSize());
+        memcpy(buffer, file->GetData(), file->GetSize());
+
+        auto font = io.Fonts->AddFontFromMemoryTTF(buffer, file->GetSize(), sizePixels, nullptr, toImGlyphRanges(io, ranges));
+        io.Fonts->Build();
+
+        if (font == nullptr) {
+            Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
+        }
+
+        this_->platform_->CreateFont();
+    });
+
+    Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
 
     return true;
 }

@@ -16,6 +16,7 @@
 #include "Graphics/Renderer/Renderer.h"
 #include "Math/Matrix44F.h"
 #include "Math/RectF.h"
+#include "System/SynchronizationContext.h"
 
 static const int LoopFrames = 50000;
 
@@ -56,7 +57,10 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
     trans2.SetRotationZ(0);
     s1->SetTransform(trans2 * trans1 * trans2);
 
+    Altseed2::Tool::GetInstance()->AddFontFromFileTTF(u"TestData/Font/mplus-1m-regular.ttf", 14, Altseed2::ToolGlyphRanges::Japanese);
+
     while (count++ < loopCount && g->DoEvents()) {
+        Altseed2::SynchronizationContext::GetInstance()->Run();
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 

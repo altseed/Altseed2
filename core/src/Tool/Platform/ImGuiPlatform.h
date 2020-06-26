@@ -16,5 +16,7 @@ public:
 
     virtual ImTextureID GetTextureIDToRender(LLGI::Texture* texture, LLGI::CommandList* commandList) { return nullptr; }
 
-    virtual void InvalidateDeviceObjects() {}
+    virtual void CreateFont() {}
+
+    virtual void DisposeFont() {}
 };
