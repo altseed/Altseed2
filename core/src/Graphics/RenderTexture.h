@@ -24,6 +24,8 @@ public:
 
     static std::shared_ptr<RenderTexture> Create(Vector2I size);
 
+    bool Save(const char16_t* path) override;
+
     bool Reload() override {
         assert(false);
         return false;

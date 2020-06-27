@@ -31,7 +31,7 @@ public:
 
     Vector2I GetSize() const;
 
-    bool Save(const char16_t* path);
+    virtual bool Save(const char16_t* path);
 
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
 };
