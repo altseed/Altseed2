@@ -168,6 +168,8 @@ bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphR
 
         this_->platform_->DisposeFont();
 
+        io.Fonts->Clear();
+
         auto buffer = IM_ALLOC(file->GetSize());
         memcpy(buffer, file->GetData(), file->GetSize());
 
