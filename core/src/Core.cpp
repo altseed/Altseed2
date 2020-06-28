@@ -23,6 +23,31 @@
 namespace Altseed2 {
 std::shared_ptr<Core> Core::instance = nullptr;
 
+int32_t Core::Register(BaseObject* o) {
+    std::lock_guard<std::mutex> lock(baseObjectMtx_);
+    baseObjects.insert(o);
+    return maxBaseObjectId_++;
+}
+
+void Core::Unregister(BaseObject* o) {
+    std::lock_guard<std::mutex> lock(baseObjectMtx_);
+    baseObjects.erase(o);
+}
+
+int32_t Core::GetBaseObjectCount() {
+    std::lock_guard<std::mutex> lock(baseObjectMtx_);
+
+    return (int32_t)baseObjects.size();
+}
+
+void Core::PrintAllBaseObjectName() {
+    std::lock_guard<std::mutex> lock(baseObjectMtx_);
+
+    for (auto& o : baseObjects) {
+        std::cout << o->GetInstanceName() << std::endl;
+    }
+}
+
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
     Core::instance = MakeAsdShared<Core>();
     Core::instance->config_ = config;

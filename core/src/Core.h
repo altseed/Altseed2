@@ -33,20 +33,16 @@ private:
 
 public:
     //! register a base object
-    int32_t Register(BaseObject* o) {
-        std::lock_guard<std::mutex> lock(baseObjectMtx_);
-        baseObjects.insert(o);
-        return maxBaseObjectId_++;
-    }
+    int32_t Register(BaseObject* o);
 
     //! unregister a base object
-    void Unregister(BaseObject* o) {
-        std::lock_guard<std::mutex> lock(baseObjectMtx_);
-        baseObjects.erase(o);
-    }
+    void Unregister(BaseObject* o);
 
     //! get the number of base objects
-    int32_t GetBaseObjectCount() const { return (int32_t)baseObjects.size(); }
+    int32_t GetBaseObjectCount();
+
+    //! print all object's name
+    void PrintAllBaseObjectName();
 
     //! Initialize core and create a singleton
     static bool Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config);
