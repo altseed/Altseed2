@@ -114,6 +114,21 @@ with Core as class_:
     class_.is_public = False
     class_.is_Sealed = True
 
+    with class_.add_func('GetBaseObjectCount') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '内部オブジェクトの数を取得します。')
+        func.return_value.type_ = int
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', '数')
+        func.is_public = False
+        func.is_static = False
+
+    with class_.add_func('PrintAllBaseObjectName') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '全ての内部オブジェクトの名前を出力します。')
+        func.is_public = False
+        func.is_static = False
+
     with class_.add_func('Initialize') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '初期化処理を行います。')
