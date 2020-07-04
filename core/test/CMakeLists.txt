@@ -70,9 +70,15 @@ target_link_libraries(
     spdlog
     hidapi
     box2d
+    ShaderTranspilerCore
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 )
+
+target_include_directories(
+    Altseed2_Core_Test 
+    PRIVATE 
+    ${THIRDPARTY_INCLUDES})
 
 if (MSVC)
 

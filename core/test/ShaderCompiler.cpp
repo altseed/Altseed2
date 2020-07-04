@@ -1,5 +1,5 @@
 #include <BaseObject.h>
-#include <Graphics/ShaderCompiler/ShaderTranspiler.h>
+#include <ShaderTranspilerCore.h>
 #include <gtest/gtest.h>
 
 #include <thread>
@@ -82,60 +82,57 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 
 )";
-    Altseed2::SPIRVGenerator generator;
-    generator.Initialize();
+    LLGI::SPIRVGenerator generator;
 
     {
-        auto spirv = generator.Generate(constantVS, Altseed2::ShaderStageType::Vertex);
-        auto reflection = Altseed2::SPIRVReflection();
+        auto spirv = generator.Generate(constantVS, LLGI::ShaderStageType::Vertex, false);
+        auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Uniforms) {
-            if (u.Name == u"offset1") {
+            if (u.Name == "offset1") {
                 ASSERT_EQ(u.Offset, 16);
             }
 
-            if (u.Name == u"offset2") {
+            if (u.Name == "offset2") {
                 ASSERT_EQ(u.Offset, 32);
             }
         }
     }
 
     {
-        auto spirv = generator.Generate(constantPS, Altseed2::ShaderStageType::Pixel);
-        auto reflection = Altseed2::SPIRVReflection();
+        auto spirv = generator.Generate(constantPS, LLGI::ShaderStageType::Pixel, false);
+        auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Uniforms) {
-            if (u.Name == u"offset") {
+            if (u.Name == "offset") {
                 ASSERT_EQ(u.Offset, 0);
             }
 
-            if (u.Name == u"offset1") {
+            if (u.Name == "offset1") {
                 ASSERT_EQ(u.Offset, 16);
             }
 
-            if (u.Name == u"offset2") {
+            if (u.Name == "offset2") {
                 ASSERT_EQ(u.Offset, 32);
             }
         }
     }
 
     {
-        auto spirv = generator.Generate(texturePS, Altseed2::ShaderStageType::Pixel);
-        auto reflection = Altseed2::SPIRVReflection();
+        auto spirv = generator.Generate(texturePS, LLGI::ShaderStageType::Pixel, false);
+        auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
         for (auto& u : reflection.Textures) {
-            if (u.Name == u"txt") {
+            if (u.Name == "txt") {
                 ASSERT_EQ(u.Offset, 0);
             }
 
-            if (u.Name == u"txt2") {
+            if (u.Name == "txt2") {
                 ASSERT_EQ(u.Offset, 1);
             }
         }
     }
-
-    generator.Terminate();
 }

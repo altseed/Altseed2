@@ -112,8 +112,6 @@ set_target_properties (ExternalProject_zlib PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libpng PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_libzip PROPERTIES FOLDER thirdparty)
 set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
-set_target_properties (ExternalProject_glslang PROPERTIES FOLDER thirdparty)
-set_target_properties (ExternalProject_SPIRV-Cross PROPERTIES FOLDER thirdparty)
 
 #set_target_properties (box2d PROPERTIES FOLDER thirdparty)
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)

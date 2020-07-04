@@ -5,4 +5,7 @@ cd ..
 git pull
 git submodule update --init
 
+cd thirdparty\LLGI
+git submodule update --init
+
 pause

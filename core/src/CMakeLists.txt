@@ -60,12 +60,8 @@ set(core_files
     Graphics/Renderer/CullingSystem.cpp
     Graphics/Shader.h
     Graphics/Shader.cpp
-    Graphics/ShaderCompiler/ResourceLimits.h
-    Graphics/ShaderCompiler/ResourceLimits.cpp
     Graphics/ShaderCompiler/ShaderCompiler.h
     Graphics/ShaderCompiler/ShaderCompiler.cpp
-    Graphics/ShaderCompiler/ShaderTranspiler.h
-    Graphics/ShaderCompiler/ShaderTranspiler.cpp
     Graphics/Texture2D.h
     Graphics/Texture2D.cpp
     Graphics/TextureBase.h
@@ -230,29 +226,12 @@ target_link_libraries(
     imgui
     nativefiledialog
     box2d
+    ShaderTranspilerCore
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
 
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
-
-    debug "${LIBSPIRVCROSS_CORE_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_C_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_CPP_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_HLSL_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_GLSL_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_MSL_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_REFLECT_LIB_DEBUG}"
-    debug "${LIBSPIRVCROSS_UTIL_LIB_DEBUG}"
-
-    optimized "${LIBSPIRVCROSS_CORE_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_C_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_CPP_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_HLSL_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_GLSL_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_MSL_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_REFLECT_LIB_RELEASE}"
-    optimized "${LIBSPIRVCROSS_UTIL_LIB_RELEASE}"
 )
 
 if (MSVC)
@@ -262,18 +241,6 @@ if (MSVC)
         PRIVATE
         debug zlibstaticd
         optimized zlibstatic
-        debug glslangd
-        optimized glslang
-        debug HLSLd
-        optimized HLSL
-        debug OGLCompilerd
-        optimized OGLCompiler
-        debug OSDependentd
-        optimized OSDependent
-        debug SPIRVd
-        optimized SPIRV
-        debug SPVRemapperd
-        optimized SPVRemapper
     )
 
 elseif(APPLE)
@@ -364,8 +331,6 @@ add_dependencies(
     ExternalProject_zlib
     ExternalProject_libpng
     ExternalProject_libzip
-    ExternalProject_glslang
-    ExternalProject_SPIRV-Cross
     box2d
     nativefiledialog)
 
