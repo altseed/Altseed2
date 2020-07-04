@@ -25,7 +25,17 @@ libssl-dev # to save and load a package with a password
 
 ## サブモジュール取得
 
-スクリプト `scripts/Pull.bat` を実行する。
+スクリプト `scripts/Pull.bat` を実行します。
+
+もしくは下記のコマンドを実行します。
+
+```
+git pull
+git submodule update --init
+
+cd thirdparty/LLGI
+git submodule update --init
+```
 
 ## プロジェクト生成
 
