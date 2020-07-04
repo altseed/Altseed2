@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include <LLGI.Compiler.h>
+#include <ShaderTranspilerCore.h>
 
 #include "../../BaseObject.h"
 #include "../Graphics.h"
-#include "ShaderTranspiler.h"
 
 namespace Altseed2 {
 
@@ -16,9 +16,9 @@ private:
     static std::shared_ptr<ShaderCompiler> instance_;
     std::shared_ptr<Graphics> graphics_;
     std::shared_ptr<LLGI::Compiler> compiler_;
-    std::shared_ptr<SPIRVGenerator> spirvGenerator_;
-    std::shared_ptr<SPIRVTranspiler> spirvTranspiler_;
-    std::shared_ptr<SPIRVReflection> spirvReflection_;
+    std::shared_ptr<LLGI::SPIRVGenerator> spirvGenerator_;
+    std::shared_ptr<LLGI::SPIRVTranspiler> spirvTranspiler_;
+    std::shared_ptr<LLGI::SPIRVReflection> spirvReflection_;
 
 public:
     static std::shared_ptr<ShaderCompiler>& GetInstance();

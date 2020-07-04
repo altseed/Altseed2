@@ -21,34 +21,30 @@ bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics) {
 void ShaderCompiler::Terminate() { instance_ = nullptr; }
 
 ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
-    spirvGenerator_ = std::make_shared<SPIRVGenerator>();
-    spirvGenerator_->Initialize();
-
-    // TODO : change with graphics
-#ifdef _WIN32
-    auto compiler = new LLGI::CompilerDX12(LLGI::CompilerDX12Option::ColumnMajor);
-    compiler->Initialize();
-    compiler_ = LLGI::CreateSharedPtr(compiler);
-#else
+    spirvGenerator_ = std::make_shared<LLGI::SPIRVGenerator>();
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
-#endif
+
 #ifdef _WIN32
-    // spirvTranspiler_ = std::make_shared<SPIRVToHLSLTranspiler>();
+    // spirvTranspiler_ = std::make_shared<LLGI::SPIRVToHLSLTranspiler>();
 #elif __APPLE__
-    spirvTranspiler_ = std::make_shared<SPIRVToMSLTranspiler>();
+    spirvTranspiler_ = std::make_shared<LLGI::SPIRVToMSLTranspiler>();
 #else
-    spirvTranspiler_ = std::make_shared<SPIRVToGLSLTranspiler>(true);
+    spirvTranspiler_ = std::make_shared<LLGI::SPIRVToGLSLTranspiler>(true);
 #endif
 
-    spirvReflection_ = std::make_shared<SPIRVReflection>();
+    spirvReflection_ = std::make_shared<LLGI::SPIRVReflection>();
 }
 
-ShaderCompiler::~ShaderCompiler() { spirvGenerator_->Terminate(); }
+ShaderCompiler::~ShaderCompiler() {}
 
 std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
-    auto spirv = spirvGenerator_->Generate(code, shaderStage);
+#if defined(_WIN32) || defined(__APPLE__)
+    auto spirv = spirvGenerator_->Generate(code, static_cast<LLGI::ShaderStageType>(shaderStage), false);
+#else
+    auto spirv = spirvGenerator_->Generate(code, static_cast<LLGI::ShaderStageType>(shaderStage), true);
+#endif
 
     // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
@@ -95,11 +91,24 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
 
     auto shaderLLGI = LLGI::CreateSharedPtr(graphics_->GetGraphicsLLGI()->CreateShader(data.data(), static_cast<int32_t>(data.size())));
 
+    std::vector<ShaderReflectionTexture> textures;
+    std::vector<ShaderReflectionUniform> uniforms;
+
+    for (auto& t : spirvReflection_->Textures) {
+        auto _ = ShaderReflectionTexture{utf8_to_utf16(t.Name), t.Offset};
+        textures.emplace_back(_);
+    }
+
+    for (auto& t : spirvReflection_->Uniforms) {
+        auto _ = ShaderReflectionUniform{utf8_to_utf16(t.Name), t.Offset, t.Size};
+        uniforms.emplace_back(_);
+    }
+
     auto ret = CreateSharedPtr(new Shader(
             utf8_to_utf16(availableCode),
             utf8_to_utf16(name),
-            spirvReflection_->Textures,
-            spirvReflection_->Uniforms,
+            textures,
+            uniforms,
             shaderLLGI,
             shaderStage));
     return ret;
