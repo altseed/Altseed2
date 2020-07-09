@@ -18,7 +18,7 @@
 #include "Math/RectF.h"
 #include "System/SynchronizationContext.h"
 
-static const int LoopFrames = 50000;
+static const int LoopFrames = 60;
 
 template <typename... Args>
 std::u16string format(const std::u16string& fmt, Args... args) {
@@ -549,6 +549,8 @@ TEST(Tool, Popup) {
 }
 
 TEST(Tool, SaveDialog) {
+    return;
+
     auto config = Altseed2::Configuration::Create();
     config->SetToolEnabled(true);
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));

@@ -15,14 +15,14 @@ TEST(Configuration, Initialize) {
     EXPECT_EQ(config->GetToolEnabled(), false);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log.txt");
 
-    config->SetIsFullscreen(true);
+    //config->SetIsFullscreen(true);
     config->SetIsResizable(true);
     config->SetConsoleLoggingEnabled(true);
     config->SetFileLoggingEnabled(true);
     config->SetToolEnabled(true);
     config->SetLogFileName(u"Log-configtest.txt");
 
-    EXPECT_EQ(config->GetIsFullscreen(), true);
+    //EXPECT_EQ(config->GetIsFullscreen(), true);
     EXPECT_EQ(config->GetIsResizable(), true);
     EXPECT_EQ(config->GetConsoleLoggingEnabled(), true);
     EXPECT_EQ(config->GetFileLoggingEnabled(), true);
