@@ -576,4 +576,14 @@ void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<Render
     SynchronizationContext::GetInstance()->AddEvent(f);
 }
 
+void CommandList::OnTerminating() {
+    memoryPool_.reset();
+    commandListPool_.reset();
+    currentRenderPass_.reset();
+    renderPassCaches_.clear();
+    blitVB_.reset();
+    blitIB_.reset();
+    proxyTexture_.reset();
+}
+
 }  // namespace Altseed2

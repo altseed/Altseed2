@@ -15,8 +15,8 @@ std::mutex Texture2D::mtx;
 Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath)
     : TextureBase(resources, texture) {
     sourcePath_ = sourcePath;
-    size_.X = m_texture->GetSizeAs2D().X;
-    size_.Y = m_texture->GetSizeAs2D().Y;
+    size_.X = texture_->GetSizeAs2D().X;
+    size_.Y = texture_->GetSizeAs2D().Y;
 
     SetInstanceName(__FILE__);
 }
@@ -28,7 +28,7 @@ Texture2D::~Texture2D() {
         resources_ = nullptr;
     }
 
-    m_texture = nullptr;
+    texture_ = nullptr;
 }
 
 bool Texture2D::Reload() { return false; }

@@ -15,14 +15,14 @@ ThreadSafeMap<std::u16string, std::mutex> TextureBase::mtxs;
 
 TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture) {
     resources_ = resources;
-    m_texture = texture;
-    size_.X = m_texture->GetSizeAs2D().X;
-    size_.Y = m_texture->GetSizeAs2D().Y;
+    texture_ = texture;
+    size_.X = texture_->GetSizeAs2D().X;
+    size_.Y = texture_->GetSizeAs2D().Y;
 
     SetInstanceName(__FILE__);
 }
 
-TextureBase::~TextureBase() { m_texture = nullptr; }
+TextureBase::~TextureBase() { texture_ = nullptr; }
 
 Vector2I TextureBase::GetSize() const { return size_; }
 
@@ -68,6 +68,10 @@ bool TextureBase::Save(const char16_t* path) {
     free(raw2D);
 
     return true;
+}
+
+void TextureBase::OnTerminating() {
+    texture_.reset();
 }
 
 }  // namespace Altseed2
