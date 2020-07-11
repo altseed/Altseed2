@@ -149,7 +149,7 @@ TEST(Texture2D, Save) {
     Altseed2::Core::Terminate();
 }
 
-void* test(const char16_t* path) {
+void* Texture2D_Cache_Func(const char16_t* path) {
     const char16_t* cbg_arg0 = path;
     std::shared_ptr<Altseed2::Texture2D> cbg_ret = Altseed2::Texture2D::Load(cbg_arg0);
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
@@ -162,7 +162,7 @@ TEST(Texture2D, Cache) {
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto start = std::chrono::system_clock::now();  // 計測開始時間
-    std::shared_ptr<Altseed2::Texture2D> testPng = Altseed2::CreateAndAddSharedPtr((Altseed2::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
+    std::shared_ptr<Altseed2::Texture2D> testPng = Altseed2::CreateSharedPtr((Altseed2::Texture2D*)Texture2D_Cache_Func(u"TestData/IO/AltseedPink.png"));
     EXPECT_NE(testPng, nullptr);
     auto end = std::chrono::system_clock::now();  // 計測終了時間
     int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();  //処理に要した時間をミリ秒に変換
@@ -170,7 +170,7 @@ TEST(Texture2D, Cache) {
     // cache test
     auto start2 = std::chrono::system_clock::now();
     std::shared_ptr<Altseed2::Texture2D> testCache =
-            Altseed2::CreateAndAddSharedPtr((Altseed2::Texture2D*)test(u"TestData/IO/AltseedPink.png"));
+            Altseed2::CreateSharedPtr((Altseed2::Texture2D*)Texture2D_Cache_Func(u"TestData/IO/AltseedPink.png"));
     EXPECT_NE(testCache, nullptr);
     auto end2 = std::chrono::system_clock::now();  // 計測終了時間
     EXPECT_EQ(testPng, testCache);

@@ -104,13 +104,13 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* co
         uniforms.emplace_back(_);
     }
 
-    auto ret = CreateSharedPtr(new Shader(
+    auto ret = MakeAsdShared<Shader>(
             utf8_to_utf16(availableCode),
             utf8_to_utf16(name),
             textures,
             uniforms,
             shaderLLGI,
-            shaderStage));
+            shaderStage);
     return ret;
 }
 
