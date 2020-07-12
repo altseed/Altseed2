@@ -822,3 +822,61 @@ TEST(Graphics, RenderToRenderTexture) {
 
     Altseed2::Core::Terminate();
 }
+
+TEST(Graphics, TextureWrapModeClamp) {
+    const char* psCode = R"(
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
+};
+float4 main(PS_INPUT input) : SV_TARGET 
+{ 
+    float4 c;
+    c = mainTex.Sample(mainSamp, input.UV1 * 2.0) * input.Color;
+    return c;
+}
+)";
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"TextureWrapMode", 1280, 720, Altseed2::Configuration::Create()));
+
+    auto instance = Altseed2::Graphics::GetInstance();
+
+    auto t1 = Altseed2::Texture2D::Load(u"TestData/Graphics/flower.png");
+    t1->SetWrapMode(Altseed2::TextureWrapMode::Clamp);
+
+    EXPECT_TRUE(t1 != nullptr);
+
+    auto sprite = Altseed2::RenderedSprite::Create();
+    sprite->SetTexture(t1);
+    sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
+
+    auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
+    auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
+    material->SetShader(ps);
+    sprite->SetMaterial(material);
+
+    int count = 0;
+    while (count++ < 10 && instance->DoEvents()) {
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        Altseed2::Renderer::GetInstance()->DrawSprite(sprite);
+
+        Altseed2::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+    }
+
+    Altseed2::Core::Terminate();
+}

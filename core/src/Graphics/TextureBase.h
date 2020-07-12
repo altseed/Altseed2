@@ -14,6 +14,12 @@
 #include "../Math/Vector2I.h"
 
 namespace Altseed2 {
+
+enum class TextureWrapMode : int32_t {
+    Clamp,
+    Repeat,
+};
+
 class TextureBase : public Resource {
 private:
     static ThreadSafeMap<std::u16string, std::mutex> mtxs;
@@ -22,6 +28,7 @@ protected:
     std::shared_ptr<Resources> resources_ = nullptr;
     std::shared_ptr<LLGI::Texture> texture_ = nullptr;
     Vector2I size_;
+    TextureWrapMode wrapMode_;
 
     TextureBase(){};
 
@@ -30,6 +37,9 @@ public:
     virtual ~TextureBase();
 
     Vector2I GetSize() const;
+
+    TextureWrapMode GetWrapMode() const;
+    void SetWrapMode(TextureWrapMode wrapMode);
 
     virtual bool Save(const char16_t* path);
 

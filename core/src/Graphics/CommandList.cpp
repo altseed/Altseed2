@@ -416,13 +416,17 @@ void CommandList::StoreTextures(
 
         if (v.get() == nullptr) {
             commandList->GetLL()->SetTexture(
-                    proxyTexture_.get(), LLGI::TextureWrapMode::Repeat, LLGI::TextureMinMagFilter::Linear, info.Offset, shaderStage);
+                    proxyTexture_.get(),
+                    static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
+                    LLGI::TextureMinMagFilter::Linear,
+                    info.Offset,
+                    shaderStage);
             FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
 
         } else {
             commandList->GetLL()->SetTexture(
                     v->GetNativeTexture().get(),
-                    LLGI::TextureWrapMode::Repeat,
+                    static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
                     LLGI::TextureMinMagFilter::Linear,
                     info.Offset,
                     shaderStage);

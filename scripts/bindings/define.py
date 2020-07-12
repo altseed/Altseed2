@@ -81,6 +81,7 @@ define.enums.append(ShaderStageType)
 define.enums.append(AlphaBlendMode)
 define.enums.append(BuiltinShaderType)
 define.enums.append(WritingDirection)
+define.enums.append(TextureWrapMode)
 
 define.structs.append(BatchVertex)
 define.structs.append(Color)
