@@ -33,7 +33,7 @@ TEST(Keyboard, GetKeyState) {
 
     EXPECT_TRUE(Altseed2::Core::Initialize(s16, 640, 480, Altseed2::Configuration::Create()));
 
-    for (int count = 0; Altseed2::Core::GetInstance()->DoEvent() && count < 100000; count++) {
+    for (int count = 0; Altseed2::Core::GetInstance()->DoEvent() && count < 60; count++) {
         for (int i = 0; i < static_cast<int>(Altseed2::Keys::MAX); i++) {
             auto bs = Altseed2::Keyboard::GetInstance()->GetKeyState((Altseed2::Keys)i);
             if (bs != Altseed2::ButtonState::Free) std::cout << i;
