@@ -260,12 +260,6 @@ elseif(APPLE)
         Altseed2_Core
         PRIVATE
         z
-        glslang
-        HLSL
-        OGLCompiler
-        OSDependent
-        SPIRV
-        SPVRemapper
         ${OPEN_AL}
         ${COCOA_FRAMEWORK}
         ${IOKIT_FRAMEWORK}
@@ -295,12 +289,6 @@ else()
         crypto
         X11
         X11-xcb
-        glslang
-        HLSL
-        OGLCompiler
-        OSDependent
-        SPIRV
-        SPVRemapper
         )
 endif()
 
