@@ -18,6 +18,7 @@ TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<
     texture_ = texture;
     size_.X = texture_->GetSizeAs2D().X;
     size_.Y = texture_->GetSizeAs2D().Y;
+    wrapMode_ = TextureWrapMode::Repeat;
 
     SetInstanceName(__FILE__);
 }
@@ -25,6 +26,10 @@ TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<
 TextureBase::~TextureBase() { texture_ = nullptr; }
 
 Vector2I TextureBase::GetSize() const { return size_; }
+
+TextureWrapMode TextureBase::GetWrapMode() const { return wrapMode_; }
+
+void TextureBase::SetWrapMode(TextureWrapMode wrapMode) { wrapMode_ = wrapMode; }
 
 bool TextureBase::Save(const char16_t* path) {
     FILE* f;

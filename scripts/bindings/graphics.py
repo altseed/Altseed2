@@ -7,8 +7,14 @@ from .io import *
 
 DeviceType = cbg.Enum('LLGI', 'DeviceType')
 
-TextureBase = cbg.Class('Altseed2', 'TextureBase',
-                        cbg.CacheMode.ThreadSafeCache)
+TextureWrapMode = cbg.Enum('Altseed2', 'TextureWrapMode')
+with TextureWrapMode as enum_:
+    enum_.brief = cbg.Description()
+    enum.brief.add('ja', 'テクスチャをサンプリングする方法を表します。')
+    enum_.add('Repeat')
+    enum_.add('Clamp')
+
+TextureBase = cbg.Class('Altseed2', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのベースクラス')
@@ -19,6 +25,13 @@ with TextureBase as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャの大きさ(ピクセル)を取得します。')
         prop.has_getter = True
+        prop.serialized = True
+
+    with class_.add_property(TextureWrapMode, 'WrapMode') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャをサンプリングする方法を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
         prop.serialized = True
 
     with class_.add_func('Save') as func:

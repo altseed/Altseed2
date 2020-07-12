@@ -1004,6 +1004,20 @@ CBGEXPORT Altseed2::Vector2I_C CBGSTDCALL cbg_TextureBase_GetSize(void* cbg_self
     return (cbg_ret);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_TextureBase_GetWrapMode(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::TextureBase*)(cbg_self);
+
+    Altseed2::TextureWrapMode cbg_ret = cbg_self_->GetWrapMode();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_TextureBase_SetWrapMode(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed2::TextureBase*)(cbg_self);
+
+    Altseed2::TextureWrapMode cbg_arg0 = (Altseed2::TextureWrapMode)value;
+    cbg_self_->SetWrapMode(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_TextureBase_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::TextureBase*)(cbg_self);
 
