@@ -108,10 +108,10 @@ add_subdirectory(core)
 # specify filters
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set_target_properties (ExternalProject_zlib PROPERTIES FOLDER thirdparty)
-set_target_properties (ExternalProject_libpng PROPERTIES FOLDER thirdparty)
-set_target_properties (ExternalProject_libzip PROPERTIES FOLDER thirdparty)
-set_target_properties (ExternalProject_glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_zlib PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_libpng PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_libzip PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_glfw PROPERTIES FOLDER thirdparty)
 
 #set_target_properties (box2d PROPERTIES FOLDER thirdparty)
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)

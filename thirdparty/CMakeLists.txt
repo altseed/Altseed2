@@ -15,7 +15,7 @@ endif()
 
 # zlib
 ExternalProject_Add(
-    ExternalProject_zlib
+    EP_zlib
     GIT_REPOSITORY  https://github.com/altseed/zlib
     GIT_TAG         v1.2.11
     SOURCE_DIR      ${CMAKE_CURRENT_BINARY_DIR}/zlib-src
@@ -34,8 +34,8 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/z
 
 # libpng
 ExternalProject_Add(
-    ExternalProject_libpng
-    DEPENDS         ExternalProject_zlib
+    EP_libpng
+    DEPENDS         EP_zlib
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libpng
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/libpng
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/libpng
@@ -65,8 +65,8 @@ endif()
 
 # libzip
 ExternalProject_Add(
-    ExternalProject_libzip
-    DEPENDS         ExternalProject_zlib
+    EP_libzip
+    DEPENDS         EP_zlib
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libzip
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/libzip
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/libzip
@@ -90,7 +90,7 @@ list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/l
 
 # glfw
 ExternalProject_Add(
-    ExternalProject_glfw
+    EP_glfw
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/glfw
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/glfw
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/glfw

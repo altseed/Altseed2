@@ -327,10 +327,10 @@ target_link_directories(
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed2_Core
-    ExternalProject_glfw
-    ExternalProject_zlib
-    ExternalProject_libpng
-    ExternalProject_libzip
+    EP_glfw
+    EP_zlib
+    EP_libpng
+    EP_libzip
     box2d
     nativefiledialog)
 
