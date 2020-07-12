@@ -20,7 +20,7 @@ private:
 
 protected:
     std::shared_ptr<Resources> resources_ = nullptr;
-    std::shared_ptr<LLGI::Texture> m_texture = nullptr;
+    std::shared_ptr<LLGI::Texture> texture_ = nullptr;
     Vector2I size_;
 
     TextureBase(){};
@@ -33,6 +33,8 @@ public:
 
     virtual bool Save(const char16_t* path);
 
-    std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return m_texture; }
+    void OnTerminating() override;
+
+    std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return texture_; }
 };
 }  // namespace Altseed2

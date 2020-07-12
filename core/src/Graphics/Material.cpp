@@ -260,4 +260,8 @@ void Material::SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& pipline
     }
 }
 
+void Material::OnTerminating() {
+    pipelineStates_.clear();
+}
+
 }  // namespace Altseed2

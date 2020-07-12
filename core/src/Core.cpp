@@ -161,12 +161,29 @@ bool Core::Initialize(int32_t width, int32_t height) {
 }
 
 void Core::Terminate() {
-    // notify terminating to objects
-    for (auto obj : Core::instance->baseObjects) {
-        obj->OnTerminating();
+    SynchronizationContext::GetInstance()->Run();
+
+    if (Graphics::GetInstance() != nullptr) {
+        Graphics::GetInstance()->GetGraphicsLLGI()->WaitFinish();
     }
 
-    SynchronizationContext::GetInstance()->Run();
+    // notify terminating to objects
+    {
+        // Add a reference to protect
+        for (auto obj : Core::instance->baseObjects) {
+            obj->AddRef();
+        }
+
+        for (auto obj : Core::instance->baseObjects) {
+            obj->OnTerminating();
+        }
+
+        auto temp = Core::instance->baseObjects;
+        for (auto obj : temp) {
+            obj->Release();
+        }
+    }
+
     SynchronizationContext::Terminate();
 
     if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
