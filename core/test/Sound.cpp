@@ -15,7 +15,12 @@ TEST(Sound, SoundPlay) {
     int id_bgm = mixer->Play(bgm);
     int id_se = mixer->Play(se);
 
+    clock_t start = clock();
+
     while (asd::Core::GetInstance()->DoEvent() && (mixer->GetIsPlaying(id_bgm) || mixer->GetIsPlaying(id_se))) {
+        double time = (clock() - start) * 0.01;
+
+        if (time > 1500) mixer->Stop(id_bgm);
     }
 
     asd::Core::Terminate();
@@ -40,7 +45,12 @@ TEST(Sound, SoundLoop) {
         id_bgm = mixer->Play(bgm);
     }
 
+    clock_t start = clock();
+
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
+        double time = (clock() - start) * 0.01;
+
+        if (time > 5000) mixer->Stop(id_bgm);
     }
 
     asd::Core::Terminate();
@@ -61,24 +71,24 @@ TEST(Sound, SoundResume) {
     int stage = 0;
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
-        double time = static_cast<double>(clock() - start) / CLOCKS_PER_SEC * 1000.0;
+        double time = (clock() - start) * 0.01;
 
         if (stage == 0) {
-            if (time > 1500) {
+            if (time > 750) {
                 mixer->Pause(id_bgm);
                 ++stage;
             }
         }
 
         else if (stage == 1) {
-            if (time > 2500) {
+            if (time > 1500) {
                 mixer->Resume(id_bgm);
                 ++stage;
             }
         }
 
         else if (stage == 2) {
-            if (time > 3500) {
+            if (time > 2250) {
                 mixer->Stop(id_bgm);
                 ++stage;
             }
@@ -122,7 +132,13 @@ TEST(Sound, SpectrumAnalyze) {
 
     if (bgm != nullptr) id_bgm = mixer->Play(bgm);
 
+    clock_t start = clock();
+
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
+        double time = (clock() - start) * 0.01;
+
+        if (time > 1500) mixer->Stop(id_bgm);
+
         mixer->GetSpectrum(id_bgm, spectrumData, asd::FFTWindow::Rectangular);
         for (int i = 0; i < 8192; ++i) {
             std::cout << "spactrumData[" << i << "] = " << spectrumData->GetVector()[i] << std::endl;
