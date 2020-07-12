@@ -104,7 +104,7 @@ target_link_directories(
 # It is required to use external projects in addition of target_link_libraries
 add_dependencies(
     Altseed2_Core_Test
-    ExternalProject_glfw
+    EP_glfw
     TestData)
 
 

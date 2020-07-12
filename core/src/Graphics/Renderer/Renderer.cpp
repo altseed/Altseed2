@@ -302,4 +302,12 @@ void Renderer::ResetCamera() {
     batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
 }
 
+void Renderer::OnTerminating() {
+    window_.reset();
+    graphics_.reset();
+    batchRenderer_.reset();
+    cullingSystem_.reset();
+    cameras_.clear();
+}
+
 }  // namespace Altseed2
