@@ -26,7 +26,12 @@ void RenderedPolygon::SetVertexes(std::shared_ptr<VertexArray> vertexes) {
 }
 
 void RenderedPolygon::CreateVertexesByVector2F(std::shared_ptr<Vector2FArray> vectors) {
-    vertexes_ = VertexArray::Create(vectors->GetCount());
+    if (vertexes_ == nullptr) {
+        vertexes_ = VertexArray::Create(vectors->GetCount());
+    } else {
+        vertexes_->Clear();
+        vertexes_->Resize(vectors->GetCount());
+    }
 
     float xMin, xMax, yMin, yMax;
     {
