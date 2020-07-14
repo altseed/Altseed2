@@ -20,6 +20,11 @@ enum class TextureWrapMode : int32_t {
     Repeat,
 };
 
+enum class TextureFilterType : int32_t {
+    Nearest,
+    Linear,
+};
+
 class TextureBase : public Resource {
 private:
     static ThreadSafeMap<std::u16string, std::mutex> mtxs;
@@ -29,6 +34,7 @@ protected:
     std::shared_ptr<LLGI::Texture> texture_ = nullptr;
     Vector2I size_;
     TextureWrapMode wrapMode_;
+    TextureFilterType filterMode_;
 
     TextureBase(){};
 
@@ -40,6 +46,9 @@ public:
 
     TextureWrapMode GetWrapMode() const;
     void SetWrapMode(TextureWrapMode wrapMode);
+
+    TextureFilterType GetFilterType() const;
+    void SetFilterType(TextureFilterType filterMode);
 
     virtual bool Save(const char16_t* path);
 

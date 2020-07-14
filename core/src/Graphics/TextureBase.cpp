@@ -31,6 +31,10 @@ TextureWrapMode TextureBase::GetWrapMode() const { return wrapMode_; }
 
 void TextureBase::SetWrapMode(TextureWrapMode wrapMode) { wrapMode_ = wrapMode; }
 
+TextureFilterType TextureBase::GetFilterType() const { return filterMode_; }
+
+void TextureBase::SetFilterType(TextureFilterType filterMode) { filterMode_ = filterMode; }
+
 bool TextureBase::Save(const char16_t* path) {
     FILE* f;
 #ifdef _WIN32

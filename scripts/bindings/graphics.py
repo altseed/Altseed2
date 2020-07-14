@@ -14,6 +14,13 @@ with TextureWrapMode as enum_:
     enum_.add('Repeat')
     enum_.add('Clamp')
 
+TextureFilterType = cbg.Enum('Altseed2', 'TextureFilterType')
+with TextureFilterType as enum_:
+    enum_.brief = cbg.Description()
+    enum.brief.add('ja', 'テクスチャをフィルタリングする方法を表します。')
+    enum_.add('Nearest')
+    enum_.add('Linear')
+
 TextureBase = cbg.Class('Altseed2', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
@@ -30,6 +37,13 @@ with TextureBase as class_:
     with class_.add_property(TextureWrapMode, 'WrapMode') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テクスチャをサンプリングする方法を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(TextureFilterType, 'FilterType') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャをフィルタリングする方法を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
