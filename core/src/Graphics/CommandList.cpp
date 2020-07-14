@@ -418,7 +418,7 @@ void CommandList::StoreTextures(
             commandList->GetLL()->SetTexture(
                     proxyTexture_.get(),
                     static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
-                    LLGI::TextureMinMagFilter::Linear,
+                    static_cast<LLGI::TextureMinMagFilter>(TextureFilterType::Linear),
                     info.Offset,
                     shaderStage);
             FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
@@ -427,7 +427,7 @@ void CommandList::StoreTextures(
             commandList->GetLL()->SetTexture(
                     v->GetNativeTexture().get(),
                     static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
-                    LLGI::TextureMinMagFilter::Linear,
+                    static_cast<LLGI::TextureMinMagFilter>(v->GetFilterType()),
                     info.Offset,
                     shaderStage);
             FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
