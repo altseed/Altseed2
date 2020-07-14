@@ -10,14 +10,14 @@ DeviceType = cbg.Enum('LLGI', 'DeviceType')
 TextureWrapMode = cbg.Enum('Altseed2', 'TextureWrapMode')
 with TextureWrapMode as enum_:
     enum_.brief = cbg.Description()
-    enum.brief.add('ja', 'テクスチャをサンプリングする方法を表します。')
+    enum_.brief.add('ja', 'テクスチャをサンプリングする方法を表します。')
     enum_.add('Repeat')
     enum_.add('Clamp')
 
 TextureFilterType = cbg.Enum('Altseed2', 'TextureFilterType')
 with TextureFilterType as enum_:
     enum_.brief = cbg.Description()
-    enum.brief.add('ja', 'テクスチャをフィルタリングする方法を表します。')
+    enum_.brief.add('ja', 'テクスチャをフィルタリングする方法を表します。')
     enum_.add('Nearest')
     enum_.add('Linear')
 
