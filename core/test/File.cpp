@@ -65,7 +65,7 @@ TEST(File, StaticFile) {
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
 
     // pack files
-    EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
+    EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO", u"TestData/IO/pack.pack"));
     EXPECT_TRUE(Altseed2::File::GetInstance()->PackWithPassword(u"TestData/IO/pack/", u"TestData/IO/password.pack", u"altseed"));
 
     // add package
