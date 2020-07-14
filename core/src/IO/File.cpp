@@ -138,7 +138,11 @@ bool File::Exists(const char16_t* path) const {
 }
 
 bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
-    if (!FileSystem::GetIsDirectory(srcPath)) {
+    std::u16string src = srcPath;
+    if (src.back() != u'/' && src.back() != u'\\')
+        src += u'/';
+
+    if (!FileSystem::GetIsDirectory(src)) {
         Log::GetInstance()->Error(LogCategory::Core, u"File::Pack: Directory '{0}' is not found", utf16_to_utf8(srcPath).c_str());
         return false;
     }
@@ -150,7 +154,7 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
         return false;
     }
 
-    auto res = MakePackage(zip_, srcPath);
+    auto res = MakePackage(zip_, src);
     zip_close(zip_);
     if (!res) {
         Log::GetInstance()->Error(LogCategory::Core, u"File::PackWithPassword: Filed to MakePackage '{0}'", utf16_to_utf8(srcPath).c_str());
@@ -159,7 +163,11 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
 }
 
 bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
-    if (!FileSystem::GetIsDirectory(srcPath)) {
+    std::u16string src = srcPath;
+    if (src.back() != u'/' && src.back() != u'\\')
+        src += u'/';
+
+    if (!FileSystem::GetIsDirectory(src)) {
         Log::GetInstance()->Error(
                 LogCategory::Core, u"File::PackWithPassword: Directory '{0}' is not found", utf16_to_utf8(srcPath).c_str());
         return false;
@@ -182,7 +190,7 @@ bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, co
         return false;
     }
 
-    auto res = MakePackage(zip_, srcPath, true);
+    auto res = MakePackage(zip_, src, true);
     zip_close(zip_);
     if (!res) {
         Log::GetInstance()->Error(LogCategory::Core, u"File::PackWithPassword: Filed to MakePackage '{0}'", utf16_to_utf8(srcPath).c_str());
