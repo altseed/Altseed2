@@ -417,7 +417,7 @@ void CommandList::StoreTextures(
         if (v.get() == nullptr) {
             commandList->GetLL()->SetTexture(
                     proxyTexture_.get(),
-                    static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
+                    static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
                     LLGI::TextureMinMagFilter::Linear,
                     info.Offset,
                     shaderStage);
