@@ -13,12 +13,10 @@
 namespace Altseed2 {
 ThreadSafeMap<std::u16string, std::mutex> TextureBase::mtxs;
 
-TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture) {
-    resources_ = resources;
-    texture_ = texture;
-    size_.X = texture_->GetSizeAs2D().X;
-    size_.Y = texture_->GetSizeAs2D().Y;
-    wrapMode_ = TextureWrapMode::Repeat;
+TextureBase::TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture)
+    : resources_(resources), texture_(texture), wrapMode_(TextureWrapMode::Repeat), filterMode_(TextureFilterType::Linear) {
+    size_.X = texture->GetSizeAs2D().X;
+    size_.Y = texture->GetSizeAs2D().Y;
 
     SetInstanceName(__FILE__);
 }
