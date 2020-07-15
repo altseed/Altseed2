@@ -11,8 +11,8 @@ TextureWrapMode = cbg.Enum('Altseed2', 'TextureWrapMode')
 with TextureWrapMode as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'テクスチャをサンプリングする方法を表します。')
-    enum_.add('Repeat')
     enum_.add('Clamp')
+    enum_.add('Repeat')
 
 TextureFilterType = cbg.Enum('Altseed2', 'TextureFilterType')
 with TextureFilterType as enum_:
