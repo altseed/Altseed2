@@ -12,12 +12,8 @@
 namespace Altseed2 {
 std::mutex Texture2D::mtx;
 
-Texture2D::Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath)
-    : TextureBase(resources, texture) {
-    sourcePath_ = sourcePath;
-    size_.X = texture_->GetSizeAs2D().X;
-    size_.Y = texture_->GetSizeAs2D().Y;
-
+Texture2D::Texture2D(const std::shared_ptr<Resources>& resources, const std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath)
+    : TextureBase(texture), resources_(resources), sourcePath_(sourcePath) {
     SetInstanceName(__FILE__);
 }
 
@@ -27,8 +23,6 @@ Texture2D::~Texture2D() {
         resources_->GetResourceContainer(ResourceType::Texture2D)->Unregister(sourcePath_);
         resources_ = nullptr;
     }
-
-    texture_ = nullptr;
 }
 
 bool Texture2D::Reload() { return false; }

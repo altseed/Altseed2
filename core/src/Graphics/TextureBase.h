@@ -28,18 +28,13 @@ enum class TextureFilterType : int32_t {
 class TextureBase : public Resource {
 private:
     static ThreadSafeMap<std::u16string, std::mutex> mtxs;
-
-protected:
-    std::shared_ptr<Resources> resources_ = nullptr;
     std::shared_ptr<LLGI::Texture> texture_ = nullptr;
     Vector2I size_;
     TextureWrapMode wrapMode_;
     TextureFilterType filterMode_;
 
-    TextureBase(){};
-
 public:
-    TextureBase(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture);
+    TextureBase(const std::shared_ptr<LLGI::Texture>& texture);
     virtual ~TextureBase();
 
     Vector2I GetSize() const;

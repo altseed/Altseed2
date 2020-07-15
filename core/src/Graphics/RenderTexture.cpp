@@ -6,15 +6,16 @@
 
 namespace Altseed2 {
 
-RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture) { texture_ = texture; }
-
-RenderTexture::RenderTexture(Vector2I size) {
-    texture_ = Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y);
-    size_.X = texture_->GetSizeAs2D().X;
-    size_.Y = texture_->GetSizeAs2D().Y;
+RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture)
+    : TextureBase(texture) {
+    SetInstanceName(__FILE__);
 }
 
-RenderTexture::~RenderTexture() { texture_ = nullptr; }
+RenderTexture::RenderTexture(Vector2I size)
+    : RenderTexture(Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y)) {
+}
+
+RenderTexture::~RenderTexture() {}
 
 std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size) { return MakeAsdShared<RenderTexture>(size); }
 

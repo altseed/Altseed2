@@ -20,12 +20,10 @@ private:
     static std::mutex mtx;
 
     std::u16string sourcePath_;
-
-protected:
-    Texture2D(){};
+    std::shared_ptr<Resources> resources_ = nullptr;
 
 public:
-    Texture2D(std::shared_ptr<Resources>& resources, std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath);
+    Texture2D(const std::shared_ptr<Resources>& resources, const std::shared_ptr<LLGI::Texture>& texture, const std::u16string& sourcePath);
     virtual ~Texture2D();
 
     bool Reload() override;
