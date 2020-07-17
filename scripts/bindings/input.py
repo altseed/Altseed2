@@ -461,11 +461,11 @@ with JoystickAxisType as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', '右スティック縦')
 
-    with enum.add('LeftTriger', 4) as v:
+    with enum.add('LeftTrigger', 4) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '左トリガー')
 
-    with enum.add('RightTriger', 5) as v:
+    with enum.add('RightTrigger', 5) as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '右トリガー')
 
