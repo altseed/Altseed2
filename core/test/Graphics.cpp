@@ -583,6 +583,9 @@ struct VS_OUTPUT{
     float2  UV2 : UV1;
 };
 
+// It neeed to define on vs and ps
+Texture2D mainTex : register(t0);
+SamplerState mainSamp : register(s0);
 Texture2D vtfTex : register(t1);
 SamplerState vtfSamp : register(s1);
     
@@ -634,7 +637,7 @@ VS_OUTPUT main(VS_INPUT input){
     renderPassParameter.IsColorCleared = true;
     renderPassParameter.IsDepthCleared = true;
 
-    while (count++ < 10000 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
