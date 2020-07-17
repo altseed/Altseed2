@@ -189,7 +189,7 @@ TEST(PostEffect, Sepia) {
     std::shared_ptr<Altseed2::RenderTexture> buffer = nullptr;
 
     int count = 0;
-    while (count++ < 180 && instance->DoEvents()) {
+    while (count++ < 180 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -244,7 +244,7 @@ TEST(PostEffect, GrayScale) {
     std::shared_ptr<Altseed2::RenderTexture> buffer = nullptr;
 
     int count = 0;
-    while (count++ < 180 && instance->DoEvents()) {
+    while (count++ < 180 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -312,7 +312,7 @@ TEST(PostEffect, GaussianBlur) {
     auto intensity = 2.0f;
 
     int count = 0;
-    while (count++ < 180 && instance->DoEvents()) {
+    while (count++ < 180 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -434,7 +434,7 @@ TEST(PostEffect, LightBloom) {
     auto exposure = 2.0f;
 
     int count = 0;
-    while (count++ < 180 && instance->DoEvents()) {
+    while (count++ < 180 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
