@@ -285,15 +285,15 @@ TEST(Joystick, AxisStateByType) {
                     }
                 }
                 {
-                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::RightTriger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::RightTrigger);
                     if (as > 0.1) {
-                        printf("%d - RightTriger : %f\n", ji, as);
+                        printf("%d - RightTrigger : %f\n", ji, as);
                     }
                 }
                 {
-                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::LeftTriger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxisType::LeftTrigger);
                     if (as > 0.1) {
-                        printf("%d - LeftTriger : %f\n", ji, as);
+                        printf("%d - LeftTrigger : %f\n", ji, as);
                     }
                 }
             }

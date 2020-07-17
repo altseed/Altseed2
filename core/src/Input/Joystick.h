@@ -45,8 +45,8 @@ enum class JoystickAxisType : int32_t {
     LeftY = GLFW_GAMEPAD_AXIS_LEFT_Y,
     RightX = GLFW_GAMEPAD_AXIS_RIGHT_X,
     RightY = GLFW_GAMEPAD_AXIS_RIGHT_Y,
-    LeftTriger = GLFW_GAMEPAD_AXIS_LEFT_TRIGGER,
-    RightTriger = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER,
+    LeftTrigger = GLFW_GAMEPAD_AXIS_LEFT_TRIGGER,
+    RightTrigger = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER,
 };
 
 class JoystickInfo : public BaseObject {
