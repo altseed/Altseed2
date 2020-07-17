@@ -85,7 +85,7 @@ TEST(Graphics, SpriteTexture) {
     s2->SetTransform(trans);
     s2->SetSrc(Altseed2::RectF(128, 128, 256, 256));
 
-    while (count++ < 10 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -174,7 +174,7 @@ TEST(Graphics, RenderedText) {
 
     auto instance = Altseed2::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 100 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent();) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -230,7 +230,7 @@ TEST(Graphics, RenderedPolygon) {
     transform.SetTranslation(250, 250, 0);
     polygon->SetTransform(transform);
 
-    while (count++ < 100 && instance->DoEvents()) {
+    while (count++ < 100 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -289,7 +289,7 @@ TEST(Graphics, AlphaBlend) {
     trans3.SetTranslation(128, 128, 0);
     s2->SetTransform(trans3 * trans * trans2);
 
-    while (count++ < 10 && instance->DoEvents()) {
+    while (count++ < 10 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
