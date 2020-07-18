@@ -21,7 +21,7 @@ bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics) {
 void ShaderCompiler::Terminate() { instance_ = nullptr; }
 
 ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
-    spirvGenerator_ = std::make_shared<LLGI::SPIRVGenerator>();
+    spirvGenerator_ = std::make_shared<LLGI::SPIRVGenerator>([](std::string s) -> std::vector<uint8_t> { return std::vector<uint8_t>(); });
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
 
 #ifdef _WIN32
@@ -37,13 +37,15 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(
 
 ShaderCompiler::~ShaderCompiler() {}
 
-std::shared_ptr<Shader> ShaderCompiler::Compile(const char* name, const char* code, ShaderStageType shaderStage) {
+std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
+    std::vector<LLGI::SPIRVGeneratorMacro> macros;
+
 #if defined(_WIN32) || defined(__APPLE__)
-    auto spirv = spirvGenerator_->Generate(code, static_cast<LLGI::ShaderStageType>(shaderStage), false);
+    auto spirv = spirvGenerator_->Generate(path, code, macros, static_cast<LLGI::ShaderStageType>(shaderStage), false);
 #else
-    auto spirv = spirvGenerator_->Generate(code, static_cast<LLGI::ShaderStageType>(shaderStage), true);
+    auto spirv = spirvGenerator_->Generate(path, code, macros, static_cast<LLGI::ShaderStageType>(shaderStage), true);
 #endif
 
     // convert a code or use raw code

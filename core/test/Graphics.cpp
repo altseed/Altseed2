@@ -625,7 +625,7 @@ VS_OUTPUT main(VS_INPUT input){
     sprite->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
-    auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("VS", vsCode, Altseed2::ShaderStageType::Vertex);
+    auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("", "VS", vsCode, Altseed2::ShaderStageType::Vertex);
     //auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
     material->SetShader(vs);
     //material->SetShader(ps);
@@ -859,7 +859,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
 
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
-    auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
+    auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("", "PS", psCode, Altseed2::ShaderStageType::Pixel);
     material->SetShader(ps);
     sprite->SetMaterial(material);
 

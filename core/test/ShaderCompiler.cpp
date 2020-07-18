@@ -82,10 +82,11 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 
 )";
-    LLGI::SPIRVGenerator generator;
+    LLGI::SPIRVGenerator generator([](std::string s) -> std::vector<uint8_t> { return std::vector<uint8_t>(); });
+    std::vector<LLGI::SPIRVGeneratorMacro> macros;
 
     {
-        auto spirv = generator.Generate(constantVS, LLGI::ShaderStageType::Vertex, false);
+        auto spirv = generator.Generate("", constantVS, macros, LLGI::ShaderStageType::Vertex, false);
         auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
@@ -101,7 +102,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     }
 
     {
-        auto spirv = generator.Generate(constantPS, LLGI::ShaderStageType::Pixel, false);
+        auto spirv = generator.Generate("", constantPS, macros, LLGI::ShaderStageType::Pixel, false);
         auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
@@ -121,7 +122,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     }
 
     {
-        auto spirv = generator.Generate(texturePS, LLGI::ShaderStageType::Pixel, false);
+        auto spirv = generator.Generate("", texturePS, macros, LLGI::ShaderStageType::Pixel, false);
         auto reflection = LLGI::SPIRVReflection();
         reflection.Transpile(spirv);
 
