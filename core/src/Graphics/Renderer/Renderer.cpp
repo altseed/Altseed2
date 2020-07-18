@@ -44,6 +44,11 @@ Renderer::~Renderer() {}
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     if (!polygon->GetIsDrawn()) return;
 
+    if (polygon->GetVertexes() == nullptr) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Renderer::DrawPolygon: Vertexes is null");
+        return;
+    }
+
     std::shared_ptr<TextureBase> texture = polygon->GetTexture();
 
     RectF src = polygon->GetSrc();
