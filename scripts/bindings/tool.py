@@ -1242,7 +1242,6 @@ with Tool as class_:
         func_.add_arg(float, 'valueMin')
         func_.add_arg(float, 'valueMax')
         func_.return_value.type_ = bool
-        func_.is_public = False
 
     with class_.add_func('SliderFloat2') as func_:
         func_.brief = cbg.Description()
