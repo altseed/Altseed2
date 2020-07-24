@@ -888,7 +888,7 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByType(void* cbg_self, i
     auto cbg_self_ = (Altseed2::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
-    Altseed2::JoystickButtonType cbg_arg1 = (Altseed2::JoystickButtonType)type;
+    Altseed2::JoystickButtons cbg_arg1 = (Altseed2::JoystickButtons)type;
     Altseed2::ButtonState cbg_ret = cbg_self_->GetButtonStateByType(cbg_arg0, cbg_arg1);
     return (int32_t)cbg_ret;
 }
@@ -906,7 +906,7 @@ CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByType(void* cbg_self, int32
     auto cbg_self_ = (Altseed2::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
-    Altseed2::JoystickAxisType cbg_arg1 = (Altseed2::JoystickAxisType)type;
+    Altseed2::JoystickAxes cbg_arg1 = (Altseed2::JoystickAxes)type;
     float cbg_ret = cbg_self_->GetAxisStateByType(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
