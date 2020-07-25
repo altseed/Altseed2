@@ -28,7 +28,7 @@ enum class ToolCond : int32_t {
     Appearing = 1 << 3,
 };
 
-enum class ToolTreeNode : int32_t {
+enum class ToolTreeNodeFlags : int32_t {
     None = 0,
     Selected = 1 << 0,
     Framed = 1 << 1,
@@ -47,7 +47,7 @@ enum class ToolTreeNode : int32_t {
     CollapsingHeader = Framed | NoTreePushOnOpen | NoAutoOpenOnLog
 };
 
-enum class ToolInputText : int32_t {
+enum class ToolInputTextFlags : int32_t {
     None = 0,
     CharsDecimal = 1 << 0,
     CharsHexadecimal = 1 << 1,
@@ -70,7 +70,7 @@ enum class ToolInputText : int32_t {
     CallbackResize = 1 << 18,
 };
 
-enum class ToolColorEdit : int32_t {
+enum class ToolColorEditFlags : int32_t {
     None = 0,
     NoAlpha = 1 << 1,
     NoPicker = 1 << 2,
@@ -97,7 +97,7 @@ enum class ToolColorEdit : int32_t {
     OptionsDefault = Uint8 | DisplayRGB | InputRGB | PickerHueBar,
 };
 
-enum class ToolSelectable {
+enum class ToolSelectableFlags {
     None = 0,
     DontClosePopups = 1 << 0,
     SpanAllColumns = 1 << 1,
@@ -106,7 +106,7 @@ enum class ToolSelectable {
     AllowItemOverlap = 1 << 4,
 };
 
-enum class ToolWindow : int32_t {
+enum class ToolWindowFlags : int32_t {
     None = 0,
     NoTitleBar = 1 << 0,
     NoResize = 1 << 1,
@@ -133,7 +133,7 @@ enum class ToolWindow : int32_t {
     NoInputs = NoMouseInputs | NoNavInputs | NoNavFocus,
 };
 
-enum class ToolTabBar : int32_t {
+enum class ToolTabBarFlags : int32_t {
     None = 0,
     Reorderable = 1 << 0,
     AutoSelectNewTabs = 1 << 1,
@@ -147,7 +147,7 @@ enum class ToolTabBar : int32_t {
     FittingPolicyDefault = FittingPolicyResizeDown,
 };
 
-enum class ToolGlyphRanges : int32_t {
+enum class ToolGlyphRange : int32_t {
     Default,
     // キリル文字
     Cyrillic,
@@ -246,7 +246,7 @@ enum class ToolStyleVar : int32_t {
     COUNT
 };
 
-enum class ToolCombo : int32_t {
+enum class ToolComboFlags : int32_t {
     None = 0,
     PopupAlignLeft = 1 << 0,  // Align the popup toward the left by default
     HeightSmall = 1 << 1,  // Max ~4 items visible. Tip: If you want your combo popup to be a specific size you can use
@@ -259,7 +259,7 @@ enum class ToolCombo : int32_t {
     HeightMask_ = HeightSmall | HeightRegular | HeightLarge | HeightLargest
 };
 
-enum class ToolHovered : int32_t {
+enum class ToolHoveredFlags : int32_t {
     None = 0,  // Return true if directly over the item/window, not obstructed by another window, not obstructed by an
     // active popup or modal blocking inputs under them.
     ChildWindows = 1 << 0,  // IsWindowHovered() only: Return true if any children of the window is hovered
@@ -312,9 +312,9 @@ public:
 
     void Render();
 
-    bool AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges);
+    bool AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges);
 
-    bool Begin(const char16_t* name, ToolWindow flags = ToolWindow::None);
+    bool Begin(const char16_t* name, ToolWindowFlags flags = ToolWindowFlags::None);
 
     void End();
 
@@ -334,11 +334,11 @@ public:
 
     void LabelText(const char16_t* label, const char16_t* text);
 
-    bool CollapsingHeader(const char16_t* label, ToolTreeNode flags = ToolTreeNode::None);
+    bool CollapsingHeader(const char16_t* label, ToolTreeNodeFlags flags = ToolTreeNodeFlags::None);
 
     bool TreeNode(const char16_t* label);
 
-    bool TreeNodeEx(const char16_t* label, ToolTreeNode flags = ToolTreeNode::None);
+    bool TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags = ToolTreeNodeFlags::None);
 
     void TreePop();
 
@@ -358,19 +358,19 @@ public:
 
     bool ListBox(const char16_t* label, int32_t* current, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    bool Selectable(const char16_t* label, bool* selected, ToolSelectable flags = ToolSelectable::None);
+    bool Selectable(const char16_t* label, bool* selected, ToolSelectableFlags flags = ToolSelectableFlags::None);
 
-    const char16_t* InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputText flags = ToolInputText::None);
+    const char16_t* InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextWithHint(
             const char16_t* label,
             const char16_t* hint,
             const char16_t* input,
             int32_t max_length,
-            ToolInputText flags = ToolInputText::None);
+            ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextMultiline(
-            const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputText flags = ToolInputText::None);
+            const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     bool InputInt(const char16_t* label, int32_t* v);
 
@@ -418,9 +418,9 @@ public:
 
     bool DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, float v_min, float v_max);
 
-    bool ColorEdit3(const char16_t* label, Color* color, ToolColorEdit flags = ToolColorEdit::None);
+    bool ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
-    bool ColorEdit4(const char16_t* label, Color* color, ToolColorEdit flags = ToolColorEdit::None);
+    bool ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
     void OpenPopup(const char16_t* label);
 
@@ -430,7 +430,7 @@ public:
 
     void EndPopup();
 
-    bool BeginChild(const char16_t* label, Vector2F size, bool border, ToolWindow flags = ToolWindow::None);
+    bool BeginChild(const char16_t* label, Vector2F size, bool border, ToolWindowFlags flags = ToolWindowFlags::None);
 
     void EndChild();
 
@@ -444,7 +444,7 @@ public:
 
     bool MenuItem(const char16_t* label, const char16_t* shortcut, bool selected, bool enabled);
 
-    bool BeginTabBar(const char16_t* label, ToolTabBar flags = ToolTabBar::None);
+    bool BeginTabBar(const char16_t* label, ToolTabBarFlags flags = ToolTabBarFlags::None);
 
     void EndTabBar();
 
@@ -653,16 +653,16 @@ public:
 
     void Bullet();
 
-    bool BeginCombo(const char16_t* label, const char16_t* preview_value, ToolCombo flags = ToolCombo::None);
+    bool BeginCombo(const char16_t* label, const char16_t* preview_value, ToolComboFlags flags = ToolComboFlags::None);
 
     void EndCombo();
 
     bool Combo(
             const char16_t* label, int32_t* current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    bool ColorButton(const char16_t* desc_id, Color* col, ToolColorEdit flags = ToolColorEdit::None, Vector2F size = Vector2F(0, 0));
+    bool ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags = ToolColorEditFlags::None, Vector2F size = Vector2F(0, 0));
 
-    void SetColorEditOptions(ToolColorEdit flags);
+    void SetColorEditOptions(ToolColorEditFlags flags);
 
     float GetTreeNodeToLabelSpacing();
 
@@ -708,7 +708,7 @@ public:
 
     bool BeginPopupContextVoid(const char16_t* str_id = NULL, int32_t mouse_button = 1);
 
-    bool BeginPopupModalEx(const char16_t* name, bool* p_open = NULL, ToolWindow flags = ToolWindow::None);
+    bool BeginPopupModalEx(const char16_t* name, bool* p_open = NULL, ToolWindowFlags flags = ToolWindowFlags::None);
 
     bool OpenPopupOnItemClick(const char16_t* str_id = NULL, int32_t mouse_button = 1);
 
@@ -738,7 +738,7 @@ public:
 
     void SetKeyboardFocusHere(int32_t offset = 0);
 
-    bool IsItemHoveredWithFlags(ToolHovered flags = ToolHovered::None);
+    bool IsItemHoveredWithFlags(ToolHoveredFlags flags = ToolHoveredFlags::None);
 
     bool IsItemFocused();
 

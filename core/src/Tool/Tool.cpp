@@ -134,25 +134,25 @@ inline Vector2F toVector2F(const ImVec2& v) { return Vector2F(v.x, v.y); }
 
 inline Color toColor(const ImVec4& v) { return Color(v.x * 255, v.y * 255, v.z * 255, v.w * 255); }
 
-const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRanges ranges) {
+const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRange ranges) {
     switch (ranges) {
-        case ToolGlyphRanges::Cyrillic:
+        case ToolGlyphRange::Cyrillic:
             return io.Fonts->GetGlyphRangesCyrillic();
-        case ToolGlyphRanges::Japanese:
+        case ToolGlyphRange::Japanese:
             return io.Fonts->GetGlyphRangesJapanese();
-        case ToolGlyphRanges::ChineseFull:
+        case ToolGlyphRange::ChineseFull:
             return io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
-        case ToolGlyphRanges::Korean:
+        case ToolGlyphRange::Korean:
             return io.Fonts->GetGlyphRangesKorean();
 
         default:
             Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
-        case ToolGlyphRanges::Default:
+        case ToolGlyphRange::Default:
             return io.Fonts->GetGlyphRangesDefault();
     }
 }
 
-bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRanges ranges) {
+bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges) {
     auto file = StaticFile::Create(path);
 
     if (file == nullptr) {
@@ -188,7 +188,7 @@ bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphR
     return true;
 }
 
-bool Tool::Begin(const char16_t* name, ToolWindow flags) {
+bool Tool::Begin(const char16_t* name, ToolWindowFlags flags) {
     auto str = utf16_to_utf8(name);
     if (str.length() > 0) {
         return ImGui::Begin(str.c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
@@ -218,13 +218,13 @@ void Tool::LabelText(const char16_t* label, const char16_t* text) {
     ImGui::LabelText(utf16_to_utf8(label).c_str(), "%s", utf16_to_utf8(text).c_str());
 }
 
-bool Tool::CollapsingHeader(const char16_t* label, ToolTreeNode flags) {
+bool Tool::CollapsingHeader(const char16_t* label, ToolTreeNodeFlags flags) {
     return ImGui::CollapsingHeader(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
 }
 
 bool Tool::TreeNode(const char16_t* label) { return ImGui::TreeNode(utf16_to_utf8(label).c_str()); }
 
-bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNode flags) {
+bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags) {
     return ImGui::TreeNodeEx(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
 }
 
@@ -263,13 +263,13 @@ bool Tool::InvisibleButton(const char16_t* label, Vector2F size) {
     return ImGui::InvisibleButton(utf16_to_utf8(label).c_str(), toImVec2(size));
 }
 
-bool Tool::Selectable(const char16_t* label, bool* selected, ToolSelectable flags) {
+bool Tool::Selectable(const char16_t* label, bool* selected, ToolSelectableFlags flags) {
     return ImGui::Selectable(utf16_to_utf8(label).c_str(), selected, static_cast<ImGuiSelectableFlags>(flags));
 }
 
 static std::u16string tempInputText;
 
-const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputText flags) {
+const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
     utf16_to_utf8(u16str).copy(buf, u16str.size());
@@ -286,7 +286,7 @@ const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, in
 }
 
 const char16_t* Tool::InputTextWithHint(
-        const char16_t* label, const char16_t* hint, const char16_t* input, int32_t max_length, ToolInputText flags) {
+        const char16_t* label, const char16_t* hint, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
     std::u16string u16str(input);
     auto buf = new char[u16str.size() + 5]{};
     utf16_to_utf8(u16str).copy(buf, u16str.size());
@@ -304,7 +304,7 @@ const char16_t* Tool::InputTextWithHint(
 }
 
 const char16_t* Tool::InputTextMultiline(
-        const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputText flags) {
+        const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags) {
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
     utf16_to_utf8(u16str).copy(buf, u16str.size());
@@ -406,7 +406,7 @@ bool Tool::DragFloatRange2(const char16_t* label, float* current_min, float* cur
     return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), current_min, current_max, speed, v_min, v_max);
 }
 
-bool Tool::ColorEdit3(const char16_t* label, Color* color, ToolColorEdit flags) {
+bool Tool::ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags flags) {
     float v[3];
     v[0] = color->R / 255.0f;
     v[1] = color->G / 255.0f;
@@ -418,7 +418,7 @@ bool Tool::ColorEdit3(const char16_t* label, Color* color, ToolColorEdit flags) 
     return res;
 }
 
-bool Tool::ColorEdit4(const char16_t* label, Color* color, ToolColorEdit flags) {
+bool Tool::ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags flags) {
     float v[4];
     v[0] = color->R / 255.0f;
     v[1] = color->G / 255.0f;
@@ -440,7 +440,7 @@ bool Tool::BeginPopupModal(const char16_t* label) { return ImGui::BeginPopupModa
 
 void Tool::EndPopup() { ImGui::EndPopup(); }
 
-bool Tool::BeginChild(const char16_t* label, Vector2F size, bool border, ToolWindow flags) {
+bool Tool::BeginChild(const char16_t* label, Vector2F size, bool border, ToolWindowFlags flags) {
     return ImGui::BeginChild(utf16_to_utf8(label).c_str(), toImVec2(size), border, static_cast<ImGuiWindowFlags>(flags));
 }
 
@@ -458,7 +458,7 @@ bool Tool::MenuItem(const char16_t* label, const char16_t* shortcut, bool select
     return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), selected, enabled);
 }
 
-bool Tool::BeginTabBar(const char16_t* id, ToolTabBar flags) {
+bool Tool::BeginTabBar(const char16_t* id, ToolTabBarFlags flags) {
     return ImGui::BeginTabBar(utf16_to_utf8(id).c_str(), static_cast<ImGuiTabBarFlags>(flags));
 }
 
@@ -546,7 +546,7 @@ void Tool::ProgressBar(float fraction, Vector2F size_arg, const char16_t* overla
 
 void Tool::Bullet() { ImGui::Bullet(); }
 
-bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value, ToolCombo flags) {
+bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value, ToolComboFlags flags) {
     return ImGui::BeginCombo(utf16_to_utf8(label).c_str(), utf16_to_utf8(preview_value).c_str(), (ImGuiComboFlags)flags);
 }
 
@@ -565,7 +565,7 @@ bool Tool::Combo(const char16_t* label, int32_t* current_item, const char16_t* i
     return ImGui::Combo(utf16_to_utf8(label).c_str(), current_item, &items[0], itemsVector.size(), popup_max_height_in_items);
 }
 
-bool Tool::ColorButton(const char16_t* desc_id, Color* col, ToolColorEdit flags, Vector2F size) {
+bool Tool::ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags, Vector2F size) {
     auto imVec4 = toImVec4(*col);
     return ImGui::ColorButton(utf16_to_utf8(desc_id).c_str(), imVec4, (ImGuiColorEditFlags)flags, toImVec2(size));
     col->R = imVec4.x;
@@ -574,7 +574,7 @@ bool Tool::ColorButton(const char16_t* desc_id, Color* col, ToolColorEdit flags,
     col->A = imVec4.w;
 }
 
-void Tool::SetColorEditOptions(ToolColorEdit flags) { ImGui::SetColorEditOptions((ImGuiColorEditFlags)flags); }
+void Tool::SetColorEditOptions(ToolColorEditFlags flags) { ImGui::SetColorEditOptions((ImGuiColorEditFlags)flags); }
 
 float Tool::GetTreeNodeToLabelSpacing() { return ImGui::GetTreeNodeToLabelSpacing(); }
 
@@ -652,7 +652,7 @@ bool Tool::BeginPopupContextVoid(const char16_t* str_id, int32_t mouse_button) {
     return ImGui::BeginPopupContextVoid(utf16_to_utf8(str_id).c_str(), mouse_button);
 }
 
-bool Tool::BeginPopupModalEx(const char16_t* name, bool* p_open, ToolWindow flags) {
+bool Tool::BeginPopupModalEx(const char16_t* name, bool* p_open, ToolWindowFlags flags) {
     return ImGui::BeginPopupModal(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
@@ -690,7 +690,7 @@ void Tool::SetItemDefaultFocus() { ImGui::SetItemDefaultFocus(); }
 
 void Tool::SetKeyboardFocusHere(int32_t offset) { ImGui::SetKeyboardFocusHere(offset); }
 
-bool Tool::IsItemHoveredWithFlags(ToolHovered flags) { return ImGui::IsItemHovered((ImGuiHoveredFlags)flags); }
+bool Tool::IsItemHoveredWithFlags(ToolHoveredFlags flags) { return ImGui::IsItemHovered((ImGuiHoveredFlags)flags); }
 
 bool Tool::IsItemFocused() { return ImGui::IsItemFocused(); }
 
