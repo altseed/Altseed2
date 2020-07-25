@@ -21,8 +21,8 @@ with ButtonState as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'ボタンが話された瞬間の状態')
 
-Keys = cbg.Enum('Altseed2', 'Keys')
-with Keys as enum:
+Key = cbg.Enum('Altseed2', 'Key')
+with Key as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'キーボードのキーの種類を表します。')
     with enum.add('Unknown') as v:
@@ -229,7 +229,7 @@ with Keyboard as class_:
     with class_.add_func('GetKeyState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'キーの状態を取得します。')
-        with func.add_arg(Keys, 'key') as arg:
+        with func.add_arg(Key, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'キー')
         func.return_value.type_ = ButtonState

@@ -61,7 +61,7 @@ define.enums.append(ResourceType)
 define.classes.append(Resources)
 
 # input
-define.enums.append(Keys)
+define.enums.append(Key)
 define.enums.append(ButtonState)
 define.enums.append(MouseButtons)
 define.enums.append(CursorMode)
