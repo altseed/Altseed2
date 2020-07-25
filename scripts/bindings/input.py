@@ -246,8 +246,8 @@ with Keyboard as class_:
         func.is_static = True
         func.is_public = False
 
-MouseButtons = cbg.Enum('Altseed2', 'MouseButtons')
-with MouseButtons as enum:
+MouseButton = cbg.Enum('Altseed2', 'MouseButton')
+with MouseButton as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'マウスのボタンの種類を表します。')
     with enum.add('ButtonLeft', 0) as v:
@@ -321,7 +321,7 @@ with Mouse as class_:
     with class_.add_func('GetMouseButtonState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'マウスボタンの状態を取得します。')
-        with func.add_arg(MouseButtons, 'button') as arg:
+        with func.add_arg(MouseButton, 'button') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を取得するマウスのボタン')
         func.return_value.type_ = ButtonState
