@@ -66,7 +66,7 @@ void Mouse::SetWheelCallback(std::function<void(double x, double y)> func) { whe
 
 float Mouse::GetWheel() const { return wheel_; }
 
-ButtonState Mouse::GetMouseButtonState(MouseButtons button) const {
+ButtonState Mouse::GetMouseButtonState(MouseButton button) const {
     int index = (int32_t)button;
 
     ASD_ASSERT(0 <= index && index < currentState_.size(), "Invalid Button.");

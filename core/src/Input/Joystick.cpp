@@ -181,7 +181,7 @@ ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t butto
     return ButtonState::Free;
 };
 
-ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButtons type) const {
+ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButton type) const {
     if (!IsPresent(joystickIndex)) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByType: Joystick is not present at {0}", joystickIndex);
         return ButtonState::Free;
@@ -220,7 +220,7 @@ float Joystick::GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) co
     return currentAxis_[joystickIndex][axisIndex];
 };
 
-float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxes type) const {
+float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) const {
     if (!IsPresent(joystickIndex)) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetAxisStateByType: Joystick is not present at {0}", joystickIndex);
         return 0.0f;

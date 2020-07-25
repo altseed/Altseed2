@@ -57,7 +57,7 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
     trans2.SetRotationZ(0);
     s1->SetTransform(trans2 * trans1 * trans2);
 
-    Altseed2::Tool::GetInstance()->AddFontFromFileTTF(u"TestData/Font/mplus-1m-regular.ttf", 14, Altseed2::ToolGlyphRanges::Japanese);
+    Altseed2::Tool::GetInstance()->AddFontFromFileTTF(u"TestData/Font/mplus-1m-regular.ttf", 14, Altseed2::ToolGlyphRange::Japanese);
 
     while (count++ < loopCount && g->DoEvents()) {
         Altseed2::SynchronizationContext::GetInstance()->Run();
@@ -89,18 +89,18 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
 
 TEST(Tool, Window) {
     auto flags = {
-            // Altseed2::ToolWindow::NoTitleBar,
-            Altseed2::ToolWindow::NoResize,
-            Altseed2::ToolWindow::NoMove,
-            // Altseed2::ToolWindow::NoScrollbar,
-            Altseed2::ToolWindow::NoScrollWithMouse,
-            Altseed2::ToolWindow::NoCollapse,
-            // Altseed2::ToolWindow::NoBackground,
-            // Altseed2::ToolWindow::NoBringToFrontOnFocus,
-            // Altseed2::ToolWindow::NoNav,
-            // Altseed2::ToolWindow::NoSavedSettings,
-            // Altseed2::ToolWindow::AlwaysAutoResize,
-            // Altseed2::ToolWindow::NoFocusOnAppearing,
+            // Altseed2::ToolWindowFlags::NoTitleBar,
+            Altseed2::ToolWindowFlags::NoResize,
+            Altseed2::ToolWindowFlags::NoMove,
+            // Altseed2::ToolWindowFlags::NoScrollbar,
+            Altseed2::ToolWindowFlags::NoScrollWithMouse,
+            Altseed2::ToolWindowFlags::NoCollapse,
+            // Altseed2::ToolWindowFlags::NoBackground,
+            // Altseed2::ToolWindowFlags::NoBringToFrontOnFocus,
+            // Altseed2::ToolWindowFlags::NoNav,
+            // Altseed2::ToolWindowFlags::NoSavedSettings,
+            // Altseed2::ToolWindowFlags::AlwaysAutoResize,
+            // Altseed2::ToolWindowFlags::NoFocusOnAppearing,
     };
 
     int32_t _flag = 0;
@@ -108,7 +108,7 @@ TEST(Tool, Window) {
         _flag |= static_cast<int32_t>(f);
     }
 
-    auto flag = static_cast<Altseed2::ToolWindow>(_flag);
+    auto flag = static_cast<Altseed2::ToolWindowFlags>(_flag);
 
     ToolTestTemplate(LoopFrames, [&flag](std::shared_ptr<Altseed2::Tool> t) {
         t->SetNextWindowPos(Altseed2::Vector2F());
@@ -258,11 +258,11 @@ TEST(Tool, Input) {
                     str2.c_str(),
                     1024,
                     Altseed2::Vector2F(-1, t->GetTextLineHeight() * 3),
-                    Altseed2::ToolInputText::AllowTabInput);
+                    Altseed2::ToolInputTextFlags::AllowTabInput);
             if (res != nullptr) str2 = res;
 
             static std::u16string buf2 = u"";
-            res = t->InputTextWithHint(u"Input Numbers", u"only 0123456789.+-*/", buf2.c_str(), 256, Altseed2::ToolInputText::CharsDecimal);
+            res = t->InputTextWithHint(u"Input Numbers", u"only 0123456789.+-*/", buf2.c_str(), 256, Altseed2::ToolInputTextFlags::CharsDecimal);
             if (res != nullptr) buf2 = res;
 
             static std::u16string bufpass = u"password123";
@@ -271,9 +271,9 @@ TEST(Tool, Input) {
                     u"Password",
                     bufpass.c_str(),
                     16,
-                    static_cast<Altseed2::ToolInputText>(
-                            static_cast<int32_t>(Altseed2::ToolInputText::Password) |
-                            static_cast<int32_t>(Altseed2::ToolInputText::CharsNoBlank)));
+                    static_cast<Altseed2::ToolInputTextFlags>(
+                            static_cast<int32_t>(Altseed2::ToolInputTextFlags::Password) |
+                            static_cast<int32_t>(Altseed2::ToolInputTextFlags::CharsNoBlank)));
             if (res != nullptr) bufpass = res;
 
             static int i0 = 123;
@@ -367,9 +367,9 @@ TEST(Tool, Color) {
             t->ColorEdit3(u"Color1", &col1);  // RGB
             t->ColorEdit4(u"Color2", &col2);  // RGBAのアルファ付き
 
-            auto flag = static_cast<Altseed2::ToolColorEdit>(
-                    static_cast<int32_t>(Altseed2::ToolColorEdit::Float) | static_cast<int32_t>(Altseed2::ToolColorEdit::NoInputs) |
-                    static_cast<int32_t>(Altseed2::ToolColorEdit::NoLabel)
+            auto flag = static_cast<Altseed2::ToolColorEditFlags>(
+                    static_cast<int32_t>(Altseed2::ToolColorEditFlags::Float) | static_cast<int32_t>(Altseed2::ToolColorEditFlags::NoInputs) |
+                    static_cast<int32_t>(Altseed2::ToolColorEditFlags::NoLabel)
 
             );
             t->ColorEdit3(u"Color ID", &col1, flag);
@@ -399,10 +399,10 @@ TEST(Tool, Selectable) {
             t->Selectable(u"Selectable 1", &selection[0]);
             t->Selectable(u"Selectable 2", &selection[1]);
 
-            if (t->Selectable(u"Selectable 3", &selection[2], Altseed2::ToolSelectable::AllowDoubleClick))
+            if (t->Selectable(u"Selectable 3", &selection[2], Altseed2::ToolSelectableFlags::AllowDoubleClick))
                 if (t->IsMouseDoubleClicked(0)) selection[2] = !selection[2];
 
-            t->Selectable(u"Selectable 5", &selection[4], Altseed2::ToolSelectable::Disabled);
+            t->Selectable(u"Selectable 5", &selection[4], Altseed2::ToolSelectableFlags::Disabled);
 
             t->End();
         }
@@ -441,7 +441,7 @@ TEST(Tool, Table) {
             static int select = -1;
             for (int i = 0; i < 3; i++) {
                 bool x = select == i;
-                if (t->Selectable(format(u"%04d", i).c_str(), &x, Altseed2::ToolSelectable::SpanAllColumns)) {
+                if (t->Selectable(format(u"%04d", i).c_str(), &x, Altseed2::ToolSelectableFlags::SpanAllColumns)) {
                     select = i;
                 }
 

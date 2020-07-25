@@ -147,7 +147,7 @@ void Keyboard::RefleshKeyStates() {
         currentState_[i] = glfwGetKey(w_, keyCodes[i]) > 0;
     }
 }
-ButtonState Keyboard::GetKeyState(Keys key) const {
+ButtonState Keyboard::GetKeyState(Key key) const {
     int index = (int32_t)key;
 
     ASD_ASSERT(currentState_.size() > index && index >= 0, "Invalid keycode.");

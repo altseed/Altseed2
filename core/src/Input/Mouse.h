@@ -11,7 +11,7 @@
 #include "Cursor.h"
 
 namespace Altseed2 {
-enum class MouseButtons : int32_t {
+enum class MouseButton : int32_t {
     /**
      @brief 左ボタン
      */
@@ -92,7 +92,7 @@ public:
 
     float GetWheel() const;
 
-    ButtonState GetMouseButtonState(MouseButtons button) const;
+    ButtonState GetMouseButtonState(MouseButton button) const;
 
     void SetCursorMode(CursorMode mode);
 

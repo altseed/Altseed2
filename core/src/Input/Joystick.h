@@ -22,7 +22,7 @@ enum class JoystickType : int32_t {
     ProController = 8201,
 };
 
-enum class JoystickButtons : int32_t {
+enum class JoystickButton : int32_t {
     RightDown = GLFW_GAMEPAD_BUTTON_A,
     RightRight = GLFW_GAMEPAD_BUTTON_B,
     RightLeft = GLFW_GAMEPAD_BUTTON_X,
@@ -40,7 +40,7 @@ enum class JoystickButtons : int32_t {
     DPadLeft = GLFW_GAMEPAD_BUTTON_DPAD_LEFT,
 };
 
-enum class JoystickAxes : int32_t {
+enum class JoystickAxis : int32_t {
     LeftX = GLFW_GAMEPAD_AXIS_LEFT_X,
     LeftY = GLFW_GAMEPAD_AXIS_LEFT_Y,
     RightX = GLFW_GAMEPAD_AXIS_RIGHT_X,
@@ -124,10 +124,10 @@ public:
     std::shared_ptr<JoystickInfo> GetJoystickInfo(int32_t joystickIndex) const;
 
     ButtonState GetButtonStateByIndex(int32_t joystickIndex, int32_t buttonIndex) const;
-    ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButtons type) const;
+    ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButton type) const;
 
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
-    float GetAxisStateByType(int32_t joystickIndex, JoystickAxes type) const;
+    float GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) const;
 
     // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };

@@ -17,7 +17,7 @@ TEST(Mouse, Initialize) {
     while (i < 8) {
         Altseed2::Mouse::GetInstance()->RefreshInputState();
 
-        Altseed2::ButtonState state = Altseed2::Mouse::GetInstance()->GetMouseButtonState(static_cast<Altseed2::MouseButtons>(i));
+        Altseed2::ButtonState state = Altseed2::Mouse::GetInstance()->GetMouseButtonState(static_cast<Altseed2::MouseButton>(i));
         EXPECT_EQ(Altseed2::ButtonState::Free, state);
 
         i++;
@@ -59,7 +59,7 @@ TEST(Mouse, GetMouseInput) {
     for (int count = 0; Altseed2::Core::GetInstance()->DoEvent() && count < 10; count++) {
         // testing MouseButton inputs.
         for (int i = 0; i < 8; i++) {
-            auto bs = Altseed2::Mouse::GetInstance()->GetMouseButtonState((Altseed2::MouseButtons)i);
+            auto bs = Altseed2::Mouse::GetInstance()->GetMouseButtonState((Altseed2::MouseButton)i);
             if (bs != Altseed2::ButtonState::Free) std::cout << i;
         }
 

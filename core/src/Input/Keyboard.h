@@ -9,7 +9,7 @@
 
 namespace Altseed2 {
 
-enum class Keys : int32_t {
+enum class Key : int32_t {
     Unknown,
     Space,  ///< Space
     Apostrophe,  ///< : (` in US )
@@ -140,11 +140,11 @@ private:
     static std::shared_ptr<Keyboard> instance_;
     std::shared_ptr<Window> window_;
 
-    //! because of msvc bug, it cannot use Keys::MAX
+    //! because of msvc bug, it cannot use Key::MAX
     static const int keyCodes[122];
 
-    std::array<bool, static_cast<int>(Keys::MAX)> currentState_;
-    std::array<bool, static_cast<int>(Keys::MAX)> oldState_;
+    std::array<bool, static_cast<int>(Key::MAX)> currentState_;
+    std::array<bool, static_cast<int>(Key::MAX)> oldState_;
 
 public:
     static bool Initialize(std::shared_ptr<Window>& window);
@@ -155,7 +155,7 @@ public:
 
     void RefleshKeyStates();
 
-    ButtonState GetKeyState(Keys key) const;
+    ButtonState GetKeyState(Key key) const;
 
     // Add Callback Registerer/Unregisterer?
 };

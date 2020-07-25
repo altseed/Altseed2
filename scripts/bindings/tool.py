@@ -69,8 +69,8 @@ with ToolCond as enum_:
         v.brief.add(
             'ja', 'オブジェクト/ウィンドウが非表示/非アクティブになった後（または初めて）表示される場合は、変数を設定します')
 
-ToolTreeNode = cbg.Enum('Altseed2', 'ToolTreeNode')
-with ToolTreeNode as enum_:
+ToolTreeNodeFlags = cbg.Enum('Altseed2', 'ToolTreeNodeFlags')
+with ToolTreeNodeFlags as enum_:
     enum_.add('None', 0)
     with enum_.add('Selected', 1 << 0) as v:
         v.brief = cbg.Description()
@@ -137,8 +137,8 @@ with ToolTreeNode as enum_:
 
     enum_.add('CollapsingHeader', (1 << 1) | (1 << 3) | (1 << 4))
 
-ToolInputText = cbg.Enum('Altseed2', 'ToolInputText')
-with ToolInputText as enum_:
+ToolInputTextFlags = cbg.Enum('Altseed2', 'ToolInputTextFlags')
+with ToolInputTextFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能においてインプットされるテキストの設定を表します')
 
@@ -246,8 +246,8 @@ with ToolInputText as enum_:
         v.brief.add('en', 'Callback on buffer capacity changes request (beyond \'buf_size\' parameter value), allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size). You will be provided a new BufSize in the callback and NEED to honor it.')
         v.brief.add('ja', 'バッファ容量のコールバックはリクエストを変更し（\'buf_size \'パラメータ値を超えて）、文字列が大きくなります。 文字列のサイズを変更する必要がある場合に通知します（サイズのキャッシュを保持する文字列タイプの場合）。 コールバックで新しいBufSizeが提供され、それを尊重する必要があります。')
 
-ToolColorEdit = cbg.Enum('Altseed2', 'ToolColorEdit')
-with ToolColorEdit as enum_:
+ToolColorEditFlags = cbg.Enum('Altseed2', 'ToolColorEditFlags')
+with ToolColorEditFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能における色の設定を表します')
 
@@ -400,8 +400,8 @@ with ToolColorEdit as enum_:
         v.brief.add('en', 'Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don\'t want to override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.')
         v.brief.add('ja', 'デフォルトオプション。 `SetColorEditOptions()` を使用して、アプリケーションのデフォルトを設定できます。 意図はおそらくあなたの呼び出しのほとんどでそれらをオーバーライドしたくないことです。 ユーザーがオプションメニューから選択できるようにするか、起動時に`SetColorEditOptions()`を1回呼び出します。')
 
-ToolSelectable = cbg.Enum('Altseed2', 'ToolSelectable')
-with ToolSelectable as enum_:
+ToolSelectableFlags = cbg.Enum('Altseed2', 'ToolSelectableFlags')
+with ToolSelectableFlags as enum_:
     with enum_.add('None', 0) as v:
         v.brief = cbg.Description()
         v.brief.add('en', '')
@@ -434,8 +434,8 @@ with ToolSelectable as enum_:
             'en', '(WIP) Hit testing to allow subsequent widgets to overlap this one')
         v.brief.add('ja', '(WIP) ヒットテストにより、後続のウィジェットがこのウィジェットとオーバーラップできるようにします')
 
-ToolWindow = cbg.Enum('Altseed2', 'ToolWindow')
-with ToolWindow as enum_:
+ToolWindowFlags = cbg.Enum('Altseed2', 'ToolWindowFlags')
+with ToolWindowFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のウィンドウにおける設定を表します')
 
@@ -570,8 +570,8 @@ with ToolWindow as enum_:
 
     enum_.add('NoInputs', _NoMouseInputs | _NoNavInputs | _NoNavFocus)
 
-ToolTabBar = cbg.Enum('Altseed2', 'ToolTabBar')
-with ToolTabBar as enum_:
+ToolTabBarFlags = cbg.Enum('Altseed2', 'ToolTabBarFlags')
+with ToolTabBarFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のタブバーにおける設定を表します')
 
@@ -626,8 +626,8 @@ with ToolTabBar as enum_:
     enum_.add('FittingPolicyDefault', _FittingPolicyResizeDown)
 
 
-ToolGlyphRanges = cbg.Enum('Altseed2', 'ToolGlyphRanges')
-with ToolGlyphRanges as enum_:
+ToolGlyphRange = cbg.Enum('Altseed2', 'ToolGlyphRange')
+with ToolGlyphRange as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('en', 'Don\'t bit operation')
     enum_.brief.add('ja', 'ツール機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。')
@@ -825,8 +825,8 @@ with ToolStyleVar as enum_:
     with enum_.add('COUNT') as v:
         v.brief = cbg.Description()
 
-ToolCombo = cbg.Enum('Altseed2', 'ToolCombo')
-with ToolCombo as enum_:
+ToolComboFlags = cbg.Enum('Altseed2', 'ToolComboFlags')
+with ToolComboFlags as enum_:
     enum_.brief = cbg.Description()
 
     with enum_.add('None') as v:
@@ -848,8 +848,8 @@ with ToolCombo as enum_:
     with enum_.add('HeightMask_') as v:
         v.brief = cbg.Description()
 
-ToolHovered = cbg.Enum('Altseed2', 'ToolHovered')
-with ToolHovered as enum_:
+ToolHoveredFlags = cbg.Enum('Altseed2', 'ToolHoveredFlags')
+with ToolHoveredFlags as enum_:
     enum_.brief = cbg.Description()
 
     with enum_.add('None') as v:
@@ -894,7 +894,7 @@ with Tool as class_:
         func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
         func_.add_arg(ctypes.c_wchar_p, 'path')
         func_.add_arg(float, 'sizePixels')
-        func_.add_arg(ToolGlyphRanges, 'ranges')
+        func_.add_arg(ToolGlyphRange, 'ranges')
         func_.return_value.type_ = bool
 
     with class_.add_func('Begin') as func_:
@@ -902,7 +902,7 @@ with Tool as class_:
         func_.brief.add('en', 'Call `End()`')
         func_.brief.add('ja', '`End()` を呼び出してください。')
         func_.add_arg(ctypes.c_wchar_p, 'name')
-        func_.add_arg(ToolWindow, 'flags')
+        func_.add_arg(ToolWindowFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('End') as func_:
@@ -977,7 +977,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolTreeNode, 'flags')
+        func_.add_arg(ToolTreeNodeFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('TreeNode') as func_:
@@ -992,7 +992,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolTreeNode, 'flags')
+        func_.add_arg(ToolTreeNodeFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('TreePop') as func_:
@@ -1076,7 +1076,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         with func_.add_arg(bool, 'selected') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolSelectable, 'flags')
+        func_.add_arg(ToolSelectableFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('InputText') as func_:
@@ -1086,7 +1086,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(ctypes.c_wchar_p, 'input')
         func_.add_arg(int, 'maxLength')
-        func_.add_arg(ToolInputText, 'flags')
+        func_.add_arg(ToolInputTextFlags, 'flags')
         func_.return_value.type_ = ctypes.c_wchar_p
 
     with class_.add_func('InputTextWithHint') as func_:
@@ -1097,7 +1097,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'hit')
         func_.add_arg(ctypes.c_wchar_p, 'input')
         func_.add_arg(int, 'maxLength')
-        func_.add_arg(ToolInputText, 'flags')
+        func_.add_arg(ToolInputTextFlags, 'flags')
         func_.return_value.type_ = ctypes.c_wchar_p
 
     with class_.add_func('InputTextMultiline') as func_:
@@ -1108,7 +1108,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'input')
         func_.add_arg(int, 'maxLength')
         func_.add_arg(Vector2F, 'size')
-        func_.add_arg(ToolInputText, 'flags')
+        func_.add_arg(ToolInputTextFlags, 'flags')
         func_.return_value.type_ = ctypes.c_wchar_p
 
     with class_.add_func('InputInt') as func_:
@@ -1371,7 +1371,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         with func_.add_arg(Color, 'color') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolColorEdit, 'flags')
+        func_.add_arg(ToolColorEditFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('ColorEdit4') as func_:
@@ -1381,7 +1381,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         with func_.add_arg(Color, 'color') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolColorEdit, 'flags')
+        func_.add_arg(ToolColorEditFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('OpenPopup') as func_:
@@ -1416,7 +1416,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(Vector2F, 'size')
         func_.add_arg(bool, 'border')
-        func_.add_arg(ToolWindow, 'flags')
+        func_.add_arg(ToolWindowFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('EndChild') as func_:
@@ -1463,7 +1463,7 @@ with Tool as class_:
         func_.brief.add('en', 'Call `EndTabBar()`')
         func_.brief.add('ja', '`EndTabBar()` を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolTabBar, 'flags')
+        func_.add_arg(ToolTabBarFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('EndTabBar') as func_:
@@ -2067,7 +2067,7 @@ with Tool as class_:
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(ctypes.c_wchar_p, 'previewValue')
-        func_.add_arg(ToolCombo, 'flags')
+        func_.add_arg(ToolComboFlags, 'flags')
 
     with class_.add_func('EndCombo') as func_:
         func_.brief = cbg.Description()
@@ -2094,7 +2094,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'descId')
         with func_.add_arg(Color, 'col') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolColorEdit, 'flags')
+        func_.add_arg(ToolColorEditFlags, 'flags')
         func_.add_arg(Vector2F, 'size')
         func_.return_value.type_ = bool
 
@@ -2102,7 +2102,7 @@ with Tool as class_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.add_arg(ToolColorEdit, 'flags')
+        func_.add_arg(ToolColorEditFlags, 'flags')
 
     with class_.add_func('GetTreeNodeToLabelSpacing') as func_:
         func_.brief = cbg.Description()
@@ -2218,7 +2218,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'name')
         with func_.add_arg(bool, 'isOpen') as arg:
             arg.called_by = cbg.ArgCalledBy.Out
-        func_.add_arg(ToolWindow, 'flags')
+        func_.add_arg(ToolWindowFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('OpenPopupOnItemClick') as func_:
@@ -2315,7 +2315,7 @@ with Tool as class_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.add_arg(ToolHovered, 'flags')
+        func_.add_arg(ToolHoveredFlags, 'flags')
         func_.return_value.type_ = bool
 
     with class_.add_func('IsItemFocused') as func_:

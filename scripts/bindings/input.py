@@ -21,8 +21,8 @@ with ButtonState as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'ボタンが話された瞬間の状態')
 
-Keys = cbg.Enum('Altseed2', 'Keys')
-with Keys as enum:
+Key = cbg.Enum('Altseed2', 'Key')
+with Key as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'キーボードのキーの種類を表します。')
     with enum.add('Unknown') as v:
@@ -229,7 +229,7 @@ with Keyboard as class_:
     with class_.add_func('GetKeyState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'キーの状態を取得します。')
-        with func.add_arg(Keys, 'key') as arg:
+        with func.add_arg(Key, 'key') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'キー')
         func.return_value.type_ = ButtonState
@@ -246,8 +246,8 @@ with Keyboard as class_:
         func.is_static = True
         func.is_public = False
 
-MouseButtons = cbg.Enum('Altseed2', 'MouseButtons')
-with MouseButtons as enum:
+MouseButton = cbg.Enum('Altseed2', 'MouseButton')
+with MouseButton as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'マウスのボタンの種類を表します。')
     with enum.add('ButtonLeft', 0) as v:
@@ -321,7 +321,7 @@ with Mouse as class_:
     with class_.add_func('GetMouseButtonState') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'マウスボタンの状態を取得します。')
-        with func.add_arg(MouseButtons, 'button') as arg:
+        with func.add_arg(MouseButton, 'button') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を取得するマウスのボタン')
         func.return_value.type_ = ButtonState
@@ -370,8 +370,8 @@ with JoystickType as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'NintendoSwitch ProController')
 
-JoystickButtons = cbg.Enum('Altseed2', 'JoystickButtons')
-with JoystickButtons as enum:
+JoystickButton = cbg.Enum('Altseed2', 'JoystickButton')
+with JoystickButton as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックのボタンの種類を表します。')
 
@@ -441,8 +441,8 @@ with JoystickButtons as enum:
         v.brief.add('ja', '十字キー左')
 
 
-JoystickAxes = cbg.Enum('Altseed2', 'JoystickAxes')
-with JoystickAxes as enum:
+JoystickAxis = cbg.Enum('Altseed2', 'JoystickAxis')
+with JoystickAxis as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの軸の種類を表します。')
     with enum.add('LeftX', 0) as v:
@@ -600,7 +600,7 @@ with Joystick as class_:
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
-        with func.add_arg(JoystickButtons, 'type') as arg:
+        with func.add_arg(JoystickButton, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を検索するボタンの種類')
         func.return_value.type_ = ButtonState
@@ -630,7 +630,7 @@ with Joystick as class_:
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
-        with func.add_arg(JoystickAxes, 'type') as arg:
+        with func.add_arg(JoystickAxis, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を検索する軸の種類')
         func.return_value.type_ = float
