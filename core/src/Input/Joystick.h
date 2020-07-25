@@ -40,7 +40,7 @@ enum class JoystickButton : int32_t {
     DPadLeft = GLFW_GAMEPAD_BUTTON_DPAD_LEFT,
 };
 
-enum class JoystickAxes : int32_t {
+enum class JoystickAxis : int32_t {
     LeftX = GLFW_GAMEPAD_AXIS_LEFT_X,
     LeftY = GLFW_GAMEPAD_AXIS_LEFT_Y,
     RightX = GLFW_GAMEPAD_AXIS_RIGHT_X,
@@ -127,7 +127,7 @@ public:
     ButtonState GetButtonStateByType(int32_t joystickIndex, JoystickButton type) const;
 
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
-    float GetAxisStateByType(int32_t joystickIndex, JoystickAxes type) const;
+    float GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) const;
 
     // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };

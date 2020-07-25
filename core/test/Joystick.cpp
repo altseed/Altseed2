@@ -256,11 +256,11 @@ TEST(Joystick, ButtonStateByType) {
 }
 
 TEST(Joystick, AxisStateByType) {
-    const std::map<std::string, Altseed2::JoystickAxes> axisTypes{
-            {std::string("LeftX"), Altseed2::JoystickAxes::LeftX},
-            {std::string("LeftY"), Altseed2::JoystickAxes::LeftY},
-            {std::string("RightX"), Altseed2::JoystickAxes::RightX},
-            {std::string("RightY"), Altseed2::JoystickAxes::RightY},
+    const std::map<std::string, Altseed2::JoystickAxis> axisTypes{
+            {std::string("LeftX"), Altseed2::JoystickAxis::LeftX},
+            {std::string("LeftY"), Altseed2::JoystickAxis::LeftY},
+            {std::string("RightX"), Altseed2::JoystickAxis::RightX},
+            {std::string("RightY"), Altseed2::JoystickAxis::RightY},
     };
 
     auto config = Altseed2::Configuration::Create();
@@ -285,13 +285,13 @@ TEST(Joystick, AxisStateByType) {
                     }
                 }
                 {
-                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxes::RightTrigger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxis::RightTrigger);
                     if (as > 0.1) {
                         printf("%d - RightTrigger : %f\n", ji, as);
                     }
                 }
                 {
-                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxes::LeftTrigger);
+                    auto as = Altseed2::Joystick::GetInstance()->GetAxisStateByType(ji, Altseed2::JoystickAxis::LeftTrigger);
                     if (as > 0.1) {
                         printf("%d - LeftTrigger : %f\n", ji, as);
                     }

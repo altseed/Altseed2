@@ -441,8 +441,8 @@ with JoystickButton as enum:
         v.brief.add('ja', '十字キー左')
 
 
-JoystickAxes = cbg.Enum('Altseed2', 'JoystickAxes')
-with JoystickAxes as enum:
+JoystickAxis = cbg.Enum('Altseed2', 'JoystickAxis')
+with JoystickAxis as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックの軸の種類を表します。')
     with enum.add('LeftX', 0) as v:
@@ -630,7 +630,7 @@ with Joystick as class_:
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
-        with func.add_arg(JoystickAxes, 'type') as arg:
+        with func.add_arg(JoystickAxis, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を検索する軸の種類')
         func.return_value.type_ = float
