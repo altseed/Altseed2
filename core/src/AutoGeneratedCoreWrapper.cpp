@@ -693,7 +693,7 @@ CBGEXPORT void CBGSTDCALL cbg_Cursor_Release(void* cbg_self) {
 CBGEXPORT int32_t CBGSTDCALL cbg_Keyboard_GetKeyState(void* cbg_self, int32_t key) {
     auto cbg_self_ = (Altseed2::Keyboard*)(cbg_self);
 
-    Altseed2::Keys cbg_arg0 = (Altseed2::Keys)key;
+    Altseed2::Key cbg_arg0 = (Altseed2::Key)key;
     Altseed2::ButtonState cbg_ret = cbg_self_->GetKeyState(cbg_arg0);
     return (int32_t)cbg_ret;
 }
@@ -717,7 +717,7 @@ CBGEXPORT void* CBGSTDCALL cbg_Mouse_GetInstance() {
 CBGEXPORT int32_t CBGSTDCALL cbg_Mouse_GetMouseButtonState(void* cbg_self, int32_t button) {
     auto cbg_self_ = (Altseed2::Mouse*)(cbg_self);
 
-    Altseed2::MouseButtons cbg_arg0 = (Altseed2::MouseButtons)button;
+    Altseed2::MouseButton cbg_arg0 = (Altseed2::MouseButton)button;
     Altseed2::ButtonState cbg_ret = cbg_self_->GetMouseButtonState(cbg_arg0);
     return (int32_t)cbg_ret;
 }
@@ -888,7 +888,7 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Joystick_GetButtonStateByType(void* cbg_self, i
     auto cbg_self_ = (Altseed2::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
-    Altseed2::JoystickButtons cbg_arg1 = (Altseed2::JoystickButtons)type;
+    Altseed2::JoystickButton cbg_arg1 = (Altseed2::JoystickButton)type;
     Altseed2::ButtonState cbg_ret = cbg_self_->GetButtonStateByType(cbg_arg0, cbg_arg1);
     return (int32_t)cbg_ret;
 }
@@ -906,7 +906,7 @@ CBGEXPORT float CBGSTDCALL cbg_Joystick_GetAxisStateByType(void* cbg_self, int32
     auto cbg_self_ = (Altseed2::Joystick*)(cbg_self);
 
     int32_t cbg_arg0 = joystickIndex;
-    Altseed2::JoystickAxes cbg_arg1 = (Altseed2::JoystickAxes)type;
+    Altseed2::JoystickAxis cbg_arg1 = (Altseed2::JoystickAxis)type;
     float cbg_ret = cbg_self_->GetAxisStateByType(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -1980,7 +1980,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_AddFontFromFileTTF(void* cbg_self, const char
 
     const char16_t* cbg_arg0 = path;
     float cbg_arg1 = sizePixels;
-    Altseed2::ToolGlyphRanges cbg_arg2 = (Altseed2::ToolGlyphRanges)ranges;
+    Altseed2::ToolGlyphRange cbg_arg2 = (Altseed2::ToolGlyphRange)ranges;
     bool cbg_ret = cbg_self_->AddFontFromFileTTF(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
@@ -1989,7 +1989,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, i
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
-    Altseed2::ToolWindow cbg_arg1 = (Altseed2::ToolWindow)flags;
+    Altseed2::ToolWindowFlags cbg_arg1 = (Altseed2::ToolWindowFlags)flags;
     bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -2074,7 +2074,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_CollapsingHeader(void* cbg_self, const char16
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTreeNode cbg_arg1 = (Altseed2::ToolTreeNode)flags;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
     bool cbg_ret = cbg_self_->CollapsingHeader(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -2091,7 +2091,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx(void* cbg_self, const char16_t* la
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTreeNode cbg_arg1 = (Altseed2::ToolTreeNode)flags;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
     bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -2181,7 +2181,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* la
 
     const char16_t* cbg_arg0 = label;
     bool* cbg_arg1 = selected;
-    Altseed2::ToolSelectable cbg_arg2 = (Altseed2::ToolSelectable)flags;
+    Altseed2::ToolSelectableFlags cbg_arg2 = (Altseed2::ToolSelectableFlags)flags;
     bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
@@ -2192,7 +2192,7 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputText(void* cbg_self, const ch
     const char16_t* cbg_arg0 = label;
     const char16_t* cbg_arg1 = input;
     int32_t cbg_arg2 = maxLength;
-    Altseed2::ToolInputText cbg_arg3 = (Altseed2::ToolInputText)flags;
+    Altseed2::ToolInputTextFlags cbg_arg3 = (Altseed2::ToolInputTextFlags)flags;
     const char16_t* cbg_ret = cbg_self_->InputText(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
@@ -2204,7 +2204,7 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputTextWithHint(void* cbg_self, 
     const char16_t* cbg_arg1 = hit;
     const char16_t* cbg_arg2 = input;
     int32_t cbg_arg3 = maxLength;
-    Altseed2::ToolInputText cbg_arg4 = (Altseed2::ToolInputText)flags;
+    Altseed2::ToolInputTextFlags cbg_arg4 = (Altseed2::ToolInputTextFlags)flags;
     const char16_t* cbg_ret = cbg_self_->InputTextWithHint(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
     return cbg_ret;
 }
@@ -2216,7 +2216,7 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputTextMultiline(void* cbg_self,
     const char16_t* cbg_arg1 = input;
     int32_t cbg_arg2 = maxLength;
     Altseed2::Vector2F_C cbg_arg3 = size;
-    Altseed2::ToolInputText cbg_arg4 = (Altseed2::ToolInputText)flags;
+    Altseed2::ToolInputTextFlags cbg_arg4 = (Altseed2::ToolInputTextFlags)flags;
     const char16_t* cbg_ret = cbg_self_->InputTextMultiline(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
     return cbg_ret;
 }
@@ -2477,7 +2477,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit3(void* cbg_self, const char16_t* la
 
     const char16_t* cbg_arg0 = label;
     Altseed2::Color* cbg_arg1 = (Altseed2::Color*)color;
-    Altseed2::ToolColorEdit cbg_arg2 = (Altseed2::ToolColorEdit)flags;
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
     bool cbg_ret = cbg_self_->ColorEdit3(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
@@ -2487,7 +2487,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit4(void* cbg_self, const char16_t* la
 
     const char16_t* cbg_arg0 = label;
     Altseed2::Color* cbg_arg1 = (Altseed2::Color*)color;
-    Altseed2::ToolColorEdit cbg_arg2 = (Altseed2::ToolColorEdit)flags;
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
     bool cbg_ret = cbg_self_->ColorEdit4(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
@@ -2527,7 +2527,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChild(void* cbg_self, const char16_t* la
     const char16_t* cbg_arg0 = label;
     Altseed2::Vector2F_C cbg_arg1 = size;
     bool cbg_arg2 = border;
-    Altseed2::ToolWindow cbg_arg3 = (Altseed2::ToolWindow)flags;
+    Altseed2::ToolWindowFlags cbg_arg3 = (Altseed2::ToolWindowFlags)flags;
     bool cbg_ret = cbg_self_->BeginChild(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
@@ -2581,7 +2581,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabBar(void* cbg_self, const char16_t* l
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTabBar cbg_arg1 = (Altseed2::ToolTabBar)flags;
+    Altseed2::ToolTabBarFlags cbg_arg1 = (Altseed2::ToolTabBarFlags)flags;
     bool cbg_ret = cbg_self_->BeginTabBar(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
@@ -3272,7 +3272,7 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_BeginCombo(void* cbg_self, const char16_t* la
 
     const char16_t* cbg_arg0 = label;
     const char16_t* cbg_arg1 = previewValue;
-    Altseed2::ToolCombo cbg_arg2 = (Altseed2::ToolCombo)flags;
+    Altseed2::ToolComboFlags cbg_arg2 = (Altseed2::ToolComboFlags)flags;
     cbg_self_->BeginCombo(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
@@ -3298,7 +3298,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorButton(void* cbg_self, const char16_t* d
 
     const char16_t* cbg_arg0 = descId;
     Altseed2::Color* cbg_arg1 = (Altseed2::Color*)col;
-    Altseed2::ToolColorEdit cbg_arg2 = (Altseed2::ToolColorEdit)flags;
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
     Altseed2::Vector2F_C cbg_arg3 = size;
     bool cbg_ret = cbg_self_->ColorButton(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
@@ -3307,7 +3307,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorButton(void* cbg_self, const char16_t* d
 CBGEXPORT void CBGSTDCALL cbg_Tool_SetColorEditOptions(void* cbg_self, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolColorEdit cbg_arg0 = (Altseed2::ToolColorEdit)flags;
+    Altseed2::ToolColorEditFlags cbg_arg0 = (Altseed2::ToolColorEditFlags)flags;
     cbg_self_->SetColorEditOptions(cbg_arg0);
 }
 
@@ -3434,7 +3434,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModalEx(void* cbg_self, const char1
 
     const char16_t* cbg_arg0 = name;
     bool* cbg_arg1 = isOpen;
-    Altseed2::ToolWindow cbg_arg2 = (Altseed2::ToolWindow)flags;
+    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
     bool cbg_ret = cbg_self_->BeginPopupModalEx(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
@@ -3546,7 +3546,7 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetKeyboardFocusHere(void* cbg_self, int32_t 
 CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemHoveredWithFlags(void* cbg_self, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolHovered cbg_arg0 = (Altseed2::ToolHovered)flags;
+    Altseed2::ToolHoveredFlags cbg_arg0 = (Altseed2::ToolHoveredFlags)flags;
     bool cbg_ret = cbg_self_->IsItemHoveredWithFlags(cbg_arg0);
     return cbg_ret;
 }
