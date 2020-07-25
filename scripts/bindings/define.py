@@ -66,7 +66,7 @@ define.enums.append(ButtonState)
 define.enums.append(MouseButtons)
 define.enums.append(CursorMode)
 define.enums.append(JoystickType)
-define.enums.append(JoystickButtons)
+define.enums.append(JoystickButton)
 define.enums.append(JoystickAxes)
 
 define.classes.append(Cursor)

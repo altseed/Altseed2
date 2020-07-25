@@ -181,7 +181,7 @@ ButtonState Joystick::GetButtonStateByIndex(int32_t joystickIndex, int32_t butto
     return ButtonState::Free;
 };
 
-ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButtons type) const {
+ButtonState Joystick::GetButtonStateByType(int32_t joystickIndex, JoystickButton type) const {
     if (!IsPresent(joystickIndex)) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::GetButtonStateByType: Joystick is not present at {0}", joystickIndex);
         return ButtonState::Free;

@@ -370,8 +370,8 @@ with JoystickType as enum:
         v.brief = cbg.Description()
         v.brief.add('ja', 'NintendoSwitch ProController')
 
-JoystickButtons = cbg.Enum('Altseed2', 'JoystickButtons')
-with JoystickButtons as enum:
+JoystickButton = cbg.Enum('Altseed2', 'JoystickButton')
+with JoystickButton as enum:
     enum.brief = cbg.Description()
     enum.brief.add('ja', 'ジョイスティックのボタンの種類を表します。')
 
@@ -600,7 +600,7 @@ with Joystick as class_:
         with func.add_arg(int, 'joystickIndex') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '検索するジョイスティックのインデックス')
-        with func.add_arg(JoystickButtons, 'type') as arg:
+        with func.add_arg(JoystickButton, 'type') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '状態を検索するボタンの種類')
         func.return_value.type_ = ButtonState
