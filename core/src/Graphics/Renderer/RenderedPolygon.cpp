@@ -8,7 +8,7 @@ namespace Altseed2 {
 std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() {
     auto p = MakeAsdShared<RenderedPolygon>();
     p->SetBlendMode(AlphaBlendMode::Normal);
-    p->SetVertexes(nullptr);
+    p->SetVertexes(VertexArray::Create(0));
     p->SetTexture(nullptr);
     p->SetMaterial(nullptr);
     return p;
