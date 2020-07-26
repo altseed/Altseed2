@@ -58,6 +58,8 @@ public:
 
     static std::shared_ptr<Shader> Create(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 
+    static std::shared_ptr<Shader> CreateFromFile(const char16_t* name, const char16_t* path, ShaderStageType shaderStage);
+
     const char16_t* GetCode() const { return code_.c_str(); }
 
     const char16_t* GetName() const { return name_.c_str(); }

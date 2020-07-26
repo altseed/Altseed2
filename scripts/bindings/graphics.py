@@ -152,6 +152,25 @@ with Shader as class_:
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True
 
+    with class_.add_func('CreateFromFile') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ファイルからコードをコンパイルしてシェーダを生成する')
+        with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'シェーダの名前')
+            arg.nullable = False
+        with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'コンパイルするコードのパス')
+            arg.nullable = False
+        with func.add_arg(ShaderStageType, 'shaderStage') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '')
+        func.return_value.type_ = Shader
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
+        func.is_static = True
+
     with class_.add_property(ShaderStageType, 'StageType') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False

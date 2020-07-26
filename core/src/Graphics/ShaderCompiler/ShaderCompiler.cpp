@@ -1,11 +1,9 @@
 #include "ShaderCompiler.h"
 
+#include "../../IO/File.h"
+#include "../../IO/StaticFile.h"
 #include "../../Logger/Log.h"
 #include "../Graphics.h"
-#include "../Shader.h"
-#ifdef _WIN32
-#include <DX12/LLGI.CompilerDX12.h>
-#endif
 
 namespace Altseed2 {
 
@@ -13,19 +11,35 @@ std::shared_ptr<ShaderCompiler> ShaderCompiler::instance_ = nullptr;
 
 std::shared_ptr<ShaderCompiler>& ShaderCompiler::GetInstance() { return instance_; }
 
-bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics) {
-    instance_ = CreateSharedPtr(new ShaderCompiler(graphics));
+bool ShaderCompiler::Initialize(std::shared_ptr<Graphics>& graphics, std::shared_ptr<File>& file) {
+    instance_ = CreateSharedPtr(new ShaderCompiler(graphics, file));
     return true;
 }
 
 void ShaderCompiler::Terminate() { instance_ = nullptr; }
 
-ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics) : graphics_(graphics) {
-    spirvGenerator_ = std::make_shared<LLGI::SPIRVGenerator>([](std::string s) -> std::vector<uint8_t> { return std::vector<uint8_t>(); });
+ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics, std::shared_ptr<File>& file) : graphics_(graphics), file_(file) {
+    auto loadFunc = [file](std::string s) -> std::vector<uint8_t> {
+        auto path = utf8_to_utf16(s.c_str());
+        auto sf = StaticFile::Create(path.c_str());
+
+        if (sf == nullptr) {
+            return std::vector<uint8_t>();
+        }
+
+        std::vector<uint8_t> ret;
+        ret.resize(sf->GetSize());
+
+        auto p = static_cast<const uint8_t*>(sf->GetData());
+        ret.assign(p, p + sf->GetSize());
+        return ret;
+    };
+
+    spirvGenerator_ = std::make_shared<LLGI::SPIRVGenerator>(loadFunc);
     compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(LLGI::DeviceType::Default));
 
 #ifdef _WIN32
-    // spirvTranspiler_ = std::make_shared<LLGI::SPIRVToHLSLTranspiler>();
+    spirvTranspiler_ = std::make_shared<LLGI::SPIRVToHLSLTranspiler>(50, true);
 #elif __APPLE__
     spirvTranspiler_ = std::make_shared<LLGI::SPIRVToMSLTranspiler>();
 #else
@@ -114,6 +128,23 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* na
             shaderLLGI,
             shaderStage);
     return ret;
+}
+
+std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* name, ShaderStageType shaderStage) {
+    auto sf = StaticFile::Create(utf8_to_utf16(path).c_str());
+
+    if (sf == nullptr) {
+        return nullptr;
+    }
+
+    std::vector<char> strvec;
+    strvec.resize(sf->GetSize());
+
+    auto p = static_cast<const char*>(sf->GetData());
+    strvec.assign(p, p + sf->GetSize());
+    strvec.push_back(0);
+
+    return Compile(path, name, strvec.data(), shaderStage);
 }
 
 }  // namespace Altseed2

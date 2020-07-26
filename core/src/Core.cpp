@@ -117,7 +117,7 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
-    if (!ShaderCompiler::Initialize(Graphics::GetInstance())) {
+    if (!ShaderCompiler::Initialize(Graphics::GetInstance(), File::GetInstance())) {
         LOG_CRITICAL(u"ShaderCompiler::Initialize failed");
         Core::instance = nullptr;
         return false;
