@@ -20,6 +20,10 @@ std::shared_ptr<Shader> Shader::Create(const char16_t* name, const char16_t* cod
     return ShaderCompiler::GetInstance()->Compile("", utf16_to_utf8(name).c_str(), utf16_to_utf8(code).c_str(), shaderStage);
 }
 
+std::shared_ptr<Shader> Shader::CreateFromFile(const char16_t* name, const char16_t* path, ShaderStageType shaderStage) {
+    return ShaderCompiler::GetInstance()->Compile(utf16_to_utf8(path).c_str(), utf16_to_utf8(name).c_str(), shaderStage);
+}
+
 void Shader::OnTerminating() {
     shader_.reset();
 }

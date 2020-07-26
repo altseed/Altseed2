@@ -199,7 +199,19 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->VertexLayouts[1] = LLGI::VertexLayoutFormat::R8G8B8A8_UNORM;
     piplineState->VertexLayouts[2] = LLGI::VertexLayoutFormat::R32G32_FLOAT;
     piplineState->VertexLayouts[3] = LLGI::VertexLayoutFormat::R32G32_FLOAT;
-    piplineState->VertexLayoutNames[0] = "POSITION";
+
+    piplineState->VertexLayoutNames[0] = "TEXCOORD";
+    piplineState->VertexLayoutNames[1] = "TEXCOORD";
+    piplineState->VertexLayoutNames[2] = "TEXCOORD";
+    piplineState->VertexLayoutNames[3] = "TEXCOORD";
+    piplineState->VertexLayoutSemantics[0] = 0;
+    piplineState->VertexLayoutSemantics[1] = 1;
+    piplineState->VertexLayoutSemantics[2] = 2;
+    piplineState->VertexLayoutSemantics[3] = 3;
+
+    // Transpiled
+    /*
+	piplineState->VertexLayoutNames[0] = "POSITION";
     piplineState->VertexLayoutNames[1] = "COLOR";
     piplineState->VertexLayoutNames[2] = "UV";
     piplineState->VertexLayoutNames[3] = "UV";
@@ -207,6 +219,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->VertexLayoutSemantics[1] = 0;
     piplineState->VertexLayoutSemantics[2] = 0;
     piplineState->VertexLayoutSemantics[3] = 1;
+	*/
     piplineState->VertexLayoutCount = 4;
 
     SetBlendFuncs(piplineState);
