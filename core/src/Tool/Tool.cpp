@@ -144,11 +144,10 @@ const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRange ranges) {
             return io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         case ToolGlyphRange::Korean:
             return io.Fonts->GetGlyphRangesKorean();
-
-        default:
-            Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
         case ToolGlyphRange::Default:
             return io.Fonts->GetGlyphRangesDefault();
+        default:
+            Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
     }
 }
 
