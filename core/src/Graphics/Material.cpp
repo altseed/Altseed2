@@ -151,6 +151,8 @@ std::shared_ptr<Shader> Material::GetShader(ShaderStageType shaderStage) const {
 }
 
 void Material::SetShader(const std::shared_ptr<Shader>& shader) {
+    pipelineStates_.clear();
+
     switch (shader->GetStageType()) {
         case ShaderStageType::Vertex:
             vertexShader_ = shader;
