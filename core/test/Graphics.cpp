@@ -104,7 +104,7 @@ TEST(Graphics, SpriteTexture) {
 
         // Take a screenshot
         if (count == 5) {
-            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"SpriteTexture.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.SpriteTexture.png");
         }
     }
 
@@ -197,7 +197,7 @@ TEST(Graphics, RenderedText) {
 
         // Take a screenshot
         if (count == 5) {
-            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"RenderedText.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedText.png");
         }
     }
 
@@ -247,7 +247,7 @@ TEST(Graphics, RenderedPolygon) {
 
         // Take a screenshot
         if (count == 5) {
-            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"RenderedPolygon.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedPolygon.png");
         }
     }
 
@@ -308,7 +308,7 @@ TEST(Graphics, AlphaBlend) {
 
         // Take a screenshot
         if (count == 5) {
-            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"AlphaBlend.png");
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.AlphaBlend.png");
         }
     }
 
@@ -363,6 +363,11 @@ TEST(Graphics, CameraBasic) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.CameraBasic.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -426,6 +431,11 @@ TEST(Graphics, RenderTexture) {
 
         EXPECT_TRUE(instance->EndFrame());
         if (count == 2) Altseed2::FrameDebugger::GetInstance()->DumpToLog();
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderTexture.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -490,7 +500,9 @@ TEST(Graphics, RenderTextureSave) {
         EXPECT_TRUE(instance->EndFrame());
         if (count == 2) Altseed2::FrameDebugger::GetInstance()->DumpToLog();
 
-        rt->Save(u"RenderTextureSave.png");
+        if (count == 5) {
+            rt->Save(u"Graphics.RenderTextureSave.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -537,6 +549,10 @@ TEST(Graphics, BackgroundBugcheck) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.BackgroundBugcheck.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -647,13 +663,17 @@ VS_OUTPUT main(VS_INPUT input){
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.VertexTextureFetch.png");
+        }
     }
 
     Altseed2::Core::Terminate();
 }
 
 TEST(Graphics, Culling) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Culling", 1280, 720, Altseed2::Configuration::Create()));
 
     int count = 0;
 
@@ -700,6 +720,10 @@ TEST(Graphics, Culling) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.Culling.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -768,6 +792,10 @@ TEST(Graphics, CullingTooManySprite) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.CullingTooManySprite.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -821,6 +849,10 @@ TEST(Graphics, RenderToRenderTexture) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderToRenderTexture.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -879,6 +911,10 @@ float4 main(PS_INPUT input) : SV_TARGET
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.TextureWrapModeClamp.png");
+        }
     }
 
     Altseed2::Core::Terminate();
@@ -918,6 +954,10 @@ TEST(Graphics, ShaderFromFile) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.ShaderFromFile.png");
+        }
     }
 
     Altseed2::Core::Terminate();

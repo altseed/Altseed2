@@ -30,6 +30,13 @@ jobs:
         inputs:
           cmakeArgs: '--build . --config Release'
 
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            cd build/RELEASE/
+            .\Altseed2_Core_Test.exe
+
   - job: Linux
     pool:
       vmImage: 'ubuntu-18.04'
