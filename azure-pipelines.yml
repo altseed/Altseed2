@@ -37,6 +37,12 @@ jobs:
             cd build/RELEASE/
             .\Altseed2_Core_Test.exe
 
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: 'build/RELEASE'
+          ArtifactName: 'screenshots'
+          publishLocation: 'Container'
+
   - job: Linux
     pool:
       vmImage: 'ubuntu-18.04'
