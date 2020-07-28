@@ -80,8 +80,15 @@ std::u16string FileSystem::GetParentPath(const std::u16string& path) {
 }
 
 std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) {
-    // not impliment
-    return path;
+    auto path8 = utf16_to_utf8(path);
+    char resolved_path[1024];
+    realpath(path8.c_str(), resolved_path);
+    return utf8_to_utf16(resolved_path);
+}
+
+bool FileSystem::GetIsAbsolutePath(const std::u16string& path) {
+    // TODO : make better
+    return GetAbusolutePath(path) == path;
 }
 
 }  // namespace Altseed2
