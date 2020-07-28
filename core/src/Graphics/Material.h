@@ -4,13 +4,13 @@
 #include <unordered_map>
 
 #include "../BaseObject.h"
+#include "../Common/HashHelper.h"
 #include "../Math/Matrix44F.h"
 #include "../Math/Vector4F.h"
 #include "Shader.h"
 #include "TextureBase.h"
 
 namespace Altseed2 {
-
 enum class ShaderStageType;
 class Shader;
 class TextureBase;
@@ -65,13 +65,16 @@ struct AlphaBlend {
         typedef std::size_t result_type;
 
         std::size_t operator()(const AlphaBlend& alphaBlend) const {
-            auto ret = std::hash<bool>()(alphaBlend.IsBlendEnabled);
-            ret += std::hash<BlendFuncType>()(alphaBlend.BlendSrcFunc);
-            ret += std::hash<BlendFuncType>()(alphaBlend.BlendDstFunc);
-            ret += std::hash<BlendFuncType>()(alphaBlend.BlendSrcFuncAlpha);
-            ret += std::hash<BlendFuncType>()(alphaBlend.BlendDstFuncAlpha);
-            ret += std::hash<BlendEquationType>()(alphaBlend.BlendEquationRGB);
-            ret += std::hash<BlendEquationType>()(alphaBlend.BlendEquationAlpha);
+            std::size_t ret = 0;
+            hash_combine(
+                    ret,
+                    alphaBlend.IsBlendEnabled,
+                    alphaBlend.BlendSrcFunc,
+                    alphaBlend.BlendDstFunc,
+                    alphaBlend.BlendSrcFuncAlpha,
+                    alphaBlend.BlendDstFuncAlpha,
+                    alphaBlend.BlendEquationRGB,
+                    alphaBlend.BlendEquationAlpha);
             return ret;
         }
     };

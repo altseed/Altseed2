@@ -22,6 +22,7 @@ set(core_files
     Common/ThreadSafeMap.h
     Common/BinaryWriter.h
     Common/BinaryReader.h
+    Common/HashHelper.h
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
     Graphics/BuiltinShader.h
