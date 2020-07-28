@@ -78,12 +78,14 @@ define.classes.append(Joystick)
 # graphics
 define.enums.append(DeviceType)
 define.enums.append(ShaderStageType)
-define.enums.append(AlphaBlendMode)
 define.enums.append(BuiltinShaderType)
 define.enums.append(WritingDirection)
 define.enums.append(TextureFilterType)
 define.enums.append(TextureWrapMode)
+define.enums.append(BlendEquationType)
+define.enums.append(BlendFuncType)
 
+define.structs.append(AlphaBlend)
 define.structs.append(BatchVertex)
 define.structs.append(Color)
 

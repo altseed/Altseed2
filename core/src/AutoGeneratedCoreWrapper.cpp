@@ -1143,18 +1143,18 @@ CBGEXPORT void CBGSTDCALL cbg_Material_SetShader(void* cbg_self, void* shader) {
     cbg_self_->SetShader(cbg_arg0);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Material_GetBlendMode(void* cbg_self) {
+CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_Material_GetAlphaBlend(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Material*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_ret = cbg_self_->GetBlendMode();
-    return (int32_t)cbg_ret;
+    Altseed2::AlphaBlend_C cbg_ret = cbg_self_->GetAlphaBlend();
+    return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Material_SetBlendMode(void* cbg_self, int32_t value) {
+CBGEXPORT void CBGSTDCALL cbg_Material_SetAlphaBlend(void* cbg_self, Altseed2::AlphaBlend_C value) {
     auto cbg_self_ = (Altseed2::Material*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_arg0 = (Altseed2::AlphaBlendMode)value;
-    cbg_self_->SetBlendMode(cbg_arg0);
+    Altseed2::AlphaBlend_C cbg_arg0 = value;
+    cbg_self_->SetAlphaBlend(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Material_Release(void* cbg_self) {
@@ -1347,18 +1347,18 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetColor(void* cbg_self, Altseed2::
     cbg_self_->SetColor(cbg_arg0);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_RenderedSprite_GetBlendMode(void* cbg_self) {
+CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_RenderedSprite_GetAlphaBlend(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedSprite*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_ret = cbg_self_->GetBlendMode();
-    return (int32_t)cbg_ret;
+    Altseed2::AlphaBlend_C cbg_ret = cbg_self_->GetAlphaBlend();
+    return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetBlendMode(void* cbg_self, int32_t value) {
+CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_SetAlphaBlend(void* cbg_self, Altseed2::AlphaBlend_C value) {
     auto cbg_self_ = (Altseed2::RenderedSprite*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_arg0 = (Altseed2::AlphaBlendMode)value;
-    cbg_self_->SetBlendMode(cbg_arg0);
+    Altseed2::AlphaBlend_C cbg_arg0 = value;
+    cbg_self_->SetAlphaBlend(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedSprite_Release(void* cbg_self) {
@@ -1519,18 +1519,18 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetColor(void* cbg_self, Altseed2::Co
     cbg_self_->SetColor(cbg_arg0);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_RenderedText_GetBlendMode(void* cbg_self) {
+CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_RenderedText_GetAlphaBlend(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_ret = cbg_self_->GetBlendMode();
-    return (int32_t)cbg_ret;
+    Altseed2::AlphaBlend_C cbg_ret = cbg_self_->GetAlphaBlend();
+    return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetBlendMode(void* cbg_self, int32_t value) {
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetAlphaBlend(void* cbg_self, Altseed2::AlphaBlend_C value) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_arg0 = (Altseed2::AlphaBlendMode)value;
-    cbg_self_->SetBlendMode(cbg_arg0);
+    Altseed2::AlphaBlend_C cbg_arg0 = value;
+    cbg_self_->SetAlphaBlend(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedText_Release(void* cbg_self) {
@@ -1614,18 +1614,18 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetMaterial(void* cbg_self, void* 
     cbg_self_->SetMaterial(cbg_arg0);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_RenderedPolygon_GetBlendMode(void* cbg_self) {
+CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_RenderedPolygon_GetAlphaBlend(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_ret = cbg_self_->GetBlendMode();
-    return (int32_t)cbg_ret;
+    Altseed2::AlphaBlend_C cbg_ret = cbg_self_->GetAlphaBlend();
+    return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetBlendMode(void* cbg_self, int32_t value) {
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetAlphaBlend(void* cbg_self, Altseed2::AlphaBlend_C value) {
     auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
 
-    Altseed2::AlphaBlendMode cbg_arg0 = (Altseed2::AlphaBlendMode)value;
-    cbg_self_->SetBlendMode(cbg_arg0);
+    Altseed2::AlphaBlend_C cbg_arg0 = value;
+    cbg_self_->SetAlphaBlend(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_Release(void* cbg_self) {
