@@ -14,29 +14,6 @@ BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     vertexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateVertexBuffer(sizeof(BatchVertex) * VertexBufferMax));
     indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateIndexBuffer(4, IndexBufferMax));
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
-
-    auto vs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
-    auto ps = graphics->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
-    auto fontPs = graphics->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
-    for (int32_t i = 0; i < static_cast<int32_t>(AlphaBlendMode::Max); i++) {
-        auto mode = static_cast<AlphaBlendMode>(i);
-
-        {
-            auto m = MakeAsdShared<Material>();
-            m->SetShader(vs);
-            m->SetShader(ps);
-            m->SetBlendMode(mode);
-            matDefaultSprite_[mode] = m;
-        }
-
-        {
-            auto m = MakeAsdShared<Material>();
-            m->SetShader(vs);
-            m->SetShader(fontPs);
-            m->SetBlendMode(mode);
-            matDefaultText_[mode] = m;
-        }
-    }
 }
 
 void BatchRenderer::Draw(
@@ -176,6 +153,40 @@ void BatchRenderer::SetViewProjectionWithWindowsSize(const Vector2I& windowSize)
 void BatchRenderer::SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection) {
     matView_ = matView;
     matProjection_ = matProjection;
+}
+
+std::shared_ptr<Material> BatchRenderer::GetMaterialDefaultSprite(const AlphaBlend blend) {
+    auto mat = matDefaultSprite_[blend];
+
+    if (mat != nullptr) return mat;
+
+    auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
+    auto ps = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitPS);
+
+    mat = MakeAsdShared<Material>();
+    mat->SetShader(vs);
+    mat->SetShader(ps);
+    mat->SetAlphaBlend(blend);
+    matDefaultSprite_[blend] = mat;
+
+    return mat;
+}
+
+std::shared_ptr<Material> BatchRenderer::GetMaterialDefaultText(const AlphaBlend blend) {
+    auto mat = matDefaultText_[blend];
+
+    if (mat != nullptr) return mat;
+
+    auto vs = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::SpriteUnlitVS);
+    auto ps = Graphics::GetInstance()->GetBuiltinShader()->Create(BuiltinShaderType::FontUnlitPS);
+
+    mat = MakeAsdShared<Material>();
+    mat->SetShader(vs);
+    mat->SetShader(ps);
+    mat->SetAlphaBlend(blend);
+    matDefaultText_[blend] = mat;
+
+    return mat;
 }
 
 }  // namespace Altseed2

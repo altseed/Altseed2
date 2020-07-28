@@ -15,26 +15,165 @@ enum class ShaderStageType;
 class Shader;
 class TextureBase;
 
-enum class AlphaBlendMode : int32_t { Opacity,
-                                      Normal,
-                                      Add,
-                                      Subtract,
-                                      Multiply,
-                                      Max };
+enum class BlendEquationType {
+    Add,
+    Sub,
+    ReverseSub,
+    Min,
+    Max,
+};
+
+enum class BlendFuncType {
+    Zero,
+    One,
+    SrcColor,
+    OneMinusSrcColor,
+    SrcAlpha,
+    OneMinusSrcAlpha,
+    DstAlpha,
+    OneMinusDstAlpha,
+    DstColor,
+    OneMinusDstColor,
+};
+
+struct AlphaBlend_C;
+
+struct AlphaBlend {
+    bool IsBlendEnabled = true;
+
+    BlendFuncType BlendSrcFunc = BlendFuncType::SrcAlpha;
+    BlendFuncType BlendDstFunc = BlendFuncType::OneMinusSrcAlpha;
+    BlendFuncType BlendSrcFuncAlpha = BlendFuncType::SrcAlpha;
+    BlendFuncType BlendDstFuncAlpha = BlendFuncType::OneMinusSrcAlpha;
+
+    BlendEquationType BlendEquationRGB = BlendEquationType::Add;
+    BlendEquationType BlendEquationAlpha = BlendEquationType::Add;
+
+    operator AlphaBlend_C() const;
+
+    bool operator==(const AlphaBlend& value) const {
+        return IsBlendEnabled == value.IsBlendEnabled &&
+               BlendSrcFunc == value.BlendSrcFunc &&
+               BlendDstFunc == value.BlendDstFunc &&
+               BlendSrcFuncAlpha == value.BlendSrcFuncAlpha &&
+               BlendDstFuncAlpha == value.BlendDstFuncAlpha &&
+               BlendEquationRGB == value.BlendEquationRGB &&
+               BlendEquationAlpha == value.BlendEquationAlpha;
+    };
+
+    struct Hash {
+        typedef std::size_t result_type;
+
+        std::size_t operator()(const AlphaBlend& alphaBlend) const {
+            auto ret = std::hash<bool>()(alphaBlend.IsBlendEnabled);
+            ret += std::hash<BlendFuncType>()(alphaBlend.BlendSrcFunc);
+            ret += std::hash<BlendFuncType>()(alphaBlend.BlendDstFunc);
+            ret += std::hash<BlendFuncType>()(alphaBlend.BlendSrcFuncAlpha);
+            ret += std::hash<BlendFuncType>()(alphaBlend.BlendDstFuncAlpha);
+            ret += std::hash<BlendEquationType>()(alphaBlend.BlendEquationRGB);
+            ret += std::hash<BlendEquationType>()(alphaBlend.BlendEquationAlpha);
+            return ret;
+        }
+    };
+
+    static AlphaBlend Normal() {
+        auto alphaBlend = AlphaBlend();
+        alphaBlend.IsBlendEnabled = true;
+        alphaBlend.BlendSrcFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendDstFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendEquationAlpha = BlendEquationType::Max;
+
+        alphaBlend.BlendEquationRGB = BlendEquationType::Add;
+        alphaBlend.BlendDstFunc = BlendFuncType::OneMinusSrcAlpha;
+        alphaBlend.BlendSrcFunc = BlendFuncType::One;
+
+        return alphaBlend;
+    }
+
+    static AlphaBlend Add() {
+        auto alphaBlend = AlphaBlend();
+        alphaBlend.IsBlendEnabled = true;
+        alphaBlend.BlendSrcFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendDstFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendEquationAlpha = BlendEquationType::Max;
+
+        alphaBlend.BlendEquationRGB = BlendEquationType::Add;
+        alphaBlend.BlendDstFunc = BlendFuncType::One;
+        alphaBlend.BlendSrcFunc = BlendFuncType::SrcAlpha;
+
+        return alphaBlend;
+    }
+
+    static AlphaBlend Opacity() {
+        auto alphaBlend = AlphaBlend();
+        alphaBlend.IsBlendEnabled = false;
+        alphaBlend.BlendSrcFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendDstFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendEquationAlpha = BlendEquationType::Max;
+
+        alphaBlend.BlendEquationRGB = BlendEquationType::Add;
+        alphaBlend.BlendDstFunc = BlendFuncType::Zero;
+        alphaBlend.BlendSrcFunc = BlendFuncType::One;
+
+        return alphaBlend;
+    }
+
+    static AlphaBlend Substract() {
+        auto alphaBlend = AlphaBlend();
+        alphaBlend.IsBlendEnabled = true;
+        alphaBlend.BlendSrcFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendDstFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendEquationAlpha = BlendEquationType::Max;
+
+        alphaBlend.BlendEquationRGB = BlendEquationType::ReverseSub;
+        alphaBlend.BlendDstFunc = BlendFuncType::One;
+        alphaBlend.BlendSrcFunc = BlendFuncType::SrcAlpha;
+
+        return alphaBlend;
+    }
+
+    static AlphaBlend Multiply() {
+        auto alphaBlend = AlphaBlend();
+        alphaBlend.IsBlendEnabled = true;
+        alphaBlend.BlendSrcFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendDstFuncAlpha = BlendFuncType::One;
+        alphaBlend.BlendEquationAlpha = BlendEquationType::Max;
+
+        alphaBlend.BlendEquationRGB = BlendEquationType::Add;
+        alphaBlend.BlendDstFunc = BlendFuncType::SrcColor;
+        alphaBlend.BlendSrcFunc = BlendFuncType::Zero;
+
+        return alphaBlend;
+    }
+};
+
+struct AlphaBlend_C {
+    bool IsBlendEnabled;
+
+    BlendFuncType BlendSrcFunc;
+    BlendFuncType BlendDstFunc;
+    BlendFuncType BlendSrcFuncAlpha;
+    BlendFuncType BlendDstFuncAlpha;
+
+    BlendEquationType BlendEquationRGB;
+    BlendEquationType BlendEquationAlpha;
+
+    operator AlphaBlend() const;
+};
 
 struct PipelineStateKey {
-    AlphaBlendMode alphaBlendMode_ = AlphaBlendMode::Normal;
+    AlphaBlend alphaBlend_;
     std::shared_ptr<LLGI::RenderPassPipelineState> renderPassPipelineState_ = nullptr;
 
     bool operator==(const PipelineStateKey& value) const {
-        return alphaBlendMode_ == value.alphaBlendMode_ && renderPassPipelineState_ == value.renderPassPipelineState_;
+        return alphaBlend_ == value.alphaBlend_ && renderPassPipelineState_ == value.renderPassPipelineState_;
     };
 
     struct Hash {
         typedef std::size_t result_type;
 
         std::size_t operator()(const PipelineStateKey& key) const {
-            auto ret = std::hash<AlphaBlendMode>()(key.alphaBlendMode_);
+            auto ret = AlphaBlend::Hash()(key.alphaBlend_);
             ret += std::hash<std::shared_ptr<LLGI::RenderPassPipelineState>>()(key.renderPassPipelineState_);
             return ret;
         }
@@ -79,7 +218,7 @@ private:
 
     std::unordered_map<PipelineStateKey, std::shared_ptr<LLGI::PipelineState>, PipelineStateKey::Hash> pipelineStates_;
 
-    AlphaBlendMode alphaBlendMode_;
+    AlphaBlend alphaBlend_;
 
     void SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& piplineState);
 
@@ -98,8 +237,8 @@ public:
     std::shared_ptr<Shader> GetShader(Altseed2::ShaderStageType shaderStage) const;
     void SetShader(const std::shared_ptr<Shader>& shader);
 
-    AlphaBlendMode GetBlendMode() const;
-    void SetBlendMode(const AlphaBlendMode value);
+    AlphaBlend GetAlphaBlend() const;
+    void SetAlphaBlend(const AlphaBlend value);
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 

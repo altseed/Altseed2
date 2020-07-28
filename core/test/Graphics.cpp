@@ -272,7 +272,7 @@ TEST(Graphics, AlphaBlend) {
 
     auto builtinShader = Altseed2::MakeAsdShared<Altseed2::BuiltinShader>();
     auto m1 = Altseed2::MakeAsdShared<Altseed2::Material>();
-    m1->SetBlendMode(Altseed2::AlphaBlendMode::Add);
+    m1->SetAlphaBlend(Altseed2::AlphaBlend::Add());
     m1->SetShader(builtinShader->Create(Altseed2::BuiltinShaderType::SpriteUnlitVS));
     m1->SetShader(builtinShader->Create(Altseed2::BuiltinShaderType::SpriteUnlitPS));
 
