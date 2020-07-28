@@ -126,6 +126,10 @@ void File::ClearRootDirectories() {
 }
 
 bool File::Exists(const char16_t* path) const {
+    if (FileSystem::GetIsAbsolutePath(path)) {
+        return FileSystem::GetIsFile(path);
+    }
+
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
             if ((*i)->GetPackFile()->Exists(path)) return true;
