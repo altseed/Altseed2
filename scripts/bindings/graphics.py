@@ -66,7 +66,7 @@ with Texture2D as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのクラス')
     class_.base_class = TextureBase
-    class_.SerializeType = cbg.SerializeType.Interface
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.CallBackType = cbg.CallBackType.Enable
     class_.is_Sealed = True
 
