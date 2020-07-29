@@ -188,9 +188,9 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
     return texture;
 }
 
-std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int32_t height) {
+std::shared_ptr<LLGI::Texture> Graphics::CreateRenderTexture(int32_t width, int32_t height, TextureFormatType format) {
     LLGI::RenderTextureInitializationParameter params;
-    params.Format = LLGI::TextureFormatType::R8G8B8A8_UNORM;
+    params.Format = textureFormatToLLGI(format);
     params.Size = LLGI::Vec2I(width, height);
     std::shared_ptr<LLGI::Texture> texture = LLGI::CreateSharedPtr(graphics_->CreateRenderTexture(params));
     if (texture == nullptr) {

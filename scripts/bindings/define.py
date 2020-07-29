@@ -82,6 +82,7 @@ define.enums.append(BuiltinShaderType)
 define.enums.append(WritingDirection)
 define.enums.append(TextureFilterType)
 define.enums.append(TextureWrapMode)
+define.enums.append(TextureFormatType)
 define.enums.append(BlendEquationType)
 define.enums.append(BlendFuncType)
 

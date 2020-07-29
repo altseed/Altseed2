@@ -1021,6 +1021,13 @@ CBGEXPORT void CBGSTDCALL cbg_TextureBase_SetFilterType(void* cbg_self, int32_t 
     cbg_self_->SetFilterType(cbg_arg0);
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_TextureBase_GetFormat(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::TextureBase*)(cbg_self);
+
+    Altseed2::TextureFormatType cbg_ret = cbg_self_->GetFormat();
+    return (int32_t)cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_TextureBase_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::TextureBase*)(cbg_self);
 
@@ -1053,9 +1060,10 @@ CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_RenderTexture_Create(Altseed2::Vector2I_C size) {
+CBGEXPORT void* CBGSTDCALL cbg_RenderTexture_Create(Altseed2::Vector2I_C size, int32_t format) {
     Altseed2::Vector2I_C cbg_arg0 = size;
-    std::shared_ptr<Altseed2::RenderTexture> cbg_ret = Altseed2::RenderTexture::Create(cbg_arg0);
+    Altseed2::TextureFormatType cbg_arg1 = (Altseed2::TextureFormatType)format;
+    std::shared_ptr<Altseed2::RenderTexture> cbg_ret = Altseed2::RenderTexture::Create(cbg_arg0, cbg_arg1);
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RenderTexture>(cbg_ret);
 }
 
@@ -1240,6 +1248,20 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_CopyTexture(void* cbg_self, void* src,
     std::shared_ptr<Altseed2::RenderTexture> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)src);
     std::shared_ptr<Altseed2::RenderTexture> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)dst);
     cbg_self_->CopyTexture(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_CommandList_GetScreenTextureFormat(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    Altseed2::TextureFormatType cbg_ret = cbg_self_->GetScreenTextureFormat();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetScreenTextureFormat(void* cbg_self, int32_t value) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    Altseed2::TextureFormatType cbg_arg0 = (Altseed2::TextureFormatType)value;
+    cbg_self_->SetScreenTextureFormat(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_Release(void* cbg_self) {

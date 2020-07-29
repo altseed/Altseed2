@@ -63,6 +63,8 @@ std::shared_ptr<CommandList> CommandList::Create() {
     auto commandListPool = std::make_shared<LLGI::CommandListPool>(g, memoryPool.get(), 3);
     auto ret = CreateSharedPtr(new CommandList());
 
+    ret->screenTextureFormat_ = TextureFormatType::R8G8B8A8_UNORM;
+
     ret->memoryPool_ = memoryPool;
     ret->commandListPool_ = commandListPool;
 
@@ -168,10 +170,12 @@ void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
                 renderPassParameter.ClearColor.ToLL(), renderPassParameter.IsColorCleared, renderPassParameter.IsDepthCleared);
 
         auto g = Graphics::GetInstance()->GetGraphicsLLGI();
-        if (internalScreen_ == nullptr || internalScreen_->GetSize().X != r->GetRenderTexture(0)->GetSizeAs2D().X ||
+        if (internalScreen_ == nullptr ||
+            internalScreen_->GetFormat() != screenTextureFormat_ ||
+            internalScreen_->GetSize().X != r->GetRenderTexture(0)->GetSizeAs2D().X ||
             internalScreen_->GetSize().Y != r->GetRenderTexture(0)->GetSizeAs2D().Y) {
             auto size = r->GetRenderTexture(0)->GetSizeAs2D();
-            internalScreen_ = RenderTexture::Create(Vector2I(size.X, size.Y));
+            internalScreen_ = RenderTexture::Create(Vector2I(size.X, size.Y), screenTextureFormat_);
             internalScreen_->SetInstanceName(u"InternalScreen");
         }
     }
@@ -492,7 +496,7 @@ void CommandList::Draw(int32_t instanceCount) {
         auto path = FrameDebugger::GetInstance()->GetDebuggingRenderTargetFileNameAndMoveNext();
         FrameDebugger::GetInstance()->Render(instanceCount, path);
 
-        auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y));
+        auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y), TextureFormatType::R8G8B8A8_UNORM);
 
         currentCommandList_->EndRenderPass();
         currentCommandList_->CopyTexture(texture, target->GetNativeTexture().get());
@@ -556,6 +560,11 @@ LLGI::CommandList* CommandList::GetLL() const { return currentCommandList_; }
 
 void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture) {
     if (currentCommandList_ == nullptr) return;
+
+    if (texture->GetFormat() != TextureFormatType::R8G8B8A8_UNORM) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SaveRenderTexture: TextureFormatType is unsupported");
+        return;
+    }
 
     currentCommandList_->AddRef();
     auto commandList = LLGI::CreateSharedPtr(currentCommandList_);

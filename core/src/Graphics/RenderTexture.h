@@ -19,10 +19,10 @@ namespace Altseed2 {
 class RenderTexture : public TextureBase {
 public:
     RenderTexture(const std::shared_ptr<LLGI::Texture>& texture);
-    RenderTexture(Vector2I size);
+    RenderTexture(Vector2I size, TextureFormatType format);
     virtual ~RenderTexture();
 
-    static std::shared_ptr<RenderTexture> Create(Vector2I size);
+    static std::shared_ptr<RenderTexture> Create(Vector2I size, TextureFormatType format = TextureFormatType::R8G8B8A8_UNORM);
 
     bool Save(const char16_t* path) override;
 
