@@ -291,6 +291,8 @@ private:
 
     ToolUsage toolUsageMode_ = ToolUsage::Overwrapped;
 
+    void Dispose();
+
 public:
     static std::shared_ptr<Tool>& GetInstance();
 

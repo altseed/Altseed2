@@ -29,6 +29,14 @@ std::shared_ptr<Tool> Tool::instance_;
 
 std::shared_ptr<Tool>& Tool::GetInstance() { return instance_; }
 
+void Tool::Dispose() {
+    if (platform_ != nullptr) {
+        platform_.reset();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
+}
+
 bool Tool::Initialize(std::shared_ptr<Graphics> graphics) {
     instance_ = MakeAsdShared<Tool>(graphics);
     return true;
@@ -71,14 +79,10 @@ Tool::Tool(std::shared_ptr<Graphics> graphics) {
 #endif
 }
 
-Tool::~Tool() { OnTerminating(); }
+Tool::~Tool() { Dispose(); }
 
 void Tool::OnTerminating() {
-    if (platform_ != nullptr) {
-        platform_.reset();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
-    }
+    Dispose();
 }
 
 ToolUsage Tool::GetToolUsage() const { return toolUsageMode_; }
