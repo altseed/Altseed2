@@ -9,17 +9,13 @@
 #include "../Math/Matrix44F.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
+#include "Material.h"
 
 namespace Altseed2 {
 
 class Graphics;
 class CommandList;
-class Material;
 class TextureBase;
-class MaterialPropertyBlock;
-class MaterialPropertyBlockCollection;
-class Shader;
-enum class AlphaBlendMode;
 
 struct BatchVertex {
     Vector3F Pos;
@@ -52,8 +48,8 @@ private:
     int32_t vbOffset_ = 0;
     int32_t ibOffset_ = 0;
 
-    std::unordered_map<AlphaBlendMode, std::shared_ptr<Material>> matDefaultSprite_;
-    std::unordered_map<AlphaBlendMode, std::shared_ptr<Material>> matDefaultText_;
+    std::unordered_map<AlphaBlend, std::shared_ptr<Material>, AlphaBlend::Hash> matDefaultSprite_;
+    std::unordered_map<AlphaBlend, std::shared_ptr<Material>, AlphaBlend::Hash> matDefaultText_;
 
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
     Matrix44F matView_;
@@ -77,8 +73,8 @@ public:
 
     void SetViewProjection(const Matrix44F& matView, const Matrix44F& matProjection);
 
-    std::shared_ptr<Material> GetMaterialDefaultSprite(const AlphaBlendMode blendMode) const { return matDefaultSprite_.at(blendMode); }
-    std::shared_ptr<Material> GetMaterialDefaultText(const AlphaBlendMode blendMode) const { return matDefaultText_.at(blendMode); }
+    std::shared_ptr<Material> GetMaterialDefaultSprite(const AlphaBlend blend);
+    std::shared_ptr<Material> GetMaterialDefaultText(const AlphaBlend blend);
 };
 
 }  // namespace Altseed2

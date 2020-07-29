@@ -118,13 +118,28 @@ with ShaderStageType as enum_:
     enum_.add('Vertex')
     enum_.add('Pixel')
 
-AlphaBlendMode = cbg.Enum('Altseed2', 'AlphaBlendMode')
-with AlphaBlendMode as enum_:
-    enum_.add('Opacity')
-    enum_.add('Normal')
+BlendEquationType = cbg.Enum('Altseed2', 'BlendEquationType')
+with BlendEquationType as enum_:
     enum_.add('Add')
-    enum_.add('Subtract')
-    enum_.add('Multiply')
+    enum_.add('Sub')
+    enum_.add('ReverseSub')
+    enum_.add('Min')
+    enum_.add('Max')
+
+BlendFuncType = cbg.Enum('Altseed2', 'BlendFuncType')
+with BlendFuncType as enum_:
+    enum_.add('Zero')
+    enum_.add('One')
+    enum_.add('SrcColor')
+    enum_.add('OneMinusSrcColor')
+    enum_.add('SrcAlpha')
+    enum_.add('OneMinusSrcAlpha')
+    enum_.add('DstAlpha')
+    enum_.add('OneMinusDstAlpha')
+    enum_.add('DstColor')
+    enum_.add('OneMinusDstColor')
+
+AlphaBlend = cbg.Struct('Altseed2', 'AlphaBlend_C', 'AlphaBlend')
 
 Shader = cbg.Class('Altseed2', 'Shader', cbg.CacheMode.Cache)
 with Shader as class_:
@@ -365,9 +380,9 @@ with Material as class_:
             arg.brief.add('ja', '設定するシェーダ')
         func.onlyExtern = True
 
-    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+    with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.brief.add('ja', '描画時のアルファブレンドを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -742,9 +757,9 @@ with RenderedSprite as class_:
         prop.has_setter = True
         prop.serialized = True
 
-    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+    with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.brief.add('ja', '描画時のアルファブレンドを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -839,9 +854,9 @@ with RenderedText as class_:
         prop.has_setter = True
         prop.serialized = True
 
-    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+    with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.brief.add('ja', '描画時のアルファブレンドを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -903,9 +918,9 @@ with RenderedPolygon as class_:
         prop.has_setter = True
         prop.serialized = True
 
-    with class_.add_property(AlphaBlendMode, 'BlendMode') as prop:
+    with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画時のブレンドモードを取得または設定します。')
+        prop.brief.add('ja', '描画時のアルファブレンドを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True

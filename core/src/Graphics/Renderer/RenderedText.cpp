@@ -10,7 +10,7 @@ namespace Altseed2 {
 
 std::shared_ptr<RenderedText> RenderedText::Create() {
     auto t = MakeAsdShared<RenderedText>();
-    t->SetBlendMode(AlphaBlendMode::Normal);
+    t->SetAlphaBlend(AlphaBlend::Normal());
     t->SetIsEnableKerning(true);
     t->SetWritingDirection(WritingDirection::Horizontal);
     t->SetText(u"");
@@ -22,10 +22,6 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
 
     return t;
 }
-
-AlphaBlendMode RenderedText::GetBlendMode() const { return blendMode_; };
-
-void RenderedText::SetBlendMode(AlphaBlendMode blendMode) { blendMode_ = blendMode; };
 
 Vector2F RenderedText::GetTextureSize() {
     if (GetFont() == nullptr) {

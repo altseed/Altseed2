@@ -10,6 +10,30 @@
 
 namespace Altseed2 {
 
+AlphaBlend::operator Altseed2::AlphaBlend_C() const {
+    auto m = AlphaBlend_C();
+    m.IsBlendEnabled = IsBlendEnabled;
+    m.BlendSrcFunc = BlendSrcFunc;
+    m.BlendDstFunc = BlendDstFunc;
+    m.BlendSrcFuncAlpha = BlendSrcFuncAlpha;
+    m.BlendDstFuncAlpha = BlendDstFuncAlpha;
+    m.BlendEquationRGB = BlendEquationRGB;
+    m.BlendEquationAlpha = BlendEquationAlpha;
+    return m;
+}
+
+AlphaBlend_C::operator Altseed2::AlphaBlend() const {
+    auto m = AlphaBlend();
+    m.IsBlendEnabled = IsBlendEnabled;
+    m.BlendSrcFunc = BlendSrcFunc;
+    m.BlendDstFunc = BlendDstFunc;
+    m.BlendSrcFuncAlpha = BlendSrcFuncAlpha;
+    m.BlendDstFuncAlpha = BlendDstFuncAlpha;
+    m.BlendEquationRGB = BlendEquationRGB;
+    m.BlendEquationAlpha = BlendEquationAlpha;
+    return m;
+}
+
 Vector4F MaterialPropertyBlock::GetVector4F(const char16_t* key) const {
     auto it = vector4s_.find(key);
 
@@ -124,7 +148,7 @@ Material::Material() {
     propertyBlock_ = MakeAsdShared<MaterialPropertyBlock>();
     vertexShader_ = nullptr;
     pixelShader_ = nullptr;
-    alphaBlendMode_ = AlphaBlendMode::Normal;
+    alphaBlend_ = AlphaBlend::Normal();
 }
 
 Vector4F Material::GetVector4F(const char16_t* key) const { return propertyBlock_->GetVector4F(key); }
@@ -165,9 +189,9 @@ void Material::SetShader(const std::shared_ptr<Shader>& shader) {
     }
 }
 
-AlphaBlendMode Material::GetBlendMode() const { return alphaBlendMode_; }
+AlphaBlend Material::GetAlphaBlend() const { return alphaBlend_; }
 
-void Material::SetBlendMode(const AlphaBlendMode value) { alphaBlendMode_ = value; }
+void Material::SetAlphaBlend(const AlphaBlend value) { alphaBlend_ = value; }
 
 std::shared_ptr<MaterialPropertyBlock> Material::GetPropertyBlock() const { return propertyBlock_; }
 
@@ -176,7 +200,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
 
     auto key = PipelineStateKey();
     key.renderPassPipelineState_ = LLGI::CreateSharedPtr(g->CreateRenderPassPipelineState(renderPass));
-    key.alphaBlendMode_ = alphaBlendMode_;
+    key.alphaBlend_ = alphaBlend_;
 
     auto it = pipelineStates_.find(key);
     if (it != pipelineStates_.end()) {
@@ -224,55 +248,19 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
 	*/
     piplineState->VertexLayoutCount = 4;
 
-    SetBlendFuncs(piplineState);
+    piplineState->IsBlendEnabled = alphaBlend_.IsBlendEnabled;
+    piplineState->BlendSrcFunc = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFunc);
+    piplineState->BlendDstFunc = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFunc);
+    piplineState->BlendSrcFuncAlpha = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendSrcFuncAlpha);
+    piplineState->BlendDstFuncAlpha = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFuncAlpha);
+    piplineState->BlendEquationRGB = static_cast<LLGI::BlendEquationType>(alphaBlend_.BlendEquationRGB);
+    piplineState->BlendEquationAlpha = static_cast<LLGI::BlendEquationType>(alphaBlend_.BlendEquationAlpha);
 
     piplineState->Compile();
 
     pipelineStates_[key] = piplineState;
 
     return piplineState;
-}
-
-void Material::SetBlendFuncs(const std::shared_ptr<LLGI::PipelineState>& piplineState) {
-    piplineState->IsBlendEnabled = (alphaBlendMode_ != AlphaBlendMode::Opacity);
-    piplineState->BlendSrcFuncAlpha = LLGI::BlendFuncType::One;
-    piplineState->BlendDstFuncAlpha = LLGI::BlendFuncType::One;
-    piplineState->BlendEquationAlpha = LLGI::BlendEquationType::Max;
-
-    switch (alphaBlendMode_) {
-        case AlphaBlendMode::Opacity:
-            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
-            piplineState->BlendDstFunc = LLGI::BlendFuncType::Zero;
-            piplineState->BlendSrcFunc = LLGI::BlendFuncType::One;
-            break;
-
-        case AlphaBlendMode::Normal:
-            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
-            piplineState->BlendDstFunc = LLGI::BlendFuncType::OneMinusSrcAlpha;
-            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
-            break;
-
-        case AlphaBlendMode::Add:
-            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
-            piplineState->BlendDstFunc = LLGI::BlendFuncType::One;
-            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
-            break;
-
-        case AlphaBlendMode::Subtract:
-            piplineState->BlendEquationRGB = LLGI::BlendEquationType::ReverseSub;
-            piplineState->BlendDstFunc = LLGI::BlendFuncType::One;
-            piplineState->BlendSrcFunc = LLGI::BlendFuncType::SrcAlpha;
-            break;
-
-        case AlphaBlendMode::Multiply:
-            piplineState->BlendEquationRGB = LLGI::BlendEquationType::Add;
-            piplineState->BlendDstFunc = LLGI::BlendFuncType::SrcColor;
-            piplineState->BlendSrcFunc = LLGI::BlendFuncType::Zero;
-            break;
-
-        default:
-            break;
-    }
 }
 
 void Material::OnTerminating() {

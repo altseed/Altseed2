@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#undef CreateDirectory
+#endif
+
 namespace Altseed2 {
 class FileSystem {
 public:

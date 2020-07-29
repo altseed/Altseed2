@@ -76,7 +76,7 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
     auto material = polygon->GetMaterial();
 
     if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultSprite(polygon->GetBlendMode());
+        material = batchRenderer_->GetMaterialDefaultSprite(polygon->GetAlphaBlend());
     }
 
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
@@ -138,7 +138,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
     auto material = sprite->GetMaterial();
 
     if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultSprite(sprite->GetBlendMode());
+        material = batchRenderer_->GetMaterialDefaultSprite(sprite->GetAlphaBlend());
     }
 
     batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
@@ -152,7 +152,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     auto materialGlyph = text->GetMaterialGlyph();
     if (materialGlyph == nullptr) {
-        materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetBlendMode());
+        materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
     materialGlyph->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
     materialGlyph->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
@@ -160,7 +160,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
-        materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetBlendMode());
+        materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetAlphaBlend());
     }
 
     Vector2F offset(0, 0);

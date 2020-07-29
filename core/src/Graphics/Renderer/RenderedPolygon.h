@@ -8,16 +8,15 @@
 #include "../../Common/Array.h"
 #include "../../Math/RectF.h"
 #include "../Color.h"
+#include "../Material.h"
+#include "../Texture2D.h"
 #include "Rendered.h"
 
 namespace Altseed2 {
 
-class Material;
-class Texture2D;
-
 class RenderedPolygon : public Rendered {
 private:
-    AlphaBlendMode blendMode_;
+    AlphaBlend alphaBlend_;
     std::shared_ptr<VertexArray> vertexes_;
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
@@ -26,8 +25,8 @@ private:
 public:
     static std::shared_ptr<RenderedPolygon> Create();
 
-    AlphaBlendMode GetBlendMode() const;
-    void SetBlendMode(AlphaBlendMode blendMode);
+    AlphaBlend GetAlphaBlend() const { return alphaBlend_; }
+    void SetAlphaBlend(AlphaBlend alphaBlend) { alphaBlend_ = alphaBlend; }
 
     std::shared_ptr<VertexArray> GetVertexes();
     void SetVertexes(std::shared_ptr<VertexArray> vertexes);

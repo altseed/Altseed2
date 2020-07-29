@@ -6,18 +6,17 @@
 
 #include "../../Math/RectF.h"
 #include "../Color.h"
+#include "../Material.h"
 #include "../TextureBase.h"
 #include "Rendered.h"
 
 namespace Altseed2 {
 
-class Material;
 class TextureBase;
-enum class AlphaBlendMode;
 
 class RenderedSprite : public Rendered {
 private:
-    AlphaBlendMode blendMode_;
+    AlphaBlend alphaBlend_;
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
     RectF src_;
@@ -26,8 +25,8 @@ private:
 public:
     static std::shared_ptr<RenderedSprite> Create();
 
-    AlphaBlendMode GetBlendMode() const;
-    void SetBlendMode(AlphaBlendMode blendMode);
+    AlphaBlend GetAlphaBlend() const { return alphaBlend_; }
+    void SetAlphaBlend(AlphaBlend alphaBlend) { alphaBlend_ = alphaBlend; }
 
     RectF GetSrc() const;
     void SetSrc(const RectF& src);
