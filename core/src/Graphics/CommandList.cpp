@@ -499,13 +499,15 @@ void CommandList::Draw(int32_t instanceCount) {
         auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y), TextureFormatType::R8G8B8A8_UNORM);
 
         currentCommandList_->EndRenderPass();
+        isInRenderPass_ = false;
+        auto renderPass = currentRenderPass_;
 
-        CopyTexture(internalScreen_, target);
+        CopyTexture(renderPass->RenderTarget, target);
 
-        currentRenderPass_->Stored->SetIsColorCleared(false);
-        currentRenderPass_->Stored->SetIsDepthCleared(false);
-
-        currentCommandList_->BeginRenderPass(currentRenderPass_->Stored.get());
+        renderPass->Stored->SetIsColorCleared(false);
+        renderPass->Stored->SetIsDepthCleared(false);
+        currentCommandList_->BeginRenderPass(renderPass->Stored.get());
+        isInRenderPass_ = true;
 
         SaveRenderTexture(path.c_str(), target);
     }
