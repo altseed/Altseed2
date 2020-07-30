@@ -151,6 +151,8 @@ Material::Material() {
     alphaBlend_ = AlphaBlend::Normal();
 }
 
+std::shared_ptr<Material> Material::Create() { return MakeAsdShared<Material>(); }
+
 Vector4F Material::GetVector4F(const char16_t* key) const { return propertyBlock_->GetVector4F(key); }
 
 void Material::SetVector4F(const char16_t* key, const Vector4F& value) { propertyBlock_->SetVector4F(key, value); }

@@ -22,6 +22,8 @@ private:
 public:
     RectangleCollider();
 
+    static std::shared_ptr<RectangleCollider> Create();
+
     // 大きさ
     Vector2F GetSize() const;
     void SetSize(Vector2F size);
