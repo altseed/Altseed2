@@ -499,7 +499,8 @@ void CommandList::Draw(int32_t instanceCount) {
         auto target = RenderTexture::Create(Vector2I(texture->GetSizeAs2D().X, texture->GetSizeAs2D().Y), TextureFormatType::R8G8B8A8_UNORM);
 
         currentCommandList_->EndRenderPass();
-        currentCommandList_->CopyTexture(texture, target->GetNativeTexture().get());
+
+        CopyTexture(internalScreen_, target);
 
         currentRenderPass_->Stored->SetIsColorCleared(false);
         currentRenderPass_->Stored->SetIsDepthCleared(false);
@@ -516,17 +517,9 @@ void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_pt
         return;
     }
 
-    auto srcSize = src->GetSize();
-    auto dstSize = dst->GetSize();
-
-    if (srcSize != dstSize) {
-        Log::GetInstance()->Error(
-                LogCategory::Core,
-                u"CommandList::CopyTexture failed, src's size ({}, {}) is not equal to dst's size ({}, {})",
-                srcSize.X,
-                srcSize.Y,
-                dstSize.X,
-                dstSize.Y);
+    if (src->GetFormat() != dst->GetFormat() || src->GetSize() != dst->GetSize()) {
+        copyMaterial_->SetTexture(u"mainTex", src);
+        RenderToRenderTexture(copyMaterial_, dst, RenderPassParameter());
         return;
     }
 
