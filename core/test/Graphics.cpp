@@ -962,3 +962,59 @@ TEST(Graphics, ShaderFromFile) {
 
     Altseed2::Core::Terminate();
 }
+
+TEST(Graphics, ScreenTextureFormat) {
+    const std::u16string PostEffectCode =
+            uR"(
+struct PS_INPUT
+{
+    float4  Position : SV_POSITION;
+    float4  Color    : COLOR0;
+    float2  UV1 : UV0;
+    float2  UV2 : UV1;
+};
+
+float4 main(PS_INPUT input) : SV_TARGET 
+{
+    float h = input.UV1.x;
+    float s = input.UV1.y;
+    float v = 1.0;
+    float3 col = ((clamp(abs(frac(h + float3(0.0, 2.0, 1.0) / 3.0) * 6.0 - 3.0) - 1.0, 0.0, 1.0) - 1.0) * s + 1.0) * v;
+    return float4(col, 1.0);
+}
+)";
+
+    auto config = Altseed2::Configuration::Create();
+    config->SetConsoleLoggingEnabled(true);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"ScreenTextureFormat", 1280, 720, config));
+
+    auto instance = Altseed2::Graphics::GetInstance();
+    auto cmdList = instance->GetCommandList();
+
+    auto ps = Altseed2::Shader::Create(u"posteffect", PostEffectCode.c_str(), Altseed2::ShaderStageType::Pixel);
+    auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
+    material->SetShader(ps);
+
+    int count = 0;
+    while (count++ < 180 && instance->DoEvents()) {
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        cmdList->RenderToRenderTarget(material);
+
+        EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 90) {
+            cmdList->SetScreenTextureFormat(Altseed2::TextureFormatType::R16G16_FLOAT);
+        }
+    }
+
+    Altseed2::Core::Terminate();
+}
