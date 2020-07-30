@@ -88,7 +88,7 @@ struct AlphaBlend {
 
         alphaBlend.BlendEquationRGB = BlendEquationType::Add;
         alphaBlend.BlendDstFunc = BlendFuncType::OneMinusSrcAlpha;
-        alphaBlend.BlendSrcFunc = BlendFuncType::One;
+        alphaBlend.BlendSrcFunc = BlendFuncType::SrcAlpha;
 
         return alphaBlend;
     }

@@ -249,7 +249,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->VertexLayoutCount = 4;
 
     piplineState->IsBlendEnabled = alphaBlend_.IsBlendEnabled;
-    piplineState->BlendSrcFunc = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFunc);
+    piplineState->BlendSrcFunc = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendSrcFunc);
     piplineState->BlendDstFunc = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFunc);
     piplineState->BlendSrcFuncAlpha = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendSrcFuncAlpha);
     piplineState->BlendDstFuncAlpha = static_cast<LLGI::BlendFuncType>(alphaBlend_.BlendDstFuncAlpha);
