@@ -1065,8 +1065,9 @@ CBGEXPORT void CBGSTDCALL cbg_RenderTexture_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Material_Constructor_0() {
-    return new Altseed2::Material();
+CBGEXPORT void* CBGSTDCALL cbg_Material_Create() {
+    std::shared_ptr<Altseed2::Material> cbg_ret = Altseed2::Material::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Material>(cbg_ret);
 }
 
 CBGEXPORT Altseed2::Vector4F_C CBGSTDCALL cbg_Material_GetVector4F(void* cbg_self, const char16_t* key) {
@@ -4291,10 +4292,6 @@ CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Collider_Constructor_0() {
-    return new Altseed2::Collider();
-}
-
 CBGEXPORT bool CBGSTDCALL cbg_Collider_GetIsCollidedWith(void* cbg_self, void* collider) {
     auto cbg_self_ = (Altseed2::Collider*)(cbg_self);
 
@@ -4337,8 +4334,9 @@ CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_CircleCollider_Constructor_0() {
-    return new Altseed2::CircleCollider();
+CBGEXPORT void* CBGSTDCALL cbg_CircleCollider_Create() {
+    std::shared_ptr<Altseed2::CircleCollider> cbg_ret = Altseed2::CircleCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::CircleCollider>(cbg_ret);
 }
 
 CBGEXPORT float CBGSTDCALL cbg_CircleCollider_GetRadius(void* cbg_self) {
@@ -4361,8 +4359,9 @@ CBGEXPORT void CBGSTDCALL cbg_CircleCollider_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Constructor_0() {
-    return new Altseed2::RectangleCollider();
+CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Create() {
+    std::shared_ptr<Altseed2::RectangleCollider> cbg_ret = Altseed2::RectangleCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RectangleCollider>(cbg_ret);
 }
 
 CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetSize(void* cbg_self) {
@@ -4399,8 +4398,9 @@ CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Constructor_0() {
-    return new Altseed2::PolygonCollider();
+CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Create() {
+    std::shared_ptr<Altseed2::PolygonCollider> cbg_ret = Altseed2::PolygonCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::PolygonCollider>(cbg_ret);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetVertexes(void* cbg_self) {

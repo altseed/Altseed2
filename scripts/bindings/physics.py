@@ -6,9 +6,6 @@ from .common import *
 
 Collider = cbg.Class('Altseed2', 'Collider')
 with Collider as class_:
-    with class_.add_constructor() as func_:
-        func_.is_public = False
-
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'コライダの抽象基本クラスです')
     class_.SerializeType = cbg.SerializeType.Interface
@@ -38,11 +35,17 @@ with Collider as class_:
 
 CircleCollider = cbg.Class('Altseed2', 'CircleCollider')
 with CircleCollider as class_:
-    class_.add_constructor()
     class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '円形コライダのクラス')
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
+
+    with class_.add_func('Create') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '円形コライダを作成します。')
+        func_.is_static = True
+        func_.is_public = True
+        func_.return_value.type_ = CircleCollider
 
     with class_.add_property(float, 'Radius') as prop_:
         prop_.has_getter = True
@@ -53,11 +56,18 @@ with CircleCollider as class_:
 
 RectangleCollider = cbg.Class('Altseed2', 'RectangleCollider')
 with RectangleCollider as class_:
-    class_.add_constructor()
     class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '矩形コライダのクラス')
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
+
+    with class_.add_func('Create') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '矩形コライダを作成します。')
+        func_.is_static = True
+        func_.is_public = True
+        func_.return_value.type_ = RectangleCollider
+    
     with class_.add_property(Vector2F, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
@@ -73,11 +83,18 @@ with RectangleCollider as class_:
 
 PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
 with PolygonCollider as class_:
-    class_.add_constructor()
     class_.base_class = Collider
     class_.brief = cbg.Description()
     class_.brief.add('ja', '多角形コライダのクラス')
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
+
+    with class_.add_func('Create') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '多角形コライダを作成します。')
+        func_.is_static = True
+        func_.is_public = True
+        func_.return_value.type_ = PolygonCollider
+    
     with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.is_public = False
         prop_.has_getter = True

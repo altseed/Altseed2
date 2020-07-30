@@ -10,6 +10,8 @@ CircleCollider::CircleCollider() {
     shape_.m_radius = 0;
 }
 
+std::shared_ptr<CircleCollider> CircleCollider::Create() { return MakeAsdShared<CircleCollider>(); }
+
 double CircleCollider::GetRadius() const { return radius_; }
 void CircleCollider::SetRadius(double radius) {
     radius_ = radius;

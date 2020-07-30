@@ -21,6 +21,8 @@ private:
 public:
     CircleCollider();
 
+    static std::shared_ptr<CircleCollider> Create();
+
     // 半径
     double GetRadius() const;
     void SetRadius(double radius);

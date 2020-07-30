@@ -228,6 +228,8 @@ private:
 public:
     Material();
 
+    static std::shared_ptr<Material> Create();
+
     Vector4F GetVector4F(const char16_t* key) const;
     void SetVector4F(const char16_t* key, const Vector4F& value);
 

@@ -274,9 +274,11 @@ with Material as class_:
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
-    with class_.add_constructor() as func:
+    with class_.add_func('Create') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '新しいインスタンスを生成する')
+        func.brief.add('ja', 'マテリアルを生成する')
+        func.return_value.type_ = Material
+        func.is_static = True
         func.is_public = True
 
     with class_.add_func('GetVector4F') as func:

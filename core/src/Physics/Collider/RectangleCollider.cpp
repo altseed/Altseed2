@@ -14,6 +14,8 @@ RectangleCollider::RectangleCollider() {
     shape_.m_vertices[3] = b2Vec2_zero;
 }
 
+std::shared_ptr<RectangleCollider> RectangleCollider::Create() { return MakeAsdShared<RectangleCollider>(); }
+
 Vector2F RectangleCollider::GetSize() const { return size_; }
 void RectangleCollider::SetSize(Vector2F size) {
     size_ = size;

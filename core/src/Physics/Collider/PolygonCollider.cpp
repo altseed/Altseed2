@@ -8,6 +8,8 @@ PolygonCollider::PolygonCollider() {
     rotation_ = 0;
 }
 
+std::shared_ptr<PolygonCollider> PolygonCollider::Create() { return MakeAsdShared<PolygonCollider>(); }
+
 std::shared_ptr<Vector2FArray> PolygonCollider::GetVertexes() const { return vertexes_; }
 void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
     vertexes_ = vertexes;
