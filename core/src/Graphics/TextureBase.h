@@ -26,21 +26,21 @@ enum class TextureFilterType : int32_t {
 };
 
 enum class TextureFormatType : int32_t {
-    R8G8B8A8_UNORM,
-    R16G16B16A16_FLOAT,
-    R32G32B32A32_FLOAT,
-    R8G8B8A8_UNORM_SRGB,
-    R16G16_FLOAT,
-    R8_UNORM,
-    BC1,
-    BC2,
-    BC3,
-    BC1_SRGB,
-    BC2_SRGB,
-    BC3_SRGB,
-    D32,
-    D32S8,
-    D24S8,
+    R8G8B8A8_UNORM = 0,
+    R16G16B16A16_FLOAT = 1,
+    R32G32B32A32_FLOAT = 2,
+    R8G8B8A8_UNORM_SRGB = 3,
+    R16G16_FLOAT = 4,
+    R8_UNORM = 5,
+    // BC1 = 6,
+    // BC2 = 7,
+    // BC3 = 8,
+    // BC1_SRGB = 9,
+    // BC2_SRGB = 10,
+    // BC3_SRGB = 11,
+    D32 = 12,
+    D32S8 = 13,
+    D24S8 = 14,
 };
 
 LLGI::TextureFormatType textureFormatToLLGI(const TextureFormatType& format);
