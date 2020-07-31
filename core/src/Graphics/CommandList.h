@@ -65,6 +65,7 @@ private:
     bool isInFrame_ = false;
 
     std::shared_ptr<RenderTexture> internalScreen_;
+    TextureFormatType screenTextureFormat_;
 
     std::shared_ptr<LLGI::VertexBuffer> blitVB_;
     std::shared_ptr<LLGI::IndexBuffer> blitIB_;
@@ -100,6 +101,9 @@ public:
 
     void RenderToRenderTexture(
             std::shared_ptr<Material> material, std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
+
+    TextureFormatType GetScreenTextureFormat() const { return screenTextureFormat_; }
+    void SetScreenTextureFormat(const TextureFormatType format) { screenTextureFormat_ = format; }
 
     /**
         @brief	apply material and render to target texture.

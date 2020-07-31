@@ -21,6 +21,24 @@ with TextureFilterType as enum_:
     enum_.add('Nearest')
     enum_.add('Linear')
 
+TextureFormatType = cbg.Enum('Altseed2', 'TextureFormatType')
+with TextureFormatType as enum_:
+    enum_.add('R8G8B8A8_UNORM', 0)
+    enum_.add('R16G16B16A16_FLOAT', 1)
+    enum_.add('R32G32B32A32_FLOAT', 2)
+    enum_.add('R8G8B8A8_UNORM_SRGB', 3)
+    enum_.add('R16G16_FLOAT', 4)
+    enum_.add('R8_UNORM', 5)
+    # enum_.add('BC1', 6)
+    # enum_.add('BC2', 7)
+    # enum_.add('BC3', 8)
+    # enum_.add('BC1_SRGB', 9)
+    # enum_.add('BC2_SRGB', 10)
+    # enum_.add('BC3_SRGB', 11)
+    enum_.add('D32', 12)
+    enum_.add('D32S8', 13)
+    enum_.add('D24S8', 14)
+
 TextureBase = cbg.Class('Altseed2', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
@@ -46,6 +64,13 @@ with TextureBase as class_:
         prop.brief.add('ja', 'テクスチャをフィルタリングする方法を取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
+        prop.serialized = True
+
+    with class_.add_property(TextureFormatType, 'Format') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャのフォーマットを取得します。')
+        prop.has_getter = True
+        prop.has_setter = False
         prop.serialized = True
 
     with class_.add_func('Save') as func:
@@ -109,6 +134,7 @@ with RenderTexture as class_:
 
     with class_.add_func('Create') as func:
         func.add_arg(Vector2I, 'size')
+        func.add_arg(TextureFormatType, 'format')
         func.is_static = True
         func.return_value.type_ = RenderTexture
 
@@ -419,6 +445,10 @@ with CommandList as class_:
             arg_.nullable = False
         with func_.add_arg(RenderTexture, 'dst') as arg_:
             arg_.nullable = False
+
+    with class_.add_property(TextureFormatType, 'ScreenTextureFormat') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
 
 
 Graphics = cbg.Class('Altseed2', 'Graphics')

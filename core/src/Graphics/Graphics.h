@@ -99,7 +99,7 @@ public:
     std::shared_ptr<LLGI::IndexBuffer> CreateIndexBuffer(int32_t stride, int32_t count);
     std::shared_ptr<LLGI::VertexBuffer> CreateVertexBuffer(int32_t size);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
-    std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height);
+    std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height, TextureFormatType format = TextureFormatType::R8G8B8A8_UNORM);
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
     LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
     LLGI::Platform* GetLLGIPlatform() const { return platform_; }

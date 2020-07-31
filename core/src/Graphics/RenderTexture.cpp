@@ -11,13 +11,13 @@ RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture)
     SetInstanceName(__FILE__);
 }
 
-RenderTexture::RenderTexture(Vector2I size)
-    : RenderTexture(Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y)) {
+RenderTexture::RenderTexture(Vector2I size, TextureFormatType format)
+    : RenderTexture(Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y, format)) {
 }
 
 RenderTexture::~RenderTexture() {}
 
-std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size) { return MakeAsdShared<RenderTexture>(size); }
+std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size, TextureFormatType format) { return MakeAsdShared<RenderTexture>(size, format); }
 
 bool RenderTexture::Save(const char16_t* path) {
     Graphics::GetInstance()->GetCommandList()->SaveRenderTexture(path, CreateAndAddSharedPtr(this));
