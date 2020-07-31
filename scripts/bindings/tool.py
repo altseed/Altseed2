@@ -72,6 +72,7 @@ with ToolCond as enum_:
 ToolTreeNodeFlags = cbg.Enum('Altseed2', 'ToolTreeNodeFlags')
 with ToolTreeNodeFlags as enum_:
     enum_.add('None', 0)
+    enum_.isFlag = True
     with enum_.add('Selected', 1 << 0) as v:
         v.brief = cbg.Description()
         v.brief.add('en', 'Draw as selected')
@@ -141,6 +142,7 @@ ToolInputTextFlags = cbg.Enum('Altseed2', 'ToolInputTextFlags')
 with ToolInputTextFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能においてインプットされるテキストの設定を表します')
+    enum_.isFlag = True
 
     enum_.add('None', 0)
 
@@ -250,6 +252,7 @@ ToolColorEditFlags = cbg.Enum('Altseed2', 'ToolColorEditFlags')
 with ToolColorEditFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能における色の設定を表します')
+    enum_.isFlag = True
 
     enum_.add('None', 0)
 
@@ -402,6 +405,7 @@ with ToolColorEditFlags as enum_:
 
 ToolSelectableFlags = cbg.Enum('Altseed2', 'ToolSelectableFlags')
 with ToolSelectableFlags as enum_:
+    enum_.isFlag = True
     with enum_.add('None', 0) as v:
         v.brief = cbg.Description()
         v.brief.add('en', '')
@@ -438,6 +442,7 @@ ToolWindowFlags = cbg.Enum('Altseed2', 'ToolWindowFlags')
 with ToolWindowFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のウィンドウにおける設定を表します')
+    enum_.isFlag = True
 
     enum_.add('None', 0)
 
@@ -574,6 +579,7 @@ ToolTabBarFlags = cbg.Enum('Altseed2', 'ToolTabBarFlags')
 with ToolTabBarFlags as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'ツール機能のタブバーにおける設定を表します')
+    enum_.isFlag = True
 
     enum_.add('None', 0)
     with enum_.add('Reorderable', 1 << 0) as v:
@@ -828,6 +834,7 @@ with ToolStyleVar as enum_:
 ToolComboFlags = cbg.Enum('Altseed2', 'ToolComboFlags')
 with ToolComboFlags as enum_:
     enum_.brief = cbg.Description()
+    enum_.isFlag = True
 
     with enum_.add('None') as v:
         v.brief = cbg.Description()
@@ -851,6 +858,7 @@ with ToolComboFlags as enum_:
 ToolHoveredFlags = cbg.Enum('Altseed2', 'ToolHoveredFlags')
 with ToolHoveredFlags as enum_:
     enum_.brief = cbg.Description()
+    enum_.isFlag = True
 
     with enum_.add('None') as v:
         v.brief = cbg.Description()
