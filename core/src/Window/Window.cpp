@@ -108,6 +108,8 @@ const char16_t* Window::GetTitle() const { return title_.c_str(); }
 
 void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInstance()->mainWindow_, width, height); }
 
+void Window::SetSize(Vector2I_C size) { SetSize(size.X, size.Y); }
+
 void Window::GetSize(int32_t& width, int32_t& height) const { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
 
 Vector2I Window::GetSize() const {

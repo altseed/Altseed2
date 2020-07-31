@@ -40,6 +40,8 @@ public:
 
     void SetSize(int32_t width, int32_t height);
 
+    void SetSize(Vector2I_C value);
+
     void GetSize(int32_t& width, int32_t& height) const;
 
     Vector2I GetSize() const;

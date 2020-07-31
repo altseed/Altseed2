@@ -28,4 +28,5 @@ with Window as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ウィンドウサイズを取得します')
         prop.has_getter = True
+        prop.has_setter = True
         
