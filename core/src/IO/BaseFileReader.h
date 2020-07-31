@@ -18,17 +18,17 @@ private:
     std::ifstream m_file;
 
 protected:
-    int64_t m_position;
-    int64_t m_length;
-    std::u16string m_path;
-    std::recursive_mutex m_readerMtx;
+    int64_t position_;
+    int64_t length_;
+    std::u16string path_;
+    std::recursive_mutex readerMtx_;
 
 public:
     BaseFileReader(const std::u16string& path, bool isInPackage = false);
     virtual ~BaseFileReader();
 
-    int64_t GetPosition() const { return m_position; }
-    const std::u16string& GetFullPath() const { return m_path; }
+    int64_t GetPosition() const { return position_; }
+    const std::u16string& GetFullPath() const { return path_; }
 
     virtual int64_t GetSize();
 

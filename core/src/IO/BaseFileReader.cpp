@@ -6,9 +6,9 @@
 
 namespace Altseed2 {
 
-BaseFileReader::BaseFileReader(const std::u16string& path, bool isInPackage) : BaseObject(), m_path(path), m_length(-1), m_position(0) {
+BaseFileReader::BaseFileReader(const std::u16string& path, bool isInPackage) : BaseObject(), path_(path), length_(-1), position_(0) {
     if (!isInPackage) {
-        std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
+        std::unique_lock<std::recursive_mutex> lock(readerMtx_);
 
 #ifdef _WIN32
         m_file.open((wchar_t*)path.c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
@@ -20,26 +20,28 @@ BaseFileReader::BaseFileReader(const std::u16string& path, bool isInPackage) : B
 }
 
 BaseFileReader::~BaseFileReader() {
-    if (!GetIsInPackage()) m_file.close();
+    if (m_file.is_open()) {
+        m_file.close();
+    }
 }
 
 int64_t BaseFileReader::GetSize() {
-    if (m_length < 0) {
-        std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
+    if (length_ < 0) {
+        std::unique_lock<std::recursive_mutex> lock(readerMtx_);
         m_file.seekg(0, std::ios_base::end);
-        m_length = m_file.tellg();
+        length_ = m_file.tellg();
         m_file.clear();
         m_file.seekg(0, std::ios_base::beg);
     }
-    return m_length;
+    return length_;
 }
 
 void BaseFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count) {
     const auto size = GetSize();
 
-    std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
+    std::unique_lock<std::recursive_mutex> lock(readerMtx_);
 
-    if (m_position + count > GetSize() || count < 0) {
+    if (position_ + count > GetSize() || count < 0) {
         buffer.resize(0);
         buffer.clear();
         return;
@@ -48,7 +50,7 @@ void BaseFileReader::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count
     buffer.resize(count);
     m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
 
-    m_position += count;
+    position_ += count;
 }
 uint32_t BaseFileReader::ReadUInt32() {
     std::vector<uint8_t> buffer;
@@ -63,32 +65,32 @@ uint64_t BaseFileReader::ReadUInt64() {
     return *reinterpret_cast<const uint64_t*>(buffer.data());
 }
 void BaseFileReader::ReadAllBytes(std::vector<uint8_t>& buffer) {
-    std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
-    const auto tmp = m_position;
-    m_position = 0;
+    std::unique_lock<std::recursive_mutex> lock(readerMtx_);
+    const auto tmp = position_;
+    position_ = 0;
     ReadBytes(buffer, GetSize());
-    m_position = tmp;
+    position_ = tmp;
 }
 
 void BaseFileReader::Seek(const int64_t offset, const SeekOrigin origin) {
     const auto size = GetSize();
 
-    std::unique_lock<std::recursive_mutex> lock(m_readerMtx);
+    std::unique_lock<std::recursive_mutex> lock(readerMtx_);
     switch (origin) {
         case SeekOrigin::Begin:
             assert(0 <= offset && offset < size);
             m_file.seekg(offset, m_file.beg);
-            m_position = offset;
+            position_ = offset;
             break;
         case SeekOrigin::Current:
-            assert(0 <= m_position + offset && m_position + offset < size);
+            assert(0 <= position_ + offset && position_ + offset < size);
             m_file.seekg(offset, m_file.cur);
-            m_position = offset + offset;
+            position_ = offset + offset;
             break;
         case SeekOrigin::End:
             assert(0 <= offset + size && offset <= 0 && offset);
             m_file.seekg(offset, m_file.end);
-            m_position = size + offset;
+            position_ = size + offset;
             break;
         default:
             assert(false);
