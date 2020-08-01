@@ -1,7 +1,8 @@
-﻿
+
 
 #include "Matrix44F.h"
 
+#include "Vector2F.h"
 #include "Vector3F.h"
 #include "Vector4F.h"
 
@@ -518,6 +519,33 @@ Matrix44F_C::operator Matrix44F() const {
         }
     }
     return m;
+}
+
+void Matrix44F::CalcFromTransform2D(Matrix44F transform, double& radian, Vector2F& position, Vector2F& scale) {
+    position.X = transform.Values[0][3];
+    position.Y = transform.Values[1][3];
+
+    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[0][1] * transform.Values[0][1] + transform.Values[0][2] * transform.Values[0][2]);
+    scale.Y = sqrt(transform.Values[1][0] * transform.Values[1][0] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[1][2] * transform.Values[1][2]);
+
+    Matrix44F revertScale;
+    revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, 1);
+    transform = revertScale * transform;
+    radian = atan2(transform.Values[1][0], transform.Values[0][0]);
+}
+
+void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale) {
+    position.X = transform.Values[0][3];
+    position.Y = transform.Values[1][3];
+    position.Z = transform.Values[2][3];
+
+    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[0][1] * transform.Values[0][1] + transform.Values[0][2] * transform.Values[0][2]);
+    scale.Y = sqrt(transform.Values[1][0] * transform.Values[1][0] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[1][2] * transform.Values[1][2]);
+    scale.Z = sqrt(transform.Values[2][0] * transform.Values[2][0] + transform.Values[2][1] * transform.Values[2][1] + transform.Values[2][2] * transform.Values[2][2]);
+
+    Matrix44F revertScale;
+    revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, scale.Z == 0 ? 1 : 1 / scale.X);
+    rotation = revertScale * transform;
 }
 
 }  // namespace Altseed2
