@@ -1,4 +1,6 @@
+﻿
 
+#include <box2d/box2d.h>
 
 #include "Matrix44F.h"
 
@@ -546,6 +548,17 @@ void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotat
     Matrix44F revertScale;
     revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, scale.Z == 0 ? 1 : 1 / scale.X);
     rotation = revertScale * transform;
+}
+
+b2Transform Matrix44F::ToBox2D() const {
+    b2Transform ret;
+    Vector2F pos;
+    Vector2F sc;
+    double rot;
+    CalcFromTransform2D(*this, rot, pos, sc);
+    ret.q = b2Rot(rot);
+    ret.p = b2Vec2(pos.X, pos.Y);
+    return ret;
 }
 
 }  // namespace Altseed2

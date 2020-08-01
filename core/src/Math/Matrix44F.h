@@ -1,8 +1,10 @@
-#pragma once
+﻿#pragma once
 
 //----------------------------------------------------------------------------------
 // Include
 //----------------------------------------------------------------------------------
+#include <box2d/box2d.h>
+
 #include "MathTemplate.h"
 #include "Vector2F.h"
 #include "Vector3F.h"
@@ -223,6 +225,13 @@ public:
     @param scale 拡大率
     */
     static void CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale);
+
+    /**
+    @brief Box2Dの変形行列に変換する
+    @return Box2Dの変形行列
+    */
+    b2Transform ToBox2D() const;
+
     operator Matrix44F_C() const;
 };
 

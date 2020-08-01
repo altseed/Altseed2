@@ -14,7 +14,7 @@ with Collider as class_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.is_public = True
-        prop_.serialized = True
+        prop_.serialized = False
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', 'コライダの位置情報を取得または設定します。')
 
@@ -22,9 +22,17 @@ with Collider as class_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.is_public = True
-        prop_.serialized = True
+        prop_.serialized = False
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', 'コライダの回転情報を取得または設定します。')
+
+    with class_.add_property(Matrix44F, 'Transform') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.is_public = True
+        prop_.serialized = True
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '変形行列を取得または設定します。')
         
     with class_.add_func('GetIsCollidedWith') as func_:
         func_.add_arg(Collider, 'collider')

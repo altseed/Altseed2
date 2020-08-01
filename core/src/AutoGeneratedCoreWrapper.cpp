@@ -4368,6 +4368,20 @@ CBGEXPORT void CBGSTDCALL cbg_Collider_SetRotation(void* cbg_self, float value) 
     cbg_self_->SetRotation(cbg_arg0);
 }
 
+CBGEXPORT Altseed2::Matrix44F_C CBGSTDCALL cbg_Collider_GetTransform(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Collider*)(cbg_self);
+
+    Altseed2::Matrix44F_C cbg_ret = cbg_self_->GetTransform();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Collider_SetTransform(void* cbg_self, Altseed2::Matrix44F_C value) {
+    auto cbg_self_ = (Altseed2::Collider*)(cbg_self);
+
+    Altseed2::Matrix44F_C cbg_arg0 = value;
+    cbg_self_->SetTransform(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Collider*)(cbg_self);
 
