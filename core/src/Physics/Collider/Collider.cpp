@@ -22,6 +22,10 @@ void Collider::SetRotation(double rotation) {
 }
 
 Matrix44F Collider::GetTransform() { return transformMatrix_; }
+void Collider::SetTransform(const Matrix44F& transform) {
+    transform_ = transform.ToBox2D();
+    transformMatrix_ = transform;
+}
 
 bool Collider::GetIsCollidedWith(std::shared_ptr<Collider> collider) { return GetIsCollidedWith_(collider); }
 
