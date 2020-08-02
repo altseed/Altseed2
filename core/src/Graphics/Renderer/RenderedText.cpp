@@ -31,6 +31,7 @@ Vector2F RenderedText::GetTextureSize() {
     const auto& characters = GetTextAsStr();
 
     Vector2F offset(0, 0);
+    float lineOffset = 0;
     for (size_t i = 0; i < characters.size(); i++) {
         char32_t tmp = 0;
         ASD_ASSERT(i < characters.size(), "buffer overrun");
@@ -40,10 +41,13 @@ Vector2F RenderedText::GetTextureSize() {
 
         // return
         if (character == '\n') {
-            if (writingDirection_ == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + GetLineGap());
-            else
-                offset = Vector2F(offset.X - GetLineGap(), 0);
+            if (writingDirection_ == WritingDirection::Horizontal) {
+                offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
+                lineOffset = 0;
+            } else {
+                offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
+                lineOffset = 0;
+            }
             continue;
         }
 
@@ -79,32 +83,24 @@ Vector2F RenderedText::GetTextureSize() {
 
         if (writingDirection_ == WritingDirection::Horizontal) {
             if (glyph != nullptr)
-                offset += Vector2F(glyph->GetGlyphWidth(), 0);
+                lineOffset += glyph->GetGlyphWidth();
             else
-                offset += Vector2F((float)texture->GetSize().X * GetFont()->GetSize() / texture->GetSize().Y, 0);
+                lineOffset += (float)texture->GetSize().X * GetFont()->GetSize() / texture->GetSize().Y;
         } else {
             if (glyph != nullptr)
-                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X);
+                lineOffset += (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X;
             else
-                offset += Vector2F(0, (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X);
+                lineOffset += (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X;
         }
 
         // character spcae
-        if (i != characters.size() - 1) {
-            if (writingDirection_ == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(GetCharacterSpace(), 0);
-            else
-                offset += Altseed2::Vector2F(0, GetCharacterSpace());
-        }
+        if (i != characters.size() - 1) lineOffset += GetCharacterSpace();
 
         // kerning
         if (isEnableKerning_ && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
-            if (writingDirection_ == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(GetFont()->GetKerning(character, next), 0);
-            else
-                offset += Altseed2::Vector2F(0, GetFont()->GetKerning(character, next));
+            lineOffset += GetFont()->GetKerning(character, next);
         }
     }
     offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
