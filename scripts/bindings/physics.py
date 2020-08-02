@@ -10,21 +10,23 @@ with Collider as class_:
     class_.brief.add('ja', 'コライダの抽象基本クラスです')
     class_.SerializeType = cbg.SerializeType.Interface
 
-    #with class_.add_property(Vector2F, 'Position') as prop_:
-    #    prop_.has_getter = True
-    #    prop_.has_setter = True
-    #    prop_.is_public = True
-    #    prop_.serialized = False
-    #    prop_.brief = cbg.Description()
-    #    prop_.brief.add('ja', 'コライダの位置情報を取得または設定します。')
+    with class_.add_property(Vector2F, 'Position') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.is_public = True
+        prop_.serialized = False
+        prop_.onlyExtern = True
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'コライダの位置情報を取得または設定します。')
 
-    #with class_.add_property(float, 'Rotation') as prop_:
-    #    prop_.has_getter = True
-    #    prop_.has_setter = True
-    #    prop_.is_public = True
-    #    prop_.serialized = False
-    #    prop_.brief = cbg.Description()
-    #    prop_.brief.add('ja', 'コライダの回転情報を取得または設定します。')
+    with class_.add_property(float, 'Rotation') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.is_public = True
+        prop_.serialized = False
+        prop_.onlyExtern = True
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'コライダの回転情報を取得または設定します。')
 
     with class_.add_property(Matrix44F, 'Transform') as prop_:
         prop_.has_getter = True
