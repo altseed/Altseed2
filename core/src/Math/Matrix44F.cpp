@@ -523,7 +523,13 @@ Matrix44F_C::operator Matrix44F() const {
     return m;
 }
 
-void Matrix44F::CalcFromTransform2D(Matrix44F transform, double& radian, Vector2F& position, Vector2F& scale) {
+void Matrix44F::CalcFromTransform2D(const Matrix44F& transform, double& radian, Vector2F& position, Vector2F& scale) {
+    Matrix44F rotation;
+    CalcFromTransform2D(transform, rotation, position, scale);
+    radian = atan2(rotation.Values[1][0], rotation.Values[0][0]);
+}
+
+void Matrix44F::CalcFromTransform2D(const Matrix44F& transform, Matrix44F& rotation, Vector2F& position, Vector2F& scale) {
     position.X = transform.Values[0][3];
     position.Y = transform.Values[1][3];
 
@@ -532,8 +538,7 @@ void Matrix44F::CalcFromTransform2D(Matrix44F transform, double& radian, Vector2
 
     Matrix44F revertScale;
     revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, 1);
-    transform = revertScale * transform;
-    radian = atan2(transform.Values[1][0], transform.Values[0][0]);
+    rotation = revertScale * transform;
 }
 
 void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale) {
@@ -548,17 +553,6 @@ void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotat
     Matrix44F revertScale;
     revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, scale.Z == 0 ? 1 : 1 / scale.X);
     rotation = revertScale * transform;
-}
-
-b2Transform Matrix44F::ToBox2D() const {
-    b2Transform ret;
-    Vector2F pos;
-    Vector2F sc;
-    double rot;
-    CalcFromTransform2D(*this, rot, pos, sc);
-    ret.q = b2Rot(rot);
-    ret.p = b2Vec2(pos.X, pos.Y);
-    return ret;
 }
 
 }  // namespace Altseed2

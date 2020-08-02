@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include "Box2DHelper.h"
 
 namespace Altseed2 {
 
@@ -23,7 +24,7 @@ void Collider::SetRotation(double rotation) {
 
 Matrix44F Collider::GetTransform() { return transformMatrix_; }
 void Collider::SetTransform(const Matrix44F& transform) {
-    transform_ = transform.ToBox2D();
+    transform_ = Box2DHelper::ToBox2D_Mat(transform);
     transformMatrix_ = transform;
 }
 

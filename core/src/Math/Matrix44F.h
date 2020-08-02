@@ -215,7 +215,16 @@ public:
     @param position 座標
     @param scale 拡大率
     */
-    static void CalcFromTransform2D(Matrix44F transform, double& radian, Vector2F& position, Vector2F& scale);
+    static void CalcFromTransform2D(const Matrix44F& transform, double& radian, Vector2F& position, Vector2F& scale);
+
+    /**
+    @brief 変形行列から2D座標系のステータスを逆算する
+    @param transform 元となる変形行列
+    @param rotation 回転行列
+    @param position 座標
+    @param scale 拡大率
+    */
+    static void CalcFromTransform2D(const Matrix44F& transform, Matrix44F& rotation, Vector2F& position, Vector2F& scale);
 
     /**
     @brief 変形行列から3座標系のステータスを逆算する
@@ -225,12 +234,6 @@ public:
     @param scale 拡大率
     */
     static void CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale);
-
-    /**
-    @brief Box2Dの変形行列に変換する
-    @return Box2Dの変形行列
-    */
-    b2Transform ToBox2D() const;
 
     operator Matrix44F_C() const;
 };
