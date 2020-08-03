@@ -1066,6 +1066,22 @@ with CullingSystem as class_:
         func.is_public = False
         func.is_static = True
 
+    with class_.add_func('Register') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'Renderedをカリングシステムに登録します')
+        with func.add_arg(Rendered, 'rendered') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '登録するRendered')
+        func.is_public = False
+
+    with class_.add_func('Unregister') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'Renderedをカリングシステムから登録解除します')
+        with func.add_arg(Rendered, 'rendered') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '登録解除するRendered')
+        func.is_public = False
+
     with class_.add_func('UpdateAABB') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'RenderedのAABBを更新します')
