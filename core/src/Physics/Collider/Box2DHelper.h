@@ -11,58 +11,58 @@ namespace Altseed2 {
 class Box2DHelper{
 public:
     /**
-    @brief •ÏŒ`s—ñ‚ğAltseed2->Box2D‚É•ÏŠ·
-    @param transform •ÏŠ·‚µ‚½‚¢Altseed2‚Ì•ÏŒ`s—ñ
-    @return Box2D‚Ì•ÏŒ`s—ñ
+    @brief å¤‰å½¢è¡Œåˆ—ã‚’Altseed2->Box2Dã«å¤‰æ›
+    @param transform å¤‰æ›ã—ãŸã„Altseed2ã®å¤‰å½¢è¡Œåˆ—
+    @return Box2Dã®å¤‰å½¢è¡Œåˆ—
     */
     static b2Transform ToBox2D_Mat(const Matrix44F& transform);
     /**
 
-    @brief •ÏŒ`s—ñ‚ğBox2D->Altseed2‚É•ÏŠ·
-    @param transform •ÏŠ·‚µ‚½‚¢Box2D‚Ì•ÏŒ`s—ñ
-    @return Altseed2‚Ì•ÏŒ`s—ñ
+    @brief å¤‰å½¢è¡Œåˆ—ã‚’Box2D->Altseed2ã«å¤‰æ›
+    @param transform å¤‰æ›ã—ãŸã„Box2Dã®å¤‰å½¢è¡Œåˆ—
+    @return Altseed2ã®å¤‰å½¢è¡Œåˆ—
     */
     static Matrix44F ToAsd_Mat(const b2Transform& transform);
 
     /**
-    @brief 2ŸŒ³ƒxƒNƒgƒ‹‚ğAltseed2->Box2D‚É•ÏŠ·
-    @param vector •ÏŠ·‚µ‚½‚¢Altseed2‚Ì2ŸŒ³ƒxƒNƒgƒ‹
-    @return Box2D‚Ì2ŸŒ³ƒxƒNƒgƒ‹
+    @brief 2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’Altseed2->Box2Dã«å¤‰æ›
+    @param vector å¤‰æ›ã—ãŸã„Altseed2ã®2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
+    @return Box2Dã®2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
     */
     static b2Vec2 ToBox2D_Vec(const Vector2F& vector);
 
     /**
-    @brief 3ŸŒ³ƒxƒNƒgƒ‹‚ğAltseed2->Box2D‚É•ÏŠ·
-    @param vector •ÏŠ·‚µ‚½‚¢Altseed2‚Ì3ŸŒ³ƒxƒNƒgƒ‹
-    @return Box2D‚Ì3ŸŒ³ƒxƒNƒgƒ‹
+    @brief 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’Altseed2->Box2Dã«å¤‰æ›
+    @param vector å¤‰æ›ã—ãŸã„Altseed2ã®3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
+    @return Box2Dã®3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
     */
     static b2Vec3 ToBox2D_Vec(const Vector3F& vector);
 
     /**
-    @brief 2ŸŒ³ƒxƒNƒgƒ‹‚ğBox2D->Altseed2‚É•ÏŠ·
-    @param vector •ÏŠ·‚µ‚½‚¢Altseed2‚Ì2ŸŒ³ƒxƒNƒgƒ‹
-    @return Box2D‚Ì2ŸŒ³ƒxƒNƒgƒ‹
+    @brief 2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’Box2D->Altseed2ã«å¤‰æ›
+    @param vector å¤‰æ›ã—ãŸã„Altseed2ã®2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
+    @return Box2Dã®2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
     */
     static Vector2F ToAsd_Vec(const b2Vec2& vector);
 
     /**
-    @brief 3ŸŒ³ƒxƒNƒgƒ‹‚ğBox2D->Altseed2‚É•ÏŠ·
-    @param vector •ÏŠ·‚µ‚½‚¢Altseed3‚Ì2ŸŒ³ƒxƒNƒgƒ‹
-    @return Box2D‚Ì3ŸŒ³ƒxƒNƒgƒ‹
+    @brief 3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’Box2D->Altseed2ã«å¤‰æ›
+    @param vector å¤‰æ›ã—ãŸã„Altseed3ã®2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
+    @return Box2Dã®3æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«
     */
     static Vector3F ToAsd_Vec(const b2Vec3& vector);
 
     /**
-    @brief 3‰ñ“]s—ñ‚ğAltseed2->Box2D‚É•ÏŠ·
-    @param rotation •ÏŠ·‚µ‚½‚¢Altseed2‚Ì‰ñ“]s—ñ
-    @return Box2D‚Ì‰ñ“]‚ğ•\‚·ƒIƒuƒWƒFƒNƒg
+    @brief 3å›è»¢è¡Œåˆ—ã‚’Altseed2->Box2Dã«å¤‰æ›
+    @param rotation å¤‰æ›ã—ãŸã„Altseed2ã®å›è»¢è¡Œåˆ—
+    @return Box2Dã®å›è»¢ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     */
     static b2Rot ToBox2D_Rot(const Matrix44F& rotation);
 
     /**
-    @brief 3‰ñ“]s—ñ‚ğBox2D->Altseed2‚É•ÏŠ·
-    @param rotation •ÏŠ·‚µ‚½‚¢Box2D‚Ì‰ñ“]‚ğ•\‚·ƒIƒuƒWƒFƒNƒg
-    @return Altseed2‚Ì‰ñ“]s—ñ
+    @brief 3å›è»¢è¡Œåˆ—ã‚’Box2D->Altseed2ã«å¤‰æ›
+    @param rotation å¤‰æ›ã—ãŸã„Box2Dã®å›è»¢ã‚’è¡¨ã™ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    @return Altseed2ã®å›è»¢è¡Œåˆ—
     */
     static Matrix44F ToAsd_Rot(const b2Rot& rotation);
 };
