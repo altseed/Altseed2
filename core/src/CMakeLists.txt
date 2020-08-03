@@ -119,6 +119,8 @@ set(core_files
     Math/Vector4F.cpp
     Math/Vector4I.h
     Math/Vector4I.cpp
+    Physics/Collider/Box2DHelper.h
+    Physics/Collider/Box2DHelper.cpp
     Physics/Collider/Collider.h
     Physics/Collider/Collider.cpp
     Physics/Collider/CircleCollider.h
