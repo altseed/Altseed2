@@ -47,5 +47,5 @@ for m in errors:
     print(m[1])
     print('\n\n')
 
-if len(m) != 0:
+if len(errors) != 0:
     raise Exception
