@@ -33,6 +33,10 @@ TEST(Font, Basic) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
@@ -54,6 +58,10 @@ TEST(Font, Basic) {
         EXPECT_TRUE(instance->EndFrame());
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
+    }
+
     Altseed2::Core::Terminate();
 }
 
@@ -70,6 +78,10 @@ TEST(Font, Weight) {
         t->SetText(u"Hello, world! こんにちは");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
         texts.push_back(t);
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
     }
 
     auto instance = Altseed2::Graphics::GetInstance();
@@ -92,6 +104,10 @@ TEST(Font, Weight) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -179,6 +195,10 @@ TEST(Font, Surrogate) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 10 && instance->DoEvents();) {
@@ -198,6 +218,10 @@ TEST(Font, Surrogate) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -224,6 +248,10 @@ TEST(Font, ImageFont) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
@@ -241,6 +269,10 @@ TEST(Font, ImageFont) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -273,6 +305,10 @@ TEST(Font, StaticFont) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
@@ -292,6 +328,10 @@ TEST(Font, StaticFont) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -349,6 +389,10 @@ TEST(Font, FontSize) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
@@ -368,6 +412,10 @@ TEST(Font, FontSize) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -390,6 +438,10 @@ TEST(Font, Return) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
@@ -409,6 +461,10 @@ TEST(Font, Return) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
@@ -432,6 +488,10 @@ TEST(Font, Vertical) {
         texts.push_back(t);
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
     auto instance = Altseed2::Graphics::GetInstance();
 
     for (int count = 0; count++ < 100 && instance->DoEvents();) {
@@ -451,6 +511,10 @@ TEST(Font, Vertical) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
     Altseed2::Core::Terminate();
