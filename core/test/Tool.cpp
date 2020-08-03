@@ -570,7 +570,11 @@ TEST(Tool, Image) {
         static auto rt = Altseed2::RenderTexture::Create(Altseed2::Vector2I(200, 200));
         static auto camera = Altseed2::RenderedCamera::Create();
 
+        static auto matView = Altseed2::Matrix44F();
+        matView.SetTranslation(640, 360, 0);
+
         camera->SetTargetTexture(rt);
+        camera->SetViewMatrix(matView.GetInverted());
 
         Altseed2::Renderer::GetInstance()->SetCamera(camera);
         Altseed2::Renderer::GetInstance()->DrawSprite(s1);

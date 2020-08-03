@@ -343,8 +343,11 @@ TEST(Graphics, CameraBasic) {
     auto trans2 = Altseed2::Matrix44F();
     trans2.SetTranslation(-128, -128, 0);
 
+    auto matView = Altseed2::Matrix44F();
+    matView.SetTranslation(640, 360, 0);
+
     auto camera = Altseed2::RenderedCamera::Create();
-    camera->SetTransform(trans2);
+    camera->SetViewMatrix((trans2 * matView).GetInverted());
 
     while (count++ < 100 && instance->DoEvents()) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
@@ -397,16 +400,23 @@ TEST(Graphics, RenderTexture) {
     s1->SetSrc(Altseed2::RectF(0, 0, 200, 200));
 
     auto s2 = Altseed2::RenderedSprite::Create();
-    {
-        auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
-        s2->SetTransform(transform);
-        s2->SetTexture(rt);
-        s2->SetSrc(Altseed2::RectF(0, 0, 200, 200));
-    }
+    auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
+    s2->SetTransform(transform);
+    s2->SetTexture(rt);
+    s2->SetSrc(Altseed2::RectF(0, 0, 200, 200));
+
+    auto matView = Altseed2::Matrix44F();
+    matView.SetTranslation(100, 100, 0);
+
     auto camera = Altseed2::RenderedCamera::Create();
-    { camera->SetTargetTexture(rt); }
+    camera->SetTargetTexture(rt);
+    camera->SetViewMatrix(matView.GetInverted());
+
+    auto matView2 = Altseed2::Matrix44F();
+    matView2.SetTranslation(640, 360, 0);
 
     auto camera2 = Altseed2::RenderedCamera::Create();
+    camera2->SetViewMatrix(matView2.GetInverted());
 
     while (count++ < 60 && instance->DoEvents()) {
         if (count == 2) Altseed2::FrameDebugger::GetInstance()->Start();
@@ -471,10 +481,19 @@ TEST(Graphics, RenderTextureSave) {
         s2->SetTexture(rt);
         s2->SetSrc(Altseed2::RectF(0, 0, 200, 200));
     }
+
+    auto matView = Altseed2::Matrix44F();
+    matView.SetTranslation(100, 100, 0);
+
     auto camera = Altseed2::RenderedCamera::Create();
-    { camera->SetTargetTexture(rt); }
+    camera->SetTargetTexture(rt);
+    camera->SetViewMatrix(matView.GetInverted());
+
+    auto matView2 = Altseed2::Matrix44F();
+    matView2.SetTranslation(640, 360, 0);
 
     auto camera2 = Altseed2::RenderedCamera::Create();
+    camera2->SetViewMatrix(matView2.GetInverted());
 
     while (count++ < 60 && instance->DoEvents()) {
         if (count == 2) Altseed2::FrameDebugger::GetInstance()->Start();

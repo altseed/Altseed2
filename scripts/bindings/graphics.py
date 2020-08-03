@@ -959,7 +959,6 @@ with RenderedPolygon as class_:
 
 RenderedCamera = cbg.Class('Altseed2', 'RenderedCamera')
 with RenderedCamera as class_:
-    class_.base_class = Rendered
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'カメラのクラス')
     class_.is_public = False
@@ -971,13 +970,6 @@ with RenderedCamera as class_:
         func.brief.add('ja', 'RenderedCameraを作成します。')
         func.return_value.type_ = RenderedCamera
         func.is_static = True
-
-    with class_.add_property(Vector2F, 'CenterOffset') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'CenterOffsetを取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
 
     with class_.add_property(RenderTexture, 'TargetTexture') as prop:
         prop.brief = cbg.Description()

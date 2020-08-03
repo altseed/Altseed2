@@ -295,7 +295,7 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
     RenderPassParameter param = camera->GetRenderPassParameter();
     Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, param);
 
-    batchRenderer_->SetViewProjection(camera->GetCameraMatrix(), camera->GetProjectionMatrix());
+    batchRenderer_->SetViewProjection(camera->GetViewMatrix(), camera->GetProjectionMatrix());
     auto aabb = camera->GetAABB();
     cullingSystem_->Cull(
             RectF(aabb.lowerBound.x, aabb.lowerBound.y, aabb.upperBound.x - aabb.lowerBound.x, aabb.upperBound.y - aabb.lowerBound.y));
