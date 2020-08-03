@@ -3,8 +3,8 @@
 #include <box2d/b2_dynamic_tree.h>
 
 #include <map>
-#include <set>
 #include <memory>
+#include <set>
 
 #include "../../BaseObject.h"
 #include "../../Common/Array.h"
