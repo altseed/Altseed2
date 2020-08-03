@@ -34,7 +34,9 @@ public:
     double GetRotation() const;
     void SetRotation(double rotation);
 
+    // 変形行列
     Matrix44F GetTransform();
+    void SetTransform(const Matrix44F& transform);
 };
 
 }  // namespace Altseed2

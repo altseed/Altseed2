@@ -3,7 +3,11 @@
 //----------------------------------------------------------------------------------
 // Include
 //----------------------------------------------------------------------------------
+#include <box2d/box2d.h>
+
 #include "MathTemplate.h"
+#include "Vector2F.h"
+#include "Vector3F.h"
 #include "Vector4F.h"
 
 namespace Altseed2 {
@@ -203,6 +207,33 @@ public:
             @return	出力先の参照
     */
     static Matrix44F& Mul(Matrix44F& o, const Matrix44F& in1, const Matrix44F& in2);
+
+    /**
+    @brief 変形行列から2D座標系のステータスを逆算する
+    @param transform 元となる変形行列
+    @param radian 回転角度(弧度法)
+    @param position 座標
+    @param scale 拡大率
+    */
+    static void CalcFromTransform2D(const Matrix44F& transform, double& radian, Vector2F& position, Vector2F& scale);
+
+    /**
+    @brief 変形行列から2D座標系のステータスを逆算する
+    @param transform 元となる変形行列
+    @param rotation 回転行列
+    @param position 座標
+    @param scale 拡大率
+    */
+    static void CalcFromTransform2D(const Matrix44F& transform, Matrix44F& rotation, Vector2F& position, Vector2F& scale);
+
+    /**
+    @brief 変形行列から3座標系のステータスを逆算する
+    @param transform 元となる変形行列
+    @param rotation 回転行列
+    @param position 座標
+    @param scale 拡大率
+    */
+    static void CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale);
 
     operator Matrix44F_C() const;
 };
