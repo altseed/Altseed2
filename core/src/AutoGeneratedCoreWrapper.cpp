@@ -50,6 +50,7 @@
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Graphics/Texture2D.h"
 #include "IO/BaseFileReader.h"
 #include "IO/File.h"
@@ -1762,20 +1763,40 @@ CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_ShaderCompileResult_GetValue(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShaderCompileResult*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Shader> cbg_ret = cbg_self_->GetValue();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Shader>(cbg_ret);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_ShaderCompileResult_GetMessage(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShaderCompileResult*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetMessage();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_ShaderCompileResult_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShaderCompileResult*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_Shader_Create(const char16_t* name, const char16_t* code, int32_t shaderStage) {
     const char16_t* cbg_arg0 = name;
     const char16_t* cbg_arg1 = code;
     Altseed2::ShaderStageType cbg_arg2 = (Altseed2::ShaderStageType)shaderStage;
-    std::shared_ptr<Altseed2::Shader> cbg_ret = Altseed2::Shader::Create(cbg_arg0, cbg_arg1, cbg_arg2);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Shader>(cbg_ret);
+    std::shared_ptr<Altseed2::ShaderCompileResult> cbg_ret = Altseed2::Shader::Create(cbg_arg0, cbg_arg1, cbg_arg2);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ShaderCompileResult>(cbg_ret);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_Shader_CreateFromFile(const char16_t* name, const char16_t* path, int32_t shaderStage) {
     const char16_t* cbg_arg0 = name;
     const char16_t* cbg_arg1 = path;
     Altseed2::ShaderStageType cbg_arg2 = (Altseed2::ShaderStageType)shaderStage;
-    std::shared_ptr<Altseed2::Shader> cbg_ret = Altseed2::Shader::CreateFromFile(cbg_arg0, cbg_arg1, cbg_arg2);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Shader>(cbg_ret);
+    std::shared_ptr<Altseed2::ShaderCompileResult> cbg_ret = Altseed2::Shader::CreateFromFile(cbg_arg0, cbg_arg1, cbg_arg2);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ShaderCompileResult>(cbg_ret);
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_Shader_GetStageType(void* cbg_self) {
@@ -1973,6 +1994,20 @@ CBGEXPORT void CBGSTDCALL cbg_Font_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_CullingSystem_GetInstance() {
     std::shared_ptr<Altseed2::CullingSystem> cbg_ret = Altseed2::CullingSystem::GetInstance();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::CullingSystem>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Register(void* cbg_self, void* rendered) {
+    auto cbg_self_ = (Altseed2::CullingSystem*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Rendered> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Rendered>((Altseed2::Rendered*)rendered);
+    cbg_self_->Register(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Unregister(void* cbg_self, void* rendered) {
+    auto cbg_self_ = (Altseed2::CullingSystem*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Rendered> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Rendered>((Altseed2::Rendered*)rendered);
+    cbg_self_->Unregister(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CullingSystem_UpdateAABB(void* cbg_self) {

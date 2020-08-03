@@ -39,6 +39,7 @@ if __name__ == '__main__':
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/BuiltinShader.h"
+#include "Graphics/ShaderCompiler/ShaderCompiler.h"
 
 #include "Tool/Tool.h"
 

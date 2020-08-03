@@ -94,15 +94,15 @@ std::shared_ptr<Shader> BuiltinShader::Create(BuiltinShaderType type) {
     if (found != shaders_.end()) return found->second;
 
     if (type == BuiltinShaderType::SpriteUnlitVS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile("", "SpriteUnlitVS", SpriteUnlitVS, ShaderStageType::Vertex);
+        auto shader = ShaderCompiler::GetInstance()->Compile("", "SpriteUnlitVS", SpriteUnlitVS, ShaderStageType::Vertex)->GetValue();
         shaders_[type] = shader;
         return shader;
     } else if (type == BuiltinShaderType::SpriteUnlitPS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile("", "SpriteUnlitPS", SpriteUnlitPS, ShaderStageType::Pixel);
+        auto shader = ShaderCompiler::GetInstance()->Compile("", "SpriteUnlitPS", SpriteUnlitPS, ShaderStageType::Pixel)->GetValue();
         shaders_[type] = shader;
         return shader;
     } else if (type == BuiltinShaderType::FontUnlitPS) {
-        auto shader = ShaderCompiler::GetInstance()->Compile("", "FontUnlitPS", FontUnlitPS, ShaderStageType::Pixel);
+        auto shader = ShaderCompiler::GetInstance()->Compile("", "FontUnlitPS", FontUnlitPS, ShaderStageType::Pixel)->GetValue();
         shaders_[type] = shader;
         return shader;
     } else {

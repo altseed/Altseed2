@@ -169,6 +169,28 @@ with BlendFuncType as enum_:
 AlphaBlend = cbg.Struct('Altseed2', 'AlphaBlend_C', 'AlphaBlend')
 
 Shader = cbg.Class('Altseed2', 'Shader', cbg.CacheMode.Cache)
+
+ShaderCompileResult = cbg.Class('Altseed2', 'ShaderCompileResult', cbg.CacheMode.Cache)
+with ShaderCompileResult as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'シェーダのコンパイル結果を表すクラス')
+    class_.SerializeType = cbg.SerializeType.Disable
+    class_.is_Sealed = True
+
+    with class_.add_property(Shader, 'Value') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'コンパイルに失敗した場合はnull')
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = True
+
+    with class_.add_property(ctypes.c_wchar_p, 'Message') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'コンパイル結果のメッセージ')
+        prop.has_getter = True
+        prop.has_setter = False
+        prop.is_public = True
+
 with Shader as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダ')
@@ -189,7 +211,7 @@ with Shader as class_:
         with func.add_arg(ShaderStageType, 'shaderStage') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')
-        func.return_value.type_ = Shader
+        func.return_value.type_ = ShaderCompileResult
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True
@@ -208,7 +230,7 @@ with Shader as class_:
         with func.add_arg(ShaderStageType, 'shaderStage') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '')
-        func.return_value.type_ = Shader
+        func.return_value.type_ = ShaderCompileResult
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True

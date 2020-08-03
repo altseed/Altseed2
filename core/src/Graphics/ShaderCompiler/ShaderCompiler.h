@@ -12,6 +12,18 @@ class Graphics;
 class Shader;
 class File;
 
+class ShaderCompileResult : public BaseObject {
+private:
+    std::shared_ptr<Shader> value_;
+    std::u16string message_;
+
+public:
+    ShaderCompileResult(const std::shared_ptr<Shader> value, const std::u16string message);
+
+    std::shared_ptr<Shader> GetValue() const { return value_; }
+    const char16_t* GetMessage() const { return message_.c_str(); }
+};
+
 class ShaderCompiler : public BaseObject {
 private:
     static std::shared_ptr<ShaderCompiler> instance_;
@@ -33,9 +45,9 @@ public:
     ShaderCompiler(std::shared_ptr<Graphics>& graphics, std::shared_ptr<File>& file);
     ~ShaderCompiler();
 
-    std::shared_ptr<Shader> Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage);
+    std::shared_ptr<ShaderCompileResult> Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage);
 
-    std::shared_ptr<Shader> Compile(const char* path, const char* name, ShaderStageType shaderStage);
+    std::shared_ptr<ShaderCompileResult> Compile(const char* path, const char* name, ShaderStageType shaderStage);
 };
 
 }  // namespace Altseed2

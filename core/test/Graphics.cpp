@@ -698,7 +698,8 @@ VS_OUTPUT main(VS_INPUT input){
     sprite->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
-    auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("", "VS", vsCode, Altseed2::ShaderStageType::Vertex);
+    auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("", "VS", vsCode, Altseed2::ShaderStageType::Vertex)->GetValue();
+    EXPECT_TRUE(vs != nullptr);
     //auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
     material->SetShader(vs);
     //material->SetShader(ps);
@@ -887,7 +888,7 @@ TEST(Graphics, RenderToRenderTexture) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed2::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel);
+    auto ps = Altseed2::Shader::Create(u"grayscale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel)->GetValue();
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 
@@ -965,7 +966,8 @@ float4 main(PS_INPUT input) : SV_TARGET
     sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
 
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
-    auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("", "PS", psCode, Altseed2::ShaderStageType::Pixel);
+    auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("", "PS", psCode, Altseed2::ShaderStageType::Pixel)->GetValue();
+    EXPECT_TRUE(ps != nullptr);
     material->SetShader(ps);
     sprite->SetMaterial(material);
 
@@ -1010,7 +1012,7 @@ TEST(Graphics, ShaderFromFile) {
     sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
 
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
-    auto ps = Altseed2::Shader::CreateFromFile(u"", u"TestData/Shader/ps.fx", Altseed2::ShaderStageType::Pixel);
+    auto ps = Altseed2::Shader::CreateFromFile(u"", u"TestData/Shader/ps.fx", Altseed2::ShaderStageType::Pixel)->GetValue();
     material->SetShader(ps);
     sprite->SetMaterial(material);
 
@@ -1069,7 +1071,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     auto instance = Altseed2::Graphics::GetInstance();
     auto cmdList = instance->GetCommandList();
 
-    auto ps = Altseed2::Shader::Create(u"posteffect", PostEffectCode.c_str(), Altseed2::ShaderStageType::Pixel);
+    auto ps = Altseed2::Shader::Create(u"posteffect", PostEffectCode.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue();
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 

@@ -1,11 +1,15 @@
 #include "ShaderCompiler.h"
 
+#include "../../Common/StringHelper.h"
 #include "../../IO/File.h"
 #include "../../IO/StaticFile.h"
 #include "../../Logger/Log.h"
 #include "../Graphics.h"
 
 namespace Altseed2 {
+
+ShaderCompileResult::ShaderCompileResult(const std::shared_ptr<Shader> value, const std::u16string message)
+    : value_(value), message_(message) {}
 
 std::shared_ptr<ShaderCompiler> ShaderCompiler::instance_ = nullptr;
 
@@ -51,7 +55,7 @@ ShaderCompiler::ShaderCompiler(std::shared_ptr<Graphics>& graphics, std::shared_
 
 ShaderCompiler::~ShaderCompiler() {}
 
-std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage) {
+std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage) {
     std::string availableCode;
 
     std::vector<LLGI::SPIRVGeneratorMacro> macros;
@@ -66,7 +70,7 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* na
     if (spirvTranspiler_ != nullptr) {
         if (!spirvTranspiler_->Transpile(spirv)) {
             Log::GetInstance()->Error(LogCategory::Core, u"Shader transpile error {} : {}", name, spirvTranspiler_->GetErrorCode());
-            return nullptr;
+            return MakeAsdShared<ShaderCompileResult>(nullptr, utf8_to_utf16(spirvTranspiler_->GetErrorCode()));
         }
 
         availableCode = spirvTranspiler_->GetCode();
@@ -88,12 +92,12 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* na
     if (result.Binary.size() == 0) {
         Log::GetInstance()->Error(LogCategory::Core, u"Shader compile error {} : {}", name, result.Message);
         Log::GetInstance()->Error(LogCategory::Core, u"Code :\n{}", code);
-        return nullptr;
+        return MakeAsdShared<ShaderCompileResult>(nullptr, utf8_to_utf16(result.Message));
     }
 
     if (!spirvReflection_->Transpile(spirv)) {
         Log::GetInstance()->Error(LogCategory::Core, u"Shader error {} : Failed to refrect.", name);
-        return nullptr;
+        return MakeAsdShared<ShaderCompileResult>(nullptr, utf8_to_utf16(result.Message + "\nFailed to refrect"));
     }
 
     std::vector<LLGI::DataStructure> data;
@@ -120,21 +124,21 @@ std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* na
         uniforms.emplace_back(_);
     }
 
-    auto ret = MakeAsdShared<Shader>(
+    auto shader = MakeAsdShared<Shader>(
             utf8_to_utf16(availableCode),
             utf8_to_utf16(name),
             textures,
             uniforms,
             shaderLLGI,
             shaderStage);
-    return ret;
+    return MakeAsdShared<ShaderCompileResult>(shader, utf8_to_utf16(result.Message));
 }
 
-std::shared_ptr<Shader> ShaderCompiler::Compile(const char* path, const char* name, ShaderStageType shaderStage) {
+std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, const char* name, ShaderStageType shaderStage) {
     auto sf = StaticFile::Create(utf8_to_utf16(path).c_str());
 
     if (sf == nullptr) {
-        return nullptr;
+        return MakeAsdShared<ShaderCompileResult>(nullptr, std::u16string(u"File not found"));
     }
 
     std::vector<char> strvec;
