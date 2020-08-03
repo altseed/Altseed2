@@ -19,15 +19,28 @@ bool CullingSystem::Initialize() {
 
 void CullingSystem::Terminate() { instance_ = nullptr; }
 
-void CullingSystem::Register(Rendered* rendered) {
+void CullingSystem::Register(std::shared_ptr<Rendered> rendered) {
+    if (renderedProxyIdMap_.count(rendered.get()) > 0) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"CullingSystem::Unregister: rendered is already registered in the culling system.");
+        return;
+    }
+
     auto aabb = rendered->GetAABB();
-    auto id = dynamicTree_.CreateProxy(aabb, rendered);
-    proxyIdRenderedMap_[id] = rendered;
-    renderedProxyIdMap_[rendered] = id;
+    auto id = dynamicTree_.CreateProxy(aabb, rendered.get());
+    proxyIdRenderedMap_[id] = rendered.get();
+    renderedProxyIdMap_[rendered.get()] = id;
     proxyIdAABBMap_[id] = aabb;
 }
 
-void CullingSystem::RequestUpdateAABB(Rendered* rendered) { updateIds_.insert(renderedProxyIdMap_[rendered]); }
+void CullingSystem::RequestUpdateAABB(Rendered* rendered) {
+    if (renderedProxyIdMap_.count(rendered) > 0) {
+        updateIds_.insert(renderedProxyIdMap_[rendered]);
+    }
+}
+
+bool CullingSystem::GetIsExists(Rendered* rendered) {
+    return renderedProxyIdMap_.count(rendered) > 0;
+}
 
 void CullingSystem::UpdateAABB() {
     for (auto& id : updateIds_) {
@@ -62,10 +75,15 @@ void CullingSystem::Cull(RectF rect) {
     dynamicTree_.Query(instance_.get(), aabb);
 }
 
-void CullingSystem::Unregister(Rendered* rendered) {
-    auto id = renderedProxyIdMap_[rendered];
+void CullingSystem::Unregister(std::shared_ptr<Rendered> rendered) {
+    if (renderedProxyIdMap_.count(rendered.get()) == 0) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"CullingSystem::Unregister: rendered is not registered");
+        return;
+    }
+
+    auto id = renderedProxyIdMap_[rendered.get()];
     dynamicTree_.DestroyProxy(id);
-    renderedProxyIdMap_.erase(rendered);
+    renderedProxyIdMap_.erase(rendered.get());
     proxyIdRenderedMap_.erase(id);
     proxyIdAABBMap_.erase(id);
 }

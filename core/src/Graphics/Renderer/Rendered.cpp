@@ -3,9 +3,9 @@
 #include "CullingSystem.h"
 
 namespace Altseed2 {
-Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()), isDrawn_(false) { cullingSystem_->Register(this); }
+Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()), isDrawn_(false) {}
 Rendered::~Rendered() {
-    cullingSystem_->Unregister(this);
+    ASD_ASSERT(!cullingSystem_->GetIsExists(this), "Rendered must be unregisterd from culling system.");
     cullingSystem_ = nullptr;
 }
 const Matrix44F& Rendered::GetTransform() const { return transform_; }
