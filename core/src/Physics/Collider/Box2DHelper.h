@@ -8,7 +8,7 @@
 
 namespace Altseed2 {
 
-class Box2DHelper{
+class Box2DHelper {
 public:
     /**
     @brief 変形行列をAltseed2->Box2Dに変換
@@ -68,4 +68,3 @@ public:
 };
 
 }  // namespace Altseed2
-
