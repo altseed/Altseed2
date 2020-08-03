@@ -61,6 +61,7 @@ TEST(PostEffect, Base) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
@@ -97,6 +98,7 @@ TEST(PostEffect, Base) {
         EXPECT_TRUE(instance->EndFrame());
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
     Altseed2::Core::Terminate();
 }
 
@@ -179,6 +181,7 @@ TEST(PostEffect, Sepia) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
@@ -218,6 +221,7 @@ TEST(PostEffect, Sepia) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
     Altseed2::Core::Terminate();
 }
 
@@ -234,6 +238,7 @@ TEST(PostEffect, GrayScale) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
@@ -273,6 +278,7 @@ TEST(PostEffect, GrayScale) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
     Altseed2::Core::Terminate();
 }
 

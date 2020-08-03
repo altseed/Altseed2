@@ -76,9 +76,11 @@ TEST(Graphics, SpriteTexture) {
     auto s1 = Altseed2::RenderedSprite::Create();
     auto s2 = Altseed2::RenderedSprite::Create();
 
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
     auto trans = Altseed2::Matrix44F();
     trans.SetTranslation(200, 200, 0);
     s2->SetTexture(t2);
@@ -108,6 +110,8 @@ TEST(Graphics, SpriteTexture) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -120,6 +124,7 @@ TEST(Graphics, RenderedText) {
 
     {
         auto t = Altseed2::RenderedText::Create();
+        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(font);
         t->SetText(u"Hello, world! こんにちは");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
@@ -128,6 +133,7 @@ TEST(Graphics, RenderedText) {
 
     {
         auto t = Altseed2::RenderedText::Create();
+        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(font);
         t->SetText(u"色を指定する。");
         t->SetColor(Altseed2::Color(0, 0, 255, 255));
@@ -137,6 +143,7 @@ TEST(Graphics, RenderedText) {
 
     auto weitText = Altseed2::RenderedText::Create();
     {
+        Altseed2::CullingSystem::GetInstance()->Register(weitText);
         weitText->SetText(u"太さを指定する。");
         weitText->SetFont(font);
         weitText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 200.0f, 0));
@@ -146,6 +153,7 @@ TEST(Graphics, RenderedText) {
     auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
     {
         auto t = Altseed2::RenderedText::Create();
+        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(fontGenyomin);
         t->SetText(u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 300.0f, 0));
@@ -154,6 +162,7 @@ TEST(Graphics, RenderedText) {
 
     auto rotatedText = Altseed2::RenderedText::Create();
     {
+        Altseed2::CullingSystem::GetInstance()->Register(rotatedText);
         rotatedText->SetFont(font);
         rotatedText->SetText(u"くるくるまわる");
         texts.push_back(rotatedText);
@@ -163,6 +172,7 @@ TEST(Graphics, RenderedText) {
         auto imageFont = Altseed2::Font::CreateImageFont(font);
         imageFont->AddImageGlyph(u'〇', Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
         auto imageFontText = Altseed2::RenderedText::Create();
+        Altseed2::CullingSystem::GetInstance()->Register(imageFontText);
         imageFontText->SetFont(imageFont);
         imageFontText->SetText(u"Altseed〇Altseed");
         imageFontText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 500.0f, 0));
@@ -201,6 +211,10 @@ TEST(Graphics, RenderedText) {
         }
     }
 
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
+    }
+
     Altseed2::Core::Terminate();
 }
 
@@ -212,6 +226,7 @@ TEST(Graphics, RenderedPolygon) {
     auto instance = Altseed2::Graphics::GetInstance();
 
     auto polygon = Altseed2::RenderedPolygon::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(polygon);
 
     auto vertexes = Altseed2::MakeAsdShared<Altseed2::Vector2FArray>();
     vertexes->Resize(12);
@@ -251,6 +266,7 @@ TEST(Graphics, RenderedPolygon) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(polygon);
     Altseed2::Core::Terminate();
 }
 
@@ -267,6 +283,7 @@ TEST(Graphics, AlphaBlend) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
@@ -277,6 +294,7 @@ TEST(Graphics, AlphaBlend) {
     m1->SetShader(builtinShader->Create(Altseed2::BuiltinShaderType::SpriteUnlitPS));
 
     auto s2 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
     s2->SetMaterial(m1);
     s2->SetSrc(Altseed2::RectF(0, 0, 256, 256));
     s2->SetTexture(t1);
@@ -312,6 +330,8 @@ TEST(Graphics, AlphaBlend) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -330,6 +350,8 @@ TEST(Graphics, CameraBasic) {
 
     auto s1 = Altseed2::RenderedSprite::Create();
     auto s2 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
 
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
@@ -373,6 +395,8 @@ TEST(Graphics, CameraBasic) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -396,10 +420,12 @@ TEST(Graphics, RenderTexture) {
     rt->SetInstanceName("rt");
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 200, 200));
 
     auto s2 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
     auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
     s2->SetTransform(transform);
     s2->SetTexture(rt);
@@ -448,6 +474,8 @@ TEST(Graphics, RenderTexture) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -471,11 +499,13 @@ TEST(Graphics, RenderTextureSave) {
     rt->SetInstanceName("rt");
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 200, 200));
 
     auto s2 = Altseed2::RenderedSprite::Create();
     {
+        Altseed2::CullingSystem::GetInstance()->Register(s2);
         auto transform = Altseed2::Matrix44F().SetTranslation(200, 200, 0);
         s2->SetTransform(transform);
         s2->SetTexture(rt);
@@ -524,6 +554,8 @@ TEST(Graphics, RenderTextureSave) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -542,6 +574,9 @@ TEST(Graphics, BackgroundBugcheck) {
 
     auto s1 = Altseed2::RenderedSprite::Create();
     auto s2 = Altseed2::RenderedSprite::Create();
+
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
 
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
@@ -574,6 +609,8 @@ TEST(Graphics, BackgroundBugcheck) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -656,6 +693,7 @@ VS_OUTPUT main(VS_INPUT input){
     auto t2 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink256.png");
 
     auto sprite = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(sprite);
     sprite->SetTexture(t2);
     sprite->SetSrc(Altseed2::RectF(0, 0, 256, 256));
 
@@ -688,6 +726,7 @@ VS_OUTPUT main(VS_INPUT input){
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(sprite);
     Altseed2::Core::Terminate();
 }
 
@@ -704,6 +743,7 @@ TEST(Graphics, Culling) {
 
     auto s1 = Altseed2::RenderedSprite::Create();
 
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
@@ -745,6 +785,7 @@ TEST(Graphics, Culling) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
     Altseed2::Core::Terminate();
 }
 
@@ -761,11 +802,13 @@ TEST(Graphics, CullingTooManySprite) {
 
     auto s1 = Altseed2::RenderedSprite::Create();
 
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 40);
     auto t = Altseed2::RenderedText::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(t);
     t->SetFont(font);
     t->SetText((u"FPS: " + Altseed2::utf8_to_utf16(std::to_string(Altseed2::Core::GetInstance()->GetCurrentFPS())) + u"Drawing Rendered: " +
                 Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
@@ -784,6 +827,7 @@ TEST(Graphics, CullingTooManySprite) {
             s2->SetTexture(t1);
             s2->SetSrc(Altseed2::RectF(0, 0, 128, 128));
             s2->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 1000, 0));
+            Altseed2::CullingSystem::GetInstance()->Register(s2);
             sprites.push_back(s2);
         }
 
@@ -815,8 +859,14 @@ TEST(Graphics, CullingTooManySprite) {
         if (count == 5) {
             Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.CullingTooManySprite.png");
         }
+
+        for (auto& s : sprites) {
+            Altseed2::CullingSystem::GetInstance()->Unregister(s);
+        }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(t);
     Altseed2::Core::Terminate();
 }
 
@@ -833,6 +883,7 @@ TEST(Graphics, RenderToRenderTexture) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto s1 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
@@ -843,6 +894,7 @@ TEST(Graphics, RenderToRenderTexture) {
     auto target = Altseed2::RenderTexture::Create(Altseed2::Vector2I(500, 500));
 
     auto s2 = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(s2);
     s2->SetTexture(target);
     s2->SetSrc(Altseed2::RectF(0, 0, 500, 500));
     s2->SetTransform(Altseed2::Matrix44F().SetTranslation(400.0f, 400.0f, 0));
@@ -874,6 +926,8 @@ TEST(Graphics, RenderToRenderTexture) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(s1);
+    Altseed2::CullingSystem::GetInstance()->Unregister(s2);
     Altseed2::Core::Terminate();
 }
 
@@ -906,6 +960,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     EXPECT_TRUE(t1 != nullptr);
 
     auto sprite = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(sprite);
     sprite->SetTexture(t1);
     sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
 
@@ -936,6 +991,7 @@ float4 main(PS_INPUT input) : SV_TARGET
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(sprite);
     Altseed2::Core::Terminate();
 }
 
@@ -949,6 +1005,7 @@ TEST(Graphics, ShaderFromFile) {
     EXPECT_TRUE(t1 != nullptr);
 
     auto sprite = Altseed2::RenderedSprite::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(sprite);
     sprite->SetTexture(t1);
     sprite->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
 
@@ -979,6 +1036,7 @@ TEST(Graphics, ShaderFromFile) {
         }
     }
 
+    Altseed2::CullingSystem::GetInstance()->Unregister(sprite);
     Altseed2::Core::Terminate();
 }
 

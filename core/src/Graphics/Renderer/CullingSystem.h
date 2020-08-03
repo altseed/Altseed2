@@ -3,6 +3,7 @@
 #include <box2d/b2_dynamic_tree.h>
 
 #include <map>
+#include <memory>
 #include <set>
 
 #include "../../BaseObject.h"
@@ -34,11 +35,14 @@ public:
 
     static void Terminate();
 
-    void Register(Rendered* rendered);
+    //! for Core only
     void RequestUpdateAABB(Rendered* rendered);
+    bool GetIsExists(Rendered* rendered);
+
+    void Register(std::shared_ptr<Rendered> rendered);
     void UpdateAABB();
     void Cull(RectF rect);
-    void Unregister(Rendered* rendered);
+    void Unregister(std::shared_ptr<Rendered> rendered);
 
     int32_t GetDrawingRenderedCount() { return drawingRenderedIds_->GetCount(); }
     std::shared_ptr<Int32Array> GetDrawingRenderedIds() { return drawingRenderedIds_; }
