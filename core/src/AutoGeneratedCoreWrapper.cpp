@@ -1651,6 +1651,20 @@ CBGEXPORT void* CBGSTDCALL cbg_RenderedCamera_Create() {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RenderedCamera>(cbg_ret);
 }
 
+CBGEXPORT Altseed2::Matrix44F_C CBGSTDCALL cbg_RenderedCamera_GetViewMatrix(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedCamera*)(cbg_self);
+
+    Altseed2::Matrix44F_C cbg_ret = cbg_self_->GetViewMatrix();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedCamera_SetViewMatrix(void* cbg_self, Altseed2::Matrix44F_C value) {
+    auto cbg_self_ = (Altseed2::RenderedCamera*)(cbg_self);
+
+    Altseed2::Matrix44F_C cbg_arg0 = value;
+    cbg_self_->SetViewMatrix(cbg_arg0);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_RenderedCamera_GetTargetTexture(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedCamera*)(cbg_self);
 

@@ -39,7 +39,8 @@ with TextureFormatType as enum_:
     enum_.add('D32S8', 13)
     enum_.add('D24S8', 14)
 
-TextureBase = cbg.Class('Altseed2', 'TextureBase', cbg.CacheMode.ThreadSafeCache)
+TextureBase = cbg.Class('Altseed2', 'TextureBase',
+                        cbg.CacheMode.ThreadSafeCache)
 with TextureBase as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'テクスチャのベースクラス')
@@ -970,6 +971,14 @@ with RenderedCamera as class_:
         func.brief.add('ja', 'RenderedCameraを作成します。')
         func.return_value.type_ = RenderedCamera
         func.is_static = True
+
+    with class_.add_property(Matrix44F, 'ViewMatrix') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'RenderPassParameterを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(RenderTexture, 'TargetTexture') as prop:
         prop.brief = cbg.Description()
