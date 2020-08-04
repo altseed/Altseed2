@@ -32,4 +32,8 @@ bool FileSystem::GetIsAbsolutePath(const std::u16string& path) {
     return fs::path(path).is_absolute();
 }
 
+std::u16string FileSystem::NormalizePath(const std::u16string& path) {
+    return path;
+}
+
 }  // namespace Altseed2
