@@ -21,20 +21,22 @@ StreamFile::~StreamFile() {
 std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
+    auto path_ = FileSystem::NormalizePath(path);
+
     auto resources = Resources::GetInstance();
-    auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path));
+    auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path_));
     if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 
-    auto reader = File::GetInstance()->CreateFileReader(path);
+    auto reader = File::GetInstance()->CreateFileReader(path_.c_str());
 
     if (reader == nullptr) return nullptr;
 
-    auto res = MakeAsdShared<StreamFile>(reader, resources, path);
+    auto res = MakeAsdShared<StreamFile>(reader, resources, path_);
 
     resources->GetResourceContainer(ResourceType::StreamFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+            ->Register(path_, std::make_shared<ResourceContainer::ResourceInfomation>(res, path_));
     return res;
 }
 

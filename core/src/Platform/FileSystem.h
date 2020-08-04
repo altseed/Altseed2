@@ -20,5 +20,6 @@ public:
     static std::u16string GetParentPath(const std::u16string& path);
     static std::u16string GetAbusolutePath(const std::u16string& path);
     static bool GetIsAbsolutePath(const std::u16string& path);
+    static std::u16string NormalizePath(const std::u16string& path);
 };
 }  // namespace Altseed2

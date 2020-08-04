@@ -6,6 +6,8 @@ namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 #endif
 
+#include <algorithm>
+
 #include "FileSystem.h"
 
 namespace Altseed2 {
@@ -35,6 +37,12 @@ std::u16string FileSystem::GetAbusolutePath(const std::u16string& path) { return
 
 bool FileSystem::GetIsAbsolutePath(const std::u16string& path) {
     return fs::path(path).is_absolute();
+}
+
+std::u16string FileSystem::NormalizePath(const std::u16string& path) {
+    std::u16string res = path;
+    std::replace(res.begin(), res.end(), u'\\', u'/');
+    return res;
 }
 
 }  // namespace Altseed2
