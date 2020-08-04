@@ -34,20 +34,22 @@ StaticFile::~StaticFile() {
 std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
     std::lock_guard<std::mutex> lock(m_staticFileMtx);
 
+    auto path_ = FileSystem::NormalizePath(path);
+
     auto resources = Resources::GetInstance();
-    auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path));
+    auto cache = std::dynamic_pointer_cast<StaticFile>(resources->GetResourceContainer(ResourceType::StaticFile)->Get(path_));
     if (cache != nullptr && cache->GetRef() > 0) {
         return cache;
     }
 
-    auto reader = File::GetInstance()->CreateFileReader(path);
+    auto reader = File::GetInstance()->CreateFileReader(path_.c_str());
 
     if (reader == nullptr) return nullptr;
 
-    auto res = MakeAsdShared<StaticFile>(reader, resources, path);
+    auto res = MakeAsdShared<StaticFile>(reader, resources, path_);
 
     resources->GetResourceContainer(ResourceType::StaticFile)
-            ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+            ->Register(path_, std::make_shared<ResourceContainer::ResourceInfomation>(res, path_));
     return res;
 }
 

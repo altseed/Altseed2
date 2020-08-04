@@ -59,28 +59,32 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
 }
 
 bool File::AddRootDirectory(const char16_t* path) {
-    if (!FileSystem::GetIsDirectory(path)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootDirectory: Directory '{0}' is not found", utf16_to_utf8(path).c_str());
+    auto path_ = FileSystem::NormalizePath(path);
+
+    if (!FileSystem::GetIsDirectory(path_)) {
+        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootDirectory: Directory '{0}' is not found", utf16_to_utf8(path_).c_str());
         return false;
     }
 
     std::lock_guard<std::mutex> lock(m_rootMtx);
-    m_roots.push_back(std::make_shared<FileRoot>(path));
+    m_roots.push_back(std::make_shared<FileRoot>(path_));
     return true;
 }
 
 bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* password) {
-    if (!FileSystem::GetIsFile(path)) {
+    auto path_ = FileSystem::NormalizePath(path);
+
+    if (!FileSystem::GetIsFile(path_)) {
         Log::GetInstance()->Error(
-                LogCategory::Core, u"File::AddRootPackageWithPassword: File '{0}' is not found", utf16_to_utf8(path).c_str());
+                LogCategory::Core, u"File::AddRootPackageWithPassword: File '{0}' is not found", utf16_to_utf8(path_).c_str());
         return false;
     }
 
     int error;
-    zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
+    zip_t* zip_ = zip_open(utf16_to_utf8(path_).c_str(), ZIP_RDONLY, &error);
     if (zip_ == nullptr) {
         Log::GetInstance()->Error(
-                LogCategory::Core, u"File::AddRootPackageWithPassword: Failed to open '{0}'", utf16_to_utf8(path).c_str());
+                LogCategory::Core, u"File::AddRootPackageWithPassword: Failed to open '{0}'", utf16_to_utf8(path_).c_str());
         return false;
     }
 
@@ -90,30 +94,32 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
                 LogCategory::Core,
                 u"File::AddRootPackageWithPassword: '{0}' is invalid password for '{1}'",
                 utf16_to_utf8(password).c_str(),
-                utf16_to_utf8(path).c_str());
+                utf16_to_utf8(path_).c_str());
         return false;
     }
 
     std::lock_guard<std::mutex> lock(m_rootMtx);
-    m_roots.push_back(std::make_shared<FileRoot>(path, MakeAsdShared<PackFile>(zip_, true)));
+    m_roots.push_back(std::make_shared<FileRoot>(path_, MakeAsdShared<PackFile>(zip_, true)));
     return true;
 }
 
 bool File::AddRootPackage(const char16_t* path) {
-    if (!FileSystem::GetIsFile(path)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackage: File '{0}' is not found", utf16_to_utf8(path).c_str());
+    auto path_ = FileSystem::NormalizePath(path);
+
+    if (!FileSystem::GetIsFile(path_)) {
+        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackage: File '{0}' is not found", utf16_to_utf8(path_).c_str());
         return false;
     }
 
     int error;
-    zip_t* zip_ = zip_open(utf16_to_utf8(path).c_str(), ZIP_RDONLY, &error);
+    zip_t* zip_ = zip_open(utf16_to_utf8(path_).c_str(), ZIP_RDONLY, &error);
     if (zip_ == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackage: Failed to open '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(LogCategory::Core, u"File::AddRootPackage: Failed to open '{0}'", utf16_to_utf8(path_).c_str());
         return false;
     }
 
     std::lock_guard<std::mutex> lock(m_rootMtx);
-    m_roots.push_back(std::make_shared<FileRoot>(path, MakeAsdShared<PackFile>(zip_)));
+    m_roots.push_back(std::make_shared<FileRoot>(path_, MakeAsdShared<PackFile>(zip_)));
     return true;
 }
 
@@ -126,14 +132,16 @@ void File::ClearRootDirectories() {
 }
 
 bool File::Exists(const char16_t* path) const {
-    if (FileSystem::GetIsAbsolutePath(path)) {
-        return FileSystem::GetIsFile(path);
+    auto path_ = FileSystem::NormalizePath(path);
+
+    if (FileSystem::GetIsAbsolutePath(path_)) {
+        return FileSystem::GetIsFile(path_);
     }
 
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
         if ((*i)->IsPack()) {
-            if ((*i)->GetPackFile()->Exists(path)) return true;
-        } else if (FileSystem::GetIsFile((*i)->GetPath() + path))
+            if ((*i)->GetPackFile()->Exists(path_)) return true;
+        } else if (FileSystem::GetIsFile((*i)->GetPath() + path_))
             return true;
     }
 
