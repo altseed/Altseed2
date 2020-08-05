@@ -73,7 +73,6 @@ b2AABB RenderedCamera::GetAABB() {
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }
 
-    Log::GetInstance()->Info(LogCategory::Core, u" '{0}, {1}, {2}, {3}'", res.upperBound.x, res.upperBound.y, res.lowerBound.x, res.lowerBound.y);
     return res;
 }
 
