@@ -8,6 +8,7 @@ GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')
 with GraphicsDeviceType as enum_:
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', '描画方法を表します。')
+    enum_.alias = 'GraphicsDevice'
     with enum_.add('Default') as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '実行環境をもとに自動選択')

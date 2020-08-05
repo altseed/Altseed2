@@ -5,8 +5,6 @@ from .common import *
 from .math import *
 from .io import *
 
-DeviceType = cbg.Enum('LLGI', 'DeviceType')
-
 TextureWrapMode = cbg.Enum('Altseed2', 'TextureWrapMode')
 with TextureWrapMode as enum_:
     enum_.brief = cbg.Description()
@@ -16,6 +14,7 @@ with TextureWrapMode as enum_:
 
 TextureFilterType = cbg.Enum('Altseed2', 'TextureFilterType')
 with TextureFilterType as enum_:
+    enum_.alias = 'TextureFilter'
     enum_.brief = cbg.Description()
     enum_.brief.add('ja', 'テクスチャをフィルタリングする方法を表します。')
     enum_.add('Nearest')
@@ -23,6 +22,7 @@ with TextureFilterType as enum_:
 
 TextureFormatType = cbg.Enum('Altseed2', 'TextureFormatType')
 with TextureFormatType as enum_:
+    enum_.alias = 'TextureFormat'
     enum_.add('R8G8B8A8_UNORM', 0)
     enum_.add('R16G16B16A16_FLOAT', 1)
     enum_.add('R32G32B32A32_FLOAT', 2)
@@ -142,11 +142,13 @@ with RenderTexture as class_:
 
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
 with ShaderStageType as enum_:
+    enum_.alias = 'ShaderStage'
     enum_.add('Vertex')
     enum_.add('Pixel')
 
 BlendEquationType = cbg.Enum('Altseed2', 'BlendEquationType')
 with BlendEquationType as enum_:
+    enum_.alias = 'BlendEquation'
     enum_.add('Add')
     enum_.add('Sub')
     enum_.add('ReverseSub')
@@ -155,6 +157,7 @@ with BlendEquationType as enum_:
 
 BlendFuncType = cbg.Enum('Altseed2', 'BlendFuncType')
 with BlendFuncType as enum_:
+    enum_.alias = 'BlendFunction'
     enum_.add('Zero')
     enum_.add('One')
     enum_.add('SrcColor')

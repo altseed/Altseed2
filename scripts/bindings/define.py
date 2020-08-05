@@ -76,7 +76,6 @@ define.classes.append(JoystickInfo)
 define.classes.append(Joystick)
 
 # graphics
-define.enums.append(DeviceType)
 define.enums.append(ShaderStageType)
 define.enums.append(BuiltinShaderType)
 define.enums.append(WritingDirection)
