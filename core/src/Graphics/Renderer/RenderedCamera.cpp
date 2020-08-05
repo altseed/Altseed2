@@ -4,7 +4,6 @@
 #include "../../Window/Window.h"
 #include "../Graphics.h"
 #include "../RenderTexture.h"
-#include "../../Logger/Log.h"
 
 namespace Altseed2 {
 
