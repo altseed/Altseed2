@@ -66,7 +66,7 @@ TEST(PostEffect, Base) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed2::Shader::Create(u"posteffect", Altseed2::utf8_to_utf16(PostEffectCode).c_str(), Altseed2::ShaderStageType::Pixel)->GetValue();
+    auto ps = Altseed2::Shader::Compile(u"posteffect", Altseed2::utf8_to_utf16(PostEffectCode).c_str(), Altseed2::ShaderStageType::Pixel)->GetValue();
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 
@@ -112,13 +112,13 @@ TEST(PostEffect, Builtin) {
     auto instance = Altseed2::Graphics::GetInstance();
 
     Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"Sepia");
-    EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"Sepia", instance->GetBuiltinShader()->GetSepiaShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
+    EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"Sepia", instance->GetBuiltinShader()->GetSepiaShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
     Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"GrayScale");
-    EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"GrayScale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
+    EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"GrayScale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
     Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"Downsample");
-    EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"Downsample", instance->GetBuiltinShader()->GetDownsampleShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
+    EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"Downsample", instance->GetBuiltinShader()->GetDownsampleShader(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
     {
         auto baseCode = instance->GetBuiltinShader()->GetGaussianBlurShader();
@@ -126,13 +126,13 @@ TEST(PostEffect, Builtin) {
         {
             auto code = u"#define BLUR_X\n" + std::u16string(baseCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"GaussianBlur_X");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"GaussianBlur_X", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"GaussianBlur_X", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
 
         {
             auto code = u"#define BLUR_Y\n" + std::u16string(baseCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"GaussianBlur_Y");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"GaussianBlur_Y", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"GaussianBlur_Y", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
     }
 
@@ -142,19 +142,19 @@ TEST(PostEffect, Builtin) {
         {
             auto code = u"#define BLUR_X 1\n" + std::u16string(baseCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"LightBloom_X");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"LightBloom_X", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"LightBloom_X", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
 
         {
             auto code = u"#define BLUR_X 1\n#define LUM 1\n" + std::u16string(baseCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"LightBloom_X_Lum");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"LightBloom_X_Lum", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"LightBloom_X_Lum", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
 
         {
             auto code = u"#define BLUR_Y 1\n" + std::u16string(baseCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"LightBloom_Y");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"LightBloom_Y", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"LightBloom_Y", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
 
         auto textureMixCode = instance->GetBuiltinShader()->GetTextureMixShader();
@@ -162,7 +162,7 @@ TEST(PostEffect, Builtin) {
         {
             auto code = std::u16string(textureMixCode);
             Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"LightBloom_SUM");
-            EXPECT_TRUE(nullptr != Altseed2::Shader::Create(u"LightBloom_SUM", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+            EXPECT_TRUE(nullptr != Altseed2::Shader::Compile(u"LightBloom_SUM", code.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
         }
     }
 
@@ -186,7 +186,7 @@ TEST(PostEffect, Sepia) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed2::Shader::Create(u"sepia", instance->GetBuiltinShader()->GetSepiaShader(), Altseed2::ShaderStageType::Pixel)->GetValue();
+    auto ps = Altseed2::Shader::Compile(u"sepia", instance->GetBuiltinShader()->GetSepiaShader(), Altseed2::ShaderStageType::Pixel)->GetValue();
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 
@@ -243,7 +243,7 @@ TEST(PostEffect, GrayScale) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 400, 400));
 
-    auto ps = Altseed2::Shader::Create(u"GrayScale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel)->GetValue();
+    auto ps = Altseed2::Shader::Compile(u"GrayScale", instance->GetBuiltinShader()->GetGrayScaleShader(), Altseed2::ShaderStageType::Pixel)->GetValue();
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     material->SetShader(ps);
 
@@ -306,11 +306,11 @@ TEST(PostEffect, GaussianBlur) {
         auto baseCode = std::u16string(instance->GetBuiltinShader()->GetGaussianBlurShader());
         auto codeX = u"#define BLUR_X\n" + baseCode;
         Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"GaussianBlur_X");
-        materialX->SetShader(Altseed2::Shader::Create(u"X", codeX.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialX->SetShader(Altseed2::Shader::Compile(u"X", codeX.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
         auto codeY = u"#define BLUR_Y\n" + baseCode;
         Altseed2::Log::GetInstance()->Debug(Altseed2::LogCategory::Core, u"GaussianBlur_Y");
-        materialY->SetShader(Altseed2::Shader::Create(u"Y", codeY.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialY->SetShader(Altseed2::Shader::Compile(u"Y", codeY.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
     }
 
     std::shared_ptr<Altseed2::RenderTexture> tempTexture = nullptr;
@@ -405,21 +405,21 @@ TEST(PostEffect, LightBloom) {
     {
         auto codeHighLuminance = u"#define LUM_MODE\n" + std::u16string(instance->GetBuiltinShader()->GetHighLuminanceShader());
         materialHighLuminance->SetShader(
-                Altseed2::Shader::Create(u"highluminance", codeHighLuminance.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+                Altseed2::Shader::Compile(u"highluminance", codeHighLuminance.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
         auto codeDownSample = std::u16string(instance->GetBuiltinShader()->GetDownsampleShader());
-        materialDownsample->SetShader(Altseed2::Shader::Create(u"downsample", codeDownSample.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialDownsample->SetShader(Altseed2::Shader::Compile(u"downsample", codeDownSample.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
         auto baseCode = instance->GetBuiltinShader()->GetLightBloomShader();
 
         auto codeX = u"#define BLUR_X 1\n" + std::u16string(baseCode);
-        materialX->SetShader(Altseed2::Shader::Create(u"X", codeX.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialX->SetShader(Altseed2::Shader::Compile(u"X", codeX.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
         auto codeY = u"#define BLUR_Y 1\n" + std::u16string(baseCode);
-        materialY->SetShader(Altseed2::Shader::Create(u"Y", codeY.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialY->SetShader(Altseed2::Shader::Compile(u"Y", codeY.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
 
         auto codeSum = std::u16string(instance->GetBuiltinShader()->GetTextureMixShader());
-        materialSum->SetShader(Altseed2::Shader::Create(u"Sum", codeSum.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
+        materialSum->SetShader(Altseed2::Shader::Compile(u"Sum", codeSum.c_str(), Altseed2::ShaderStageType::Pixel)->GetValue());
     }
 
     std::shared_ptr<Altseed2::RenderTexture> highLuminanceTexture = nullptr;
