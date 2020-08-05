@@ -42,8 +42,6 @@ Renderer::Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> gra
 Renderer::~Renderer() {}
 
 void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
-    //if (!polygon->GetIsDrawn()) return;
-
     if (polygon->GetVertexes() == nullptr) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Renderer::DrawPolygon: Vertexes is null");
         return;
@@ -88,8 +86,6 @@ void Renderer::Render() {
 }
 
 void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
-    //if (!sprite->GetIsDrawn()) return;
-
     auto texture = sprite->GetTexture();
     auto src = sprite->GetSrc();
 
@@ -145,7 +141,6 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 }
 
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
-    //if (!text->GetIsDrawn()) return;
     if (text->GetFont() == nullptr) return;
 
     const auto& characters = text->GetTextAsStr();

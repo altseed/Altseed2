@@ -3,7 +3,7 @@
 #include "CullingSystem.h"
 
 namespace Altseed2 {
-Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()), isDrawn_(false) {}
+Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()) {}
 Rendered::~Rendered() {
     ASD_ASSERT(!cullingSystem_->GetIsExists(this), "Rendered must be unregisterd from culling system.");
     cullingSystem_ = nullptr;

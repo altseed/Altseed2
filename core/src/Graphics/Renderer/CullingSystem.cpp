@@ -65,10 +65,6 @@ void CullingSystem::UpdateAABB() {
 void CullingSystem::Cull(RectF rect) {
     drawingRenderedIds_->Clear();
 
-    for (auto& renderedProxyId : renderedProxyIdMap_) {
-        renderedProxyId.first->SetIsDrawn(false);
-    }
-
     b2AABB aabb;
     aabb.lowerBound = b2Vec2(rect.X, rect.Y);
     aabb.upperBound = b2Vec2(rect.X + rect.Width, rect.Y + rect.Height);
@@ -101,7 +97,6 @@ bool CullingSystem::QueryCallback(int32_t id) {
     }
 
     drawingRenderedIds_->GetVector().push_back(rendered->GetId());
-    rendered->SetIsDrawn(true);
     return true;
 }
 
