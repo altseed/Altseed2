@@ -176,6 +176,7 @@ with ShaderCompileResult as class_:
     class_.brief.add('ja', 'シェーダのコンパイル結果を表すクラス')
     class_.SerializeType = cbg.SerializeType.Disable
     class_.is_Sealed = True
+    class_.is_public = False
 
     with class_.add_property(Shader, 'Value') as prop:
         prop.brief = cbg.Description()
@@ -197,7 +198,7 @@ with Shader as class_:
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
 
-    with class_.add_func('Create') as func:
+    with class_.add_func('Compile') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コードをコンパイルしてシェーダを生成する')
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
@@ -215,8 +216,9 @@ with Shader as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True
+        func.is_public = False
 
-    with class_.add_func('CreateFromFile') as func:
+    with class_.add_func('CompileFromFile') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'ファイルからコードをコンパイルしてシェーダを生成する')
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
@@ -234,6 +236,7 @@ with Shader as class_:
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'コンパイルの結果生成されたシェーダ')
         func.is_static = True
+        func.is_public = False
 
     with class_.add_property(ShaderStageType, 'StageType') as prop_:
         prop_.has_getter = True
