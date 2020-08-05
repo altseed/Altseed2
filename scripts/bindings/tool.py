@@ -173,9 +173,9 @@ with ToolInputTextFlags as enum_:
 
     with enum_.add('EnterReturnsTrue', 1 << 5) as v:
         v.brief = cbg.Description()
-        v.brief.add('en', 'Return \'true\' when Enter is pressed (as opposed to every time the value was modified). Consider looking at the `IsItemDeactivatedAfterEdit()` function.')
+        v.brief.add('en', 'Return \'true\' when Enter is pressed (as opposed to every time the value was modified). Consider looking at the \'IsItemDeactivatedAfterEdit()\' function.')
         v.brief.add(
-            'ja', '（値が変更されるたびにではなく）Enterが押されたときに `true` を返します。 `IsItemDeactivatedAfterEdit()` 関数を調べることを検討してください。')
+            'ja', '（値が変更されるたびにではなく）Enterが押されたときに \'true\' を返します。 \'IsItemDeactivatedAfterEdit()\' 関数を調べることを検討してください。')
 
     with enum_.add('CallbackCompletion', 1 << 6) as v:
         v.brief = cbg.Description()
@@ -259,98 +259,98 @@ with ToolColorEditFlags as enum_:
     with enum_.add('NoAlpha', 1 << 1) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker, ColorButton`: ignore Alpha component (will only read 3 components from the input pointer).')
+            'en', '\'ColorEdit, ColorPicker, ColorButton\': ignore Alpha component (will only read 3 components from the input pointer).')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: Alphaコンポーネントを無視します（入力ポインターから3つのコンポーネントのみを読み取ります）。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': Alphaコンポーネントを無視します（入力ポインターから3つのコンポーネントのみを読み取ります）。')
 
     with enum_.add('NoPicker', 1 << 2) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit`: disable picker when clicking on colored square.')
-        v.brief.add('ja', '`ColorEdit`: 色付きの正方形をクリックしたときにピッカーを無効にします。')
+            'en', '\'ColorEdit\': disable picker when clicking on colored square.')
+        v.brief.add('ja', '\'ColorEdit\': 色付きの正方形をクリックしたときにピッカーを無効にします。')
 
     with enum_.add('NoOptions', 1 << 3) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit`: disable toggling options menu when right-clicking on inputs/small preview.')
+            'en', '\'ColorEdit\': disable toggling options menu when right-clicking on inputs/small preview.')
         v.brief.add(
-            'ja', '`ColorEdit`: 入力/小さなプレビューを右クリックしたときのオプションメニューの切り替えを無効にします。')
+            'ja', '\'ColorEdit\': 入力/小さなプレビューを右クリックしたときのオプションメニューの切り替えを無効にします。')
 
     with enum_.add('NoSmallPreview', 1 << 4) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker`: disable colored square preview next to the inputs. (e.g. to show only the inputs)')
+            'en', '\'ColorEdit, ColorPicker\': disable colored square preview next to the inputs. (e.g. to show only the inputs)')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker`: 入力の横にある色付きの正方形プレビューを無効にします。 （例：入力のみを表示する）')
+            'ja', '\'ColorEdit, ColorPicker\': 入力の横にある色付きの正方形プレビューを無効にします。 （例：入力のみを表示する）')
 
     with enum_.add('NoInputs', 1 << 5) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker`: disable inputs sliders/text widgets (e.g. to show only the small preview colored square).')
+            'en', '\'ColorEdit, ColorPicker\': disable inputs sliders/text widgets (e.g. to show only the small preview colored square).')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker: 入力スライダー/テキストウィジェットを無効にします（たとえば、小さなプレビューの色付きの四角形のみを表示します）。')
+            'ja', '\'ColorEdit, ColorPicker: 入力スライダー/テキストウィジェットを無効にします（たとえば、小さなプレビューの色付きの四角形のみを表示します）。')
 
     with enum_.add('NoTooltip', 1 << 6) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker, ColorButton`: disable tooltip when hovering the preview.')
+            'en', '\'ColorEdit, ColorPicker, ColorButton\': disable tooltip when hovering the preview.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: プレビューをホバーするときにツールチップを無効にします。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': プレビューをホバーするときにツールチップを無効にします。')
 
     with enum_.add('NoLabel', 1 << 7) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'ColorEdit, ColorPicker: disable display of inline text label (the label is still forwarded to the tooltip and picker).')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker`: インラインテキストラベルの表示を無効にします（ラベルは引き続きツールチップとピッカーに転送されます）。')
+            'ja', '\'ColorEdit, ColorPicker\': インラインテキストラベルの表示を無効にします（ラベルは引き続きツールチップとピッカーに転送されます）。')
 
     with enum_.add('NoSidePreview', 1 << 8) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorPicker` : disable bigger color preview on right side of the picker, use small colored square preview instead.')
+            'en', '\'ColorPicker\' : disable bigger color preview on right side of the picker, use small colored square preview instead.')
         v.brief.add(
-            'ja', '`ColorPicker`: ピッカーの右側の大きなカラープレビューを無効にし、代わりに小さな色付きの正方形プレビューを使用します。')
+            'ja', '\'ColorPicker\': ピッカーの右側の大きなカラープレビューを無効にし、代わりに小さな色付きの正方形プレビューを使用します。')
 
     with enum_.add('NoDragDrop', 1 << 9) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit`: disable drag and drop target. `ColorButton`: disable drag and drop source.')
+            'en', '\'ColorEdit\': disable drag and drop target. \'ColorButton\': disable drag and drop source.')
         v.brief.add(
-            'ja', '`ColorEdit`: ドラッグアンドドロップターゲットを無効にします。 `ColorButton`: ドラッグアンドドロップソースを無効にします。')
+            'ja', '\'ColorEdit\': ドラッグアンドドロップターゲットを無効にします。 \'ColorButton\': ドラッグアンドドロップソースを無効にします。')
 
     with enum_.add('AlphaBar', 1 << 16) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker`: show vertical alpha bar/gradient in picker.')
+            'en', '\'ColorEdit, ColorPicker\': show vertical alpha bar/gradient in picker.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker`: ピッカーに垂直アルファバー/グラデーションを表示します。')
+            'ja', '\'ColorEdit, ColorPicker\': ピッカーに垂直アルファバー/グラデーションを表示します。')
 
     with enum_.add('AlphaPreview', 1 << 17) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker, ColorButton`: display preview as a transparent color over a checkerboard, instead of opaque.')
+            'en', '\'ColorEdit, ColorPicker, ColorButton\': display preview as a transparent color over a checkerboard, instead of opaque.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: プレビューを不透明ではなく、チェッカーボード上の透明色として表示します。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': プレビューを不透明ではなく、チェッカーボード上の透明色として表示します。')
 
     with enum_.add('AlphaPreviewHalf', 1 << 18) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker, ColorButton`: display half opaque / half checkerboard, instead of opaque.')
+            'en', '\'ColorEdit, ColorPicker, ColorButton\': display half opaque / half checkerboard, instead of opaque.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: 不透明ではなく、半不透明/半市松模様を表示します。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': 不透明ではなく、半不透明/半市松模様を表示します。')
 
     with enum_.add('HDR', 1 << 19) as v:
         v.brief = cbg.Description()
-        v.brief.add('en', '`(WIP) ColorEdit`: Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use Float flag as well).')
+        v.brief.add('en', '\'(WIP) ColorEdit\': Currently only disable 0.0f..1.0f limits in RGBA edition (note: you probably want to use Float flag as well).')
         v.brief.add(
-            'ja', '`(WIP) ColorEdit`: 現在、RGBAエディションで0.0f..1.0fの制限のみを無効にします（注：おそらくFloatフラグも使用したいでしょう）。')
+            'ja', '\'(WIP) ColorEdit\': 現在、RGBAエディションで0.0f..1.0fの制限のみを無効にします（注：おそらくFloatフラグも使用したいでしょう）。')
 
     with enum_.add('DisplayRGB', 1 << 20) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit`: override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.')
+            'en', '\'ColorEdit\': override _display_ type among RGB/HSV/Hex. ColorPicker: select any combination using one or more of RGB/HSV/Hex.')
         v.brief.add(
-            'ja', '`ColorEdit`: RGB/HSV/Hexの_display_タイプをオーバーライドします。 `ColorPicker`: 1つ以上のRGB/HSV/Hexを使用して任意の組み合わせを選択します。')
+            'ja', '\'ColorEdit\': RGB/HSV/Hexの_display_タイプをオーバーライドします。 \'ColorPicker\': 1つ以上のRGB/HSV/Hexを使用して任意の組み合わせを選択します。')
 
     with enum_.add('DisplayHSV', 1 << 21) as v:
         v.brief = cbg.Description()
@@ -365,43 +365,43 @@ with ToolColorEditFlags as enum_:
     with enum_.add('Uint8', 1 << 23) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker, ColorButton`: _display_ values formatted as 0..255.')
+            'en', '\'ColorEdit, ColorPicker, ColorButton\': _display_ values formatted as 0..255.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: 0..255としてフォーマットされた_display_値。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': 0..255としてフォーマットされた_display_値。')
 
     with enum_.add('Float', 1 << 24) as v:
         v.brief = cbg.Description()
         v.brief.add('en', 'ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.')
         v.brief.add(
-            'ja', '`ColorEdit, ColorPicker, ColorButton`: _display_値は、0..255整数ではなく0.0f..1.0f浮動小数点としてフォーマットされます。 整数による値の往復はありません。')
+            'ja', '\'ColorEdit, ColorPicker, ColorButton\': _display_値は、0..255整数ではなく0.0f..1.0f浮動小数点としてフォーマットされます。 整数による値の往復はありません。')
 
     with enum_.add('PickerHueBar', 1 << 25) as v:
         v.brief = cbg.Description()
         v.brief.add('en', 'ColorPicker: bar for Hue, rectangle for Sat/Value.')
-        v.brief.add('ja', '`ColorPicker`: Hueのバー、Sat/Valueの長方形。')
+        v.brief.add('ja', '\'ColorPicker\': Hueのバー、Sat/Valueの長方形。')
 
     with enum_.add('PickerHueWheel', 1 << 26) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorPicker`: wheel for Hue, triangle for Sat/Value.')
-        v.brief.add('ja', '`ColorPicker`: Hueのホイール、Sat/Valueの三角形。')
+            'en', '\'ColorPicker\': wheel for Hue, triangle for Sat/Value.')
+        v.brief.add('ja', '\'ColorPicker\': Hueのホイール、Sat/Valueの三角形。')
 
     with enum_.add('InputRGB', 1 << 27) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', '`ColorEdit, ColorPicker`: input and output data in RGB format.')
-        v.brief.add('ja', '`ColorEdit, ColorPicker`: RGB形式の入出力データ')
+            'en', '\'ColorEdit, ColorPicker\': input and output data in RGB format.')
+        v.brief.add('ja', '\'ColorEdit, ColorPicker\': RGB形式の入出力データ')
 
     with enum_.add('InputHSV', 1 << 28) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'ColorEdit, ColorPicker: input and output data in HSV format.')
-        v.brief.add('ja', '`ColorEdit, ColorPicker`: HSV形式の入力および出力データ。')
+        v.brief.add('ja', '\'ColorEdit, ColorPicker\': HSV形式の入力および出力データ。')
 
     with enum_.add('OptionsDefault', (1 << 23) | (1 << 20) | (1 << 27) | (1 << 25)) as v:
         v.brief = cbg.Description()
         v.brief.add('en', 'Defaults Options. You can set application defaults using SetColorEditOptions(). The intent is that you probably don\'t want to override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.')
-        v.brief.add('ja', 'デフォルトオプション。 `SetColorEditOptions()` を使用して、アプリケーションのデフォルトを設定できます。 意図はおそらくあなたの呼び出しのほとんどでそれらをオーバーライドしたくないことです。 ユーザーがオプションメニューから選択できるようにするか、起動時に`SetColorEditOptions()`を1回呼び出します。')
+        v.brief.add('ja', 'デフォルトオプション。 \'SetColorEditOptions()\' を使用して、アプリケーションのデフォルトを設定できます。 意図はおそらくあなたの呼び出しのほとんどでそれらをオーバーライドしたくないことです。 ユーザーがオプションメニューから選択できるようにするか、起動時に\'SetColorEditOptions()\'を1回呼び出します。')
 
 ToolSelectableFlags = cbg.Enum('Altseed2', 'ToolSelectableFlags')
 with ToolSelectableFlags as enum_:
@@ -493,7 +493,7 @@ with ToolWindowFlags as enum_:
         v.brief.add(
             'en', 'Disable drawing background color (WindowBg, etc.) and outside border. Similar as using SetNextWindowBgAlpha(0.0f).')
         v.brief.add(
-            'ja', '描画背景色(`WindowBg`など)および外枠を無効にします。 `SetNextWindowBgAlpha(0.0f)`を使用する場合と同様です。')
+            'ja', '描画背景色(\'WindowBg\'など)および外枠を無効にします。 \'SetNextWindowBgAlpha(0.0f)\'を使用する場合と同様です。')
 
     with enum_.add('NoSavedSettings', 1 << 8) as v:
         v.brief = cbg.Description()
@@ -514,9 +514,9 @@ with ToolWindowFlags as enum_:
 
     with enum_.add('HorizontalScrollbar', 1 << 11) as v:
         v.brief = cbg.Description()
-        v.brief.add('en', 'Allow horizontal scrollbar to appear (off by default). You may use `SetNextWindowContentSize(Vector2F(width,0.0f));` prior to calling Begin() to specify width. ')
+        v.brief.add('en', 'Allow horizontal scrollbar to appear (off by default). You may use \'SetNextWindowContentSize(Vector2F(width,0.0f));\' prior to calling Begin() to specify width. ')
         v.brief.add(
-            'ja', '水平スクロールバーの表示を許可します（デフォルトではオフ）。 `Begin()`を呼び出す前に、`SetNextWindowContentSize(Vector2F(width, 0.0f));`を使用して幅を指定できます。')
+            'ja', '水平スクロールバーの表示を許可します（デフォルトではオフ）。 \'Begin()\'を呼び出す前に、\'SetNextWindowContentSize(Vector2F(width, 0.0f));\'を使用して幅を指定できます。')
 
     with enum_.add('NoFocusOnAppearing', 1 << 12) as v:
         v.brief = cbg.Description()
@@ -534,20 +534,20 @@ with ToolWindowFlags as enum_:
     with enum_.add('AlwaysVerticalScrollbar', 1 << 14) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', 'Always show vertical scrollbar (even if `ContentSize.Y < Size.Y`)')
-        v.brief.add('ja', '常に垂直スクロールバーを表示します（`ContentSize.Y < Size.Y`の場合でも）')
+            'en', 'Always show vertical scrollbar (even if \'ContentSize.Y &lt; Size.Y\')')
+        v.brief.add('ja', '常に垂直スクロールバーを表示します（\'ContentSize.Y &lt; Size.Y\'の場合でも）')
 
     with enum_.add('AlwaysHorizontalScrollbar', 1 << 15) as v:
         v.brief = cbg.Description()
         v.brief.add(
-            'en', 'Always show horizontal scrollbar (even if `ContentSize.x < Size.x`)')
-        v.brief.add('ja', '常に水平スクロールバーを表示します（`ContentSize.x < Size.x`であっても）')
+            'en', 'Always show horizontal scrollbar (even if \'ContentSize.x &lt; Size.x\')')
+        v.brief.add('ja', '常に水平スクロールバーを表示します（\'ContentSize.x &lt; Size.x\'であっても）')
 
     with enum_.add('AlwaysUseWindowPadding', 1 << 16) as v:
         v.brief = cbg.Description()
         v.brief.add('en', 'Ensure child windows without border uses style.WindowPadding (ignored by default for non-bordered child windows, because more convenient)')
         v.brief.add(
-            'ja', '境界線のない子ウィンドウが`style.WindowPadding`を使用するようにします（境界線のない子ウィンドウではデフォルトで無視されるため、より便利です）')
+            'ja', '境界線のない子ウィンドウが\'style.WindowPadding\'を使用するようにします（境界線のない子ウィンドウではデフォルトで無視されるため、より便利です）')
 
     _NoNavInputs = 1 << 18
     with enum_.add('NoNavInputs', _NoNavInputs) as v:
@@ -600,15 +600,15 @@ with ToolTabBarFlags as enum_:
 
     with enum_.add('NoCloseWithMiddleMouseButton', 1 << 3) as v:
         v.brief = cbg.Description()
-        v.brief.add('en', 'Disable behavior of closing tabs (that are submitted with p_open != NULL) with middle mouse button. You can still repro this behavior on user\'s side with if (IsItemHovered() && IsMouseClicked(2)) *p_open = false.')
-        v.brief.add('ja', 'マウスの中ボタンでタブを閉じる（p_open！= NULLで送信される）動作を無効にします。 `if（IsItemHovered（）&& IsMouseClicked（2））* p_open = false`を使用すると、ユーザー側でこの動作を再現できます。')
+        v.brief.add('en', 'Disable behavior of closing tabs (that are submitted with p_open != NULL) with middle mouse button. You can still repro this behavior on user\'s side with if (IsItemHovered() &amp;&amp; IsMouseClicked(2)) *p_open = false.')
+        v.brief.add('ja', 'マウスの中ボタンでタブを閉じる（p_open！= NULLで送信される）動作を無効にします。 \'if（IsItemHovered（）&amp;&amp; IsMouseClicked（2））* p_open = false\'を使用すると、ユーザー側でこの動作を再現できます。')
 
     with enum_.add('NoTabListScrollingButtons', 1 << 4) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'Disable scrolling buttons (apply when fitting policy is FittingPolicyScroll)')
         v.brief.add(
-            'ja', 'スクロールボタンを無効にする（フィッティングポリシーが`FittingPolicyScroll`の場合に適用）')
+            'ja', 'スクロールボタンを無効にする（フィッティングポリシーが\'FittingPolicyScroll\'の場合に適用）')
 
     with enum_.add('NoTooltip', 1 << 5) as v:
         v.brief = cbg.Description()
@@ -907,8 +907,8 @@ with Tool as class_:
 
     with class_.add_func('Begin') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `End()`')
-        func_.brief.add('ja', '`End()` を呼び出してください。')
+        func_.brief.add('en', 'Call \'End()\'')
+        func_.brief.add('ja', '\'End()\' を呼び出してください。')
         func_.add_arg(ctypes.c_wchar_p, 'name')
         func_.add_arg(ToolWindowFlags, 'flags')
         func_.return_value.type_ = bool
@@ -1400,15 +1400,15 @@ with Tool as class_:
 
     with class_.add_func('BeginPopup') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndPopup()`')
-        func_.brief.add('ja', '`EndPopup()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndPopup()\'')
+        func_.brief.add('ja', '\'EndPopup()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.return_value.type_ = bool
 
     with class_.add_func('BeginPopupModal') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndPopup()`')
-        func_.brief.add('ja', '`EndPopup()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndPopup()\'')
+        func_.brief.add('ja', '\'EndPopup()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.return_value.type_ = bool
 
@@ -1419,8 +1419,8 @@ with Tool as class_:
 
     with class_.add_func('BeginChild') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndChild()`')
-        func_.brief.add('ja', '`EndChild()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndChild()\'')
+        func_.brief.add('ja', '\'EndChild()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(Vector2F, 'size')
         func_.add_arg(bool, 'border')
@@ -1434,8 +1434,8 @@ with Tool as class_:
 
     with class_.add_func('BeginMenuBar') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndMenuBar()`')
-        func_.brief.add('ja', '`EndMenuBar()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndMenuBar()\'')
+        func_.brief.add('ja', '\'EndMenuBar()\' を呼び出してください')
         func_.return_value.type_ = bool
 
     with class_.add_func('EndMenuBar') as func_:
@@ -1445,8 +1445,8 @@ with Tool as class_:
 
     with class_.add_func('BeginMenu') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndMenu()`')
-        func_.brief.add('ja', '`EndMenu()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndMenu()\'')
+        func_.brief.add('ja', '\'EndMenu()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(bool, 'enabled')
         func_.return_value.type_ = bool
@@ -1468,8 +1468,8 @@ with Tool as class_:
 
     with class_.add_func('BeginTabBar') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndTabBar()`')
-        func_.brief.add('ja', '`EndTabBar()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndTabBar()\'')
+        func_.brief.add('ja', '\'EndTabBar()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.add_arg(ToolTabBarFlags, 'flags')
         func_.return_value.type_ = bool
@@ -1481,8 +1481,8 @@ with Tool as class_:
 
     with class_.add_func('BeginTabItem') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndTabItem()`')
-        func_.brief.add('ja', '`EndTabItem()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndTabItem()\'')
+        func_.brief.add('ja', '\'EndTabItem()\' を呼び出してください')
         func_.add_arg(ctypes.c_wchar_p, 'label')
         func_.return_value.type_ = bool
 
@@ -1514,8 +1514,8 @@ with Tool as class_:
 
     with class_.add_func('BeginTooltip') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Call `EndTooltip()`')
-        func_.brief.add('ja', '`EndTooltip()` を呼び出してください')
+        func_.brief.add('en', 'Call \'EndTooltip()\'')
+        func_.brief.add('ja', '\'EndTooltip()\' を呼び出してください')
 
     with class_.add_func('EndTooltip') as func_:
         func_.brief = cbg.Description()

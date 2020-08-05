@@ -64,7 +64,7 @@ with Log as class_:
 
     with class_.add_func('Warn') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '<see cref="LogLevel.Warning"/>でログを出力します。')
+        func.brief.add('ja', '<see cref="LogLevel.Warn"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
 
