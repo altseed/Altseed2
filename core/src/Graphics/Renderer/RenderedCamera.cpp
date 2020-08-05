@@ -59,10 +59,10 @@ b2AABB RenderedCamera::GetAABB() {
     }
 
     auto vertexes = std::array<Vector3F, 4>();
-    vertexes[0] = Vector3F(0, 0, 0);
-    vertexes[1] = Vector3F(windowSize.X, 0, 0);
-    vertexes[2] = Vector3F(windowSize.X, windowSize.Y, 0);
-    vertexes[3] = Vector3F(0, windowSize.Y, 0);
+    vertexes[0] = Vector3F(-windowSize.X / 2.0f, -windowSize.Y / 2.0f, 0);
+    vertexes[1] = Vector3F(windowSize.X / 2.0f, -windowSize.Y / 2.0f, 0);
+    vertexes[2] = Vector3F(windowSize.X / 2.0f, windowSize.Y / 2.0f, 0);
+    vertexes[3] = Vector3F(-windowSize.X / 2.0f, windowSize.Y / 2.0f, 0);
 
     res.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
     res.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
