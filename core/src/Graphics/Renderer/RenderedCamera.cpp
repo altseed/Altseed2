@@ -4,6 +4,7 @@
 #include "../../Window/Window.h"
 #include "../Graphics.h"
 #include "../RenderTexture.h"
+#include "../../Logger/Log.h"
 
 namespace Altseed2 {
 
@@ -71,6 +72,8 @@ b2AABB RenderedCamera::GetAABB() {
         res.lowerBound = b2Vec2(res.lowerBound.x > v.X ? v.X : res.lowerBound.x, res.lowerBound.y > v.Y ? v.Y : res.lowerBound.y);
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }
+
+    Log::GetInstance()->Info(LogCategory::Core, u" '{0}, {1}, {2}, {3}'", res.upperBound.x, res.upperBound.y, res.lowerBound.x, res.lowerBound.y);
     return res;
 }
 
