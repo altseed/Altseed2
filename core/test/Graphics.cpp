@@ -169,6 +169,15 @@ TEST(Graphics, RenderedText) {
         texts.push_back(imageFontText);
     }
 
+    {
+        auto t = Altseed2::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"Altseed おるとしーど");
+        std::cout << t->GetTextureSize().X << ", " << t->GetTextureSize().Y << std::endl;
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 600.0f, 0));
+        texts.push_back(t);
+    }
+
     auto rotatedTrans = Altseed2::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
     Altseed2::Matrix44F rotatedRot;
 

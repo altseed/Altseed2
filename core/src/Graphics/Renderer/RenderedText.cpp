@@ -41,13 +41,11 @@ Vector2F RenderedText::GetTextureSize() {
 
         // return
         if (character == '\n') {
-            if (writingDirection_ == WritingDirection::Horizontal) {
+            if (writingDirection_ == WritingDirection::Horizontal)
                 offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
-                lineOffset = 0;
-            } else {
+            else
                 offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
-                lineOffset = 0;
-            }
+            lineOffset = 0;
             continue;
         }
 
@@ -103,7 +101,14 @@ Vector2F RenderedText::GetTextureSize() {
             lineOffset += GetFont()->GetKerning(character, next);
         }
     }
+
+    // update ofset
+    if (writingDirection_ == WritingDirection::Horizontal)
+        offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
+    else
+        offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
     offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
+
     return offset;
 }
 
