@@ -23,7 +23,7 @@ void Collider::SetRotation(double rotation) {
     transformMatrix_ = transformMatrix_.SetRotationZ(rotation);
 }
 
-Matrix44F Collider::GetTransform() { return transformMatrix_; }
+Matrix44F Collider::GetTransform() const { return transformMatrix_; }
 void Collider::SetTransform(const Matrix44F& transform) {
     transform_ = Box2DHelper::ToBox2D_Mat(transform);
     transformMatrix_ = transform;
