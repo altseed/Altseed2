@@ -35,7 +35,7 @@ public:
     void SetRotation(double rotation);
 
     // 変形行列
-    Matrix44F GetTransform();
+    Matrix44F GetTransform() const;
     void SetTransform(const Matrix44F& transform);
 };
 

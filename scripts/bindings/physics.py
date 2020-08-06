@@ -32,6 +32,7 @@ with Collider as class_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.is_public = True
+        prop_.onlyExtern = True
         prop_.serialized = True
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '変形行列を取得または設定します。')
