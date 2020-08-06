@@ -104,9 +104,9 @@ Vector2F RenderedText::GetTextureSize() {
 
     // update ofset
     if (writingDirection_ == WritingDirection::Horizontal)
-        offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
+        offset.X = fmax(offset.X, lineOffset);
     else
-        offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
+        offset.Y = fmax(offset.Y, lineOffset);
     offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
 
     return offset;
