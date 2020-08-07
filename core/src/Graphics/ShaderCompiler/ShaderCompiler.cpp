@@ -125,7 +125,7 @@ std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, c
     }
 
     auto shader = MakeAsdShared<Shader>(
-            utf8_to_utf16(availableCode),
+            utf8_to_utf16(code),
             utf8_to_utf16(name),
             textures,
             uniforms,
