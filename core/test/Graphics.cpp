@@ -173,7 +173,8 @@ TEST(Graphics, RenderedText) {
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
         t->SetText(u"Altseed おるとしーど");
-        std::cout << t->GetTextureSize().X << ", " << t->GetTextureSize().Y << std::endl;
+        EXPECT_TRUE(t->GetTextureSize().X > 0.0f);
+        EXPECT_TRUE(t->GetTextureSize().Y > 0.0f);
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 600.0f, 0));
         texts.push_back(t);
     }
