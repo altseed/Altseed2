@@ -110,6 +110,6 @@ with PolygonCollider as class_:
         prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = True
-        prop_.serialized = True
+        prop_.onlyExtern = True
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '多角形コライダの頂点の座標を取得または設定します')
