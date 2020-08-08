@@ -75,8 +75,9 @@
 
 extern "C" {
 
-CBGEXPORT void* CBGSTDCALL cbg_Configuration_Constructor_0() {
-    return new Altseed2::Configuration();
+CBGEXPORT void* CBGSTDCALL cbg_Configuration_Create() {
+    std::shared_ptr<Altseed2::Configuration> cbg_ret = Altseed2::Configuration::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Configuration>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsFullscreen(void* cbg_self) {

@@ -30,9 +30,13 @@ with Configuration as class_:
     class_.is_Sealed = True
     class_.handleCache = False
 
-    with class_.add_constructor() as c:
-        c.brief = cbg.Description()
-        c.brief.add('ja', '新しいインスタンスを生成します。')
+    with class_.add_func('Create') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '新しいConfigurationを作成します。')
+        func_.return_value.type_ = Configuration
+        func_.is_static = True
+        func_.is_public = True
+        func_.onlyExtern = True
 
     with class_.add_property(bool, 'IsFullscreen') as prop:
         prop.brief = cbg.Description()
