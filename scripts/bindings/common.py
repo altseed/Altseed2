@@ -382,7 +382,6 @@ with ResourceType as enum_:
     with enum_.add('Sound') as v:
         v.brief = cbg.Description()
         v.brief.add('ja', '<see cref="Altseed2.Sound"/>を表す')
-    enum_.add('MAX')
 
 Resources = cbg.Class('Altseed2', 'Resources')
 with Resources as class_:
