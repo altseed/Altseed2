@@ -193,7 +193,6 @@ with Key as enum:
         v.brief.add('ja', '右側のWinキー')
     enum.add('Menu')
     enum.add('Last')
-    enum.add('MAX')
 
 Cursor = cbg.Class('Altseed2', 'Cursor')
 with Cursor as class_:
