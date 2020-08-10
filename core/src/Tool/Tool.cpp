@@ -275,7 +275,7 @@ static std::u16string tempInputText;
 const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
-    utf16_to_utf8(u16str).copy(buf, u16str.size());
+    utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
     auto res = ImGui::InputText(utf16_to_utf8(label).c_str(), buf, max_length + 1, static_cast<ImGuiInputTextFlags>(flags));
     if (res) {
         tempInputText = utf8_to_utf16(buf);
@@ -291,8 +291,8 @@ const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, in
 const char16_t* Tool::InputTextWithHint(
         const char16_t* label, const char16_t* hint, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
     std::u16string u16str(input);
-    auto buf = new char[u16str.size() + 5]{};
-    utf16_to_utf8(u16str).copy(buf, u16str.size());
+    auto buf = new char[max_length + 1]{};
+    utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
     auto res = ImGui::InputTextWithHint(
             utf16_to_utf8(label).c_str(), utf16_to_utf8(hint).c_str(), buf, max_length + 1, static_cast<ImGuiInputTextFlags>(flags));
     if (res) {
@@ -310,7 +310,7 @@ const char16_t* Tool::InputTextMultiline(
         const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags) {
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
-    utf16_to_utf8(u16str).copy(buf, u16str.size());
+    utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
     auto res = ImGui::InputTextMultiline(
             utf16_to_utf8(label).c_str(), buf, max_length + 1, toImVec2(size), static_cast<ImGuiInputTextFlags>(flags));
     if (res) {
