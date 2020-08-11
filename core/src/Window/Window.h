@@ -34,6 +34,8 @@ public:
 
     static std::shared_ptr<Window>& GetInstance();
 
+    void OnTerminating() override;
+
     void SetTitle(const char16_t* title);
 
     const char16_t* GetTitle() const;

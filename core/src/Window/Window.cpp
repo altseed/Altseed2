@@ -88,29 +88,46 @@ bool Window::Initialize(const WindowInitializationParameter& parameter) {
 
 void Window::Terminate() {
     ASD_VERIFY(instance_ != nullptr, "instance must be not null.")
-
-    if (GetInstance()->mainWindow_ != nullptr) {
-        glfwDestroyWindow(GetInstance()->mainWindow_);
-        GetInstance()->mainWindow_ = nullptr;
-        glfwTerminate();
-    }
-
     instance_ = nullptr;
 }
 
+void Window::OnTerminating() {
+    if (mainWindow_ != nullptr) {
+        glfwDestroyWindow(mainWindow_);
+        mainWindow_ = nullptr;
+        glfwTerminate();
+    }
+}
+
 void Window::SetTitle(const char16_t* title) {
+    if (mainWindow_ == nullptr) {
+        return;
+    }
+
     title_ = title;
     auto titleUTF8 = utf16_to_utf8(title);
-    glfwSetWindowTitle(GetInstance()->mainWindow_, titleUTF8.c_str());
+    glfwSetWindowTitle(instance_->mainWindow_, titleUTF8.c_str());
 }
 
 const char16_t* Window::GetTitle() const { return title_.c_str(); }
 
-void Window::SetSize(int32_t width, int32_t height) { glfwSetWindowSize(GetInstance()->mainWindow_, width, height); }
+void Window::SetSize(int32_t width, int32_t height) {
+    if (mainWindow_ == nullptr) {
+        return;
+    }
+
+    glfwSetWindowSize(mainWindow_, width, height);
+}
 
 void Window::SetSize(Vector2I_C size) { SetSize(size.X, size.Y); }
 
-void Window::GetSize(int32_t& width, int32_t& height) const { glfwGetWindowSize(GetInstance()->mainWindow_, &width, &height); }
+void Window::GetSize(int32_t& width, int32_t& height) const {
+    if (mainWindow_ == nullptr) {
+        return;
+    }
+
+    glfwGetWindowSize(mainWindow_, &width, &height);
+}
 
 Vector2I Window::GetSize() const {
     int32_t width = 0;
@@ -120,14 +137,14 @@ Vector2I Window::GetSize() const {
 }
 
 bool Window::DoEvent() {
-    if (GetInstance()->mainWindow_ == nullptr) {
+    if (mainWindow_ == nullptr) {
         LOG_CRITICAL(u"mainwindow_ is null");
         return false;
     }
 
     glfwPollEvents();
 
-    if (glfwWindowShouldClose(GetInstance()->mainWindow_)) {
+    if (glfwWindowShouldClose(mainWindow_)) {
         return false;
     }
 
