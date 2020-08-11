@@ -20,6 +20,8 @@ bool CullingSystem::Initialize() {
 void CullingSystem::Terminate() { instance_ = nullptr; }
 
 void CullingSystem::Register(std::shared_ptr<Rendered> rendered) {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     if (renderedProxyIdMap_.count(rendered.get()) > 0) {
         Log::GetInstance()->Warn(LogCategory::Core, u"CullingSystem::Unregister: rendered is already registered in the culling system.");
         return;
@@ -33,16 +35,22 @@ void CullingSystem::Register(std::shared_ptr<Rendered> rendered) {
 }
 
 void CullingSystem::RequestUpdateAABB(Rendered* rendered) {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     if (renderedProxyIdMap_.count(rendered) > 0) {
         updateIds_.insert(renderedProxyIdMap_[rendered]);
     }
 }
 
 bool CullingSystem::GetIsExists(Rendered* rendered) {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     return renderedProxyIdMap_.count(rendered) > 0;
 }
 
 void CullingSystem::UpdateAABB() {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     for (auto& id : updateIds_) {
         auto it = proxyIdRenderedMap_.find(id);
         if (it == proxyIdRenderedMap_.end()) {
@@ -63,6 +71,8 @@ void CullingSystem::UpdateAABB() {
 }
 
 void CullingSystem::Cull(RectF rect) {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     drawingRenderedIds_->Clear();
 
     b2AABB aabb;
@@ -72,6 +82,8 @@ void CullingSystem::Cull(RectF rect) {
 }
 
 void CullingSystem::Unregister(std::shared_ptr<Rendered> rendered) {
+    std::lock_guard<std::mutex> lock(mtx_);
+
     if (renderedProxyIdMap_.count(rendered.get()) == 0) {
         Log::GetInstance()->Warn(LogCategory::Core, u"CullingSystem::Unregister: rendered is not registered");
         return;
@@ -82,6 +94,17 @@ void CullingSystem::Unregister(std::shared_ptr<Rendered> rendered) {
     renderedProxyIdMap_.erase(rendered.get());
     proxyIdRenderedMap_.erase(id);
     proxyIdAABBMap_.erase(id);
+}
+
+int32_t CullingSystem::GetDrawingRenderedCount() {
+    std::lock_guard<std::mutex> lock(mtx_);
+
+    return drawingRenderedIds_->GetCount();
+}
+
+std::shared_ptr<Int32Array> CullingSystem::GetDrawingRenderedIds() {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return drawingRenderedIds_;
 }
 
 bool CullingSystem::QueryCallback(int32_t id) {
