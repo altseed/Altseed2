@@ -76,11 +76,11 @@ with TextureBase as class_:
 
     with class_.add_func('Save') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'png画像として保存します')
+        func.brief.add('ja', 'png画像として保存します。')
         func.is_public = True
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '成功したか否か')
+        func.return_value.brief.add('ja', '処理に成功したらtrue，それ以外でfalse')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '保存先')
@@ -134,10 +134,18 @@ with RenderTexture as class_:
     class_.CallBackType = cbg.CallBackType.Enable_Usebase
 
     with class_.add_func('Create') as func:
-        func.add_arg(Vector2I, 'size')
-        func.add_arg(TextureFormatType, 'format')
+        func.brief = cbg.Description()
+        func.brief.add('ja', '指定したサイズとフォーマットを持つRenderTextureの新しいインスタンスを生成します。')
+        with func.add_arg(Vector2I, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
+        with func.add_arg(TextureFormatType, 'format') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャのフォーマット')
         func.is_static = True
         func.return_value.type_ = RenderTexture
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'sizeとformatを持つRenderTextureの新しいインスタンス')
 
 
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
@@ -203,7 +211,7 @@ with Shader as class_:
 
     with class_.add_func('Compile') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'コードをコンパイルしてシェーダを生成する')
+        func.brief.add('ja', 'コードをコンパイルしてシェーダを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの名前')
@@ -223,7 +231,7 @@ with Shader as class_:
 
     with class_.add_func('CompileFromFile') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ファイルからコードをコンパイルしてシェーダを生成する')
+        func.brief.add('ja', 'ファイルからコードをコンパイルしてシェーダを生成します。')
         with func.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'シェーダの名前')
@@ -242,20 +250,22 @@ with Shader as class_:
         func.is_public = False
 
     with class_.add_property(ShaderStageType, 'StageType') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'シェーダの種類を取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Code') as prop_:
         prop_.brief = cbg.Description()
-        prop_.brief.add('ja', 'インスタンス生成に使用したコードを取得します')
+        prop_.brief.add('ja', 'インスタンス生成に使用したコードを取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
         prop_.brief = cbg.Description()
-        prop_.brief.add('ja', '名前を取得します')
+        prop_.brief.add('ja', '名前を取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
@@ -454,28 +464,57 @@ with CommandList as class_:
     class_.is_Sealed = True
 
     with class_.add_func('GetScreenTexture') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', 'スクリーンに表示されている内容をテクスチャとして取得します。')
         func_.return_value.type_ = RenderTexture
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'スクリーンに表示されている内容を反映したテクスチャ')
 
     with class_.add_func('SetRenderTarget') as func_:
-        func_.add_arg(RenderTexture, 'target')
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '描画する対象のテクスチャを設定します。')
+        with func_.add_arg(RenderTexture, 'target') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画先のテクスチャ')
         with func_.add_arg(RenderPassParameter, 'renderPassParameter') as arg:
             arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画に使用する設定')
 
     with class_.add_func('RenderToRenderTexture') as func_:
-        func_.add_arg(Material, 'material')
-        func_.add_arg(RenderTexture, 'target')
-        func_.add_arg(RenderPassParameter, 'renderPassparameter')
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '指定したテクスチャに描画を行います。')
+        with func_.add_arg(Material, 'material') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画に使用するマテリアル')
+        with func_.add_arg(RenderTexture, 'target') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画先のテクスチャ')
+        with func_.add_arg(RenderPassParameter, 'renderPassparameter') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画に使用する設定')
 
     with class_.add_func('RenderToRenderTarget') as func_:
-        func_.add_arg(Material, 'material')
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '設定されたターゲットに描画を行います。')
+        with func_.add_arg(Material, 'material') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画に使用するマテリアル')
 
     with class_.add_func('CopyTexture') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', 'テクスチャの内容をコピーします。')
         with func_.add_arg(RenderTexture, 'src') as arg_:
+            arg_.brief = cbg.Description()
+            arg_.brief.add('ja', 'コピーするテクスチャ')
             arg_.nullable = False
         with func_.add_arg(RenderTexture, 'dst') as arg_:
+            arg_.brief = cbg.Description()
+            arg_.brief.add('ja', 'コピー先のテクスチャ')
             arg_.nullable = False
 
     with class_.add_property(TextureFormatType, 'ScreenTextureFormat') as prop_:
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', 'GetScreenTextureで取得するテクスチャのフォーマットを取得または設定します。')
         prop_.has_getter = True
         prop_.has_setter = True
 
@@ -513,6 +552,8 @@ with Graphics as class_:
         func.is_public = False
 
     with class_.add_property(CommandList, 'CommandList') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'コマンドリストを取得します。')
         prop.has_getter = True
         prop.has_setter = False
 
@@ -559,32 +600,32 @@ with Glyph as class_:
 
     with class_.add_property(Vector2I, 'TextureSize') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字テクスチャのサイズを取得する')
+        prop.brief.add('ja', '文字テクスチャのサイズを取得します。')
         prop.has_getter = True
 
     with class_.add_property(int, 'TextureIndex') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字テクスチャのインデックスを取得する')
+        prop.brief.add('ja', '文字テクスチャのインデックスを取得します。')
         prop.has_getter = True
 
     with class_.add_property(Vector2I, 'Position') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字の座標を取得する')
+        prop.brief.add('ja', '文字の座標を取得します。')
         prop.has_getter = True
 
     with class_.add_property(Vector2I, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字のサイズを取得する')
+        prop.brief.add('ja', '文字のサイズを取得します。')
         prop.has_getter = True
 
     with class_.add_property(Vector2I, 'Offset') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字のオフセットを取得する')
+        prop.brief.add('ja', '文字のオフセットを取得します。')
         prop.has_getter = True
 
     with class_.add_property(int, 'GlyphWidth') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '文字の幅を取得する')
+        prop.brief.add('ja', '文字の幅を取得します。')
         prop.has_getter = True
 
 
@@ -598,34 +639,34 @@ with Font as class_:
 
     with class_.add_property(int, 'Size') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントのサイズを取得する')
+        prop.brief.add('ja', 'フォントのサイズを取得します。')
         prop.has_getter = True
         prop.serialized = True
 
     with class_.add_property(int, 'Ascent') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントのベースラインからトップラインまでの距離を取得する')
+        prop.brief.add('ja', 'フォントのベースラインからトップラインまでの距離を取得します。')
         prop.has_getter = True
 
     with class_.add_property(int, 'Descent') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントのベースラインからボトムラインまでの距離を取得する')
+        prop.brief.add('ja', 'フォントのベースラインからボトムラインまでの距離を取得します。')
         prop.has_getter = True
 
     with class_.add_property(int, 'LineGap') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'フォントの行間の距離を取得する')
+        prop.brief.add('ja', 'フォントの行間の距離を取得します。')
         prop.has_getter = True
 
     with class_.add_property(bool, 'IsStaticFont') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'StaticFontか否か')
+        prop.brief.add('ja', 'StaticFontかどうかを取得します。')
         prop.has_getter = True
         prop.serialized = True
 
     with class_.add_func('LoadDynamicFont') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '動的にフォントを生成します')
+        func.brief.add('ja', 'フォントファイルを読み込んでFontの新しいインスタンスを生成します。')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
@@ -642,7 +683,7 @@ with Font as class_:
 
     with class_.add_func('LoadStaticFont') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '静的にフォントを生成します')
+        func.brief.add('ja', 'FontGeneratorで生成したフォントを読み込んでFontの新しいインスタンスを生成します。')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
@@ -656,10 +697,10 @@ with Font as class_:
 
     with class_.add_func('GenerateFontFile') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'a2fフォントを生成します')
+        func.brief.add('ja', 'a2fフォントを生成します。')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '生成できたか否か')
+        func.return_value.brief.add('ja', '生成できたらtrue，それ以外でfalse')
         with func.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むtruetypeフォントのパス')
@@ -679,7 +720,7 @@ with Font as class_:
 
     with class_.add_func('GetGlyph') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '文字情報を取得する')
+        func.brief.add('ja', '文字情報を取得します。')
         func.return_value.type_ = Glyph
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '文字')
@@ -690,7 +731,7 @@ with Font as class_:
 
     with class_.add_func('GetFontTexture') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '文字列テクスチャを得る')
+        func.brief.add('ja', '指定した文字のテクスチャを取得します。')
         func.return_value.type_ = Texture2D
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'テクスチャ')
@@ -701,7 +742,7 @@ with Font as class_:
 
     with class_.add_func('GetKerning') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'カーニングを得る')
+        func.brief.add('ja', 'カーニングを取得します。')
         func.return_value.type_ = int
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'カーニング')
@@ -722,7 +763,7 @@ with Font as class_:
 
     with class_.add_func('CreateImageFont') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'テクスチャ追加対応フォントを生成します')
+        func.brief.add('ja', 'テクスチャ追加対応フォントを生成します。')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'テクスチャ追加対応フォント')
@@ -735,7 +776,7 @@ with Font as class_:
 
     with class_.add_func('AddImageGlyph') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'テクスチャ文字を追加する')
+        func.brief.add('ja', 'テクスチャ文字を追加します。')
         with func.add_arg(int, 'character') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '文字')
@@ -746,7 +787,7 @@ with Font as class_:
 
     with class_.add_func('GetImageGlyph') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'テクスチャ文字を取得する')
+        func.brief.add('ja', 'テクスチャ文字を取得します。')
         func.return_value.type_ = Texture2D
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'テクスチャ文字')
@@ -772,7 +813,7 @@ with Rendered as class_:
 
     with class_.add_property(int, 'Id') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'BaseObjectのIdを取得します')
+        prop.brief.add('ja', 'BaseObjectのIdを取得します。')
         prop.has_getter = True
 
 RenderedSprite = cbg.Class('Altseed2', 'RenderedSprite')
@@ -1096,7 +1137,7 @@ with CullingSystem as class_:
 
     with class_.add_func('Register') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'Renderedをカリングシステムに登録します')
+        func.brief.add('ja', 'Renderedをカリングシステムに登録します。')
         with func.add_arg(Rendered, 'rendered') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '登録するRendered')
@@ -1104,7 +1145,7 @@ with CullingSystem as class_:
 
     with class_.add_func('Unregister') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'Renderedをカリングシステムから登録解除します')
+        func.brief.add('ja', 'Renderedをカリングシステムから登録解除します。')
         with func.add_arg(Rendered, 'rendered') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '登録解除するRendered')
@@ -1112,15 +1153,15 @@ with CullingSystem as class_:
 
     with class_.add_func('UpdateAABB') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'RenderedのAABBを更新します')
+        func.brief.add('ja', 'RenderedのAABBを更新します。')
         func.is_public = False
 
     with class_.add_property(int, 'DrawingRenderedCount') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画されているRenderedの個数を取得する')
+        prop.brief.add('ja', '描画されているRenderedの個数を取得します。')
         prop.has_getter = True
 
     with class_.add_property(Int32Array, 'DrawingRenderedIds') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '描画されているRenderedのIdの配列を取得する')
+        prop.brief.add('ja', '描画されているRenderedのIdの配列を取得します。')
         prop.has_getter = True

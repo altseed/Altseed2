@@ -472,6 +472,8 @@ with JoystickAxis as enum:
 JoystickInfo = cbg.Class('Altseed2', 'JoystickInfo')
 with JoystickInfo as class_:
     with class_.add_property(ctypes.c_wchar_p, 'Name') as prop_:
+        class_.brief = cbg.Description()
+        class_.brief.add('ja', 'ジョイスティックの名前を取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True
@@ -525,6 +527,8 @@ with JoystickInfo as class_:
         prop_.is_public = True
 
     with class_.add_property(int, 'Version') as prop_:
+        class_.brief = cbg.Description()
+        class_.brief.add('ja', 'ジョイスティックのバージョンを取得します。')
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = True

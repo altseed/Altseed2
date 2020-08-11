@@ -885,9 +885,13 @@ with ToolHoveredFlags as enum_:
 
 Tool = cbg.Class('Altseed2', 'Tool')
 with Tool as class_:
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'imguiのツール処理を行うクラス')
     class_.is_Sealed = True
 
     with class_.add_func('GetInstance') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インスタンスを取得します。')
         func.is_static = True
         func.is_public = False
         func.return_value.type_ = Tool
@@ -936,80 +940,127 @@ with Tool as class_:
     with class_.add_func('Dummy') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(Vector2F, 'size')
+        func_.brief.add('ja', '空白を生成します。')
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '空白のサイズ')
 
     with class_.add_func('Text') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        func_.brief.add('ja', 'テキストを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('TextUnformatted') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('TextWrapped') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('TextColored') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(Color, 'color')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        func_.brief.add('ja', '色付きテキストを生成します。')
+        with func_.add_arg(Color, 'color') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テキストの色')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('TextDisabled') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        func_.brief.add('ja', '灰字のテキストを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('BulletText') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        func_.brief.add('ja', '箇条書きテキストを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
 
     with class_.add_func('LabelText') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ctypes.c_wchar_p, 'text')
+        func_.brief.add('ja', '横にラベルの付いたテキストを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
 
     with class_.add_func('CollapsingHeader') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolTreeNodeFlags, 'flags')
+        func_.brief.add('ja', '折り畳み式のヘッダを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('TreeNode') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', 'ツリーのノードを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('TreeNodeEx') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolTreeNodeFlags, 'flags')
+        func_.brief.add('ja', 'ツリーのノードを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('TreePop') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
+        func_.brief.add('ja', 'TreeNodeのツリーを開きます。')
 
     with class_.add_func('SetNextItemOpen') as func_:
         func_.brief = cbg.Description()
@@ -1021,31 +1072,48 @@ with Tool as class_:
     with class_.add_func('Button') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Vector2F, 'size')
+        func_.brief.add('ja', 'ボタンを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('CheckBox') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', 'チェックボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(bool, 'isChecked') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'チェックされているかどうか')
         func_.return_value.type_ = bool
-        func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'クリックされたかどうか')
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('RadioButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(bool, 'active')
+        func_.brief.add('ja', 'ラジオボタンを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(bool, 'active') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'チェックが入っているかどうか')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('RadioButton_2') as func_:
         func_.add_arg(ctypes.c_wchar_p, 'label')
@@ -1058,157 +1126,293 @@ with Tool as class_:
     with class_.add_func('ArrowButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ToolDir, 'dir')
+        func_.brief.add('ja', '矢印ボタンを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(ToolDir, 'dir') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '矢印の向き')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('InvisibleButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Vector2F, 'size')
+        func_.brief.add('ja', '見えないボタンを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('ListBox') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', 'リストボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'current') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '選択中のアイテムのインデックス -1で選択無し')
             arg.called_by = cbg.ArgCalledBy.Ref
         with func_.add_arg(ctypes.c_wchar_p, 'items') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'タブ文字を用いて分割したアイテム')
-        func_.add_arg(int, 'popupMaxHeightInItems')
+        with func_.add_arg(int, 'popupMaxHeightInItems') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '一度に表示されるアイテムの個数')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'アイテムがクリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('Selectable') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '選択式のテキストを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
         with func_.add_arg(bool, 'selected') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '選択されているかどうか')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolSelectableFlags, 'flags')
+        with func_.add_arg(ToolSelectableFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('InputText') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ctypes.c_wchar_p, 'input')
-        func_.add_arg(int, 'maxLength')
-        func_.add_arg(ToolInputTextFlags, 'flags')
+        func_.brief.add('ja', 'テキストを入力するボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '入力するテキスト')
+            arg.nullable = False
+        with func_.add_arg(int, 'maxLength') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '処理するテキストの最大長')
+        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力されたテキスト')
 
     with class_.add_func('InputTextWithHint') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ctypes.c_wchar_p, 'hit')
-        func_.add_arg(ctypes.c_wchar_p, 'input')
-        func_.add_arg(int, 'maxLength')
-        func_.add_arg(ToolInputTextFlags, 'flags')
+        func_.brief.add('ja', 'ヒント付きのテキスト入力ボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'hint') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'インプットされている文字列長が0の時に表示されるヒント')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '入力するテキスト')
+            arg.nullable = False
+        with func_.add_arg(int, 'maxLength') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '処理するテキストの最大長')
+        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力されたテキスト')
 
     with class_.add_func('InputTextMultiline') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(ctypes.c_wchar_p, 'input')
-        func_.add_arg(int, 'maxLength')
-        func_.add_arg(Vector2F, 'size')
-        func_.add_arg(ToolInputTextFlags, 'flags')
+        func_.brief.add('ja', '複数行のテキストが入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '入力するテキスト')
+            arg.nullable = False
+        with func_.add_arg(int, 'maxLength') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '処理するテキストの最大長')
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
+        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力されたテキスト')
 
     with class_.add_func('InputInt') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つの整数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('InputInt2') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Int32Array, 'array')
+        func_.brief.add('ja', '2つの整数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(Int32Array, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('InputInt3') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Int32Array, 'array')
+        func_.brief.add('ja', '3つの整数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(Int32Array, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('InputInt4') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Int32Array, 'array')
+        func_.brief.add('ja', '4つの整数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(Int32Array, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('InputFloat') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つの小数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(float, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('InputFloat2') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(FloatArray, 'array')
+        func_.brief.add('ja', '2つの小数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(FloatArray, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
 
     with class_.add_func('InputFloat3') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(FloatArray, 'array')
+        func_.brief.add('ja', '3つの小数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(FloatArray, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
 
     with class_.add_func('InputFloat4') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(FloatArray, 'array')
+        func_.brief.add('ja', '4つの小数が入力可能なボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(FloatArray, 'array') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
         func_.return_value.type_ = bool
         func_.is_public = False
 
     with class_.add_func('SliderInt') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つのスライドで値が増減するバーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(int, 'valueMin')
-        func_.add_arg(int, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'スライドで増減する値')
+        with func_.add_arg(int, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(int, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('SliderInt2') as func_:
         func_.brief = cbg.Description()
@@ -1249,14 +1453,27 @@ with Tool as class_:
     with class_.add_func('SliderFloat') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つのスライドで値が増減するバーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(float, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(float, 'valueMin')
-        func_.add_arg(float, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'スライドで増減する値')
+        with func_.add_arg(float, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(float, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('SliderFloat2') as func_:
         func_.brief = cbg.Description()
@@ -1297,107 +1514,214 @@ with Tool as class_:
     with class_.add_func('SliderAngle') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', 'スライドで値が増減する，角度を扱うバーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(float, 'angle') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う角度の値')
             arg.called_by = cbg.ArgCalledBy.Ref
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('VSliderInt') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Vector2F, 'size')
+        func_.brief.add('ja', 'スライドで値が増減する縦バーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
         with func_.add_arg(int, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(int, 'valueMin')
-        func_.add_arg(int, 'valueMax')
+        with func_.add_arg(int, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(int, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('VSliderFloat') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(Vector2F, 'size')
+        func_.brief.add('ja', 'スライドで値が増減する縦バーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
         with func_.add_arg(float, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'valueMin')
-        func_.add_arg(float, 'valueMax')
+        with func_.add_arg(float, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(float, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('DragInt') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つのドラッグで値が増減するバーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(int, 'valueMin')
-        func_.add_arg(int, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ドラッグで増減する値')
+        with func_.add_arg(int, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(int, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('DragFloat') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '1つのドラッグで値が増減するバーを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(float, 'value') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(float, 'valueMin')
-        func_.add_arg(float, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ドラッグで増減する値')
+        with func_.add_arg(float, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(float, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('DragIntRange2') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '2つのドラッグで値が増減するバーを生成します')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'currentMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値のうち小さい方')
             arg.called_by = cbg.ArgCalledBy.Ref
         with func_.add_arg(int, 'currentMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値のうち大きい方')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(int, 'valueMin')
-        func_.add_arg(int, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ドラッグで増減する値')
+        with func_.add_arg(int, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(int, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('DragFloatRange2') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '2つのドラッグで値が増減するバーを生成します')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(float, 'currentMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値のうち小さい方')
             arg.called_by = cbg.ArgCalledBy.Ref
         with func_.add_arg(float, 'currentMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う値のうち大きい方')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(float, 'speed')
-        func_.add_arg(float, 'valueMin')
-        func_.add_arg(float, 'valueMax')
+        with func_.add_arg(float, 'speed') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ドラッグで増減する値')
+        with func_.add_arg(float, 'valueMin') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最小値')
+        with func_.add_arg(float, 'valueMax') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '最大値')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('ColorEdit3') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '色を入力するツールを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(Color, 'color') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う色')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolColorEditFlags, 'flags')
+        with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('ColorEdit4') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '色を入力するツールを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示するラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(Color, 'color') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '扱う色')
             arg.called_by = cbg.ArgCalledBy.Ref
-        func_.add_arg(ToolColorEditFlags, 'flags')
+        with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '適用する設定')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
 
     with class_.add_func('OpenPopup') as func_:
         func_.brief = cbg.Description()
@@ -1501,17 +1825,17 @@ with Tool as class_:
     with class_.add_func('Indent') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
+        func_.brief.add('ja', '次の要素を右にずらします。')
 
     with class_.add_func('Unindent') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
+        func_.brief.add('ja', '右にずらすインデントを1つ分打消します。')
 
     with class_.add_func('Separator') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
+        func_.brief.add('ja', '仕切りを生成します。')
 
     with class_.add_func('SetTooltip') as func_:
         func_.brief = cbg.Description()
@@ -2026,32 +2350,65 @@ with Tool as class_:
     with class_.add_func('SmallButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', '小さなボタンを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('Image') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(TextureBase, 'texture')
-        func_.add_arg(Vector2F, 'size')
-        func_.add_arg(Vector2F, 'uv0')
-        func_.add_arg(Vector2F, 'uv1')
-        func_.add_arg(Color, 'tintColor')
-        func_.add_arg(Color, 'borderColor')
+        func_.brief.add('ja', '画像表示ボックスを生成します。')
+        with func_.add_arg(TextureBase, 'texture') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテクスチャ')
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
+        with func_.add_arg(Vector2F, 'uv0') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
+        with func_.add_arg(Vector2F, 'uv1') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
+        with func_.add_arg(Color, 'tintColor') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャの色')
+        with func_.add_arg(Color, 'borderColor') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '縁の色')
 
     with class_.add_func('ImageButton') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(TextureBase, 'texture')
-        func_.add_arg(Vector2F, 'size')
-        func_.add_arg(Vector2F, 'uv0')
-        func_.add_arg(Vector2F, 'uv1')
-        func_.add_arg(int, 'framePadding')
-        func_.add_arg(Color, 'tintColor')
-        func_.add_arg(Color, 'borderColor')
+        func_.brief.add('ja', 'ボタンとして機能する画像表示ボックスを生成します。')
+        with func_.add_arg(TextureBase, 'texture') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテクスチャ')
+        with func_.add_arg(Vector2F, 'size') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
+        with func_.add_arg(Vector2F, 'uv0') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
+        with func_.add_arg(Vector2F, 'uv1') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
+        with func_.add_arg(int, 'framePadding') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '縁の太さ')
+        with func_.add_arg(Color, 'tintColor') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'テクスチャの色')
+        with func_.add_arg(Color, 'borderColor') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '縁の色')
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
         func_.return_value.type_ = bool
 
     # with class_.add_func('CheckboxFlags') as func_:
@@ -2066,15 +2423,22 @@ with Tool as class_:
     with class_.add_func('ProgressBar') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(float, 'fraction')
-        func_.add_arg(Vector2F, 'sizeArg')
-        func_.add_arg(ctypes.c_wchar_p, 'overlay')
+        func_.brief.add('ja', 'プログレスバーを生成します。')
+        with func_.add_arg(float, 'fraction') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '進行度(0.0~1.0)')
+        with func_.add_arg(Vector2F, 'sizeArg') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'サイズ')
+        with func_.add_arg(ctypes.c_wchar_p, 'overlay') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示されるテキスト')
+            arg.nullable = False
 
     with class_.add_func('Bullet') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
+        func_.brief.add('ja', '点を生成します。')
 
     with class_.add_func('BeginCombo') as func_:
         func_.brief = cbg.Description()
@@ -2092,15 +2456,24 @@ with Tool as class_:
     with class_.add_func('Combo') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
+        func_.brief.add('ja', 'コンボボックスを生成します。')
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '横に表示されるラベルのテキスト')
+            arg.nullable = False
         with func_.add_arg(int, 'current_item') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '選択されているアイテムのインデックス -1で選択無し')
             arg.called_by = cbg.ArgCalledBy.Ref
         with func_.add_arg(ctypes.c_wchar_p, 'items') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'タブ文字を用いて分割したアイテム')
-        func_.add_arg(int, 'popupMaxHeightInItems')
+        with func_.add_arg(int, 'popupMaxHeightInItems') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '一度に表示する最大アイテム数')
         func_.return_value.type_ = bool
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', 'いずれかのアイテムがクリックされたらtrue，それ以外でfalse')
 
     with class_.add_func('ColorButton') as func_:
         func_.brief = cbg.Description()
@@ -2171,24 +2544,42 @@ with Tool as class_:
     with class_.add_func('ValueBool') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'prefix')
-        func_.add_arg(bool, 'b')
+        func_.brief.add('ja', 'boolの値を表示する')
+        with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(bool, 'b') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するboolの値')
 
     with class_.add_func('ValueInt') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'prefix')
-        func_.add_arg(int, 'v')
+        func_.brief.add('ja', 'intの値を表示する')
+        with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(int, 'v') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するintの値')
 
     with class_.add_func('ValueFloat') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', '')
+        func_.brief.add('en', 'floatの値を表示する')
         func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'prefix')
-        func_.add_arg(float, 'v')
-        func_.add_arg(ctypes.c_wchar_p, 'floatFormat')
+        with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するテキスト')
+            arg.nullable = False
+        with func_.add_arg(float, 'v') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '表示するfloatの値')
+        with func_.add_arg(ctypes.c_wchar_p, 'floatFormat') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '使用するフォーマット')
+            arg.nullable = False
 
     with class_.add_func('BeginMainMenuBar') as func_:
         func_.brief = cbg.Description()
@@ -2463,30 +2854,60 @@ with Tool as class_:
     with class_.add_func('OpenDialog') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'filter')
-        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.brief.add('ja', '1つの開くファイルを選択するダイアログを開きます。')
+        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むファイルの拡張子のフィルタ')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
+            arg.nullable = False
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '読み込むファイルのパス')
 
     with class_.add_func('OpenDialogMultiple') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'filter')
-        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.brief.add('ja', '複数の開くファイルを選択するダイアログを開きます。')
+        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '読み込むファイルの拡張子のフィルタ')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
+            arg.nullable = False
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '読み込むファイルのパス')
 
     with class_.add_func('SaveDialog') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'filter')
-        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.brief.add('ja', '保存するファイルを選択するダイアログを開きます。')
+        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '保存するファイルの拡張子のフィルタ')
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
+            arg.nullable = False
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '保存するファイルのパス')
 
     with class_.add_func('PickFolder') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
+        func_.brief.add('ja', 'フォルダを選択するダイアログを開きます。')
+        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
+            arg.nullable = False
         func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.type_ = ctypes.c_wchar_p
+        func_.return_value.brief = cbg.Description()
+        func_.return_value.brief.add('ja', '選択するフォルダのパス')

@@ -90,7 +90,7 @@ with StreamFile as class_:
 
     with class_.add_func('Read') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した分ファイルを読み込む')
+        func.brief.add('ja', '指定した分ファイルを読み込みます。')
         with func.add_arg(int, 'size') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'この処理で読み込むデータサイズ')
@@ -156,7 +156,7 @@ with File as class_:
         func.return_value.brief.add('ja', '追加処理がうまくいったらtrue，それ以外でfalse')
     with class_.add_func('AddRootPackageWithPassword') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ファイルパッケージをパスワード有りで読み込む')
+        func.brief.add('ja', 'ファイルパッケージをパスワード有りで読み込みます。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルパッケージのパス')
@@ -170,7 +170,7 @@ with File as class_:
         func.return_value.brief.add('ja', '読み込み処理がうまくいったらtrue，それ以外でfalse')
     with class_.add_func('AddRootPackage') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'ファイルパッケージをパスワード無しで読み込む')
+        func.brief.add('ja', 'ファイルパッケージをパスワード無しで読み込みます。')
         with func.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '読み込むファイルパッケージのパス')
@@ -192,7 +192,7 @@ with File as class_:
         func.return_value.brief.add('ja', 'pathの示すファイルが存在していたらtrue，それ以外でfalse')
     with class_.add_func('Pack') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定したディレクトリのファイルをパックする')
+        func.brief.add('ja', '指定したディレクトリのファイルをパックします。')
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックするファイルのディレクトリ')
@@ -206,7 +206,7 @@ with File as class_:
         func.return_value.brief.add('ja', 'パック処理がうまくいったらtrue，それ以外でfalse')
     with class_.add_func('PackWithPassword') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定したディレクトリのファイルをパスワード付きでパックする')
+        func.brief.add('ja', '指定したディレクトリのファイルをパスワード付きでパックします。')
         with func.add_arg(ctypes.c_wchar_p, 'srcPath') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'パックするファイルのディレクトリ')
