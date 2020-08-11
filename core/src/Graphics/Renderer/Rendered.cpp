@@ -5,11 +5,15 @@
 namespace Altseed2 {
 Rendered::Rendered() : cullingSystem_(CullingSystem::GetInstance()) {}
 Rendered::~Rendered() {
+    if (cullingSystem_ != nullptr) {
+        auto exists = cullingSystem_->GetIsExists(this);
+        ASD_ASSERT(!exists, "Rendered must be unregisterd from culling system.");
+    }
 }
 
 void Rendered::OnTerminating() {
-    ASD_ASSERT(!cullingSystem_->GetIsExists(this), "Rendered must be unregisterd from culling system.");
-    cullingSystem_ = nullptr;
+    // Comment out to debug easily
+    // cullingSystem_ = nullptr;
 }
 
 const Matrix44F& Rendered::GetTransform() const { return transform_; }

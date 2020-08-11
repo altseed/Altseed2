@@ -4,6 +4,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <set>
 
 #include "../../BaseObject.h"
@@ -16,6 +17,7 @@ class CullingSystem : public BaseObject {
 private:
     static std::shared_ptr<CullingSystem> instance_;
 
+    std::mutex mtx_;
     b2DynamicTree dynamicTree_;
     std::map<int32_t, Rendered*> proxyIdRenderedMap_;
     std::map<Rendered*, int32_t> renderedProxyIdMap_;
@@ -44,9 +46,10 @@ public:
     void Cull(RectF rect);
     void Unregister(std::shared_ptr<Rendered> rendered);
 
-    int32_t GetDrawingRenderedCount() { return drawingRenderedIds_->GetCount(); }
-    std::shared_ptr<Int32Array> GetDrawingRenderedIds() { return drawingRenderedIds_; }
+    int32_t GetDrawingRenderedCount();
+    std::shared_ptr<Int32Array> GetDrawingRenderedIds();
 
+    //! Don't call from external
     bool QueryCallback(int32_t id);
 };
 
