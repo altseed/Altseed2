@@ -151,6 +151,8 @@ public:
 
     static void Terminate() { instance_ = nullptr; }
 
+    void OnTerminating() override;
+
     static std::shared_ptr<Keyboard>& GetInstance();
 
     void RefleshKeyStates();

@@ -155,6 +155,10 @@ ButtonState Keyboard::GetKeyState(Key key) const {
     return static_cast<ButtonState>((currentState_[index] ? 1 : 0) | (oldState_[index] ? 2 : 0));
 }
 
+void Keyboard::OnTerminating() {
+    window_ = nullptr;
+}
+
 std::shared_ptr<Keyboard>& Keyboard::GetInstance() { return instance_; }
 
 };  // namespace Altseed2
