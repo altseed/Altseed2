@@ -16,6 +16,8 @@ protected:
 public:
     Rendered();
     virtual ~Rendered();
+    virtual void OnTerminating() override;
+
     const Matrix44F& GetTransform() const;
     void SetTransform(const Matrix44F& transform);
 
