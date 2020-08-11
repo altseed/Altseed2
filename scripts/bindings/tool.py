@@ -535,13 +535,15 @@ with ToolWindowFlags as enum_:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'Always show vertical scrollbar (even if \'ContentSize.Y &lt; Size.Y\')')
-        v.brief.add('ja', '常に垂直スクロールバーを表示します（\'ContentSize.Y &lt; Size.Y\'の場合でも）')
+        v.brief.add(
+            'ja', '常に垂直スクロールバーを表示します（\'ContentSize.Y &lt; Size.Y\'の場合でも）')
 
     with enum_.add('AlwaysHorizontalScrollbar', 1 << 15) as v:
         v.brief = cbg.Description()
         v.brief.add(
             'en', 'Always show horizontal scrollbar (even if \'ContentSize.x &lt; Size.x\')')
-        v.brief.add('ja', '常に水平スクロールバーを表示します（\'ContentSize.x &lt; Size.x\'であっても）')
+        v.brief.add(
+            'ja', '常に水平スクロールバーを表示します（\'ContentSize.x &lt; Size.x\'であっても）')
 
     with enum_.add('AlwaysUseWindowPadding', 1 << 16) as v:
         v.brief = cbg.Description()
@@ -767,15 +769,15 @@ with ToolColor as enum_:
         v.brief = cbg.Description()
     with enum_.add('DragDropTarget') as v:
         v.brief = cbg.Description()
-    with enum_.add('NavHighlight') as v:  
+    with enum_.add('NavHighlight') as v:
         v.brief = cbg.Description()
-    with enum_.add('NavWindowingHighlight') as v: 
+    with enum_.add('NavWindowingHighlight') as v:
         v.brief = cbg.Description()
-    with enum_.add('NavWindowingDimBg') as v: 
+    with enum_.add('NavWindowingDimBg') as v:
         v.brief = cbg.Description()
-    with enum_.add('ModalWindowDimBg') as v: 
+    with enum_.add('ModalWindowDimBg') as v:
         v.brief = cbg.Description()
-    with enum_.add('COUNT') as v: 
+    with enum_.add('COUNT') as v:
         v.brief = cbg.Description()
 
 ToolStyleVar = cbg.Enum('Altseed2', 'ToolStyleVar')
@@ -898,7 +900,8 @@ with Tool as class_:
 
     with class_.add_func('AddFontFromFileTTF') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('en', 'Load font from path. Packed files are not supported.')
+        func_.brief.add(
+            'en', 'Load font from path. Packed files are not supported.')
         func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
         func_.add_arg(ctypes.c_wchar_p, 'path')
         func_.add_arg(float, 'sizePixels')
@@ -1028,9 +1031,13 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'label')
-        with func_.add_arg(bool, 'v') as arg:
+        with func_.add_arg(bool, 'isChecked') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', 'チェックされているかどうか')
         func_.return_value.type_ = bool
+        func.return_value.brief = cbg.Description()
+        func.return_value.brief.add('ja', 'クリックされたかどうか')
 
     with class_.add_func('RadioButton') as func_:
         func_.brief = cbg.Description()
@@ -1917,7 +1924,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(int, 'count')
-    
+
     with class_.add_func('GetStyleColor') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -1958,7 +1965,7 @@ with Tool as class_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-    
+
     with class_.add_func('BeginGroup') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -1980,7 +1987,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.add_arg(Vector2F, 'localPos')
-    
+
     with class_.add_func('GetCursorStartPos') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2003,13 +2010,13 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = float
-    
+
     with class_.add_func('GetFrameHeight') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = float
-    
+
     with class_.add_func('GetFrameHeightWithSpacing') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2243,7 +2250,7 @@ with Tool as class_:
         func_.brief.add('ja', '')
         func_.add_arg(ctypes.c_wchar_p, 'strId')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('CloseCurrentPopup') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2307,7 +2314,7 @@ with Tool as class_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
-    
+
     with class_.add_func('SetItemDefaultFocus') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2350,25 +2357,25 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('IsItemActivated') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('IsItemDeactivated') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('IsItemDeactivatedAfterEdit') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('IsAnyItemHovered') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2380,7 +2387,7 @@ with Tool as class_:
         func_.brief.add('en', '')
         func_.brief.add('ja', '')
         func_.return_value.type_ = bool
-    
+
     with class_.add_func('IsAnyItemFocused') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')
@@ -2460,7 +2467,7 @@ with Tool as class_:
         func_.add_arg(ctypes.c_wchar_p, 'filter')
         func_.add_arg(ctypes.c_wchar_p, 'defaultPath')
         func_.return_value.type_ = ctypes.c_wchar_p
-    
+
     with class_.add_func('OpenDialogMultiple') as func_:
         func_.brief = cbg.Description()
         func_.brief.add('en', '')

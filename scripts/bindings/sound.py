@@ -31,7 +31,7 @@ with Sound as class_:
             arg.nullable = False
         with func.add_arg(bool, 'isDecompressed') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '音を再生する前にデータを全て解凍するか?')
+            arg.brief.add('ja', 'ロード時に全て解凍しておくかどうか')
         func.return_value.type_ = Sound
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '読み込んだ音源データ')
@@ -72,8 +72,8 @@ with Sound as class_:
         
     with class_.add_property(bool, 'IsDecompressed') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', '音源を解凍するかどうかを取得する')
-        prop.is_public = False
+        prop.brief.add('ja', '音源が解凍されているかどうかを取得します。')
+        prop.is_public = True
         prop.has_getter = True
         prop.serialized = True
 
