@@ -32,19 +32,10 @@ public:
 #endif
 
     //! Increase a reference counter
-    int32_t AddRef() {
-        std::atomic_fetch_add_explicit(&reference_, 1, std::memory_order_consume);
-        return reference_;
-    }
+    int32_t AddRef();
 
     //! Decrease a reference counter
-    int32_t Release() {
-        if (std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume) == 1) {
-            delete this;
-            return 0;
-        }
-        return reference_;
-    }
+    int32_t Release();
 
     const char16_t* GetInstanceName() const;
     void SetInstanceName(const std::u16string& instanceName);
