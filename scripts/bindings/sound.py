@@ -107,7 +107,7 @@ with SoundMixer as class_:
             arg.brief.add('ja', '音のID')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'IDに対応する音が再生中であるか?')
+        func.return_value.brief.add('ja', 'IDに対応する音が再生中であるかどうか')
 
     with class_.add_func('StopAll') as func:
         func.brief = cbg.Description()
@@ -146,7 +146,7 @@ with SoundMixer as class_:
 
     with class_.add_func('FadeIn') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音をフェードインさせる')
+        func.brief.add('ja', '指定した音をフェードインさせます。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
         with func.add_arg(float, 'second') as arg:
@@ -155,7 +155,7 @@ with SoundMixer as class_:
 
     with class_.add_func('FadeOut') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', '指定した音をフェードアウトさせる')
+        func.brief.add('ja', '指定した音をフェードアウトさせます。')
         with func.add_arg(int, 'id') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '音のID')
@@ -184,7 +184,7 @@ with SoundMixer as class_:
             arg.brief.add('ja', '音のID')
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '再生速度を変更するか?')
+        func.return_value.brief.add('ja', '再生速度を変更するかどうか')
 
     with class_.add_func('SetIsPlaybackSpeedEnabled') as func:
         func.brief = cbg.Description()
@@ -194,7 +194,7 @@ with SoundMixer as class_:
             arg.brief.add('ja', '音のID')
         with func.add_arg(bool, 'isPlaybackSpeedEnabled') as arg:
             arg.brief = cbg.Description()
-            arg.brief.add('ja', '再生速度を変更するか?')
+            arg.brief.add('ja', '再生速度を変更するかどうか')
 
     with class_.add_func('GetPlaybackSpeed') as func:
         func.brief = cbg.Description()
@@ -204,7 +204,7 @@ with SoundMixer as class_:
             arg.brief.add('ja', '音のID')
         func.return_value.type_ = float
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', '本来の速度の何倍で再生されているか?')
+        func.return_value.brief.add('ja', '本来の速度の何倍で再生されているかどうか')
 
     with class_.add_func('SetPlaybackSpeed') as func:
         func.brief = cbg.Description()
