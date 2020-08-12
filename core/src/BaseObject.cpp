@@ -28,6 +28,21 @@ BaseObject::~BaseObject() noexcept(false) {
     ASD_ASSERT(reference_ == 0, std::string("BaseObject ") + utf16_to_utf8(instanceName_) + std::string(" must be deleted by Release"));
 }
 
+int32_t BaseObject::AddRef() {
+    auto before = std::atomic_fetch_add_explicit(&reference_, 1, std::memory_order_consume);
+    ASD_ASSERT(before != 0, std::string("BaseObject ") + utf16_to_utf8(instanceName_) + std::string(" invalid AddRef"));
+
+    return reference_;
+}
+
+int32_t BaseObject::Release() {
+    if (std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume) == 1) {
+        delete this;
+        return 0;
+    }
+    return reference_;
+}
+
 const char16_t* BaseObject::GetInstanceName() const { return instanceName_.c_str(); }
 
 void BaseObject::SetInstanceName(const std::u16string& instanceName) { instanceName_ = instanceName; }
