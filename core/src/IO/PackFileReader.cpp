@@ -5,7 +5,7 @@
 
 namespace Altseed2 {
 PackFileReader::PackFileReader(zip_file* zipFile, const std::u16string& path, const zip_stat_t* stat)
-    : BaseFileReader(path, true), m_zipFile(zipFile), m_isUseBuffer(false) {
+    : BaseFileReader(std::shared_ptr<std::ifstream>(nullptr), path, true), m_zipFile(zipFile), m_isUseBuffer(false) {
     if (stat != nullptr) {
         std::unique_lock<std::recursive_mutex> lock(readerMtx_);
 

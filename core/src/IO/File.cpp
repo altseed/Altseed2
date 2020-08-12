@@ -46,13 +46,19 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
                 break;
             }
         } else if (FileSystem::GetIsFile((*i)->GetPath() + path)) {
-            reader = MakeAsdShared<BaseFileReader>((*i)->GetPath() + path);
+            auto file = GetStream((*i)->GetPath() + path);
+            if (file == nullptr)
+                return nullptr;
+            reader = MakeAsdShared<BaseFileReader>(file, (*i)->GetPath() + path);
             break;
         }
     }
 
     if (reader == nullptr && FileSystem::GetIsFile(path)) {
-        reader = MakeAsdShared<BaseFileReader>(path);
+        auto file = GetStream(path);
+        if (file == nullptr)
+            return nullptr;
+        reader = MakeAsdShared<BaseFileReader>(file, path);
     }
 
     return reader;
@@ -260,6 +266,20 @@ bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt
     }
 
     return true;
+}
+
+std::shared_ptr<std::ifstream> File::GetStream(const std::u16string& path) {
+    auto file = std::make_shared<std::ifstream>();
+#ifdef _WIN32
+    file->open((wchar_t*)path.c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
+#else
+    file->open(utf16_to_utf8(path).c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
+#endif
+    if (!file->good()) {
+        Log::GetInstance()->Error(LogCategory::Core, (u"fail to open file({0}) : " + path).c_str(), static_cast<int>(errno));
+        return nullptr;
+    }
+    return file;
 }
 
 }  // namespace Altseed2
