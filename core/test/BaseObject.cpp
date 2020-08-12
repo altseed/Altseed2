@@ -11,12 +11,17 @@ TEST(BaseObject, Basic) {
     auto baseObject = new Altseed2::BaseObject();
     EXPECT_EQ(Altseed2::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount + 1);
 
-    EXPECT_EQ(baseObject->GetRef(), 1);
+    int32_t coreRef = 1;
+
+    EXPECT_EQ(baseObject->GetRef(), 1 + coreRef);
     baseObject->AddRef();
-    EXPECT_EQ(baseObject->GetRef(), 2);
+    EXPECT_EQ(baseObject->GetRef(), 2 + coreRef);
     baseObject->Release();
-    EXPECT_EQ(baseObject->GetRef(), 1);
+    EXPECT_EQ(baseObject->GetRef(), 1 + coreRef);
     baseObject->Release();
+
+    // call gc
+    Altseed2::Core::GetInstance()->DoEvent();
 
     EXPECT_EQ(Altseed2::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount);
 
@@ -43,11 +48,16 @@ TEST(BaseObject, Async) {
     thread1.join();
     thread2.join();
 
-    EXPECT_EQ(baseObject->GetRef(), 10001);
+    int32_t coreRef = 1;
+
+    EXPECT_EQ(baseObject->GetRef(), 10001 + coreRef);
 
     for (int i = 0; i < 10001; i++) {
         baseObject->Release();
     }
+
+    // call gc
+    Altseed2::Core::GetInstance()->DoEvent();
 
     Altseed2::Core::Terminate();
 }
