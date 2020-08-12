@@ -5,13 +5,11 @@
 #include "../Common/StringHelper.h"
 
 namespace Altseed2 {
+BaseFileReader::BaseFileReader(const std::u16string& path) : BaseObject(), path_(path), length_(-1), position_(0), file_(nullptr) {
+}
 
-BaseFileReader::BaseFileReader(std::shared_ptr<std::ifstream>& file, const std::u16string& path, bool isInPackage) : BaseObject(), path_(path), length_(-1), position_(0), file_(file) {
-    if (!isInPackage) {
-        ASD_ASSERT(file_ != nullptr && file_->good(), "bad ifstream");
-    } else {
-        file_ = nullptr;
-    }
+BaseFileReader::BaseFileReader(std::shared_ptr<std::ifstream>& file, const std::u16string& path) : BaseObject(), path_(path), length_(-1), position_(0), file_(file) {
+    ASD_ASSERT(file_ != nullptr && file_->good(), "bad ifstream");
 }
 
 BaseFileReader::~BaseFileReader() {

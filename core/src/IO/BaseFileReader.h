@@ -24,8 +24,11 @@ protected:
     std::u16string path_;
     std::recursive_mutex readerMtx_;
 
+    //! for PackFileReader
+    BaseFileReader(const std::u16string& path);
+
 public:
-    BaseFileReader(std::shared_ptr<std::ifstream>& file, const std::u16string& path, bool isInPackage = false);
+    BaseFileReader(std::shared_ptr<std::ifstream>& file, const std::u16string& path);
     virtual ~BaseFileReader();
 
     int64_t GetPosition() const { return position_; }
