@@ -21,6 +21,8 @@ StaticFile::StaticFile(std::shared_ptr<BaseFileReader> reader, std::shared_ptr<R
     for (auto i : buffer) {
         m_buffer->GetVector().push_back(i);
     }
+
+    reader->Close();
 }
 
 StaticFile::~StaticFile() {
