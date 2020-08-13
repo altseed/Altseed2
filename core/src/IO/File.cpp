@@ -270,7 +270,7 @@ bool File::MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt
 
 std::shared_ptr<std::ifstream> File::GetStream(const std::u16string& path) {
     std::lock_guard<std::mutex> lock(streamMtx_);
-    
+
     auto file = std::make_shared<std::ifstream>();
 #ifdef _WIN32
     file->open((wchar_t*)path.c_str(), std::basic_ios<char>::in | std::basic_ios<char>::binary);
