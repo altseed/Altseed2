@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <ios>
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -21,6 +22,7 @@ private:
     std::vector<std::shared_ptr<FileRoot>> m_roots;
 
     std::mutex m_rootMtx;
+    std::mutex streamMtx_;
 
 public:
     static bool Initialize(std::shared_ptr<Resources> resources);
@@ -44,6 +46,9 @@ public:
     bool Pack(const char16_t* srcPath, const char16_t* dstPath) const;
 
     bool PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
+
+    //! for core
+    std::shared_ptr<std::ifstream> GetStream(const std::u16string& path);
 
 private:
     bool MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;

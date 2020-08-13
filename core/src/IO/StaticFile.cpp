@@ -69,7 +69,10 @@ bool StaticFile::Reload() {
 
     m_buffer->Clear();
 
-    auto reader = MakeAsdShared<BaseFileReader>(path);
+    auto file = File::GetInstance()->GetStream(path);
+    if (file == nullptr)
+        return false;
+    auto reader = MakeAsdShared<BaseFileReader>(file, path);
 
     path_ = reader->GetFullPath().c_str();
     size_ = reader->GetSize();

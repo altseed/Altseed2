@@ -56,6 +56,10 @@ int32_t StreamFile::Read(int32_t size) {
     for (auto i : buffer) {
         m_buffer->GetVector().push_back(i);
     }
+
+    if (GetCurrentPosition() == GetSize())
+        m_fileReader->Close();
+
     return readSize;
 }
 
@@ -71,7 +75,10 @@ bool StreamFile::Reload() {
 
     m_buffer->Clear();
 
-    m_fileReader = MakeAsdShared<BaseFileReader>(path);
+    auto file = File::GetInstance()->GetStream(path);
+    if (file == nullptr)
+        return false;
+    m_fileReader = MakeAsdShared<BaseFileReader>(file, path);
 
     return true;
 }

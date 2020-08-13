@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <fstream>
+#include <memory>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -15,7 +16,7 @@ enum class SeekOrigin { Begin,
 
 class BaseFileReader : public BaseObject {
 private:
-    std::ifstream m_file;
+    std::shared_ptr<std::ifstream> file_;
 
 protected:
     int64_t position_;
@@ -23,8 +24,11 @@ protected:
     std::u16string path_;
     std::recursive_mutex readerMtx_;
 
+    //! for PackFileReader
+    BaseFileReader(const std::u16string& path);
+
 public:
-    BaseFileReader(const std::u16string& path, bool isInPackage = false);
+    BaseFileReader(std::shared_ptr<std::ifstream>& file, const std::u16string& path);
     virtual ~BaseFileReader();
 
     int64_t GetPosition() const { return position_; }
@@ -40,5 +44,8 @@ public:
     virtual void Seek(const int64_t offset, const SeekOrigin origin = SeekOrigin::Begin);
 
     virtual bool GetIsInPackage() const;
+
+    //! for core
+    void Close();
 };
 }  // namespace Altseed2
