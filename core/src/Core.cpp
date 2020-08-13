@@ -25,25 +25,36 @@ std::shared_ptr<Core> Core::instance = nullptr;
 
 int32_t Core::Register(BaseObject* o) {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
-    baseObjects.insert(o);
+    baseObjects_.insert(o);
+    o->AddRef();
     return maxBaseObjectId_++;
 }
 
 void Core::Unregister(BaseObject* o) {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
-    baseObjects.erase(o);
+    baseObjects_.erase(o);
+}
+
+bool Core::NotifyReleaseCandidate(BaseObject* o) {
+    std::lock_guard<std::mutex> lock(baseObjectMtx_);
+
+    if (isReleaseCandidateEnabled_) {
+        releasingBaseObjects_.insert(o);
+        return true;
+    }
+    return false;
 }
 
 int32_t Core::GetBaseObjectCount() {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
 
-    return (int32_t)baseObjects.size();
+    return (int32_t)baseObjects_.size();
 }
 
 void Core::PrintAllBaseObjectName() {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
 
-    for (auto& o : baseObjects) {
+    for (auto& o : baseObjects_) {
         std::cout << o->GetInstanceName() << std::endl;
     }
 }
@@ -169,18 +180,28 @@ void Core::Terminate() {
 
     // notify terminating to objects
     {
-        // Add a reference to protect
-        for (auto obj : Core::instance->baseObjects) {
-            obj->AddRef();
-        }
-
-        for (auto obj : Core::instance->baseObjects) {
+        for (auto obj : Core::instance->baseObjects_) {
             obj->OnTerminating();
         }
 
-        auto temp = Core::instance->baseObjects;
-        for (auto obj : temp) {
-            obj->Release();
+        // relase
+        {
+            std::set<BaseObject*> relesingBaseObjects;
+
+            {
+                std::lock_guard<std::mutex> lock(Core::instance->baseObjectMtx_);
+
+                Core::instance->isReleaseCandidateEnabled_ = false;
+
+                if (Core::instance->releasingBaseObjects_.size() > 0) {
+                    relesingBaseObjects = Core::instance->releasingBaseObjects_;
+                    Core::instance->releasingBaseObjects_.clear();
+                }
+            }
+
+            for (auto o : relesingBaseObjects) {
+                o->Release();
+            }
         }
     }
 
@@ -211,6 +232,23 @@ bool Core::DoEvent() {
     Altseed2::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed2::Mouse::GetInstance()->RefreshInputState();
     Altseed2::Joystick::GetInstance()->RefreshInputState();
+
+    // relase
+    {
+        std::set<BaseObject*> relesingBaseObjects;
+
+        {
+            std::lock_guard<std::mutex> lock(baseObjectMtx_);
+            if (releasingBaseObjects_.size() > 0) {
+                relesingBaseObjects = releasingBaseObjects_;
+                releasingBaseObjects_.clear();
+            }
+        }
+
+        for (auto o : relesingBaseObjects) {
+            o->Release();
+        }
+    }
 
     SynchronizationContext::GetInstance()->Run();
 

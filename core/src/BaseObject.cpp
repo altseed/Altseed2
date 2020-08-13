@@ -36,10 +36,21 @@ int32_t BaseObject::AddRef() {
 }
 
 int32_t BaseObject::Release() {
-    if (std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume) == 1) {
+    auto old = std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume);
+
+    if (old == 2) {
+        if (core_ != nullptr) {
+            if (!core_->NotifyReleaseCandidate(this)) {
+                Release();
+                return 0;
+            }
+        }
+        return 1;
+    } else if (old == 1) {
         delete this;
         return 0;
     }
+
     return reference_;
 }
 
