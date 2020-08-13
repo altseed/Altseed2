@@ -22,6 +22,7 @@ private:
     std::vector<std::shared_ptr<FileRoot>> m_roots;
 
     std::mutex m_rootMtx;
+    std::mutex streamMtx_;
 
 public:
     static bool Initialize(std::shared_ptr<Resources> resources);
