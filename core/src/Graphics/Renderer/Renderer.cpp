@@ -81,6 +81,13 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
 }
 
 void Renderer::Render() {
+    // Window doesn't have a callback to notify that a size is changed, so get an window size directly
+    if (currentCamera_ == nullptr) {
+        int32_t w, h = 0;
+        window_->GetSize(w, h);
+        batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
+    }
+
     batchRenderer_->Render();
     batchRenderer_->ResetCache();
 }
@@ -286,6 +293,8 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
         texture = Graphics::GetInstance()->GetCommandList()->GetScreenTexture();
     }
 
+    currentCamera_ = camera;
+
     RectI viewport(Vector2I(0, 0), texture->GetSize());
     RenderPassParameter param = camera->GetRenderPassParameter();
     Graphics::GetInstance()->GetCommandList()->SetRenderTarget(texture, param);
@@ -297,6 +306,8 @@ void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {
 }
 
 void Renderer::ResetCamera() {
+    currentCamera_ = nullptr;
+
     int32_t w, h = 0;
     window_->GetSize(w, h);
     batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
@@ -308,6 +319,7 @@ void Renderer::OnTerminating() {
     batchRenderer_.reset();
     cullingSystem_.reset();
     cameras_.clear();
+    currentCamera_ = nullptr;
 }
 
 }  // namespace Altseed2
