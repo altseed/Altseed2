@@ -9,9 +9,6 @@ assignees: ''
 
 ## Describe the bug/概要
 
-## Check/確認
-- [ ] Project Labelを設定した <!-- eg. Core, C# Engine -->
-
 ## Environment/環境
 <!-- eg. macOS Catalina 10.15.4 -->
 - OS:
