@@ -8,7 +8,7 @@ Core（本リポジトリ）とEngineに分かれています。
 ## 関連リポジトリ
 * [altseed/LLGI](https://github.com/altseed/LLGI): C++による各種描画APIの抽象化
 * [altseed/Altseed2](https://github.com/altseed/Altseed2): C++による内部実装（Core）
-* [CppBindingGenerator](https://github.com/altseed/CppBindingGenerator): エンジンからCoreを呼び出すためのバインディングコードを自動生成するツール
+* [altseed/CppBindingGenerator](https://github.com/altseed/CppBindingGenerator): エンジンからCoreを呼び出すためのバインディングコードを自動生成するツール
 * [altseed/Altseed2-csharp](https://github.com/altseed/Altseed2-csharp): C#エンジン
 * [altseed/Altseed2-rust](https://github.com/altseed/Altseed2-rust): Rustエンジン
 * [altseed/Altseed2-document](https://github.com/altseed/Altseed2-document): ウェブサイト用ドキュメント
