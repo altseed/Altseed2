@@ -30,6 +30,7 @@ private:
     std::shared_ptr<BatchRenderer> batchRenderer_;
     std::shared_ptr<CullingSystem> cullingSystem_;
     std::vector<std::shared_ptr<RenderedCamera>> cameras_;
+    std::shared_ptr<RenderedCamera> currentCamera_;
 
 public:
     Renderer(std::shared_ptr<Window> window, std::shared_ptr<Graphics> graphics, std::shared_ptr<CullingSystem> cullingSystem);

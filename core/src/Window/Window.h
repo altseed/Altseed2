@@ -23,8 +23,6 @@ private:
     static std::shared_ptr<Window> instance_;
 
     GLFWwindow* mainWindow_;
-    std::vector<GLFWwindow*> subWindows;
-
     std::u16string title_;
 
 public:
@@ -48,7 +46,7 @@ public:
 
     Vector2I GetSize() const;
 
-    GLFWwindow* GetNativeWindow() const { return mainWindow_; }
+    GLFWwindow* GetNativeWindow() const;
 
     bool DoEvent();
 

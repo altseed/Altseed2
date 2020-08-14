@@ -136,6 +136,8 @@ Vector2I Window::GetSize() const {
     return Vector2I(width, height);
 }
 
+GLFWwindow* Window::GetNativeWindow() const { return mainWindow_; }
+
 bool Window::DoEvent() {
     if (mainWindow_ == nullptr) {
         LOG_CRITICAL(u"mainwindow_ is null");
