@@ -533,12 +533,12 @@ void Matrix44F::CalcFromTransform2D(const Matrix44F& transform, Matrix44F& rotat
     position.X = transform.Values[0][3];
     position.Y = transform.Values[1][3];
 
-    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[0][1] * transform.Values[0][1] + transform.Values[0][2] * transform.Values[0][2]);
-    scale.Y = sqrt(transform.Values[1][0] * transform.Values[1][0] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[1][2] * transform.Values[1][2]);
+    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[1][0] * transform.Values[1][0] + transform.Values[2][0] * transform.Values[2][0]);
+    scale.Y = sqrt(transform.Values[0][1] * transform.Values[0][1] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[2][1] * transform.Values[2][1]);
 
     Matrix44F revertScale;
     revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, 1);
-    rotation = revertScale * transform;
+    rotation = transform * revertScale;
 }
 
 void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotation, Vector3F& position, Vector3F& scale) {
@@ -546,13 +546,13 @@ void Matrix44F::CalcFromTransform3D(const Matrix44F& transform, Matrix44F& rotat
     position.Y = transform.Values[1][3];
     position.Z = transform.Values[2][3];
 
-    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[0][1] * transform.Values[0][1] + transform.Values[0][2] * transform.Values[0][2]);
-    scale.Y = sqrt(transform.Values[1][0] * transform.Values[1][0] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[1][2] * transform.Values[1][2]);
-    scale.Z = sqrt(transform.Values[2][0] * transform.Values[2][0] + transform.Values[2][1] * transform.Values[2][1] + transform.Values[2][2] * transform.Values[2][2]);
+    scale.X = sqrt(transform.Values[0][0] * transform.Values[0][0] + transform.Values[1][0] * transform.Values[1][0] + transform.Values[2][0] * transform.Values[2][0]);
+    scale.Y = sqrt(transform.Values[0][1] * transform.Values[0][1] + transform.Values[1][1] * transform.Values[1][1] + transform.Values[2][1] * transform.Values[2][1]);
+    scale.Z = sqrt(transform.Values[0][2] * transform.Values[0][2] + transform.Values[1][2] * transform.Values[1][2] + transform.Values[2][2] * transform.Values[2][2]);
 
     Matrix44F revertScale;
     revertScale.SetScale(scale.X == 0 ? 1 : 1 / scale.X, scale.Y == 0 ? 1 : 1 / scale.Y, scale.Z == 0 ? 1 : 1 / scale.X);
-    rotation = revertScale * transform;
+    rotation = transform * revertScale;
 }
 
 }  // namespace Altseed2
