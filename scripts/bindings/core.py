@@ -30,6 +30,7 @@ with Configuration as class_:
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
     class_.handleCache = False
+    class_.is_public = False
 
     with class_.add_func('Create') as func_:
         func_.brief = cbg.Description()
