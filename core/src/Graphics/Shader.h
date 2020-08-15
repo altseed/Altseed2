@@ -67,8 +67,6 @@ public:
     const char16_t* GetName() const { return name_.c_str(); }
 
     ShaderStageType GetStageType() const { return stage_; }
-
-    void OnTerminating() override;
 };
 
 }  // namespace Altseed2

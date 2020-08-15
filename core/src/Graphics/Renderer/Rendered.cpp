@@ -11,11 +11,6 @@ Rendered::~Rendered() {
     }
 }
 
-void Rendered::OnTerminating() {
-    // Comment out to debug easily
-    // cullingSystem_ = nullptr;
-}
-
 const Matrix44F& Rendered::GetTransform() const { return transform_; }
 
 void Rendered::SetTransform(const Matrix44F& transform) {

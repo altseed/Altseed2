@@ -30,6 +30,8 @@ std::shared_ptr<Tool> Tool::instance_;
 std::shared_ptr<Tool>& Tool::GetInstance() { return instance_; }
 
 void Tool::Dispose() {
+    std::lock_guard<std::mutex> lock(terminatingMtx_);
+
     if (platform_ != nullptr) {
         platform_.reset();
         ImGui_ImplGlfw_Shutdown();
@@ -45,6 +47,8 @@ bool Tool::Initialize(std::shared_ptr<Graphics> graphics) {
 void Tool::Terminate() { instance_ = nullptr; }
 
 Tool::Tool(std::shared_ptr<Graphics> graphics) {
+    SetIsTerminateingEnabled(true);
+
     graphics_ = graphics;
 
     auto g = graphics->GetGraphicsLLGI();

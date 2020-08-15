@@ -291,6 +291,8 @@ private:
 
     ToolUsage toolUsageMode_ = ToolUsage::Overwrapped;
 
+    std::mutex terminatingMtx_;
+
     void Dispose();
 
 public:

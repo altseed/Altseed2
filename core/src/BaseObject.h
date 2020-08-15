@@ -23,6 +23,8 @@ private:
     std::u16string instanceName_;
     int32_t id_;
 
+    bool terminateingEnabled_ = false;
+
 public:
     BaseObject();
 #ifdef NDEBUG
@@ -46,6 +48,14 @@ public:
 
     int32_t GetId() const { return id_; }
 
+    bool GetIsTerminateingEnabled() const;
+    void SetIsTerminateingEnabled(bool value);
+
+    /**
+        @brief  called when terminating
+        @note
+        Don't dispose BaseObject here
+    */
     virtual void OnTerminating() {}
 };
 

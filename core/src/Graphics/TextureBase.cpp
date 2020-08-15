@@ -157,8 +157,4 @@ bool TextureBase::Save(const char16_t* path) {
     return true;
 }
 
-void TextureBase::OnTerminating() {
-    texture_.reset();
-}
-
 }  // namespace Altseed2

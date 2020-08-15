@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -23,9 +24,16 @@ private:
     static std::shared_ptr<Window> instance_;
 
     GLFWwindow* mainWindow_;
+    std::vector<GLFWwindow*> subWindows;
+
     std::u16string title_;
 
+    std::mutex terminatingMtx_;
+
 public:
+    Window();
+    ~Window() override;
+
     static bool Initialize(const WindowInitializationParameter& parameter);
 
     static void Terminate();

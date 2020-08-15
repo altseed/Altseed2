@@ -11,7 +11,7 @@ TEST(BaseObject, Basic) {
     auto baseObject = new Altseed2::BaseObject();
     EXPECT_EQ(Altseed2::Core::GetInstance()->GetBaseObjectCount(), defaultObjectCount + 1);
 
-    int32_t coreRef = 1;
+    int32_t coreRef = 0;
 
     EXPECT_EQ(baseObject->GetRef(), 1 + coreRef);
     baseObject->AddRef();
@@ -48,7 +48,7 @@ TEST(BaseObject, Async) {
     thread1.join();
     thread2.join();
 
-    int32_t coreRef = 1;
+    int32_t coreRef = 0;
 
     EXPECT_EQ(baseObject->GetRef(), 10001 + coreRef);
 

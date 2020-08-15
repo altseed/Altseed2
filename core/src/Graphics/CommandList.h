@@ -161,8 +161,6 @@ public:
     LLGI::CommandList* GetLL() const;
 
     void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);
-
-    void OnTerminating() override;
 };
 
 }  // namespace Altseed2

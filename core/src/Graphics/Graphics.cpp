@@ -90,9 +90,11 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
 }
 
 bool Graphics::BeginFrame(const RenderPassParameter& renderPassParameter) {
-    platform_->SetWindowSize(instance->llgiWindow_->GetWindowSize());
-
     if (!platform_->NewFrame()) return false;
+
+    if (platform_->GetDeviceType() == LLGI::DeviceType::Vulkan) {
+        platform_->SetWindowSize(instance->llgiWindow_->GetWindowSize());
+    }
 
     commandList_->StartFrame(renderPassParameter);
     commandList_->SetRenderTarget(commandList_->GetScreenTexture(), renderPassParameter);

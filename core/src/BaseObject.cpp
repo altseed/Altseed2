@@ -38,15 +38,7 @@ int32_t BaseObject::AddRef() {
 int32_t BaseObject::Release() {
     auto old = std::atomic_fetch_sub_explicit(&reference_, 1, std::memory_order_consume);
 
-    if (old == 2) {
-        if (core_ != nullptr) {
-            if (!core_->NotifyReleaseCandidate(this)) {
-                Release();
-                return 0;
-            }
-        }
-        return 1;
-    } else if (old == 1) {
+    if (old == 1) {
         delete this;
         return 0;
     }
@@ -59,5 +51,13 @@ const char16_t* BaseObject::GetInstanceName() const { return instanceName_.c_str
 void BaseObject::SetInstanceName(const std::u16string& instanceName) { instanceName_ = instanceName; }
 
 void BaseObject::SetInstanceName(const char* instanceName) { SetInstanceName(utf8_to_utf16(instanceName)); }
+
+bool BaseObject::GetIsTerminateingEnabled() const {
+    return terminateingEnabled_;
+}
+
+void BaseObject::SetIsTerminateingEnabled(bool value) {
+    terminateingEnabled_ = value;
+}
 
 }  // namespace Altseed2

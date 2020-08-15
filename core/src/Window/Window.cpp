@@ -30,6 +30,14 @@ std::shared_ptr<Window> Window::instance_ = nullptr;
 
 std::shared_ptr<Window>& Window::GetInstance() { return instance_; }
 
+Window::Window() {
+    SetIsTerminateingEnabled(true);
+}
+
+Window::~Window() {
+    OnTerminating();
+}
+
 bool Window::Initialize(const WindowInitializationParameter& parameter) {
     if (!glfwInit()) {
         LOG_CRITICAL(u"glfwInit failed");
@@ -92,6 +100,8 @@ void Window::Terminate() {
 }
 
 void Window::OnTerminating() {
+    std::lock_guard<std::mutex> lock(terminatingMtx_);
+
     if (mainWindow_ != nullptr) {
         glfwDestroyWindow(mainWindow_);
         mainWindow_ = nullptr;

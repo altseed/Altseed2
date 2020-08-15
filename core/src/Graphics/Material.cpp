@@ -265,8 +265,4 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     return piplineState;
 }
 
-void Material::OnTerminating() {
-    pipelineStates_.clear();
-}
-
 }  // namespace Altseed2

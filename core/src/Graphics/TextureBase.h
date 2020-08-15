@@ -71,8 +71,6 @@ public:
 
     virtual bool Save(const char16_t* path);
 
-    void OnTerminating() override;
-
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return texture_; }
 };
 }  // namespace Altseed2
