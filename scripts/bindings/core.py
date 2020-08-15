@@ -24,17 +24,15 @@ with GraphicsDeviceType as enum_:
 
 Configuration = cbg.Class('Altseed2', 'Configuration')
 with Configuration as class_:
-    class_.alias = 'CoreConfiguration'
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'Altseed2 の設定を表すクラス')
     class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
     class_.handleCache = False
-    class_.is_public = False
 
     with class_.add_func('Create') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('ja', '新しいCoreConfigurationを作成します。')
+        func_.brief.add('ja', '新しいConfigurationを作成します。')
         func_.return_value.type_ = Configuration
         func_.is_static = True
         func_.is_public = True
