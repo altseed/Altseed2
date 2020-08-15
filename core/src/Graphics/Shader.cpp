@@ -24,8 +24,4 @@ std::shared_ptr<ShaderCompileResult> Shader::CompileFromFile(const char16_t* nam
     return ShaderCompiler::GetInstance()->Compile(utf16_to_utf8(path).c_str(), utf16_to_utf8(name).c_str(), shaderStage);
 }
 
-void Shader::OnTerminating() {
-    shader_.reset();
-}
-
 }  // namespace Altseed2

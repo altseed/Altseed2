@@ -248,8 +248,6 @@ public:
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 
     std::shared_ptr<LLGI::PipelineState> GetPipelineState(LLGI::RenderPass* renderPass);
-
-    void OnTerminating() override;
 };
 
 }  // namespace Altseed2

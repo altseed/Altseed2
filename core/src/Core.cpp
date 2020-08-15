@@ -26,23 +26,12 @@ std::shared_ptr<Core> Core::instance = nullptr;
 int32_t Core::Register(BaseObject* o) {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
     baseObjects_.insert(o);
-    o->AddRef();
     return maxBaseObjectId_++;
 }
 
 void Core::Unregister(BaseObject* o) {
     std::lock_guard<std::mutex> lock(baseObjectMtx_);
     baseObjects_.erase(o);
-}
-
-bool Core::NotifyReleaseCandidate(BaseObject* o) {
-    std::lock_guard<std::mutex> lock(baseObjectMtx_);
-
-    if (isReleaseCandidateEnabled_) {
-        releasingBaseObjects_.insert(o);
-        return true;
-    }
-    return false;
 }
 
 int32_t Core::GetBaseObjectCount() {
@@ -180,28 +169,13 @@ void Core::Terminate() {
 
     // notify terminating to objects
     {
-        for (auto obj : Core::instance->baseObjects_) {
-            obj->OnTerminating();
-        }
+        std::lock_guard<std::mutex> lock(Core::instance->baseObjectMtx_);
 
-        // relase
-        {
-            std::set<BaseObject*> relesingBaseObjects;
-
-            {
-                std::lock_guard<std::mutex> lock(Core::instance->baseObjectMtx_);
-
-                Core::instance->isReleaseCandidateEnabled_ = false;
-
-                if (Core::instance->releasingBaseObjects_.size() > 0) {
-                    relesingBaseObjects = Core::instance->releasingBaseObjects_;
-                    Core::instance->releasingBaseObjects_.clear();
-                }
+        for (auto o : Core::instance->baseObjects_) {
+            if (!o->GetIsTerminateingEnabled()) {
+                continue;
             }
-
-            for (auto o : relesingBaseObjects) {
-                o->Release();
-            }
+            o->OnTerminating();
         }
     }
 
@@ -232,23 +206,6 @@ bool Core::DoEvent() {
     Altseed2::Keyboard::GetInstance()->RefleshKeyStates();
     Altseed2::Mouse::GetInstance()->RefreshInputState();
     Altseed2::Joystick::GetInstance()->RefreshInputState();
-
-    // relase
-    {
-        std::set<BaseObject*> relesingBaseObjects;
-
-        {
-            std::lock_guard<std::mutex> lock(baseObjectMtx_);
-            if (releasingBaseObjects_.size() > 0) {
-                relesingBaseObjects = releasingBaseObjects_;
-                releasingBaseObjects_.clear();
-            }
-        }
-
-        for (auto o : relesingBaseObjects) {
-            o->Release();
-        }
-    }
 
     SynchronizationContext::GetInstance()->Run();
 

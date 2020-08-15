@@ -50,8 +50,6 @@ public:
 
     void SetCamera(std::shared_ptr<RenderedCamera> camera);
     void ResetCamera();
-
-    void OnTerminating() override;
 };
 
 }  // namespace Altseed2

@@ -25,10 +25,6 @@ private:
     //! list of baseObjects
     std::set<BaseObject*> baseObjects_;
 
-    std::set<BaseObject*> releasingBaseObjects_;
-
-    bool isReleaseCandidateEnabled_ = true;
-
     std::unique_ptr<FPS> fps_;
 
     std::shared_ptr<Configuration> config_;
@@ -41,9 +37,6 @@ public:
 
     //! unregister a base object
     void Unregister(BaseObject* o);
-
-    //! notify that specified object will be released
-    bool NotifyReleaseCandidate(BaseObject* o);
 
     //! get the number of base objects
     int32_t GetBaseObjectCount();
