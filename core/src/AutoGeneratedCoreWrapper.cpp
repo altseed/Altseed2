@@ -2275,11 +2275,11 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputText(void* cbg_self, const ch
     return cbg_ret;
 }
 
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputTextWithHint(void* cbg_self, const char16_t* label, const char16_t* hit, const char16_t* input, int32_t maxLength, int32_t flags) {
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputTextWithHint(void* cbg_self, const char16_t* label, const char16_t* hint, const char16_t* input, int32_t maxLength, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    const char16_t* cbg_arg1 = hit;
+    const char16_t* cbg_arg1 = hint;
     const char16_t* cbg_arg2 = input;
     int32_t cbg_arg3 = maxLength;
     Altseed2::ToolInputTextFlags cbg_arg4 = (Altseed2::ToolInputTextFlags)flags;
