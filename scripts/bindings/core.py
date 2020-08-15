@@ -152,6 +152,7 @@ with Core as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '初期化処理がうまくいったらtrue，それ以外でfalse')
+        func_.is_public = False
         func.is_static = True
 
     with class_.add_func('DoEvent') as func:
@@ -160,11 +161,13 @@ with Core as class_:
         func.return_value.type_ = bool
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', 'イベントが進行出来たらtrue，それ以外でfalse')
+        func_.is_public = False
 
     with class_.add_func('Terminate') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '終了処理を行います。')
         func.is_static = True
+        func_.is_public = False
 
     with class_.add_func('GetInstance') as func:
         func.brief = cbg.Description()
@@ -178,23 +181,27 @@ with Core as class_:
     with class_.add_property(float, 'DeltaSecond') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '前のフレームからの経過時間(秒)を取得します。')
+        prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = False
 
     with class_.add_property(float, 'CurrentFPS') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '現在のFPSを取得します。')
+        prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = False
 
     with class_.add_property(float, 'TargetFPS') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '目標のFPSを取得または設定します。')
+        prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = True
 
     with class_.add_property(FramerateMode, 'FramerateMode') as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', 'フレームレートモードを取得または設定します。デフォルトでは可変フレームレートです。')
+        prop_.is_public = False
         prop_.has_getter = True
         prop_.has_setter = True

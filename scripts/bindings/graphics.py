@@ -145,7 +145,8 @@ with RenderTexture as class_:
         func.is_static = True
         func.return_value.type_ = RenderTexture
         func.return_value.brief = cbg.Description()
-        func.return_value.brief.add('ja', 'sizeとformatを持つRenderTextureの新しいインスタンス')
+        func.return_value.brief.add(
+            'ja', 'sizeとformatを持つRenderTextureの新しいインスタンス')
 
 
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
@@ -181,7 +182,8 @@ AlphaBlend = cbg.Struct('Altseed2', 'AlphaBlend_C', 'AlphaBlend')
 
 Shader = cbg.Class('Altseed2', 'Shader', cbg.CacheMode.Cache)
 
-ShaderCompileResult = cbg.Class('Altseed2', 'ShaderCompileResult', cbg.CacheMode.Cache)
+ShaderCompileResult = cbg.Class(
+    'Altseed2', 'ShaderCompileResult', cbg.CacheMode.Cache)
 with ShaderCompileResult as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', 'シェーダのコンパイル結果を表すクラス')
@@ -194,14 +196,14 @@ with ShaderCompileResult as class_:
         prop.brief.add('ja', 'コンパイルに失敗した場合はnull')
         prop.has_getter = True
         prop.has_setter = False
-        prop.is_public = True
+        prop.is_public = False
 
     with class_.add_property(ctypes.c_wchar_p, 'Message') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'コンパイル結果のメッセージ')
         prop.has_getter = True
         prop.has_setter = False
-        prop.is_public = True
+        prop.is_public = False
 
 with Shader as class_:
     class_.brief = cbg.Description()
@@ -683,7 +685,8 @@ with Font as class_:
 
     with class_.add_func('LoadStaticFont') as func:
         func.brief = cbg.Description()
-        func.brief.add('ja', 'FontGeneratorで生成したフォントを読み込んでFontの新しいインスタンスを生成します。')
+        func.brief.add(
+            'ja', 'FontGeneratorで生成したフォントを読み込んでFontの新しいインスタンスを生成します。')
         func.return_value.type_ = Font
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add(
@@ -810,11 +813,13 @@ with Rendered as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(int, 'Id') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'BaseObjectのIdを取得します。')
         prop.has_getter = True
+        prop.is_public = False
 
 RenderedSprite = cbg.Class('Altseed2', 'RenderedSprite')
 with RenderedSprite as class_:
@@ -830,6 +835,7 @@ with RenderedSprite as class_:
         func.brief.add('ja', 'スプライトを作成します。')
         func.return_value.type_ = RenderedSprite
         func.is_static = True
+        func.is_public = False
 
     with class_.add_property(TextureBase, 'Texture') as prop:
         prop.brief = cbg.Description()
@@ -837,6 +843,7 @@ with RenderedSprite as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
@@ -844,6 +851,7 @@ with RenderedSprite as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
@@ -851,6 +859,7 @@ with RenderedSprite as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Color, 'Color') as prop:
         prop.brief = cbg.Description()
@@ -858,6 +867,7 @@ with RenderedSprite as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
@@ -865,6 +875,7 @@ with RenderedSprite as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
 RenderedText = cbg.Class('Altseed2', 'RenderedText')
 with RenderedText as class_:
@@ -880,6 +891,7 @@ with RenderedText as class_:
         func.brief.add('ja', 'テキストを作成します。')
         func.return_value.type_ = RenderedText
         func.is_static = True
+        func.is_public = False
 
     with class_.add_property(Material, 'MaterialGlyph') as prop:
         prop.brief = cbg.Description()
@@ -887,6 +899,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Material, 'MaterialImage') as prop:
         prop.brief = cbg.Description()
@@ -894,6 +907,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(ctypes.c_wchar_p, 'Text') as prop:
         prop.brief = cbg.Description()
@@ -901,6 +915,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Font, 'Font') as prop:
         prop.brief = cbg.Description()
@@ -908,6 +923,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(float, 'Weight') as prop:
         prop.brief = cbg.Description()
@@ -915,6 +931,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(bool, 'IsEnableKerning') as prop:
         prop.brief = cbg.Description()
@@ -922,6 +939,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(WritingDirection, 'WritingDirection') as prop:
         prop.brief = cbg.Description()
@@ -929,6 +947,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(float, 'CharacterSpace') as prop:
         prop.brief = cbg.Description()
@@ -936,6 +955,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(float, 'LineGap') as prop:
         prop.brief = cbg.Description()
@@ -943,11 +963,13 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Vector2F, 'TextureSize') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'テキストを描画したときのサイズを取得します')
         prop.has_getter = True
+        prop.is_public = False
 
     with class_.add_property(Color, 'Color') as prop:
         prop.brief = cbg.Description()
@@ -955,6 +977,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
@@ -962,6 +985,7 @@ with RenderedText as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
 RenderedPolygon = cbg.Class('Altseed2', 'RenderedPolygon')
 with RenderedPolygon as class_:
@@ -977,6 +1001,7 @@ with RenderedPolygon as class_:
         func.brief.add('ja', 'ポリゴンを作成します。')
         func.return_value.type_ = RenderedPolygon
         func.is_static = True
+        func.is_public = False
 
     with class_.add_func('CreateVertexesByVector2F') as func:
         func.brief = cbg.Description()
@@ -984,6 +1009,7 @@ with RenderedPolygon as class_:
         with func.add_arg(Vector2FArray, 'vertexes') as arg:
             func.brief = cbg.Description()
             func.brief.add('ja', '頂点情報')
+        func.is_public = False
 
     with class_.add_func('OverwriteVertexesColor') as func:
         func.brief = cbg.Description()
@@ -991,6 +1017,7 @@ with RenderedPolygon as class_:
         with func.add_arg(Color, 'color') as arg:
             func.brief = cbg.Description()
             func.brief.add('ja', '頂点情報')
+        dunc.is_public = False
 
     with class_.add_property(VertexArray, 'Vertexes') as prop:
         prop.brief = cbg.Description()
@@ -998,6 +1025,7 @@ with RenderedPolygon as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(TextureBase, 'Texture') as prop:
         prop.brief = cbg.Description()
@@ -1005,6 +1033,7 @@ with RenderedPolygon as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(RectF, 'Src') as prop:
         prop.brief = cbg.Description()
@@ -1012,6 +1041,7 @@ with RenderedPolygon as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(Material, 'Material') as prop:
         prop.brief = cbg.Description()
@@ -1019,6 +1049,7 @@ with RenderedPolygon as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
         prop.brief = cbg.Description()
@@ -1026,6 +1057,7 @@ with RenderedPolygon as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
 RenderedCamera = cbg.Class('Altseed2', 'RenderedCamera')
 with RenderedCamera as class_:
@@ -1040,6 +1072,7 @@ with RenderedCamera as class_:
         func.brief.add('ja', 'RenderedCameraを作成します。')
         func.return_value.type_ = RenderedCamera
         func.is_static = True
+        func.is_public = False
 
     with class_.add_property(Matrix44F, 'ViewMatrix') as prop:
         prop.brief = cbg.Description()
@@ -1055,6 +1088,7 @@ with RenderedCamera as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
     with class_.add_property(RenderPassParameter, 'RenderPassParameter') as prop:
         prop.brief = cbg.Description()
@@ -1062,6 +1096,7 @@ with RenderedCamera as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
+        prop.is_public = False
 
 Renderer = cbg.Class('Altseed2', 'Renderer')
 with Renderer as class_:
@@ -1106,6 +1141,7 @@ with Renderer as class_:
     with class_.add_func('Render') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'コマンドリストを描画します。')
+        func.is_public = False
 
     with class_.add_func('SetCamera') as func:
         func.brief = cbg.Description()
@@ -1118,6 +1154,7 @@ with Renderer as class_:
     with class_.add_func('ResetCamera') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '使用するカメラの設定をリセットします。')
+        func.is_public = False
 
 CullingSystem = cbg.Class('Altseed2', 'CullingSystem')
 with CullingSystem as class_:
@@ -1160,8 +1197,10 @@ with CullingSystem as class_:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '描画されているRenderedの個数を取得します。')
         prop.has_getter = True
+        prop.is_public = False
 
     with class_.add_property(Int32Array, 'DrawingRenderedIds') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', '描画されているRenderedのIdの配列を取得します。')
         prop.has_getter = True
+        prop.is_public = False

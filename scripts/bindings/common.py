@@ -24,12 +24,14 @@ with Int8Array as class_:
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'データをクリアします。')
+        func.is_public = False
 
     with class_.add_property(int, "Count") as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
         prop_.serialized = True
+        prop_.is_public = True # to implement IArray<T>
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -37,9 +39,11 @@ with Int8Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func("GetData") as func:
         func.return_value.type_ = ctypes.c_void_p
+        func.is_public = False
 
     with class_.add_func("Assign") as func:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
@@ -48,6 +52,7 @@ with Int8Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーする要素の個数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('CopyTo') as func:
         func.brief = cbg.Description()
@@ -55,6 +60,7 @@ with Int8Array as class_:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ポインタ')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('GetAt') as func:
         func.brief = cbg.Description()
@@ -63,6 +69,7 @@ with Int8Array as class_:
         with func.add_arg(int, "index") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'インデックス')
+        func.is_public = False
 
     with class_.add_func('SetAt') as func:
         func.brief = cbg.Description()
@@ -73,6 +80,7 @@ with Int8Array as class_:
         with func.add_arg(ctypes.c_byte, "value") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '値')
+        func.is_public = False
 
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
@@ -82,6 +90,7 @@ with Int8Array as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
         func.is_static = True
+        func.is_public = False
 
 Int32Array = cbg.Class('Altseed2', 'Int32Array')
 with Int32Array as class_:
@@ -94,12 +103,14 @@ with Int32Array as class_:
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'データをクリアします。')
+        func.is_public = False
 
     with class_.add_property(int, "Count") as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
         prop_.serialized = True
+        prop_.is_public = True # to implement IArray<T>
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -107,9 +118,11 @@ with Int32Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func("GetData") as func:
         func.return_value.type_ = ctypes.c_void_p
+        func.is_public = False
 
     with class_.add_func("Assign") as func:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
@@ -118,6 +131,7 @@ with Int32Array as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーする要素の個数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('CopyTo') as func:
         func.brief = cbg.Description()
@@ -125,6 +139,7 @@ with Int32Array as class_:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ポインタ')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('GetAt') as func:
         func.brief = cbg.Description()
@@ -133,6 +148,7 @@ with Int32Array as class_:
         with func.add_arg(int, "index") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'インデックス')
+        func.is_public = False
 
     with class_.add_func('SetAt') as func:
         func.brief = cbg.Description()
@@ -143,6 +159,7 @@ with Int32Array as class_:
         with func.add_arg(int, "value") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '値')
+        func.is_public = False
 
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
@@ -152,6 +169,7 @@ with Int32Array as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
         func.is_static = True
+        func.is_public = False
 
 VertexArray = cbg.Class('Altseed2', 'VertexArray')
 with VertexArray as class_:
@@ -164,12 +182,14 @@ with VertexArray as class_:
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'データをクリアします。')
+        func.is_public = False
 
     with class_.add_property(int, "Count") as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
         prop_.serialized = True
+        prop_.is_public = True # to implement IArray<T>
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -177,9 +197,11 @@ with VertexArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func("GetData") as func:
         func.return_value.type_ = ctypes.c_void_p
+        func.is_public = False
 
     with class_.add_func("Assign") as func:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
@@ -188,6 +210,7 @@ with VertexArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーする要素の個数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('CopyTo') as func:
         func.brief = cbg.Description()
@@ -195,6 +218,7 @@ with VertexArray as class_:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ポインタ')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('GetAt') as func:
         func.brief = cbg.Description()
@@ -203,6 +227,7 @@ with VertexArray as class_:
         with func.add_arg(int, "index") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'インデックス')
+        func.is_public = False
 
     with class_.add_func('SetAt') as func:
         func.brief = cbg.Description()
@@ -213,6 +238,7 @@ with VertexArray as class_:
         with func.add_arg(BatchVertex, "value") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '値')
+        func.is_public = False
 
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
@@ -222,6 +248,7 @@ with VertexArray as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
         func.is_static = True
+        func.is_public = False
 
 FloatArray = cbg.Class('Altseed2', 'FloatArray')
 with FloatArray as class_:
@@ -234,12 +261,14 @@ with FloatArray as class_:
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'データをクリアします。')
+        func.is_public = False
 
     with class_.add_property(int, "Count") as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
         prop_.serialized = True
+        prop_.is_public = True # to implement IArray<T>
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -247,9 +276,11 @@ with FloatArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func("GetData") as func:
         func.return_value.type_ = ctypes.c_void_p
+        func.is_public = False
 
     with class_.add_func("Assign") as func:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
@@ -258,6 +289,7 @@ with FloatArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーする要素の個数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('CopyTo') as func:
         func.brief = cbg.Description()
@@ -265,6 +297,7 @@ with FloatArray as class_:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ポインタ')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('GetAt') as func:
         func.brief = cbg.Description()
@@ -273,6 +306,7 @@ with FloatArray as class_:
         with func.add_arg(int, "index") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'インデックス')
+        func.is_public = False
 
     with class_.add_func('SetAt') as func:
         func.brief = cbg.Description()
@@ -283,6 +317,7 @@ with FloatArray as class_:
         with func.add_arg(float, "value") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '値')
+        func.is_public = False
 
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
@@ -292,6 +327,7 @@ with FloatArray as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
         func.is_static = True
+        func.is_public = False
 
 Vector2FArray = cbg.Class('Altseed2', 'Vector2FArray')
 with Vector2FArray as class_:
@@ -304,12 +340,14 @@ with Vector2FArray as class_:
     with class_.add_func("Clear") as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'データをクリアします。')
+        func.is_public = False
 
     with class_.add_property(int, "Count") as prop_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '格納されている要素の数を取得します。')
         prop_.has_getter = True
         prop_.serialized = True
+        prop_.is_public = True # to implement IArray<T>
 
     with class_.add_func('Resize') as func:
         func.brief = cbg.Description()
@@ -317,9 +355,11 @@ with Vector2FArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func("GetData") as func:
         func.return_value.type_ = ctypes.c_void_p
+        func.is_public = False
 
     with class_.add_func("Assign") as func:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
@@ -328,6 +368,7 @@ with Vector2FArray as class_:
         with func.add_arg(int, "size") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'コピーする要素の個数')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('CopyTo') as func:
         func.brief = cbg.Description()
@@ -335,6 +376,7 @@ with Vector2FArray as class_:
         with func.add_arg(ctypes.c_void_p, "ptr") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'ポインタ')
+        func.is_public = True # to implement IArray<T>
 
     with class_.add_func('GetAt') as func:
         func.brief = cbg.Description()
@@ -343,6 +385,7 @@ with Vector2FArray as class_:
         with func.add_arg(int, "index") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', 'インデックス')
+        func.is_public = False
 
     with class_.add_func('SetAt') as func:
         func.brief = cbg.Description()
@@ -353,6 +396,7 @@ with Vector2FArray as class_:
         with func.add_arg(Vector2F, "value") as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '値')
+        func.is_public = False
 
     with class_.add_func("Create") as func:
         func.brief = cbg.Description()
@@ -362,6 +406,7 @@ with Vector2FArray as class_:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '要素数')
         func.is_static = True
+        func.is_public = False
 
 ResourceType = cbg.Enum('Altseed2', 'ResourceType')
 with ResourceType as enum_:
@@ -398,6 +443,7 @@ with Resources as class_:
         func.return_value.type_ = Resources
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '使用するインスタンス')
+
     with class_.add_func('GetResourcesCount') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '指定した種類のリソースの個数を返します。')
@@ -407,9 +453,14 @@ with Resources as class_:
         func.return_value.type_ = int
         func.return_value.brief = cbg.Description()
         func.return_value.brief.add('ja', '指定した種類のリソースの個数')
+        func.is_public = False
+
     with class_.add_func('Clear') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '登録されたリソースをすべて削除します。')
+        func.is_public = False
+
     with class_.add_func('Reload') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'リソースの再読み込みを行います。')
+        func.is_public = False

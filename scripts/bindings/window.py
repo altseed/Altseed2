@@ -23,10 +23,11 @@ with Window as class_:
         prop.has_getter = True
         prop.has_setter = True
         prop.nullable = False
+        prop.is_public = False
 
     with class_.add_property(Vector2I, "Size") as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ウィンドウサイズを取得します')
         prop.has_getter = True
         prop.has_setter = True
-        
+        prop.is_public = False
