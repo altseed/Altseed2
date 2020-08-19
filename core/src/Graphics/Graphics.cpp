@@ -65,8 +65,8 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
     }
 
     auto logInstance = Log::GetInstance();
-    LLGI::SetLogger([logInstance](LLGI::LogType type, const char* c) -> void {
-        auto uc = u"LowLevelGraphics : " + utf8_to_utf16(c);
+    LLGI::SetLogger([logInstance](LLGI::LogType type, const std::string& str) -> void {
+        auto uc = u"LowLevelGraphics : " + utf8_to_utf16(str);
 
         if (type == LLGI::LogType::Debug) {
             logInstance->Debug(Altseed2::LogCategory::Core, uc.c_str());
@@ -118,7 +118,7 @@ void Graphics::Terminate() {
     LLGI::SafeRelease(instance->graphics_);
     LLGI::SafeRelease(instance->platform_);
 
-    LLGI::SetLogger([](LLGI::LogType type, const char* c) -> void {});
+    LLGI::SetLogger([](LLGI::LogType type, const std::string& str) -> void {});
 
     instance = nullptr;
 }
