@@ -47,23 +47,6 @@ std::shared_ptr<Graphics>& Graphics::GetInstance() { return instance; }
 bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializationParameter& parameter) {
     instance = CreateSharedPtr(new Graphics());
 
-    LLGI::PlatformParameter pp = parameter;
-
-    instance->window_ = window;
-    instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
-    instance->platform_ = LLGI::CreatePlatform(pp, instance->llgiWindow_.get());
-    if (instance->platform_ == nullptr) {
-        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreatePlatform");
-        return false;
-    }
-
-    instance->graphics_ = instance->platform_->CreateGraphics();
-    // ? instance->graphics_->SetDisposed([]() -> void { instance->platform_->Release(); });
-    if (instance->graphics_ == nullptr) {
-        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreateGraphics");
-        return false;
-    }
-
     auto logInstance = Log::GetInstance();
     LLGI::SetLogger([logInstance](LLGI::LogType type, const std::string& str) -> void {
         auto uc = u"LowLevelGraphics : " + utf8_to_utf16(str);
@@ -80,6 +63,23 @@ bool Graphics::Initialize(std::shared_ptr<Window>& window, GraphicsInitializatio
             assert(0);
         }
     });
+
+    LLGI::PlatformParameter pp = parameter;
+
+    instance->window_ = window;
+    instance->llgiWindow_ = std::make_shared<LLGIWindow>(window->GetNativeWindow());
+    instance->platform_ = LLGI::CreatePlatform(pp, instance->llgiWindow_.get());
+    if (instance->platform_ == nullptr) {
+        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreatePlatform");
+        return false;
+    }
+
+    instance->graphics_ = instance->platform_->CreateGraphics();
+    // ? instance->graphics_->SetDisposed([]() -> void { instance->platform_->Release(); });
+    if (instance->graphics_ == nullptr) {
+        LOG_CRITICAL(u"Graphics::Initialize: Failed to CreateGraphics");
+        return false;
+    }
 
     instance->compiler_ = LLGI::CreateSharedPtr(LLGI::CreateCompiler(pp.Device));
 
