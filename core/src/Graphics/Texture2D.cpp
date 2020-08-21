@@ -30,6 +30,8 @@ bool Texture2D::Reload() { return false; }
 const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();

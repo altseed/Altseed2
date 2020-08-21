@@ -49,11 +49,17 @@ void Core::PrintAllBaseObjectName() {
 }
 
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
+    if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
+        Core::instance = nullptr;
+        std::cout << "Log::Initialize failed" << std::endl;
+        return false;
+    }
+
     Core::instance = MakeAsdShared<Core>();
     Core::instance->config_ = config;
 
     WindowInitializationParameter windowParameter;
-    windowParameter.Title = title;
+    windowParameter.Title = title == nullptr ? u"" : title;
     windowParameter.WindowWidth = width;
     windowParameter.WindowHeight = height;
     windowParameter.IsFullscreenMode = config->GetIsFullscreen();
@@ -62,12 +68,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     GraphicsInitializationParameter graphicsParameter;
     graphicsParameter.Device = config->GetDeviceType();
     graphicsParameter.WaitVSync = config->GetWaitVSync();
-
-    if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
-        Core::instance = nullptr;
-        std::cout << "Log::Initialize failed" << std::endl;
-        return false;
-    }
 
     if (!Window::Initialize(windowParameter)) {
         LOG_CRITICAL(u"Window::Initialize failed");

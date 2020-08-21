@@ -33,10 +33,24 @@ enum class LogCategory : int32_t {
 #define __FILENAME__ strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__
 #define LOG_CRITICAL(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __FUNCTION__, __LINE__, format, __VA_ARGS__);
 #define LOG_CRITICAL_FMT(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __FUNCTION__, __LINE__, format, __VA_ARGS__);
+#define RETURN_IF_NULL(VAR, RET)                                                                   \
+    do {                                                                                           \
+        if (VAR == nullptr) {                                                                      \
+            Log::GetInstance()->Error(LogCategory::Core, u"{0}: {1} is null", __FUNCTION__, #VAR); \
+            return RET;                                                                            \
+        }                                                                                          \
+    } while (false)
 #else
 #define __FILENAME__ strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__
 #define LOG_CRITICAL(format) Log::GetInstance()->CriticalCore(__FILENAME__, __func__, __LINE__, format);
 #define LOG_CRITICAL_FMT(format, ...) Log::GetInstance()->CriticalCore(__FILENAME__, __func__, __LINE__, format, __VA_ARGS__);
+#define RETURN_IF_NULL(VAR, RET)                                                               \
+    do {                                                                                       \
+        if (VAR == nullptr) {                                                                  \
+            Log::GetInstance()->Error(LogCategory::Core, u"{0}: {1} is null", __func__, #VAR); \
+            return RET;                                                                        \
+        }                                                                                      \
+    } while (false)
 #endif
 
 class Log : public BaseObject {

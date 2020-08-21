@@ -18,7 +18,7 @@ class Sound : public Resource {
 private:
     std::shared_ptr<osm::Sound> m_sound;
 
-    const char16_t* m_filePath;
+    std::u16string m_filePath;
     const bool m_isDecompressed;
 
     std::shared_ptr<Resources> resources_;
@@ -26,7 +26,7 @@ private:
     static std::mutex mtx;
 
 public:
-    Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources);
+    Sound(std::u16string filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources);
     virtual ~Sound();
 
     /**

@@ -1,5 +1,6 @@
 ﻿#include "Shader.h"
 
+#include "../Logger/Log.h"
 #include "ShaderCompiler/ShaderCompiler.h"
 namespace Altseed2 {
 
@@ -17,10 +18,16 @@ Shader::Shader(
 }
 
 std::shared_ptr<ShaderCompileResult> Shader::Compile(const char16_t* name, const char16_t* code, ShaderStageType shaderStage) {
+    RETURN_IF_NULL(name, MakeAsdShared<ShaderCompileResult>(nullptr, u"name is null"));
+    RETURN_IF_NULL(code, MakeAsdShared<ShaderCompileResult>(nullptr, u"code is null"));
+
     return ShaderCompiler::GetInstance()->Compile("", utf16_to_utf8(name).c_str(), utf16_to_utf8(code).c_str(), shaderStage);
 }
 
 std::shared_ptr<ShaderCompileResult> Shader::CompileFromFile(const char16_t* name, const char16_t* path, ShaderStageType shaderStage) {
+    RETURN_IF_NULL(name, MakeAsdShared<ShaderCompileResult>(nullptr, u"name is null"));
+    RETURN_IF_NULL(path, MakeAsdShared<ShaderCompileResult>(nullptr, u"path is null"));
+
     return ShaderCompiler::GetInstance()->Compile(utf16_to_utf8(path).c_str(), utf16_to_utf8(name).c_str(), shaderStage);
 }
 

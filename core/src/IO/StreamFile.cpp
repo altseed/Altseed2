@@ -1,5 +1,6 @@
 ﻿#include "StreamFile.h"
 
+#include "../Logger/Log.h"
 #include "File.h"
 
 namespace Altseed2 {
@@ -19,6 +20,8 @@ StreamFile::~StreamFile() {
 }
 
 std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
     auto path_ = FileSystem::NormalizePath(path);

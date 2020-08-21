@@ -114,6 +114,8 @@ void Window::SetTitle(const char16_t* title) {
         return;
     }
 
+    RETURN_IF_NULL(title, );
+
     title_ = title;
     auto titleUTF8 = utf16_to_utf8(title);
     glfwSetWindowTitle(instance_->mainWindow_, titleUTF8.c_str());

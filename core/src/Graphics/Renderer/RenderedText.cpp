@@ -23,6 +23,11 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
     return t;
 }
 
+void RenderedText::SetText(const char16_t* text) {
+    text_ = text == nullptr ? u"" : std::u16string(text);
+    cullingSystem_->RequestUpdateAABB(this);
+}
+
 Vector2F RenderedText::GetTextureSize() {
     if (GetFont() == nullptr) {
         return Vector2F(0, 0);

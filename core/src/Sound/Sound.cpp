@@ -6,7 +6,7 @@ namespace Altseed2 {
 
 std::mutex Sound::mtx;
 
-Sound::Sound(const char16_t* filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources)
+Sound::Sound(std::u16string filePath, std::shared_ptr<osm::Sound> sound, bool isDecompressed, std::shared_ptr<Resources> resources)
     : m_filePath(filePath), m_sound(sound), m_isDecompressed(isDecompressed), resources_(resources) {
     SetInstanceName(__FILE__);
 }
@@ -18,6 +18,8 @@ Sound::~Sound() {
 }
 
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(mtx);
 
     auto soundMixer = SoundMixer::GetInstance();
@@ -44,7 +46,7 @@ std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     }
 
     // Create sound & register to container
-    auto soundRet = MakeAsdShared<Sound>(path, sound, isDecompressed, soundMixer->m_resources);
+    auto soundRet = MakeAsdShared<Sound>(std::u16string(path), sound, isDecompressed, soundMixer->m_resources);
     auto soundContainer = soundMixer->m_resources->GetResourceContainer(ResourceType::Sound);
     auto soundInfo = std::make_shared<ResourceContainer::ResourceInfomation>(soundRet, path);
     soundContainer->Register(path, soundInfo);
@@ -66,7 +68,7 @@ void Sound::SetIsLoopingMode(bool isLoopingMode) { m_sound->SetIsLoopingMode(isL
 
 float Sound::GetLength() { return m_sound->GetLength(); }
 
-const char16_t* Sound::GetPath() const { return m_filePath; }
+const char16_t* Sound::GetPath() const { return m_filePath.c_str(); }
 
 bool Sound::GetIsDecompressed() const { return m_isDecompressed; }
 

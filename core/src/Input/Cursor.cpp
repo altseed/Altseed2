@@ -1,4 +1,5 @@
 #include "Cursor.h"
+#include "../Logger/Log.h"
 
 namespace Altseed2 {
 
@@ -149,6 +150,8 @@ bool Cursor::LoadPNGImage(
 }
 
 std::shared_ptr<Cursor> Cursor::Create(const char16_t* path, Vector2I hotspot) {
+    RETURN_IF_NULL(path, nullptr);
+
     auto f = StaticFile::Create(path);
     if (f == nullptr) {
         //        Log::GetInstance()->Error(LogCategory::Core, u"Mouse::SetCursorImage: Failed to create static file from '{0}'", path);

@@ -46,6 +46,8 @@ void Configuration::SetToolEnabled(bool toolEnabled) { toolEnabled_ = toolEnable
 
 const char16_t* Configuration::GetLogFileName() { return logFileName_.c_str(); }
 
-void Configuration::SetLogFileName(const char16_t* logFilename) { logFileName_ = std::u16string(logFilename); }
+void Configuration::SetLogFileName(const char16_t* logFilename) {
+    logFileName_ = logFilename == nullptr ? u"" : std::u16string(logFilename);
+}
 
 }  // namespace Altseed2
