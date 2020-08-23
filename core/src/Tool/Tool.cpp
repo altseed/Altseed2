@@ -160,6 +160,8 @@ const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRange ranges) {
 }
 
 bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges) {
+    RETURN_IF_NULL(path, false);
+
     auto file = StaticFile::Create(path);
 
     if (file == nullptr) {
@@ -196,6 +198,8 @@ bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphR
 }
 
 bool Tool::Begin(const char16_t* name, ToolWindowFlags flags) {
+    RETURN_IF_NULL(name, false);
+
     auto str = utf16_to_utf8(name);
     if (str.length() > 0) {
         return ImGui::Begin(str.c_str(), nullptr, static_cast<ImGuiWindowFlags>(flags));
@@ -209,29 +213,53 @@ void Tool::End() { ImGui::End(); }
 
 void Tool::Dummy(Vector2F size) { ImGui::Dummy(toImVec2(size)); }
 
-void Tool::Text(const char16_t* text) { ImGui::Text("%s", utf16_to_utf8(text).c_str()); }
+void Tool::Text(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::Text("%s", utf16_to_utf8(text).c_str());
+}
 
-void Tool::TextUnformatted(const char16_t* text) { ImGui::TextUnformatted(utf16_to_utf8(text).c_str()); }
+void Tool::TextUnformatted(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::TextUnformatted(utf16_to_utf8(text).c_str());
+}
 
-void Tool::TextWrapped(const char16_t* text) { ImGui::TextWrapped("%s", utf16_to_utf8(text).c_str()); };
+void Tool::TextWrapped(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::TextWrapped("%s", utf16_to_utf8(text).c_str());
+};
 
-void Tool::TextColored(const Color color, const char16_t* text) { ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str()); }
+void Tool::TextColored(const Color color, const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::TextColored(toImVec4(color), "%s", utf16_to_utf8(text).c_str());
+}
 
-void Tool::TextDisabled(const char16_t* text) { ImGui::TextDisabled("%s", utf16_to_utf8(text).c_str()); }
+void Tool::TextDisabled(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::TextDisabled("%s", utf16_to_utf8(text).c_str());
+}
 
-void Tool::BulletText(const char16_t* text) { ImGui::BulletText("%s", utf16_to_utf8(text).c_str()); }
+void Tool::BulletText(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::BulletText("%s", utf16_to_utf8(text).c_str());
+}
 
 void Tool::LabelText(const char16_t* label, const char16_t* text) {
+    RETURN_IF_NULL(label, );
     ImGui::LabelText(utf16_to_utf8(label).c_str(), "%s", utf16_to_utf8(text).c_str());
 }
 
 bool Tool::CollapsingHeader(const char16_t* label, ToolTreeNodeFlags flags) {
+    RETURN_IF_NULL(label, false);
     return ImGui::CollapsingHeader(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
 }
 
-bool Tool::TreeNode(const char16_t* label) { return ImGui::TreeNode(utf16_to_utf8(label).c_str()); }
+bool Tool::TreeNode(const char16_t* label) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::TreeNode(utf16_to_utf8(label).c_str());
+}
 
 bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags) {
+    RETURN_IF_NULL(label, false);
     return ImGui::TreeNodeEx(utf16_to_utf8(label).c_str(), static_cast<ImGuiTreeNodeFlags>(flags));
 }
 
@@ -239,21 +267,36 @@ void Tool::TreePop() { ImGui::TreePop(); }
 
 void Tool::SetNextItemOpen(bool is_open, ToolCond cond) { ImGui::SetNextItemOpen(is_open, static_cast<ImGuiCond>(cond)); }
 
-bool Tool::Button(const char16_t* label, const Vector2F size) { return ImGui::Button(utf16_to_utf8(label).c_str(), toImVec2(size)); }
+bool Tool::Button(const char16_t* label, const Vector2F size) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::Button(utf16_to_utf8(label).c_str(), toImVec2(size));
+}
 
-bool Tool::CheckBox(const char16_t* label, bool* is_open) { return ImGui::Checkbox(utf16_to_utf8(label).c_str(), is_open); }
+bool Tool::CheckBox(const char16_t* label, bool* is_open) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::Checkbox(utf16_to_utf8(label).c_str(), is_open);
+}
 
-bool Tool::RadioButton(const char16_t* label, bool active) { return ImGui::RadioButton(utf16_to_utf8(label).c_str(), active); }
+bool Tool::RadioButton(const char16_t* label, bool active) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::RadioButton(utf16_to_utf8(label).c_str(), active);
+}
 
 bool Tool::RadioButton_2(const char16_t* label, int* v, int v_button) {
+    RETURN_IF_NULL(label, false);
     return ImGui::RadioButton(utf16_to_utf8(label).c_str(), v, v_button);
 }
 
 bool Tool::ArrowButton(const char16_t* id, ToolDir dir) {
+    RETURN_IF_NULL(id, false);
     return ImGui::ArrowButton(utf16_to_utf8(id).c_str(), static_cast<ImGuiDir>(dir));
 }
 
 bool Tool::ListBox(const char16_t* label, int32_t* current, const char16_t* items_separated_by_tabs, int32_t height_in_items) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(current, false);
+    RETURN_IF_NULL(items_separated_by_tabs, false);
+
     auto tmp = split(items_separated_by_tabs, u'\t');
     std::vector<std::string> itemsVector;
     for (int32_t i = 0; i < tmp.size(); i++) {
@@ -267,16 +310,22 @@ bool Tool::ListBox(const char16_t* label, int32_t* current, const char16_t* item
 }
 
 bool Tool::InvisibleButton(const char16_t* label, Vector2F size) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InvisibleButton(utf16_to_utf8(label).c_str(), toImVec2(size));
 }
 
 bool Tool::Selectable(const char16_t* label, bool* selected, ToolSelectableFlags flags) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(selected, false);
     return ImGui::Selectable(utf16_to_utf8(label).c_str(), selected, static_cast<ImGuiSelectableFlags>(flags));
 }
 
 static std::u16string tempInputText;
 
 const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
+    RETURN_IF_NULL(label, nullptr);
+    RETURN_IF_NULL(input, nullptr);
+
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
     utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
@@ -294,6 +343,10 @@ const char16_t* Tool::InputText(const char16_t* label, const char16_t* input, in
 
 const char16_t* Tool::InputTextWithHint(
         const char16_t* label, const char16_t* hint, const char16_t* input, int32_t max_length, ToolInputTextFlags flags) {
+    RETURN_IF_NULL(label, nullptr);
+    RETURN_IF_NULL(hint, nullptr);
+    RETURN_IF_NULL(input, nullptr);
+
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
     utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
@@ -312,6 +365,9 @@ const char16_t* Tool::InputTextWithHint(
 
 const char16_t* Tool::InputTextMultiline(
         const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags) {
+    RETURN_IF_NULL(label, nullptr);
+    RETURN_IF_NULL(input, nullptr);
+
     std::u16string u16str(input);
     auto buf = new char[max_length + 1]{};
     utf16_to_utf8(u16str).copy(buf, utf16_to_utf8(u16str).size());
@@ -328,92 +384,138 @@ const char16_t* Tool::InputTextMultiline(
     }
 }
 
-bool Tool::InputInt(const char16_t* label, int32_t* v) { return ImGui::InputInt(utf16_to_utf8(label).c_str(), v); }
+bool Tool::InputInt(const char16_t* label, int32_t* v) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::InputInt(utf16_to_utf8(label).c_str(), v);
+}
 
 bool Tool::InputInt2(const char16_t* label, std::shared_ptr<Int32Array> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputInt2(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
 bool Tool::InputInt3(const char16_t* label, std::shared_ptr<Int32Array> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputInt3(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
 bool Tool::InputInt4(const char16_t* label, std::shared_ptr<Int32Array> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputInt4(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
-bool Tool::InputFloat(const char16_t* label, float* v) { return ImGui::InputFloat(utf16_to_utf8(label).c_str(), v); }
+bool Tool::InputFloat(const char16_t* label, float* v) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::InputFloat(utf16_to_utf8(label).c_str(), v);
+}
 
 bool Tool::InputFloat2(const char16_t* label, std::shared_ptr<FloatArray> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputFloat2(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
 bool Tool::InputFloat3(const char16_t* label, std::shared_ptr<FloatArray> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputFloat3(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
 bool Tool::InputFloat4(const char16_t* label, std::shared_ptr<FloatArray> array) {
+    RETURN_IF_NULL(label, false);
     return ImGui::InputFloat4(utf16_to_utf8(label).c_str(), &array->GetVector()[0]);
 }
 
 bool Tool::DragInt(const char16_t* label, int32_t* v, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
     return ImGui::DragInt(utf16_to_utf8(label).c_str(), v, speed, v_min, v_max);
 }
 
 bool Tool::SliderInt(const char16_t* label, int32_t* v, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
     return ImGui::SliderInt(utf16_to_utf8(label).c_str(), v, v_min, v_max);
 }
 
 bool Tool::SliderInt2(const char16_t* label, std::shared_ptr<Int32Array> array, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderInt2(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
 bool Tool::SliderInt3(const char16_t* label, std::shared_ptr<Int32Array> array, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderInt3(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
 bool Tool::SliderInt4(const char16_t* label, std::shared_ptr<Int32Array> array, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderInt4(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
 bool Tool::SliderFloat(const char16_t* label, float* v, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
     return ImGui::SliderFloat(utf16_to_utf8(label).c_str(), v, v_min, v_max);
 }
 
 bool Tool::SliderFloat2(const char16_t* label, std::shared_ptr<FloatArray> array, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderFloat2(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
 bool Tool::SliderFloat3(const char16_t* label, std::shared_ptr<FloatArray> array, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderFloat3(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
 bool Tool::SliderFloat4(const char16_t* label, std::shared_ptr<FloatArray> array, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(array, false);
     return ImGui::SliderFloat4(utf16_to_utf8(label).c_str(), &array->GetVector()[0], v_min, v_max);
 }
 
-bool Tool::SliderAngle(const char16_t* label, float* angle) { return ImGui::SliderAngle(utf16_to_utf8(label).c_str(), angle); }
+bool Tool::SliderAngle(const char16_t* label, float* angle) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(angle, false);
+    return ImGui::SliderAngle(utf16_to_utf8(label).c_str(), angle);
+}
 
 bool Tool::VSliderInt(const char16_t* label, Vector2F size, int32_t* v, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(v, false);
     return ImGui::VSliderInt(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max);
 }
 
 bool Tool::VSliderFloat(const char16_t* label, Vector2F size, float* v, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(v, false);
     return ImGui::VSliderFloat(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max);
 }
 
 bool Tool::DragFloat(const char16_t* label, float* v, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(v, false);
     return ImGui::DragFloat(utf16_to_utf8(label).c_str(), v, speed, v_min, v_max);
 }
 bool Tool::DragIntRange2(const char16_t* label, int32_t* current_min, int32_t* current_max, float speed, int32_t v_min, int32_t v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(current_min, false);
+    RETURN_IF_NULL(current_max, false);
     return ImGui::DragIntRange2(utf16_to_utf8(label).c_str(), current_min, current_max, speed, v_min, v_max);
 }
 
 bool Tool::DragFloatRange2(const char16_t* label, float* current_min, float* current_max, float speed, float v_min, float v_max) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(current_min, false);
+    RETURN_IF_NULL(current_max, false);
     return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), current_min, current_max, speed, v_min, v_max);
 }
 
 bool Tool::ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags flags) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(color, false);
+
     float v[3];
     v[0] = color->R / 255.0f;
     v[1] = color->G / 255.0f;
@@ -426,6 +528,9 @@ bool Tool::ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags fl
 }
 
 bool Tool::ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags flags) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(color, false);
+
     float v[4];
     v[0] = color->R / 255.0f;
     v[1] = color->G / 255.0f;
@@ -439,11 +544,20 @@ bool Tool::ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags fl
     return res;
 }
 
-void Tool::OpenPopup(const char16_t* label) { ImGui::OpenPopup(utf16_to_utf8(label).c_str()); }
+void Tool::OpenPopup(const char16_t* label) {
+    RETURN_IF_NULL(label, );
+    ImGui::OpenPopup(utf16_to_utf8(label).c_str());
+}
 
-bool Tool::BeginPopup(const char16_t* label) { return ImGui::BeginPopup(utf16_to_utf8(label).c_str()); }
+bool Tool::BeginPopup(const char16_t* label) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::BeginPopup(utf16_to_utf8(label).c_str());
+}
 
-bool Tool::BeginPopupModal(const char16_t* label) { return ImGui::BeginPopupModal(utf16_to_utf8(label).c_str()); }
+bool Tool::BeginPopupModal(const char16_t* label) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::BeginPopupModal(utf16_to_utf8(label).c_str());
+}
 
 void Tool::EndPopup() { ImGui::EndPopup(); }
 
@@ -457,21 +571,30 @@ bool Tool::BeginMenuBar() { return ImGui::BeginMenuBar(); }
 
 void Tool::EndMenuBar() { ImGui::EndMenuBar(); }
 
-bool Tool::BeginMenu(const char16_t* label, bool enabled) { return ImGui::BeginMenu(utf16_to_utf8(label).c_str(), enabled); }
+bool Tool::BeginMenu(const char16_t* label, bool enabled) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::BeginMenu(utf16_to_utf8(label).c_str(), enabled);
+}
 
 void Tool::EndMenu() { ImGui::EndMenu(); }
 
 bool Tool::MenuItem(const char16_t* label, const char16_t* shortcut, bool selected, bool enabled) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(shortcut, false);
     return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), selected, enabled);
 }
 
 bool Tool::BeginTabBar(const char16_t* id, ToolTabBarFlags flags) {
+    RETURN_IF_NULL(id, false);
     return ImGui::BeginTabBar(utf16_to_utf8(id).c_str(), static_cast<ImGuiTabBarFlags>(flags));
 }
 
 void Tool::EndTabBar() { ImGui::EndTabBar(); }
 
-bool Tool::BeginTabItem(const char16_t* label) { return ImGui::BeginTabItem(utf16_to_utf8(label).c_str()); }
+bool Tool::BeginTabItem(const char16_t* label) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::BeginTabItem(utf16_to_utf8(label).c_str());
+}
 
 void Tool::EndTabItem() { ImGui::EndTabItem(); }
 
@@ -481,7 +604,10 @@ void Tool::Unindent() { ImGui::Unindent(); }
 
 void Tool::Separator() { ImGui::Separator(); }
 
-void Tool::SetTooltip(const char16_t* text) { ImGui::SetTooltip("%s", utf16_to_utf8(text).c_str()); }
+void Tool::SetTooltip(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::SetTooltip("%s", utf16_to_utf8(text).c_str());
+}
 
 void Tool::BeginTooltip() { ImGui::BeginTooltip(); }
 
@@ -511,9 +637,13 @@ void Tool::PushID(int32_t id) { ImGui::PushID(id); }
 
 void Tool::PopID() { ImGui::PopID(); }
 
-bool Tool::SmallButton(const char16_t* label) { return ImGui::SmallButton(utf16_to_utf8(label).c_str()); }
+bool Tool::SmallButton(const char16_t* label) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::SmallButton(utf16_to_utf8(label).c_str());
+}
 
 void Tool::Image(std::shared_ptr<TextureBase> texture, Vector2F size, Vector2F uv0, Vector2F uv1, Color tint_col, Color border_col) {
+    RETURN_IF_NULL(texture, );
     ImGui::Image(
             platform_->GetTextureIDToRender(texture->GetNativeTexture().get(), Graphics::GetInstance()->GetCommandList()->GetLL()),
             toImVec2(size),
@@ -531,6 +661,7 @@ bool Tool::ImageButton(
         int32_t frame_padding,
         Color bg_col,
         Color tint_col) {
+    RETURN_IF_NULL(texture, false);
     return ImGui::ImageButton(
             platform_->GetTextureIDToRender(texture->GetNativeTexture().get(), Graphics::GetInstance()->GetCommandList()->GetLL()),
             toImVec2(size),
@@ -541,25 +672,37 @@ bool Tool::ImageButton(
             toImVec4(tint_col));
 }
 
-bool Tool::Checkbox(const char16_t* label, bool* v) { return ImGui::Checkbox(utf16_to_utf8(label).c_str(), v); }
+bool Tool::Checkbox(const char16_t* label, bool* v) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::Checkbox(utf16_to_utf8(label).c_str(), v);
+}
 
 bool Tool::CheckboxFlags(const char16_t* label, unsigned int* flags, unsigned int flags_value) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(flags, false);
     return ImGui::CheckboxFlags(utf16_to_utf8(label).c_str(), flags, flags_value);
 }
 
 void Tool::ProgressBar(float fraction, Vector2F size_arg, const char16_t* overlay) {
+    RETURN_IF_NULL(overlay, );
     ImGui::ProgressBar(fraction, toImVec2(size_arg), utf16_to_utf8(overlay).c_str());
 }
 
 void Tool::Bullet() { ImGui::Bullet(); }
 
 bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value, ToolComboFlags flags) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(preview_value, false);
     return ImGui::BeginCombo(utf16_to_utf8(label).c_str(), utf16_to_utf8(preview_value).c_str(), (ImGuiComboFlags)flags);
 }
 
 void Tool::EndCombo() { ImGui::EndCombo(); }
 
 bool Tool::Combo(const char16_t* label, int32_t* current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(current_item, false);
+    RETURN_IF_NULL(items_separated_by_tabs, false);
+
     auto tmp = split(items_separated_by_tabs, u'\t');
     std::vector<std::string> itemsVector;
     for (int32_t i = 0; i < tmp.size(); i++) {
@@ -573,6 +716,9 @@ bool Tool::Combo(const char16_t* label, int32_t* current_item, const char16_t* i
 }
 
 bool Tool::ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags, Vector2F size) {
+    RETURN_IF_NULL(desc_id, false);
+    RETURN_IF_NULL(col, false);
+
     auto imVec4 = toImVec4(*col);
     return ImGui::ColorButton(utf16_to_utf8(desc_id).c_str(), imVec4, (ImGuiColorEditFlags)flags, toImVec2(size));
     col->R = imVec4.x;
@@ -586,6 +732,8 @@ void Tool::SetColorEditOptions(ToolColorEditFlags flags) { ImGui::SetColorEditOp
 float Tool::GetTreeNodeToLabelSpacing() { return ImGui::GetTreeNodeToLabelSpacing(); }
 
 bool Tool::ListBoxHeader(const char16_t* label, Vector2F size) {
+    RETURN_IF_NULL(label, false);
+
     return ImGui::ListBoxHeader(utf16_to_utf8(label).c_str(), toImVec2(size));
 }
 
@@ -601,6 +749,9 @@ void Tool::PlotLines(
         float scale_max,
         Vector2F graph_size,
         int32_t stride) {
+    RETURN_IF_NULL(label, );
+    RETURN_IF_NULL(overlay_text, );
+
     ImGui::PlotLines(
             utf16_to_utf8(label).c_str(),
             &values->GetVector()[0],
@@ -623,6 +774,9 @@ void Tool::PlotHistogram(
         float scale_max,
         Vector2F graph_size,
         int32_t stride) {
+    RETURN_IF_NULL(label, );
+    RETURN_IF_NULL(values, );
+    RETURN_IF_NULL(overlay_text, );
     ImGui::PlotHistogram(
             utf16_to_utf8(label).c_str(),
             &values->GetVector()[0],
@@ -635,11 +789,19 @@ void Tool::PlotHistogram(
             stride);
 }
 
-void Tool::ValueBool(const char16_t* prefix, bool b) { ImGui::Value(utf16_to_utf8(prefix).c_str(), b); }
+void Tool::ValueBool(const char16_t* prefix, bool b) {
+    RETURN_IF_NULL(prefix, );
+    ImGui::Value(utf16_to_utf8(prefix).c_str(), b);
+}
 
-void Tool::ValueInt(const char16_t* prefix, int32_t v) { ImGui::Value(utf16_to_utf8(prefix).c_str(), v); }
+void Tool::ValueInt(const char16_t* prefix, int32_t v) {
+    RETURN_IF_NULL(prefix, );
+    ImGui::Value(utf16_to_utf8(prefix).c_str(), v);
+}
 
 void Tool::ValueFloat(const char16_t* prefix, float v, const char16_t* float_format) {
+    RETURN_IF_NULL(prefix, );
+    RETURN_IF_NULL(float_format, );
     ImGui::Value(utf16_to_utf8(prefix).c_str(), v, utf16_to_utf8(float_format).c_str());
 }
 
@@ -648,26 +810,35 @@ bool Tool::BeginMainMenuBar() { return ImGui::BeginMainMenuBar(); }
 void Tool::EndMainMenuBar() { ImGui::EndMainMenuBar(); }
 
 bool Tool::BeginPopupContextItem(const char16_t* str_id, int32_t mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextItem(utf16_to_utf8(str_id).c_str(), mouse_button);
 }
 
 bool Tool::BeginPopupContextWindow(const char16_t* str_id, int32_t mouse_button, bool also_over_items) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextWindow(utf16_to_utf8(str_id).c_str(), mouse_button, also_over_items);
 }
 
 bool Tool::BeginPopupContextVoid(const char16_t* str_id, int32_t mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextVoid(utf16_to_utf8(str_id).c_str(), mouse_button);
 }
 
 bool Tool::BeginPopupModalEx(const char16_t* name, bool* p_open, ToolWindowFlags flags) {
+    RETURN_IF_NULL(name, false);
+    RETURN_IF_NULL(p_open, false);
     return ImGui::BeginPopupModal(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
 bool Tool::OpenPopupOnItemClick(const char16_t* str_id, int32_t mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::OpenPopupOnItemClick(utf16_to_utf8(str_id).c_str(), mouse_button);
 }
 
-bool Tool::IsPopupOpen(const char16_t* str_id) { return ImGui::IsPopupOpen(utf16_to_utf8(str_id).c_str()); }
+bool Tool::IsPopupOpen(const char16_t* str_id) {
+    RETURN_IF_NULL(str_id, false);
+    return ImGui::IsPopupOpen(utf16_to_utf8(str_id).c_str());
+}
 
 void Tool::CloseCurrentPopup() { ImGui::CloseCurrentPopup(); }
 
@@ -684,6 +855,7 @@ void Tool::SetColumnOffset(int32_t column_index, float offset_x) { return ImGui:
 int32_t Tool::GetColumnsCount() { return ImGui::GetColumnsCount(); }
 
 void Tool::SetTabItemClosed(const char16_t* tab_or_docked_window_label) {
+    RETURN_IF_NULL(tab_or_docked_window_label, );
     ImGui::SetTabItemClosed(utf16_to_utf8(tab_or_docked_window_label).c_str());
 }
 
@@ -742,11 +914,20 @@ const char16_t* Tool::GetClipboardText() {
     return tempClipboardText.c_str();
 }
 
-void Tool::SetClipboardText(const char16_t* text) { ImGui::SetClipboardText(utf16_to_utf8(text).c_str()); }
+void Tool::SetClipboardText(const char16_t* text) {
+    RETURN_IF_NULL(text, );
+    ImGui::SetClipboardText(utf16_to_utf8(text).c_str());
+}
 
-void Tool::LoadIniSettingsFromDisk(const char16_t* ini_filename) { ImGui::LoadIniSettingsFromDisk(utf16_to_utf8(ini_filename).c_str()); }
+void Tool::LoadIniSettingsFromDisk(const char16_t* ini_filename) {
+    RETURN_IF_NULL(ini_filename, );
+    ImGui::LoadIniSettingsFromDisk(utf16_to_utf8(ini_filename).c_str());
+}
 
-void Tool::SaveIniSettingsToDisk(const char16_t* ini_filename) { ImGui::SaveIniSettingsToDisk(utf16_to_utf8(ini_filename).c_str()); }
+void Tool::SaveIniSettingsToDisk(const char16_t* ini_filename) {
+    RETURN_IF_NULL(ini_filename, );
+    ImGui::SaveIniSettingsToDisk(utf16_to_utf8(ini_filename).c_str());
+}
 
 bool Tool::IsItemActive() { return ImGui::IsItemActive(); }
 
@@ -811,18 +992,24 @@ void Tool::SetWindowFocus() { ImGui::SetWindowFocus(); }
 void Tool::SetWindowFontScale(float scale) { ImGui::SetWindowFontScale(scale); }
 
 void Tool::SetWindowPosByName(const char16_t* name, Vector2F pos, ToolCond cond) {
+    RETURN_IF_NULL(name, );
     ImGui::SetWindowPos(utf16_to_utf8(name).c_str(), toImVec2(pos), (ImGuiCond)cond);
 }
 
 void Tool::SetWindowSizeByName(const char16_t* name, Vector2F size, ToolCond cond) {
+    RETURN_IF_NULL(name, );
     ImGui::SetWindowSize(utf16_to_utf8(name).c_str(), toImVec2(size), (ImGuiCond)cond);
 }
 
 void Tool::SetWindowCollapsedByName(const char16_t* name, bool collapsed, ToolCond cond) {
+    RETURN_IF_NULL(name, );
     ImGui::SetWindowCollapsed(utf16_to_utf8(name).c_str(), collapsed, (ImGuiCond)cond);
 }
 
-void Tool::SetWindowFocusByName(const char16_t* name) { ImGui::SetWindowFocus(utf16_to_utf8(name).c_str()); }
+void Tool::SetWindowFocusByName(const char16_t* name) {
+    RETURN_IF_NULL(name, );
+    ImGui::SetWindowFocus(utf16_to_utf8(name).c_str());
+}
 
 Vector2F Tool::GetContentRegionMax() { return toVector2F(ImGui::GetContentRegionMax()); }
 
@@ -902,6 +1089,9 @@ float Tool::GetFrameHeightWithSpacing() { return ImGui::GetFrameHeightWithSpacin
 static std::u16string temp;
 
 const char16_t* Tool::OpenDialog(const char16_t* filter, const char16_t* defaultPath) {
+    RETURN_IF_NULL(filter, nullptr);
+    RETURN_IF_NULL(defaultPath, nullptr);
+
     auto filterList_ = utf16_to_utf8(filter);
     auto defaultPath_ = utf16_to_utf8(defaultPath);
 
@@ -922,6 +1112,9 @@ const char16_t* Tool::OpenDialog(const char16_t* filter, const char16_t* default
 }
 
 const char16_t* Tool::OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath) {
+    RETURN_IF_NULL(filter, nullptr);
+    RETURN_IF_NULL(defaultPath, nullptr);
+
     auto filterList_ = utf16_to_utf8(filter);
     auto defaultPath_ = utf16_to_utf8(defaultPath);
 
@@ -951,6 +1144,9 @@ const char16_t* Tool::OpenDialogMultiple(const char16_t* filter, const char16_t*
 }
 
 const char16_t* Tool::SaveDialog(const char16_t* filter, const char16_t* defaultPath) {
+    RETURN_IF_NULL(filter, nullptr);
+    RETURN_IF_NULL(defaultPath, nullptr);
+
     auto filterList_ = utf16_to_utf8(filter);
     auto defaultPath_ = utf16_to_utf8(defaultPath);
 
@@ -971,6 +1167,8 @@ const char16_t* Tool::SaveDialog(const char16_t* filter, const char16_t* default
 }
 
 const char16_t* Tool::PickFolder(const char16_t* defaultPath) {
+    RETURN_IF_NULL(defaultPath, nullptr);
+
     auto defaultPath_ = utf16_to_utf8(defaultPath);
 
     nfdchar_t* outPath = NULL;

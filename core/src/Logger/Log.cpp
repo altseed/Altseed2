@@ -27,7 +27,7 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
             multi_sinks_.push_back(console_sink);
         }
 
-        if (enabledFileLogging) {
+        if (enabledFileLogging && filename != u"") {
             const auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(utf16_to_utf8(filename).c_str());
             multi_sinks_.push_back(file_sink);
         }

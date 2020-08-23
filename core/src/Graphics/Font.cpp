@@ -108,6 +108,8 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();
@@ -139,6 +141,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(mtx);
 
     auto resources = Resources::GetInstance();

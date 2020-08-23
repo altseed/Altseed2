@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "../Logger/Log.h"
 #include "File.h"
 
 namespace Altseed2 {
@@ -34,6 +35,8 @@ StaticFile::~StaticFile() {
 }
 
 std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::lock_guard<std::mutex> lock(m_staticFileMtx);
 
     auto path_ = FileSystem::NormalizePath(path);

@@ -85,10 +85,7 @@ public:
     //! Internal function
     const std::u16string& GetTextAsStr() const { return text_; }
 
-    void SetText(const char16_t* text) {
-        text_ = std::u16string(text);
-        cullingSystem_->RequestUpdateAABB(this);
-    }
+    void SetText(const char16_t* text);
 
     Vector2F GetTextureSize();
 

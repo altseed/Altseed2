@@ -556,6 +556,8 @@ LLGI::CommandList* CommandList::GetLL() const { return currentCommandList_; }
 void CommandList::SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture) {
     if (currentCommandList_ == nullptr) return;
 
+    RETURN_IF_NULL(path, );
+
     if (texture->GetFormat() != TextureFormatType::R8G8B8A8_UNORM) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SaveRenderTexture: TextureFormatType is unsupported");
         return;

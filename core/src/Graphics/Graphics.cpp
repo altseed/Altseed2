@@ -203,6 +203,8 @@ std::shared_ptr<LLGI::RenderPass> Graphics::CreateRenderPass(LLGI::Texture* rend
 }
 
 void Graphics::SaveScreenshot(const char16_t* path) {
+    RETURN_IF_NULL(path, );
+
     auto commandList = GetCommandList();
     commandList->SaveRenderTexture(path, commandList->GetScreenTexture());
 }

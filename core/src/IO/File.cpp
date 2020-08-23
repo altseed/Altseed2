@@ -31,6 +31,8 @@ void File::Terminate() { instance = nullptr; }
 std::shared_ptr<File>& File::GetInstance() { return instance; }
 
 std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
+    RETURN_IF_NULL(path, nullptr);
+
     std::shared_ptr<BaseFileReader> reader = nullptr;
     std::lock_guard<std::mutex> lock(m_rootMtx);
     for (auto i = m_roots.rbegin(), e = m_roots.rend(); i != e; ++i) {
@@ -65,6 +67,8 @@ std::shared_ptr<BaseFileReader> File::CreateFileReader(const char16_t* path) {
 }
 
 bool File::AddRootDirectory(const char16_t* path) {
+    RETURN_IF_NULL(path, false);
+
     auto path_ = FileSystem::NormalizePath(path);
 
     if (!FileSystem::GetIsDirectory(path_)) {
@@ -78,6 +82,8 @@ bool File::AddRootDirectory(const char16_t* path) {
 }
 
 bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* password) {
+    RETURN_IF_NULL(path, false);
+
     auto path_ = FileSystem::NormalizePath(path);
 
     if (!FileSystem::GetIsFile(path_)) {
@@ -110,6 +116,8 @@ bool File::AddRootPackageWithPassword(const char16_t* path, const char16_t* pass
 }
 
 bool File::AddRootPackage(const char16_t* path) {
+    RETURN_IF_NULL(path, false);
+
     auto path_ = FileSystem::NormalizePath(path);
 
     if (!FileSystem::GetIsFile(path_)) {
@@ -138,6 +146,8 @@ void File::ClearRootDirectories() {
 }
 
 bool File::Exists(const char16_t* path) const {
+    RETURN_IF_NULL(path, false);
+
     auto path_ = FileSystem::NormalizePath(path);
 
     if (FileSystem::GetIsAbsolutePath(path_)) {
@@ -156,6 +166,9 @@ bool File::Exists(const char16_t* path) const {
 }
 
 bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
+    RETURN_IF_NULL(srcPath, false);
+    RETURN_IF_NULL(dstPath, false);
+
     std::u16string src = srcPath;
     if (src.back() != u'/' && src.back() != u'\\')
         src += u'/';
@@ -181,6 +194,10 @@ bool File::Pack(const char16_t* srcPath, const char16_t* dstPath) const {
 }
 
 bool File::PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const {
+    RETURN_IF_NULL(srcPath, false);
+    RETURN_IF_NULL(dstPath, false);
+    RETURN_IF_NULL(password, false);
+
     std::u16string src = srcPath;
     if (src.back() != u'/' && src.back() != u'\\')
         src += u'/';
