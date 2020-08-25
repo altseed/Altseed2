@@ -18,6 +18,8 @@
 #include "Math/RectF.h"
 #include "System/SynchronizationContext.h"
 
+#if !defined(_WIN32) || defined(_WIN64)
+
 static const int LoopFrames = 60;
 
 template <typename... Args>
@@ -589,3 +591,5 @@ TEST(Tool, Image) {
         }
     });
 }
+
+#endif
