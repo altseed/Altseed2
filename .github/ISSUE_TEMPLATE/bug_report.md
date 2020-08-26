@@ -19,6 +19,7 @@ assignees: ''
 
 - Altseed2 version:
 <!-- eg. 2.0.0 -->
+<!-- もしくはコミット ID -->
 
 
 ## To Reproduce/再現手順
