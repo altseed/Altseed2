@@ -56,7 +56,7 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
 
     auto llgiTexture = Graphics::GetInstance()->CreateTexture(data, w, h, channel);
     if (llgiTexture == nullptr) {
-        delete[] data;
+        stbi_image_free(data);
         Log::GetInstance()->Error(LogCategory::Core, u"Texture2D::Load: Failed to CreateTexture from '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
@@ -65,7 +65,7 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     resources->GetResourceContainer(ResourceType::Texture2D)
             ->Register(path, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
-    delete[] data;
+    stbi_image_free(data);
 
     return res;
 }
