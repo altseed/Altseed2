@@ -94,6 +94,7 @@ with Texture2D as class_:
     class_.base_class = TextureBase
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.CallBackType = cbg.CallBackType.Enable
+    class_.surpress_Releasing = True
     class_.is_Sealed = True
 
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop:
@@ -637,6 +638,7 @@ with Font as class_:
     class_.brief.add('ja', 'フォント')
     class_.SerializeType = cbg.SerializeType.Interface
     class_.CallBackType = cbg.CallBackType.Enable
+    class_.surpress_Releasing = True
     class_.is_Sealed = True
 
     with class_.add_property(int, 'Size') as prop:
