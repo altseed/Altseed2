@@ -12,21 +12,23 @@ TEST(Configuration, Initialize) {
     EXPECT_EQ(config->GetIsResizable(), false);
     EXPECT_EQ(config->GetConsoleLoggingEnabled(), false);
     EXPECT_EQ(config->GetFileLoggingEnabled(), false);
-    EXPECT_EQ(config->GetToolEnabled(), false);
+    EXPECT_EQ(config->GetEnabledCoreModules(), Altseed2::CoreModules::Default);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log.txt");
+
+    auto coreModuels = Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool;
 
     //config->SetIsFullscreen(true);
     config->SetIsResizable(true);
     config->SetConsoleLoggingEnabled(true);
     config->SetFileLoggingEnabled(true);
-    config->SetToolEnabled(true);
+    config->SetEnabledCoreModules(coreModuels);
     config->SetLogFileName(u"Log-configtest.txt");
 
     //EXPECT_EQ(config->GetIsFullscreen(), true);
     EXPECT_EQ(config->GetIsResizable(), true);
     EXPECT_EQ(config->GetConsoleLoggingEnabled(), true);
     EXPECT_EQ(config->GetFileLoggingEnabled(), true);
-    EXPECT_EQ(config->GetToolEnabled(), true);
+    EXPECT_EQ(config->GetEnabledCoreModules(), coreModuels);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log-configtest.txt");
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
@@ -37,9 +39,9 @@ TEST(Configuration, Initialize) {
 TEST(Configuration, GraphicsOnly) {
     auto config = Altseed2::Configuration::Create();
 
-    config->SetIsGraphicsOnly(true);
+    config->SetEnabledCoreModules(Altseed2::CoreModules::Graphics);
 
-    EXPECT_EQ(config->GetIsGraphicsOnly(), true);
+    EXPECT_EQ(config->GetEnabledCoreModules(), Altseed2::CoreModules::Graphics);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 

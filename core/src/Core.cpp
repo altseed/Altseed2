@@ -49,6 +49,8 @@ void Core::PrintAllBaseObjectName() {
 }
 
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
+    RETURN_IF_NULL(config, false);
+
     if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
         Core::instance = nullptr;
         std::cout << "Log::Initialize failed" << std::endl;
@@ -58,88 +60,106 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     Core::instance = MakeAsdShared<Core>();
     Core::instance->config_ = config;
 
-    WindowInitializationParameter windowParameter;
-    windowParameter.Title = title == nullptr ? u"" : title;
-    windowParameter.WindowWidth = width;
-    windowParameter.WindowHeight = height;
-    windowParameter.IsFullscreenMode = config->GetIsFullscreen();
-    windowParameter.IsResizable = config->GetIsResizable();
+    auto coreModules = config->GetEnabledCoreModules();
 
-    GraphicsInitializationParameter graphicsParameter;
-    graphicsParameter.Device = config->GetDeviceType();
-    graphicsParameter.WaitVSync = config->GetWaitVSync();
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireWindow)) {
+        WindowInitializationParameter windowParameter;
+        windowParameter.Title = title == nullptr ? u"" : title;
+        windowParameter.WindowWidth = width;
+        windowParameter.WindowHeight = height;
+        windowParameter.IsFullscreenMode = config->GetIsFullscreen();
+        windowParameter.IsResizable = config->GetIsResizable();
 
-    if (!Window::Initialize(windowParameter)) {
-        LOG_CRITICAL(u"Window::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+        if (!Window::Initialize(windowParameter)) {
+            LOG_CRITICAL(u"Window::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!Keyboard::Initialize(Window::GetInstance())) {
-        LOG_CRITICAL(u"Keyboard::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::Keyboard)) {
+        if (!Keyboard::Initialize(Window::GetInstance())) {
+            LOG_CRITICAL(u"Keyboard::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!Mouse::Initialize(Window::GetInstance())) {
-        LOG_CRITICAL(u"Mouse::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::Mouse)) {
+        if (!Mouse::Initialize(Window::GetInstance())) {
+            LOG_CRITICAL(u"Mouse::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!Joystick::Initialize()) {
-        LOG_CRITICAL(u"Joystick::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::Joystick)) {
+        if (!Joystick::Initialize()) {
+            LOG_CRITICAL(u"Joystick::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!Resources::Initialize()) {
-        LOG_CRITICAL(u"Resources::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireFile)) {
+        if (!Resources::Initialize()) {
+            LOG_CRITICAL(u"Resources::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
+        if (!File::Initialize(Resources::GetInstance())) {
+            LOG_CRITICAL(u"File::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!File::Initialize(Resources::GetInstance())) {
-        LOG_CRITICAL(u"File::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireGraphics)) {
+        GraphicsInitializationParameter graphicsParameter;
+        graphicsParameter.Device = config->GetDeviceType();
+        graphicsParameter.WaitVSync = config->GetWaitVSync();
+
+        if (!CullingSystem::Initialize()) {
+            LOG_CRITICAL(u"CullingSystem::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
+        if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
+            LOG_CRITICAL(u"Graphics::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
+        if (!ShaderCompiler::Initialize(Graphics::GetInstance(), File::GetInstance())) {
+            LOG_CRITICAL(u"ShaderCompiler::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
+        if (!FrameDebugger::Initialize()) {
+            LOG_CRITICAL(u"FrameDebugger::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
+        if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance(), CullingSystem::GetInstance())) {
+            LOG_CRITICAL(u"Renderer::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!CullingSystem::Initialize()) {
-        LOG_CRITICAL(u"CullingSystem::Initialize failed");
-        Core::instance = nullptr;
-        return false;
+    if (CoreModulesHasBit(coreModules, CoreModules::Sound)) {
+        if (!SoundMixer::Initialize(false)) {
+            LOG_CRITICAL(u"SoundMixer::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
     }
 
-    if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
-        LOG_CRITICAL(u"Graphics::Initialize failed");
-        Core::instance = nullptr;
-        return false;
-    }
-
-    if (!ShaderCompiler::Initialize(Graphics::GetInstance(), File::GetInstance())) {
-        LOG_CRITICAL(u"ShaderCompiler::Initialize failed");
-        Core::instance = nullptr;
-        return false;
-    }
-
-    if (!FrameDebugger::Initialize()) {
-        LOG_CRITICAL(u"FrameDebugger::Initialize failed");
-        Core::instance = nullptr;
-        return false;
-    }
-
-    if (!config->GetIsGraphicsOnly() && !SoundMixer::Initialize(false)) {
-        LOG_CRITICAL(u"SoundMixer::Initialize failed");
-    }
-
-    if (!Renderer::Initialize(Window::GetInstance(), Graphics::GetInstance(), CullingSystem::GetInstance())) {
-        LOG_CRITICAL(u"Renderer::Initialize failed");
-        Core::instance = nullptr;
-        return false;
-    }
-
-    if (config->GetToolEnabled()) {
+    if (CoreModulesHasBit(coreModules, CoreModules::Tool)) {
         if (!Tool::Initialize(Graphics::GetInstance())) {
             LOG_CRITICAL(u"Tool::Initialize failed");
             Core::instance = nullptr;
@@ -181,18 +201,44 @@ void Core::Terminate() {
 
     SynchronizationContext::Terminate();
 
-    if (Core::instance->config_->GetToolEnabled()) Tool::Terminate();
-    Renderer::Terminate();
-    Window::Terminate();
-    Keyboard::Terminate();
-    Mouse::Terminate();
-    Joystick::Terminate();
-    Resources::Terminate();
-    File::Terminate();
-    CullingSystem::Terminate();
-    Graphics::Terminate();
-    ShaderCompiler::Terminate();
-    if (!Core::instance->config_->GetIsGraphicsOnly()) SoundMixer::Terminate();
+    auto coreModules = Core::instance->config_->GetEnabledCoreModules();
+
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireWindow)) {
+        Window::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Keyboard)) {
+        Keyboard::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Mouse)) {
+        Mouse::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Joystick)) {
+        Joystick::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireFile)) {
+        Resources::Terminate();
+        File::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireGraphics)) {
+        CullingSystem::Terminate();
+        Graphics::Terminate();
+        ShaderCompiler::Terminate();
+        Renderer::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Sound)) {
+        SoundMixer::Terminate();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Tool)) {
+        Tool::Terminate();
+    }
+
     Log::Terminate();
 
     Core::instance = nullptr;
