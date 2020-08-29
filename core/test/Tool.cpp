@@ -33,7 +33,7 @@ std::u16string format(const std::u16string& fmt, Args... args) {
 
 static void ToolTestTemplate(const int loopCount, std::function<void(std::shared_ptr<Altseed2::Tool>)> update) {
     auto config = Altseed2::Configuration::Create();
-    config->SetToolEnabled(true);
+    config->SetEnabledCoreModules(Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Tool", 1280, 720, config));
 
@@ -554,7 +554,7 @@ TEST(Tool, SaveDialog) {
     return;
 
     auto config = Altseed2::Configuration::Create();
-    config->SetToolEnabled(true);
+    config->SetEnabledCoreModules(Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool);
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     Altseed2::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");

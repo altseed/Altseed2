@@ -136,18 +136,18 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetWaitVSync(void* cbg_self, bool va
     cbg_self_->SetWaitVSync(cbg_arg0);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetIsGraphicsOnly(void* cbg_self) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Configuration_GetEnabledCoreModules(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
 
-    bool cbg_ret = cbg_self_->GetIsGraphicsOnly();
-    return cbg_ret;
+    Altseed2::CoreModules cbg_ret = cbg_self_->GetEnabledCoreModules();
+    return (int32_t)cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetIsGraphicsOnly(void* cbg_self, bool value) {
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetEnabledCoreModules(void* cbg_self, int32_t value) {
     auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
 
-    bool cbg_arg0 = value;
-    cbg_self_->SetIsGraphicsOnly(cbg_arg0);
+    Altseed2::CoreModules cbg_arg0 = (Altseed2::CoreModules)value;
+    cbg_self_->SetEnabledCoreModules(cbg_arg0);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetConsoleLoggingEnabled(void* cbg_self) {
@@ -190,20 +190,6 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetLogFileName(void* cbg_self, const
 
     const char16_t* cbg_arg0 = value;
     cbg_self_->SetLogFileName(cbg_arg0);
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Configuration_GetToolEnabled(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->GetToolEnabled();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Configuration_SetToolEnabled(void* cbg_self, bool value) {
-    auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
-
-    bool cbg_arg0 = value;
-    cbg_self_->SetToolEnabled(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Configuration_Release(void* cbg_self) {

@@ -22,6 +22,28 @@ with GraphicsDeviceType as enum_:
         v.brief = cbg.Description()
         v.brief.add('ja', 'Vulkan')
 
+CoreModules = cbg.Enum('Altseed2', 'CoreModules')
+with CoreModules as enum_:
+    flagWindow = 1
+    flagFile = 1 << 1
+    flagKeyboard = 1 << 2
+    flagMouse = 1 << 3
+    flagJoystick = 1 << 4
+    flagGraphics = 1 << 5
+    flagTool = 1 << 6
+    flagSound = 1 << 7
+    flagDefault = flagWindow | flagFile | flagKeyboard | flagMouse | flagJoystick | flagJoystick | flagGraphics | flagSound
+    enum_.add('None', 0)
+    enum_.add('Window', flagWindow)
+    enum_.add('File', flagFile)
+    enum_.add('Keyboard', flagKeyboard)
+    enum_.add('Mouse', flagMouse)
+    enum_.add('Joystick', flagJoystick)
+    enum_.add('Graphics', flagGraphics)
+    enum_.add('Tool', flagTool)
+    enum_.add('Sound', flagSound)
+    enum_.add('Default', flagDefault)
+
 Configuration = cbg.Class('Altseed2', 'Configuration')
 with Configuration as class_:
     class_.brief = cbg.Description()
@@ -66,9 +88,9 @@ with Configuration as class_:
         prop.has_setter = True
         prop.serialized = True
     
-    with class_.add_property(bool, 'IsGraphicsOnly') as prop:
+    with class_.add_property(CoreModules, 'EnabledCoreModules') as prop:
         prop.brief = cbg.Description()
-        prop.brief.add('ja', 'IO・描画機能以外の機能を無効にします。')
+        prop.brief.add('ja', '初期化するモジュールを指定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True
@@ -90,13 +112,6 @@ with Configuration as class_:
     with class_.add_property(ctypes.c_wchar_p, 'LogFileName') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'ログファイル名を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-        prop.serialized = True
-
-    with class_.add_property(bool, 'ToolEnabled') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ツール機能を使用するかどうかを取得または設定します。')
         prop.has_getter = True
         prop.has_setter = True
         prop.serialized = True

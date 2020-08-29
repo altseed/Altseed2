@@ -46,6 +46,7 @@ define.structs.append(Matrix44F)
 
 # core
 define.enums.append(GraphicsDeviceType)
+define.enums.append(CoreModules)
 define.classes.append(Configuration)
 define.enums.append(FramerateMode)
 define.classes.append(Core)

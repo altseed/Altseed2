@@ -1,4 +1,5 @@
 ﻿#include "SoundMixer.h"
+
 #include "../Logger/Log.h"
 
 namespace Altseed2 {
@@ -16,10 +17,8 @@ bool SoundMixer::Initialize(bool isReloadingEnabled) {
 
     if (!instance_->m_manager->Initialize()) {
         instance_->isSoundMixerEnabled_ = false;
-        return false;
     }
 
-    instance_->isSoundMixerEnabled_ = true;
     return true;
 }
 

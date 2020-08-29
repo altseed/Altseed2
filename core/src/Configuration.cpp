@@ -4,6 +4,14 @@
 
 namespace Altseed2 {
 
+bool CoreModulesHasBit(CoreModules a, CoreModules b) {
+    return (static_cast<int32_t>(a) & static_cast<int32_t>(b)) != 0;
+}
+
+CoreModules operator|(CoreModules a, CoreModules b) {
+    return static_cast<CoreModules>(static_cast<int32_t>(a) | static_cast<int32_t>(b));
+}
+
 std::shared_ptr<Configuration> Configuration::Create() {
     auto res = MakeAsdShared<Configuration>();
     return res;
@@ -28,9 +36,9 @@ bool Configuration::GetWaitVSync() const { return waitVSync_; }
 
 void Configuration::SetWaitVSync(bool waitVSync) { waitVSync_ = waitVSync; }
 
-bool Configuration::GetIsGraphicsOnly() const { return isGraphicsOnly_; }
+CoreModules Configuration::GetEnabledCoreModules() const { return coreModules_; }
 
-void Configuration::SetIsGraphicsOnly(bool isGraphicsOnly) { isGraphicsOnly_ = isGraphicsOnly; }
+void Configuration::SetEnabledCoreModules(CoreModules coreModules) { coreModules_ = coreModules; }
 
 bool Configuration::GetConsoleLoggingEnabled() const { return consoleLoggingEnabled_; }
 
@@ -39,10 +47,6 @@ void Configuration::SetConsoleLoggingEnabled(bool consoleLoggingEnabled) { conso
 bool Configuration::GetFileLoggingEnabled() const { return fileLoggingEnabled_; }
 
 void Configuration::SetFileLoggingEnabled(bool fileLoggingEnabled) { fileLoggingEnabled_ = fileLoggingEnabled; }
-
-bool Configuration::GetToolEnabled() const { return toolEnabled_; }
-
-void Configuration::SetToolEnabled(bool toolEnabled) { toolEnabled_ = toolEnabled; }
 
 const char16_t* Configuration::GetLogFileName() { return logFileName_.c_str(); }
 
