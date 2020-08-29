@@ -7,6 +7,8 @@
 #include <chrono>
 #include <cmath>
 
+#include "TestHelper.h"
+
 bool IsPushedOrHolded(int joystickIndex, Altseed2::JoystickButton btn, int count) {
     if (Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed2::ButtonState::Free ||
         Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, btn) == Altseed2::ButtonState::Release) {
@@ -103,8 +105,8 @@ void printJoystickInformation() {
 }
 
 TEST(Joystick, Initialize) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick Initialize", 640, 480, config));
 
@@ -120,8 +122,8 @@ TEST(Joystick, Initialize) {
 }
 
 TEST(Joystick, ButtonState) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonState", 640, 480, config));
 
@@ -162,8 +164,8 @@ TEST(Joystick, ButtonState) {
 }
 
 TEST(Joystick, AxisState) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick AxisState", 640, 480, config));
 
@@ -217,8 +219,8 @@ TEST(Joystick, ButtonStateByType) {
             {std::string("DPadLeft"), Altseed2::JoystickButton::DPadLeft},
     };
 
-    auto config = Altseed2::Configuration::Create();
-    // config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
 
@@ -263,7 +265,8 @@ TEST(Joystick, AxisStateByType) {
             {std::string("RightY"), Altseed2::JoystickAxis::RightY},
     };
 
-    auto config = Altseed2::Configuration::Create();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonStateByType", 640, 480, config));
 

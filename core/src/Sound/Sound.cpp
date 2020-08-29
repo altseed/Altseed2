@@ -20,11 +20,18 @@ Sound::~Sound() {
 std::shared_ptr<Sound> Sound::Load(const char16_t* path, bool isDecompressed) {
     RETURN_IF_NULL(path, nullptr);
 
-    std::lock_guard<std::mutex> lock(mtx);
-
     auto soundMixer = SoundMixer::GetInstance();
-    if (!soundMixer->isSoundMixerEnabled_) return nullptr;
-    if (soundMixer->m_manager == nullptr) return nullptr;
+    if (soundMixer == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Sound is not initialized.");
+        return nullptr;
+    }
+
+    if (soundMixer->m_manager == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Sound is not enabled.");
+        return nullptr;
+    }
+
+    std::lock_guard<std::mutex> lock(mtx);
 
     auto cache = std::dynamic_pointer_cast<Sound>(soundMixer->m_resources->GetResourceContainer(ResourceType::Sound)->Get(path));
     if (cache != nullptr && cache->GetRef() > 0) {

@@ -12,9 +12,12 @@
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Logger/Log.h"
+#include "TestHelper.h"
 
 TEST(Texture2D, Base) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -52,7 +55,10 @@ TEST(Texture2D, Base) {
 }
 
 TEST(Texture2D, Async) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -102,7 +108,10 @@ TEST(Texture2D, Async) {
 }
 
 TEST(Texture2D, Save) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto instance = Altseed2::Graphics::GetInstance();
 
@@ -156,7 +165,9 @@ void* Texture2D_Cache_Func(const char16_t* path) {
 }
 
 TEST(Texture2D, Cache) {
-    auto config = Altseed2::Configuration::Create();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
     config->SetFileLoggingEnabled(true);
     config->SetLogFileName(u"cache.txt");
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));

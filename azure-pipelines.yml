@@ -35,7 +35,7 @@ jobs:
           targetType: 'inline'
           script: |
             cd build/RELEASE/
-            .\Altseed2_Core_Test.exe
+            .\Altseed2_Core_Test.exe --gtest_filter='-Sound.*'
 
       - task: PublishBuildArtifacts@1
         inputs:

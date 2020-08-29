@@ -2,18 +2,26 @@
 #include <Sound/SoundMixer.h>
 #include <gtest/gtest.h>
 
+#include "TestHelper.h"
+
 namespace asd = Altseed2;
 
 TEST(Sound, SoundPlay) {
-    char16_t s16[] = u"Sound Play";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Sound);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(asd::Core::Initialize(u"Sound Play", 640, 480, config));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    EXPECT_TRUE(bgm != nullptr);
     auto se = asd::Sound::Load(u"TestData/Sound/se1.wav", true);
+    EXPECT_TRUE(se != nullptr);
 
     auto mixer = asd::SoundMixer::GetInstance();
     int id_bgm = mixer->Play(bgm);
+    EXPECT_TRUE(id_bgm != -1);
     int id_se = mixer->Play(se);
+    EXPECT_TRUE(id_se != -1);
 
     clock_t start = clock();
 
@@ -27,23 +35,24 @@ TEST(Sound, SoundPlay) {
 }
 
 TEST(Sound, SoundLoop) {
-    char16_t s16[] = u"Sound Loop";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Sound);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(asd::Core::Initialize(u"Sound Loop", 640, 480, config));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    EXPECT_TRUE(bgm != nullptr);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = -1;
 
-    if (bgm != nullptr) {
-        EXPECT_FALSE(bgm->GetIsLoopingMode());
-        bgm->SetIsLoopingMode(true);
-        EXPECT_TRUE(bgm->GetIsLoopingMode());
-        bgm->SetLoopStartingPoint(1.0);
-        bgm->SetLoopEndPoint(2.5);
+    EXPECT_FALSE(bgm->GetIsLoopingMode());
+    bgm->SetIsLoopingMode(true);
+    EXPECT_TRUE(bgm->GetIsLoopingMode());
+    bgm->SetLoopStartingPoint(1.0);
+    bgm->SetLoopEndPoint(2.5);
 
-        id_bgm = mixer->Play(bgm);
-    }
+    int id_bgm = mixer->Play(bgm);
+    EXPECT_TRUE(id_bgm != -1);
 
     clock_t start = clock();
 
@@ -57,15 +66,18 @@ TEST(Sound, SoundLoop) {
 }
 
 TEST(Sound, SoundResume) {
-    char16_t s16[] = u"Sound Resume";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Sound);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(asd::Core::Initialize(u"SOund Resume", 640, 480, config));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    EXPECT_TRUE(bgm != nullptr);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = -1;
 
-    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
+    int id_bgm = mixer->Play(bgm);
+    EXPECT_TRUE(id_bgm != -1);
 
     clock_t start = clock();
     int stage = 0;
@@ -99,38 +111,44 @@ TEST(Sound, SoundResume) {
 }
 
 TEST(Sound, SoundLength) {
-    char16_t s16[] = u"Sound Length";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Sound);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(asd::Core::Initialize(u"Sound Length", 640, 480, config));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    EXPECT_TRUE(bgm != nullptr);
     auto se = asd::Sound::Load(u"TestData/Sound/se1.wav", true);
+    EXPECT_TRUE(se != nullptr);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = -1, id_se = -1;
 
-    if (bgm != nullptr) {
-        id_bgm = mixer->Play(bgm);
-        id_se = mixer->Play(se);
+    int id_bgm = mixer->Play(bgm);
+    EXPECT_TRUE(id_bgm != -1);
+    int id_se = mixer->Play(se);
+    EXPECT_TRUE(id_se != -1);
 
-        printf("Length of bgm : %f [sec]\n", bgm->GetLength());
-        printf("Length of se  : %f [sec]\n", se->GetLength());
-    }
+    printf("Length of bgm : %f [sec]\n", bgm->GetLength());
+    printf("Length of se  : %f [sec]\n", se->GetLength());
 
     asd::Core::Terminate();
 }
 
 TEST(Sound, SpectrumAnalyze) {
-    char16_t s16[] = u"Spectrum Analyze";
-    EXPECT_TRUE(asd::Core::Initialize(s16, 640, 480, asd::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Sound);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(asd::Core::Initialize(u"Spectrum Analyze", 640, 480, config));
 
     auto bgm = asd::Sound::Load(u"TestData/Sound/bgm1.ogg", false);
+    EXPECT_TRUE(bgm != nullptr);
 
     auto spectrumData = asd::MakeAsdShared<asd::FloatArray>(8192);
 
     auto mixer = asd::SoundMixer::GetInstance();
-    int id_bgm = -1;
 
-    if (bgm != nullptr) id_bgm = mixer->Play(bgm);
+    int id_bgm = mixer->Play(bgm);
+    EXPECT_TRUE(id_bgm != -1);
 
     clock_t start = clock();
 

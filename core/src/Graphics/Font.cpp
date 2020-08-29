@@ -110,9 +110,14 @@ const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
     RETURN_IF_NULL(path, nullptr);
 
+    auto resources = Resources::GetInstance();
+    if (resources == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"File is not initialized.");
+        return nullptr;
+    }
+
     std::lock_guard<std::mutex> lock(mtx);
 
-    auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(
             resources->GetResourceContainer(ResourceType::Font)->Get(path + utf8_to_utf16(std::to_string(size))));
     if (cache != nullptr && cache->GetRef() > 0 && !cache->GetIsStaticFont()) {
@@ -143,9 +148,14 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     RETURN_IF_NULL(path, nullptr);
 
+    auto resources = Resources::GetInstance();
+    if (resources == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"File is not initialized.");
+        return nullptr;
+    }
+
     std::lock_guard<std::mutex> lock(mtx);
 
-    auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
     if (cache != nullptr && cache->GetRef() > 0 && cache->GetIsStaticFont()) {
         return cache;
@@ -199,7 +209,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 }
 
 std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
-    if (baseFont == nullptr) return nullptr;
+    RETURN_IF_NULL(baseFont, nullptr);
     return std::static_pointer_cast<Font>(MakeAsdShared<ImageFont>(baseFont));
 }
 
@@ -207,6 +217,11 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     BinaryWriter writer;
 
     auto font = Font::LoadDynamicFont(dynamicFontPath, size);
+    if (font == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Failed to create font");
+        return false;
+    }
+
     writer.Push(font->size_);
     writer.Push(font->actualSize_);
     writer.Push(font->ascent_);

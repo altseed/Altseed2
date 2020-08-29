@@ -186,13 +186,13 @@ bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphR
         io.Fonts->Build();
 
         if (font == nullptr) {
-            Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
+            Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '{0}'", path_.c_str());
         }
 
         this_->platform_->CreateFont();
     });
 
-    Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '%s'", path_.c_str());
+    Log::GetInstance()->Error(LogCategory::Core, u"Tool::AddFonrFromFileTTF: Failed to load font from '{0}'", path_.c_str());
 
     return true;
 }

@@ -17,6 +17,7 @@
 #include "Math/Matrix44F.h"
 #include "Math/RectF.h"
 #include "System/SynchronizationContext.h"
+#include "TestHelper.h"
 
 #if !defined(_WIN32) || defined(_WIN64)
 
@@ -32,8 +33,8 @@ std::u16string format(const std::u16string& fmt, Args... args) {
 }
 
 static void ToolTestTemplate(const int loopCount, std::function<void(std::shared_ptr<Altseed2::Tool>)> update) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetEnabledCoreModules(Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics | Altseed2::CoreModules::Tool);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Tool", 1280, 720, config));
 
@@ -553,8 +554,7 @@ TEST(Tool, Popup) {
 TEST(Tool, SaveDialog) {
     return;
 
-    auto config = Altseed2::Configuration::Create();
-    config->SetEnabledCoreModules(Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics | Altseed2::CoreModules::Tool);
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     Altseed2::Tool::GetInstance()->OpenDialog(u"png;jpg,jpeg", u"");
