@@ -19,7 +19,6 @@ with Sound as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '音源のクラス')
     class_.SerializeType = cbg.SerializeType.Interface
-    class_.surpress_Releasing = True
     class_.is_Sealed = True
 
     with class_.add_func('Load') as func:

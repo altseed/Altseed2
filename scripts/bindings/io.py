@@ -9,7 +9,6 @@ with StaticFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '一度でファイルを読み取るクラス')
     class_.SerializeType = cbg.SerializeType.Interface
-    class_.surpress_Releasing = True
     class_.is_Sealed = True
     
     with class_.add_func('Create') as func:
@@ -62,9 +61,8 @@ with StreamFile as class_:
     class_.brief = cbg.Description()
     class_.brief.add('ja', '段階的にファイルを読み取るクラス')
     class_.SerializeType = cbg.SerializeType.Interface
-    class_.CallBackType = cbg.CallBackType.Enable
-    class_.surpress_Releasing = True
     class_.is_Sealed = True
+    class_.CallBackType = cbg.CallBackType.Enable
 
     with class_.add_func('Create') as func:
         func.brief = cbg.Description()
