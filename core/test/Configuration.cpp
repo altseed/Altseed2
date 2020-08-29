@@ -6,6 +6,8 @@
 #include <Graphics/Renderer/Renderer.h>
 #include <gtest/gtest.h>
 
+#include "TestHelper.h"
+
 TEST(Configuration, Initialize) {
     auto config = Altseed2::Configuration::Create();
     EXPECT_EQ(config->GetIsFullscreen(), false);
@@ -15,7 +17,7 @@ TEST(Configuration, Initialize) {
     EXPECT_EQ(config->GetEnabledCoreModules(), Altseed2::CoreModules::Default);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log.txt");
 
-    auto coreModuels = Altseed2::CoreModules::Default | Altseed2::CoreModules::Tool;
+    auto coreModuels = Altseed2::CoreModules::Graphics;
 
     //config->SetIsFullscreen(true);
     config->SetIsResizable(true);
@@ -37,11 +39,8 @@ TEST(Configuration, Initialize) {
 }
 
 TEST(Configuration, GraphicsOnly) {
-    auto config = Altseed2::Configuration::Create();
-
-    config->SetEnabledCoreModules(Altseed2::CoreModules::Graphics);
-
-    EXPECT_EQ(config->GetEnabledCoreModules(), Altseed2::CoreModules::Graphics);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 

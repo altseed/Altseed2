@@ -21,14 +21,26 @@ std::shared_ptr<ShaderCompileResult> Shader::Compile(const char16_t* name, const
     RETURN_IF_NULL(name, MakeAsdShared<ShaderCompileResult>(nullptr, u"name is null"));
     RETURN_IF_NULL(code, MakeAsdShared<ShaderCompileResult>(nullptr, u"code is null"));
 
-    return ShaderCompiler::GetInstance()->Compile("", utf16_to_utf8(name).c_str(), utf16_to_utf8(code).c_str(), shaderStage);
+    auto shaderCompiler = ShaderCompiler::GetInstance();
+    if (shaderCompiler == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Graphics is not initialized.");
+        return nullptr;
+    }
+
+    return shaderCompiler->Compile("", utf16_to_utf8(name).c_str(), utf16_to_utf8(code).c_str(), shaderStage);
 }
 
 std::shared_ptr<ShaderCompileResult> Shader::CompileFromFile(const char16_t* name, const char16_t* path, ShaderStageType shaderStage) {
     RETURN_IF_NULL(name, MakeAsdShared<ShaderCompileResult>(nullptr, u"name is null"));
     RETURN_IF_NULL(path, MakeAsdShared<ShaderCompileResult>(nullptr, u"path is null"));
 
-    return ShaderCompiler::GetInstance()->Compile(utf16_to_utf8(path).c_str(), utf16_to_utf8(name).c_str(), shaderStage);
+    auto shaderCompiler = ShaderCompiler::GetInstance();
+    if (shaderCompiler == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Graphics is not initialized.");
+        return nullptr;
+    }
+
+    return shaderCompiler->Compile(utf16_to_utf8(path).c_str(), utf16_to_utf8(name).c_str(), shaderStage);
 }
 
 }  // namespace Altseed2

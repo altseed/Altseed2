@@ -3,6 +3,9 @@
 #include <gtest/gtest.h>
 
 #include <string>
+
+#include "TestHelper.h"
+
 #define STR(var) #var
 
 using namespace std::string_literals;
@@ -29,9 +32,10 @@ TEST(Keyboard, Initialize) {
 */
 
 TEST(Keyboard, GetKeyState) {
-    char16_t s16[] = u"test";
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Keyboard);
+    EXPECT_TRUE(config != nullptr);
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(s16, 640, 480, Altseed2::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Keyboard", 640, 480, config));
 
     for (int count = 0; Altseed2::Core::GetInstance()->DoEvent() && count < 60; count++) {
         for (int i = 0; i < static_cast<int>(Altseed2::Key::MAX); i++) {

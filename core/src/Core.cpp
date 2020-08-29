@@ -249,15 +249,29 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
-    Altseed2::Keyboard::GetInstance()->RefleshKeyStates();
-    Altseed2::Mouse::GetInstance()->RefreshInputState();
-    Altseed2::Joystick::GetInstance()->RefreshInputState();
+    auto coreModules = Core::instance->config_->GetEnabledCoreModules();
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Keyboard)) {
+        Altseed2::Keyboard::GetInstance()->RefleshKeyStates();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Mouse)) {
+        Altseed2::Mouse::GetInstance()->RefreshInputState();
+    }
+
+    if (CoreModulesHasBit(coreModules, CoreModules::Joystick)) {
+        Altseed2::Joystick::GetInstance()->RefreshInputState();
+    }
 
     SynchronizationContext::GetInstance()->Run();
 
     Core::instance->fps_->Update();
 
-    return Altseed2::Window::GetInstance()->DoEvent();
+    if (CoreModulesHasBit(coreModules, CoreModules::RequireWindow)) {
+        return Altseed2::Window::GetInstance()->DoEvent();
+    } else {
+        return true;
+    }
 }
 
 const float Core::GetDeltaSecond() { return Core::instance->fps_->GetDeltaSecond(); }

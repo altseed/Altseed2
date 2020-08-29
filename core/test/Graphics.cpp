@@ -24,10 +24,14 @@
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Logger/Log.h"
 #include "Math/Matrix44F.h"
+#include "TestHelper.h"
 #include "Tool/Tool.h"
 
 TEST(Graphics, Initialize) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 1280, 720, config));
 
     int count = 0;
 
@@ -47,7 +51,10 @@ TEST(Graphics, Initialize) {
 }
 
 TEST(Graphics, Shader) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 800, 600, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Initialize", 800, 600, config));
 
     auto shader = Altseed2::Graphics::GetInstance()->GetBuiltinShader()->Create(Altseed2::BuiltinShaderType::SpriteUnlitPS);
 
@@ -61,7 +68,10 @@ TEST(Graphics, Shader) {
 }
 
 TEST(Graphics, SpriteTexture) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, config));
 
     int count = 0;
 
@@ -116,7 +126,10 @@ TEST(Graphics, SpriteTexture) {
 }
 
 TEST(Graphics, RenderedText) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
 
@@ -229,7 +242,10 @@ TEST(Graphics, RenderedText) {
 }
 
 TEST(Graphics, RenderedPolygon) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedPolygon", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedPolygon", 1280, 720, config));
 
     int count = 0;
 
@@ -281,8 +297,8 @@ TEST(Graphics, RenderedPolygon) {
 }
 
 TEST(Graphics, AlphaBlend) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
     config->SetFileLoggingEnabled(true);
     EXPECT_TRUE(Altseed2::Core::Initialize(u"AlphaBlend", 1280, 720, config));
 
@@ -346,7 +362,10 @@ TEST(Graphics, AlphaBlend) {
 }
 
 TEST(Graphics, CameraBasic) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"CameraBasic", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"CameraBasic", 1280, 720, config));
 
     int count = 0;
 
@@ -411,9 +430,10 @@ TEST(Graphics, CameraBasic) {
 }
 
 TEST(Graphics, RenderTexture) {
-    auto config = Altseed2::Configuration::Create();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
     config->SetFileLoggingEnabled(true);
-    config->SetConsoleLoggingEnabled(true);
     config->SetLogFileName(u"RenderTexture.txt");
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderTexture", 1280, 720, config));
     Altseed2::Log::GetInstance()->SetLevel(Altseed2::LogCategory::Graphics, Altseed2::LogLevel::Trace);
@@ -490,9 +510,10 @@ TEST(Graphics, RenderTexture) {
 }
 
 TEST(Graphics, RenderTextureSave) {
-    auto config = Altseed2::Configuration::Create();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
     config->SetFileLoggingEnabled(true);
-    config->SetConsoleLoggingEnabled(true);
     config->SetLogFileName(u"RenderTextureSave.txt");
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderTextureSave", 1280, 720, config));
     Altseed2::Log::GetInstance()->SetLevel(Altseed2::LogCategory::Graphics, Altseed2::LogLevel::Trace);
@@ -570,7 +591,10 @@ TEST(Graphics, RenderTextureSave) {
 }
 
 TEST(Graphics, BackgroundBugcheck) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, config));
 
     int count = 0;
 
@@ -693,7 +717,10 @@ VS_OUTPUT main(VS_INPUT input){
 }
 )";
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"VertexTextureFetch", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"VertexTextureFetch", 1280, 720, config));
 
     int count = 0;
 
@@ -742,7 +769,10 @@ VS_OUTPUT main(VS_INPUT input){
 }
 
 TEST(Graphics, Culling) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"Culling", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Culling", 1280, 720, config));
 
     int count = 0;
 
@@ -801,7 +831,10 @@ TEST(Graphics, Culling) {
 }
 
 TEST(Graphics, CullingTooManySprite) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"SpriteTexture", 1280, 720, config));
 
     int count = 0;
 
@@ -882,8 +915,8 @@ TEST(Graphics, CullingTooManySprite) {
 }
 
 TEST(Graphics, RenderToRenderTexture) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RnderToRenderTexture", 1280, 720, config));
 
@@ -961,7 +994,10 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 )";
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"TextureWrapMode", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"TextureWrapMode", 1280, 720, config));
 
     auto instance = Altseed2::Graphics::GetInstance();
 
@@ -1008,7 +1044,10 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 
 TEST(Graphics, ShaderFromFile) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"ShaderFromFile", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"ShaderFromFile", 1280, 720, config));
 
     auto instance = Altseed2::Graphics::GetInstance();
 
@@ -1073,8 +1112,8 @@ float4 main(PS_INPUT input) : SV_TARGET
 }
 )";
 
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"ScreenTextureFormat", 1280, 720, config));
 

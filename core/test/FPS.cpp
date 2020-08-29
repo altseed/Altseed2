@@ -4,8 +4,13 @@
 #include <Logger/Log.h>
 #include <gtest/gtest.h>
 
+#include "TestHelper.h"
+
 TEST(FPS, Update) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::None);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto instance = Altseed2::Core::GetInstance();
 
@@ -51,7 +56,10 @@ TEST(FPS, Update) {
 }
 
 TEST(FPS, WithGraphics) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto instance = Altseed2::Core::GetInstance();
 

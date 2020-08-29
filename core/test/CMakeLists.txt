@@ -3,6 +3,8 @@ enable_language(CXX)
 
 # set files
 set(core_test_files
+    TestHelper.h
+    TestHelper.cpp
     BaseObject.cpp
     Configuration.cpp
     FPS.cpp

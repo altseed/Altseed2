@@ -4,10 +4,11 @@
 
 #include <thread>
 
+#include "TestHelper.h"
+
 TEST(BaseObject, Basic) {
-    auto config = Altseed2::Configuration::Create();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::None);
     EXPECT_TRUE(config != nullptr);
-    config->SetConsoleLoggingEnabled(true);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
     auto defaultObjectCount = Altseed2::Core::GetInstance()->GetBaseObjectCount();
@@ -33,7 +34,9 @@ TEST(BaseObject, Basic) {
 }
 
 TEST(BaseObject, Async) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::None);
+    EXPECT_TRUE(config != nullptr);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto baseObject = new Altseed2::BaseObject();
 
@@ -67,7 +70,9 @@ TEST(BaseObject, Async) {
 }
 
 TEST(BaseObject, DisposeInOtherThreadAfterTerminate) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::None);
+    EXPECT_TRUE(config != nullptr);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     auto baseObject = new Altseed2::BaseObject();
 

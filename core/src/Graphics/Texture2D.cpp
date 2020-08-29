@@ -32,9 +32,14 @@ const char16_t* Texture2D::GetPath() const { return sourcePath_.c_str(); }
 std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     RETURN_IF_NULL(path, nullptr);
 
+    auto resources = Resources::GetInstance();
+    if (resources == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Resources is not initialized.");
+        return nullptr;
+    }
+
     std::lock_guard<std::mutex> lock(mtx);
 
-    auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<Texture2D>(resources->GetResourceContainer(ResourceType::Texture2D)->Get(path));
     if (cache != nullptr && cache->GetRef() > 0) {
         return cache;

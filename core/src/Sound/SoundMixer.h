@@ -27,8 +27,6 @@ class SoundMixer : public BaseObject {
 private:
     static std::shared_ptr<SoundMixer> instance_;
 
-    bool isSoundMixerEnabled_;
-
     std::shared_ptr<osm::Manager> m_manager;
     std::shared_ptr<Resources> m_resources;
 

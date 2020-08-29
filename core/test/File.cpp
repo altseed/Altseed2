@@ -8,8 +8,13 @@
 #include <thread>
 #include <vector>
 
+#include "TestHelper.h"
+
 TEST(File, FileRoot) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/pack/", u"TestData/IO/pack.pack"));
@@ -62,7 +67,10 @@ TEST(File, FileRoot) {
 }
 
 TEST(File, StaticFile) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO", u"TestData/IO/pack.pack"));
@@ -110,7 +118,10 @@ TEST(File, StaticFile) {
 }
 
 TEST(File, StreamFile) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -174,7 +185,10 @@ TEST(File, StreamFile) {
 }
 
 TEST(File, Zenkaku) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));
@@ -206,7 +220,10 @@ TEST(File, Zenkaku) {
 }
 
 TEST(File, StaticFileAsync) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 
     // pack files
     EXPECT_TRUE(Altseed2::File::GetInstance()->Pack(u"TestData/IO/", u"TestData/IO/pack.pack"));

@@ -3,14 +3,18 @@
 #include <gtest/gtest.h>
 
 #include <string>
+
+#include "TestHelper.h"
+
 #define STR(var) #var
 
 using namespace std::string_literals;
 
 TEST(Mouse, Initialize) {
-    char16_t s16[] = u"Mouse";
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Mouse | Altseed2::CoreModules::File);
+    EXPECT_TRUE(config != nullptr);
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(s16, 640, 480, Altseed2::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Mouse", 640, 480, Altseed2::Configuration::Create()));
 
     int i = 0;
 
@@ -38,9 +42,10 @@ void WheelTestFunction(double x, double y) {
 }
 
 TEST(Mouse, GetMouseInput) {
-    char16_t s16[] = u"Mouse inputs";
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Mouse);
+    EXPECT_TRUE(config != nullptr);
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(s16, 640, 480, Altseed2::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Mouse inputs", 640, 480, Altseed2::Configuration::Create()));
 
     Altseed2::Mouse::GetInstance()->Altseed2::Mouse::SetWheelCallback(WheelTestFunction);
 
@@ -75,9 +80,10 @@ TEST(Mouse, GetMouseInput) {
 }
 
 TEST(Mouse, Position) {
-    char16_t s16[] = u"Mouse position";
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Mouse);
+    EXPECT_TRUE(config != nullptr);
 
-    EXPECT_TRUE(Altseed2::Core::Initialize(s16, 640, 480, Altseed2::Configuration::Create()));
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Mouse position", 640, 480, Altseed2::Configuration::Create()));
 
     Altseed2::Mouse::GetInstance()->SetPosition(Altseed2::Vector2F(320, 240));
     Altseed2::Vector2F result = Altseed2::Mouse::GetInstance()->GetPosition();

@@ -20,6 +20,7 @@
 #include "Graphics/Shader.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Logger/Log.h"
+#include "TestHelper.h"
 
 TEST(PostEffect, Base) {
     const char* PostEffectCode = R"(
@@ -50,8 +51,8 @@ TEST(PostEffect, Base) {
     }
     )";
 
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffectBase", 1280, 720, config));
 
@@ -104,8 +105,8 @@ TEST(PostEffect, Base) {
 }
 
 TEST(PostEffect, Builtin) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffect Builtin", 400, 300, config));
 
@@ -170,8 +171,8 @@ TEST(PostEffect, Builtin) {
 }
 
 TEST(PostEffect, Sepia) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffect Sepia", 1280, 720, config));
 
@@ -227,8 +228,8 @@ TEST(PostEffect, Sepia) {
 }
 
 TEST(PostEffect, GrayScale) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffect GrayScale", 1280, 720, config));
 
@@ -284,8 +285,8 @@ TEST(PostEffect, GrayScale) {
 }
 
 TEST(PostEffect, GaussianBlur) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffect LightBloom", 1280, 720, config));
 
@@ -381,8 +382,8 @@ TEST(PostEffect, GaussianBlur) {
 }
 
 TEST(PostEffect, LightBloom) {
-    auto config = Altseed2::Configuration::Create();
-    config->SetConsoleLoggingEnabled(true);
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"PostEffect LightBloom", 1280, 720, config));
 

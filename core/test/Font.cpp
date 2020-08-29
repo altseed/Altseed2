@@ -16,10 +16,14 @@
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "TestHelper.h"
 #include "Tool/Tool.h"
 
 TEST(Font, Basic) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
 
@@ -66,7 +70,10 @@ TEST(Font, Basic) {
 }
 
 TEST(Font, Weight) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
 
@@ -181,7 +188,10 @@ TEST(Font, Weight) {
 // }
 
 TEST(Font, Surrogate) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
 
@@ -228,7 +238,10 @@ TEST(Font, Surrogate) {
 }
 
 TEST(Font, ImageFont) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 1280, 720, config));
 
     int count = 0;
 
@@ -279,7 +292,10 @@ TEST(Font, ImageFont) {
 }
 
 TEST(Font, StaticFont) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     EXPECT_TRUE(
             Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/test.a2f", 100, u"Hello, world! こんにちは"));
@@ -338,7 +354,10 @@ TEST(Font, StaticFont) {
 }
 
 TEST(Font, FontSize) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font10 = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 10);
     auto font20 = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 20);
@@ -422,7 +441,10 @@ TEST(Font, FontSize) {
 }
 
 TEST(Font, Return) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 30);
 
@@ -471,7 +493,10 @@ TEST(Font, Return) {
 }
 
 TEST(Font, Vertical) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, Altseed2::Configuration::Create()));
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 30);
 

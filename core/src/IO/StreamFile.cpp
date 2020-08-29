@@ -22,11 +22,16 @@ StreamFile::~StreamFile() {
 std::shared_ptr<StreamFile> StreamFile::Create(const char16_t* path) {
     RETURN_IF_NULL(path, nullptr);
 
+    auto resources = Resources::GetInstance();
+    if (resources == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"File is not initialized.");
+        return nullptr;
+    }
+
     std::lock_guard<std::mutex> lock(m_streamFileMtx);
 
     auto path_ = FileSystem::NormalizePath(path);
 
-    auto resources = Resources::GetInstance();
     auto cache = std::dynamic_pointer_cast<StreamFile>(resources->GetResourceContainer(ResourceType::StreamFile)->Get(path_));
     if (cache != nullptr && cache->GetRef() > 0) {
         return cache;

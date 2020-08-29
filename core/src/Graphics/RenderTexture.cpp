@@ -15,7 +15,13 @@ RenderTexture::RenderTexture(const std::shared_ptr<LLGI::Texture>& texture)
 RenderTexture::~RenderTexture() {}
 
 std::shared_ptr<RenderTexture> RenderTexture::Create(Vector2I size, TextureFormatType format) {
-    auto texture = Graphics::GetInstance()->CreateRenderTexture(size.X, size.Y, format);
+    auto graphics = Graphics::GetInstance();
+    if (graphics == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Graphics is not initialized.");
+        return nullptr;
+    }
+
+    auto texture = graphics->CreateRenderTexture(size.X, size.Y, format);
 
     if (texture == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"RenderTexture::Create: Failed to CreateTexture");
