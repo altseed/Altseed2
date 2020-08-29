@@ -5,7 +5,11 @@
 #include <thread>
 
 TEST(BaseObject, Basic) {
-    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, Altseed2::Configuration::Create()));
+    auto config = Altseed2::Configuration::Create();
+    EXPECT_TRUE(config != nullptr);
+    config->SetConsoleLoggingEnabled(true);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
     auto defaultObjectCount = Altseed2::Core::GetInstance()->GetBaseObjectCount();
 
     auto baseObject = new Altseed2::BaseObject();
