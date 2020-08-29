@@ -51,22 +51,16 @@ void Core::PrintAllBaseObjectName() {
 bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config) {
     RETURN_IF_NULL(config, false);
 
-    std::cout << "Debug 1" << std::endl;
-
     if (!Log::Initialize(config->GetConsoleLoggingEnabled(), config->GetFileLoggingEnabled(), config->GetLogFileName())) {
         Core::instance = nullptr;
         std::cout << "Log::Initialize failed" << std::endl;
         return false;
     }
 
-    std::cout << "Debug 2" << std::endl;
-
     Core::instance = MakeAsdShared<Core>();
     Core::instance->config_ = config;
 
     auto coreModules = config->GetEnabledCoreModules();
-
-    std::cout << "Debug 2" << std::endl;
 
     if (CoreModulesHasBit(coreModules, CoreModules::RequireWindow)) {
         WindowInitializationParameter windowParameter;
@@ -83,8 +77,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         }
     }
 
-    std::cout << "Debug 3" << std::endl;
-
     if (CoreModulesHasBit(coreModules, CoreModules::Keyboard)) {
         if (!Keyboard::Initialize(Window::GetInstance())) {
             LOG_CRITICAL(u"Keyboard::Initialize failed");
@@ -92,8 +84,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
             return false;
         }
     }
-
-    std::cout << "Debug 4" << std::endl;
 
     if (CoreModulesHasBit(coreModules, CoreModules::Mouse)) {
         if (!Mouse::Initialize(Window::GetInstance())) {
@@ -103,8 +93,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         }
     }
 
-    std::cout << "Debug 5" << std::endl;
-
     if (CoreModulesHasBit(coreModules, CoreModules::Joystick)) {
         if (!Joystick::Initialize()) {
             LOG_CRITICAL(u"Joystick::Initialize failed");
@@ -112,8 +100,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
             return false;
         }
     }
-
-    std::cout << "Debug 6" << std::endl;
 
     if (CoreModulesHasBit(coreModules, CoreModules::RequireFile)) {
         if (!Resources::Initialize()) {
@@ -128,8 +114,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
             return false;
         }
     }
-
-    std::cout << "Debug 7" << std::endl;
 
     if (CoreModulesHasBit(coreModules, CoreModules::RequireGraphics)) {
         GraphicsInitializationParameter graphicsParameter;
@@ -167,8 +151,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         }
     }
 
-    std::cout << "Debug 8" << std::endl;
-
     if (CoreModulesHasBit(coreModules, CoreModules::Sound)) {
         if (!SoundMixer::Initialize(false)) {
             LOG_CRITICAL(u"SoundMixer::Initialize failed");
@@ -176,8 +158,6 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
             return false;
         }
     }
-
-    std::cout << "Debug 9" << std::endl;
 
     if (CoreModulesHasBit(coreModules, CoreModules::Tool)) {
         if (!Tool::Initialize(Graphics::GetInstance())) {
