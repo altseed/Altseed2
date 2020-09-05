@@ -1059,6 +1059,90 @@ with RenderedPolygon as class_:
         prop.serialized = True
         prop.is_public = False
 
+RenderedIBPolygon = cbg.Class('Altseed2', 'RenderedIBPolygon')
+with RenderedIBPolygon as class_:
+    class_.base_class = Rendered
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', 'IndexBufferを設定可能なポリゴンのクラス')
+    class_.is_public = False
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
+    class_.is_Sealed = True
+
+    with class_.add_func('Create') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'ポリゴンを作成します。')
+        func.return_value.type_ = RenderedIBPolygon
+        func.is_static = True
+        func.is_public = False
+
+    with class_.add_func('CreateVertexesByVector2F') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点情報を設定します。')
+        with func.add_arg(Vector2FArray, 'vertexes') as arg:
+            func.brief = cbg.Description()
+            func.brief.add('ja', '頂点情報')
+        func.is_public = False
+
+    with class_.add_func('OverwriteVertexesColor') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', '頂点の色情報を上書きします。')
+        with func.add_arg(Color, 'color') as arg:
+            func.brief = cbg.Description()
+            func.brief.add('ja', '頂点情報')
+        dunc.is_public = False
+
+    with class_.add_func('SetDefaultIndexBuffer') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'RenderedPolygonと同様のインデックスバッファーを設定します。')
+
+    with class_.add_property(IndexBufferArray, 'Buffers') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'インデックスバッファー情報を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
+    with class_.add_property(VertexArray, 'Vertexes') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '頂点情報を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
+    with class_.add_property(TextureBase, 'Texture') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'テクスチャを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
+    with class_.add_property(RectF, 'Src') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画範囲を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
+    with class_.add_property(Material, 'Material') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'マテリアルを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
+    with class_.add_property(AlphaBlend, 'AlphaBlend') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', '描画時のアルファブレンドを取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = True
+        prop.is_public = False
+
 RenderedCamera = cbg.Class('Altseed2', 'RenderedCamera')
 with RenderedCamera as class_:
     class_.brief = cbg.Description()
@@ -1136,6 +1220,14 @@ with Renderer as class_:
         with func.add_arg(RenderedPolygon, 'polygon') as arg:
             arg.brief = cbg.Description()
             arg.brief.add('ja', '描画する<see cref="RenderedPolygon"/>のインスタンス')
+        func.is_public = False
+
+    with class_.add_func('DrawIBPolygon') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'IBが編集可能なポリゴンを描画します。')
+        with func.add_arg(RenderedIBPolygon, 'polygon') as arg:
+            arg.brief = cbg.Description()
+            arg.brief.add('ja', '描画する<see cref="RenderedIBPolygon"/>のインスタンス')
         func.is_public = False
 
     with class_.add_func('Render') as func:
