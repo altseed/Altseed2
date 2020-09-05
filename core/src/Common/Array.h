@@ -6,6 +6,7 @@
 
 #include "../BaseObject.h"
 #include "../Graphics/BatchRenderer.h"
+#include "../Graphics/Renderer/IndexBuffer.h"
 #include "../Math/Vector2F.h"
 
 namespace Altseed2 {
@@ -93,11 +94,13 @@ public:
 };
 
 struct BatchVertex;
+struct IndexBuffer;
 
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
 using FloatArray = Array<float>;
 using VertexArray = Array<BatchVertex>;
 using Vector2FArray = Array<Vector2F>;
+using IndexBufferArray = Array<IndexBuffer>;
 
 }  // namespace Altseed2

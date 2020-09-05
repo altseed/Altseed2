@@ -45,6 +45,8 @@ set(core_files
     Graphics/Material.cpp
     Graphics/RenderTexture.h
     Graphics/RenderTexture.cpp
+    Graphics/Renderer/IndexBuffer.h
+    Graphics/Renderer/IndexBuffer.cpp
     Graphics/Renderer/Rendered.h
     Graphics/Renderer/Rendered.cpp
     Graphics/Renderer/RenderedCamera.h
@@ -53,6 +55,8 @@ set(core_files
     Graphics/Renderer/RenderedSprite.cpp
     Graphics/Renderer/RenderedText.h
     Graphics/Renderer/RenderedText.cpp
+    Graphics/Renderer/RenderedIBPolygon.h
+    Graphics/Renderer/RenderedIBPolygon.cpp
     Graphics/Renderer/RenderedPolygon.h
     Graphics/Renderer/RenderedPolygon.cpp
     Graphics/Renderer/Renderer.h
