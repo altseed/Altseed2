@@ -33,6 +33,7 @@
 #endif
 #endif
 
+
 #include "BaseObject.h"
 #include "Common/Array.h"
 #include "Common/Resource.h"
@@ -44,12 +45,12 @@
 #include "Graphics/Font.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/ImageFont.h"
-#include "Graphics/RenderTexture.h"
-#include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/Renderer/RenderedPolygon.h"
-#include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/Renderer.h"
+#include "Graphics/RenderTexture.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Graphics/Texture2D.h"
 #include "IO/BaseFileReader.h"
@@ -64,16 +65,16 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
-#include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/EdgeCollider.h"
+#include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/PolygonCollider.h"
 #include "Physics/Collider/ShapeCollider.h"
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
-
+    
 extern "C" {
 
 CBGEXPORT void* CBGSTDCALL cbg_Configuration_Create() {
@@ -2059,187 +2060,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_AddFontFromFileTTF(void* cbg_self, const char
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = name;
-    Altseed2::ToolWindowFlags cbg_arg1 = (Altseed2::ToolWindowFlags)flags;
-    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_End(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->End();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_NewFrame(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->NewFrame();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Render(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->Render();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Dummy(void* cbg_self, Altseed2::Vector2F_C size) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = size;
-    cbg_self_->Dummy(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Text(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->Text(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_TextUnformatted(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->TextUnformatted(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrapped(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->TextWrapped(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_TextColored(void* cbg_self, Altseed2::Color_C color, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Color_C cbg_arg0 = color;
-    const char16_t* cbg_arg1 = text;
-    cbg_self_->TextColored(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabled(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->TextDisabled(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_BulletText(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->BulletText(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_LabelText(void* cbg_self, const char16_t* label, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    const char16_t* cbg_arg1 = text;
-    cbg_self_->LabelText(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_CollapsingHeader(void* cbg_self, const char16_t* label, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
-    bool cbg_ret = cbg_self_->CollapsingHeader(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNode(void* cbg_self, const char16_t* label) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool cbg_ret = cbg_self_->TreeNode(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx(void* cbg_self, const char16_t* label, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
-    bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_TreePop(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->TreePop();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemOpen(void* cbg_self, bool isOpen, int32_t cond) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_arg0 = isOpen;
-    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetNextItemOpen(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::Vector2F_C cbg_arg1 = size;
-    bool cbg_ret = cbg_self_->Button(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_CheckBox(void* cbg_self, const char16_t* label, bool* isChecked) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool* cbg_arg1 = isChecked;
-    bool cbg_ret = cbg_self_->CheckBox(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* label, bool active) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool cbg_arg1 = active;
-    bool cbg_ret = cbg_self_->RadioButton(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton_2(void* cbg_self, const char16_t* label, int32_t* v, int32_t v_button) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = v;
-    int32_t cbg_arg2 = v_button;
-    bool cbg_ret = cbg_self_->RadioButton_2(cbg_arg0, cbg_arg1, cbg_arg2);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ArrowButton(void* cbg_self, const char16_t* label, int32_t dir) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::ToolDir cbg_arg1 = (Altseed2::ToolDir)dir;
-    bool cbg_ret = cbg_self_->ArrowButton(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::Vector2F_C cbg_arg1 = size;
-    bool cbg_ret = cbg_self_->InvisibleButton(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBox(void* cbg_self, const char16_t* label, int32_t* current, const char16_t* items, int32_t popupMaxHeightInItems) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBox(void* cbg_self, const char16_t* label, int32_t * current, const char16_t* items, int32_t popupMaxHeightInItems) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
@@ -2247,16 +2068,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBox(void* cbg_self, const char16_t* label
     const char16_t* cbg_arg2 = items;
     int32_t cbg_arg3 = popupMaxHeightInItems;
     bool cbg_ret = cbg_self_->ListBox(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool* selected, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool* cbg_arg1 = selected;
-    Altseed2::ToolSelectableFlags cbg_arg2 = (Altseed2::ToolSelectableFlags)flags;
-    bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
@@ -2295,258 +2106,7 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_InputTextMultiline(void* cbg_self,
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt(void* cbg_self, const char16_t* label, int32_t* value) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = value;
-    bool cbg_ret = cbg_self_->InputInt(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt2(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    bool cbg_ret = cbg_self_->InputInt2(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt3(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    bool cbg_ret = cbg_self_->InputInt3(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt4(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    bool cbg_ret = cbg_self_->InputInt4(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat(void* cbg_self, const char16_t* label, float* value) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    float* cbg_arg1 = value;
-    bool cbg_ret = cbg_self_->InputFloat(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat2(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    bool cbg_ret = cbg_self_->InputFloat2(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat3(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    bool cbg_ret = cbg_self_->InputFloat3(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat4(void* cbg_self, const char16_t* label, void* array) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    bool cbg_ret = cbg_self_->InputFloat4(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt(void* cbg_self, const char16_t* label, int32_t* value, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = value;
-    float cbg_arg2 = speed;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt2(void* cbg_self, const char16_t* label, void* array, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    float cbg_arg2 = speed;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderInt2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt3(void* cbg_self, const char16_t* label, void* array, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    float cbg_arg2 = speed;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderInt3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt4(void* cbg_self, const char16_t* label, void* array, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)array);
-    float cbg_arg2 = speed;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderInt4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat(void* cbg_self, const char16_t* label, float* value, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    float* cbg_arg1 = value;
-    float cbg_arg2 = speed;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat2(void* cbg_self, const char16_t* label, void* array, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    float cbg_arg2 = speed;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderFloat2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat3(void* cbg_self, const char16_t* label, void* array, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    float cbg_arg2 = speed;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderFloat3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat4(void* cbg_self, const char16_t* label, void* array, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)array);
-    float cbg_arg2 = speed;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->SliderFloat4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderAngle(void* cbg_self, const char16_t* label, float* angle) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    float* cbg_arg1 = angle;
-    bool cbg_ret = cbg_self_->SliderAngle(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderInt(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size, int32_t* value, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::Vector2F_C cbg_arg1 = size;
-    int32_t* cbg_arg2 = value;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->VSliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderFloat(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size, float* value, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::Vector2F_C cbg_arg1 = size;
-    float* cbg_arg2 = value;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->VSliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt(void* cbg_self, const char16_t* label, int32_t* value, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = value;
-    float cbg_arg2 = speed;
-    int32_t cbg_arg3 = valueMin;
-    int32_t cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->DragInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat(void* cbg_self, const char16_t* label, float* value, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    float* cbg_arg1 = value;
-    float cbg_arg2 = speed;
-    float cbg_arg3 = valueMin;
-    float cbg_arg4 = valueMax;
-    bool cbg_ret = cbg_self_->DragFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_DragIntRange2(void* cbg_self, const char16_t* label, int32_t* currentMin, int32_t* currentMax, float speed, int32_t valueMin, int32_t valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = currentMin;
-    int32_t* cbg_arg2 = currentMax;
-    float cbg_arg3 = speed;
-    int32_t cbg_arg4 = valueMin;
-    int32_t cbg_arg5 = valueMax;
-    bool cbg_ret = cbg_self_->DragIntRange2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloatRange2(void* cbg_self, const char16_t* label, float* currentMin, float* currentMax, float speed, float valueMin, float valueMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    float* cbg_arg1 = currentMin;
-    float* cbg_arg2 = currentMax;
-    float cbg_arg3 = speed;
-    float cbg_arg4 = valueMin;
-    float cbg_arg5 = valueMax;
-    bool cbg_ret = cbg_self_->DragFloatRange2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit3(void* cbg_self, const char16_t* label, Altseed2::Color_C* color, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit3(void* cbg_self, const char16_t* label, Altseed2::Color_C * color, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
@@ -2556,7 +2116,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit3(void* cbg_self, const char16_t* la
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit4(void* cbg_self, const char16_t* label, Altseed2::Color_C* color, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit4(void* cbg_self, const char16_t* label, Altseed2::Color_C * color, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
@@ -2566,39 +2126,184 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit4(void* cbg_self, const char16_t* la
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_OpenPopup(void* cbg_self, const char16_t* label) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_Image(void* cbg_self, void* texture, Altseed2::Vector2F_C size, Altseed2::Vector2F_C uv0, Altseed2::Vector2F_C uv1, Altseed2::Color_C tintColor, Altseed2::Color_C borderColor) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = label;
-    cbg_self_->OpenPopup(cbg_arg0);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    Altseed2::Vector2F_C cbg_arg2 = uv0;
+    Altseed2::Vector2F_C cbg_arg3 = uv1;
+    Altseed2::Color_C cbg_arg4 = tintColor;
+    Altseed2::Color_C cbg_arg5 = borderColor;
+    cbg_self_->Image(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* label) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ImageButton(void* cbg_self, void* texture, Altseed2::Vector2F_C size, Altseed2::Vector2F_C uv0, Altseed2::Vector2F_C uv1, int32_t framePadding, Altseed2::Color_C tintColor, Altseed2::Color_C borderColor) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = label;
-    bool cbg_ret = cbg_self_->BeginPopup(cbg_arg0);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    Altseed2::Vector2F_C cbg_arg2 = uv0;
+    Altseed2::Vector2F_C cbg_arg3 = uv1;
+    int32_t cbg_arg4 = framePadding;
+    Altseed2::Color_C cbg_arg5 = tintColor;
+    Altseed2::Color_C cbg_arg6 = borderColor;
+    bool cbg_ret = cbg_self_->ImageButton(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal(void* cbg_self, const char16_t* label) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_PlotLines(void* cbg_self, const char16_t* label, void* values, int32_t valuesCount, int32_t valuesOffset, const char16_t* overlayText, float scaleMin, float scaleMax, Altseed2::Vector2F_C graphSize, int32_t stride) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0);
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)values);
+    int32_t cbg_arg2 = valuesCount;
+    int32_t cbg_arg3 = valuesOffset;
+    const char16_t* cbg_arg4 = overlayText;
+    float cbg_arg5 = scaleMin;
+    float cbg_arg6 = scaleMax;
+    Altseed2::Vector2F_C cbg_arg7 = graphSize;
+    int32_t cbg_arg8 = stride;
+    cbg_self_->PlotLines(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7, cbg_arg8);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PlotHistogram(void* cbg_self, const char16_t* label, void* values, int32_t valuesCount, int32_t valuesOffset, const char16_t* overlayText, float scaleMin, float scaleMax, Altseed2::Vector2F_C graphSize, int32_t stride) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)values);
+    int32_t cbg_arg2 = valuesCount;
+    int32_t cbg_arg3 = valuesOffset;
+    const char16_t* cbg_arg4 = overlayText;
+    float cbg_arg5 = scaleMin;
+    float cbg_arg6 = scaleMax;
+    Altseed2::Vector2F_C cbg_arg7 = graphSize;
+    int32_t cbg_arg8 = stride;
+    cbg_self_->PlotHistogram(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7, cbg_arg8);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetTime(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetTime();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndPopup(void* cbg_self) {
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_OpenDialog(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    cbg_self_->EndPopup();
+    const char16_t* cbg_arg0 = filter;
+    const char16_t* cbg_arg1 = defaultPath;
+    const char16_t* cbg_ret = cbg_self_->OpenDialog(cbg_arg0, cbg_arg1);
+    return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChild(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size, bool border, int32_t flags) {
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_OpenDialogMultiple(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = filter;
+    const char16_t* cbg_arg1 = defaultPath;
+    const char16_t* cbg_ret = cbg_self_->OpenDialogMultiple(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_SaveDialog(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = filter;
+    const char16_t* cbg_arg1 = defaultPath;
+    const char16_t* cbg_ret = cbg_self_->SaveDialog(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_PickFolder(void* cbg_self, const char16_t* defaultPath) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = defaultPath;
+    const char16_t* cbg_ret = cbg_self_->PickFolder(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowDemoWindow(void* cbg_self, bool * p_open) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool* cbg_arg0 = p_open;
+    cbg_self_->ShowDemoWindow(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowAboutWindow(void* cbg_self, bool * p_open) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool* cbg_arg0 = p_open;
+    cbg_self_->ShowAboutWindow(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowMetricsWindow(void* cbg_self, bool * p_open) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool* cbg_arg0 = p_open;
+    cbg_self_->ShowMetricsWindow(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ShowStyleSelector(void* cbg_self, const char16_t* label) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->ShowStyleSelector(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowFontSelector(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    cbg_self_->ShowFontSelector(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowUserGuide(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->ShowUserGuide();
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_GetVersion(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetVersion();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_End(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->End();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChild(void* cbg_self, const char16_t* str_id, Altseed2::Vector2F_C size, bool border, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    bool cbg_arg2 = border;
+    Altseed2::ToolWindowFlags cbg_arg3 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->BeginChild(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChild(void* cbg_self, int32_t id, Altseed2::Vector2F_C size, bool border, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
     Altseed2::Vector2F_C cbg_arg1 = size;
     bool cbg_arg2 = border;
     Altseed2::ToolWindowFlags cbg_arg3 = (Altseed2::ToolWindowFlags)flags;
@@ -2610,297 +2315,6 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_EndChild(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     cbg_self_->EndChild();
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenuBar(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->BeginMenuBar();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenuBar(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->EndMenuBar();
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenu(void* cbg_self, const char16_t* label, bool enabled) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool cbg_arg1 = enabled;
-    bool cbg_ret = cbg_self_->BeginMenu(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenu(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->EndMenu();
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_MenuItem(void* cbg_self, const char16_t* label, const char16_t* shortcut, bool selected, bool enabled) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    const char16_t* cbg_arg1 = shortcut;
-    bool cbg_arg2 = selected;
-    bool cbg_arg3 = enabled;
-    bool cbg_ret = cbg_self_->MenuItem(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabBar(void* cbg_self, const char16_t* label, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    Altseed2::ToolTabBarFlags cbg_arg1 = (Altseed2::ToolTabBarFlags)flags;
-    bool cbg_ret = cbg_self_->BeginTabBar(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabBar(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->EndTabBar();
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem(void* cbg_self, const char16_t* label) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabItem(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->EndTabItem();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Indent(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->Indent();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Unindent(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->Unindent();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Separator(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->Separator();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltip(void* cbg_self, const char16_t* text) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = text;
-    cbg_self_->SetTooltip(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_BeginTooltip(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->BeginTooltip();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_EndTooltip(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->EndTooltip();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_NewLine(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->NewLine();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SameLine(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->SameLine();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushTextWrapPos(void* cbg_self, float wrapLocalPosX) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    float cbg_arg0 = wrapLocalPosX;
-    cbg_self_->PushTextWrapPos(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PopTextWrapPos(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->PopTextWrapPos();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushItemWidth(void* cbg_self, float width) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    float cbg_arg0 = width;
-    cbg_self_->PushItemWidth(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PopItemWidth(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->PopItemWidth();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushButtonRepeat(void* cbg_self, bool repeat) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_arg0 = repeat;
-    cbg_self_->PushButtonRepeat(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PopButtonRepeat(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->PopButtonRepeat();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_Columns(void* cbg_self, int32_t count, bool border) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    int32_t cbg_arg0 = count;
-    bool cbg_arg1 = border;
-    cbg_self_->Columns(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_NextColumn(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->NextColumn();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, int32_t id) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    int32_t cbg_arg0 = id;
-    cbg_self_->PushID(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PopID(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->PopID();
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemActive(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->IsItemActive();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemHovered(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->IsItemHovered();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHere(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    cbg_self_->SetScrollHere();
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Tool_GetTextLineHeight(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetTextLineHeight();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Tool_GetFontSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetFontSize();
-    return cbg_ret;
-}
-
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetWindowSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetWindowSize();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSize(void* cbg_self, Altseed2::Vector2F_C size) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = size;
-    cbg_self_->SetWindowSize(cbg_arg0);
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMousePosValid(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->IsMousePosValid();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDragging(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->IsMouseDragging();
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDoubleClicked(void* cbg_self, int32_t button) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    int32_t cbg_arg0 = button;
-    bool cbg_ret = cbg_self_->IsMouseDoubleClicked(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMouseDragDelta(void* cbg_self, int32_t button) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    int32_t cbg_arg0 = button;
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMouseDragDelta(cbg_arg0);
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_ResetMouseDragDelta(void* cbg_self, int32_t button) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    int32_t cbg_arg0 = button;
-    cbg_self_->ResetMouseDragDelta(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowContentSize(void* cbg_self, Altseed2::Vector2F_C size) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = size;
-    cbg_self_->SetNextWindowContentSize(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowSize(void* cbg_self, Altseed2::Vector2F_C size, int32_t cond) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = size;
-    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetNextWindowSize(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowPos(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = pos;
-    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetNextWindowPos(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowAppearing(void* cbg_self) {
@@ -2920,7 +2334,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowCollapsed(void* cbg_self) {
 CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowFocused(void* cbg_self, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolFocused cbg_arg0 = (Altseed2::ToolFocused)flags;
+    Altseed2::ToolFocusedFlags cbg_arg0 = (Altseed2::ToolFocusedFlags)flags;
     bool cbg_ret = cbg_self_->IsWindowFocused(cbg_arg0);
     return cbg_ret;
 }
@@ -2928,7 +2342,7 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowFocused(void* cbg_self, int32_t flags
 CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowHovered(void* cbg_self, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolFocused cbg_arg0 = (Altseed2::ToolFocused)flags;
+    Altseed2::ToolHoveredFlags cbg_arg0 = (Altseed2::ToolHoveredFlags)flags;
     bool cbg_ret = cbg_self_->IsWindowHovered(cbg_arg0);
     return cbg_ret;
 }
@@ -2938,6 +2352,51 @@ CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetWindowPos(void* cbg_self) 
 
     Altseed2::Vector2F_C cbg_ret = cbg_self_->GetWindowPos();
     return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetWindowSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetWindowSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetWindowWidth(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWindowWidth();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetWindowHeight(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWindowHeight();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowPos(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond, Altseed2::Vector2F_C pivot) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = pos;
+    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
+    Altseed2::Vector2F_C cbg_arg2 = pivot;
+    cbg_self_->SetNextWindowPos(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowSize(void* cbg_self, Altseed2::Vector2F_C size, int32_t cond) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = size;
+    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
+    cbg_self_->SetNextWindowSize(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowContentSize(void* cbg_self, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = size;
+    cbg_self_->SetNextWindowContentSize(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowCollapsed(void* cbg_self, bool collapsed, int32_t cond) {
@@ -2961,28 +2420,28 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowBgAlpha(void* cbg_self, float al
     cbg_self_->SetNextWindowBgAlpha(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowPosWithCond(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowPos(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::Vector2F_C cbg_arg0 = pos;
     Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowPosWithCond(cbg_arg0, cbg_arg1);
+    cbg_self_->SetWindowPos(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSizeWithCond(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSize(void* cbg_self, Altseed2::Vector2F_C size, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_arg0 = pos;
+    Altseed2::Vector2F_C cbg_arg0 = size;
     Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowSizeWithCond(cbg_arg0, cbg_arg1);
+    cbg_self_->SetWindowSize(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowCollapsedWithCond(void* cbg_self, bool collapsed, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowCollapsed(void* cbg_self, bool collapsed, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     bool cbg_arg0 = collapsed;
     Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowCollapsedWithCond(cbg_arg0, cbg_arg1);
+    cbg_self_->SetWindowCollapsed(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowFocus(void* cbg_self) {
@@ -2998,38 +2457,38 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowFontScale(void* cbg_self, float scal
     cbg_self_->SetWindowFontScale(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowPosByName(void* cbg_self, const char16_t* name, Altseed2::Vector2F_C pos, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowPos(void* cbg_self, const char16_t* name, Altseed2::Vector2F_C pos, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
     Altseed2::Vector2F_C cbg_arg1 = pos;
     Altseed2::ToolCond cbg_arg2 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowPosByName(cbg_arg0, cbg_arg1, cbg_arg2);
+    cbg_self_->SetWindowPos(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSizeByName(void* cbg_self, const char16_t* name, Altseed2::Vector2F_C pos, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowSize(void* cbg_self, const char16_t* name, Altseed2::Vector2F_C size, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
-    Altseed2::Vector2F_C cbg_arg1 = pos;
+    Altseed2::Vector2F_C cbg_arg1 = size;
     Altseed2::ToolCond cbg_arg2 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowSizeByName(cbg_arg0, cbg_arg1, cbg_arg2);
+    cbg_self_->SetWindowSize(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowCollapsedByName(void* cbg_self, const char16_t* name, bool collapsed, int32_t cond) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowCollapsed(void* cbg_self, const char16_t* name, bool collapsed, int32_t cond) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
     bool cbg_arg1 = collapsed;
     Altseed2::ToolCond cbg_arg2 = (Altseed2::ToolCond)cond;
-    cbg_self_->SetWindowCollapsedByName(cbg_arg0, cbg_arg1, cbg_arg2);
+    cbg_self_->SetWindowCollapsed(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowFocusByName(void* cbg_self, const char16_t* name) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowFocus(void* cbg_self, const char16_t* name) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
-    cbg_self_->SetWindowFocusByName(cbg_arg0);
+    cbg_self_->SetWindowFocus(cbg_arg0);
 }
 
 CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetContentRegionMax(void* cbg_self) {
@@ -3095,55 +2554,69 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_GetScrollMaxY(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollX(void* cbg_self, float scrollX) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollX(void* cbg_self, float scroll_x) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = scrollX;
+    float cbg_arg0 = scroll_x;
     cbg_self_->SetScrollX(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollY(void* cbg_self, float scrollY) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollY(void* cbg_self, float scroll_y) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = scrollY;
+    float cbg_arg0 = scroll_y;
     cbg_self_->SetScrollY(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereX(void* cbg_self, float centerXRatio) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereX(void* cbg_self, float center_x_ratio) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = centerXRatio;
+    float cbg_arg0 = center_x_ratio;
     cbg_self_->SetScrollHereX(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereY(void* cbg_self, float centerYRatio) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollHereY(void* cbg_self, float center_y_ratio) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = centerYRatio;
+    float cbg_arg0 = center_y_ratio;
     cbg_self_->SetScrollHereY(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollFromPosX(void* cbg_self, float localX, float centerXRatio) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollFromPosX(void* cbg_self, float local_x, float center_x_ratio) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = localX;
-    float cbg_arg1 = centerXRatio;
+    float cbg_arg0 = local_x;
+    float cbg_arg1 = center_x_ratio;
     cbg_self_->SetScrollFromPosX(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollFromPosY(void* cbg_self, float localY, float centerYRatio) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetScrollFromPosY(void* cbg_self, float local_y, float center_y_ratio) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = localY;
-    float cbg_arg1 = centerYRatio;
+    float cbg_arg0 = local_y;
+    float cbg_arg1 = center_y_ratio;
     cbg_self_->SetScrollFromPosY(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleColor(void* cbg_self, int32_t idx, Altseed2::Color_C col) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopFont(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolColor cbg_arg0 = (Altseed2::ToolColor)idx;
-    Altseed2::Color_C cbg_arg1 = col;
+    cbg_self_->PopFont();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleColor(void* cbg_self, int32_t idx, int32_t col) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolCol cbg_arg0 = (Altseed2::ToolCol)idx;
+    int32_t cbg_arg1 = col;
+    cbg_self_->PushStyleColor(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleColor(void* cbg_self, int32_t idx, Altseed2::Vector4F_C col) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolCol cbg_arg0 = (Altseed2::ToolCol)idx;
+    Altseed2::Vector4F_C cbg_arg1 = col;
     cbg_self_->PushStyleColor(cbg_arg0, cbg_arg1);
 }
 
@@ -3154,20 +2627,20 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_PopStyleColor(void* cbg_self, int32_t count) 
     cbg_self_->PopStyleColor(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleVarFloat(void* cbg_self, int32_t idx, float val) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleVar(void* cbg_self, int32_t idx, float val) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::ToolStyleVar cbg_arg0 = (Altseed2::ToolStyleVar)idx;
     float cbg_arg1 = val;
-    cbg_self_->PushStyleVarFloat(cbg_arg0, cbg_arg1);
+    cbg_self_->PushStyleVar(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleVarVector2F(void* cbg_self, int32_t idx, Altseed2::Vector2F_C val) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushStyleVar(void* cbg_self, int32_t idx, Altseed2::Vector2F_C val) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::ToolStyleVar cbg_arg0 = (Altseed2::ToolStyleVar)idx;
     Altseed2::Vector2F_C cbg_arg1 = val;
-    cbg_self_->PushStyleVarVector2F(cbg_arg0, cbg_arg1);
+    cbg_self_->PushStyleVar(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_PopStyleVar(void* cbg_self, int32_t count) {
@@ -3177,12 +2650,11 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_PopStyleVar(void* cbg_self, int32_t count) {
     cbg_self_->PopStyleVar(cbg_arg0);
 }
 
-CBGEXPORT Altseed2::Color_C CBGSTDCALL cbg_Tool_GetStyleColor(void* cbg_self, int32_t idx) {
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetFontSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::ToolColor cbg_arg0 = (Altseed2::ToolColor)idx;
-    Altseed2::Color_C cbg_ret = cbg_self_->GetStyleColor(cbg_arg0);
-    return (cbg_ret);
+    float cbg_ret = cbg_self_->GetFontSize();
+    return cbg_ret;
 }
 
 CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetFontTexUvWhitePixel(void* cbg_self) {
@@ -3192,10 +2664,48 @@ CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetFontTexUvWhitePixel(void* 
     return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemWidth(void* cbg_self, float itemWidth) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColorU32(void* cbg_self, int32_t idx, float alpha_mul) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    float cbg_arg0 = itemWidth;
+    Altseed2::ToolCol cbg_arg0 = (Altseed2::ToolCol)idx;
+    float cbg_arg1 = alpha_mul;
+    int32_t cbg_ret = cbg_self_->GetColorU32(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColorU32(void* cbg_self, Altseed2::Vector4F_C col) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector4F_C cbg_arg0 = col;
+    int32_t cbg_ret = cbg_self_->GetColorU32(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColorU32(void* cbg_self, int32_t col) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = col;
+    int32_t cbg_ret = cbg_self_->GetColorU32(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushItemWidth(void* cbg_self, float item_width) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = item_width;
+    cbg_self_->PushItemWidth(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopItemWidth(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->PopItemWidth();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemWidth(void* cbg_self, float item_width) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = item_width;
     cbg_self_->SetNextItemWidth(cbg_arg0);
 }
 
@@ -3206,10 +2716,23 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_CalcItemWidth(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushAllowKeyboardFocus(void* cbg_self, bool allowKeyboardFocus) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushTextWrapPos(void* cbg_self, float wrap_local_pos_x) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    bool cbg_arg0 = allowKeyboardFocus;
+    float cbg_arg0 = wrap_local_pos_x;
+    cbg_self_->PushTextWrapPos(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopTextWrapPos(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->PopTextWrapPos();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushAllowKeyboardFocus(void* cbg_self, bool allow_keyboard_focus) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_arg0 = allow_keyboard_focus;
     cbg_self_->PushAllowKeyboardFocus(cbg_arg0);
 }
 
@@ -3219,10 +2742,64 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_PopAllowKeyboardFocus(void* cbg_self) {
     cbg_self_->PopAllowKeyboardFocus();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushButtonRepeat(void* cbg_self, bool repeat) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_arg0 = repeat;
+    cbg_self_->PushButtonRepeat(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopButtonRepeat(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->PopButtonRepeat();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Separator(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->Separator();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SameLine(void* cbg_self, float offset_from_start_x, float spacing) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = offset_from_start_x;
+    float cbg_arg1 = spacing;
+    cbg_self_->SameLine(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NewLine(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->NewLine();
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_Spacing(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     cbg_self_->Spacing();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Dummy(void* cbg_self, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = size;
+    cbg_self_->Dummy(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Indent(void* cbg_self, float indent_w) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = indent_w;
+    cbg_self_->Indent(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Unindent(void* cbg_self, float indent_w) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = indent_w;
+    cbg_self_->Unindent(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_BeginGroup(void* cbg_self) {
@@ -3244,11 +2821,39 @@ CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetCursorPos(void* cbg_self) 
     return (cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetCursorPos(void* cbg_self, Altseed2::Vector2F_C localPos) {
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetCursorPosX(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_arg0 = localPos;
+    float cbg_ret = cbg_self_->GetCursorPosX();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetCursorPosY(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetCursorPosY();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetCursorPos(void* cbg_self, Altseed2::Vector2F_C local_pos) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = local_pos;
     cbg_self_->SetCursorPos(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetCursorPosX(void* cbg_self, float local_x) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = local_x;
+    cbg_self_->SetCursorPosX(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetCursorPosY(void* cbg_self, float local_y) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_arg0 = local_y;
+    cbg_self_->SetCursorPosY(cbg_arg0);
 }
 
 CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetCursorStartPos(void* cbg_self) {
@@ -3265,10 +2870,24 @@ CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetCursorScreenPos(void* cbg_
     return (cbg_ret);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetCursorScreenPos(void* cbg_self, Altseed2::Vector2F_C pos) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = pos;
+    cbg_self_->SetCursorScreenPos(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_AlignTextToFramePadding(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     cbg_self_->AlignTextToFramePadding();
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetTextLineHeight(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetTextLineHeight();
+    return cbg_ret;
 }
 
 CBGEXPORT float CBGSTDCALL cbg_Tool_GetTextLineHeightWithSpacing(void* cbg_self) {
@@ -3292,6 +2911,162 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_GetFrameHeightWithSpacing(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, const char16_t* str_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    cbg_self_->PushID(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, const char16_t* str_id_begin, const char16_t* str_id_end) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id_begin;
+    const char16_t* cbg_arg1 = str_id_end;
+    cbg_self_->PushID(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushID(void* cbg_self, int32_t int_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = int_id;
+    cbg_self_->PushID(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PopID(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->PopID();
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetID(void* cbg_self, const char16_t* str_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    int32_t cbg_ret = cbg_self_->GetID(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetID(void* cbg_self, const char16_t* str_id_begin, const char16_t* str_id_end) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id_begin;
+    const char16_t* cbg_arg1 = str_id_end;
+    int32_t cbg_ret = cbg_self_->GetID(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextUnformatted(void* cbg_self, const char16_t* text, const char16_t* text_end) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    const char16_t* cbg_arg1 = text_end;
+    cbg_self_->TextUnformatted(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_Text(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->Text(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextV(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextColored(void* cbg_self, Altseed2::Vector4F_C col, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector4F_C cbg_arg0 = col;
+    const char16_t* cbg_arg1 = fmt;
+    cbg_self_->TextColored(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextColoredV(void* cbg_self, Altseed2::Vector4F_C col, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector4F_C cbg_arg0 = col;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    cbg_self_->TextColoredV(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabled(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->TextDisabled(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabledV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextDisabledV(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrapped(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->TextWrapped(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrappedV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextWrappedV(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LabelText(void* cbg_self, const char16_t* label, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = fmt;
+    cbg_self_->LabelText(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LabelTextV(void* cbg_self, const char16_t* label, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    cbg_self_->LabelTextV(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BulletText(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->BulletText(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BulletTextV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->BulletTextV(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    bool cbg_ret = cbg_self_->Button(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_SmallButton(void* cbg_self, const char16_t* label) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -3300,37 +3075,57 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_SmallButton(void* cbg_self, const char16_t* l
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_Image(void* cbg_self, void* texture, Altseed2::Vector2F_C size, Altseed2::Vector2F_C uv0, Altseed2::Vector2F_C uv1, Altseed2::Color_C tintColor, Altseed2::Color_C borderColor) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InvisibleButton(void* cbg_self, const char16_t* str_id, Altseed2::Vector2F_C size) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    std::shared_ptr<Altseed2::TextureBase> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
+    const char16_t* cbg_arg0 = str_id;
     Altseed2::Vector2F_C cbg_arg1 = size;
-    Altseed2::Vector2F_C cbg_arg2 = uv0;
-    Altseed2::Vector2F_C cbg_arg3 = uv1;
-    Altseed2::Color_C cbg_arg4 = tintColor;
-    Altseed2::Color_C cbg_arg5 = borderColor;
-    cbg_self_->Image(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ImageButton(void* cbg_self, void* texture, Altseed2::Vector2F_C size, Altseed2::Vector2F_C uv0, Altseed2::Vector2F_C uv1, int32_t framePadding, Altseed2::Color_C tintColor, Altseed2::Color_C borderColor) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    std::shared_ptr<Altseed2::TextureBase> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
-    Altseed2::Vector2F_C cbg_arg1 = size;
-    Altseed2::Vector2F_C cbg_arg2 = uv0;
-    Altseed2::Vector2F_C cbg_arg3 = uv1;
-    int32_t cbg_arg4 = framePadding;
-    Altseed2::Color_C cbg_arg5 = tintColor;
-    Altseed2::Color_C cbg_arg6 = borderColor;
-    bool cbg_ret = cbg_self_->ImageButton(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    bool cbg_ret = cbg_self_->InvisibleButton(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_ProgressBar(void* cbg_self, float fraction, Altseed2::Vector2F_C sizeArg, const char16_t* overlay) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ArrowButton(void* cbg_self, const char16_t* str_id, int32_t dir) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolDir cbg_arg1 = (Altseed2::ToolDir)dir;
+    bool cbg_ret = cbg_self_->ArrowButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Checkbox(void* cbg_self, const char16_t* label, bool * v) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = v;
+    bool cbg_ret = cbg_self_->Checkbox(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* label, bool active) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = active;
+    bool cbg_ret = cbg_self_->RadioButton(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_RadioButton(void* cbg_self, const char16_t* label, int32_t * v, int32_t v_button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v;
+    int32_t cbg_arg2 = v_button;
+    bool cbg_ret = cbg_self_->RadioButton(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ProgressBar(void* cbg_self, float fraction, Altseed2::Vector2F_C size_arg, const char16_t* overlay) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     float cbg_arg0 = fraction;
-    Altseed2::Vector2F_C cbg_arg1 = sizeArg;
+    Altseed2::Vector2F_C cbg_arg1 = size_arg;
     const char16_t* cbg_arg2 = overlay;
     cbg_self_->ProgressBar(cbg_arg0, cbg_arg1, cbg_arg2);
 }
@@ -3341,13 +3136,14 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Bullet(void* cbg_self) {
     cbg_self_->Bullet();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_BeginCombo(void* cbg_self, const char16_t* label, const char16_t* previewValue, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginCombo(void* cbg_self, const char16_t* label, const char16_t* preview_value, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    const char16_t* cbg_arg1 = previewValue;
+    const char16_t* cbg_arg1 = preview_value;
     Altseed2::ToolComboFlags cbg_arg2 = (Altseed2::ToolComboFlags)flags;
-    cbg_self_->BeginCombo(cbg_arg0, cbg_arg1, cbg_arg2);
+    bool cbg_ret = cbg_self_->BeginCombo(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_EndCombo(void* cbg_self) {
@@ -3356,25 +3152,410 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_EndCombo(void* cbg_self) {
     cbg_self_->EndCombo();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Combo(void* cbg_self, const char16_t* label, int32_t* current_item, const char16_t* items, int32_t popupMaxHeightInItems) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat(void* cbg_self, const char16_t* label, float * v, float v_speed, float v_min, float v_max, const char16_t* format, float power) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = label;
-    int32_t* cbg_arg1 = current_item;
-    const char16_t* cbg_arg2 = items;
-    int32_t cbg_arg3 = popupMaxHeightInItems;
-    bool cbg_ret = cbg_self_->Combo(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    float* cbg_arg1 = v;
+    float cbg_arg2 = v_speed;
+    float cbg_arg3 = v_min;
+    float cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    float cbg_arg6 = power;
+    bool cbg_ret = cbg_self_->DragFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorButton(void* cbg_self, const char16_t* descId, Altseed2::Color_C* col, int32_t flags, Altseed2::Vector2F_C size) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat2(void* cbg_self, const char16_t* label, void* v, float v_speed, float v_min, float v_max, const char16_t* format, float power) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = descId;
-    Altseed2::Color* cbg_arg1 = (Altseed2::Color*)col;
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_speed;
+    float cbg_arg3 = v_min;
+    float cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    float cbg_arg6 = power;
+    bool cbg_ret = cbg_self_->DragFloat2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat3(void* cbg_self, const char16_t* label, void* v, float v_speed, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_speed;
+    float cbg_arg3 = v_min;
+    float cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    float cbg_arg6 = power;
+    bool cbg_ret = cbg_self_->DragFloat3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloat4(void* cbg_self, const char16_t* label, void* v, float v_speed, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_speed;
+    float cbg_arg3 = v_min;
+    float cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    float cbg_arg6 = power;
+    bool cbg_ret = cbg_self_->DragFloat4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragFloatRange2(void* cbg_self, const char16_t* label, float * v_current_min, float * v_current_max, float v_speed, float v_min, float v_max, const char16_t* format, const char16_t* format_max, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = v_current_min;
+    float* cbg_arg2 = v_current_max;
+    float cbg_arg3 = v_speed;
+    float cbg_arg4 = v_min;
+    float cbg_arg5 = v_max;
+    const char16_t* cbg_arg6 = format;
+    const char16_t* cbg_arg7 = format_max;
+    float cbg_arg8 = power;
+    bool cbg_ret = cbg_self_->DragFloatRange2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7, cbg_arg8);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt(void* cbg_self, const char16_t* label, int32_t * v, float v_speed, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v;
+    float cbg_arg2 = v_speed;
+    int32_t cbg_arg3 = v_min;
+    int32_t cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    bool cbg_ret = cbg_self_->DragInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt2(void* cbg_self, const char16_t* label, void* v, float v_speed, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    float cbg_arg2 = v_speed;
+    int32_t cbg_arg3 = v_min;
+    int32_t cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    bool cbg_ret = cbg_self_->DragInt2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt3(void* cbg_self, const char16_t* label, void* v, float v_speed, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    float cbg_arg2 = v_speed;
+    int32_t cbg_arg3 = v_min;
+    int32_t cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    bool cbg_ret = cbg_self_->DragInt3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragInt4(void* cbg_self, const char16_t* label, void* v, float v_speed, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    float cbg_arg2 = v_speed;
+    int32_t cbg_arg3 = v_min;
+    int32_t cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    bool cbg_ret = cbg_self_->DragInt4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DragIntRange2(void* cbg_self, const char16_t* label, int32_t * v_current_min, int32_t * v_current_max, float v_speed, int32_t v_min, int32_t v_max, const char16_t* format, const char16_t* format_max) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v_current_min;
+    int32_t* cbg_arg2 = v_current_max;
+    float cbg_arg3 = v_speed;
+    int32_t cbg_arg4 = v_min;
+    int32_t cbg_arg5 = v_max;
+    const char16_t* cbg_arg6 = format;
+    const char16_t* cbg_arg7 = format_max;
+    bool cbg_ret = cbg_self_->DragIntRange2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat(void* cbg_self, const char16_t* label, float * v, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = v;
+    float cbg_arg2 = v_min;
+    float cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    float cbg_arg5 = power;
+    bool cbg_ret = cbg_self_->SliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat2(void* cbg_self, const char16_t* label, void* v, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_min;
+    float cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    float cbg_arg5 = power;
+    bool cbg_ret = cbg_self_->SliderFloat2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat3(void* cbg_self, const char16_t* label, void* v, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_min;
+    float cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    float cbg_arg5 = power;
+    bool cbg_ret = cbg_self_->SliderFloat3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderFloat4(void* cbg_self, const char16_t* label, void* v, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    float cbg_arg2 = v_min;
+    float cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    float cbg_arg5 = power;
+    bool cbg_ret = cbg_self_->SliderFloat4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderAngle(void* cbg_self, const char16_t* label, float * v_rad, float v_degrees_min, float v_degrees_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = v_rad;
+    float cbg_arg2 = v_degrees_min;
+    float cbg_arg3 = v_degrees_max;
+    const char16_t* cbg_arg4 = format;
+    bool cbg_ret = cbg_self_->SliderAngle(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt(void* cbg_self, const char16_t* label, int32_t * v, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v;
+    int32_t cbg_arg2 = v_min;
+    int32_t cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    bool cbg_ret = cbg_self_->SliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt2(void* cbg_self, const char16_t* label, void* v, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    int32_t cbg_arg2 = v_min;
+    int32_t cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    bool cbg_ret = cbg_self_->SliderInt2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt3(void* cbg_self, const char16_t* label, void* v, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    int32_t cbg_arg2 = v_min;
+    int32_t cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    bool cbg_ret = cbg_self_->SliderInt3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_SliderInt4(void* cbg_self, const char16_t* label, void* v, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    int32_t cbg_arg2 = v_min;
+    int32_t cbg_arg3 = v_max;
+    const char16_t* cbg_arg4 = format;
+    bool cbg_ret = cbg_self_->SliderInt4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderFloat(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size, float * v, float v_min, float v_max, const char16_t* format, float power) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    float* cbg_arg2 = v;
+    float cbg_arg3 = v_min;
+    float cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    float cbg_arg6 = power;
+    bool cbg_ret = cbg_self_->VSliderFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_VSliderInt(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size, int32_t * v, int32_t v_min, int32_t v_max, const char16_t* format) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    int32_t* cbg_arg2 = v;
+    int32_t cbg_arg3 = v_min;
+    int32_t cbg_arg4 = v_max;
+    const char16_t* cbg_arg5 = format;
+    bool cbg_ret = cbg_self_->VSliderInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat(void* cbg_self, const char16_t* label, float * v, float step, float step_fast, const char16_t* format, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    float* cbg_arg1 = v;
+    float cbg_arg2 = step;
+    float cbg_arg3 = step_fast;
+    const char16_t* cbg_arg4 = format;
+    Altseed2::ToolInputTextFlags cbg_arg5 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputFloat(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat2(void* cbg_self, const char16_t* label, void* v, const char16_t* format, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    const char16_t* cbg_arg2 = format;
+    Altseed2::ToolInputTextFlags cbg_arg3 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputFloat2(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat3(void* cbg_self, const char16_t* label, void* v, const char16_t* format, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    const char16_t* cbg_arg2 = format;
+    Altseed2::ToolInputTextFlags cbg_arg3 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputFloat3(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputFloat4(void* cbg_self, const char16_t* label, void* v, const char16_t* format, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)v);
+    const char16_t* cbg_arg2 = format;
+    Altseed2::ToolInputTextFlags cbg_arg3 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputFloat4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt(void* cbg_self, const char16_t* label, int32_t * v, int32_t step, int32_t step_fast, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t* cbg_arg1 = v;
+    int32_t cbg_arg2 = step;
+    int32_t cbg_arg3 = step_fast;
+    Altseed2::ToolInputTextFlags cbg_arg4 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputInt(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt2(void* cbg_self, const char16_t* label, void* v, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    Altseed2::ToolInputTextFlags cbg_arg2 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputInt2(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt3(void* cbg_self, const char16_t* label, void* v, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    Altseed2::ToolInputTextFlags cbg_arg2 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputInt3(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_InputInt4(void* cbg_self, const char16_t* label, void* v, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)v);
+    Altseed2::ToolInputTextFlags cbg_arg2 = (Altseed2::ToolInputTextFlags)flags;
+    bool cbg_ret = cbg_self_->InputInt4(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit3(void* cbg_self, const char16_t* label, void* col, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)col);
     Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
-    Altseed2::Vector2F_C cbg_arg3 = size;
-    bool cbg_ret = cbg_self_->ColorButton(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    bool cbg_ret = cbg_self_->ColorEdit3(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorEdit4(void* cbg_self, const char16_t* label, void* col, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)col);
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
+    bool cbg_ret = cbg_self_->ColorEdit4(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorPicker3(void* cbg_self, const char16_t* label, void* col, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)col);
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
+    bool cbg_ret = cbg_self_->ColorPicker3(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ColorPicker4(void* cbg_self, const char16_t* label, void* col, int32_t flags, float * ref_col) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)col);
+    Altseed2::ToolColorEditFlags cbg_arg2 = (Altseed2::ToolColorEditFlags)flags;
+    float* cbg_arg3 = ref_col;
+    bool cbg_ret = cbg_self_->ColorPicker4(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
 
@@ -3385,6 +3566,76 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetColorEditOptions(void* cbg_self, int32_t f
     cbg_self_->SetColorEditOptions(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNode(void* cbg_self, const char16_t* label) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_ret = cbg_self_->TreeNode(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNode(void* cbg_self, const char16_t* str_id, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    const char16_t* cbg_arg1 = fmt;
+    bool cbg_ret = cbg_self_->TreeNode(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeV(void* cbg_self, const char16_t* str_id, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    bool cbg_ret = cbg_self_->TreeNodeV(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx(void* cbg_self, const char16_t* label, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
+    bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx(void* cbg_self, const char16_t* str_id, int32_t flags, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
+    const char16_t* cbg_arg2 = fmt;
+    bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeExV(void* cbg_self, const char16_t* str_id, int32_t flags, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
+    const char16_t* cbg_arg2 = fmt;
+    int32_t cbg_arg3 = args;
+    bool cbg_ret = cbg_self_->TreeNodeExV(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TreePush(void* cbg_self, const char16_t* str_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    cbg_self_->TreePush(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TreePop(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->TreePop();
+}
+
 CBGEXPORT float CBGSTDCALL cbg_Tool_GetTreeNodeToLabelSpacing(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -3392,12 +3643,71 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_GetTreeNodeToLabelSpacing(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBoxHeader(void* cbg_self, const char16_t* flags, Altseed2::Vector2F_C size) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_CollapsingHeader(void* cbg_self, const char16_t* label, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = flags;
+    const char16_t* cbg_arg0 = label;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
+    bool cbg_ret = cbg_self_->CollapsingHeader(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_CollapsingHeader(void* cbg_self, const char16_t* label, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolTreeNodeFlags cbg_arg2 = (Altseed2::ToolTreeNodeFlags)flags;
+    bool cbg_ret = cbg_self_->CollapsingHeader(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextItemOpen(void* cbg_self, bool is_open, int32_t cond) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_arg0 = is_open;
+    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
+    cbg_self_->SetNextItemOpen(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool selected, int32_t flags, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = selected;
+    Altseed2::ToolSelectableFlags cbg_arg2 = (Altseed2::ToolSelectableFlags)flags;
+    Altseed2::Vector2F_C cbg_arg3 = size;
+    bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Selectable(void* cbg_self, const char16_t* label, bool * p_selected, int32_t flags, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = p_selected;
+    Altseed2::ToolSelectableFlags cbg_arg2 = (Altseed2::ToolSelectableFlags)flags;
+    Altseed2::Vector2F_C cbg_arg3 = size;
+    bool cbg_ret = cbg_self_->Selectable(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBoxHeader(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
     Altseed2::Vector2F_C cbg_arg1 = size;
     bool cbg_ret = cbg_self_->ListBoxHeader(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_ListBoxHeader(void* cbg_self, const char16_t* label, int32_t items_count, int32_t height_in_items) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    int32_t cbg_arg1 = items_count;
+    int32_t cbg_arg2 = height_in_items;
+    bool cbg_ret = cbg_self_->ListBoxHeader(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
@@ -3407,59 +3717,42 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_ListBoxFooter(void* cbg_self) {
     cbg_self_->ListBoxFooter();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PlotLines(void* cbg_self, const char16_t* label, void* values, int32_t valuesCount, int32_t valuesOffset, const char16_t* overlayText, float scaleMin, float scaleMax, Altseed2::Vector2F_C graphSize, int32_t stride) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)values);
-    int32_t cbg_arg2 = valuesCount;
-    int32_t cbg_arg3 = valuesOffset;
-    const char16_t* cbg_arg4 = overlayText;
-    float cbg_arg5 = scaleMin;
-    float cbg_arg6 = scaleMax;
-    Altseed2::Vector2F_C cbg_arg7 = graphSize;
-    int32_t cbg_arg8 = stride;
-    cbg_self_->PlotLines(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7, cbg_arg8);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_PlotHistogram(void* cbg_self, const char16_t* label, void* values, int32_t valuesCount, int32_t valuesOffset, const char16_t* overlayText, float scaleMin, float scaleMax, Altseed2::Vector2F_C graphSize, int32_t stride) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    std::shared_ptr<Altseed2::FloatArray> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::FloatArray>((Altseed2::FloatArray*)values);
-    int32_t cbg_arg2 = valuesCount;
-    int32_t cbg_arg3 = valuesOffset;
-    const char16_t* cbg_arg4 = overlayText;
-    float cbg_arg5 = scaleMin;
-    float cbg_arg6 = scaleMax;
-    Altseed2::Vector2F_C cbg_arg7 = graphSize;
-    int32_t cbg_arg8 = stride;
-    cbg_self_->PlotHistogram(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6, cbg_arg7, cbg_arg8);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_ValueBool(void* cbg_self, const char16_t* prefix, bool b) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_Value(void* cbg_self, const char16_t* prefix, bool b) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = prefix;
     bool cbg_arg1 = b;
-    cbg_self_->ValueBool(cbg_arg0, cbg_arg1);
+    cbg_self_->Value(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_ValueInt(void* cbg_self, const char16_t* prefix, int32_t v) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_Value(void* cbg_self, const char16_t* prefix, int32_t v) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = prefix;
     int32_t cbg_arg1 = v;
-    cbg_self_->ValueInt(cbg_arg0, cbg_arg1);
+    cbg_self_->Value(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_ValueFloat(void* cbg_self, const char16_t* prefix, float v, const char16_t* floatFormat) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_Value(void* cbg_self, const char16_t* prefix, float v, const char16_t* float_format) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = prefix;
     float cbg_arg1 = v;
-    const char16_t* cbg_arg2 = floatFormat;
-    cbg_self_->ValueFloat(cbg_arg0, cbg_arg1, cbg_arg2);
+    const char16_t* cbg_arg2 = float_format;
+    cbg_self_->Value(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenuBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->BeginMenuBar();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenuBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndMenuBar();
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMainMenuBar(void* cbg_self) {
@@ -3475,57 +3768,143 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_EndMainMenuBar(void* cbg_self) {
     cbg_self_->EndMainMenuBar();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextItem(void* cbg_self, const char16_t* strId, int32_t mouseButton) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginMenu(void* cbg_self, const char16_t* label, bool enabled) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = strId;
-    int32_t cbg_arg1 = mouseButton;
+    const char16_t* cbg_arg0 = label;
+    bool cbg_arg1 = enabled;
+    bool cbg_ret = cbg_self_->BeginMenu(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndMenu(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndMenu();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_MenuItem(void* cbg_self, const char16_t* label, const char16_t* shortcut, bool selected, bool enabled) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = shortcut;
+    bool cbg_arg2 = selected;
+    bool cbg_arg3 = enabled;
+    bool cbg_ret = cbg_self_->MenuItem(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_MenuItem(void* cbg_self, const char16_t* label, const char16_t* shortcut, bool * p_selected, bool enabled) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = shortcut;
+    bool* cbg_arg2 = p_selected;
+    bool cbg_arg3 = enabled;
+    bool cbg_ret = cbg_self_->MenuItem(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BeginTooltip(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->BeginTooltip();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTooltip(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndTooltip();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltip(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->SetTooltip(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltipV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->SetTooltipV(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_OpenPopup(void* cbg_self, const char16_t* str_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    cbg_self_->OpenPopup(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* str_id, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolWindowFlags cbg_arg1 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->BeginPopup(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextItem(void* cbg_self, const char16_t* str_id, int32_t mouse_button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolMouseButton cbg_arg1 = (Altseed2::ToolMouseButton)mouse_button;
     bool cbg_ret = cbg_self_->BeginPopupContextItem(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextWindow(void* cbg_self, const char16_t* strId, int32_t mouseButton, bool alsoOverItems) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextWindow(void* cbg_self, const char16_t* str_id, int32_t mouse_button, bool also_over_items) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = strId;
-    int32_t cbg_arg1 = mouseButton;
-    bool cbg_arg2 = alsoOverItems;
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolMouseButton cbg_arg1 = (Altseed2::ToolMouseButton)mouse_button;
+    bool cbg_arg2 = also_over_items;
     bool cbg_ret = cbg_self_->BeginPopupContextWindow(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextVoid(void* cbg_self, const char16_t* strId, int32_t mouseButton) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupContextVoid(void* cbg_self, const char16_t* str_id, int32_t mouse_button) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = strId;
-    int32_t cbg_arg1 = mouseButton;
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolMouseButton cbg_arg1 = (Altseed2::ToolMouseButton)mouse_button;
     bool cbg_ret = cbg_self_->BeginPopupContextVoid(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModalEx(void* cbg_self, const char16_t* name, bool* isOpen, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = name;
-    bool* cbg_arg1 = isOpen;
+    bool* cbg_arg1 = p_open;
     Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
-    bool cbg_ret = cbg_self_->BeginPopupModalEx(cbg_arg0, cbg_arg1, cbg_arg2);
+    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_OpenPopupOnItemClick(void* cbg_self, const char16_t* strId, int32_t mouseButton) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndPopup(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = strId;
-    int32_t cbg_arg1 = mouseButton;
+    cbg_self_->EndPopup();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_OpenPopupOnItemClick(void* cbg_self, const char16_t* str_id, int32_t mouse_button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolMouseButton cbg_arg1 = (Altseed2::ToolMouseButton)mouse_button;
     bool cbg_ret = cbg_self_->OpenPopupOnItemClick(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsPopupOpen(void* cbg_self, const char16_t* strId) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsPopupOpen(void* cbg_self, const char16_t* str_id) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = strId;
+    const char16_t* cbg_arg0 = str_id;
     bool cbg_ret = cbg_self_->IsPopupOpen(cbg_arg0);
     return cbg_ret;
 }
@@ -3536,6 +3915,21 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_CloseCurrentPopup(void* cbg_self) {
     cbg_self_->CloseCurrentPopup();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_Columns(void* cbg_self, int32_t count, const char16_t* id, bool border) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = count;
+    const char16_t* cbg_arg1 = id;
+    bool cbg_arg2 = border;
+    cbg_self_->Columns(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_NextColumn(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->NextColumn();
+}
+
 CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColumnIndex(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -3543,35 +3937,35 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColumnIndex(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Tool_GetColumnWidth(void* cbg_self, int32_t columnIndex) {
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetColumnWidth(void* cbg_self, int32_t column_index) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    int32_t cbg_arg0 = columnIndex;
+    int32_t cbg_arg0 = column_index;
     float cbg_ret = cbg_self_->GetColumnWidth(cbg_arg0);
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetColumnWidth(void* cbg_self, int32_t columnIndex, float width) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetColumnWidth(void* cbg_self, int32_t column_index, float width) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    int32_t cbg_arg0 = columnIndex;
+    int32_t cbg_arg0 = column_index;
     float cbg_arg1 = width;
     cbg_self_->SetColumnWidth(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Tool_GetColumnOffset(void* cbg_self, int32_t columnIndex) {
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetColumnOffset(void* cbg_self, int32_t column_index) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    int32_t cbg_arg0 = columnIndex;
+    int32_t cbg_arg0 = column_index;
     float cbg_ret = cbg_self_->GetColumnOffset(cbg_arg0);
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetColumnOffset(void* cbg_self, int32_t columnIndex, float offsetX) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetColumnOffset(void* cbg_self, int32_t column_index, float offset_x) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    int32_t cbg_arg0 = columnIndex;
-    float cbg_arg1 = offsetX;
+    int32_t cbg_arg0 = column_index;
+    float cbg_arg1 = offset_x;
     cbg_self_->SetColumnOffset(cbg_arg0, cbg_arg1);
 }
 
@@ -3582,19 +3976,118 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetColumnsCount(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SetTabItemClosed(void* cbg_self, const char16_t* tabOrDockedWindowLabel) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabBar(void* cbg_self, const char16_t* str_id, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = tabOrDockedWindowLabel;
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolTabBarFlags cbg_arg1 = (Altseed2::ToolTabBarFlags)flags;
+    bool cbg_ret = cbg_self_->BeginTabBar(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabBar(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndTabBar();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem(void* cbg_self, const char16_t* label, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolTabItemFlags cbg_arg2 = (Altseed2::ToolTabItemFlags)flags;
+    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabItem(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndTabItem();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTabItemClosed(void* cbg_self, const char16_t* tab_or_docked_window_label) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = tab_or_docked_window_label;
     cbg_self_->SetTabItemClosed(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_PushClipRect(void* cbg_self, Altseed2::Vector2F_C clipRectMin, Altseed2::Vector2F_C clipRectMax, bool intersectWithCurrentClipRect) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogToTTY(void* cbg_self, int32_t auto_open_depth) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_arg0 = clipRectMin;
-    Altseed2::Vector2F_C cbg_arg1 = clipRectMax;
-    bool cbg_arg2 = intersectWithCurrentClipRect;
+    int32_t cbg_arg0 = auto_open_depth;
+    cbg_self_->LogToTTY(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogToFile(void* cbg_self, int32_t auto_open_depth, const char16_t* filename) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = auto_open_depth;
+    const char16_t* cbg_arg1 = filename;
+    cbg_self_->LogToFile(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogToClipboard(void* cbg_self, int32_t auto_open_depth) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = auto_open_depth;
+    cbg_self_->LogToClipboard(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogFinish(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->LogFinish();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogButtons(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->LogButtons();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_LogText(void* cbg_self, const char16_t* fmt) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    cbg_self_->LogText(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginDragDropSource(void* cbg_self, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolDragDropFlags cbg_arg0 = (Altseed2::ToolDragDropFlags)flags;
+    bool cbg_ret = cbg_self_->BeginDragDropSource(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndDragDropSource(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndDragDropSource();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginDragDropTarget(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->BeginDragDropTarget();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndDragDropTarget(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndDragDropTarget();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_PushClipRect(void* cbg_self, Altseed2::Vector2F_C clip_rect_min, Altseed2::Vector2F_C clip_rect_max, bool intersect_with_current_clip_rect) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = clip_rect_min;
+    Altseed2::Vector2F_C cbg_arg1 = clip_rect_max;
+    bool cbg_arg2 = intersect_with_current_clip_rect;
     cbg_self_->PushClipRect(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
@@ -3617,11 +4110,18 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetKeyboardFocusHere(void* cbg_self, int32_t 
     cbg_self_->SetKeyboardFocusHere(cbg_arg0);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemHoveredWithFlags(void* cbg_self, int32_t flags) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemHovered(void* cbg_self, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::ToolHoveredFlags cbg_arg0 = (Altseed2::ToolHoveredFlags)flags;
-    bool cbg_ret = cbg_self_->IsItemHoveredWithFlags(cbg_arg0);
+    bool cbg_ret = cbg_self_->IsItemHovered(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemActive(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsItemActive();
     return cbg_ret;
 }
 
@@ -3632,10 +4132,10 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemFocused(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemClicked(void* cbg_self, int32_t mouseButton) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemClicked(void* cbg_self, int32_t mouse_button) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    int32_t cbg_arg0 = mouseButton;
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)mouse_button;
     bool cbg_ret = cbg_self_->IsItemClicked(cbg_arg0);
     return cbg_ret;
 }
@@ -3672,6 +4172,13 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemDeactivatedAfterEdit(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     bool cbg_ret = cbg_self_->IsItemDeactivatedAfterEdit();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsItemToggledOpen(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsItemToggledOpen();
     return cbg_ret;
 }
 
@@ -3723,26 +4230,242 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetItemAllowOverlap(void* cbg_self) {
     cbg_self_->SetItemAllowOverlap();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_IsRectVisible(void* cbg_self, Altseed2::Vector2F_C size) {
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsRectVisible(void* cbg_self, Altseed2::Vector2F_C size) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::Vector2F_C cbg_arg0 = size;
-    cbg_self_->IsRectVisible(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Tool_IsRectVisibleVector2F2(void* cbg_self, Altseed2::Vector2F_C rectMin, Altseed2::Vector2F_C rectMax) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = rectMin;
-    Altseed2::Vector2F_C cbg_arg1 = rectMax;
-    cbg_self_->IsRectVisibleVector2F2(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Tool_GetTime(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetTime();
+    bool cbg_ret = cbg_self_->IsRectVisible(cbg_arg0);
     return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsRectVisible(void* cbg_self, Altseed2::Vector2F_C rect_min, Altseed2::Vector2F_C rect_max) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = rect_min;
+    Altseed2::Vector2F_C cbg_arg1 = rect_max;
+    bool cbg_ret = cbg_self_->IsRectVisible(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetFrameCount(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetFrameCount();
+    return cbg_ret;
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_GetStyleColorName(void* cbg_self, int32_t idx) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolCol cbg_arg0 = (Altseed2::ToolCol)idx;
+    const char16_t* cbg_ret = cbg_self_->GetStyleColorName(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_CalcListClipping(void* cbg_self, int32_t items_count, float items_height, int32_t * out_items_display_start, int32_t * out_items_display_end) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = items_count;
+    float cbg_arg1 = items_height;
+    int32_t* cbg_arg2 = out_items_display_start;
+    int32_t* cbg_arg3 = out_items_display_end;
+    cbg_self_->CalcListClipping(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginChildFrame(void* cbg_self, int32_t id, Altseed2::Vector2F_C size, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->BeginChildFrame(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_EndChildFrame(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->EndChildFrame();
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_CalcTextSize(void* cbg_self, const char16_t* text, const char16_t* text_end, bool hide_text_after_double_hash, float wrap_width) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = text;
+    const char16_t* cbg_arg1 = text_end;
+    bool cbg_arg2 = hide_text_after_double_hash;
+    float cbg_arg3 = wrap_width;
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->CalcTextSize(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector4F_C CBGSTDCALL cbg_Tool_ColorConvertU32ToFloat4(void* cbg_self, int32_t in) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = in;
+    Altseed2::Vector4F_C cbg_ret = cbg_self_->ColorConvertU32ToFloat4(cbg_arg0);
+    return (cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_ColorConvertFloat4ToU32(void* cbg_self, Altseed2::Vector4F_C in) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector4F_C cbg_arg0 = in;
+    int32_t cbg_ret = cbg_self_->ColorConvertFloat4ToU32(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetKeyIndex(void* cbg_self, int32_t imgui_key) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolKey cbg_arg0 = (Altseed2::ToolKey)imgui_key;
+    int32_t cbg_ret = cbg_self_->GetKeyIndex(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsKeyDown(void* cbg_self, int32_t user_key_index) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = user_key_index;
+    bool cbg_ret = cbg_self_->IsKeyDown(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsKeyPressed(void* cbg_self, int32_t user_key_index, bool repeat) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = user_key_index;
+    bool cbg_arg1 = repeat;
+    bool cbg_ret = cbg_self_->IsKeyPressed(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsKeyReleased(void* cbg_self, int32_t user_key_index) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = user_key_index;
+    bool cbg_ret = cbg_self_->IsKeyReleased(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetKeyPressedAmount(void* cbg_self, int32_t key_index, float repeat_delay, float rate) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = key_index;
+    float cbg_arg1 = repeat_delay;
+    float cbg_arg2 = rate;
+    int32_t cbg_ret = cbg_self_->GetKeyPressedAmount(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_CaptureKeyboardFromApp(void* cbg_self, bool want_capture_keyboard_value) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_arg0 = want_capture_keyboard_value;
+    cbg_self_->CaptureKeyboardFromApp(cbg_arg0);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDown(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    bool cbg_ret = cbg_self_->IsMouseDown(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseClicked(void* cbg_self, int32_t button, bool repeat) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    bool cbg_arg1 = repeat;
+    bool cbg_ret = cbg_self_->IsMouseClicked(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseReleased(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    bool cbg_ret = cbg_self_->IsMouseReleased(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDoubleClicked(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    bool cbg_ret = cbg_self_->IsMouseDoubleClicked(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseHoveringRect(void* cbg_self, Altseed2::Vector2F_C r_min, Altseed2::Vector2F_C r_max, bool clip) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = r_min;
+    Altseed2::Vector2F_C cbg_arg1 = r_max;
+    bool cbg_arg2 = clip;
+    bool cbg_ret = cbg_self_->IsMouseHoveringRect(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsAnyMouseDown(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsAnyMouseDown();
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMousePos(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMousePos();
+    return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMousePosOnOpeningCurrentPopup(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMousePosOnOpeningCurrentPopup();
+    return (cbg_ret);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsMouseDragging(void* cbg_self, int32_t button, float lock_threshold) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    float cbg_arg1 = lock_threshold;
+    bool cbg_ret = cbg_self_->IsMouseDragging(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMouseDragDelta(void* cbg_self, int32_t button, float lock_threshold) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    float cbg_arg1 = lock_threshold;
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMouseDragDelta(cbg_arg0, cbg_arg1);
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ResetMouseDragDelta(void* cbg_self, int32_t button) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseButton cbg_arg0 = (Altseed2::ToolMouseButton)button;
+    cbg_self_->ResetMouseDragDelta(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetMouseCursor(void* cbg_self, int32_t cursor_type) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::ToolMouseCursor cbg_arg0 = (Altseed2::ToolMouseCursor)cursor_type;
+    cbg_self_->SetMouseCursor(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_CaptureMouseFromApp(void* cbg_self, bool want_capture_mouse_value) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_arg0 = want_capture_mouse_value;
+    cbg_self_->CaptureMouseFromApp(cbg_arg0);
 }
 
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_GetClipboardText(void* cbg_self) {
@@ -3759,53 +4482,18 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetClipboardText(void* cbg_self, const char16
     cbg_self_->SetClipboardText(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_LoadIniSettingsFromDisk(void* cbg_self, const char16_t* iniFilename) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_LoadIniSettingsFromDisk(void* cbg_self, const char16_t* ini_filename) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = iniFilename;
+    const char16_t* cbg_arg0 = ini_filename;
     cbg_self_->LoadIniSettingsFromDisk(cbg_arg0);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Tool_SaveIniSettingsToDisk(void* cbg_self, const char16_t* iniFilename) {
+CBGEXPORT void CBGSTDCALL cbg_Tool_SaveIniSettingsToDisk(void* cbg_self, const char16_t* ini_filename) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
-    const char16_t* cbg_arg0 = iniFilename;
+    const char16_t* cbg_arg0 = ini_filename;
     cbg_self_->SaveIniSettingsToDisk(cbg_arg0);
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_OpenDialog(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = filter;
-    const char16_t* cbg_arg1 = defaultPath;
-    const char16_t* cbg_ret = cbg_self_->OpenDialog(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_OpenDialogMultiple(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = filter;
-    const char16_t* cbg_arg1 = defaultPath;
-    const char16_t* cbg_ret = cbg_self_->OpenDialogMultiple(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_SaveDialog(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = filter;
-    const char16_t* cbg_arg1 = defaultPath;
-    const char16_t* cbg_ret = cbg_self_->SaveDialog(cbg_arg0, cbg_arg1);
-    return cbg_ret;
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_PickFolder(void* cbg_self, const char16_t* defaultPath) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = defaultPath;
-    const char16_t* cbg_ret = cbg_self_->PickFolder(cbg_arg0);
-    return cbg_ret;
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetToolUsage(void* cbg_self) {
@@ -4553,4 +5241,7 @@ CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_Release(void* cbg_self) {
 
     cbg_self_->Release();
 }
+
+
 }
+

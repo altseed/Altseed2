@@ -138,6 +138,7 @@ set(core_files
     Sound/SoundMixer.cpp
     Tool/Tool.h
     Tool/Tool.cpp
+    Tool/AutoGenerateTool.cpp
     Window/Window.h
     Window/Window.cpp
     System/SynchronizationContext.h
