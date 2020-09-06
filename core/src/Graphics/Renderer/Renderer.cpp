@@ -10,8 +10,8 @@
 #include "../Graphics.h"
 #include "../RenderTexture.h"
 #include "RenderedCamera.h"
-#include "RenderedPolygon.h"
 #include "RenderedIBPolygon.h"
+#include "RenderedPolygon.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
 
@@ -108,7 +108,7 @@ void Renderer::DrawIBPolygon(std::shared_ptr<RenderedIBPolygon> ibPolygon) {
     if (material == nullptr) {
         material = batchRenderer_->GetMaterialDefaultSprite(ibPolygon->GetAlphaBlend());
     }
-    
+
     auto ib = ibPolygon->GetRawBuffers();
 
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
