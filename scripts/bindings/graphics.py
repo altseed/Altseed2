@@ -1094,6 +1094,7 @@ with RenderedIBPolygon as class_:
     with class_.add_func('SetDefaultIndexBuffer') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', 'RenderedPolygonと同様のインデックスバッファーを設定します。')
+        func.onlyExtern = True
 
     with class_.add_property(IndexBufferArray, 'Buffers') as prop:
         prop.brief = cbg.Description()
@@ -1102,6 +1103,7 @@ with RenderedIBPolygon as class_:
         prop.has_setter = True
         prop.serialized = True
         prop.is_public = False
+        prop.onlyExtern = True
 
     with class_.add_property(VertexArray, 'Vertexes') as prop:
         prop.brief = cbg.Description()
