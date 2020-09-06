@@ -15,7 +15,6 @@
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Material.h"
 #include "Graphics/Renderer/CullingSystem.h"
-#include "Graphics/Renderer/IndexBuffer.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedIBPolygon.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
@@ -323,12 +322,20 @@ TEST(Graphics, RenderedIBPolygon) {
     vertexes->GetVector()[7] = Altseed2::Vector2F(50, 100);
     polygon->CreateVertexesByVector2F(vertexes);
 
-    auto buffers = Altseed2::MakeAsdShared<Altseed2::IndexBufferArray>();
-    buffers->GetVector().resize(4);
-    buffers->GetVector()[0] = Altseed2::IndexBuffer(0, 1, 2);
-    buffers->GetVector()[1] = Altseed2::IndexBuffer(0, 2, 3);
-    buffers->GetVector()[2] = Altseed2::IndexBuffer(4, 5, 6);
-    buffers->GetVector()[3] = Altseed2::IndexBuffer(4, 6, 7);
+    auto buffers = Altseed2::MakeAsdShared<Altseed2::Int32Array>();
+    buffers->GetVector().resize(12);
+    buffers->GetVector()[0] = 0;
+    buffers->GetVector()[1] = 1;
+    buffers->GetVector()[2] = 2;
+    buffers->GetVector()[3] = 0;
+    buffers->GetVector()[4] = 2;
+    buffers->GetVector()[5] = 3;
+    buffers->GetVector()[6] = 4;
+    buffers->GetVector()[7] = 5;
+    buffers->GetVector()[8] = 6;
+    buffers->GetVector()[9] = 4;
+    buffers->GetVector()[10] = 6;
+    buffers->GetVector()[11] = 7;
     polygon->SetBuffers(buffers);
 
     for (int i = 0; i < 8; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed2::Color(255, 0, 0, 255);

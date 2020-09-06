@@ -10,7 +10,6 @@
 #include "../Color.h"
 #include "../Material.h"
 #include "../Texture2D.h"
-#include "IndexBuffer.h"
 #include "Rendered.h"
 
 namespace Altseed2 {
@@ -18,7 +17,7 @@ namespace Altseed2 {
 class RenderedIBPolygon : public Rendered {
 private:
     AlphaBlend alphaBlend_;
-    std::vector<int> buffers_;
+    std::shared_ptr<Int32Array> buffers_;
     std::shared_ptr<Material> material_;
     RectF src_;
     std::shared_ptr<TextureBase> texture_;
@@ -30,10 +29,8 @@ public:
     AlphaBlend GetAlphaBlend() const;
     void SetAlphaBlend(const AlphaBlend& value);
 
-    std::shared_ptr<IndexBufferArray> GetBuffers() const;
-    void SetBuffers(const std::shared_ptr<IndexBufferArray> value);
-
-    std::vector<int> GetRawBuffers() const;
+    std::shared_ptr<Int32Array> GetBuffers() const;
+    void SetBuffers(const std::shared_ptr<Int32Array> value);
 
     void CreateVertexesByVector2F(const std::shared_ptr<Vector2FArray> vectors);
 

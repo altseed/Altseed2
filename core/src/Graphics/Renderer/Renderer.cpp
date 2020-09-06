@@ -109,7 +109,7 @@ void Renderer::DrawIBPolygon(std::shared_ptr<RenderedIBPolygon> ibPolygon) {
         material = batchRenderer_->GetMaterialDefaultSprite(ibPolygon->GetAlphaBlend());
     }
 
-    auto ib = ibPolygon->GetRawBuffers();
+    auto ib = ibPolygon->GetBuffers()->GetVector();
 
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
 }

@@ -8,7 +8,7 @@ namespace Altseed2 {
 std::shared_ptr<RenderedIBPolygon> RenderedIBPolygon::Create() {
     auto result = MakeAsdShared<RenderedIBPolygon>();
     result->SetAlphaBlend(AlphaBlend::Normal());
-    result->SetBuffers(IndexBufferArray::Create(0));
+    result->SetBuffers(Int32Array::Create(0));
     result->SetMaterial(nullptr);
     result->SetTexture(nullptr);
     result->SetVertexes(VertexArray::Create(0));
@@ -18,32 +18,8 @@ std::shared_ptr<RenderedIBPolygon> RenderedIBPolygon::Create() {
 AlphaBlend RenderedIBPolygon::GetAlphaBlend() const { return alphaBlend_; }
 void RenderedIBPolygon::SetAlphaBlend(const AlphaBlend& value) { alphaBlend_ = value; }
 
-std::shared_ptr<IndexBufferArray> RenderedIBPolygon::GetBuffers() const {
-    auto result = IndexBufferArray::Create(buffers_.size() / 3);
-    for (int i = 0; i < result->GetVector().size(); i++) {
-        IndexBuffer b;
-        b.Index1 = buffers_[i * 3];
-        b.Index2 = buffers_[i * 3 + 1];
-        b.Index3 = buffers_[i * 3 + 2];
-        result->GetVector()[i] = b;
-    }
-    return result;
-}
-void RenderedIBPolygon::SetBuffers(const std::shared_ptr<IndexBufferArray> value) {
-    if (value == nullptr) {
-        buffers_.resize(0);
-        return;
-    }
-    buffers_.resize(value->GetVector().size() * 3);
-    for (int i = 0; i < value->GetVector().size(); i++) {
-        auto buffer = value->GetVector()[i];
-        buffers_[i * 3] = buffer.Index1;
-        buffers_[i * 3 + 1] = buffer.Index2;
-        buffers_[i * 3 + 2] = buffer.Index3;
-    }
-}
-
-std::vector<int> RenderedIBPolygon::GetRawBuffers() const { return buffers_; }
+std::shared_ptr<Int32Array> RenderedIBPolygon::GetBuffers() const { return buffers_; }
+void RenderedIBPolygon::SetBuffers(const std::shared_ptr<Int32Array> value) { buffers_ = value == nullptr ? Int32Array::Create(0) : value; }
 
 void RenderedIBPolygon::CreateVertexesByVector2F(const std::shared_ptr<Vector2FArray> vectors) {
     if (vertexes_ == nullptr) {
@@ -130,16 +106,17 @@ b2AABB RenderedIBPolygon::GetAABB() {
 
 void RenderedIBPolygon::SetDefaultIndexBuffer() {
     auto vs = vertexes_->GetVector();
+    auto bs = buffers_->GetVector();
     if (vs.size() < 3) {
-        buffers_ = std::vector<int>();
+        bs.resize(0);
         return;
     }
     auto length = vs.size() - 2;
-    buffers_.resize(length * 3);
+    bs.resize(length * 3);
     for (int i = 0; i < length; i++) {
-        buffers_[i * 3] = 0;
-        buffers_[i * 3 + 1] = i + 1;
-        buffers_[i * 3 + 2] = i + 2;
+        bs[i * 3] = 0;
+        bs[i * 3 + 1] = i + 1;
+        bs[i * 3 + 2] = i + 2;
     }
 }
 

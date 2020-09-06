@@ -23,7 +23,6 @@ if __name__ == '__main__':
 #include "Graphics/Font.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/ImageFont.h"
-#include "Graphics/Renderer/IndexBuffer.h"
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"

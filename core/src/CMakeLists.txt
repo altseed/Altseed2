@@ -45,8 +45,6 @@ set(core_files
     Graphics/Material.cpp
     Graphics/RenderTexture.h
     Graphics/RenderTexture.cpp
-    Graphics/Renderer/IndexBuffer.h
-    Graphics/Renderer/IndexBuffer.cpp
     Graphics/Renderer/Rendered.h
     Graphics/Renderer/Rendered.cpp
     Graphics/Renderer/RenderedCamera.h

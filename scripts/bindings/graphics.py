@@ -1096,7 +1096,7 @@ with RenderedIBPolygon as class_:
         func.brief.add('ja', 'RenderedPolygonと同様のインデックスバッファーを設定します。')
         func.onlyExtern = True
 
-    with class_.add_property(IndexBufferArray, 'Buffers') as prop:
+    with class_.add_property(Int32Array, 'Buffers') as prop:
         prop.brief = cbg.Description()
         prop.brief.add('ja', 'インデックスバッファー情報を取得または設定します。')
         prop.has_getter = True
