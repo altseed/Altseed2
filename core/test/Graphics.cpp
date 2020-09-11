@@ -16,6 +16,7 @@
 #include "Graphics/Material.h"
 #include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/Renderer/RenderedIBPolygon.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
@@ -289,6 +290,78 @@ TEST(Graphics, RenderedPolygon) {
         // Take a screenshot
         if (count == 5) {
             Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedPolygon.png");
+        }
+    }
+
+    Altseed2::CullingSystem::GetInstance()->Unregister(polygon);
+    Altseed2::Core::Terminate();
+}
+
+TEST(Graphics, RenderedIBPolygon) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedIBPolygon", 1280, 720, config));
+
+    int count = 0;
+
+    auto instance = Altseed2::Graphics::GetInstance();
+
+    auto polygon = Altseed2::RenderedIBPolygon::Create();
+    Altseed2::CullingSystem::GetInstance()->Register(polygon);
+
+    auto vertexes = Altseed2::MakeAsdShared<Altseed2::Vector2FArray>();
+    vertexes->Resize(8);
+    vertexes->GetVector()[0] = Altseed2::Vector2F(-100, -100);
+    vertexes->GetVector()[1] = Altseed2::Vector2F(-50, -100);
+    vertexes->GetVector()[2] = Altseed2::Vector2F(-50, -50);
+    vertexes->GetVector()[3] = Altseed2::Vector2F(-100, -50);
+    vertexes->GetVector()[4] = Altseed2::Vector2F(50, 50);
+    vertexes->GetVector()[5] = Altseed2::Vector2F(100, 50);
+    vertexes->GetVector()[6] = Altseed2::Vector2F(100, 100);
+    vertexes->GetVector()[7] = Altseed2::Vector2F(50, 100);
+    polygon->CreateVertexesByVector2F(vertexes);
+
+    auto buffers = Altseed2::MakeAsdShared<Altseed2::Int32Array>();
+    buffers->GetVector().resize(12);
+    buffers->GetVector()[0] = 0;
+    buffers->GetVector()[1] = 1;
+    buffers->GetVector()[2] = 2;
+    buffers->GetVector()[3] = 0;
+    buffers->GetVector()[4] = 2;
+    buffers->GetVector()[5] = 3;
+    buffers->GetVector()[6] = 4;
+    buffers->GetVector()[7] = 5;
+    buffers->GetVector()[8] = 6;
+    buffers->GetVector()[9] = 4;
+    buffers->GetVector()[10] = 6;
+    buffers->GetVector()[11] = 7;
+    polygon->SetBuffers(buffers);
+
+    for (int i = 0; i < 8; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed2::Color(255, 0, 0, 255);
+
+    auto transform = Altseed2::Matrix44F();
+    transform.SetTranslation(250, 250, 0);
+    polygon->SetTransform(transform);
+
+    while (count++ < 100 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        Altseed2::Renderer::GetInstance()->DrawIBPolygon(polygon);
+        Altseed2::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedIBPolygon.png");
         }
     }
 

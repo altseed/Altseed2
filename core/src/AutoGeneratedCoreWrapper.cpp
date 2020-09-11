@@ -46,6 +46,7 @@
 #include "Graphics/ImageFont.h"
 #include "Graphics/RenderTexture.h"
 #include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/Renderer/RenderedIBPolygon.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
@@ -1175,6 +1176,13 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* polygon
     cbg_self_->DrawPolygon(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawIBPolygon(void* cbg_self, void* polygon) {
+    auto cbg_self_ = (Altseed2::Renderer*)(cbg_self);
+
+    std::shared_ptr<Altseed2::RenderedIBPolygon> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderedIBPolygon>((Altseed2::RenderedIBPolygon*)polygon);
+    cbg_self_->DrawIBPolygon(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Renderer_Render(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Renderer*)(cbg_self);
 
@@ -1630,6 +1638,121 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetAlphaBlend(void* cbg_self, Alts
 
 CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedIBPolygon_Create() {
+    std::shared_ptr<Altseed2::RenderedIBPolygon> cbg_ret = Altseed2::RenderedIBPolygon::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RenderedIBPolygon>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_CreateVertexesByVector2F(void* cbg_self, void* vertexes) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Vector2FArray> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Vector2FArray>((Altseed2::Vector2FArray*)vertexes);
+    cbg_self_->CreateVertexesByVector2F(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_OverwriteVertexesColor(void* cbg_self, Altseed2::Color_C color) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    Altseed2::Color_C cbg_arg0 = color;
+    cbg_self_->OverwriteVertexesColor(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetDefaultIndexBuffer(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    cbg_self_->SetDefaultIndexBuffer();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedIBPolygon_GetBuffers(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_ret = cbg_self_->GetBuffers();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int32Array>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetBuffers(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)value);
+    cbg_self_->SetBuffers(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedIBPolygon_GetVertexes(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::VertexArray> cbg_ret = cbg_self_->GetVertexes();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::VertexArray>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetVertexes(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::VertexArray> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::VertexArray>((Altseed2::VertexArray*)value);
+    cbg_self_->SetVertexes(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedIBPolygon_GetTexture(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetTexture();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetTexture(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)value);
+    cbg_self_->SetTexture(cbg_arg0);
+}
+
+CBGEXPORT Altseed2::RectF_C CBGSTDCALL cbg_RenderedIBPolygon_GetSrc(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    Altseed2::RectF_C cbg_ret = cbg_self_->GetSrc();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetSrc(void* cbg_self, Altseed2::RectF_C value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    Altseed2::RectF_C cbg_arg0 = value;
+    cbg_self_->SetSrc(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedIBPolygon_GetMaterial(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Material> cbg_ret = cbg_self_->GetMaterial();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Material>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetMaterial(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Material> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Material>((Altseed2::Material*)value);
+    cbg_self_->SetMaterial(cbg_arg0);
+}
+
+CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_RenderedIBPolygon_GetAlphaBlend(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    Altseed2::AlphaBlend_C cbg_ret = cbg_self_->GetAlphaBlend();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_SetAlphaBlend(void* cbg_self, Altseed2::AlphaBlend_C value) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
+
+    Altseed2::AlphaBlend_C cbg_arg0 = value;
+    cbg_self_->SetAlphaBlend(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedIBPolygon_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedIBPolygon*)(cbg_self);
 
     cbg_self_->Release();
 }

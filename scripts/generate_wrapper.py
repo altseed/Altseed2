@@ -27,6 +27,7 @@ if __name__ == '__main__':
 #include "Graphics/Renderer/RenderedCamera.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
+#include "Graphics/Renderer/RenderedIBPolygon.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/RenderTexture.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
