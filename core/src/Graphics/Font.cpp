@@ -180,7 +180,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
     int textureCount = reader.Get<int32_t>();
     for (size_t i = 0; i < textureCount; i++) {
-        auto texturePath = FileSystem::GetParentPath(path) + u"/Textures/font" + utf8_to_utf16(std::to_string(i++)) + u".png";
+        auto texturePath = FileSystem::GetParentPath(path) + u"/Textures/font" + utf8_to_utf16(std::to_string(i)) + u".png";
         auto texture = Texture2D::Load(texturePath.c_str());
         if (texture == nullptr) return nullptr;
         font->textures_.push_back(texture);
