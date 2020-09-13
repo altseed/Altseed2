@@ -1,4 +1,4 @@
-﻿
+
 #include "Graphics/Font.h"
 
 #include <Core.h>
@@ -542,5 +542,17 @@ TEST(Font, Vertical) {
         Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
 
+    Altseed2::Core::Terminate();
+}
+
+
+TEST(Font, GenerateFontFile) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"GenerateFontFile", 600, 400, config));
+    EXPECT_TRUE(
+            Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/Font/test.a2f", 100, u"Hello, world! こんにちは"));
+    EXPECT_FALSE(
+            Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/Font/NotExistedDirectory/test.a2f", 100, u"Hello, world! こんにちは"));
     Altseed2::Core::Terminate();
 }

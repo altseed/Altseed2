@@ -208,6 +208,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     return font;
 }
 
+
 std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
     RETURN_IF_NULL(baseFont, nullptr);
     return std::static_pointer_cast<Font>(MakeAsdShared<ImageFont>(baseFont));
@@ -221,15 +222,15 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     auto parentDir = FileSystem::GetParentPath(staticFontPath);
     if (!FileSystem::GetIsDirectory(parentDir.c_str()))
     {
-        // いい感じのlogを吐く
-        Log::GetInstance()->Error(LogCategory::Core, u"The output directory cannot be accessed.");
+        
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: The output directory cannot be accessed.");
         return false;
     }
     BinaryWriter writer;
 
     auto font = Font::LoadDynamicFont(dynamicFontPath, size);
     if (font == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Failed to create font");
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create font");
         return false;
     }
 
@@ -302,6 +303,8 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     writer.WriteOut(fs);
     return true;
 }
+
+
 
 bool Font::Reload() { return false; }
 
