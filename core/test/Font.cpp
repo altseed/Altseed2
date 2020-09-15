@@ -550,8 +550,11 @@ TEST(Font, GenerateFontFile) {
     auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
     EXPECT_TRUE(config != nullptr);
     EXPECT_TRUE(Altseed2::Core::Initialize(u"GenerateFontFile", 600, 400, config));
+    EXPECT_TRUE(Altseed2::FileSystem::IsDirectory(u"TestData/Font"));
     EXPECT_TRUE(
             Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/Font/test.a2f", 100, u"Hello, world! こんにちは"));
+            
+    EXPECT_FALSE(Altseed2::FileSystem::IsDirectory(u"TestData/Font/NotExistedDirectory"));
     EXPECT_FALSE(
             Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/Font/NotExistedDirectory/test.a2f", 100, u"Hello, world! こんにちは"));
     Altseed2::Core::Terminate();
