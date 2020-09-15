@@ -214,11 +214,20 @@ std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters) {
+    RETURN_IF_NULL(dynamicFontPath, false);
+    RETURN_IF_NULL(staticFontPath, false);
+    RETURN_IF_NULL(characters, false);
+
+    auto parentDir = FileSystem::GetParentPath(staticFontPath);
+    if (!FileSystem::GetIsDirectory(parentDir.c_str())) {
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: The output directory cannot be accessed.");
+        return false;
+    }
     BinaryWriter writer;
 
     auto font = Font::LoadDynamicFont(dynamicFontPath, size);
     if (font == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Failed to create font");
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create font");
         return false;
     }
 
