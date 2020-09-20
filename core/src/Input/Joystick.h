@@ -49,6 +49,8 @@ enum class JoystickAxis : int32_t {
     RightTrigger = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER,
 };
 
+class HID;
+
 class JoystickInfo : public BaseObject {
 private:
     std::u16string name_;
@@ -105,6 +107,8 @@ private:
     std::array<std::array<bool, MAX_GAMEPAD_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> gamepadCurrentHit_;
     std::array<std::array<bool, MAX_GAMEPAD_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> gamepadPreHit_;
     std::array<std::array<float, MAX_GAMEPAD_AXES_NUM>, MAX_JOYSTICKS_NUM> gamepadCurrentAxis_;
+
+    std::shared_ptr<HID> hid_;
 
     std::u16string ToU16(const std::wstring& wstr) const;
 
