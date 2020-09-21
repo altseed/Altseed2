@@ -17,6 +17,7 @@ namespace Altseed2 {
 class RenderedPolygon : public Rendered {
 private:
     AlphaBlend alphaBlend_;
+    std::shared_ptr<Int32Array> buffers_;
     std::shared_ptr<VertexArray> vertexes_;
     std::shared_ptr<TextureBase> texture_;
     std::shared_ptr<Material> material_;
@@ -27,6 +28,9 @@ public:
 
     AlphaBlend GetAlphaBlend() const { return alphaBlend_; }
     void SetAlphaBlend(AlphaBlend alphaBlend) { alphaBlend_ = alphaBlend; }
+
+    std::shared_ptr<Int32Array> GetBuffers() const { return buffers_; }
+    void SetBuffers(const std::shared_ptr<Int32Array> buffers) { buffers_ = buffers; }
 
     std::shared_ptr<VertexArray> GetVertexes();
     void SetVertexes(std::shared_ptr<VertexArray> vertexes);
@@ -42,6 +46,8 @@ public:
 
     std::shared_ptr<Material> GetMaterial() const;
     void SetMaterial(const std::shared_ptr<Material>& material);
+
+    void SetDefaultIndexBuffer();
 
     b2AABB GetAABB() override;
 };

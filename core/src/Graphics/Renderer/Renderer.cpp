@@ -10,7 +10,6 @@
 #include "../Graphics.h"
 #include "../RenderTexture.h"
 #include "RenderedCamera.h"
-#include "RenderedIBPolygon.h"
 #include "RenderedPolygon.h"
 #include "RenderedSprite.h"
 #include "RenderedText.h"
@@ -64,52 +63,13 @@ void Renderer::DrawPolygon(std::shared_ptr<RenderedPolygon> polygon) {
         v.Pos = polygon->GetTransform().Transform3D(v.Pos);
     }
 
-    std::vector<int> ib;
-    ib.resize((vs.size() - 2) * 3);
-    for (int i = 0; i < vs.size() - 2; ++i) {
-        ib[i * 3 + 0] = 0;
-        ib[i * 3 + 1] = i + 1;
-        ib[i * 3 + 2] = i + 2;
-    }
-
     auto material = polygon->GetMaterial();
 
     if (material == nullptr) {
         material = batchRenderer_->GetMaterialDefaultSprite(polygon->GetAlphaBlend());
     }
 
-    batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
-}
-
-void Renderer::DrawIBPolygon(std::shared_ptr<RenderedIBPolygon> ibPolygon) {
-    if (ibPolygon->GetVertexes() == nullptr) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Renderer::DrawPolygon: Vertexes is null");
-        return;
-    }
-
-    std::shared_ptr<TextureBase> texture = ibPolygon->GetTexture();
-
-    RectF src = ibPolygon->GetSrc();
-    Vector2F size;
-    if (texture == nullptr) {
-        size = Vector2F(TextureMinimumSize, TextureMinimumSize);
-    } else {
-        size = texture->GetSize().To2F();
-    }
-
-    auto vs = std::vector<BatchVertex>(ibPolygon->GetVertexes()->GetVector());
-    for (auto&& v : vs) {
-        // NOTE: Do NOT overwrite UV1, UV2 and Col so that original values which RenderedPolygon provides are applied.
-        v.Pos = ibPolygon->GetTransform().Transform3D(v.Pos);
-    }
-
-    auto material = ibPolygon->GetMaterial();
-
-    if (material == nullptr) {
-        material = batchRenderer_->GetMaterialDefaultSprite(ibPolygon->GetAlphaBlend());
-    }
-
-    auto ib = ibPolygon->GetBuffers()->GetVector();
+    auto ib = polygon->GetBuffers()->GetVector();
 
     batchRenderer_->Draw(vs.data(), ib.data(), vs.size(), ib.size(), texture, material, nullptr);
 }
