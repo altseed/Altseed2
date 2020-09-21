@@ -16,7 +16,6 @@
 #include "Graphics/Material.h"
 #include "Graphics/Renderer/CullingSystem.h"
 #include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/Renderer/RenderedIBPolygon.h"
 #include "Graphics/Renderer/RenderedPolygon.h"
 #include "Graphics/Renderer/RenderedSprite.h"
 #include "Graphics/Renderer/RenderedText.h"
@@ -268,6 +267,8 @@ TEST(Graphics, RenderedPolygon) {
 
     for (int i = 0; i < 12; ++i) polygon->GetVertexes()->GetVector()[i].Col = Altseed2::Color(255, 0, 0, 255);
 
+    polygon->SetDefaultIndexBuffer();
+
     auto transform = Altseed2::Matrix44F();
     transform.SetTranslation(250, 250, 0);
     polygon->SetTransform(transform);
@@ -307,7 +308,7 @@ TEST(Graphics, RenderedIBPolygon) {
 
     auto instance = Altseed2::Graphics::GetInstance();
 
-    auto polygon = Altseed2::RenderedIBPolygon::Create();
+    auto polygon = Altseed2::RenderedPolygon::Create();
     Altseed2::CullingSystem::GetInstance()->Register(polygon);
 
     auto vertexes = Altseed2::MakeAsdShared<Altseed2::Vector2FArray>();
@@ -354,7 +355,7 @@ TEST(Graphics, RenderedIBPolygon) {
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        Altseed2::Renderer::GetInstance()->DrawIBPolygon(polygon);
+        Altseed2::Renderer::GetInstance()->DrawPolygon(polygon);
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());

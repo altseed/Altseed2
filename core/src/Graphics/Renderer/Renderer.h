@@ -18,7 +18,6 @@ class Texture2D;
 class RenderedSprite;
 class RenderedText;
 class RenderedPolygon;
-class RenderedIBPolygon;
 class RenderedCamera;
 class CommandList;
 class Window;
@@ -44,7 +43,6 @@ public:
     static void Terminate();
 
     void DrawPolygon(std::shared_ptr<RenderedPolygon> polygon);
-    void DrawIBPolygon(std::shared_ptr<RenderedIBPolygon> ibPolygon);
     void DrawSprite(std::shared_ptr<RenderedSprite> sprite);
     void DrawText(std::shared_ptr<RenderedText> text);
 

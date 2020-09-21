@@ -8,6 +8,7 @@ namespace Altseed2 {
 std::shared_ptr<RenderedPolygon> RenderedPolygon::Create() {
     auto p = MakeAsdShared<RenderedPolygon>();
     p->SetAlphaBlend(AlphaBlend::Normal());
+    p->SetBuffers(Int32Array::Create(0));
     p->SetVertexes(VertexArray::Create(0));
     p->SetTexture(nullptr);
     p->SetMaterial(nullptr);
@@ -99,6 +100,21 @@ b2AABB RenderedPolygon::GetAABB() {
         res.upperBound = b2Vec2(res.upperBound.x < v.X ? v.X : res.upperBound.x, res.upperBound.y < v.Y ? v.Y : res.upperBound.y);
     }
     return res;
+}
+
+void RenderedPolygon::SetDefaultIndexBuffer() {
+    auto vs = vertexes_->GetVector();
+    if (vs.size() < 3) {
+        buffers_->GetVector().resize(0);
+        return;
+    }
+    auto length = vs.size() - 2;
+    buffers_->GetVector().resize(length * 3);
+    for (int i = 0; i < length; i++) {
+        buffers_->GetVector()[i * 3] = 0;
+        buffers_->GetVector()[i * 3 + 1] = i + 1;
+        buffers_->GetVector()[i * 3 + 2] = i + 2;
+    }
 }
 
 }  // namespace Altseed2

@@ -53,8 +53,6 @@ set(core_files
     Graphics/Renderer/RenderedSprite.cpp
     Graphics/Renderer/RenderedText.h
     Graphics/Renderer/RenderedText.cpp
-    Graphics/Renderer/RenderedIBPolygon.h
-    Graphics/Renderer/RenderedIBPolygon.cpp
     Graphics/Renderer/RenderedPolygon.h
     Graphics/Renderer/RenderedPolygon.cpp
     Graphics/Renderer/Renderer.h
