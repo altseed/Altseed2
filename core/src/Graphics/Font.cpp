@@ -218,8 +218,8 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     RETURN_IF_NULL(staticFontPath, false);
     RETURN_IF_NULL(characters, false);
 
-    auto parentDir = FileSystem::GetParentPath(staticFontPath);
-    if (!FileSystem::GetIsDirectory(parentDir.c_str())) {
+    auto parentDir = FileSystem::GetParentPath(FileSystem::GetAbusolutePath(staticFontPath));
+    if (!FileSystem::GetIsDirectory(parentDir)) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: The output directory cannot be accessed.");
         return false;
     }
