@@ -94,6 +94,9 @@ void CullingSystem::Unregister(std::shared_ptr<Rendered> rendered) {
     renderedProxyIdMap_.erase(rendered.get());
     proxyIdRenderedMap_.erase(id);
     proxyIdAABBMap_.erase(id);
+
+    if (updateIds_.count(id) > 0)
+        updateIds_.erase(id);
 }
 
 int32_t CullingSystem::GetDrawingRenderedCount() {
