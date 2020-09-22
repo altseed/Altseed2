@@ -66,6 +66,12 @@ std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, c
     auto spirv = spirvGenerator_->Generate(path, code, macros, static_cast<LLGI::ShaderStageType>(shaderStage), true);
 #endif
 
+    if (spirv->GetData().empty()) {
+        Log::GetInstance()->Error(LogCategory::Core, u"ShaderCompiler::Compile: parse error {0} : {1}", name, spirv->GetError());
+        Log::GetInstance()->Error(LogCategory::Core, u"Code :\n{}", code);
+        return MakeAsdShared<ShaderCompileResult>(nullptr, utf8_to_utf16(spirv->GetError()));
+    }
+
     // convert a code or use raw code
     if (spirvTranspiler_ != nullptr) {
         if (!spirvTranspiler_->Transpile(spirv)) {

@@ -1278,3 +1278,16 @@ TEST(Graphics, MassDrawCall) {
     }
     Altseed2::Core::Terminate();
 }
+
+TEST(Graphics, CompileInvalidShaderCode) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"CompileInvalidShaderCode", 600, 400, config));
+
+    auto result = Altseed2::Shader::Compile(u"invalidShader", u"invalid shader code", Altseed2::ShaderStageType::Pixel);
+
+    EXPECT_TRUE(result->GetValue() == nullptr);
+
+    Altseed2::Core::Terminate();
+}
