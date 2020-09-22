@@ -1220,3 +1220,61 @@ float4 main(PS_INPUT input) : SV_TARGET
 
     Altseed2::Core::Terminate();
 }
+
+TEST(Graphics, MassDrawCall) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"MassDrawCall", 1280, 720, config));
+
+    int count = 0;
+    int spriteCount = 256;
+    std::vector<std::shared_ptr<Altseed2::RenderedSprite>> sprites;
+
+    auto instance = Altseed2::Graphics::GetInstance();
+
+    for (int i = 0; i < spriteCount; i++) {
+        auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+        EXPECT_TRUE(t1 != nullptr);
+
+        auto s = Altseed2::RenderedSprite::Create();
+
+        Altseed2::CullingSystem::GetInstance()->Register(s);
+        s->SetTexture(t1);
+        s->SetSrc(Altseed2::RectF(0, 0, t1->GetSize().X, t1->GetSize().Y));
+        Altseed2::Matrix44F trans, scale;
+        trans.SetTranslation((i % 32) * 1280.0 / 32, (i / 32) * 720.0 / 32, 0);
+        scale.SetScale(1280.0 / 32.0 / t1->GetSize().X, 720.0 / 32 / t1->GetSize().Y, 0);
+        s->SetTransform(trans * scale);
+        sprites.push_back(s);
+
+        Altseed2::Resources::GetInstance()->Clear();
+    }
+
+    while (count++ < 1000 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+        for (int i = 0; i < spriteCount; i++) {
+            Altseed2::Renderer::GetInstance()->DrawSprite(sprites[i]);
+        }
+        Altseed2::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.MassDrawCall.png");
+        }
+    }
+
+    for (int i = 0; i < spriteCount; i++) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(sprites[i]);
+    }
+    Altseed2::Core::Terminate();
+}
