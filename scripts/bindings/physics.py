@@ -105,6 +105,20 @@ with PolygonCollider as class_:
         func_.is_static = True
         func_.is_public = True
         func_.return_value.type_ = PolygonCollider
+
+    with class_.add_func('SetDefaultIndexBuffer') as func:
+        func.brief = cbg.Description()
+        func.brief.add('ja', 'インデックスバッファーを既定のものに設定します。')
+        func.onlyExtern = True
+
+    with class_.add_property(Int32Array, 'Buffers') as prop:
+        prop.brief = cbg.Description()
+        prop.brief.add('ja', 'インデックスバッファー情報を取得または設定します。')
+        prop.has_getter = True
+        prop.has_setter = True
+        prop.serialized = False
+        prop.is_public = False
+        prop.onlyExtern = True
     
     with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.is_public = False

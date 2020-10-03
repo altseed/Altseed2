@@ -13,6 +13,8 @@ class PolygonCollider : public Collider {
     friend class RectangleCollider;
 
 private:
+    std::shared_ptr<Int32Array> buffers_;
+
     std::vector<b2PolygonShape> triangles_;
 
     std::shared_ptr<Vector2FArray> vertexes_;
@@ -24,9 +26,15 @@ public:
 
     static std::shared_ptr<PolygonCollider> Create();
 
+    // IB
+    std::shared_ptr<Int32Array> GetBuffers() const;
+    void SetBuffers(const std::shared_ptr<Int32Array> buffers);
+
     // 頂点
     std::shared_ptr<Vector2FArray> GetVertexes() const;
     void SetVertexes(std::shared_ptr<Vector2FArray> vertexes);
+
+    void SetDefaultIndexBuffer();
 };
 
 }  // namespace Altseed2

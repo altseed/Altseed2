@@ -3,12 +3,16 @@
 namespace Altseed2 {
 
 PolygonCollider::PolygonCollider() {
-    vertexes_ = nullptr;
+    buffers_ = Int32Array::Create(0);
+    vertexes_ = Vector2FArray::Create(0);
     position_ = Vector2F(0, 0);
     rotation_ = 0;
 }
 
 std::shared_ptr<PolygonCollider> PolygonCollider::Create() { return MakeAsdShared<PolygonCollider>(); }
+
+std::shared_ptr<Int32Array> PolygonCollider::GetBuffers() const { return buffers_; }
+void PolygonCollider::SetBuffers(const std::shared_ptr<Int32Array> buffers) { buffers_ = buffers; }
 
 std::shared_ptr<Vector2FArray> PolygonCollider::GetVertexes() const { return vertexes_; }
 void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
@@ -54,6 +58,21 @@ bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     }
 
     return false;
+}
+
+void PolygonCollider::SetDefaultIndexBuffer() {
+    auto vs = vertexes_->GetVector();
+    if (vs.size() < 3) {
+        buffers_->GetVector().resize(0);
+        return;
+    }
+    auto length = vs.size() - 2;
+    buffers_->GetVector().resize(length * 3);
+    for (int i = 0; i < length; i++) {
+        buffers_->GetVector()[i * 3] = 0;
+        buffers_->GetVector()[i * 3 + 1] = i + 1;
+        buffers_->GetVector()[i * 3 + 2] = i + 2;
+    }
 }
 
 }  // namespace Altseed2

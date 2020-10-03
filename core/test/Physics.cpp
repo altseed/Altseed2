@@ -47,5 +47,7 @@ TEST(Physics, CollisionWithPolygons) {
     collider1->SetPosition(Altseed2::Vector2F(100, 100));
     collider2->SetVertexes(vertexes2);
     collider2->SetPosition(Altseed2::Vector2F(200, 150));
+    collider1->SetDefaultIndexBuffer();
+    collider2->SetDefaultIndexBuffer();
     EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
 }
