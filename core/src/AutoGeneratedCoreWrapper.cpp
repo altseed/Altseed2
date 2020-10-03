@@ -4488,6 +4488,26 @@ CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Create() {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::PolygonCollider>(cbg_ret);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetDefaultIndexBuffer(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    cbg_self_->SetDefaultIndexBuffer();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetBuffers(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_ret = cbg_self_->GetBuffers();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int32Array>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetBuffers(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)value);
+    cbg_self_->SetBuffers(cbg_arg0);
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetVertexes(void* cbg_self) {
     auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
 
