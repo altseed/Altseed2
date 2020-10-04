@@ -10,111 +10,6 @@
 
 namespace Altseed2 {
 
-class HID {
-    bool initialized_ = false;
-
-public:
-    struct DeviceProperty {
-        bool IsValid = false;
-        std::string Path;
-        std::wstring ProductString;
-        std::wstring ManifactureString;
-        uint16_t ProductID;
-        uint16_t VenderID;
-        std::wstring SerialNumber;
-    };
-
-    bool Init() {
-        if (initialized_) {
-            return false;
-        }
-
-        if (hid_init() != 0) {
-            return false;
-        }
-
-        initialized_ = true;
-        return true;
-    }
-
-    ~HID() {
-        if (initialized_) {
-            hid_exit();
-        }
-    }
-
-    std::vector<DeviceProperty> Enumerate() const {
-        std::vector<DeviceProperty> devices;
-
-        // Get HID handler
-        hid_device_info* firstDevice = hid_enumerate(0, 0);
-        auto device = firstDevice;
-
-        while (device) {
-            DeviceProperty prop;
-            prop.Path = device->path;
-            prop.ProductID = device->product_id;
-            prop.VenderID = device->vendor_id;
-
-            if (device->product_string != nullptr) {
-                prop.ProductString = device->product_string;
-            }
-
-            if (device->manufacturer_string != nullptr) {
-                prop.ManifactureString = device->manufacturer_string;
-            }
-
-            if (device->serial_number != nullptr) {
-                prop.SerialNumber = device->serial_number;
-            }
-
-            prop.IsValid = true;
-
-            devices.emplace_back(std::move(prop));
-            device = device->next;
-        }
-        hid_free_enumeration(firstDevice);
-
-        return std::move(devices);
-    }
-
-    std::vector<DeviceProperty> GetPairDevices(std::vector<DeviceProperty> properties) const {
-        std::vector<DeviceProperty> devices;
-
-        if (properties.size() == 0) {
-            return std::move(devices);
-        }
-
-        auto hid = Enumerate();
-
-        size_t propIndex = 0;
-
-        devices.resize(properties.size());
-
-        for (size_t i = 0; i < hid.size(); i++) {
-            if (properties[propIndex].SerialNumber != L"" && properties[propIndex].SerialNumber == hid[i].SerialNumber) {
-                devices[propIndex] = hid[i];
-                propIndex++;
-                if (propIndex >= properties.size()) {
-                    break;
-                }
-
-                continue;
-            } else if (properties[propIndex].ProductString != L"" && properties[propIndex].ProductString == hid[i].ProductString) {
-                devices[propIndex] = hid[i];
-                propIndex++;
-                if (propIndex >= properties.size()) {
-                    break;
-                }
-
-                continue;
-            }
-        }
-
-        return std::move(devices);
-    }
-};
-
 JoystickInfo::JoystickInfo(const std::u16string name, const int32_t buttonCount, const int32_t axisCount, const bool isGamepad, const std::u16string gamepadName, const char* guid)
     : name_(name), buttonCount_(buttonCount), axisCount_(axisCount), isGamepad_(isGamepad), gamepadName_(gamepadName) {
     guid_ = utf8_to_utf16(std::string(guid));
@@ -147,11 +42,22 @@ Joystick::Joystick() : connectedJoystickCount_(0) {
 
 bool Joystick::Initialize() {
     instance_ = MakeAsdShared<Joystick>();
+
+    instance_->hid_ = std::make_unique<HID>();
+    if (!instance_->hid_->Initialize()) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Initialize: failed to initialize HID");
+        instance_->hid_ = nullptr;
+    }
+
     instance_->RefreshInputState();
     return true;
 };
 
 void Joystick::Terminate() {
+    if(instance_->hid_ != nullptr) {
+        instance_->hid_->TerminateDevices();
+    }
+
     instance_ = nullptr;
 }
 
@@ -181,6 +87,9 @@ void Joystick::RefreshInputState() {
     preHit_ = currentHit_;
     gamepadPreHit_ = gamepadCurrentHit_;
 
+    // Joystickが接続された、または接続が外された
+    bool isConnectionUpdated = false;
+
     for (int jind = 0; jind < MAX_JOYSTICKS_NUM; jind++) {
         const auto isPresent = (glfwJoystickPresent(jind) == GLFW_TRUE);
 
@@ -192,6 +101,7 @@ void Joystick::RefreshInputState() {
             // Joystickの接続が外れたフレーム
             if (joystickInfo_[jind] != nullptr) {
                 connectedJoystickCount_--;
+                isConnectionUpdated = true;
                 joystickInfo_[jind] = nullptr;
             }
 
@@ -236,9 +146,7 @@ void Joystick::RefreshInputState() {
             auto guid = glfwGetJoystickGUID(jind);
             joystickInfo_[jind] = MakeAsdShared<JoystickInfo>(utf8_to_utf16(std::string(name)), buttonsCount, axesCount, isGamepad, gamepadName, guid);
             connectedJoystickCount_++;
-
-            // VendorId, ProductIdをもとにhid_device*を取得してunique_ptrに変換する。
-            // 同じJoystickが接続されている場合にそれらをどうやって区別しよう？
+            isConnectionUpdated = true;
         }
 
         // 特定のジョイスティックに対する補正
@@ -249,32 +157,9 @@ void Joystick::RefreshInputState() {
         }
     }
 
-    if (hid_ == nullptr) {
-        hid_ = std::make_shared<HID>();
-        if (!hid_->Init()) {
-            hid_ = nullptr;
-        }
-    }
-
-    if (hid_ != nullptr) {
-        std::vector<HID::DeviceProperty> props;
-        props.resize(connectedJoystickCount_);
-
-        for (int32_t i = 0; i < connectedJoystickCount_; i++) {
-#if defined(_WIN32)
-            props[i].ProductString = glfwJoystickGetProductName(i);
-#elif defined(__APPLE__)
-            props[i].SerialNumber = glfwJoystickGetSerialNumberStr(i);
-#endif
-        }
-
-        const auto pairs = hid_->GetPairDevices(props);
-
-        for (size_t i = 0; i < pairs.size(); i++) {
-            if (pairs[i].IsValid) {
-                // TODO
-            }
-        }
+    // HID
+    if (hid_ != nullptr && isConnectionUpdated) {
+        hid_->Refresh(connectedJoystickCount_);
     }
 };
 
@@ -373,9 +258,21 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) con
     return gamepadCurrentAxis_[joystickIndex][index];
 };
 
-// void Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
-//     Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate is not supported yet");
-// }
+bool Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
+    if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: index '{0}' is out of range", joystickIndex);
+        return false;
+    }
+
+    const auto info = joystickInfo_[joystickIndex];
+
+    if (info == nullptr) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: joystick is not connected as {0}", joystickIndex);
+        return false;
+    }
+
+    return hid_->Vibrate(joystickIndex, frequency, amplitude);
+}
 
 }  // namespace Altseed2
 

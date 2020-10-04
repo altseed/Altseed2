@@ -21,61 +21,90 @@ bool IsPushedOrHolded(int joystickIndex, Altseed2::JoystickButton btn, int count
 }
 
 // TODO
-// void CheckVibration(int joystickIndex) {
-//     int vibrate_time = 500;  // milliseconds
-//     float frequency = 150.0f;
-//     float amplitude = 0.8f;
-//     int32_t count = 0;
-//     std::chrono::system_clock::time_point start, end;
-//     start = std::chrono::system_clock::now();
-//     end = std::chrono::system_clock::now();
-//     bool vibrated = false;
+TEST(Joystick, Vibrate) {
 
-//     while (true) {
-//         Altseed2::Joystick::GetInstance()->RefreshInputState();
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
-//         if (!vibrated && Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, Altseed2::JoystickButton::RightDown) ==
-//                                  Altseed2::ButtonState::Push) {
-//             Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
-//             start = std::chrono::system_clock::now();
-//             vibrated = true;
-//         }
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonState", 640, 480, config));
 
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightRight, count)) {
-//             frequency += 10.0f;
-//             std::cout << "freq: " << frequency << std::endl;
-//         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightLeft, count)) {
-//             frequency -= 10.0f;
-//             std::cout << "freq: " << frequency << std::endl;
-//         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::R3, count)) {
-//             amplitude += 0.05f;
-//             std::cout << "amp : " << amplitude << std::endl;
-//         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::L3, count)) {
-//             amplitude -= 0.05f;
-//             ;
-//             std::cout << "amp : " << amplitude << std::endl;
-//         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::R2, count)) {
-//             vibrate_time += 10.0f;
-//             std::cout << "time: " << vibrate_time << std::endl;
-//         }
-//         if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::R1, count)) {
-//             vibrate_time -= 10.0f;
-//             std::cout << "time: " << vibrate_time << std::endl;
-//         }
+    float time = 0.0f;
 
-//         if (vibrated && std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() >= vibrate_time) {
-//             Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, 100.0f, 0);
-//             vibrated = false;
-//         }
+    while (Altseed2::Core::GetInstance()->DoEvent()) {
+        int joystickIndex = 0;
+        float frequency = 150.0f;
+        float amplitude = 0.8f;
 
-//         end = std::chrono::system_clock::now();
-//         count++;
-//     }
-// }
+        if (time < 5.0f) {
+            frequency = 150.0f;
+            amplitude = 0.5f * (0.5f * std::sin(time)) * 0.8f;
+        } else {
+            frequency = 0.5f * (0.5f * std::sin(time)) * 150.0f;
+            amplitude = 0.8f;
+        }
+
+        Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
+        
+        time += Altseed2::Core::GetInstance()->GetDeltaSecond();
+
+        if (time > 10.0f) {
+            break;
+        }
+    }
+
+    // while (Altseed2::Core::GetInstance()->DoEvent()) {
+    //     if (!vibrated && Altseed2::Joystick::GetInstance()->GetButtonStateByType(joystickIndex, Altseed2::JoystickButton::RightDown) == Altseed2::ButtonState::Push) {
+    //         Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
+    //         start = std::chrono::system_clock::now();
+    //         vibrated = true;
+    //     }
+
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightRight, count)) {
+    //         frequency += 10.0f;
+    //         std::cout << "freq: " << frequency << std::endl;
+    //     }
+        
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightDown, count)) {
+    //         frequency -= 10.0f;
+    //         std::cout << "freq: " << frequency << std::endl;
+    //     }
+
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightUp, count)) {
+    //         amplitude += 0.05f;
+    //         std::cout << "amp : " << amplitude << std::endl;
+    //     }
+
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightLeft, count)) {
+    //         amplitude -= 0.05f;
+    //         std::cout << "amp : " << amplitude << std::endl;
+    //     }
+
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightBumper, count)) {
+    //         vibrate_time += 10.0f;
+    //         std::cout << "time: " << vibrate_time << std::endl;
+    //     }
+
+    //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::LeftBumper, count)) {
+    //         vibrate_time -= 10.0f;
+    //         std::cout << "time: " << vibrate_time << std::endl;
+    //     }
+
+    //     if (vibrated && std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() >= vibrate_time) {
+    //         Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, 100.0f, 0);
+    //         vibrated = false;
+    //     }
+
+    //     end = std::chrono::system_clock::now();
+    //     count++;
+
+    //     time += Altseed2::Core::GetInstance()->GetDeltaSecond();
+    //     if (time > 10.0f) {
+    //         break;
+    //     }
+    // }
+
+    Altseed2::Core::Terminate();
+}
 
 void printJoystickInformation() {
     for (int i = 0; i < 16; i++) {

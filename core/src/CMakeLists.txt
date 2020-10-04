@@ -92,6 +92,8 @@ set(core_files
     Input/Keyboard.cpp
     Input/Mouse.h
     Input/Mouse.cpp
+    Input/HID.h
+    Input/HID.cpp
     Logger/Log.h
     Logger/Log.cpp
     Math/Easing.h
