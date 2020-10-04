@@ -67,7 +67,7 @@
 #include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/PolygonCollider.h"
-#include "Physics/Collider/RectangleCollider.h"
+#include "Physics/Collider/ShapeCollider.h"
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
@@ -4444,41 +4444,27 @@ CBGEXPORT void CBGSTDCALL cbg_CircleCollider_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Create() {
-    std::shared_ptr<Altseed2::RectangleCollider> cbg_ret = Altseed2::RectangleCollider::Create();
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RectangleCollider>(cbg_ret);
+CBGEXPORT void* CBGSTDCALL cbg_ShapeCollider_Create() {
+    std::shared_ptr<Altseed2::ShapeCollider> cbg_ret = Altseed2::ShapeCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ShapeCollider>(cbg_ret);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void* CBGSTDCALL cbg_ShapeCollider_GetVertexes(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetSize();
-    return (cbg_ret);
+    std::shared_ptr<Altseed2::Vector2FArray> cbg_ret = cbg_self_->GetVertexes();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Vector2FArray>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetSize(void* cbg_self, Altseed2::Vector2F_C value) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_ShapeCollider_SetVertexes(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_arg0 = value;
-    cbg_self_->SetSize(cbg_arg0);
+    std::shared_ptr<Altseed2::Vector2FArray> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Vector2FArray>((Altseed2::Vector2FArray*)value);
+    cbg_self_->SetVertexes(cbg_arg0);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetCenterPosition(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetCenterPosition();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetCenterPosition(void* cbg_self, Altseed2::Vector2F_C value) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = value;
-    cbg_self_->SetCenterPosition(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_ShapeCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
     cbg_self_->Release();
 }

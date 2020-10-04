@@ -34,10 +34,10 @@ bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
         return false;
     }
 
-    auto rectangle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if (rectangle != nullptr) {
+    auto shape = std::dynamic_pointer_cast<ShapeCollider>(collider);
+    if (shape != nullptr) {
         for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &rectangle->shape_, 0, transform_, rectangle->transform_)) return true;
+            if (b2TestOverlap(&triangle, 0, &shape->shape_, 0, transform_, shape->transform_)) return true;
         }
         return false;
     }

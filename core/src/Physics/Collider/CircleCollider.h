@@ -3,13 +3,13 @@
 #include "../../Math/Vector2F.h"
 #include "Collider.h"
 #include "PolygonCollider.h"
-#include "RectangleCollider.h"
+#include "ShapeCollider.h"
 
 namespace Altseed2 {
 
 class CircleCollider : public Collider {
-    friend class RectangleCollider;
     friend class PolygonCollider;
+    friend class ShapeCollider;
 
 private:
     b2CircleShape shape_;
