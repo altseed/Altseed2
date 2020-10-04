@@ -85,12 +85,12 @@ std::vector<HID::DeviceProperty> HID::Enumerate() {
                     hid_set_nonblocking(prop.Handler, 1);
 
                     // enable vibration for joycon
-                    uint8_t data[0x01];
+                    uint8_t data[1];
                     data[0] = 0x01;
                     SendSubcommand(prop.Handler, 0x48, data, 1);
 
                     // send player light
-                    data[0] = 0;
+                    data[0] = 0b1111;
                     SendSubcommand(prop.Handler, 0x30, data, 1);
                 }
             }
@@ -145,10 +145,13 @@ void HID::TerminateDevices() {
         if (prop.Handler != nullptr) {
             if (prop.VendorID == VendorNintendo) {
                 if (prop.ProductID == ProductJoyconL || prop.ProductID == ProductJoyconR) {
-                    uint8_t data[0x01];
-                    data[0] = 0;
+                    uint8_t data[1];
+
+                    // set light
+                    data[0] = 0b1111;
                     this->SendSubcommand(prop.Handler, 0x30, data, 1);
 
+                    // vibration
                     data[0] = 0x01;
                     this->SendSubcommand(prop.Handler, 0x48, data, 1);
                 }
@@ -190,7 +193,7 @@ bool HID::SetLight(int32_t joystickIndex, int32_t number) {
 
     if (prop.VendorID == VendorNintendo) {
         if (prop.ProductID == ProductJoyconL || prop.ProductID == ProductJoyconR) {
-            uint8_t data[0x01];
+            uint8_t data[1];
             // send player light
             data[0] = 0b1111 & number;
             SendSubcommand(prop.Handler, 0x30, data, 1);
@@ -226,7 +229,7 @@ bool HID::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
 }
 
 void HID::VibrateJoycon(hid_device* handler, float frequency, float amplitude) {
-    RETURN_IF_NULL(handler,);
+    RETURN_IF_NULL(handler, );
 
     uint8_t buf[0x40];
     memset(buf, 0x0, size_t(0x40));

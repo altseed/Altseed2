@@ -43,20 +43,22 @@ Joystick::Joystick() : connectedJoystickCount_(0) {
 bool Joystick::Initialize() {
     instance_ = MakeAsdShared<Joystick>();
 
-    instance_->hid_ = std::make_unique<HID>();
-    if (!instance_->hid_->Initialize()) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Initialize: failed to initialize HID");
-        instance_->hid_ = nullptr;
-    }
+    // TODO
+    // instance_->hid_ = std::make_unique<HID>();
+    // if (!instance_->hid_->Initialize()) {
+    //     Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Initialize: failed to initialize HID");
+    //     instance_->hid_ = nullptr;
+    // }
 
     instance_->RefreshInputState();
+
     return true;
 };
 
 void Joystick::Terminate() {
-    if(instance_->hid_ != nullptr) {
-        instance_->hid_->TerminateDevices();
-    }
+    // if (instance_->hid_ != nullptr) {
+    //     instance_->hid_->TerminateDevices();
+    // }
 
     instance_ = nullptr;
 }
@@ -158,9 +160,9 @@ void Joystick::RefreshInputState() {
     }
 
     // HID
-    if (hid_ != nullptr && isConnectionUpdated) {
-        hid_->Refresh(connectedJoystickCount_);
-    }
+    // if (hid_ != nullptr && isConnectionUpdated) {
+    //     hid_->Refresh(connectedJoystickCount_);
+    // }
 };
 
 bool Joystick::IsPresent(int32_t joystickIndex) const {
@@ -258,37 +260,37 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) con
     return gamepadCurrentAxis_[joystickIndex][index];
 };
 
-bool Joystick::SetLight(int32_t joystickIndex, int number) {
-    if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: index '{0}' is out of range", joystickIndex);
-        return false;
-    }
+// bool Joystick::SetLight(int32_t joystickIndex, int number) {
+//     if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
+//         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: index '{0}' is out of range", joystickIndex);
+//         return false;
+//     }
 
-    const auto info = joystickInfo_[joystickIndex];
+//     const auto info = joystickInfo_[joystickIndex];
 
-    if (info == nullptr) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: joystick is not connected as {0}", joystickIndex);
-        return false;
-    }
+//     if (info == nullptr) {
+//         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: joystick is not connected at {0}", joystickIndex);
+//         return false;
+//     }
 
-    return hid_->SetLight(joystickIndex, number);
-}
+//     return hid_->SetLight(joystickIndex, number);
+// }
 
-bool Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
-    if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: index '{0}' is out of range", joystickIndex);
-        return false;
-    }
+// bool Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
+//     if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
+//         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: index '{0}' is out of range", joystickIndex);
+//         return false;
+//     }
 
-    const auto info = joystickInfo_[joystickIndex];
+//     const auto info = joystickInfo_[joystickIndex];
 
-    if (info == nullptr) {
-        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: joystick is not connected as {0}", joystickIndex);
-        return false;
-    }
+//     if (info == nullptr) {
+//         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: joystick is not connected at {0}", joystickIndex);
+//         return false;
+//     }
 
-    return hid_->Vibrate(joystickIndex, frequency, amplitude);
-}
+//     return hid_->Vibrate(joystickIndex, frequency, amplitude);
+// }
 
 }  // namespace Altseed2
 
