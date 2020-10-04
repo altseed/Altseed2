@@ -133,6 +133,7 @@ public:
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) const;
 
+    bool SetLight(int32_t joystickIndex, int32_t number);
     bool Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 

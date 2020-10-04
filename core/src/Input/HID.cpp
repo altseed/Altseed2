@@ -32,7 +32,7 @@ HID::~HID() {
     }
 }
 
-void HID::SendSubcommand(hid_device* handler, uint8_t command, uint8_t data[], int len) {
+void HID::SendSubcommand(hid_device* handler, uint8_t command, uint8_t data[], int32_t len) {
     RETURN_IF_NULL(handler, );
 
     std::array<uint8_t, 0x40> buf;
@@ -89,9 +89,9 @@ std::vector<HID::DeviceProperty> HID::Enumerate() {
                     data[0] = 0x01;
                     SendSubcommand(prop.Handler, 0x48, data, 1);
 
-                    // // send player light
-                    // data[0] = (i + 1) % 4;
-                    // SendSubcommand(prop.Handler, 0x30, data, 1);
+                    // send player light
+                    data[0] = 0;
+                    SendSubcommand(prop.Handler, 0x30, data, 1);
                 }
             }
         }
@@ -146,8 +146,8 @@ void HID::TerminateDevices() {
             if (prop.VendorID == VendorNintendo) {
                 if (prop.ProductID == ProductJoyconL || prop.ProductID == ProductJoyconR) {
                     uint8_t data[0x01];
-                    // data[0] = 0;
-                    // this->SendSubcommand(prop.Handler, 0x30, data, 1);
+                    data[0] = 0;
+                    this->SendSubcommand(prop.Handler, 0x30, data, 1);
 
                     data[0] = 0x01;
                     this->SendSubcommand(prop.Handler, 0x48, data, 1);
@@ -159,7 +159,7 @@ void HID::TerminateDevices() {
     }
 }
 
-void HID::Refresh(int connectedJoystickCount) {
+void HID::Refresh(int32_t connectedJoystickCount) {
     TerminateDevices();
 
     std::vector<HID::DeviceProperty> props;
@@ -176,7 +176,33 @@ void HID::Refresh(int connectedJoystickCount) {
     pairs_ = GetPairDevices(props);
 }
 
-bool HID::Vibrate(int joystickIndex, float frequency, float amplitude) {
+bool HID::SetLight(int32_t joystickIndex, int32_t number) {
+    if (joystickIndex < 0 || pairs_.size() <= joystickIndex) {
+        Log::GetInstance()->Error(LogCategory::Core, u"HID::SetLight: index is out of range");
+        return false;
+    }
+
+    const DeviceProperty& prop = pairs_.at(joystickIndex);
+    if (prop.Handler == nullptr) {
+        Log::GetInstance()->Error(LogCategory::Core, u"HID::SetLight: Device is not valid");
+        return false;
+    }
+
+    if (prop.VendorID == VendorNintendo) {
+        if (prop.ProductID == ProductJoyconL || prop.ProductID == ProductJoyconR) {
+            uint8_t data[0x01];
+            // send player light
+            data[0] = 0b1111 & number;
+            SendSubcommand(prop.Handler, 0x30, data, 1);
+            return true;
+        }
+    }
+
+    Log::GetInstance()->Error(LogCategory::Core, u"HID::Vibarte: Device type is not supported");
+    return false;
+}
+
+bool HID::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
     if (joystickIndex < 0 || pairs_.size() <= joystickIndex) {
         Log::GetInstance()->Error(LogCategory::Core, u"HID::Vibarte: index is out of range");
         return false;
@@ -236,7 +262,7 @@ void HID::VibrateJoycon(hid_device* handler, float frequency, float amplitude) {
     byte[2] = lf + ((lf_amp >> 8) & 0xFF);
     byte[3] = lf_amp & 0xFF;
 
-    for (int i = 4; i <= 7; i++) {
+    for (int32_t i = 4; i <= 7; i++) {
         byte[i] = byte[i - 4];
     }
 

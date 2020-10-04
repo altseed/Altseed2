@@ -258,6 +258,22 @@ float Joystick::GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) con
     return gamepadCurrentAxis_[joystickIndex][index];
 };
 
+bool Joystick::SetLight(int32_t joystickIndex, int number) {
+    if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: index '{0}' is out of range", joystickIndex);
+        return false;
+    }
+
+    const auto info = joystickInfo_[joystickIndex];
+
+    if (info == nullptr) {
+        Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::SetLight: joystick is not connected as {0}", joystickIndex);
+        return false;
+    }
+
+    return hid_->SetLight(joystickIndex, number);
+}
+
 bool Joystick::Vibrate(int32_t joystickIndex, float frequency, float amplitude) {
     if (joystickIndex < 0 || MAX_JOYSTICKS_NUM <= joystickIndex) {
         Log::GetInstance()->Warn(LogCategory::Core, u"Joystick::Vibrate: index '{0}' is out of range", joystickIndex);

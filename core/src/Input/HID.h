@@ -37,9 +37,10 @@ public:
     ~HID();
     bool Initialize();
     void TerminateDevices();
-    void Refresh(int connectedJoystickCount);
+    void Refresh(int32_t connectedJoystickCount);
 
-    bool Vibrate(int joystickIndex, float frequency, float amplitude);
+    bool SetLight(int32_t joystickIndex, int32_t number);
+    bool Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
 }  // namespace Altseed2

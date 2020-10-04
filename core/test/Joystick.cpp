@@ -21,8 +21,32 @@ bool IsPushedOrHolded(int joystickIndex, Altseed2::JoystickButton btn, int count
 }
 
 // TODO
-TEST(Joystick, Vibrate) {
+TEST(Joystick, SetLight) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
+    EXPECT_TRUE(config != nullptr);
 
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Joystick ButtonState", 640, 480, config));
+
+    float time = 0.0f;
+
+    while (Altseed2::Core::GetInstance()->DoEvent()) {
+        int joystickIndex = 0;
+
+        float t = 0.5f * std::sin(time) + 0.5f;
+
+        int lightNumber = t * 15;
+        Altseed2::Joystick::GetInstance()->SetLight(joystickIndex, lightNumber);
+
+        time += Altseed2::Core::GetInstance()->GetDeltaSecond();
+
+        if (time > 10.0f) {
+            break;
+        }
+    }
+}
+
+// TODO
+TEST(Joystick, Vibrate) {
     auto config = Altseed2TestConfig(Altseed2::CoreModules::Joystick);
     EXPECT_TRUE(config != nullptr);
 
@@ -35,16 +59,16 @@ TEST(Joystick, Vibrate) {
         float frequency = 150.0f;
         float amplitude = 0.8f;
 
+        float t = 0.5f * std::sin(time) + 0.5f;
+
         if (time < 5.0f) {
-            frequency = 150.0f;
-            amplitude = 0.5f * (0.5f * std::sin(time)) * 0.8f;
+            amplitude *= t;
         } else {
-            frequency = 0.5f * (0.5f * std::sin(time)) * 150.0f;
-            amplitude = 0.8f;
+            frequency *= t;
         }
 
         Altseed2::Joystick::GetInstance()->Vibrate(joystickIndex, frequency, amplitude);
-        
+
         time += Altseed2::Core::GetInstance()->GetDeltaSecond();
 
         if (time > 10.0f) {
@@ -63,7 +87,7 @@ TEST(Joystick, Vibrate) {
     //         frequency += 10.0f;
     //         std::cout << "freq: " << frequency << std::endl;
     //     }
-        
+
     //     if (IsPushedOrHolded(joystickIndex, Altseed2::JoystickButton::RightDown, count)) {
     //         frequency -= 10.0f;
     //         std::cout << "freq: " << frequency << std::endl;
