@@ -40,7 +40,7 @@ bool ShapeCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
 std::shared_ptr<Vector2FArray> ShapeCollider::GetVertexes() const { return vertexes_; }
 void ShapeCollider::SetVertexes(const std::shared_ptr<Vector2FArray>& vertexes) {
     if (vertexes->GetVector().size() > b2_maxPolygonVertices) {
-        Log::GetInstance()->Error(LogCategory::Core, u"’¸“_”‚Í8‚Â‚Ü‚Å‚Å‚·");
+        Log::GetInstance()->Error(LogCategory::Core, u"é ‚ç‚¹æ•°ã¯8ã¤ã¾ã§ã§ã™");
         return;
     }
     vertexes_ = vertexes;
