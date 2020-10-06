@@ -21,6 +21,11 @@ bool ShapeCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
         return b2TestOverlap(&shape_, 0, &circle->shape_, 0, transform_, circle->transform_);
     }
 
+    auto edge = std::dynamic_pointer_cast<EdgeCollider>(collider);
+    if (edge != nullptr) {
+        return b2TestOverlap(&shape_, 0, &edge->shape_, 0, transform_, edge->transform_);
+    }
+
     auto shape = std::dynamic_pointer_cast<ShapeCollider>(collider);
     if (shape != nullptr) {
         return b2TestOverlap(&shape_, 0, &shape->shape_, 0, transform_, shape->transform_);

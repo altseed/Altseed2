@@ -125,6 +125,8 @@ set(core_files
     Physics/Collider/Collider.cpp
     Physics/Collider/CircleCollider.h
     Physics/Collider/CircleCollider.cpp
+    Physics/Collider/EdgeCollider.h
+    Physics/Collider/EdgeCollider.cpp
     Physics/Collider/PolygonCollider.h
     Physics/Collider/PolygonCollider.cpp
     Physics/Collider/ShapeCollider.h
