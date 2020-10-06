@@ -82,12 +82,12 @@ TEST(Physics, CollisionWithPolygonsIB) {
 
     auto ib = Altseed2::MakeAsdShared<Altseed2::Int32Array>();
     ib->Resize(6);
-    ib->GetVector()[0] = 0;
-    ib->GetVector()[1] = 1;
-    ib->GetVector()[2] = 2;
-    ib->GetVector()[3] = 0;
-    ib->GetVector()[4] = 2;
-    ib->GetVector()[5] = 3;
+    ib->GetVector()[0] = 4;
+    ib->GetVector()[1] = 5;
+    ib->GetVector()[2] = 6;
+    ib->GetVector()[3] = 4;
+    ib->GetVector()[4] = 6;
+    ib->GetVector()[5] = 7;
 
     collider2->SetBuffers(ib);
     EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));

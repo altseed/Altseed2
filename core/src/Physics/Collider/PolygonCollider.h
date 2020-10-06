@@ -21,6 +21,8 @@ private:
 
     bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) override;
 
+    void UpdateTriangles();
+
 public:
     PolygonCollider();
 
