@@ -66,6 +66,7 @@
 #include "Logger/Log.h"
 #include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/Collider.h"
+#include "Physics/Collider/EdgeCollider.h"
 #include "Physics/Collider/PolygonCollider.h"
 #include "Physics/Collider/ShapeCollider.h"
 #include "Sound/Sound.h"
@@ -4440,6 +4441,45 @@ CBGEXPORT void CBGSTDCALL cbg_CircleCollider_SetRadius(void* cbg_self, float val
 
 CBGEXPORT void CBGSTDCALL cbg_CircleCollider_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::CircleCollider*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_EdgeCollider_Create() {
+    std::shared_ptr<Altseed2::EdgeCollider> cbg_ret = Altseed2::EdgeCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::EdgeCollider>(cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_EdgeCollider_GetPoint1(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetPoint1();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_SetPoint1(void* cbg_self, Altseed2::Vector2F_C value) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetPoint1(cbg_arg0);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_EdgeCollider_GetPoint2(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetPoint2();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_SetPoint2(void* cbg_self, Altseed2::Vector2F_C value) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetPoint2(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
 
     cbg_self_->Release();
 }

@@ -3,12 +3,14 @@
 #include "../../Common/Array.h"
 #include "CircleCollider.h"
 #include "Collider.h"
+#include "EdgeCollider.h"
 #include "PolygonCollider.h"
 
 namespace Altseed2 {
 
 class ShapeCollider : public Collider {
     friend class CircleCollider;
+    friend class EdgeCollider;
     friend class PolygonCollider;
 
 private:

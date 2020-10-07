@@ -149,5 +149,6 @@ define.classes.append(Window)
 # physics
 define.classes.append(Collider)
 define.classes.append(CircleCollider)
+define.classes.append(EdgeCollider)
 define.classes.append(ShapeCollider)
 define.classes.append(PolygonCollider)

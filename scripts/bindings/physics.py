@@ -67,6 +67,35 @@ with CircleCollider as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '円形コライダの半径を取得または設定します。')
 
+EdgeCollider = cbg.Class('Altseed2', 'EdgeCollider')
+with EdgeCollider as class_:
+    class_.base_class = Collider
+    class_.brief = cbg.Description()
+    class_.brief.add('ja', '線分コライダのクラス')
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
+
+    with class_.add_func('Create') as func_:
+        func_.brief = cbg.Description()
+        func_.brief.add('ja', '線分コライダを作成します。')
+        func_.is_static = True
+        func_.is_public = True
+        func_.onlyExtern = True
+        func_.return_value.type_ = EdgeCollider
+
+    with class_.add_property(Vector2F, 'Point1') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.serialized = True
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '線分コライダの端点1を取得または設定します。')
+
+    with class_.add_property(Vector2F, 'Point2') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.serialized = True
+        prop_.brief = cbg.Description()
+        prop_.brief.add('ja', '線分コライダの端点2を取得または設定します。')
+
 ShapeCollider = cbg.Class('Altseed2', 'ShapeCollider')
 with ShapeCollider as class_:
     class_.base_class = Collider
