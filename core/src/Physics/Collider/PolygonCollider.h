@@ -4,12 +4,14 @@
 #include "../../Math/Vector2F.h"
 #include "CircleCollider.h"
 #include "Collider.h"
+#include "EdgeCollider.h"
 #include "ShapeCollider.h"
 
 namespace Altseed2 {
 
 class PolygonCollider : public Collider {
     friend class CircleCollider;
+    friend class EdgeCollider;
     friend class ShapeCollider;
 
 private:

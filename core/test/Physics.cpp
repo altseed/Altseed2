@@ -15,6 +15,16 @@ TEST(Physics, CollisionWithCircles) {
     EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
 }
 
+TEST(Physics, CollisionWithEdges) {
+    auto collider1 = Altseed2::MakeAsdShared<Altseed2::EdgeCollider>();
+    auto collider2 = Altseed2::MakeAsdShared<Altseed2::EdgeCollider>();
+    collider1->SetPoint1(Altseed2::Vector2F(100, 100));
+    collider1->SetPoint2(Altseed2::Vector2F(200, 200));
+    collider2->SetPoint1(Altseed2::Vector2F(200, 100));
+    collider2->SetPoint2(Altseed2::Vector2F(100, 200));
+    EXPECT_TRUE(collider1->GetIsCollidedWith(collider2));
+}
+
 TEST(Physics, CollisionWithShapes) {
     auto collider1 = Altseed2::MakeAsdShared<Altseed2::ShapeCollider>();
     auto collider2 = Altseed2::MakeAsdShared<Altseed2::ShapeCollider>();

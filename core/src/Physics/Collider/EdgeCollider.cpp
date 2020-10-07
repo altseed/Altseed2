@@ -1,24 +1,31 @@
-#include "CircleCollider.h"
+#include "EdgeCollider.h"
+
+#include "Box2DHelper.h"
 
 namespace Altseed2 {
 
-CircleCollider::CircleCollider() {
-    position_ = Vector2F(0, 0);
-    radius_ = 0;
-
-    shape_.m_p = b2Vec2_zero;
-    shape_.m_radius = 0;
+EdgeCollider::EdgeCollider() {
+    point1_ = Vector2F();
+    point2_ = Vector2F();
+    shape_.m_vertex1 = b2Vec2_zero;
+    shape_.m_vertex2 = b2Vec2_zero;
 }
 
-std::shared_ptr<CircleCollider> CircleCollider::Create() { return MakeAsdShared<CircleCollider>(); }
+std::shared_ptr<EdgeCollider> EdgeCollider::Create() { return MakeAsdShared<EdgeCollider>(); }
 
-double CircleCollider::GetRadius() const { return radius_; }
-void CircleCollider::SetRadius(double radius) {
-    radius_ = radius;
-    shape_.m_radius = radius;
+Vector2F EdgeCollider::GetPoint1() const { return point1_; }
+void EdgeCollider::SetPoint1(const Vector2F& point) {
+    point1_ = point;
+    shape_.m_vertex1 = Box2DHelper::ToBox2D_Vec(point);
 }
 
-bool CircleCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
+Vector2F EdgeCollider::GetPoint2() const { return point2_; }
+void EdgeCollider::SetPoint2(const Vector2F& point) {
+    point2_ = point;
+    shape_.m_vertex2 = Box2DHelper::ToBox2D_Vec(point);
+}
+
+bool EdgeCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
     auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
     if (circle != nullptr) {
         return b2TestOverlap(&shape_, 0, &circle->shape_, 0, transform_, circle->transform_);
