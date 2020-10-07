@@ -46,7 +46,7 @@ if __name__ == '__main__':
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/PolygonCollider.h"
-#include "Physics/Collider/RectangleCollider.h"
+#include "Physics/Collider/ShapeCollider.h"
 #include "Sound/Sound.h"
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"

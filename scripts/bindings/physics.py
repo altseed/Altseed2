@@ -41,6 +41,7 @@ with Collider as class_:
         func_.add_arg(Collider, 'collider')
         func_.return_value.type_ = bool
         func_.is_public = True
+        func_.onlyExtern = True
         func_.brief = cbg.Description()
         func_.brief.add('ja', '指定したコライダとの衝突判定を行います。')
 
@@ -56,6 +57,7 @@ with CircleCollider as class_:
         func_.brief.add('ja', '円形コライダを作成します。')
         func_.is_static = True
         func_.is_public = True
+        func_.onlyExtern = True
         func_.return_value.type_ = CircleCollider
 
     with class_.add_property(float, 'Radius') as prop_:
@@ -65,32 +67,28 @@ with CircleCollider as class_:
         prop_.brief = cbg.Description()
         prop_.brief.add('ja', '円形コライダの半径を取得または設定します。')
 
-RectangleCollider = cbg.Class('Altseed2', 'RectangleCollider')
-with RectangleCollider as class_:
+ShapeCollider = cbg.Class('Altseed2', 'ShapeCollider')
+with ShapeCollider as class_:
     class_.base_class = Collider
     class_.brief = cbg.Description()
-    class_.brief.add('ja', '矩形コライダのクラス')
+    class_.brief.add('ja', '図形コライダのクラス')
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
 
     with class_.add_func('Create') as func_:
         func_.brief = cbg.Description()
-        func_.brief.add('ja', '矩形コライダを作成します。')
+        func_.brief.add('ja', '図形コライダを作成します。')
         func_.is_static = True
-        func_.is_public = True
-        func_.return_value.type_ = RectangleCollider
+        func_.is_public = False
+        func_.onlyExtern = True
+        func_.return_value.type_ = ShapeCollider
     
-    with class_.add_property(Vector2F, 'Size') as prop_:
+    with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.serialized = True
+        prop_.is_public = False
         prop_.brief = cbg.Description()
-        prop_.brief.add('ja', '矩形コライダの幅・高さを取得または設定します。')
-    with class_.add_property(Vector2F, 'CenterPosition') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-        prop_.serialized = True
-        prop_.brief = cbg.Description()
-        prop_.brief.add('ja', '矩形コライダの中心の位置を取得または設定します。')
+        prop_.brief.add('ja', '頂点座標を取得または設定します。')
 
 PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
 with PolygonCollider as class_:
@@ -104,6 +102,7 @@ with PolygonCollider as class_:
         func_.brief.add('ja', '多角形コライダを作成します。')
         func_.is_static = True
         func_.is_public = True
+        func_.onlyExtern = True
         func_.return_value.type_ = PolygonCollider
 
     with class_.add_func('SetDefaultIndexBuffer') as func:

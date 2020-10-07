@@ -4,13 +4,13 @@
 #include "../../Math/Vector2F.h"
 #include "CircleCollider.h"
 #include "Collider.h"
-#include "RectangleCollider.h"
+#include "ShapeCollider.h"
 
 namespace Altseed2 {
 
 class PolygonCollider : public Collider {
     friend class CircleCollider;
-    friend class RectangleCollider;
+    friend class ShapeCollider;
 
 private:
     std::shared_ptr<Int32Array> buffers_;

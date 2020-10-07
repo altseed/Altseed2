@@ -125,10 +125,10 @@ set(core_files
     Physics/Collider/Collider.cpp
     Physics/Collider/CircleCollider.h
     Physics/Collider/CircleCollider.cpp
-    Physics/Collider/RectangleCollider.h
-    Physics/Collider/RectangleCollider.cpp
     Physics/Collider/PolygonCollider.h
     Physics/Collider/PolygonCollider.cpp
+    Physics/Collider/ShapeCollider.h
+    Physics/Collider/ShapeCollider.cpp
     Platform/FileSystem.h
     Sound/Sound.h
     Sound/Sound.cpp
