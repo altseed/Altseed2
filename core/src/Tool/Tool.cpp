@@ -157,6 +157,8 @@ const ImWchar* toImGlyphRanges(ImGuiIO& io, ToolGlyphRange ranges) {
         default:
             Log::GetInstance()->Error(LogCategory::Core, u"Unexpected FontGlyphRange, use 'Default' instead.");
     }
+
+    return nullptr;
 }
 
 bool Tool::AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges) {
