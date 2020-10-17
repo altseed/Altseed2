@@ -2,6 +2,9 @@
 
 #include "Font.h"
 
+#undef INFINITE
+#include <msdfgen/msdfgen.h>
+
 #include <sstream>
 #include <string>
 

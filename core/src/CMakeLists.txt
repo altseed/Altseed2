@@ -237,6 +237,12 @@ target_link_libraries(
 
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
+
+    debug freetyped
+    optimized freetype
+
+    debug msdfgend
+    optimized msdfgen
 )
 
 if (MSVC)
@@ -324,6 +330,7 @@ add_dependencies(
     EP_zlib
     EP_libpng
     EP_libzip
+    EP_msdfgen
     box2d
     nativefiledialog)
 
