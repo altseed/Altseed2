@@ -109,6 +109,8 @@ set_target_properties (EP_zlib PROPERTIES FOLDER thirdparty)
 set_target_properties (EP_libpng PROPERTIES FOLDER thirdparty)
 set_target_properties (EP_libzip PROPERTIES FOLDER thirdparty)
 set_target_properties (EP_glfw PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_freetype PROPERTIES FOLDER thirdparty)
+set_target_properties (EP_msdfgen PROPERTIES FOLDER thirdparty)
 
 #set_target_properties (box2d PROPERTIES FOLDER thirdparty)
 set_target_properties (hidapi PROPERTIES FOLDER thirdparty)

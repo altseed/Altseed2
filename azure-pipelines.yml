@@ -57,6 +57,17 @@ jobs:
             sudo apt update
             sudo apt -y install vulkan-sdk clang-format clang-tidy
             
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            wget https://github.com/harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz
+            tar Jxfv harfbuzz-2.7.1.tar.xz
+            cd harfbuzz-2.7.1
+            sudo ./configure --prefix=/usr --with-gobject --with-graphite2 &&
+            sudo make
+            sudo make install
+
 
       - task: Bash@3
         inputs:

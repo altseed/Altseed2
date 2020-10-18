@@ -115,6 +115,48 @@ else()
     set(GLFW3_LIB_RELEASE "glfw3" PARENT_SCOPE)
 endif()
 
+# freetype
+ExternalProject_Add(
+    EP_freetype
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/freetype2
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/freetype2
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/lib)
+
+# msdfgen
+ExternalProject_Add(
+    EP_msdfgen
+    DEPENDS         EP_freetype
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/msdfgen
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/msdfgen
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
+                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/include/freetype2
+                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+                    -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/lib)
+
 # box2d
 set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "disable box2d unit test" FORCE)
 set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "disable box2d testbed" FORCE)
