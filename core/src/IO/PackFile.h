@@ -6,6 +6,8 @@
 
 #include "../BaseObject.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class PackFile : public BaseObject {
 private:
@@ -22,3 +24,5 @@ public:
     bool GetIsUsePassword();
 };
 }  // namespace Altseed2
+
+#endif

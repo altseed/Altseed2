@@ -11,6 +11,8 @@
 #include "../Math/Vector3F.h"
 #include "Material.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 class Graphics;
@@ -78,3 +80,5 @@ public:
 };
 
 }  // namespace Altseed2
+
+#endif

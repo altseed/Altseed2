@@ -126,16 +126,6 @@ with FramerateMode as enum_:
     enum_.add('Constant', 1)
 define.enums.append(FramerateMode)
 
-SeekOrigin = cbg.Enum('Altseed2', 'SeekOrigin')
-with SeekOrigin as enum_:
-    enum_.brief = cbg.Description()
-    enum_.brief.add('ja', '')
-    enum_.isFlag = True
-    enum_.add('Begin', 0)
-    enum_.add('Current', 1)
-    enum_.add('End', 2)
-define.enums.append(SeekOrigin)
-
 BuiltinShaderType = cbg.Enum('Altseed2', 'BuiltinShaderType')
 with BuiltinShaderType as enum_:
     enum_.brief = cbg.Description()
@@ -1012,15 +1002,9 @@ with ToolFontAtlasFlags as enum_:
     enum_.add('NoMouseCursors', 1 << 1)
 define.enums.append(ToolFontAtlasFlags)
 
-Core = cbg.Class('Altseed2', 'Core')
-BaseObject = cbg.Class('Altseed2', 'BaseObject')
 Window = cbg.Class('Altseed2', 'Window')
-LLGIWindow = cbg.Class('Altseed2', 'LLGIWindow')
 ShaderCompileResult = cbg.Class('Altseed2', 'ShaderCompileResult')
 Shader = cbg.Class('Altseed2', 'Shader')
-Resource = cbg.Class('Altseed2', 'Resource')
-FileSystem = cbg.Class('Altseed2', 'FileSystem')
-ResourceContainer = cbg.Class('Altseed2', 'ResourceContainer')
 Resources = cbg.Class('Altseed2', 'Resources')
 TextureBase = cbg.Class('Altseed2', 'TextureBase')
 MaterialPropertyBlock = cbg.Class('Altseed2', 'MaterialPropertyBlock')
@@ -1034,12 +1018,9 @@ CommandList = cbg.Class('Altseed2', 'CommandList')
 Graphics = cbg.Class('Altseed2', 'Graphics')
 Configuration = cbg.Class('Altseed2', 'Configuration')
 FPS = cbg.Class('Altseed2', 'FPS')
-BatchRenderer = cbg.Class('Altseed2', 'BatchRenderer')
-BinaryWriter = cbg.Class('Altseed2', 'BinaryWriter')
-BaseFileReader = cbg.Class('Altseed2', 'BaseFileReader')
+Core = cbg.Class('Altseed2', 'Core')
 File = cbg.Class('Altseed2', 'File')
 StaticFile = cbg.Class('Altseed2', 'StaticFile')
-BinaryReader = cbg.Class('Altseed2', 'BinaryReader')
 RenderTexture = cbg.Class('Altseed2', 'RenderTexture')
 Glyph = cbg.Class('Altseed2', 'Glyph')
 Font = cbg.Class('Altseed2', 'Font')
@@ -1062,10 +1043,7 @@ RenderedText = cbg.Class('Altseed2', 'RenderedText')
 RenderedPolygon = cbg.Class('Altseed2', 'RenderedPolygon')
 Renderer = cbg.Class('Altseed2', 'Renderer')
 ShaderCompiler = cbg.Class('Altseed2', 'ShaderCompiler')
-PackFile = cbg.Class('Altseed2', 'PackFile')
-FileRoot = cbg.Class('Altseed2', 'FileRoot')
 StreamFile = cbg.Class('Altseed2', 'StreamFile')
-PackFileReader = cbg.Class('Altseed2', 'PackFileReader')
 Cursor = cbg.Class('Altseed2', 'Cursor')
 JoystickInfo = cbg.Class('Altseed2', 'JoystickInfo')
 Joystick = cbg.Class('Altseed2', 'Joystick')
@@ -1073,7 +1051,6 @@ Keyboard = cbg.Class('Altseed2', 'Keyboard')
 Mouse = cbg.Class('Altseed2', 'Mouse')
 Log = cbg.Class('Altseed2', 'Log')
 Easing = cbg.Class('Altseed2', 'Easing')
-Box2DHelper = cbg.Class('Altseed2', 'Box2DHelper')
 Collider = cbg.Class('Altseed2', 'Collider')
 RectangleCollider = cbg.Class('Altseed2', 'RectangleCollider')
 PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
@@ -1081,202 +1058,18 @@ CircleCollider = cbg.Class('Altseed2', 'CircleCollider')
 Sound = cbg.Class('Altseed2', 'Sound')
 SoundMixer = cbg.Class('Altseed2', 'SoundMixer')
 Tool = cbg.Class('Altseed2', 'Tool')
-SynchronizationContext = cbg.Class('Altseed2', 'SynchronizationContext')
-
-with BaseObject as class_:
-    with class_.add_func('AddRef') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('Release') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('OnTerminating') as func_:
-        pass
-
-    # class_.add_property(const char *, 'InstanceName')
-    with class_.add_property(int, 'Ref') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(int, 'Id') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(bool, 'IsTerminateingEnabled') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-define.classes.append(BaseObject)
 
 with Window as class_:
-# WindowInitializationParameter
-    """
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-    with class_.add_func('Terminate') as func_:
-        pass
-
-    with class_.add_func('OnTerminating') as func_:
-        pass
-
-    with class_.add_func('SetSize') as func_:
-        func_.add_arg(int, 'width')
-        func_.add_arg(int, 'height')
-
-    with class_.add_func('GetSize') as func_:
-        func_.add_arg(int, 'width')
-        func_.add_arg(int, 'height')
-
     with class_.add_func('DoEvent') as func_:
         func_.return_value.type_ = bool
 
-    with class_.add_func('GetMonitorSize') as func_:
-        func_.add_arg(int, 'width')
-        func_.add_arg(int, 'height')
-
-    with class_.add_property(Window, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
     with class_.add_property(ctypes.c_wchar_p, 'Title') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
     with class_.add_property(Vector2I, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-    # class_.add_property(int *, 'NativeWindow')
 define.classes.append(Window)
-
-with LLGIWindow as class_:
-# void *
-    """
-    with class_.add_func('GetNativePtr') as func_:
-
-    """
-
-    with class_.add_func('OnNewFrame') as func_:
-        func_.return_value.type_ = bool
-
-    with class_.add_property(int, 'WindowSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    # class_.add_property(int *, 'GlfwWindow')
-    with class_.add_property(int, 'FrameBufferSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(LLGIWindow)
-
-with Resource as class_:
-    with class_.add_func('Reload') as func_:
-        func_.return_value.type_ = bool
-
-define.classes.append(Resource)
-
-with FileSystem as class_:
-# std::u16string
-    """
-    with class_.add_func('GetIsFile') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetIsDirectory') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetLastWriteTime') as func_:
-        func_.return_value.type_ = int
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetChildPaths') as func_:
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetFileSize') as func_:
-        func_.return_value.type_ = int
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('CreateDirectory') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetParentPath') as func_:
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetAbusolutePath') as func_:
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('GetIsAbsolutePath') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('NormalizePath') as func_:
-
-    """
-
-define.classes.append(FileSystem)
-
-with ResourceContainer as class_:
-# std::u16string
-    """
-    with class_.add_func('Get') as func_:
-        func_.return_value.type_ = Resource
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('Register') as func_:
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('Unregister') as func_:
-
-    """
-
-    with class_.add_func('Clear') as func_:
-        pass
-
-    with class_.add_func('Reload') as func_:
-        pass
-
-# std::u16string
-    """
-    with class_.add_func('GetModifiedTime') as func_:
-        func_.return_value.type_ = int
-
-    """
-
-    with class_.add_property(int, 'AllResouces') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(ResourceContainer)
 
 with Resources as class_:
     with class_.add_func('Initialize') as func_:
@@ -1284,10 +1077,6 @@ with Resources as class_:
 
     with class_.add_func('Terminate') as func_:
         pass
-
-    with class_.add_func('GetResourceContainer') as func_:
-        func_.return_value.type_ = ResourceContainer
-        func_.add_arg(ResourceType, 'type')
 
     with class_.add_func('GetResourcesCount') as func_:
         func_.return_value.type_ = int
@@ -1468,96 +1257,40 @@ with FPS as class_:
         prop_.has_setter = True
 define.classes.append(FPS)
 
-with BatchRenderer as class_:
-# BatchVertex *
-    """
-    with class_.add_func('Draw') as func_:
-
-    """
-
-    with class_.add_func('Render') as func_:
+with Core as class_:
+    with class_.add_func('PrintAllBaseObjectName') as func_:
         pass
 
-    with class_.add_func('ResetCache') as func_:
+    with class_.add_func('Initialize') as func_:
+        func_.return_value.type_ = bool
+        func_.add_arg(int, 'width')
+        func_.add_arg(int, 'height')
+
+    with class_.add_func('Terminate') as func_:
         pass
 
-    with class_.add_func('SetViewProjection') as func_:
-        func_.add_arg(Matrix44F, 'matView')
-        func_.add_arg(Matrix44F, 'matProjection')
-
-    with class_.add_func('GetMaterialDefaultSprite') as func_:
-        func_.return_value.type_ = Material
-        func_.add_arg(AlphaBlend, 'blend')
-
-    with class_.add_func('GetMaterialDefaultText') as func_:
-        func_.return_value.type_ = Material
-        func_.add_arg(AlphaBlend, 'blend')
-
-    with class_.add_property(Vector2I, 'ViewProjectionWithWindowsSize') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-define.classes.append(BatchRenderer)
-
-with BinaryWriter as class_:
-# size_t
-    """
-    with class_.add_func('Reserve') as func_:
-
-    """
-
-    with class_.add_func('Push') as func_:
-        func_.add_arg(Matrix44F, 'content')
-
-# std::ostream
-    """
-    with class_.add_func('WriteOut') as func_:
+    with class_.add_func('DoEvent') as func_:
         func_.return_value.type_ = bool
 
-    """
-
-    with class_.add_property(int, '') as prop_:
+    with class_.add_property(int, 'BaseObjectCount') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-define.classes.append(BinaryWriter)
-
-with BaseFileReader as class_:
-# int64_t
-    """
-    with class_.add_func('ReadBytes') as func_:
-        func_.add_arg(int, 'buffer')
-
-    """
-
-    with class_.add_func('ReadUInt32') as func_:
-        func_.return_value.type_ = int
-
-# uint64_t
-    """
-    with class_.add_func('ReadUInt64') as func_:
-
-    """
-
-    with class_.add_func('ReadAllBytes') as func_:
-        func_.add_arg(int, 'buffer')
-
-# int64_t
-    """
-    with class_.add_func('Seek') as func_:
-
-    """
-
-    with class_.add_func('Close') as func_:
-        pass
-
-    # class_.add_property(int64_t, 'Position')
-    with class_.add_property(int, 'FullPath') as prop_:
+    with class_.add_property(Core, 'Instance') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    # class_.add_property(int64_t, 'Size')
-    with class_.add_property(bool, 'IsInPackage') as prop_:
+    with class_.add_property(float, 'DeltaSecond') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-define.classes.append(BaseFileReader)
+    with class_.add_property(float, 'CurrentFPS') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(int, 'TargetFPS') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+    with class_.add_property(FramerateMode, 'FramerateMode') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+define.classes.append(Core)
 
 with StaticFile as class_:
     with class_.add_func('Create') as func_:
@@ -1573,7 +1306,6 @@ with StaticFile as class_:
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    # class_.add_property(const void *, 'Data')
     with class_.add_property(int, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1581,15 +1313,6 @@ with StaticFile as class_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(StaticFile)
-
-with BinaryReader as class_:
-    with class_.add_func('IsEmpty') as func_:
-        func_.return_value.type_ = bool
-
-    with class_.add_property(int, '') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(BinaryReader)
 
 with Glyph as class_:
     with class_.add_property(Vector2I, 'TextureSize') as prop_:
@@ -1821,19 +1544,6 @@ with CullingSystem as class_:
     with class_.add_func('Terminate') as func_:
         pass
 
-# Rendered *
-    """
-    with class_.add_func('RequestUpdateAABB') as func_:
-
-    """
-
-# Rendered *
-    """
-    with class_.add_func('GetIsExists') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
     with class_.add_func('Register') as func_:
         func_.add_arg(Rendered, 'rendered')
 
@@ -1915,36 +1625,6 @@ with ShaderCompiler as class_:
         prop_.has_setter = False
 define.classes.append(ShaderCompiler)
 
-with PackFile as class_:
-# int *
-    """
-    with class_.add_func('Load') as func_:
-
-    """
-
-# std::u16string
-    """
-    with class_.add_func('Exists') as func_:
-        func_.return_value.type_ = bool
-
-    """
-
-    # class_.add_property(int *, 'ZipStat')
-    with class_.add_property(bool, 'IsUsePassword') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(PackFile)
-
-with FileRoot as class_:
-    with class_.add_func('IsPack') as func_:
-        func_.return_value.type_ = bool
-
-    # class_.add_property(std::u16string &, 'Path')
-    with class_.add_property(PackFile, 'PackFile') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(FileRoot)
-
 with StreamFile as class_:
     with class_.add_func('Create') as func_:
         func_.return_value.type_ = StreamFile
@@ -1977,26 +1657,6 @@ with StreamFile as class_:
         prop_.has_setter = False
 define.classes.append(StreamFile)
 
-with PackFileReader as class_:
-# int64_t
-    """
-    with class_.add_func('ReadBytes') as func_:
-        func_.add_arg(int, 'buffer')
-
-    """
-
-# int64_t
-    """
-    with class_.add_func('Seek') as func_:
-
-    """
-
-    # class_.add_property(int64_t, 'Size')
-    with class_.add_property(bool, 'IsInPackage') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(PackFileReader)
-
 with Cursor as class_:
 # void *
     """
@@ -2010,7 +1670,6 @@ with Cursor as class_:
         func_.add_arg(ctypes.c_wchar_p, 'path')
         func_.add_arg(Vector2I, 'hot')
 
-    # class_.add_property(int *, 'Native')
 define.classes.append(Cursor)
 
 with JoystickInfo as class_:
@@ -2143,9 +1802,6 @@ with Mouse as class_:
     with class_.add_property(Vector2F, 'Position') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-    with class_.add_property(int, 'WheelCallback') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
     with class_.add_property(float, 'Wheel') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -2186,30 +1842,6 @@ with Easing as class_:
         func_.return_value.type_ = int
 
 define.classes.append(Easing)
-
-with Box2DHelper as class_:
-    with class_.add_func('ToBox2D_Mat') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('ToAsd_Mat') as func_:
-        func_.return_value.type_ = Matrix44F
-        func_.add_arg(int, 'transform')
-
-    with class_.add_func('ToBox2D_Vec') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('ToAsd_Vec') as func_:
-        func_.return_value.type_ = Vector3F
-        func_.add_arg(int, 'vector')
-
-    with class_.add_func('ToBox2D_Rot') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('ToAsd_Rot') as func_:
-        func_.return_value.type_ = Matrix44F
-        func_.add_arg(int, 'rotation')
-
-define.classes.append(Box2DHelper)
 
 with Collider as class_:
     with class_.add_func('GetIsCollidedWith_') as func_:
@@ -3580,25 +3212,4 @@ with Tool as class_:
         prop_.has_getter = True
         prop_.has_setter = True
 define.classes.append(Tool)
-
-with SynchronizationContext as class_:
-# std::function<void ()>
-    """
-    with class_.add_func('AddEvent') as func_:
-
-    """
-
-    with class_.add_func('Run') as func_:
-        pass
-
-    with class_.add_func('Initialize') as func_:
-        pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
-
-    with class_.add_property(SynchronizationContext, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(SynchronizationContext)
 

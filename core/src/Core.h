@@ -13,7 +13,9 @@
 
 namespace Altseed2 {
 
+#if !USE_CBG
 class BaseObject;
+#endif
 
 class Core : public BaseObject {
 private:
@@ -32,11 +34,15 @@ private:
     int32_t maxBaseObjectId_;
 
 public:
+#if !USE_CBG
+
     //! register a base object
     int32_t Register(BaseObject* o);
 
     //! unregister a base object
     void Unregister(BaseObject* o);
+
+#endif
 
     //! get the number of base objects
     int32_t GetBaseObjectCount();

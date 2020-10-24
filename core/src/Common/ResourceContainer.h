@@ -10,6 +10,8 @@
 #include "../Platform/FileSystem.h"
 #include "Resource.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class ResourceContainer {
 public:
@@ -101,3 +103,5 @@ public:
 };
 
 }  // namespace Altseed2
+
+#endif

@@ -56,7 +56,11 @@ public:
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
+#if !USE_CBG
+
     LLGI::Shader* Get() const { return shader_.get(); }
+
+#endif
 
     static std::shared_ptr<ShaderCompileResult> Compile(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 

@@ -8,6 +8,8 @@
 
 #include "Common/Assertion.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 class Core;
@@ -98,3 +100,5 @@ T* AddAndGetSharedPtr(std::shared_ptr<T> sp) {
 }
 
 }  // namespace Altseed2
+
+#endif

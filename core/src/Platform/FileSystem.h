@@ -8,6 +8,8 @@
 #undef CreateDirectory
 #endif
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class FileSystem {
 public:
@@ -23,3 +25,5 @@ public:
     static std::u16string NormalizePath(const std::u16string& path);
 };
 }  // namespace Altseed2
+
+#endif

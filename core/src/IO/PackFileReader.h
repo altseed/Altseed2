@@ -4,6 +4,8 @@
 
 #include "BaseFileReader.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 class PackFileReader : public BaseFileReader {
@@ -27,3 +29,5 @@ public:
     bool GetIsInPackage() const override;
 };
 }  // namespace Altseed2
+
+#endif

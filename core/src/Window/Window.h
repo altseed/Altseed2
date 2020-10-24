@@ -34,6 +34,7 @@ public:
     Window();
     ~Window() override;
 
+#if !USE_CBG
     static bool Initialize(const WindowInitializationParameter& parameter);
 
     static void Terminate();
@@ -41,24 +42,30 @@ public:
     static std::shared_ptr<Window>& GetInstance();
 
     void OnTerminating() override;
+#endif
 
     void SetTitle(const char16_t* title);
 
     const char16_t* GetTitle() const;
 
+#if !USE_CBG
     void SetSize(int32_t width, int32_t height);
-
-    void SetSize(Vector2I_C value);
 
     void GetSize(int32_t& width, int32_t& height) const;
 
-    Vector2I GetSize() const;
+#endif
+    void SetSize(Vector2I_C value);
 
-    GLFWwindow* GetNativeWindow() const;
+    Vector2I GetSize() const;
 
     bool DoEvent();
 
+#if !USE_CBG
+    GLFWwindow* GetNativeWindow() const;
+
     void GetMonitorSize(int32_t& width, int32_t& height);
+
+#endif
 };
 
 }  // namespace Altseed2

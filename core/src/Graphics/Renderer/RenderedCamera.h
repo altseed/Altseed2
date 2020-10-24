@@ -32,7 +32,11 @@ public:
     Matrix44F GetViewMatrix() const;
     void SetViewMatrix(Matrix44F matrix);
 
+#if !USE_CBG
+
     b2AABB GetAABB();
+
+#endif
 };
 
 }  // namespace Altseed2

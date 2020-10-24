@@ -3,6 +3,8 @@
 #include "../Common/PlatformIncludes.h"
 #include "LLGI.Base.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class LLGIWindow : public LLGI::Window {
 private:
@@ -20,3 +22,5 @@ public:
 };
 
 }  // namespace Altseed2
+
+#endif

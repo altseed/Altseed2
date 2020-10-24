@@ -47,8 +47,12 @@ public:
 
     bool PackWithPassword(const char16_t* srcPath, const char16_t* dstPath, const char16_t* password) const;
 
+#if !USE_CBG
+
     //! for core
     std::shared_ptr<std::ifstream> GetStream(const std::u16string& path);
+
+#endif
 
 private:
     bool MakePackage(zip_t* zipPtr, const std::u16string& path, bool isEncrypt = false) const;

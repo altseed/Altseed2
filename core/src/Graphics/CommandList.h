@@ -132,6 +132,8 @@ public:
     */
     void SetIsPresentScreenBufferDirectly(bool value);
 
+#if !USE_CBG
+
     void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
 
     void SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset);
@@ -146,10 +148,13 @@ public:
             std::shared_ptr<Shader> shader,
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
+#endif
 
     void Draw(int32_t instanceCount);
 
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
+
+#if !USE_CBG
 
     LLGI::SingleFrameMemoryPool* GetMemoryPool() const;
     LLGI::RenderPass* GetCurrentRenderPass() const;
@@ -159,6 +164,7 @@ public:
     LLGI::RenderPass* GetActualScreenRenderPass() const;
 
     LLGI::CommandList* GetLL() const;
+#endif
 
     void SaveRenderTexture(const char16_t* path, std::shared_ptr<RenderTexture> texture);
 };

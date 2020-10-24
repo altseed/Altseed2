@@ -347,7 +347,7 @@ for header in headers:
     print(header)
 
     translation_unit = Index.create().parse(
-        source_path + header, ['-x', 'c++-header', "-std=c++17"], None, TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
+        source_path + header, ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"], None, TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
 
     # dump(translation_unit.cursor)
     parser.parse(translation_unit.cursor)

@@ -37,9 +37,11 @@ public:
 
     static void Terminate();
 
+#if !USE_CBG
     //! for Core only
     void RequestUpdateAABB(Rendered* rendered);
     bool GetIsExists(Rendered* rendered);
+#endif
 
     void Register(std::shared_ptr<Rendered> rendered);
     void UpdateAABB();

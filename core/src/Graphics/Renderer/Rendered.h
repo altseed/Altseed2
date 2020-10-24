@@ -20,7 +20,11 @@ public:
     const Matrix44F& GetTransform() const;
     void SetTransform(const Matrix44F& transform);
 
+#if !USE_CBG
+
     virtual b2AABB GetAABB() { return b2AABB(); }
+
+#endif
 };
 
 }  // namespace Altseed2

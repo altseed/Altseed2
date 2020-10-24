@@ -88,7 +88,11 @@ public:
 
     Vector2F GetPosition();
 
+#if !USE_CBG
+
     void SetWheelCallback(std::function<void(double x, double y)> func);
+
+#endif
 
     float GetWheel() const;
 

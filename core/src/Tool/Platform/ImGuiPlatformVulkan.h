@@ -20,6 +20,8 @@
 
 #include "ImGuiPlatform.h"
 
+#if !USE_CBG
+
 class ImguiPlatformVulkan : public ImguiPlatform {
 private:
     struct TextureHolder {
@@ -54,3 +56,5 @@ public:
 
     void DisposeFont() override;
 };
+
+#endif
