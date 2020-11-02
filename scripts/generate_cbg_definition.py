@@ -1,11 +1,41 @@
 from clang.cindex import *
 from bindings import define
+from bindings import CppBindingGenerator as cbg
 import re
 import pprint
-
 import sys
 import os
+import copy
+import json
 os.chdir(os.path.dirname(__file__))
+
+
+def merge_list(a, b):
+    m = copy.copy(a)
+    for i, value in enumerate(b):
+        if i >= len(a):
+            m.append(value)
+        if isinstance(value, dict):
+            m[i] = merge_dict(a[i], b[i])
+        elif isinstance(value, list):
+            m[i] = merge_list(a[i], b[i])
+        else:
+            m.append(value)
+    return m
+
+
+def merge_dict(a, b):
+    m = copy.copy(a)
+    for item in b:
+        if not item in a:
+            m[item] = b[item]
+        elif isinstance(b[item], dict):
+            m[item] = merge_dict(a[item], b[item])
+        elif isinstance(b[item], list):
+            m[item] = merge_list(a[item], b[item])
+        else:
+            m[item] = b[item]
+    return m
 
 
 def dump(cursor, indent=0, altseed=False):
@@ -25,9 +55,6 @@ def dump(cursor, indent=0, altseed=False):
     # 元の型
     if cursor.type.spelling != cursor.type.get_canonical().spelling:
         text += ' 元型[' + cursor.type.get_canonical().spelling + ']'
-
-    if altseed:
-        print('\t' * indent + text)
 
     for child in cursor.get_children():
         dump(child, indent + 1, altseed)
@@ -52,10 +79,18 @@ import sys
             code += f'''\
 {name} = cbg.Enum('Altseed2', '{name}')
 with {name} as enum_:
-    enum_.brief = cbg.Description()
-    enum_.brief.add('ja', '')
-    enum_.isFlag = True
 '''
+
+            if "isFlag" in enum:
+                code += f'''\
+    enum_.isFlag = {enum["isFlag"]}
+'''
+
+            if "alias" in enum:
+                code += f'''\
+    enum_.alias = "{enum["alias"]}"
+'''
+
             for key, value in sorted(enum["values"].items(), key=lambda x: eval(x[1])):
                 code += f'''\
     enum_.add('{key}', {value})
@@ -78,26 +113,113 @@ define.enums.append({name})
             code += f'''\
 with {name} as class_:
 '''
+
+            if "base_class" in _class and _class["base_class"] in self.classes.keys():
+                code += f'''\
+    class_.base_class = {_class["base_class"]}
+'''
+
+            if "is_public" in _class:
+                code += f'''\
+    class_.is_public = {_class["is_public"]}
+'''
+
+            if "SerializeType" in _class:
+                for serializeType in cbg.SerializeType:
+                    if _class["SerializeType"] == serializeType.name:
+                        code += f'''\
+    class_.SerializeType = cbg.SerializeType.{_class["SerializeType"]}
+'''
+                        break
+
+            if "CallBackType" in _class:
+                for callBackType in cbg.CallBackType:
+                    if _class["CallBackType"] == callBackType.name:
+                        code += f'''\
+    class_.CallBackType = cbg.CallBackType.{_class["CallBackType"]}
+'''
+                        break
+
+            if "cache_mode" in _class:
+                for cache_mode in cbg.CacheMode:
+                    if _class["cache_mode"] == cache_mode.name:
+                        code += f'''\
+    class_.cache_mode = cbg.CacheMode.{_class["cache_mode"]}
+'''
+                        break
+
+            if "is_Sealed" in _class:
+                code += f'''\
+    class_.is_Sealed = {_class["is_Sealed"]}
+'''
+
+            if "handleCache" in _class:
+                code += f'''\
+    class_.handleCache = {_class["handleCache"]}
+'''
+
             for method_name, method in _class["methods"].items():
                 try:
                     method_code = f'''\
     with class_.add_func('{method_name}') as func_:
 '''
+                    is_pass = True
                     if method["return_type"] != "void":
                         type_ = self.to_cbg_parameter_type(
                             method["return_type"])
                         method_code += f'''\
         func_.return_value.type_ = {type_}
 '''
-                    elif len(method["params"]) == 0:
+                        is_pass = False
+
+                    if "is_static" in method:
                         method_code += f'''\
-        pass
+        func_.is_static = {method["is_static"]}
 '''
+                        is_pass = False
+
+                    if "is_public" in method:
+                        method_code += f'''\
+        func_.is_public = {method["is_public"]}
+'''
+                        is_pass = False
+
+                    if "onlyExtern" in method:
+                        method_code += f'''\
+        func_.onlyExtern = {method["onlyExtern"]}
+'''
+                        is_pass = False
 
                     for param_name, param in method["params"].items():
                         type_ = self.to_cbg_parameter_type(param["type"])
+                        is_pass = False
+                        is_arg_pass = True
                         method_code += f'''\
-        func_.add_arg({type_}, '{param_name}')
+        with func_.add_arg({type_}, '{param_name}') as arg:
+'''
+                        if "called_by" in param:
+                            for called_by in cbg.ArgCalledBy:
+                                if param["called_by"] == called_by.name:
+                                    method_code += f'''\
+            arg.called_by = cbg.ArgCalledBy.{param["called_by"]}
+'''
+                                    is_arg_pass = False
+                                    break
+
+                        if "nullable" in param:
+                            method_code += f'''\
+            arg.nullable = {param["nullable"]}
+'''
+                            is_arg_pass = False
+
+                        if is_arg_pass:
+                            method_code += f'''\
+            pass
+'''
+
+                    if is_pass:
+                        method_code += f'''\
+        pass
 '''
                 except Exception as e:
                     method_code = f'''\
@@ -118,9 +240,45 @@ with {name} as class_:
         prop_.has_getter = {prop["get"] if "get" in prop else False}
         prop_.has_setter = {prop["set"] if "set" in prop else False}
 '''
+                    if "onlyExtern" in prop:
+                        code += f'''\
+        prop_.onlyExtern = {prop["onlyExtern"]}
+'''
+
+                    if "nullable" in prop:
+                        code += f'''\
+        prop_.nullable = {prop["nullable"]}
+'''
+
+                    if "null_deserialized" in prop:
+                        code += f'''\
+        prop_.null_deserialized = {prop["null_deserialized"]}
+'''
+
+                    if "is_public" in prop:
+                        code += f'''\
+        prop_.is_public = {prop["is_public"]}
+'''
+
+                    if "is_static" in prop:
+                        code += f'''\
+        prop_.is_static = {prop["is_static"]}
+'''
+
+                    if "serialized" in prop:
+                        code += f'''\
+        prop_.serialized = {prop["serialized"]}
+'''
+
+                    if "cache_set_value" in prop:
+                        code += f'''\
+        prop_.cache_set_value = {prop["cache_set_value"]}
+'''
+
                 except:
+                    type_ = prop["type"] if "type" in prop else "not found"
                     code += f'''\
-    # class_.add_property({prop["type"]}, '{property_name}')
+    # class_.add_property({type_}, '{property_name}')
 '''
 
             code += f'''\
@@ -129,14 +287,16 @@ define.classes.append({name})
 '''
         return code
 
-    def parse(self, cursor):
+    def parse(self, cursor, tool_mode=False):
+        self.tool_mode = tool_mode
+
         if cursor.kind.name == "NAMESPACE":
             if cursor.spelling == "Altseed2":
                 self.namespace(cursor)
             return
 
         for child in cursor.get_children():
-            self.parse(child)
+            self.parse(child, self.tool_mode)
 
     def namespace(self, cursor):
         for child in cursor.get_children():
@@ -149,6 +309,8 @@ define.classes.append({name})
         enum = {
             "values": {}
         }
+        if cursor.spelling in self.enums:
+            enum = self.enums[cursor.spelling]
         for child in cursor.get_children():
             if child.kind.name == 'ENUM_CONSTANT_DECL':
                 self.enum_constant(child, enum["values"])
@@ -174,8 +336,22 @@ define.classes.append({name})
             "methods": {},
             "properties": {}
         }
+        if cursor.spelling in self.classes:
+            class_def = self.classes[cursor.spelling]
+
+        if self.tool_mode:
+            class_def["is_Sealed"] = True
+
+        is_public = False
         for child in cursor.get_children():
-            if child.kind.name == 'CXX_METHOD':
+            if child.kind.name == 'CXX_ACCESS_SPEC_DECL':
+                for token in child.get_tokens():
+                    if token.spelling == "public":
+                        is_public = True
+                    elif token.spelling == "private" or token.spelling == "protected":
+                        is_publuc = False
+
+            if child.kind.name == 'CXX_METHOD' and is_public:
                 self.method(child, class_def)
         self.classes[cursor.spelling] = class_def
 
@@ -187,6 +363,13 @@ define.classes.append({name})
                 params[child.spelling] = {
                     "type": child.type.spelling
                 }
+
+                if self.tool_mode:
+                    type_ = params[child.spelling]["type"]
+                    if type_ == "int32_t *" or type_ == "bool *" or type_ == "float *":
+                        params[child.spelling]["called_by"] = "Ref"
+                    if type_ == "const char16_t *":
+                        params[child.spelling]["nullable"] = False
 
         if re.match(r"Get.*", cursor.spelling) and len(params) == 0:
             name = re.sub(r"Get(.*)", r"\1", cursor.spelling)
@@ -241,7 +424,7 @@ define.classes.append({name})
             return "float"
 
         if re.match(r"std::shared_ptr<.*>.*", _type):
-            return re.sub(r"std::shared_ptr<(.*)>.*", r"\1", _type)
+            _type = re.sub(r"std::shared_ptr<(.*)>.*", r"\1", _type)
 
         if _type in self.enums:
             return _type
@@ -259,6 +442,19 @@ define.classes.append({name})
             return _type
 
         raise Exception(_type)
+
+    def add_definition_option(self, option):
+        if 'enums' in option:
+            for k, v in option['enums'].items():
+                if k in self.enums:
+                    v = merge_dict(v, self.enums[k])
+                self.enums[k] = v
+
+        if 'classes' in option:
+            for k, v in option['classes'].items():
+                if k in self.classes:
+                    v = merge_dict(self.classes[k], v)
+                self.classes[k] = v
 
 
 source_path = '../core/src/'
@@ -338,6 +534,17 @@ headers = [
     'Window/Window.h',
     'System/SynchronizationContext.h',
 ]
+jsons = [
+    "bindings/common.json",
+    "bindings/core.json",
+    "bindings/graphics.json",
+    "bindings/input.json",
+    "bindings/io.json",
+    "bindings/logger.json",
+    "bindings/physics.json",
+    "bindings/sound.json",
+    "bindings/window.json",
+]
 parser = Parser()
 
 if len(sys.argv) == 2:
@@ -350,7 +557,12 @@ for header in headers:
         source_path + header, ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"], None, TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
 
     # dump(translation_unit.cursor)
-    parser.parse(translation_unit.cursor)
+    parser.parse(translation_unit.cursor, header == "Tool/Tool.h")
+
+for json_ in jsons:
+    with open(json_) as f:
+        option = json.load(f)
+        parser.add_definition_option(option)
 
 with open("bindings/auto_generate_define.py", mode="w", encoding="utf-8-sig") as f:
     f.write(parser.cbg_definition())

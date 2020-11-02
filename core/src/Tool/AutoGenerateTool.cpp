@@ -54,14 +54,17 @@ inline Color toColor(const ImVec4& v) { return Color(v.x * 255, v.y * 255, v.z *
 // ImDrawData *() GetDrawData
 
 void Tool::ShowDemoWindow(bool * p_open) {
+    RETURN_IF_NULL(p_open, );
     ImGui::ShowDemoWindow(p_open);
 }
 
 void Tool::ShowAboutWindow(bool * p_open) {
+    RETURN_IF_NULL(p_open, );
     ImGui::ShowAboutWindow(p_open);
 }
 
 void Tool::ShowMetricsWindow(bool * p_open) {
+    RETURN_IF_NULL(p_open, );
     ImGui::ShowMetricsWindow(p_open);
 }
 
@@ -94,6 +97,7 @@ const char16_t * Tool::GetVersion() {
 
 bool Tool::Begin(const char16_t * name, bool * p_open, ToolWindowFlags flags) {
     RETURN_IF_NULL(name, false);
+    RETURN_IF_NULL(p_open, false);
     return ImGui::Begin(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
@@ -493,6 +497,7 @@ uint32_t Tool::GetID(const char16_t * str_id_begin, const char16_t * str_id_end)
 
 void Tool::TextUnformatted(const char16_t * text, const char16_t * text_end) {
     RETURN_IF_NULL(text, );
+    RETURN_IF_NULL(text_end, );
     ImGui::TextUnformatted(utf16_to_utf8(text).c_str(), utf16_to_utf8(text_end).c_str());
 }
 
@@ -501,28 +506,28 @@ void Tool::Text(const char16_t * fmt) {
     ImGui::Text(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, int) TextV
+// void (const char *, va_list) TextV
 
 void Tool::TextColored(Vector4F col, const char16_t * fmt) {
     RETURN_IF_NULL(fmt, );
     ImGui::TextColored(toImVec4(col), utf16_to_utf8(fmt).c_str());
 }
 
-// void (const ImVec4 &, const char *, int) TextColoredV
+// void (const ImVec4 &, const char *, va_list) TextColoredV
 
 void Tool::TextDisabled(const char16_t * fmt) {
     RETURN_IF_NULL(fmt, );
     ImGui::TextDisabled(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, int) TextDisabledV
+// void (const char *, va_list) TextDisabledV
 
 void Tool::TextWrapped(const char16_t * fmt) {
     RETURN_IF_NULL(fmt, );
     ImGui::TextWrapped(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, int) TextWrappedV
+// void (const char *, va_list) TextWrappedV
 
 void Tool::LabelText(const char16_t * label, const char16_t * fmt) {
     RETURN_IF_NULL(label, );
@@ -530,14 +535,14 @@ void Tool::LabelText(const char16_t * label, const char16_t * fmt) {
     ImGui::LabelText(utf16_to_utf8(label).c_str(), utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, const char *, int) LabelTextV
+// void (const char *, const char *, va_list) LabelTextV
 
 void Tool::BulletText(const char16_t * fmt) {
     RETURN_IF_NULL(fmt, );
     ImGui::BulletText(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, int) BulletTextV
+// void (const char *, va_list) BulletTextV
 
 bool Tool::Button(const char16_t * label, Vector2F size) {
     RETURN_IF_NULL(label, false);
@@ -583,6 +588,7 @@ bool Tool::RadioButton(const char16_t * label, int32_t * v, int32_t v_button) {
 }
 
 void Tool::ProgressBar(float fraction, Vector2F size_arg, const char16_t * overlay) {
+    RETURN_IF_NULL(overlay, );
     ImGui::ProgressBar(fraction, toImVec2(size_arg), utf16_to_utf8(overlay).c_str());
 }
 
@@ -633,6 +639,7 @@ bool Tool::DragFloatRange2(const char16_t * label, float * v_current_min, float 
     RETURN_IF_NULL(v_current_min, false);
     RETURN_IF_NULL(v_current_max, false);
     RETURN_IF_NULL(format, false);
+    RETURN_IF_NULL(format_max, false);
     return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), utf16_to_utf8(format_max).c_str(), power);
 }
 
@@ -669,6 +676,7 @@ bool Tool::DragIntRange2(const char16_t * label, int32_t * v_current_min, int32_
     RETURN_IF_NULL(v_current_min, false);
     RETURN_IF_NULL(v_current_max, false);
     RETURN_IF_NULL(format, false);
+    RETURN_IF_NULL(format_max, false);
     return ImGui::DragIntRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), utf16_to_utf8(format_max).c_str());
 }
 
@@ -844,6 +852,7 @@ bool Tool::ColorPicker3(const char16_t * label, std::shared_ptr<FloatArray> col,
 bool Tool::ColorPicker4(const char16_t * label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags, float * ref_col) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(col, false);
+    RETURN_IF_NULL(ref_col, false);
     return ImGui::ColorPicker4(utf16_to_utf8(label).c_str(), &col->GetVector()[0], (ImGuiColorEditFlags)flags, ref_col);
 }
 
@@ -866,9 +875,9 @@ bool Tool::TreeNode(const char16_t * str_id, const char16_t * fmt) {
 
 // bool (const void *, const char *, ...) TreeNode
 
-// bool (const char *, const char *, int) TreeNodeV
+// bool (const char *, const char *, va_list) TreeNodeV
 
-// bool (const void *, const char *, int) TreeNodeV
+// bool (const void *, const char *, va_list) TreeNodeV
 
 bool Tool::TreeNodeEx(const char16_t * label, ToolTreeNodeFlags flags) {
     RETURN_IF_NULL(label, false);
@@ -883,9 +892,9 @@ bool Tool::TreeNodeEx(const char16_t * str_id, ToolTreeNodeFlags flags, const ch
 
 // bool (const void *, ImGuiTreeNodeFlags, const char *, ...) TreeNodeEx
 
-// bool (const char *, ImGuiTreeNodeFlags, const char *, int) TreeNodeExV
+// bool (const char *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
 
-// bool (const void *, ImGuiTreeNodeFlags, const char *, int) TreeNodeExV
+// bool (const void *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
 
 void Tool::TreePush(const char16_t * str_id) {
     RETURN_IF_NULL(str_id, );
@@ -968,6 +977,7 @@ void Tool::Value(const char16_t * prefix, int32_t v) {
 
 void Tool::Value(const char16_t * prefix, float v, const char16_t * float_format) {
     RETURN_IF_NULL(prefix, );
+    RETURN_IF_NULL(float_format, );
     ImGui::Value(utf16_to_utf8(prefix).c_str(), v, utf16_to_utf8(float_format).c_str());
 }
 
@@ -998,6 +1008,7 @@ void Tool::EndMenu() {
 
 bool Tool::MenuItem(const char16_t * label, const char16_t * shortcut, bool selected, bool enabled) {
     RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(shortcut, false);
     return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), selected, enabled);
 }
 
@@ -1021,7 +1032,7 @@ void Tool::SetTooltip(const char16_t * fmt) {
     ImGui::SetTooltip(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, int) SetTooltipV
+// void (const char *, va_list) SetTooltipV
 
 void Tool::OpenPopup(const char16_t * str_id) {
     RETURN_IF_NULL(str_id, );
@@ -1034,19 +1045,23 @@ bool Tool::BeginPopup(const char16_t * str_id, ToolWindowFlags flags) {
 }
 
 bool Tool::BeginPopupContextItem(const char16_t * str_id, ToolMouseButton mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextItem(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
 }
 
 bool Tool::BeginPopupContextWindow(const char16_t * str_id, ToolMouseButton mouse_button, bool also_over_items) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextWindow(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button, also_over_items);
 }
 
 bool Tool::BeginPopupContextVoid(const char16_t * str_id, ToolMouseButton mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopupContextVoid(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
 }
 
 bool Tool::BeginPopupModal(const char16_t * name, bool * p_open, ToolWindowFlags flags) {
     RETURN_IF_NULL(name, false);
+    RETURN_IF_NULL(p_open, false);
     return ImGui::BeginPopupModal(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
@@ -1055,6 +1070,7 @@ void Tool::EndPopup() {
 }
 
 bool Tool::OpenPopupOnItemClick(const char16_t * str_id, ToolMouseButton mouse_button) {
+    RETURN_IF_NULL(str_id, false);
     return ImGui::OpenPopupOnItemClick(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
 }
 
@@ -1068,6 +1084,7 @@ void Tool::CloseCurrentPopup() {
 }
 
 void Tool::Columns(int32_t count, const char16_t * id, bool border) {
+    RETURN_IF_NULL(id, );
     ImGui::Columns(count, utf16_to_utf8(id).c_str(), border);
 }
 
@@ -1110,6 +1127,7 @@ void Tool::EndTabBar() {
 
 bool Tool::BeginTabItem(const char16_t * label, bool * p_open, ToolTabItemFlags flags) {
     RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(p_open, false);
     return ImGui::BeginTabItem(utf16_to_utf8(label).c_str(), p_open, (ImGuiTabItemFlags)flags);
 }
 
@@ -1127,6 +1145,7 @@ void Tool::LogToTTY(int32_t auto_open_depth) {
 }
 
 void Tool::LogToFile(int32_t auto_open_depth, const char16_t * filename) {
+    RETURN_IF_NULL(filename, );
     ImGui::LogToFile(auto_open_depth, utf16_to_utf8(filename).c_str());
 }
 

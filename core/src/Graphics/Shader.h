@@ -53,10 +53,11 @@ public:
            ShaderStageType stage);
 
     int32_t GetUniformSize() const { return uniformSize_; }
-    const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
-    const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
 #if !USE_CBG
+
+    const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
+    const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
     LLGI::Shader* Get() const { return shader_.get(); }
 

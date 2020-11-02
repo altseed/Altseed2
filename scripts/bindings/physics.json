@@ -1,0 +1,71 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Collider": {
+            "SerializeType": "Interface",
+            "properties": {
+                "Position": {
+                    "serialized": false,
+                    "onlyExtern": true
+                },
+                "Rotation": {
+                    "serialized": false,
+                    "onlyExtern": true
+                },
+                "Transform": {
+                    "serialized": true,
+                    "onlyExtern": true
+                }
+            },
+            "methods": {
+            }
+        },
+        "CircleCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Radius": {
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        },
+        "RectangleCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Size": {
+                    "serialized": false
+                },
+                "CenterPosition": {
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        },
+        "PolygonCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Vertexes": {
+                    "onlyExtern": true
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        }
+    }
+}

@@ -31,7 +31,9 @@ public:
 
     static std::shared_ptr<File>& GetInstance();
 
+#if !USE_CBG
     std::shared_ptr<BaseFileReader> CreateFileReader(const char16_t* path);
+#endif
 
     bool AddRootDirectory(const char16_t* path);
 

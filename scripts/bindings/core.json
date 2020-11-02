@@ -1,0 +1,89 @@
+{
+    "enums": {
+        "GraphicsDeviceType": {
+            "alias": "GraphicsDevice"
+        }
+    },
+    "classes": {
+        "Configuration": {
+            "is_Sealed": true,
+            "handleCache": false,
+            "properties": {
+                "IsFullscreen": {
+                    "serialized": true
+                },
+                "IsResizable": {
+                    "serialized": true
+                },
+                "DeviceType": {
+                    "serialized": true
+                },
+                "WaitVSync": {
+                    "serialized": true
+                },
+                "EnabledCoreModules": {
+                    "serialized": true
+                },
+                "ConsoleLoggingEnabled": {
+                    "serialized": true
+                },
+                "FileLoggingEnabled": {
+                    "serialized": true
+                },
+                "LogFileName": {
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_public": true,
+                    "is_static": true,
+                    "onlyExtern": true
+                }
+            }
+        },
+        "Core": {
+            "is_Sealed": true,
+            "is_public": false,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "DeltaSecond": {
+                    "is_public": false
+                },
+                "CurrentFPS": {
+                    "is_public": false
+                },
+                "TargetFPS": {
+                    "is_public": false
+                },
+                "FramerateMode": {
+                    "is_public": false
+                },
+                "BaseObjectCount": {
+                    "is_public": false,
+                    "is_static": false
+                }
+            },
+            "methods": {
+                "PrintAllBaseObjectName": {
+                    "is_public": false,
+                    "is_static": false
+                },
+                "Initialize": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "DoEvent": {
+                    "is_public": false
+                },
+                "Terminate": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            }
+        }
+    }
+}

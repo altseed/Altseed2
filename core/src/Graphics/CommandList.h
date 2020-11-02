@@ -83,6 +83,8 @@ public:
 
     std::shared_ptr<RenderTexture> GetScreenTexture() const;
 
+#if !USE_CBG
+
     void StartFrame(const RenderPassParameter& renderPassParameter);
 
     void EndFrame();
@@ -96,6 +98,8 @@ public:
     void PauseRenderPass();
 
     void ResumeRenderPass();
+
+#endif
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
@@ -111,6 +115,8 @@ public:
         src is stored as mainTex
     */
     void RenderToRenderTarget(std::shared_ptr<Material> material);
+
+#if !USE_CBG
 
     /**
       @brief  (internal function) Set render target with a real screen
@@ -132,8 +138,6 @@ public:
     */
     void SetIsPresentScreenBufferDirectly(bool value);
 
-#if !USE_CBG
-
     void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
 
     void SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset);
@@ -148,9 +152,9 @@ public:
             std::shared_ptr<Shader> shader,
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
-#endif
 
     void Draw(int32_t instanceCount);
+#endif
 
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
 

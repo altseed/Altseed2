@@ -1,7 +1,8 @@
 from clang.cindex import *
 import re
 
-import sys, os
+import sys
+import os
 os.chdir(os.path.dirname(__file__))
 
 if len(sys.argv) == 2:
@@ -17,8 +18,6 @@ exclude_funcs = [
 enum_decl = ""
 func_decl = ""
 func_imp = ""
-enum_cbg = ""
-func_cbg = ""
 
 
 def to_altseed2_return_type(_type):
@@ -279,23 +278,23 @@ public:
 
     bool AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges);
 
-    bool ListBox(const char16_t* label, int32_t* current, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
+    bool ListBox(const char16_t * label, int32_t * current, const char16_t * items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    const char16_t* InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags = ToolInputTextFlags::None);
+    const char16_t* InputText(const char16_t * label, const char16_t * input, int32_t max_length, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextWithHint(
-            const char16_t* label,
-            const char16_t* hint,
-            const char16_t* input,
+            const char16_t * label,
+            const char16_t * hint,
+            const char16_t * input,
             int32_t max_length,
             ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextMultiline(
-            const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags = ToolInputTextFlags::None);
+            const char16_t * label, const char16_t * input, int32_t max_length, Vector2F size, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
-    bool ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
+    bool ColorEdit3(const char16_t* label, Color * color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
-    bool ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
+    bool ColorEdit4(const char16_t* label, Color * color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
     void Image(
             std::shared_ptr<TextureBase> texture,
@@ -315,9 +314,9 @@ public:
             Color tint_col = Color(255, 255, 255, 255));
 
     bool Combo(
-            const char16_t* label, int32_t* current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
+            const char16_t* label, int32_t * current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    bool ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags = ToolColorEditFlags::None, Vector2F size = Vector2F(0, 0));
+    bool ColorButton(const char16_t* desc_id, Color * col, ToolColorEditFlags flags = ToolColorEditFlags::None, Vector2F size = Vector2F(0, 0));
 
     void PlotLines(
             const char16_t* label,
@@ -384,6 +383,8 @@ def make_enum_decl(cursor):
     if cursor.kind.name != "ENUM_DECL":
         return ""
     name = re.sub(r"(ImGui|Im)(.*)_", r"Tool\2", cursor.spelling)
+    if len(name) == 0:
+        return ""
     code = f"enum class {name} : int32_t " + "{\n"
 
     for child in cursor.get_children():
@@ -423,7 +424,7 @@ def make_function_imp(cursor):
 
     if cursor.spelling in exclude_funcs:
         return ""
-    
+
     try:
         res = ""
 
@@ -475,428 +476,14 @@ def make_class_imp(cursor):
     return code
 
 
-def make_function_cbg(cursor):
-    if cursor.kind.name != "FUNCTION_DECL":
-        return ""
-    
-    if cursor.spelling in exclude_funcs:
-        return ""
-
-    try:
-        res = f"""
-    with class_.add_func('{cursor.spelling}') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-"""
-
-        _type = to_altseed2_return_type(
-            cursor.type.spelling.split('(')[0].strip())
-
-        params = []
-        for child in cursor.get_children():
-            if child.kind.name != "PARM_DECL":
-                continue
-
-            param_type = to_altseed2_parameter_type(child.type.spelling)
-
-            params.append([child.spelling, param_type,
-                           parameter_default_value(child)])
-
-        for param_name, param_type, default_value in params:
-            res += f"        with func_.add_arg({to_cbg_parameter_type(param_type)}, '{param_name}') as arg:\n"
-            if param_type == "bool *" or param_type == "int32_t *" or param_type == "float *":
-                res += "            arg.called_by = cbg.ArgCalledBy.Ref\n"
-            else:
-                res += "            pass\n"
-
-        if _type != "void":
-            res += f"""        func_.return_value.type_ = {to_cbg_parameter_type(_type)}
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '')
-"""
-
-        res += "\n"
-
-    except Exception as e:
-        return f"    # {cursor.type.spelling} {cursor.spelling}\n\n"
-
-    return res
-
-
-def make_class_cbg(cursor):
-    code = """Tool = cbg.Class('Altseed2', 'Tool')
-with Tool as class_:
-    class_.brief = cbg.Description()
-    class_.brief.add('ja', 'imguiのツール処理を行うクラス')
-    class_.is_Sealed = True
-
-    with class_.add_func('GetInstance') as func:
-        func.brief = cbg.Description()
-        func.brief.add('ja', 'インスタンスを取得します。')
-        func.is_static = True
-        func.is_public = False
-        func.return_value.type_ = Tool
-
-    with class_.add_property(ToolUsage, 'ToolUsage') as prop:
-        prop.brief = cbg.Description()
-        prop.brief.add('ja', 'ツールの使用方法を取得または設定します。')
-        prop.has_getter = True
-        prop.has_setter = True
-
-    with class_.add_func('AddFontFromFileTTF') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add(
-            'en', 'Load font from path. Packed files are not supported.')
-        func_.brief.add('ja', 'パスからフォントを読み込みます。パックされたファイルは非対応です。')
-        func_.add_arg(ctypes.c_wchar_p, 'path')
-        func_.add_arg(float, 'sizePixels')
-        func_.add_arg(ToolGlyphRange, 'ranges')
-        func_.return_value.type_ = bool
-
-    with class_.add_func('ListBox') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', 'リストボックスを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(int, 'current') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '選択中のアイテムのインデックス -1で選択無し')
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ctypes.c_wchar_p, 'items') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'タブ文字を用いて分割したアイテム')
-        with func_.add_arg(int, 'popupMaxHeightInItems') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '一度に表示されるアイテムの個数')
-        func_.return_value.type_ = bool
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', 'アイテムがクリックされたらtrue，それ以外でfalse')
-
-    with class_.add_func('InputText') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', 'テキストを入力するボックスを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '入力するテキスト')
-            arg.nullable = False
-        with func_.add_arg(int, 'maxLength') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '処理するテキストの最大長')
-        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '適用する設定')
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '入力されたテキスト')
-
-    with class_.add_func('InputTextWithHint') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', 'ヒント付きのテキスト入力ボックスを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'hint') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'インプットされている文字列長が0の時に表示されるヒント')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '入力するテキスト')
-            arg.nullable = False
-        with func_.add_arg(int, 'maxLength') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '処理するテキストの最大長')
-        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '適用する設定')
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '入力されたテキスト')
-
-    with class_.add_func('InputTextMultiline') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '複数行のテキストが入力可能なボックスを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'input') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '入力するテキスト')
-            arg.nullable = False
-        with func_.add_arg(int, 'maxLength') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '処理するテキストの最大長')
-        with func_.add_arg(Vector2F, 'size') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'サイズ')
-        with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '適用する設定')
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '入力されたテキスト')
-
-    with class_.add_func('ColorEdit3') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '色を入力するツールを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(Color, 'color') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '扱う色')
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '適用する設定')
-        func_.return_value.type_ = bool
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
-
-    with class_.add_func('ColorEdit4') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '色を入力するツールを生成します。')
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '横に表示するラベルのテキスト')
-            arg.nullable = False
-        with func_.add_arg(Color, 'color') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '扱う色')
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '適用する設定')
-        func_.return_value.type_ = bool
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '入力が決定されたらtrue，それ以外でfalse')
-
-    with class_.add_func('Image') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '画像表示ボックスを生成します。')
-        with func_.add_arg(TextureBase, 'texture') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '表示するテクスチャ')
-        with func_.add_arg(Vector2F, 'size') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'サイズ')
-        with func_.add_arg(Vector2F, 'uv0') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
-        with func_.add_arg(Vector2F, 'uv1') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
-        with func_.add_arg(Color, 'tintColor') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャの色')
-        with func_.add_arg(Color, 'borderColor') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '縁の色')
-
-    with class_.add_func('ImageButton') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', 'ボタンとして機能する画像表示ボックスを生成します。')
-        with func_.add_arg(TextureBase, 'texture') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '表示するテクスチャ')
-        with func_.add_arg(Vector2F, 'size') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'サイズ')
-        with func_.add_arg(Vector2F, 'uv0') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
-        with func_.add_arg(Vector2F, 'uv1') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャのUV値(0~1)')
-        with func_.add_arg(int, 'framePadding') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '縁の太さ')
-        with func_.add_arg(Color, 'tintColor') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'テクスチャの色')
-        with func_.add_arg(Color, 'borderColor') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '縁の色')
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', 'クリックされたらtrue，それ以外でfalse')
-        func_.return_value.type_ = bool
-
-    with class_.add_func('PlotLines') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(FloatArray, 'values')
-        func_.add_arg(int, 'valuesCount')
-        func_.add_arg(int, 'valuesOffset')
-        func_.add_arg(ctypes.c_wchar_p, 'overlayText')
-        func_.add_arg(float, 'scaleMin')
-        func_.add_arg(float, 'scaleMax')
-        func_.add_arg(Vector2F, 'graphSize')
-        func_.add_arg(int, 'stride')
-        func_.is_public = False
-
-    with class_.add_func('PlotHistogram') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.add_arg(ctypes.c_wchar_p, 'label')
-        func_.add_arg(FloatArray, 'values')
-        func_.add_arg(int, 'valuesCount')
-        func_.add_arg(int, 'valuesOffset')
-        func_.add_arg(ctypes.c_wchar_p, 'overlayText')
-        func_.add_arg(float, 'scaleMin')
-        func_.add_arg(float, 'scaleMax')
-        func_.add_arg(Vector2F, 'graphSize')
-        func_.add_arg(int, 'stride')
-        func_.is_public = False
-
-    with class_.add_func('GetTime') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '')
-        func_.return_value.type_ = float
-
-    with class_.add_func('OpenDialog') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '1つの開くファイルを選択するダイアログを開きます。')
-        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '読み込むファイルの拡張子のフィルタ')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
-            arg.nullable = False
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '読み込むファイルのパス')
-
-    with class_.add_func('OpenDialogMultiple') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '複数の開くファイルを選択するダイアログを開きます。')
-        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '読み込むファイルの拡張子のフィルタ')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
-            arg.nullable = False
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '読み込むファイルのパス')
-
-    with class_.add_func('SaveDialog') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', '保存するファイルを選択するダイアログを開きます。')
-        with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', '保存するファイルの拡張子のフィルタ')
-            arg.nullable = False
-        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
-            arg.nullable = False
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '保存するファイルのパス')
-
-    with class_.add_func('PickFolder') as func_:
-        func_.brief = cbg.Description()
-        func_.brief.add('en', '')
-        func_.brief.add('ja', 'フォルダを選択するダイアログを開きます。')
-        with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
-            arg.brief = cbg.Description()
-            arg.brief.add('ja', 'ファイルダイアログの初期位置のパス')
-            arg.nullable = False
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.type_ = ctypes.c_wchar_p
-        func_.return_value.brief = cbg.Description()
-        func_.return_value.brief.add('ja', '選択するフォルダのパス')
-
-"""
-    for child in cursor.get_children():
-        if child.kind.name == 'FUNCTION_DECL':
-            code += make_function_cbg(child)
-    return code
-
-
-def make_enum_constant_cbg(cursor, enum_dic):
-    if cursor.kind.name == 'ENUM_CONSTANT_DECL':
-        name = re.sub(r"ImGui.*_", "", cursor.spelling)
-        name = re.sub(r"Im.*_", "", name)
-        if name == "":
-            return ""
-
-        value = ""
-        for child in cursor.get_children():
-            tokens = []
-            for token in child.get_tokens():
-                token_str = re.sub(r"ImGui.*_", "", token.spelling)
-                token_str = re.sub(r"Im.*_", "", token_str)
-                if token_str in enum_dic:
-                    token_str = f"({enum_dic[token_str]})"
-                tokens.append(token_str)
-            if len(tokens) > 0:
-                value = " ".join(tokens)
-        if value == "":
-            value = str(len(enum_dic))
-        enum_dic[name] = value
-        res = f"    enum_.add('{name}', {value})\n"
-        return res
-
-
-def make_enum_cbg(cursor):
-    if cursor.kind.name != "ENUM_DECL":
-        return ""
-
-    name = re.sub(r"(ImGui|Im)(.*)_", r"Tool\2", cursor.spelling)
-    code = f"""{name} = cbg.Enum('Altseed2', '{name}')
-with {name} as enum_:
-    enum_.brief = cbg.Description()
-    enum_.brief.add('ja', '')
-    enum_.isFlag = True
-"""
-    enum_dic = {}
-    for child in cursor.get_children():
-        code += make_enum_constant_cbg(child, enum_dic)
-
-    code += '\n'
-    return code
-
-
 def parse(cursor):
     global enum_decl, func_decl, func_imp, func_cbg, enum_cbg
     if cursor.kind.name == 'NAMESPACE':
         func_decl = make_class_decl(cursor)
         func_imp = make_class_imp(cursor)
-        func_cbg = make_class_cbg(cursor)
 
     if cursor.kind.name == 'ENUM_DECL':
         enum_decl += make_enum_decl(cursor)
-        enum_cbg += make_enum_cbg(cursor)
 
     for child in cursor.get_children():
         parse(child)
@@ -998,66 +585,7 @@ inline Color toColor(const ImVec4& v) { return Color(v.x * 255, v.y * 255, v.z *
         f.write("}")
 
 
-def make_tool_cbg():
-    global enum_cbg, func_cbg
-    with open("bindings/tool.py", mode="w", encoding="utf-8") as f:
-
-        code = """from . import CppBindingGenerator as cbg
-import ctypes
-from .math import Vector2F, Vector4F
-from .common import *
-from .graphics import *
-
-ToolUsage = cbg.Enum('Altseed2', 'ToolUsage')
-with ToolUsage as enum_:
-    enum_.brief = cbg.Description()
-    enum_.brief.add('ja', 'ツール機能の使用方法(描画位置)')
-
-    with enum_.add('Overwrapped', 0) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '画面の上に表示')
-    with enum_.add('Main', 1) as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '画面を表示せずにツールのみ表示')
-
-ToolGlyphRange = cbg.Enum('Altseed2', 'ToolGlyphRange')
-with ToolGlyphRange as enum_:
-    enum_.brief = cbg.Description()
-    enum_.brief.add('en', 'Don\\'t bit operation')
-    enum_.brief.add('ja', 'ツール機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。')
-
-    enum_.add('Default')
-
-    with enum_.add('Cyrillic') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'キリル文字')
-
-    with enum_.add('Japanese') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '日本語')
-    with enum_.add('ChineseFull') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '繁体字中国語')
-    with enum_.add('ChineseSimplifiedCommon') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '簡体字中国語')
-    with enum_.add('Korean') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', '韓国語')
-    with enum_.add('Thai') as v:
-        v.brief = cbg.Description()
-        v.brief.add('ja', 'タイ語')
-
-"""
-
-        f.write(code)
-
-        f.write(enum_cbg)
-        f.write(func_cbg)
-
-
 parse(translation_unit.cursor)
 
 make_tool_header()
 make_tool_source()
-make_tool_cbg()

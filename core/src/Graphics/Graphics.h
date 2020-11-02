@@ -90,9 +90,8 @@ public:
 
     static void Terminate();
 
-    std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
-
 #if !USE_CBG
+    std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
     LLGI::RenderPass* GetCurrentScreen(const LLGI::Color8& clearColor, bool isColorCleared = false, bool isDepthCleared = false);
     LLGI::RenderPassPipelineState* CreateRenderPassPipelineState(LLGI::RenderPass* renderpass);

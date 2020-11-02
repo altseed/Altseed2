@@ -191,11 +191,14 @@ class MaterialPropertyBlock : public BaseObject {
 public:
     Vector4F GetVector4F(const char16_t* key) const;
     void SetVector4F(const char16_t* key, const Vector4F& value);
-    bool GetVector4F(const char16_t* key, Vector4F& value);
 
     Matrix44F GetMatrix44F(const char16_t* key) const;
     void SetMatrix44F(const char16_t* key, const Matrix44F& value);
+
+#if !USE_CBG
+    bool GetVector4F(const char16_t* key, Vector4F& value);
     bool GetMatrix44F(const char16_t* key, Matrix44F& value);
+#endif
 
     std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
     void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
@@ -247,7 +250,9 @@ public:
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 
+#if !USE_CBG
     std::shared_ptr<LLGI::PipelineState> GetPipelineState(LLGI::RenderPass* renderPass);
+#endif
 };
 
 }  // namespace Altseed2

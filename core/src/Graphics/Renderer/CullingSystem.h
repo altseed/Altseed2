@@ -51,8 +51,10 @@ public:
     int32_t GetDrawingRenderedCount();
     std::shared_ptr<Int32Array> GetDrawingRenderedIds();
 
+#if !USE_CBG
     //! Don't call from external
     bool QueryCallback(int32_t id);
+#endif
 };
 
 }  // namespace Altseed2

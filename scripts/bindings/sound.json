@@ -1,0 +1,68 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Sound": {
+            "SerializeType": "Interface",
+            "chace_mode": "ThreadSafeCache",
+            "is_Sealed": true,
+            "properties": {
+                "LoopStartingPoint": {
+                    "serialized": true
+                },
+                "LoopEndPoint": {
+                    "serialized": true
+                },
+                "IsLoopingMode": {
+                    "serialized": true
+                },
+                "Path": {
+                    "is_public": false,
+                    "serialized": true,
+                    "null_deserialized": false
+                },
+                "IsDecompressed": {
+                    "is_public": true,
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Load": {
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "SoundMixer": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            },
+            "methods": {
+                "Play": {
+                    "params": {
+                        "sound": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GetSpectrum": {
+                    "is_public": false,
+                    "params": {
+                        "window": {
+                            "type": "FFTWindow"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

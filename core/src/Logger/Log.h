@@ -11,6 +11,7 @@
 #include "../Common/StringHelper.h"
 
 namespace Altseed2 {
+#if !USE_CBG
 
 enum class LogLevel : int32_t {
     Trace = spdlog::level::trace,
@@ -138,5 +139,6 @@ public:
 
     void SetLevel(LogCategory category, LogLevel level);
 };
+#endif
 
 }  // namespace Altseed2

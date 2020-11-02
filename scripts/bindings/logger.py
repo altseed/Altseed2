@@ -49,7 +49,7 @@ with Log as class_:
         func.brief.add('ja', '<see cref="LogLevel.Trace"/>でログを出力します。')
         func.add_arg(LogCategory, 'category')
         func.add_arg(ctypes.c_wchar_p, 'message')
-    
+
     with class_.add_func('Debug') as func:
         func.brief = cbg.Description()
         func.brief.add('ja', '<see cref="LogLevel.Debug"/>でログを出力します。')

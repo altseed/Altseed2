@@ -12,6 +12,8 @@
 
 namespace Altseed2 {
 
+#if !USE_CBG
+
 enum class FrameEventType {
     Clear,
     SetRenderTarget,
@@ -124,4 +126,7 @@ public:
 
     bool GetIsEnabled() const;
 };
+
+#endif
+
 }  // namespace Altseed2

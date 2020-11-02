@@ -1,0 +1,38 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Resources": {
+            "is_public": false,
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            },
+            "methods": {
+                "GetResourcesCount": {
+                    "is_public": false
+                },
+                "Clear": {
+                    "is_public": false
+                },
+                "Reload": {
+                    "is_public": false
+                }
+            }
+        },
+        "BaseObject": {
+            "is_public": false,
+            "properties": {
+                "Id": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+            }
+        }
+    }
+}

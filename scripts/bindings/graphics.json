@@ -1,0 +1,613 @@
+{
+    "enums": {
+        "TextureFilterType": {
+            "alias": "TextureFilter"
+        },
+        "TextureFormatType": {
+            "alias": "TextureFormat"
+        }
+    },
+    "classes": {
+        "TextureBase": {
+            "SerializeType": "Interface",
+            "CallBackType": "Enable",
+            "properties": {
+                "Size": {
+                    "serialized": true
+                },
+                "WrapMode": {
+                    "serialized": true
+                },
+                "FilterType": {
+                    "serialized": true
+                },
+                "Format": {
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Save": {
+                    "is_public": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "Texture2D": {
+            "is_Sealed": true,
+            "base_class": "TextureBase",
+            "SerializeType": "Interface_Usebase",
+            "CallBackType": "Enable",
+            "properties": {
+                "Path": {
+                    "is_public": false,
+                    "serialized": true,
+                    "null_deserialized": false
+                }
+            },
+            "methods": {
+                "Load": {
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "RenderTexture": {
+            "is_Sealed": true,
+            "base_class": "TextureBase",
+            "SerializeType": "Interface_Usebase",
+            "CallBackType": "Enable",
+            "properties": {
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        },
+        "Shader": {
+            "is_Sealed": true,
+            "SerializeType": "Interface",
+            "cache_mode": "Cache",
+            "properties": {
+                "StageType": {
+                    "serialized": true
+                },
+                "Code": {
+                    "serialized": true
+                },
+                "Name": {
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Compile": {
+                    "is_static": true,
+                    "is_public": false,
+                    "params": {
+                        "name": {
+                            "nullable": false
+                        },
+                        "code": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "CompileFromFile": {
+                    "is_static": true,
+                    "is_public": false,
+                    "params": {
+                        "name": {
+                            "nullable": false
+                        },
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "ShaderCompileResult": {
+            "is_Sealed": true,
+            "is_public": false,
+            "SerializeType": "Disable",
+            "cache_mode": "Cache",
+            "properties": {
+                "Value": {
+                    "is_public": false
+                },
+                "Message": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+            }
+        },
+        "BuiltinShader": {
+            "is_Sealed": true,
+            "properties": {
+                "DownsampleShader": {
+                    "is_public": false
+                },
+                "SepiaShader": {
+                    "is_public": false
+                },
+                "GrayScaleShader": {
+                    "is_public": false
+                },
+                "GaussianBlurShader": {
+                    "is_public": false
+                },
+                "HighLuminanceShader": {
+                    "is_public": false
+                },
+                "LightBloomShader": {
+                    "is_public": false
+                },
+                "TextureMixShader": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_public": true
+                }
+            }
+        },
+        "Material": {
+            "is_Sealed": true,
+            "SerializeType": "Interface",
+            "cache_mode": "Cache",
+            "properties": {
+                "AlphaBlend": {
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "is_public": true
+                },
+                "GetVector4F": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "SetVector4F": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GetMatrix44F": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "SetMatrix44F": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GetTexture": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "SetTexture": {
+                    "onlyExtern": true,
+                    "is_public": true,
+                    "params": {
+                        "key": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GetShader": {
+                    "onlyExtern": true
+                },
+                "SetShader": {
+                    "onlyExtern": true
+                }
+            }
+        },
+        "CommandList": {
+            "is_Sealed": true,
+            "properties": {
+            },
+            "methods": {
+                "CopyTexture": {
+                    "params": {
+                        "src": {
+                            "nullable": false
+                        },
+                        "dst": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "Graphics": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "BuiltinShader": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "BeginFrame": {
+                    "is_public": false
+                },
+                "EndFrame": {
+                    "is_public": false
+                },
+                "DoEvents": {
+                    "is_public": false
+                },
+                "SaveScreenshot": {
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "Glyph": {
+            "is_Sealed": true,
+            "cache_mode": "ThreadSafeCache",
+            "properties": {
+            },
+            "methods": {
+            }
+        },
+        "Font": {
+            "is_Sealed": true,
+            "cache_mode": "ThreadSafeCache",
+            "CallBackType": "Interface",
+            "SerializeType": "Enable",
+            "properties": {
+                "Size": {
+                    "serialized": false
+                },
+                "Ascent": {
+                    "serialized": false
+                },
+                "Descent": {
+                    "serialized": false
+                },
+                "LineGap": {
+                    "serialized": false
+                },
+                "IsStaticFont": {
+                    "serialized": false
+                },
+                "Path": {
+                    "serialized": true,
+                    "null_deserialized": false
+                }
+            },
+            "methods": {
+                "LoadDynamicFont": {
+                    "is_public": true,
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "LoadStaticFont": {
+                    "is_public": true,
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GenerateFontFile": {
+                    "is_public": true,
+                    "is_static": true,
+                    "params": {
+                        "dynamicFontPath": {
+                            "nullable": false
+                        },
+                        "staticFontPath": {
+                            "nullable": false
+                        },
+                        "characters": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "CreateImageFont": {
+                    "is_public": true,
+                    "is_static": true,
+                    "params": {
+                        "baseFont": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "GetGlyph": {
+                    "is_public": true
+                },
+                "GetFontTexture": {
+                    "is_public": true
+                },
+                "GetKerning": {
+                    "is_public": true
+                },
+                "AddImageGlyph": {
+                    "is_public": false
+                },
+                "GetImageGlyph": {
+                    "is_public": true
+                }
+            }
+        },
+        "Rendered": {
+            "is_public": false,
+            "SerializeType": "Interface",
+            "base_class": "BaseObject",
+            "properties": {
+                "Transform": {
+                    "serialized": true,
+                    "is_public": false
+                }
+            },
+            "methods": {
+            }
+        },
+        "RenderedSprite": {
+            "is_public": false,
+            "is_Sealed": true,
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Rendered",
+            "properties": {
+                "Texture": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Src": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Material": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Color": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "AlphaBlend": {
+                    "serialized": true,
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "is_public": false
+                }
+            }
+        },
+        "RenderedText": {
+            "is_public": false,
+            "is_Sealed": true,
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Rendered",
+            "properties": {
+                "Color": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "MaterialImage": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "MaterialGlyph": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Text": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Font": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Weight": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "IsEnableKerning": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "WritingDirection": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "CharacterSpace": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "LineGap": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "TextureSize": {
+                    "is_public": false
+                },
+                "AlphaBlend": {
+                    "serialized": true,
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "is_public": false
+                }
+            }
+        },
+        "RenderedPolygon": {
+            "is_public": false,
+            "is_Sealed": true,
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Rendered",
+            "properties": {
+                "Vertexes": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Texture": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Src": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "Material": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "AlphaBlend": {
+                    "serialized": true,
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "is_public": false
+                },
+                "CreateVertexesByVector2F": {
+                    "is_public": false
+                },
+                "OverwriteVertexesColor": {
+                    "is_public": false
+                }
+            }
+        },
+        "RenderedCamera": {
+            "is_public": false,
+            "is_Sealed": true,
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Rendered",
+            "properties": {
+                "ViewMatrix": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "RenderPassParameter": {
+                    "serialized": true,
+                    "is_public": false
+                },
+                "TargetTexture": {
+                    "serialized": true,
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "is_public": false
+                }
+            }
+        },
+        "Renderer": {
+            "is_public": false,
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "Camera": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "DrawSprite": {
+                    "is_public": false
+                },
+                "DrawText": {
+                    "is_public": false
+                },
+                "DrawPolygon": {
+                    "is_public": false
+                },
+                "Render": {
+                    "is_public": false
+                },
+                "ResetCamera": {
+                    "is_public": false
+                }
+            }
+        },
+        "CullingSystem": {
+            "is_public": false,
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "DrawingRenderedCount": {
+                    "is_public": false
+                },
+                "DrawingRenderedIds": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Register": {
+                    "is_public": false
+                },
+                "Unregister": {
+                    "is_public": false
+                },
+                "UpdateAABB": {
+                    "is_public": false
+                }
+            }
+        }
+    }
+}
