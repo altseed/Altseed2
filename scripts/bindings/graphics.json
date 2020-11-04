@@ -511,6 +511,11 @@
                 "AlphaBlend": {
                     "serialized": true,
                     "is_public": false
+                },
+                "Buffers": {
+                    "onlyExtern": true,
+                    "is_public": false,
+                    "serialized": true
                 }
             },
             "methods": {
@@ -523,6 +528,9 @@
                 },
                 "OverwriteVertexesColor": {
                     "is_public": false
+                },
+                "SetDefaultIndexBuffer": {
+                    "onlyExtern": true
                 }
             }
         },

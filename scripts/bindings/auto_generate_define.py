@@ -848,8 +848,9 @@ Joystick = cbg.Class('Altseed2', 'Joystick')
 Keyboard = cbg.Class('Altseed2', 'Keyboard')
 Mouse = cbg.Class('Altseed2', 'Mouse')
 Collider = cbg.Class('Altseed2', 'Collider')
-RectangleCollider = cbg.Class('Altseed2', 'RectangleCollider')
+ShapeCollider = cbg.Class('Altseed2', 'ShapeCollider')
 PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
+EdgeCollider = cbg.Class('Altseed2', 'EdgeCollider')
 CircleCollider = cbg.Class('Altseed2', 'CircleCollider')
 Sound = cbg.Class('Altseed2', 'Sound')
 SoundMixer = cbg.Class('Altseed2', 'SoundMixer')
@@ -1904,9 +1905,18 @@ with RenderedPolygon as class_:
         with func_.add_arg(Color, 'color') as arg:
             pass
 
+    with class_.add_func('SetDefaultIndexBuffer') as func_:
+        func_.onlyExtern = True
+
     with class_.add_property(AlphaBlend, 'AlphaBlend') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
+        prop_.is_public = False
+        prop_.serialized = True
+    with class_.add_property(Int32Array, 'Buffers') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.onlyExtern = True
         prop_.is_public = False
         prop_.serialized = True
     with class_.add_property(VertexArray, 'Vertexes') as prop_:
@@ -1948,7 +1958,7 @@ with Renderer as class_:
 
     with class_.add_func('DrawPolygon') as func_:
         func_.is_public = False
-        with func_.add_arg(RenderedPolygon, 'text') as arg:
+        with func_.add_arg(RenderedPolygon, 'polygon') as arg:
             pass
 
     with class_.add_func('DrawSprite') as func_:
@@ -2251,22 +2261,21 @@ with Collider as class_:
         prop_.serialized = True
 define.classes.append(Collider)
 
-with RectangleCollider as class_:
+with ShapeCollider as class_:
     class_.base_class = Collider
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
     with class_.add_func('Create') as func_:
-        func_.return_value.type_ = RectangleCollider
+        func_.return_value.type_ = ShapeCollider
         func_.is_static = True
+        func_.is_public = False
+        func_.onlyExtern = True
 
-    with class_.add_property(Vector2F, 'Size') as prop_:
+    with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-        prop_.serialized = False
-    with class_.add_property(Vector2F, 'CenterPosition') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-        prop_.serialized = False
-define.classes.append(RectangleCollider)
+        prop_.is_public = False
+        prop_.serialized = True
+define.classes.append(ShapeCollider)
 
 with PolygonCollider as class_:
     class_.base_class = Collider
@@ -2275,11 +2284,38 @@ with PolygonCollider as class_:
         func_.return_value.type_ = PolygonCollider
         func_.is_static = True
 
+    with class_.add_func('SetDefaultIndexBuffer') as func_:
+        func_.onlyExtern = True
+
+    with class_.add_property(Int32Array, 'Buffers') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.onlyExtern = True
+        prop_.is_public = False
+        prop_.serialized = False
     with class_.add_property(Vector2FArray, 'Vertexes') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.onlyExtern = True
+        prop_.is_public = False
 define.classes.append(PolygonCollider)
+
+with EdgeCollider as class_:
+    class_.base_class = Collider
+    class_.SerializeType = cbg.SerializeType.Interface_Usebase
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = EdgeCollider
+        func_.is_static = True
+
+    with class_.add_property(Vector2F, 'Point1') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.serialized = False
+    with class_.add_property(Vector2F, 'Point2') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.serialized = False
+define.classes.append(EdgeCollider)
 
 with CircleCollider as class_:
     class_.base_class = Collider

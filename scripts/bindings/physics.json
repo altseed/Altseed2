@@ -36,14 +36,14 @@
                 }
             }
         },
-        "RectangleCollider": {
+        "EdgeCollider": {
             "SerializeType": "Interface_Usebase",
             "base_class": "Collider",
             "properties": {
-                "Size": {
+                "Point1": {
                     "serialized": false
                 },
-                "CenterPosition": {
+                "Point2": {
                     "serialized": false
                 }
             },
@@ -58,12 +58,38 @@
             "base_class": "Collider",
             "properties": {
                 "Vertexes": {
-                    "onlyExtern": true
+                    "onlyExtern": true,
+                    "is_public": false
+                },
+                "Buffers": {
+                    "onlyExtern": true,
+                    "is_public": false,
+                    "serialized": false
                 }
             },
             "methods": {
                 "Create": {
                     "is_static": true
+                },
+                "SetDefaultIndexBuffer": {
+                    "onlyExtern": true
+                }
+            }
+        },
+        "ShapeCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Vertexes": {
+                    "is_public": false,
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_public": false,
+                    "is_static": true,
+                    "onlyExtern": true
                 }
             }
         }

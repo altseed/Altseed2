@@ -66,8 +66,8 @@
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
 #include "Physics/Collider/Collider.h"
-#include "Physics/Collider/EdgeCollider.h"
 #include "Physics/Collider/CircleCollider.h"
+#include "Physics/Collider/EdgeCollider.h"
 #include "Physics/Collider/PolygonCollider.h"
 #include "Physics/Collider/ShapeCollider.h"
 #include "Sound/Sound.h"
@@ -1594,28 +1594,6 @@ CBGEXPORT void* CBGSTDCALL cbg_StaticFile_GetBuffer(void* cbg_self) {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int8Array>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetDefaultIndexBuffer(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
-
-    cbg_self_->SetDefaultIndexBuffer();
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetBuffers(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Int32Array> cbg_ret = cbg_self_->GetBuffers();
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int32Array>(cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetBuffers(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Int32Array> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)value);
-    cbg_self_->SetBuffers(cbg_arg0);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
 CBGEXPORT const char16_t* CBGSTDCALL cbg_StaticFile_GetPath(void* cbg_self) {
     auto cbg_self_ = (Altseed2::StaticFile*)(cbg_self);
 
@@ -2460,6 +2438,12 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_OverwriteVertexesColor(void* cbg_s
     cbg_self_->OverwriteVertexesColor(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetDefaultIndexBuffer(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
+
+    cbg_self_->SetDefaultIndexBuffer();
+}
+
 CBGEXPORT Altseed2::AlphaBlend_C CBGSTDCALL cbg_RenderedPolygon_GetAlphaBlend(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
 
@@ -2472,6 +2456,20 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetAlphaBlend(void* cbg_self, Alts
 
     Altseed2::AlphaBlend_C cbg_arg0 = value;
     cbg_self_->SetAlphaBlend(cbg_arg0);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetBuffers(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_ret = cbg_self_->GetBuffers();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int32Array>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedPolygon_SetBuffers(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::RenderedPolygon*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)value);
+    cbg_self_->SetBuffers(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_RenderedPolygon_GetVertexes(void* cbg_self) {
@@ -2558,10 +2556,10 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Terminate(void* cbg_self) {
     cbg_self_->Terminate();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* text) {
+CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* polygon) {
     auto cbg_self_ = (Altseed2::Renderer*)(cbg_self);
 
-    std::shared_ptr<Altseed2::RenderedPolygon> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderedPolygon>((Altseed2::RenderedPolygon*)text);
+    std::shared_ptr<Altseed2::RenderedPolygon> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderedPolygon>((Altseed2::RenderedPolygon*)polygon);
     cbg_self_->DrawPolygon(cbg_arg0);
 }
 
@@ -3116,47 +3114,33 @@ CBGEXPORT void CBGSTDCALL cbg_Collider_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_RectangleCollider_Create() {
-    std::shared_ptr<Altseed2::RectangleCollider> cbg_ret = Altseed2::RectangleCollider::Create();
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::RectangleCollider>(cbg_ret);
+CBGEXPORT void* CBGSTDCALL cbg_ShapeCollider_Create() {
+    std::shared_ptr<Altseed2::ShapeCollider> cbg_ret = Altseed2::ShapeCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ShapeCollider>(cbg_ret);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void* CBGSTDCALL cbg_ShapeCollider_GetVertexes(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetSize();
-    return (cbg_ret);
+    std::shared_ptr<Altseed2::Vector2FArray> cbg_ret = cbg_self_->GetVertexes();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Vector2FArray>(cbg_ret);
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetSize(void* cbg_self, Altseed2::Vector2F_C value) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_ShapeCollider_SetVertexes(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_arg0 = value;
-    cbg_self_->SetSize(cbg_arg0);
+    std::shared_ptr<Altseed2::Vector2FArray> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Vector2FArray>((Altseed2::Vector2FArray*)value);
+    cbg_self_->SetVertexes(cbg_arg0);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RectangleCollider_GetCenterPosition(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetCenterPosition();
-    return (cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_SetCenterPosition(void* cbg_self, Altseed2::Vector2F_C value) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
-
-    Altseed2::Vector2F_C cbg_arg0 = value;
-    cbg_self_->SetCenterPosition(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_AddRef(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_ShapeCollider_AddRef(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
     cbg_self_->AddRef();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RectangleCollider*)(cbg_self);
+CBGEXPORT void CBGSTDCALL cbg_ShapeCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ShapeCollider*)(cbg_self);
 
     cbg_self_->Release();
 }
@@ -3164,6 +3148,26 @@ CBGEXPORT void CBGSTDCALL cbg_RectangleCollider_Release(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_Create() {
     std::shared_ptr<Altseed2::PolygonCollider> cbg_ret = Altseed2::PolygonCollider::Create();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::PolygonCollider>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetDefaultIndexBuffer(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    cbg_self_->SetDefaultIndexBuffer();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetBuffers(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_ret = cbg_self_->GetBuffers();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Int32Array>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_SetBuffers(void* cbg_self, void* value) {
+    auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Int32Array> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Int32Array>((Altseed2::Int32Array*)value);
+    cbg_self_->SetBuffers(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_PolygonCollider_GetVertexes(void* cbg_self) {
@@ -3188,6 +3192,51 @@ CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_AddRef(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_PolygonCollider_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::PolygonCollider*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_EdgeCollider_Create() {
+    std::shared_ptr<Altseed2::EdgeCollider> cbg_ret = Altseed2::EdgeCollider::Create();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::EdgeCollider>(cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_EdgeCollider_GetPoint1(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetPoint1();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_SetPoint1(void* cbg_self, Altseed2::Vector2F_C value) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetPoint1(cbg_arg0);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_EdgeCollider_GetPoint2(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetPoint2();
+    return (cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_SetPoint2(void* cbg_self, Altseed2::Vector2F_C value) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_arg0 = value;
+    cbg_self_->SetPoint2(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_AddRef(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
+
+    cbg_self_->AddRef();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_EdgeCollider_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::EdgeCollider*)(cbg_self);
 
     cbg_self_->Release();
 }
