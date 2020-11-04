@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(__file__))
 if __name__ == '__main__':
 
     # generate
-    sharedObjectGenerator = cbg.SharedObjectGenerator(define)
+    sharedObjectGenerator = cbg.SharedObjectGenerator(define, [])
 
     sharedObjectGenerator.header = '''
 #include "BaseObject.h"

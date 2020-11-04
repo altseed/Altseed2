@@ -52,7 +52,10 @@ public:
 
     //! Initialize core and create a singleton
     static bool Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config);
+
+#if !USE_CBG
     static bool Initialize(int32_t width, int32_t height);
+#endif
 
     //! Terminate core and dispose the singleton
     static void Terminate();

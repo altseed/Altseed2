@@ -198,11 +198,11 @@ public:
 #if !USE_CBG
     bool GetVector4F(const char16_t* key, Vector4F& value);
     bool GetMatrix44F(const char16_t* key, Matrix44F& value);
+    bool GetTexture(const char16_t* key, std::shared_ptr<TextureBase>& value);
 #endif
 
     std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
     void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
-    bool GetTexture(const char16_t* key, std::shared_ptr<TextureBase>& value);
 };
 
 class MaterialPropertyBlockCollection : public BaseObject {

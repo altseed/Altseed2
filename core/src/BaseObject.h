@@ -104,5 +104,3 @@ T* AddAndGetSharedPtr(std::shared_ptr<T> sp) {
 }
 
 }  // namespace Altseed2
-
-#endif

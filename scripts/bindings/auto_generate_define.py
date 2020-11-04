@@ -828,9 +828,13 @@ with Core as class_:
         func_.return_value.type_ = bool
         func_.is_static = True
         func_.is_public = False
+        with func_.add_arg(ctypes.c_wchar_p, 'title') as arg:
+            pass
         with func_.add_arg(int, 'width') as arg:
             pass
         with func_.add_arg(int, 'height') as arg:
+            pass
+        with func_.add_arg(Configuration, 'config') as arg:
             pass
 
     with class_.add_func('Terminate') as func_:
@@ -1035,11 +1039,9 @@ with MaterialPropertyBlock as class_:
             pass
 
     with class_.add_func('GetTexture') as func_:
-        func_.return_value.type_ = bool
+        func_.return_value.type_ = TextureBase
         with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
             arg.nullable = False
-        with func_.add_arg(TextureBase, 'value') as arg:
-            pass
 
     with class_.add_func('SetTexture') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
@@ -2497,8 +2499,19 @@ with Tool as class_:
         with func_.add_arg(ToolInputTextFlags, 'flags') as arg:
             pass
 
+# Color *
+    """
     with class_.add_func('ColorEdit3') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+
+    """
+
+    with class_.add_func('ColorEdit3') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'col') as arg:
@@ -2506,8 +2519,19 @@ with Tool as class_:
         with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
             pass
 
+# Color *
+    """
     with class_.add_func('ColorEdit4') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+
+    """
+
+    with class_.add_func('ColorEdit4') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'col') as arg:
@@ -2670,6 +2694,19 @@ with Tool as class_:
 
     with class_.add_func('BeginChild') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+        with func_.add_arg(bool, 'border') as arg:
+            pass
+        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginChild') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(int, 'id') as arg:
             pass
         with func_.add_arg(Vector2F, 'size') as arg:
@@ -2722,6 +2759,14 @@ with Tool as class_:
         pass
 
     with class_.add_func('SetWindowPos') as func_:
+        func_.is_overload = True
+        with func_.add_arg(Vector2F, 'pos') as arg:
+            pass
+        with func_.add_arg(ToolCond, 'cond') as arg:
+            pass
+
+    with class_.add_func('SetWindowPos') as func_:
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.nullable = False
         with func_.add_arg(Vector2F, 'pos') as arg:
@@ -2730,6 +2775,14 @@ with Tool as class_:
             pass
 
     with class_.add_func('SetWindowSize') as func_:
+        func_.is_overload = True
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+        with func_.add_arg(ToolCond, 'cond') as arg:
+            pass
+
+    with class_.add_func('SetWindowSize') as func_:
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.nullable = False
         with func_.add_arg(Vector2F, 'size') as arg:
@@ -2738,6 +2791,14 @@ with Tool as class_:
             pass
 
     with class_.add_func('SetWindowCollapsed') as func_:
+        func_.is_overload = True
+        with func_.add_arg(bool, 'collapsed') as arg:
+            pass
+        with func_.add_arg(ToolCond, 'cond') as arg:
+            pass
+
+    with class_.add_func('SetWindowCollapsed') as func_:
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
             arg.nullable = False
         with func_.add_arg(bool, 'collapsed') as arg:
@@ -2764,6 +2825,14 @@ with Tool as class_:
         pass
 
     with class_.add_func('PushStyleColor') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ToolCol, 'idx') as arg:
+            pass
+        with func_.add_arg(int, 'col') as arg:
+            pass
+
+    with class_.add_func('PushStyleColor') as func_:
+        func_.is_overload = True
         with func_.add_arg(ToolCol, 'idx') as arg:
             pass
         with func_.add_arg(Vector4F, 'col') as arg:
@@ -2774,6 +2843,14 @@ with Tool as class_:
             pass
 
     with class_.add_func('PushStyleVar') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ToolStyleVar, 'idx') as arg:
+            pass
+        with func_.add_arg(float, 'val') as arg:
+            pass
+
+    with class_.add_func('PushStyleVar') as func_:
+        func_.is_overload = True
         with func_.add_arg(ToolStyleVar, 'idx') as arg:
             pass
         with func_.add_arg(Vector2F, 'val') as arg:
@@ -2785,6 +2862,21 @@ with Tool as class_:
 
     with class_.add_func('GetColorU32') as func_:
         func_.return_value.type_ = int
+        func_.is_overload = True
+        with func_.add_arg(ToolCol, 'idx') as arg:
+            pass
+        with func_.add_arg(float, 'alpha_mul') as arg:
+            pass
+
+    with class_.add_func('GetColorU32') as func_:
+        func_.return_value.type_ = int
+        func_.is_overload = True
+        with func_.add_arg(Vector4F, 'col') as arg:
+            pass
+
+    with class_.add_func('GetColorU32') as func_:
+        func_.return_value.type_ = int
+        func_.is_overload = True
         with func_.add_arg(int, 'col') as arg:
             pass
 
@@ -2856,6 +2948,19 @@ with Tool as class_:
         pass
 
     with class_.add_func('PushID') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+
+    with class_.add_func('PushID') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id_begin') as arg:
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id_end') as arg:
+            arg.nullable = False
+
+    with class_.add_func('PushID') as func_:
+        func_.is_overload = True
         with func_.add_arg(int, 'int_id') as arg:
             pass
 
@@ -2864,6 +2969,13 @@ with Tool as class_:
 
     with class_.add_func('GetID') as func_:
         func_.return_value.type_ = int
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+
+    with class_.add_func('GetID') as func_:
+        func_.return_value.type_ = int
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'str_id_begin') as arg:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'str_id_end') as arg:
@@ -2938,6 +3050,15 @@ with Tool as class_:
 
     with class_.add_func('RadioButton') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'active') as arg:
+            pass
+
+    with class_.add_func('RadioButton') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(int, 'v') as arg:
@@ -3403,6 +3524,13 @@ with Tool as class_:
 
     with class_.add_func('TreeNode') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+
+    with class_.add_func('TreeNode') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
@@ -3410,6 +3538,15 @@ with Tool as class_:
 
     with class_.add_func('TreeNodeEx') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('TreeNodeEx') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
             arg.nullable = False
         with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
@@ -3426,6 +3563,15 @@ with Tool as class_:
 
     with class_.add_func('CollapsingHeader') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('CollapsingHeader') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(bool, 'p_open') as arg:
@@ -3441,6 +3587,19 @@ with Tool as class_:
 
     with class_.add_func('Selectable') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'selected') as arg:
+            pass
+        with func_.add_arg(ToolSelectableFlags, 'flags') as arg:
+            pass
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+
+    with class_.add_func('Selectable') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(bool, 'p_selected') as arg:
@@ -3452,6 +3611,15 @@ with Tool as class_:
 
     with class_.add_func('ListBoxHeader') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+
+    with class_.add_func('ListBoxHeader') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(int, 'items_count') as arg:
@@ -3463,6 +3631,21 @@ with Tool as class_:
         pass
 
     with class_.add_func('Value') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'b') as arg:
+            pass
+
+    with class_.add_func('Value') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'v') as arg:
+            pass
+
+    with class_.add_func('Value') as func_:
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'prefix') as arg:
             arg.nullable = False
         with func_.add_arg(float, 'v') as arg:
@@ -3494,6 +3677,19 @@ with Tool as class_:
 
     with class_.add_func('MenuItem') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'shortcut') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'selected') as arg:
+            pass
+        with func_.add_arg(bool, 'enabled') as arg:
+            pass
+
+    with class_.add_func('MenuItem') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'shortcut') as arg:
@@ -3725,6 +3921,13 @@ with Tool as class_:
 
     with class_.add_func('IsRectVisible') as func_:
         func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+
+    with class_.add_func('IsRectVisible') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
         with func_.add_arg(Vector2F, 'rect_min') as arg:
             pass
         with func_.add_arg(Vector2F, 'rect_max') as arg:

@@ -26,6 +26,9 @@ def merge_list(a, b):
 
 def merge_dict(a, b):
     m = copy.copy(a)
+    if type(m) is list:
+        return m
+
     for item in b:
         if not item in a:
             m[item] = b[item]
@@ -66,6 +69,85 @@ class Parser:
         self.classes = {}
         self.structs = {}
         self.enums = {}
+    
+    def cbg_method_definition(self, method_name, method, overload = False):
+        try:
+            method_code = f'''\
+    with class_.add_func('{method_name}') as func_:
+'''
+            is_pass = True
+            if method["return_type"] != "void":
+                type_ = self.to_cbg_parameter_type(
+                    method["return_type"])
+                method_code += f'''\
+        func_.return_value.type_ = {type_}
+'''
+                is_pass = False
+
+            if "is_static" in method:
+                method_code += f'''\
+        func_.is_static = {method["is_static"]}
+'''
+                is_pass = False
+
+            if "is_public" in method:
+                method_code += f'''\
+        func_.is_public = {method["is_public"]}
+'''
+                is_pass = False
+            
+            if overload:
+                method_code += f'''\
+        func_.is_overload = True
+'''
+                is_pass = False
+
+            if "onlyExtern" in method:
+                method_code += f'''\
+        func_.onlyExtern = {method["onlyExtern"]}
+'''
+                is_pass = False
+
+            for param_name, param in method["params"].items():
+                type_ = self.to_cbg_parameter_type(param["type"])
+                is_pass = False
+                is_arg_pass = True
+                method_code += f'''\
+        with func_.add_arg({type_}, '{param_name}') as arg:
+'''
+                if "called_by" in param:
+                    for called_by in cbg.ArgCalledBy:
+                        if param["called_by"] == called_by.name:
+                            method_code += f'''\
+            arg.called_by = cbg.ArgCalledBy.{param["called_by"]}
+'''
+                            is_arg_pass = False
+                            break
+
+                if "nullable" in param:
+                    method_code += f'''\
+            arg.nullable = {param["nullable"]}
+'''
+                    is_arg_pass = False
+
+                if is_arg_pass:
+                    method_code += f'''\
+            pass
+'''
+
+            if is_pass:
+                method_code += f'''\
+        pass
+'''
+        except Exception as e:
+            method_code = f'''\
+# {e}
+    """
+{method_code}
+    """
+'''
+
+        return method_code
 
     def cbg_definition(self):
         code = '''\
@@ -159,78 +241,13 @@ with {name} as class_:
 '''
 
             for method_name, method in _class["methods"].items():
-                try:
-                    method_code = f'''\
-    with class_.add_func('{method_name}') as func_:
-'''
-                    is_pass = True
-                    if method["return_type"] != "void":
-                        type_ = self.to_cbg_parameter_type(
-                            method["return_type"])
-                        method_code += f'''\
-        func_.return_value.type_ = {type_}
-'''
-                        is_pass = False
-
-                    if "is_static" in method:
-                        method_code += f'''\
-        func_.is_static = {method["is_static"]}
-'''
-                        is_pass = False
-
-                    if "is_public" in method:
-                        method_code += f'''\
-        func_.is_public = {method["is_public"]}
-'''
-                        is_pass = False
-
-                    if "onlyExtern" in method:
-                        method_code += f'''\
-        func_.onlyExtern = {method["onlyExtern"]}
-'''
-                        is_pass = False
-
-                    for param_name, param in method["params"].items():
-                        type_ = self.to_cbg_parameter_type(param["type"])
-                        is_pass = False
-                        is_arg_pass = True
-                        method_code += f'''\
-        with func_.add_arg({type_}, '{param_name}') as arg:
-'''
-                        if "called_by" in param:
-                            for called_by in cbg.ArgCalledBy:
-                                if param["called_by"] == called_by.name:
-                                    method_code += f'''\
-            arg.called_by = cbg.ArgCalledBy.{param["called_by"]}
-'''
-                                    is_arg_pass = False
-                                    break
-
-                        if "nullable" in param:
-                            method_code += f'''\
-            arg.nullable = {param["nullable"]}
-'''
-                            is_arg_pass = False
-
-                        if is_arg_pass:
-                            method_code += f'''\
-            pass
-'''
-
-                    if is_pass:
-                        method_code += f'''\
-        pass
-'''
-                except Exception as e:
-                    method_code = f'''\
-# {e}
-    """
-{method_code}
-    """
-'''
-
-                code += method_code
-                code += '\n'
+                if type(method) is dict:
+                    code += self.cbg_method_definition(method_name, method)
+                    code += '\n'
+                elif type(method) is list:
+                    for m in method:
+                        code += self.cbg_method_definition(method_name, m, True)
+                        code += '\n'
 
             for property_name, prop in _class["properties"].items():
                 try:
@@ -386,10 +403,27 @@ define.classes.append({name})
             prop["type"] = list(params.values())[0]["type"]
             prop["set"] = True
         else:
-            class_def["methods"][cursor.spelling] = {
+            params_digest = ''.join(map(lambda p: p["type"], params.values()))
+            method = {
                 "return_type": cursor.type.spelling.split('(')[0].strip(),
-                "params": params
+                "params": params,
+                "params_digest": params_digest
             }
+            if cursor.spelling in class_def["methods"] and \
+                type(class_def["methods"][cursor.spelling]) is dict and \
+                class_def["methods"][cursor.spelling]["params_digest"] != params_digest:
+                class_def["methods"][cursor.spelling] = [
+                    class_def["methods"][cursor.spelling],
+                    method
+                ]
+                print(cursor.spelling)
+            elif cursor.spelling in class_def["methods"] and \
+                type(class_def["methods"][cursor.spelling]) is list and \
+                all([m["params_digest"] != params_digest for m in class_def["methods"][cursor.spelling]]):
+                class_def["methods"][cursor.spelling].append(method)
+                print(cursor.spelling)
+            else:
+                class_def["methods"][cursor.spelling] = method
 
     def to_cbg_parameter_type(self, _type):
         if re.match(r"const .*", _type):
