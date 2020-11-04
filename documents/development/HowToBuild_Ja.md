@@ -39,8 +39,15 @@ git submodule update --init
 
 ## プロジェクト生成
 
+スクリプトを実行します。
+下記のスクリプトでは Clang-Format が有効になったプロジェクトを生成します。
+ビルド時にコードの自動整形が実行されるため、通常Altseed2 の開発を行う際はこちらを使用してください。
 
-下記のスクリプトを実行します。
+- Windows の場合： `scripts/GenerateProjects_ClangFormat.bat`
+- macOS の場合： `scripts/GenerateProjects_ClangFormat_Mac.sh`
+- Linux の場合： `scripts/GenerateProjects_ClangFormat_Linux.sh`
+
+開発を行わない、もしくは何らかの事情によりClang-Format による自動成型が有効でないプロジェクトを生成するには下記のスクリプトを実行します。
 
 - Windows の場合： `scripts/GenerateProjects.bat`
 - macOS の場合： `scripts/GenerateProjects_Mac.sh`
@@ -54,14 +61,4 @@ git submodule update --init
 
 ### Windows
 
-`build/Altseed.sln` を開き ソリューションごとビルドします。 `Altseed_Core_Test` を実行し、テストが走ったら成功です。
-
-## Clang-format(Mac, Linux)
-
-全てのファイルにclang-formatを適用します。
-
-```
-sh scripts/GenerateProjects_ClangFormat.sh
-cd build_clang_format
-make
-``` 
+`build\Altseed.sln` （もしくは `build_clang_format\Altseed.sln`） を開き、ソリューションをビルドします。プロジェクト `Altseed_Core_Test` を実行し、テストが走ったら成功です。

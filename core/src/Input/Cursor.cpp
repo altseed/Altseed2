@@ -1,4 +1,5 @@
 #include "Cursor.h"
+
 #include "../Logger/Log.h"
 
 namespace Altseed2 {
