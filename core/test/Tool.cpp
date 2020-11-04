@@ -116,19 +116,17 @@ TEST(Tool, Window) {
     ToolTestTemplate(LoopFrames, [&flag](std::shared_ptr<Altseed2::Tool> t) {
         t->SetNextWindowPos(Altseed2::Vector2F());
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
-        if (t->Begin(u"Window1", flag)) {
+        if (t->Begin(u"Window1", NULL, flag)) {
             t->Text(u"Text");
             t->End();
         }
 
         t->SetNextWindowPos(Altseed2::Vector2F(320, 0));
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
-        if (t->Begin(u"Window2", flag)) {
+        if (t->Begin(u"Window2", NULL, flag)) {
             t->Text(u"Text");
             t->End();
         }
-
-        EXPECT_FALSE(t->Begin(u""));
     });
 }
 
@@ -138,7 +136,7 @@ TEST(Tool, Text) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"Normal Text");
             t->TextUnformatted(u"Unformatted");
-            t->TextColored(Altseed2::Color(0.0f, 0.0f, 255.0f, 255.0f), u"Blue Text");
+            t->TextColored(Altseed2::Vector4F(0.0f, 0.0f, 1.0f, 1.0f), u"Blue Text");
             t->BulletText(u"aaaaa\n\"bb\"ccccccccccc");
 
             t->Indent();
@@ -166,7 +164,7 @@ TEST(Tool, Japanese) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"通常のテキスト");
             t->TextUnformatted(u"フォーマットされないテキスト");
-            t->TextColored(Altseed2::Color(0.0f, 0.0f, 255.0f, 255.0f), u"Blue Text");
+            t->TextColored(Altseed2::Vector4F(0.0f, 0.0f, 1.0f, 1.0f), u"Blue Text");
             t->BulletText(u"あああああ\n\"括られ\"アイウエオ");
 
             t->Indent();
@@ -197,7 +195,7 @@ TEST(Tool, Button) {
                 isOpen = !isOpen;
             }
             t->SameLine();
-            t->CheckBox(u"open/close##2", &isOpen);
+            t->Checkbox(u"open/close##2", &isOpen);
 
             for (int i = 0; i < 3; i++) {
                 if (t->RadioButton(format(u"Radio Button %d", i).c_str(), &radio)) {
@@ -307,11 +305,11 @@ TEST(Tool, Slider) {
             t->SetNextItemWidth(t->GetWindowSize().X * 0.5f);
 
             static int i3 = 0;
-            t->SliderInt(u"SliderInt", &i3, 1.0f, -1, 3);
+            t->SliderInt(u"SliderInt", &i3, -1, 3);
             t->SetNextItemWidth(-100);
 
             static float f2 = 0.123f, f3 = 0.0f;
-            t->SliderFloat(u"SliderFloat##1", &f2, 1.0f, 0.0f, 1.0f);
+            t->SliderFloat(u"SliderFloat##1", &f2, 0.0f, 1.0f);
 
             static float angle = 0.0f;
             t->SliderAngle(u"Angle", &angle);  // -360から360までドラッグして変化させることができます
@@ -321,17 +319,17 @@ TEST(Tool, Slider) {
 
             static std::shared_ptr<Altseed2::FloatArray> vec3f = Altseed2::FloatArray::Create(3);
 
-            t->SliderFloat3(u"SliderFloat3", vec3f, 1.0f, 0.0f, 1.0f);
+            t->SliderFloat3(u"SliderFloat3", vec3f, 0.0f, 1.0f);
 
             static float x = 1.0f, y = 2.0f, z = 3.0f;
             t->PushItemWidth(70);
 
             t->SameLine();
-            t->SliderFloat(u"X", &x, 1.0f, 0.0f, 5.0f);
+            t->SliderFloat(u"X", &x, 0.0f, 5.0f);
             t->SameLine();
-            t->SliderFloat(u"Y", &y, 1.0f, 0.0f, 5.0f);
+            t->SliderFloat(u"Y", &y, 0.0f, 5.0f);
             t->SameLine();
-            t->SliderFloat(u"Z", &z, 1.0f, 0.0f, 5.0f);
+            t->SliderFloat(u"Z", &z, 0.0f, 5.0f);
 
             t->PopItemWidth();
             t->End();
@@ -403,7 +401,7 @@ TEST(Tool, Selectable) {
             t->Selectable(u"Selectable 2", &selection[1]);
 
             if (t->Selectable(u"Selectable 3", &selection[2], Altseed2::ToolSelectableFlags::AllowDoubleClick))
-                if (t->IsMouseDoubleClicked(0)) selection[2] = !selection[2];
+                if (t->IsMouseDoubleClicked(Altseed2::ToolMouseButton::Left)) selection[2] = !selection[2];
 
             t->Selectable(u"Selectable 5", &selection[4], Altseed2::ToolSelectableFlags::Disabled);
 
@@ -415,7 +413,7 @@ TEST(Tool, Selectable) {
 TEST(Tool, Table) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
         if (t->Begin(u"Table")) {
-            t->Columns(3, true);
+            t->Columns(3, NULL, true);
             static bool selected[12] = {};
             for (int i = 0; i < 12; i++) {
                 if (t->Selectable(format(u"Item %d", i).c_str(), &selected[i])) {
@@ -426,7 +424,7 @@ TEST(Tool, Table) {
             t->Columns(1, false);
             t->Separator();
 
-            t->Columns(4, "columnListID");
+            t->Columns(4, u"columnListID");
             t->Separator();
 
             t->Text(u"ID");
@@ -474,11 +472,11 @@ TEST(Tool, Sortable) {
                 bool is_selected = (item_current == item_names[n]);
                 if (t->Selectable(item, &is_selected)) item_current = item_names[n];
                 if (t->IsItemActive() && !t->IsItemHovered()) {
-                    int n_next = n + (t->GetMouseDragDelta(0).Y < 0.f ? -1 : 1);
+                    int n_next = n + (t->GetMouseDragDelta(Altseed2::ToolMouseButton::Left).Y < 0.f ? -1 : 1);
                     if (n_next >= 0 && n_next < 5) {
                         item_names[n] = item_names[n_next];
                         item_names[n_next] = item;
-                        t->ResetMouseDragDelta(0);
+                        t->ResetMouseDragDelta(Altseed2::ToolMouseButton::Left);
                     }
                 }
             }

@@ -388,6 +388,7 @@ with ToolInputTextFlags as enum_:
     enum_.add('NoUndoRedo', 1 << 16)
     enum_.add('CharsScientific', 1 << 17)
     enum_.add('CallbackResize', 1 << 18)
+    enum_.add('CallbackEdit', 1 << 19)
     enum_.add('Multiline', 1 << 20)
     enum_.add('NoMarkEdited', 1 << 21)
 define.enums.append(ToolInputTextFlags)
@@ -411,6 +412,19 @@ with ToolTreeNodeFlags as enum_:
     enum_.add('SpanFullWidth', 1 << 12)
     enum_.add('NavLeftJumpsBackHere', 1 << 13)
 define.enums.append(ToolTreeNodeFlags)
+
+ToolPopupFlags = cbg.Enum('Altseed2', 'ToolPopupFlags')
+with ToolPopupFlags as enum_:
+    enum_.add('None', 0)
+    enum_.add('MouseButtonLeft', 0)
+    enum_.add('MouseButtonRight', 1)
+    enum_.add('MouseButtonMiddle', 2)
+    enum_.add('NoOpenOverExistingPopup', 1 << 5)
+    enum_.add('NoOpenOverItems', 1 << 6)
+    enum_.add('AnyPopupId', 1 << 7)
+    enum_.add('AnyPopupLevel', 1 << 8)
+    enum_.add('AnyPopup', (1 << 7) | (1 << 8))
+define.enums.append(ToolPopupFlags)
 
 ToolSelectableFlags = cbg.Enum('Altseed2', 'ToolSelectableFlags')
 with ToolSelectableFlags as enum_:
@@ -454,6 +468,10 @@ with ToolTabItemFlags as enum_:
     enum_.add('SetSelected', 1 << 1)
     enum_.add('NoCloseWithMiddleMouseButton', 1 << 2)
     enum_.add('NoPushId', 1 << 3)
+    enum_.add('NoTooltip', 1 << 4)
+    enum_.add('NoReorder', 1 << 5)
+    enum_.add('Leading', 1 << 6)
+    enum_.add('Trailing', 1 << 7)
 define.enums.append(ToolTabItemFlags)
 
 ToolFocusedFlags = cbg.Enum('Altseed2', 'ToolFocusedFlags')
@@ -679,6 +697,14 @@ with ToolStyleVar as enum_:
     enum_.add('COUNT', 23)
 define.enums.append(ToolStyleVar)
 
+ToolButtonFlags = cbg.Enum('Altseed2', 'ToolButtonFlags')
+with ToolButtonFlags as enum_:
+    enum_.add('None', 0)
+    enum_.add('MouseButtonLeft', 1 << 0)
+    enum_.add('MouseButtonRight', 1 << 1)
+    enum_.add('MouseButtonMiddle', 1 << 2)
+define.enums.append(ToolButtonFlags)
+
 ToolColorEditFlags = cbg.Enum('Altseed2', 'ToolColorEditFlags')
 with ToolColorEditFlags as enum_:
     enum_.add('None', 0)
@@ -712,6 +738,15 @@ with ToolColorEditFlags as enum_:
     enum_.add('InputMask', (1 << 27) | (1 << 28))
 define.enums.append(ToolColorEditFlags)
 
+ToolSliderFlags = cbg.Enum('Altseed2', 'ToolSliderFlags')
+with ToolSliderFlags as enum_:
+    enum_.add('None', 0)
+    enum_.add('AlwaysClamp', 1 << 4)
+    enum_.add('Logarithmic', 1 << 5)
+    enum_.add('NoRoundToFormat', 1 << 6)
+    enum_.add('NoInput', 1 << 7)
+define.enums.append(ToolSliderFlags)
+
 ToolMouseButton = cbg.Enum('Altseed2', 'ToolMouseButton')
 with ToolMouseButton as enum_:
     enum_.add('Left', 0)
@@ -737,6 +772,7 @@ define.enums.append(ToolMouseCursor)
 
 ToolCond = cbg.Enum('Altseed2', 'ToolCond')
 with ToolCond as enum_:
+    enum_.add('None', 0)
     enum_.add('Always', 1 << 0)
     enum_.add('Once', 1 << 1)
     enum_.add('FirstUseEver', 1 << 2)
@@ -761,8 +797,9 @@ ToolDrawListFlags = cbg.Enum('Altseed2', 'ToolDrawListFlags')
 with ToolDrawListFlags as enum_:
     enum_.add('None', 0)
     enum_.add('AntiAliasedLines', 1 << 0)
-    enum_.add('AntiAliasedFill', 1 << 1)
-    enum_.add('AllowVtxOffset', 1 << 2)
+    enum_.add('AntiAliasedLinesUseTex', 1 << 1)
+    enum_.add('AntiAliasedFill', 1 << 2)
+    enum_.add('AllowVtxOffset', 1 << 3)
 define.enums.append(ToolDrawListFlags)
 
 ToolFontAtlasFlags = cbg.Enum('Altseed2', 'ToolFontAtlasFlags')
@@ -770,6 +807,7 @@ with ToolFontAtlasFlags as enum_:
     enum_.add('None', 0)
     enum_.add('NoPowerOfTwoHeight', 1 << 0)
     enum_.add('NoMouseCursors', 1 << 1)
+    enum_.add('NoBakedLines', 1 << 2)
 define.enums.append(ToolFontAtlasFlags)
 
 Core = cbg.Class('Altseed2', 'Core')
@@ -875,7 +913,6 @@ define.classes.append(Core)
 
 with BaseObject as class_:
     class_.is_public = False
-    class_.is_Sealed = True
     with class_.add_property(int, 'Id') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -989,7 +1026,6 @@ define.classes.append(Resources)
 with TextureBase as class_:
     class_.SerializeType = cbg.SerializeType.Interface
     class_.CallBackType = cbg.CallBackType.Enable
-    class_.is_Sealed = True
     with class_.add_func('Save') as func_:
         func_.return_value.type_ = bool
         func_.is_public = True
@@ -1015,7 +1051,6 @@ with TextureBase as class_:
 define.classes.append(TextureBase)
 
 with MaterialPropertyBlock as class_:
-    class_.is_Sealed = True
     with class_.add_func('GetVector4F') as func_:
         func_.return_value.type_ = Vector4F
         with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
@@ -1052,7 +1087,6 @@ with MaterialPropertyBlock as class_:
 define.classes.append(MaterialPropertyBlock)
 
 with MaterialPropertyBlockCollection as class_:
-    class_.is_Sealed = True
     with class_.add_func('Add') as func_:
         with func_.add_arg(MaterialPropertyBlock, 'block') as arg:
             pass
@@ -2425,6 +2459,9 @@ define.classes.append(SoundMixer)
 
 with Tool as class_:
     class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Tool
+
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(Graphics, 'graphics') as arg:
@@ -2435,6 +2472,13 @@ with Tool as class_:
 
     with class_.add_func('OnTerminating') as func_:
         pass
+
+    with class_.add_func('GetToolUsage') as func_:
+        func_.return_value.type_ = ToolUsage
+
+    with class_.add_func('SetToolUsage') as func_:
+        with func_.add_arg(ToolUsage, 'toolUsage') as arg:
+            pass
 
     with class_.add_func('NewFrame') as func_:
         pass
@@ -2630,6 +2674,9 @@ with Tool as class_:
         with func_.add_arg(int, 'stride') as arg:
             pass
 
+    with class_.add_func('GetTime') as func_:
+        func_.return_value.type_ = float
+
     with class_.add_func('OpenDialog') as func_:
         func_.return_value.type_ = ctypes.c_wchar_p
         with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
@@ -2679,6 +2726,9 @@ with Tool as class_:
 
     with class_.add_func('ShowUserGuide') as func_:
         pass
+
+    with class_.add_func('GetVersion') as func_:
+        func_.return_value.type_ = ctypes.c_wchar_p
 
     with class_.add_func('Begin') as func_:
         func_.return_value.type_ = bool
@@ -2735,6 +2785,18 @@ with Tool as class_:
         with func_.add_arg(ToolHoveredFlags, 'flags') as arg:
             pass
 
+    with class_.add_func('GetWindowPos') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowSize') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowWidth') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetWindowHeight') as func_:
+        func_.return_value.type_ = float
+
     with class_.add_func('SetNextWindowPos') as func_:
         with func_.add_arg(Vector2F, 'pos') as arg:
             pass
@@ -2749,6 +2811,10 @@ with Tool as class_:
         with func_.add_arg(ToolCond, 'cond') as arg:
             pass
 
+    with class_.add_func('SetNextWindowContentSize') as func_:
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+
     with class_.add_func('SetNextWindowCollapsed') as func_:
         with func_.add_arg(bool, 'collapsed') as arg:
             pass
@@ -2757,6 +2823,10 @@ with Tool as class_:
 
     with class_.add_func('SetNextWindowFocus') as func_:
         pass
+
+    with class_.add_func('SetNextWindowBgAlpha') as func_:
+        with func_.add_arg(float, 'alpha') as arg:
+            pass
 
     with class_.add_func('SetWindowPos') as func_:
         func_.is_overload = True
@@ -2807,7 +2877,59 @@ with Tool as class_:
             pass
 
     with class_.add_func('SetWindowFocus') as func_:
-        pass
+        func_.is_overload = True
+
+    with class_.add_func('SetWindowFocus') as func_:
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.nullable = False
+
+    with class_.add_func('SetWindowFontScale') as func_:
+        with func_.add_arg(float, 'scale') as arg:
+            pass
+
+    with class_.add_func('GetContentRegionMax') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetContentRegionAvail') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionMin') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionMax') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetWindowContentRegionWidth') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollX') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollY') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollMaxX') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetScrollMaxY') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('SetScrollX') as func_:
+        with func_.add_arg(float, 'scroll_x') as arg:
+            pass
+
+    with class_.add_func('SetScrollY') as func_:
+        with func_.add_arg(float, 'scroll_y') as arg:
+            pass
+
+    with class_.add_func('SetScrollHereX') as func_:
+        with func_.add_arg(float, 'center_x_ratio') as arg:
+            pass
+
+    with class_.add_func('SetScrollHereY') as func_:
+        with func_.add_arg(float, 'center_y_ratio') as arg:
+            pass
 
     with class_.add_func('SetScrollFromPosX') as func_:
         with func_.add_arg(float, 'local_x') as arg:
@@ -2860,6 +2982,12 @@ with Tool as class_:
         with func_.add_arg(int, 'count') as arg:
             pass
 
+    with class_.add_func('GetFontSize') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetFontTexUvWhitePixel') as func_:
+        func_.return_value.type_ = Vector2F
+
     with class_.add_func('GetColorU32') as func_:
         func_.return_value.type_ = int
         func_.is_overload = True
@@ -2886,6 +3014,10 @@ with Tool as class_:
 
     with class_.add_func('PopItemWidth') as func_:
         pass
+
+    with class_.add_func('SetNextItemWidth') as func_:
+        with func_.add_arg(float, 'item_width') as arg:
+            pass
 
     with class_.add_func('CalcItemWidth') as func_:
         func_.return_value.type_ = float
@@ -2944,8 +3076,51 @@ with Tool as class_:
     with class_.add_func('EndGroup') as func_:
         pass
 
+    with class_.add_func('GetCursorPos') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetCursorPosX') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetCursorPosY') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('SetCursorPos') as func_:
+        with func_.add_arg(Vector2F, 'local_pos') as arg:
+            pass
+
+    with class_.add_func('SetCursorPosX') as func_:
+        with func_.add_arg(float, 'local_x') as arg:
+            pass
+
+    with class_.add_func('SetCursorPosY') as func_:
+        with func_.add_arg(float, 'local_y') as arg:
+            pass
+
+    with class_.add_func('GetCursorStartPos') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetCursorScreenPos') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('SetCursorScreenPos') as func_:
+        with func_.add_arg(Vector2F, 'pos') as arg:
+            pass
+
     with class_.add_func('AlignTextToFramePadding') as func_:
         pass
+
+    with class_.add_func('GetTextLineHeight') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetTextLineHeightWithSpacing') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetFrameHeight') as func_:
+        func_.return_value.type_ = float
+
+    with class_.add_func('GetFrameHeightWithSpacing') as func_:
+        func_.return_value.type_ = float
 
     with class_.add_func('PushID') as func_:
         func_.is_overload = True
@@ -3033,6 +3208,8 @@ with Tool as class_:
             arg.nullable = False
         with func_.add_arg(Vector2F, 'size') as arg:
             pass
+        with func_.add_arg(ToolButtonFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('ArrowButton') as func_:
         func_.return_value.type_ = bool
@@ -3103,7 +3280,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('DragFloat2') as func_:
@@ -3120,7 +3297,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('DragFloat3') as func_:
@@ -3137,7 +3314,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('DragFloat4') as func_:
@@ -3154,7 +3331,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('DragFloatRange2') as func_:
@@ -3175,7 +3352,7 @@ with Tool as class_:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'format_max') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('DragInt') as func_:
@@ -3192,6 +3369,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('DragInt2') as func_:
         func_.return_value.type_ = bool
@@ -3207,6 +3386,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('DragInt3') as func_:
         func_.return_value.type_ = bool
@@ -3222,6 +3403,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('DragInt4') as func_:
         func_.return_value.type_ = bool
@@ -3237,6 +3420,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('DragIntRange2') as func_:
         func_.return_value.type_ = bool
@@ -3256,6 +3441,8 @@ with Tool as class_:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'format_max') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('SliderFloat') as func_:
         func_.return_value.type_ = bool
@@ -3269,7 +3456,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('SliderFloat2') as func_:
@@ -3284,7 +3471,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('SliderFloat3') as func_:
@@ -3299,7 +3486,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('SliderFloat4') as func_:
@@ -3314,7 +3501,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('SliderAngle') as func_:
@@ -3329,6 +3516,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('SliderInt') as func_:
         func_.return_value.type_ = bool
@@ -3342,6 +3531,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('SliderInt2') as func_:
         func_.return_value.type_ = bool
@@ -3355,6 +3546,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('SliderInt3') as func_:
         func_.return_value.type_ = bool
@@ -3368,6 +3561,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('SliderInt4') as func_:
         func_.return_value.type_ = bool
@@ -3381,6 +3576,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('VSliderFloat') as func_:
         func_.return_value.type_ = bool
@@ -3396,7 +3593,7 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
-        with func_.add_arg(float, 'power') as arg:
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
             pass
 
     with class_.add_func('VSliderInt') as func_:
@@ -3413,6 +3610,8 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'format') as arg:
             arg.nullable = False
+        with func_.add_arg(ToolSliderFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('InputFloat') as func_:
         func_.return_value.type_ = bool
@@ -3522,6 +3721,10 @@ with Tool as class_:
         with func_.add_arg(float, 'ref_col') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
 
+    with class_.add_func('SetColorEditOptions') as func_:
+        with func_.add_arg(ToolColorEditFlags, 'flags') as arg:
+            pass
+
     with class_.add_func('TreeNode') as func_:
         func_.return_value.type_ = bool
         func_.is_overload = True
@@ -3560,6 +3763,9 @@ with Tool as class_:
 
     with class_.add_func('TreePop') as func_:
         pass
+
+    with class_.add_func('GetTreeNodeToLabelSpacing') as func_:
+        func_.return_value.type_ = float
 
     with class_.add_func('CollapsingHeader') as func_:
         func_.return_value.type_ = bool
@@ -3705,8 +3911,8 @@ with Tool as class_:
     with class_.add_func('EndTooltip') as func_:
         pass
 
-    with class_.add_func('OpenPopup') as func_:
-        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+    with class_.add_func('SetTooltip') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
     with class_.add_func('BeginPopup') as func_:
@@ -3714,29 +3920,6 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
             arg.nullable = False
         with func_.add_arg(ToolWindowFlags, 'flags') as arg:
-            pass
-
-    with class_.add_func('BeginPopupContextItem') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
-            arg.nullable = False
-        with func_.add_arg(ToolMouseButton, 'mouse_button') as arg:
-            pass
-
-    with class_.add_func('BeginPopupContextWindow') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
-            arg.nullable = False
-        with func_.add_arg(ToolMouseButton, 'mouse_button') as arg:
-            pass
-        with func_.add_arg(bool, 'also_over_items') as arg:
-            pass
-
-    with class_.add_func('BeginPopupContextVoid') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
-            arg.nullable = False
-        with func_.add_arg(ToolMouseButton, 'mouse_button') as arg:
             pass
 
     with class_.add_func('BeginPopupModal') as func_:
@@ -3751,20 +3934,48 @@ with Tool as class_:
     with class_.add_func('EndPopup') as func_:
         pass
 
+    with class_.add_func('OpenPopup') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolPopupFlags, 'popup_flags') as arg:
+            pass
+
     with class_.add_func('OpenPopupOnItemClick') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolPopupFlags, 'popup_flags') as arg:
+            pass
+
+    with class_.add_func('CloseCurrentPopup') as func_:
+        pass
+
+    with class_.add_func('BeginPopupContextItem') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
             arg.nullable = False
-        with func_.add_arg(ToolMouseButton, 'mouse_button') as arg:
+        with func_.add_arg(ToolPopupFlags, 'popup_flags') as arg:
+            pass
+
+    with class_.add_func('BeginPopupContextWindow') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolPopupFlags, 'popup_flags') as arg:
+            pass
+
+    with class_.add_func('BeginPopupContextVoid') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolPopupFlags, 'popup_flags') as arg:
             pass
 
     with class_.add_func('IsPopupOpen') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
             arg.nullable = False
-
-    with class_.add_func('CloseCurrentPopup') as func_:
-        pass
+        with func_.add_arg(ToolPopupFlags, 'flags') as arg:
+            pass
 
     with class_.add_func('Columns') as func_:
         with func_.add_arg(int, 'count') as arg:
@@ -3776,6 +3987,9 @@ with Tool as class_:
 
     with class_.add_func('NextColumn') as func_:
         pass
+
+    with class_.add_func('GetColumnIndex') as func_:
+        func_.return_value.type_ = int
 
     with class_.add_func('GetColumnWidth') as func_:
         func_.return_value.type_ = float
@@ -3799,6 +4013,9 @@ with Tool as class_:
         with func_.add_arg(float, 'offset_x') as arg:
             pass
 
+    with class_.add_func('GetColumnsCount') as func_:
+        func_.return_value.type_ = int
+
     with class_.add_func('BeginTabBar') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
@@ -3820,6 +4037,17 @@ with Tool as class_:
 
     with class_.add_func('EndTabItem') as func_:
         pass
+
+    with class_.add_func('TabItemButton') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolTabItemFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('SetTabItemClosed') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'tab_or_docked_window_label') as arg:
+            arg.nullable = False
 
     with class_.add_func('LogToTTY') as func_:
         with func_.add_arg(int, 'auto_open_depth') as arg:
@@ -3873,6 +4101,10 @@ with Tool as class_:
     with class_.add_func('SetItemDefaultFocus') as func_:
         pass
 
+    with class_.add_func('SetKeyboardFocusHere') as func_:
+        with func_.add_arg(int, 'offset') as arg:
+            pass
+
     with class_.add_func('IsItemHovered') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(ToolHoveredFlags, 'flags') as arg:
@@ -3916,6 +4148,15 @@ with Tool as class_:
     with class_.add_func('IsAnyItemFocused') as func_:
         func_.return_value.type_ = bool
 
+    with class_.add_func('GetItemRectMin') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetItemRectMax') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetItemRectSize') as func_:
+        func_.return_value.type_ = Vector2F
+
     with class_.add_func('SetItemAllowOverlap') as func_:
         pass
 
@@ -3932,6 +4173,9 @@ with Tool as class_:
             pass
         with func_.add_arg(Vector2F, 'rect_max') as arg:
             pass
+
+    with class_.add_func('GetFrameCount') as func_:
+        func_.return_value.type_ = int
 
     with class_.add_func('GetStyleColorName') as func_:
         func_.return_value.type_ = ctypes.c_wchar_p
@@ -4050,6 +4294,12 @@ with Tool as class_:
     with class_.add_func('IsAnyMouseDown') as func_:
         func_.return_value.type_ = bool
 
+    with class_.add_func('GetMousePos') as func_:
+        func_.return_value.type_ = Vector2F
+
+    with class_.add_func('GetMousePosOnOpeningCurrentPopup') as func_:
+        func_.return_value.type_ = Vector2F
+
     with class_.add_func('IsMouseDragging') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(ToolMouseButton, 'button') as arg:
@@ -4068,9 +4318,20 @@ with Tool as class_:
         with func_.add_arg(ToolMouseButton, 'button') as arg:
             pass
 
+    with class_.add_func('SetMouseCursor') as func_:
+        with func_.add_arg(ToolMouseCursor, 'cursor_type') as arg:
+            pass
+
     with class_.add_func('CaptureMouseFromApp') as func_:
         with func_.add_arg(bool, 'want_capture_mouse_value') as arg:
             pass
+
+    with class_.add_func('GetClipboardText') as func_:
+        func_.return_value.type_ = ctypes.c_wchar_p
+
+    with class_.add_func('SetClipboardText') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'text') as arg:
+            arg.nullable = False
 
     with class_.add_func('LoadIniSettingsFromDisk') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
@@ -4080,155 +4341,5 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
             arg.nullable = False
 
-    with class_.add_property(Tool, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ToolUsage, 'ToolUsage') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'Time') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ctypes.c_wchar_p, 'Version') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'WindowPos') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'WindowSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'WindowWidth') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'WindowHeight') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'NextWindowContentSize') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(float, 'NextWindowBgAlpha') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(float, 'WindowFontScale') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(ctypes.c_wchar_p, 'WindowFocus') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(Vector2F, 'ContentRegionMax') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'ContentRegionAvail') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'WindowContentRegionMin') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'WindowContentRegionMax') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'WindowContentRegionWidth') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ScrollX') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'ScrollY') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'ScrollMaxX') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ScrollMaxY') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ScrollHereX') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(float, 'ScrollHereY') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(float, 'FontSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'FontTexUvWhitePixel') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'NextItemWidth') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(Vector2F, 'CursorPos') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'CursorPosX') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'CursorPosY') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(Vector2F, 'CursorStartPos') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'CursorScreenPos') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(float, 'TextLineHeight') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'TextLineHeightWithSpacing') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'FrameHeight') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'FrameHeightWithSpacing') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ToolColorEditFlags, 'ColorEditOptions') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(float, 'TreeNodeToLabelSpacing') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ctypes.c_wchar_p, 'Tooltip') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(int, 'ColumnIndex') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(int, 'ColumnsCount') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ctypes.c_wchar_p, 'TabItemClosed') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(int, 'KeyboardFocusHere') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(Vector2F, 'ItemRectMin') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'ItemRectMax') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'ItemRectSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(int, 'FrameCount') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'MousePos') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(Vector2F, 'MousePosOnOpeningCurrentPopup') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(ToolMouseCursor, 'MouseCursor') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(ctypes.c_wchar_p, 'ClipboardText') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
 define.classes.append(Tool)
 

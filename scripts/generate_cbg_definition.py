@@ -356,8 +356,9 @@ define.classes.append({name})
         if cursor.spelling in self.classes:
             class_def = self.classes[cursor.spelling]
 
-        if self.tool_mode:
+        if self.tool_mode and cursor.spelling == "Tool":
             class_def["is_Sealed"] = True
+            class_def["is_tool"] = True
 
         is_public = False
         for child in cursor.get_children():
@@ -388,14 +389,14 @@ define.classes.append({name})
                     if type_ == "const char16_t *":
                         params[child.spelling]["nullable"] = False
 
-        if re.match(r"Get.*", cursor.spelling) and len(params) == 0:
+        if re.match(r"Get.*", cursor.spelling) and len(params) == 0 and not "is_tool" in class_def:
             name = re.sub(r"Get(.*)", r"\1", cursor.spelling)
             if not name in class_def["properties"]:
                 class_def["properties"][name] = {}
             prop = class_def["properties"][name]
             prop["type"] = cursor.type.spelling.split('(')[0].strip()
             prop["get"] = True
-        elif re.match(r"Set.*", cursor.spelling) and len(params) == 1:
+        elif re.match(r"Set.*", cursor.spelling) and len(params) == 1 and not "is_tool" in class_def:
             name = re.sub(r"Set(.*)", r"\1", cursor.spelling)
             if not name in class_def["properties"]:
                 class_def["properties"][name] = {}

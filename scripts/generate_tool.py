@@ -9,7 +9,7 @@ if len(sys.argv) == 2:
     Config.set_library_path(sys.argv[1])
 
 translation_unit = Index.create().parse(
-    '../thirdparty/imgui/imgui.h', ['-x', 'c++-header', "-std=c++17", '-D IMGUI_DISABLE_OBSOLETE_FUNCTIONS'])
+    '../thirdparty/imgui/imgui.h', ['-x', 'c++-header', "-std=c++17", '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS', '-D__cplusplus'])
 
 exclude_funcs = [
     "NewFrame", "EndFrame", "Render", "Combo"
@@ -18,6 +18,25 @@ exclude_funcs = [
 enum_decl = ""
 func_decl = ""
 func_imp = ""
+
+
+def dump(cursor, indent=0):
+    text = cursor.kind.name
+
+    # 名前
+    text += ' 名前[' + cursor.spelling + ']'
+
+    # 型
+    text += ' 型[' + cursor.type.spelling + ']'
+
+    # 元の型
+    if cursor.type.spelling != cursor.type.get_canonical().spelling:
+        text += ' 元型[' + cursor.type.get_canonical().spelling + ']'
+
+    print('\t' * indent + text)
+
+    for child in cursor.get_children():
+        dump(child, indent + 1)
 
 
 def to_altseed2_return_type(_type):
@@ -103,7 +122,7 @@ def to_altseed2_parameter_type(_type):
     raise
 
 
-def to_imgui_parameter_type(name, _type):
+def to_imgui_parameter_type(name, _type, default_value = None):
     if _type == "char *":
         raise
     if _type == "void *":
@@ -121,6 +140,8 @@ def to_imgui_parameter_type(name, _type):
         raise
 
     if _type == "const char16_t *":
+        if default_value == " = nullptr" or default_value == " = NULL":
+            return f"{name} != nullptr ? utf16_to_utf8({name}).c_str() : nullptr"
         return f"utf16_to_utf8({name}).c_str()"
     if _type == "int32_t":
         return name
@@ -184,9 +205,11 @@ def parameter_default_value(cursor):
     if re.match(r".* \[\d*\]", cursor.type.spelling):
         return ""
 
+    is_child = False
     for child in cursor.get_children():
         if child.kind.name == 'TYPE_REF':
             continue
+        is_child = True
         tokens = []
         for token in child.get_tokens():
             tokens.append(token.spelling)
@@ -201,6 +224,13 @@ def parameter_default_value(cursor):
                 temp = f"({cast})" + temp
 
             return " = " + temp
+
+    if is_child:
+        if re.match(r"ImGui.*", cursor.type.spelling):
+            cast = to_altseed2_parameter_type(cursor.type.spelling)
+            return f" = ({cast})NULL"
+        return " = NULL"
+
     return ""
 
 
@@ -450,7 +480,7 @@ def make_function_imp(cursor):
         res += ", ".join(params_string) + ") {\n"
 
         for param_name, param_type, default_value in params:
-            if default_value == " = nullptr":
+            if default_value == " = nullptr" or default_value == " = NULL":
                 continue
 
             if re.match(r"std::shared_ptr<.*>", param_type):
@@ -459,7 +489,7 @@ def make_function_imp(cursor):
                 res += make_return_if_null(param_name, _type)
 
         res += make_imgui_call_func(
-            _type, f"ImGui::{cursor.spelling}({', '.join(map(lambda k: to_imgui_parameter_type(k[0], k[1]), params))})")
+            _type, f"ImGui::{cursor.spelling}({', '.join(map(lambda k: to_imgui_parameter_type(k[0], k[1], k[2]), params))})")
         res += "}\n\n"
 
     except Exception as e:
@@ -477,7 +507,7 @@ def make_class_imp(cursor):
 
 
 def parse(cursor):
-    global enum_decl, func_decl, func_imp, func_cbg, enum_cbg
+    global enum_decl, func_decl, func_imp
     if cursor.kind.name == 'NAMESPACE':
         func_decl = make_class_decl(cursor)
         func_imp = make_class_imp(cursor)
@@ -589,3 +619,5 @@ parse(translation_unit.cursor)
 
 make_tool_header()
 make_tool_source()
+
+# dump(translation_unit.cursor)

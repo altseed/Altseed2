@@ -81,6 +81,7 @@ enum class ToolInputTextFlags : int32_t {
     NoUndoRedo = 1 << 16,
     CharsScientific = 1 << 17,
     CallbackResize = 1 << 18,
+    CallbackEdit = 1 << 19,
     Multiline = 1 << 20,
     NoMarkEdited = 1 << 21,
 };
@@ -102,6 +103,18 @@ enum class ToolTreeNodeFlags : int32_t {
     SpanFullWidth = 1 << 12,
     NavLeftJumpsBackHere = 1 << 13,
     CollapsingHeader = Framed | NoTreePushOnOpen | NoAutoOpenOnLog,
+};
+
+enum class ToolPopupFlags : int32_t {
+    None = 0,
+    MouseButtonLeft = 0,
+    MouseButtonRight = 1,
+    MouseButtonMiddle = 2,
+    NoOpenOverExistingPopup = 1 << 5,
+    NoOpenOverItems = 1 << 6,
+    AnyPopupId = 1 << 7,
+    AnyPopupLevel = 1 << 8,
+    AnyPopup = AnyPopupId | AnyPopupLevel,
 };
 
 enum class ToolSelectableFlags : int32_t {
@@ -142,6 +155,10 @@ enum class ToolTabItemFlags : int32_t {
     SetSelected = 1 << 1,
     NoCloseWithMiddleMouseButton = 1 << 2,
     NoPushId = 1 << 3,
+    NoTooltip = 1 << 4,
+    NoReorder = 1 << 5,
+    Leading = 1 << 6,
+    Trailing = 1 << 7,
 };
 
 enum class ToolFocusedFlags : int32_t {
@@ -355,6 +372,13 @@ enum class ToolStyleVar : int32_t {
     COUNT,
 };
 
+enum class ToolButtonFlags : int32_t {
+    None = 0,
+    MouseButtonLeft = 1 << 0,
+    MouseButtonRight = 1 << 1,
+    MouseButtonMiddle = 1 << 2,
+};
+
 enum class ToolColorEditFlags : int32_t {
     None = 0,
     NoAlpha = 1 << 1,
@@ -387,6 +411,14 @@ enum class ToolColorEditFlags : int32_t {
     InputMask = InputRGB | InputHSV,
 };
 
+enum class ToolSliderFlags : int32_t {
+    None = 0,
+    AlwaysClamp = 1 << 4,
+    Logarithmic = 1 << 5,
+    NoRoundToFormat = 1 << 6,
+    NoInput = 1 << 7,
+};
+
 enum class ToolMouseButton : int32_t {
     Left = 0,
     Right = 1,
@@ -409,6 +441,7 @@ enum class ToolMouseCursor : int32_t {
 };
 
 enum class ToolCond : int32_t {
+    None = 0,
     Always = 1 << 0,
     Once = 1 << 1,
     FirstUseEver = 1 << 2,
@@ -431,14 +464,16 @@ enum class ToolDrawCornerFlags : int32_t {
 enum class ToolDrawListFlags : int32_t {
     None = 0,
     AntiAliasedLines = 1 << 0,
-    AntiAliasedFill = 1 << 1,
-    AllowVtxOffset = 1 << 2,
+    AntiAliasedLinesUseTex = 1 << 1,
+    AntiAliasedFill = 1 << 2,
+    AllowVtxOffset = 1 << 3,
 };
 
 enum class ToolFontAtlasFlags : int32_t {
     None = 0,
     NoPowerOfTwoHeight = 1 << 0,
     NoMouseCursors = 1 << 1,
+    NoBakedLines = 1 << 2,
 };
 
 class Tool : public BaseObject {
@@ -563,11 +598,11 @@ public:
 
     // ImDrawData *() GetDrawData
 
-    void ShowDemoWindow(bool * p_open);
+    void ShowDemoWindow(bool * p_open = NULL);
 
-    void ShowAboutWindow(bool * p_open);
+    void ShowAboutWindow(bool * p_open = NULL);
 
-    void ShowMetricsWindow(bool * p_open);
+    void ShowMetricsWindow(bool * p_open = NULL);
 
     // void (ImGuiStyle *) ShowStyleEditor
 
@@ -585,7 +620,7 @@ public:
 
     // void (ImGuiStyle *) StyleColorsLight
 
-    bool Begin(const char16_t * name, bool * p_open, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool Begin(const char16_t * name, bool * p_open = NULL, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void End();
 
@@ -787,7 +822,7 @@ public:
 
     // ImGuiID (const void *) GetID
 
-    void TextUnformatted(const char16_t * text, const char16_t * text_end);
+    void TextUnformatted(const char16_t * text, const char16_t * text_end = NULL);
 
     void Text(const char16_t * fmt);
 
@@ -817,7 +852,7 @@ public:
 
     bool SmallButton(const char16_t * label);
 
-    bool InvisibleButton(const char16_t * str_id, Vector2F size);
+    bool InvisibleButton(const char16_t * str_id, Vector2F size, ToolButtonFlags flags = (ToolButtonFlags)0);
 
     bool ArrowButton(const char16_t * str_id, ToolDir dir);
 
@@ -833,7 +868,7 @@ public:
 
     bool RadioButton(const char16_t * label, int32_t * v, int32_t v_button);
 
-    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t * overlay);
+    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t * overlay = NULL);
 
     void Bullet();
 
@@ -841,57 +876,57 @@ public:
 
     void EndCombo();
 
-    bool DragFloat(const char16_t * label, float * v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool DragFloat(const char16_t * label, float * v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool DragFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool DragFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool DragFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragFloatRange2(const char16_t * label, float * v_current_min, float * v_current_max, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", const char16_t * format_max, float power = 1.0f);
+    bool DragFloatRange2(const char16_t * label, float * v_current_min, float * v_current_max, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t * format = u"%.3f", const char16_t * format_max = NULL, ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragInt(const char16_t * label, int32_t * v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d");
+    bool DragInt(const char16_t * label, int32_t * v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragInt2(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d");
+    bool DragInt2(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragInt3(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d");
+    bool DragInt3(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragInt4(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d");
+    bool DragInt4(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragIntRange2(const char16_t * label, int32_t * v_current_min, int32_t * v_current_max, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", const char16_t * format_max);
+    bool DragIntRange2(const char16_t * label, int32_t * v_current_min, int32_t * v_current_max, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t * format = u"%d", const char16_t * format_max = NULL, ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    // bool (const char *, ImGuiDataType, void *, float, const void *, const void *, const char *, float) DragScalar
+    // bool (const char *, ImGuiDataType, void *, float, const void *, const void *, const char *, ImGuiSliderFlags) DragScalar
 
-    // bool (const char *, ImGuiDataType, void *, int, float, const void *, const void *, const char *, float) DragScalarN
+    // bool (const char *, ImGuiDataType, void *, int, float, const void *, const void *, const char *, ImGuiSliderFlags) DragScalarN
 
-    bool SliderFloat(const char16_t * label, float * v, float v_min, float v_max, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool SliderFloat(const char16_t * label, float * v, float v_min, float v_max, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool SliderFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool SliderFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool SliderFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderAngle(const char16_t * label, float * v_rad, float v_degrees_min = - 360.0f, float v_degrees_max = + 360.0f, const char16_t * format = u"%.0f deg");
+    bool SliderAngle(const char16_t * label, float * v_rad, float v_degrees_min = - 360.0f, float v_degrees_max = + 360.0f, const char16_t * format = u"%.0f deg", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderInt(const char16_t * label, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d");
+    bool SliderInt(const char16_t * label, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderInt2(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d");
+    bool SliderInt2(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderInt3(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d");
+    bool SliderInt3(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderInt4(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d");
+    bool SliderInt4(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    // bool (const char *, ImGuiDataType, void *, const void *, const void *, const char *, float) SliderScalar
+    // bool (const char *, ImGuiDataType, void *, const void *, const void *, const char *, ImGuiSliderFlags) SliderScalar
 
-    // bool (const char *, ImGuiDataType, void *, int, const void *, const void *, const char *, float) SliderScalarN
+    // bool (const char *, ImGuiDataType, void *, int, const void *, const void *, const char *, ImGuiSliderFlags) SliderScalarN
 
-    bool VSliderFloat(const char16_t * label, Vector2F size, float * v, float v_min, float v_max, const char16_t * format = u"%.3f", float power = 1.0f);
+    bool VSliderFloat(const char16_t * label, Vector2F size, float * v, float v_min, float v_max, const char16_t * format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool VSliderInt(const char16_t * label, Vector2F size, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d");
+    bool VSliderInt(const char16_t * label, Vector2F size, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    // bool (const char *, const ImVec2 &, ImGuiDataType, void *, const void *, const void *, const char *, float) VSliderScalar
+    // bool (const char *, const ImVec2 &, ImGuiDataType, void *, const void *, const void *, const char *, ImGuiSliderFlags) VSliderScalar
 
     // bool (const char *, char *, size_t, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputText
 
@@ -927,7 +962,7 @@ public:
 
     bool ColorPicker3(const char16_t * label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0);
 
-    bool ColorPicker4(const char16_t * label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0, float * ref_col);
+    bool ColorPicker4(const char16_t * label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0, float * ref_col = NULL);
 
     // bool (const char *, const ImVec4 &, ImGuiColorEditFlags, ImVec2) ColorButton
 
@@ -995,7 +1030,7 @@ public:
 
     // void (const char *, unsigned int) Value
 
-    void Value(const char16_t * prefix, float v, const char16_t * float_format);
+    void Value(const char16_t * prefix, float v, const char16_t * float_format = NULL);
 
     bool BeginMenuBar();
 
@@ -1009,7 +1044,7 @@ public:
 
     void EndMenu();
 
-    bool MenuItem(const char16_t * label, const char16_t * shortcut, bool selected = false, bool enabled = true);
+    bool MenuItem(const char16_t * label, const char16_t * shortcut = NULL, bool selected = false, bool enabled = true);
 
     bool MenuItem(const char16_t * label, const char16_t * shortcut, bool * p_selected, bool enabled = true);
 
@@ -1021,27 +1056,27 @@ public:
 
     // void (const char *, va_list) SetTooltipV
 
-    void OpenPopup(const char16_t * str_id);
-
     bool BeginPopup(const char16_t * str_id, ToolWindowFlags flags = (ToolWindowFlags)0);
 
-    bool BeginPopupContextItem(const char16_t * str_id, ToolMouseButton mouse_button = (ToolMouseButton)1);
-
-    bool BeginPopupContextWindow(const char16_t * str_id, ToolMouseButton mouse_button = (ToolMouseButton)1, bool also_over_items = true);
-
-    bool BeginPopupContextVoid(const char16_t * str_id, ToolMouseButton mouse_button = (ToolMouseButton)1);
-
-    bool BeginPopupModal(const char16_t * name, bool * p_open, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginPopupModal(const char16_t * name, bool * p_open = NULL, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void EndPopup();
 
-    bool OpenPopupOnItemClick(const char16_t * str_id, ToolMouseButton mouse_button = (ToolMouseButton)1);
+    void OpenPopup(const char16_t * str_id, ToolPopupFlags popup_flags = (ToolPopupFlags)0);
 
-    bool IsPopupOpen(const char16_t * str_id);
+    void OpenPopupOnItemClick(const char16_t * str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
 
     void CloseCurrentPopup();
 
-    void Columns(int32_t count = 1, const char16_t * id, bool border = true);
+    bool BeginPopupContextItem(const char16_t * str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+
+    bool BeginPopupContextWindow(const char16_t * str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+
+    bool BeginPopupContextVoid(const char16_t * str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+
+    bool IsPopupOpen(const char16_t * str_id, ToolPopupFlags flags = (ToolPopupFlags)0);
+
+    void Columns(int32_t count = 1, const char16_t * id = NULL, bool border = true);
 
     void NextColumn();
 
@@ -1061,15 +1096,17 @@ public:
 
     void EndTabBar();
 
-    bool BeginTabItem(const char16_t * label, bool * p_open, ToolTabItemFlags flags = (ToolTabItemFlags)0);
+    bool BeginTabItem(const char16_t * label, bool * p_open = NULL, ToolTabItemFlags flags = (ToolTabItemFlags)0);
 
     void EndTabItem();
+
+    bool TabItemButton(const char16_t * label, ToolTabItemFlags flags = (ToolTabItemFlags)0);
 
     void SetTabItemClosed(const char16_t * tab_or_docked_window_label);
 
     void LogToTTY(int32_t auto_open_depth = - 1);
 
-    void LogToFile(int32_t auto_open_depth = - 1, const char16_t * filename);
+    void LogToFile(int32_t auto_open_depth = - 1, const char16_t * filename = NULL);
 
     void LogToClipboard(int32_t auto_open_depth = - 1);
 
@@ -1161,7 +1198,7 @@ public:
 
     void EndChildFrame();
 
-    Vector2F CalcTextSize(const char16_t * text, const char16_t * text_end, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
+    Vector2F CalcTextSize(const char16_t * text, const char16_t * text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
 
     Vector4F ColorConvertU32ToFloat4(uint32_t in);
 

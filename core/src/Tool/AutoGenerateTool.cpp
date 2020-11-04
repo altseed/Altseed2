@@ -54,17 +54,14 @@ inline Color toColor(const ImVec4& v) { return Color(v.x * 255, v.y * 255, v.z *
 // ImDrawData *() GetDrawData
 
 void Tool::ShowDemoWindow(bool * p_open) {
-    RETURN_IF_NULL(p_open, );
     ImGui::ShowDemoWindow(p_open);
 }
 
 void Tool::ShowAboutWindow(bool * p_open) {
-    RETURN_IF_NULL(p_open, );
     ImGui::ShowAboutWindow(p_open);
 }
 
 void Tool::ShowMetricsWindow(bool * p_open) {
-    RETURN_IF_NULL(p_open, );
     ImGui::ShowMetricsWindow(p_open);
 }
 
@@ -97,7 +94,6 @@ const char16_t * Tool::GetVersion() {
 
 bool Tool::Begin(const char16_t * name, bool * p_open, ToolWindowFlags flags) {
     RETURN_IF_NULL(name, false);
-    RETURN_IF_NULL(p_open, false);
     return ImGui::Begin(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
@@ -497,8 +493,7 @@ uint32_t Tool::GetID(const char16_t * str_id_begin, const char16_t * str_id_end)
 
 void Tool::TextUnformatted(const char16_t * text, const char16_t * text_end) {
     RETURN_IF_NULL(text, );
-    RETURN_IF_NULL(text_end, );
-    ImGui::TextUnformatted(utf16_to_utf8(text).c_str(), utf16_to_utf8(text_end).c_str());
+    ImGui::TextUnformatted(utf16_to_utf8(text).c_str(), text_end != nullptr ? utf16_to_utf8(text_end).c_str() : nullptr);
 }
 
 void Tool::Text(const char16_t * fmt) {
@@ -554,9 +549,9 @@ bool Tool::SmallButton(const char16_t * label) {
     return ImGui::SmallButton(utf16_to_utf8(label).c_str());
 }
 
-bool Tool::InvisibleButton(const char16_t * str_id, Vector2F size) {
+bool Tool::InvisibleButton(const char16_t * str_id, Vector2F size, ToolButtonFlags flags) {
     RETURN_IF_NULL(str_id, false);
-    return ImGui::InvisibleButton(utf16_to_utf8(str_id).c_str(), toImVec2(size));
+    return ImGui::InvisibleButton(utf16_to_utf8(str_id).c_str(), toImVec2(size), (ImGuiButtonFlags)flags);
 }
 
 bool Tool::ArrowButton(const char16_t * str_id, ToolDir dir) {
@@ -588,8 +583,7 @@ bool Tool::RadioButton(const char16_t * label, int32_t * v, int32_t v_button) {
 }
 
 void Tool::ProgressBar(float fraction, Vector2F size_arg, const char16_t * overlay) {
-    RETURN_IF_NULL(overlay, );
-    ImGui::ProgressBar(fraction, toImVec2(size_arg), utf16_to_utf8(overlay).c_str());
+    ImGui::ProgressBar(fraction, toImVec2(size_arg), overlay != nullptr ? utf16_to_utf8(overlay).c_str() : nullptr);
 }
 
 void Tool::Bullet() {
@@ -606,166 +600,164 @@ void Tool::EndCombo() {
     ImGui::EndCombo();
 }
 
-bool Tool::DragFloat(const char16_t * label, float * v, float v_speed, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::DragFloat(const char16_t * label, float * v, float v_speed, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragFloat(utf16_to_utf8(label).c_str(), v, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::DragFloat(utf16_to_utf8(label).c_str(), v, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::DragFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragFloat2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::DragFloat2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::DragFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragFloat3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::DragFloat3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::DragFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_speed, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragFloat4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::DragFloat4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragFloatRange2(const char16_t * label, float * v_current_min, float * v_current_max, float v_speed, float v_min, float v_max, const char16_t * format, const char16_t * format_max, float power) {
+bool Tool::DragFloatRange2(const char16_t * label, float * v_current_min, float * v_current_max, float v_speed, float v_min, float v_max, const char16_t * format, const char16_t * format_max, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v_current_min, false);
     RETURN_IF_NULL(v_current_max, false);
     RETURN_IF_NULL(format, false);
-    RETURN_IF_NULL(format_max, false);
-    return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), utf16_to_utf8(format_max).c_str(), power);
+    return ImGui::DragFloatRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), format_max != nullptr ? utf16_to_utf8(format_max).c_str() : nullptr, (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragInt(const char16_t * label, int32_t * v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::DragInt(const char16_t * label, int32_t * v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragInt(utf16_to_utf8(label).c_str(), v, v_speed, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::DragInt(utf16_to_utf8(label).c_str(), v, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragInt2(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::DragInt2(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragInt2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::DragInt2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragInt3(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::DragInt3(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragInt3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::DragInt3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragInt4(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::DragInt4(const char16_t * label, std::shared_ptr<Int32Array> v, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::DragInt4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::DragInt4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::DragIntRange2(const char16_t * label, int32_t * v_current_min, int32_t * v_current_max, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, const char16_t * format_max) {
+bool Tool::DragIntRange2(const char16_t * label, int32_t * v_current_min, int32_t * v_current_max, float v_speed, int32_t v_min, int32_t v_max, const char16_t * format, const char16_t * format_max, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v_current_min, false);
     RETURN_IF_NULL(v_current_max, false);
     RETURN_IF_NULL(format, false);
-    RETURN_IF_NULL(format_max, false);
-    return ImGui::DragIntRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), utf16_to_utf8(format_max).c_str());
+    return ImGui::DragIntRange2(utf16_to_utf8(label).c_str(), v_current_min, v_current_max, v_speed, v_min, v_max, utf16_to_utf8(format).c_str(), format_max != nullptr ? utf16_to_utf8(format_max).c_str() : nullptr, (ImGuiSliderFlags)flags);
 }
 
-// bool (const char *, ImGuiDataType, void *, float, const void *, const void *, const char *, float) DragScalar
+// bool (const char *, ImGuiDataType, void *, float, const void *, const void *, const char *, ImGuiSliderFlags) DragScalar
 
-// bool (const char *, ImGuiDataType, void *, int, float, const void *, const void *, const char *, float) DragScalarN
+// bool (const char *, ImGuiDataType, void *, int, float, const void *, const void *, const char *, ImGuiSliderFlags) DragScalarN
 
-bool Tool::SliderFloat(const char16_t * label, float * v, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::SliderFloat(const char16_t * label, float * v, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderFloat(utf16_to_utf8(label).c_str(), v, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::SliderFloat(utf16_to_utf8(label).c_str(), v, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::SliderFloat2(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderFloat2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::SliderFloat2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::SliderFloat3(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderFloat3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::SliderFloat3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::SliderFloat4(const char16_t * label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderFloat4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::SliderFloat4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderAngle(const char16_t * label, float * v_rad, float v_degrees_min, float v_degrees_max, const char16_t * format) {
+bool Tool::SliderAngle(const char16_t * label, float * v_rad, float v_degrees_min, float v_degrees_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v_rad, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderAngle(utf16_to_utf8(label).c_str(), v_rad, v_degrees_min, v_degrees_max, utf16_to_utf8(format).c_str());
+    return ImGui::SliderAngle(utf16_to_utf8(label).c_str(), v_rad, v_degrees_min, v_degrees_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderInt(const char16_t * label, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::SliderInt(const char16_t * label, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderInt(utf16_to_utf8(label).c_str(), v, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::SliderInt(utf16_to_utf8(label).c_str(), v, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderInt2(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::SliderInt2(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderInt2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::SliderInt2(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderInt3(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::SliderInt3(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderInt3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::SliderInt3(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::SliderInt4(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::SliderInt4(const char16_t * label, std::shared_ptr<Int32Array> v, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::SliderInt4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::SliderInt4(utf16_to_utf8(label).c_str(), &v->GetVector()[0], v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-// bool (const char *, ImGuiDataType, void *, const void *, const void *, const char *, float) SliderScalar
+// bool (const char *, ImGuiDataType, void *, const void *, const void *, const char *, ImGuiSliderFlags) SliderScalar
 
-// bool (const char *, ImGuiDataType, void *, int, const void *, const void *, const char *, float) SliderScalarN
+// bool (const char *, ImGuiDataType, void *, int, const void *, const void *, const char *, ImGuiSliderFlags) SliderScalarN
 
-bool Tool::VSliderFloat(const char16_t * label, Vector2F size, float * v, float v_min, float v_max, const char16_t * format, float power) {
+bool Tool::VSliderFloat(const char16_t * label, Vector2F size, float * v, float v_min, float v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::VSliderFloat(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max, utf16_to_utf8(format).c_str(), power);
+    return ImGui::VSliderFloat(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-bool Tool::VSliderInt(const char16_t * label, Vector2F size, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format) {
+bool Tool::VSliderInt(const char16_t * label, Vector2F size, int32_t * v, int32_t v_min, int32_t v_max, const char16_t * format, ToolSliderFlags flags) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(v, false);
     RETURN_IF_NULL(format, false);
-    return ImGui::VSliderInt(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max, utf16_to_utf8(format).c_str());
+    return ImGui::VSliderInt(utf16_to_utf8(label).c_str(), toImVec2(size), v, v_min, v_max, utf16_to_utf8(format).c_str(), (ImGuiSliderFlags)flags);
 }
 
-// bool (const char *, const ImVec2 &, ImGuiDataType, void *, const void *, const void *, const char *, float) VSliderScalar
+// bool (const char *, const ImVec2 &, ImGuiDataType, void *, const void *, const void *, const char *, ImGuiSliderFlags) VSliderScalar
 
 // bool (const char *, char *, size_t, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputText
 
@@ -852,7 +844,6 @@ bool Tool::ColorPicker3(const char16_t * label, std::shared_ptr<FloatArray> col,
 bool Tool::ColorPicker4(const char16_t * label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags, float * ref_col) {
     RETURN_IF_NULL(label, false);
     RETURN_IF_NULL(col, false);
-    RETURN_IF_NULL(ref_col, false);
     return ImGui::ColorPicker4(utf16_to_utf8(label).c_str(), &col->GetVector()[0], (ImGuiColorEditFlags)flags, ref_col);
 }
 
@@ -977,8 +968,7 @@ void Tool::Value(const char16_t * prefix, int32_t v) {
 
 void Tool::Value(const char16_t * prefix, float v, const char16_t * float_format) {
     RETURN_IF_NULL(prefix, );
-    RETURN_IF_NULL(float_format, );
-    ImGui::Value(utf16_to_utf8(prefix).c_str(), v, utf16_to_utf8(float_format).c_str());
+    ImGui::Value(utf16_to_utf8(prefix).c_str(), v, float_format != nullptr ? utf16_to_utf8(float_format).c_str() : nullptr);
 }
 
 bool Tool::BeginMenuBar() {
@@ -1008,8 +998,7 @@ void Tool::EndMenu() {
 
 bool Tool::MenuItem(const char16_t * label, const char16_t * shortcut, bool selected, bool enabled) {
     RETURN_IF_NULL(label, false);
-    RETURN_IF_NULL(shortcut, false);
-    return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), selected, enabled);
+    return ImGui::MenuItem(utf16_to_utf8(label).c_str(), shortcut != nullptr ? utf16_to_utf8(shortcut).c_str() : nullptr, selected, enabled);
 }
 
 bool Tool::MenuItem(const char16_t * label, const char16_t * shortcut, bool * p_selected, bool enabled) {
@@ -1034,34 +1023,13 @@ void Tool::SetTooltip(const char16_t * fmt) {
 
 // void (const char *, va_list) SetTooltipV
 
-void Tool::OpenPopup(const char16_t * str_id) {
-    RETURN_IF_NULL(str_id, );
-    ImGui::OpenPopup(utf16_to_utf8(str_id).c_str());
-}
-
 bool Tool::BeginPopup(const char16_t * str_id, ToolWindowFlags flags) {
     RETURN_IF_NULL(str_id, false);
     return ImGui::BeginPopup(utf16_to_utf8(str_id).c_str(), (ImGuiWindowFlags)flags);
 }
 
-bool Tool::BeginPopupContextItem(const char16_t * str_id, ToolMouseButton mouse_button) {
-    RETURN_IF_NULL(str_id, false);
-    return ImGui::BeginPopupContextItem(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
-}
-
-bool Tool::BeginPopupContextWindow(const char16_t * str_id, ToolMouseButton mouse_button, bool also_over_items) {
-    RETURN_IF_NULL(str_id, false);
-    return ImGui::BeginPopupContextWindow(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button, also_over_items);
-}
-
-bool Tool::BeginPopupContextVoid(const char16_t * str_id, ToolMouseButton mouse_button) {
-    RETURN_IF_NULL(str_id, false);
-    return ImGui::BeginPopupContextVoid(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
-}
-
 bool Tool::BeginPopupModal(const char16_t * name, bool * p_open, ToolWindowFlags flags) {
     RETURN_IF_NULL(name, false);
-    RETURN_IF_NULL(p_open, false);
     return ImGui::BeginPopupModal(utf16_to_utf8(name).c_str(), p_open, (ImGuiWindowFlags)flags);
 }
 
@@ -1069,23 +1037,38 @@ void Tool::EndPopup() {
     ImGui::EndPopup();
 }
 
-bool Tool::OpenPopupOnItemClick(const char16_t * str_id, ToolMouseButton mouse_button) {
-    RETURN_IF_NULL(str_id, false);
-    return ImGui::OpenPopupOnItemClick(utf16_to_utf8(str_id).c_str(), (ImGuiMouseButton)mouse_button);
+void Tool::OpenPopup(const char16_t * str_id, ToolPopupFlags popup_flags) {
+    RETURN_IF_NULL(str_id, );
+    ImGui::OpenPopup(utf16_to_utf8(str_id).c_str(), (ImGuiPopupFlags)popup_flags);
 }
 
-bool Tool::IsPopupOpen(const char16_t * str_id) {
-    RETURN_IF_NULL(str_id, false);
-    return ImGui::IsPopupOpen(utf16_to_utf8(str_id).c_str());
+void Tool::OpenPopupOnItemClick(const char16_t * str_id, ToolPopupFlags popup_flags) {
+    ImGui::OpenPopupOnItemClick(str_id != nullptr ? utf16_to_utf8(str_id).c_str() : nullptr, (ImGuiPopupFlags)popup_flags);
 }
 
 void Tool::CloseCurrentPopup() {
     ImGui::CloseCurrentPopup();
 }
 
+bool Tool::BeginPopupContextItem(const char16_t * str_id, ToolPopupFlags popup_flags) {
+    return ImGui::BeginPopupContextItem(str_id != nullptr ? utf16_to_utf8(str_id).c_str() : nullptr, (ImGuiPopupFlags)popup_flags);
+}
+
+bool Tool::BeginPopupContextWindow(const char16_t * str_id, ToolPopupFlags popup_flags) {
+    return ImGui::BeginPopupContextWindow(str_id != nullptr ? utf16_to_utf8(str_id).c_str() : nullptr, (ImGuiPopupFlags)popup_flags);
+}
+
+bool Tool::BeginPopupContextVoid(const char16_t * str_id, ToolPopupFlags popup_flags) {
+    return ImGui::BeginPopupContextVoid(str_id != nullptr ? utf16_to_utf8(str_id).c_str() : nullptr, (ImGuiPopupFlags)popup_flags);
+}
+
+bool Tool::IsPopupOpen(const char16_t * str_id, ToolPopupFlags flags) {
+    RETURN_IF_NULL(str_id, false);
+    return ImGui::IsPopupOpen(utf16_to_utf8(str_id).c_str(), (ImGuiPopupFlags)flags);
+}
+
 void Tool::Columns(int32_t count, const char16_t * id, bool border) {
-    RETURN_IF_NULL(id, );
-    ImGui::Columns(count, utf16_to_utf8(id).c_str(), border);
+    ImGui::Columns(count, id != nullptr ? utf16_to_utf8(id).c_str() : nullptr, border);
 }
 
 void Tool::NextColumn() {
@@ -1127,12 +1110,16 @@ void Tool::EndTabBar() {
 
 bool Tool::BeginTabItem(const char16_t * label, bool * p_open, ToolTabItemFlags flags) {
     RETURN_IF_NULL(label, false);
-    RETURN_IF_NULL(p_open, false);
     return ImGui::BeginTabItem(utf16_to_utf8(label).c_str(), p_open, (ImGuiTabItemFlags)flags);
 }
 
 void Tool::EndTabItem() {
     ImGui::EndTabItem();
+}
+
+bool Tool::TabItemButton(const char16_t * label, ToolTabItemFlags flags) {
+    RETURN_IF_NULL(label, false);
+    return ImGui::TabItemButton(utf16_to_utf8(label).c_str(), (ImGuiTabItemFlags)flags);
 }
 
 void Tool::SetTabItemClosed(const char16_t * tab_or_docked_window_label) {
@@ -1145,8 +1132,7 @@ void Tool::LogToTTY(int32_t auto_open_depth) {
 }
 
 void Tool::LogToFile(int32_t auto_open_depth, const char16_t * filename) {
-    RETURN_IF_NULL(filename, );
-    ImGui::LogToFile(auto_open_depth, utf16_to_utf8(filename).c_str());
+    ImGui::LogToFile(auto_open_depth, filename != nullptr ? utf16_to_utf8(filename).c_str() : nullptr);
 }
 
 void Tool::LogToClipboard(int32_t auto_open_depth) {
@@ -1316,7 +1302,7 @@ void Tool::EndChildFrame() {
 }
 
 Vector2F Tool::CalcTextSize(const char16_t * text, const char16_t * text_end, bool hide_text_after_double_hash, float wrap_width) {
-    return toVector2F(ImGui::CalcTextSize(utf16_to_utf8(text).c_str(), utf16_to_utf8(text_end).c_str(), hide_text_after_double_hash, wrap_width));
+    return toVector2F(ImGui::CalcTextSize(utf16_to_utf8(text).c_str(), text_end != nullptr ? utf16_to_utf8(text_end).c_str() : nullptr, hide_text_after_double_hash, wrap_width));
 }
 
 Vector4F Tool::ColorConvertU32ToFloat4(uint32_t in) {

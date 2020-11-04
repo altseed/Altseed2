@@ -342,6 +342,35 @@ bool Tool::ImageButton(
             toImVec4(tint_col));
 }
 
+bool Tool::Combo(const char16_t* label, int32_t* current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items) {
+    RETURN_IF_NULL(label, false);
+    RETURN_IF_NULL(current_item, false);
+    RETURN_IF_NULL(items_separated_by_tabs, false);
+
+    auto tmp = split(items_separated_by_tabs, u'\t');
+    std::vector<std::string> itemsVector;
+    for (int32_t i = 0; i < tmp.size(); i++) {
+        itemsVector.push_back(utf16_to_utf8(tmp[i]));
+    }
+    std::vector<char*> items;
+    for (int32_t i = 0; i < tmp.size(); i++) {
+        items.push_back(itemsVector[i].data());
+    }
+    return ImGui::Combo(utf16_to_utf8(label).c_str(), current_item, &items[0], itemsVector.size(), popup_max_height_in_items);
+}
+
+bool Tool::ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags, Vector2F size) {
+    RETURN_IF_NULL(desc_id, false);
+    RETURN_IF_NULL(col, false);
+
+    auto imVec4 = toImVec4(*col);
+    return ImGui::ColorButton(utf16_to_utf8(desc_id).c_str(), imVec4, (ImGuiColorEditFlags)flags, toImVec2(size));
+    col->R = imVec4.x;
+    col->G = imVec4.y;
+    col->B = imVec4.z;
+    col->A = imVec4.w;
+}
+
 void Tool::PlotLines(
         const char16_t* label,
         std::shared_ptr<FloatArray> values,
