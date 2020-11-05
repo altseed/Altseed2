@@ -47,7 +47,7 @@ def to_altseed2_return_type(_type):
     if _type == "ImVec4":
         return "Vector4F"
     if _type == "const char *":
-        return "const char16_t *"
+        return "const char16_t*"
     if _type == "ImU32":
         return "uint32_t"
     if _type == "float":
@@ -82,7 +82,7 @@ def to_altseed2_parameter_type(_type):
         raise
 
     if _type == "const char *":
-        return "const char16_t *"
+        return "const char16_t*"
     if _type == "int":
         return "int32_t"
     if _type == "const ImVec2 &":
@@ -98,11 +98,11 @@ def to_altseed2_parameter_type(_type):
     if _type == "bool":
         return "bool"
     if _type == "bool *":
-        return "bool *"
+        return "bool*"
     if _type == "int *":
-        return "int32_t *"
+        return "int32_t*"
     if _type == "float *":
-        return "float *"
+        return "float*"
 
     if re.match(r"ImGui.*", _type):
         return "Tool" + re.sub(r"ImGui", "", _type)
@@ -113,11 +113,11 @@ def to_altseed2_parameter_type(_type):
     if re.match(r"bool \[\d*\]", _type):
         return "std::shared_ptr<BoolArray>"
     if re.match(r"const int \*", _type):
-        return "int32_t *"
+        return "int32_t*"
     if re.match(r"const float \*", _type):
-        return "float *"
+        return "float*"
     if re.match(r"const bool \*", _type):
-        return "bool *"
+        return "bool*"
 
     raise
 
@@ -139,7 +139,7 @@ def to_imgui_parameter_type(name, _type, default_value = None):
     if name == "args":
         raise
 
-    if _type == "const char16_t *":
+    if _type == "const char16_t*":
         if default_value == " = nullptr" or default_value == " = NULL":
             return f"{name} != nullptr ? utf16_to_utf8({name}).c_str() : nullptr"
         return f"utf16_to_utf8({name}).c_str()"
@@ -155,11 +155,11 @@ def to_imgui_parameter_type(name, _type, default_value = None):
         return name
     if _type == "bool":
         return name
-    if _type == "bool *":
+    if _type == "bool*":
         return name
-    if _type == "int32_t *":
+    if _type == "int32_t*":
         return name
-    if _type == "float *":
+    if _type == "float*":
         return name
 
     if re.match(r"Tool.*", _type):
@@ -308,23 +308,23 @@ public:
 
     bool AddFontFromFileTTF(const char16_t* path, float sizePixels, ToolGlyphRange ranges);
 
-    bool ListBox(const char16_t * label, int32_t * current, const char16_t * items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
+    bool ListBox(const char16_t* label, int32_t* current, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    const char16_t* InputText(const char16_t * label, const char16_t * input, int32_t max_length, ToolInputTextFlags flags = ToolInputTextFlags::None);
+    const char16_t* InputText(const char16_t* label, const char16_t* input, int32_t max_length, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextWithHint(
-            const char16_t * label,
-            const char16_t * hint,
-            const char16_t * input,
+            const char16_t* label,
+            const char16_t* hint,
+            const char16_t* input,
             int32_t max_length,
             ToolInputTextFlags flags = ToolInputTextFlags::None);
 
     const char16_t* InputTextMultiline(
-            const char16_t * label, const char16_t * input, int32_t max_length, Vector2F size, ToolInputTextFlags flags = ToolInputTextFlags::None);
+            const char16_t* label, const char16_t* input, int32_t max_length, Vector2F size, ToolInputTextFlags flags = ToolInputTextFlags::None);
 
-    bool ColorEdit3(const char16_t* label, Color * color, ToolColorEditFlags flags = ToolColorEditFlags::None);
+    bool ColorEdit3(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
-    bool ColorEdit4(const char16_t* label, Color * color, ToolColorEditFlags flags = ToolColorEditFlags::None);
+    bool ColorEdit4(const char16_t* label, Color* color, ToolColorEditFlags flags = ToolColorEditFlags::None);
 
     void Image(
             std::shared_ptr<TextureBase> texture,
@@ -344,9 +344,9 @@ public:
             Color tint_col = Color(255, 255, 255, 255));
 
     bool Combo(
-            const char16_t* label, int32_t * current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
+            const char16_t* label, int32_t* current_item, const char16_t* items_separated_by_tabs, int32_t popup_max_height_in_items = -1);
 
-    bool ColorButton(const char16_t* desc_id, Color * col, ToolColorEditFlags flags = ToolColorEditFlags::None, Vector2F size = Vector2F(0, 0));
+    bool ColorButton(const char16_t* desc_id, Color* col, ToolColorEditFlags flags = ToolColorEditFlags::None, Vector2F size = Vector2F(0, 0));
 
     void PlotLines(
             const char16_t* label,
@@ -379,7 +379,7 @@ public:
     const char16_t* SaveDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* PickFolder(const char16_t* defaultPath);
-	"""
+"""
 
     for child in cursor.get_children():
         if child.kind.name == 'FUNCTION_DECL':
