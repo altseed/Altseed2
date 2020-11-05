@@ -421,7 +421,7 @@ TEST(Tool, Table) {
                 }
                 t->NextColumn();
             }
-            t->Columns(1, false);
+            t->Columns(1, NULL, false);
             t->Separator();
 
             t->Columns(4, u"columnListID");
@@ -455,7 +455,7 @@ TEST(Tool, Table) {
                 t->Text(format(u"%d", hovered).c_str());
                 t->NextColumn();
             }
-            t->Columns(1, false);
+            t->Columns(1, NULL, false);
 
             t->End();
         }
