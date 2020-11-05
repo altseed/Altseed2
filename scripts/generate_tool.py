@@ -429,7 +429,7 @@ def make_imgui_call_func(_type, call):
         return f"    return toVector2F({call});\n"
     if _type == "Vector4F":
         return f"    return toVector4F({call});\n"
-    if _type == "const char16_t *":
+    if _type == "const char16_t*":
         return f"    returnStr = utf8_to_utf16({call});\n    return returnStr.c_str();\n"
     if _type == "void":
         return f"    {call};\n"

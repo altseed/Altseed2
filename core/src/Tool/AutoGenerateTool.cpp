@@ -80,7 +80,8 @@ void Tool::ShowUserGuide() {
 }
 
 const char16_t* Tool::GetVersion() {
-    return ImGui::GetVersion();
+    returnStr = utf8_to_utf16(ImGui::GetVersion());
+    return returnStr.c_str();
 }
 
 // void (ImGuiStyle *) StyleColorsDark
@@ -1144,7 +1145,8 @@ int32_t Tool::GetFrameCount() {
 // ImDrawListSharedData *() GetDrawListSharedData
 
 const char16_t* Tool::GetStyleColorName(ToolCol idx) {
-    return ImGui::GetStyleColorName((ImGuiCol)idx);
+    returnStr = utf8_to_utf16(ImGui::GetStyleColorName((ImGuiCol)idx));
+    return returnStr.c_str();
 }
 
 // void (ImGuiStorage *) SetStateStorage
@@ -1260,7 +1262,8 @@ void Tool::CaptureMouseFromApp(bool want_capture_mouse_value) {
 }
 
 const char16_t* Tool::GetClipboardText() {
-    return ImGui::GetClipboardText();
+    returnStr = utf8_to_utf16(ImGui::GetClipboardText());
+    return returnStr.c_str();
 }
 
 void Tool::SetClipboardText(const char16_t* text) {
