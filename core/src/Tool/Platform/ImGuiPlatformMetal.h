@@ -2,9 +2,12 @@
 #pragma once
 
 #include <unordered_set>
+
 #include "ImGuiPlatform.h"
 
 class ImguiPlatformMetal_Impl;
+
+#if !USE_CBG
 
 class ImguiPlatformMetal : public ImguiPlatform {
     ImguiPlatformMetal_Impl* impl = nullptr;
@@ -25,3 +28,5 @@ public:
 
     void DisposeFont() override;
 };
+
+#endif

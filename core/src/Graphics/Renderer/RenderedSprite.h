@@ -40,7 +40,11 @@ public:
     std::shared_ptr<Material> GetMaterial() const;
     void SetMaterial(const std::shared_ptr<Material>& material);
 
+#if !USE_CBG
+
     b2AABB GetAABB() override;
+
+#endif
 };
 
 }  // namespace Altseed2

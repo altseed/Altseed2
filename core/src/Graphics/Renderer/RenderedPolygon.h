@@ -49,7 +49,9 @@ public:
 
     void SetDefaultIndexBuffer();
 
+#if !USE_CBG
     b2AABB GetAABB() override;
+#endif
 };
 
 }  // namespace Altseed2

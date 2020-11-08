@@ -9,6 +9,8 @@
 
 #include "ImGuiPlatform.h"
 
+#if !USE_CBG
+
 class ImguiPlatformDX12 : public ImguiPlatform {
     const int32_t DescriptorMax = 512;
     LLGI::GraphicsDX12* g_ = nullptr;
@@ -93,3 +95,5 @@ public:
 
     void DisposeFont() override { ImGui_ImplDX12_InvalidateDeviceObjects(); }
 };
+
+#endif

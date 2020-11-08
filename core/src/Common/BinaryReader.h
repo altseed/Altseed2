@@ -18,6 +18,8 @@
 #include "../Math/Vector3F.h"
 #include "Assertion.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class BinaryReader {
 protected:
@@ -235,3 +237,5 @@ inline Matrix44F BinaryReader::Get() {
 }
 
 }  // namespace Altseed2
+
+#endif

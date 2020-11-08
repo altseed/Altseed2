@@ -28,7 +28,11 @@ public:
 
     static std::shared_ptr<Resources>& GetInstance();
 
+#if !USE_CBG
+
     const std::shared_ptr<ResourceContainer>& GetResourceContainer(ResourceType type);
+
+#endif
 
     const int32_t GetResourcesCount(ResourceType type);
 

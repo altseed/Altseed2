@@ -82,14 +82,18 @@ public:
 
     float GetLineGap() { return lineGap_; }
 
-    //! Internal function
-    const std::u16string& GetTextAsStr() const { return text_; }
-
     void SetText(const char16_t* text);
 
     Vector2F GetTextureSize();
 
+#if !USE_CBG
+
+    //! Internal function
+    const std::u16string& GetTextAsStr() const { return text_; }
+
     b2AABB GetAABB() override;
+
+#endif
 };
 
 }  // namespace Altseed2

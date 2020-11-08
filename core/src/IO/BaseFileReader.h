@@ -8,6 +8,8 @@
 
 #include "../BaseObject.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 enum class SeekOrigin { Begin,
@@ -49,3 +51,5 @@ public:
     void Close();
 };
 }  // namespace Altseed2
+
+#endif

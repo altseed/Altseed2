@@ -7,6 +7,8 @@
 
 #include "../BaseObject.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 class SynchronizationContext : public BaseObject {
@@ -34,3 +36,5 @@ public:
 };
 
 }  // namespace Altseed2
+
+#endif

@@ -108,7 +108,9 @@ public:
     const char16_t* GetPath() const;
 
 private:
+#if !USE_CBG
     void AddFontTexture();
     void AddGlyph(const int32_t character);
+#endif
 };
 }  // namespace Altseed2

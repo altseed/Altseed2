@@ -6,6 +6,7 @@ list(APPEND srcs
     imgui.h
     imgui_impl_glfw.h
     imgui.cpp
+    imgui_demo.cpp
     imgui_draw.cpp
     imgui_widgets.cpp
     imgui_impl_glfw.cpp

@@ -34,7 +34,11 @@ public:
 
     const char16_t* GetPath() const;
 
+#if !USE_CBG
+
     const void* GetData() const;
+
+#endif
 
     int32_t GetSize();
 

@@ -2,6 +2,8 @@
 
 #include "../BaseObject.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 
 class Resource : public BaseObject {
@@ -12,3 +14,5 @@ public:
 };
 
 }  // namespace Altseed2
+
+#endif

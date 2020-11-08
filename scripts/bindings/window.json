@@ -1,0 +1,26 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Window": {
+            "is_public": false,
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "Title": {
+                    "is_public": false,
+                    "nullable": false
+                },
+                "Size": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Collider": {
+            "SerializeType": "Interface",
+            "properties": {
+                "Position": {
+                    "serialized": false,
+                    "onlyExtern": true
+                },
+                "Rotation": {
+                    "serialized": false,
+                    "onlyExtern": true
+                },
+                "Transform": {
+                    "serialized": true,
+                    "onlyExtern": true
+                }
+            },
+            "methods": {
+            }
+        },
+        "CircleCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Radius": {
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        },
+        "EdgeCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Point1": {
+                    "serialized": false
+                },
+                "Point2": {
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                }
+            }
+        },
+        "PolygonCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Vertexes": {
+                    "onlyExtern": true,
+                    "is_public": false
+                },
+                "Buffers": {
+                    "onlyExtern": true,
+                    "is_public": false,
+                    "serialized": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true
+                },
+                "SetDefaultIndexBuffer": {
+                    "onlyExtern": true
+                }
+            }
+        },
+        "ShapeCollider": {
+            "SerializeType": "Interface_Usebase",
+            "base_class": "Collider",
+            "properties": {
+                "Vertexes": {
+                    "is_public": false,
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_public": false,
+                    "is_static": true,
+                    "onlyExtern": true
+                }
+            }
+        }
+    }
+}

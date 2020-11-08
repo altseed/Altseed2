@@ -5,6 +5,8 @@
 
 #include "PackFile.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class FileRoot {
 private:
@@ -21,3 +23,5 @@ public:
     bool IsPack();
 };
 }  // namespace Altseed2
+
+#endif

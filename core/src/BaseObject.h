@@ -33,6 +33,8 @@ public:
     virtual ~BaseObject() noexcept(false);
 #endif
 
+#if !USE_CBG
+
     //! Increase a reference counter
     int32_t AddRef();
 
@@ -45,8 +47,11 @@ public:
 
     //! Get current reference counter
     int32_t GetRef() const { return reference_; }
+#endif
 
     int32_t GetId() const { return id_; }
+
+#if !USE_CBG
 
     bool GetIsTerminateingEnabled() const;
     void SetIsTerminateingEnabled(bool value);
@@ -57,6 +62,7 @@ public:
         Don't dispose BaseObject here
     */
     virtual void OnTerminating() {}
+#endif
 };
 
 template <typename T>

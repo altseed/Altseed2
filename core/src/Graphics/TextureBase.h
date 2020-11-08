@@ -71,6 +71,10 @@ public:
 
     virtual bool Save(const char16_t* path);
 
+#if !USE_CBG
+
     std::shared_ptr<LLGI::Texture>& GetNativeTexture() { return texture_; }
+
+#endif
 };
 }  // namespace Altseed2

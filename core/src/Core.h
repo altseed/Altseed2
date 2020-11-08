@@ -13,7 +13,9 @@
 
 namespace Altseed2 {
 
+#if !USE_CBG
 class BaseObject;
+#endif
 
 class Core : public BaseObject {
 private:
@@ -32,11 +34,15 @@ private:
     int32_t maxBaseObjectId_;
 
 public:
+#if !USE_CBG
+
     //! register a base object
     int32_t Register(BaseObject* o);
 
     //! unregister a base object
     void Unregister(BaseObject* o);
+
+#endif
 
     //! get the number of base objects
     int32_t GetBaseObjectCount();
@@ -46,7 +52,10 @@ public:
 
     //! Initialize core and create a singleton
     static bool Initialize(const char16_t* title, int32_t width, int32_t height, std::shared_ptr<Configuration> config);
+
+#if !USE_CBG
     static bool Initialize(int32_t width, int32_t height);
+#endif
 
     //! Terminate core and dispose the singleton
     static void Terminate();

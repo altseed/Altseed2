@@ -3,6 +3,8 @@
 
 namespace Altseed2 {
 
+#if !USE_CBG
+
 enum class EasingType : int32_t {
     Linear,
     InSine,
@@ -44,5 +46,7 @@ public:
     // pseudo method for binding
     int32_t Release();
 };
+
+#endif
 
 }  // namespace Altseed2

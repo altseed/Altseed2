@@ -1,0 +1,117 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "StaticFile": {
+            "is_Sealed": true,
+            "cache_mode": "ThreadSafeCache",
+            "SerializeType": "Interface",
+            "properties": {
+                "Path": {
+                    "serialized": true
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "StreamFile": {
+            "is_Sealed": true,
+            "cache_mode": "ThreadSafeCache",
+            "SerializeType": "Interface",
+            "properties": {
+                "CurrentPosition": {
+                    "serialized": true
+                },
+                "Path": {
+                    "serialized": true
+                },
+                "TempBuffer": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "File": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "Path": {
+                    "serialized": true
+                },
+                "TempBuffer": {
+                    "is_public": false
+                }
+            },
+            "methods": {
+                "AddRootDirectory": {
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "AddRootPackageWithPassword": {
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        },
+                        "password": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "AddRootPackage": {
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "Pack": {
+                    "params": {
+                        "srcPath": {
+                            "nullable": false
+                        },
+                        "dstPath": {
+                            "nullable": false
+                        }
+                    }
+                },
+                "PackWithPassword": {
+                    "params": {
+                        "srcPath": {
+                            "nullable": false
+                        },
+                        "dstPath": {
+                            "nullable": false
+                        },
+                        "password": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

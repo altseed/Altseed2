@@ -10,6 +10,7 @@ enum class FramerateMode : int32_t {
     Constant,
 };
 
+#if !USE_CBG
 class FPS {
 private:
     float currentFPS_ = 0.0f;
@@ -35,5 +36,7 @@ public:
     FramerateMode GetFramerateMode() const;
     void SetFramerateMode(FramerateMode framerateMode);
 };
+
+#endif
 
 }  // namespace Altseed2

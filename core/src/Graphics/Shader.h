@@ -53,10 +53,15 @@ public:
            ShaderStageType stage);
 
     int32_t GetUniformSize() const { return uniformSize_; }
+
+#if !USE_CBG
+
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
 
     LLGI::Shader* Get() const { return shader_.get(); }
+
+#endif
 
     static std::shared_ptr<ShaderCompileResult> Compile(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 

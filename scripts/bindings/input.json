@@ -1,0 +1,107 @@
+{
+    "enums": {
+        
+    },
+    "classes": {
+        "Cursor": {
+            "is_Sealed": true,
+            "properties": {
+            },
+            "methods": {
+                "Create": {
+                    "is_static": true,
+                    "params": {
+                        "path": {
+                            "nullable": false
+                        }
+                    }
+                }
+            }
+        },
+        "Keyboard": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            },
+            "methods": {
+            }
+        },
+        "Mouse": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            },
+            "methods": {
+            }
+        },
+        "JoystickInfo": {
+            "properties": {
+                "Name": {
+                    "is_public": true
+                },
+                "ButtonCount": {
+                    "is_public": true
+                },
+                "AxisCount": {
+                    "is_public": true
+                },
+                "IsGamepad": {
+                    "is_public": true
+                },
+                "GUID": {
+                    "is_public": true
+                },
+                "Bustype": {
+                    "is_public": true
+                },
+                "Vendor": {
+                    "is_public": true
+                },
+                "Product": {
+                    "is_public": true
+                },
+                "Version": {
+                    "is_public": true
+                }
+            },
+            "methods": {
+            }
+        },
+        "Joystick": {
+            "is_Sealed": true,
+            "properties": {
+                "Instance": {
+                    "is_public": false,
+                    "is_static": true
+                },
+                "ConnectedJoystickCount": {
+                    "is_public": true
+                }
+            },
+            "methods": {
+                "GetButtonStateByIndex": {
+                    "is_public": false,
+                    "onlyExtern": true
+                },
+                "GetButtonStateByType": {
+                    "is_public": false,
+                    "onlyExtern": true
+                },
+                "GetAxisStateByIndex": {
+                    "is_public": false,
+                    "onlyExtern": true
+                },
+                "GetAxisStateByType": {
+                    "is_public": false,
+                    "onlyExtern": true
+                }
+            }
+        }
+    }
+}

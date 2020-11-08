@@ -5,6 +5,8 @@
 #include <LLGI.Platform.h>
 #include <imgui.h>
 
+#if !USE_CBG
+
 class ImguiPlatform {
 public:
     ImguiPlatform() = default;
@@ -20,3 +22,5 @@ public:
 
     virtual void DisposeFont() {}
 };
+
+#endif

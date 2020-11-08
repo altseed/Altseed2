@@ -31,7 +31,10 @@ public:
 
     ~Cursor();
 
+#if !USE_CBG
     GLFWcursor* GetNative() const { return native_; };
+
+#endif
 
     static std::shared_ptr<Cursor> Create(const char16_t* path, Vector2I hot);
 };

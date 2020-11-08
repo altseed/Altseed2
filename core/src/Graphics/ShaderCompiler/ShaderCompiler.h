@@ -47,7 +47,9 @@ public:
 
     std::shared_ptr<ShaderCompileResult> Compile(const char* path, const char* name, const char* code, ShaderStageType shaderStage);
 
+#if !USE_CBG
     std::shared_ptr<ShaderCompileResult> Compile(const char* path, const char* name, ShaderStageType shaderStage);
+#endif
 };
 
 }  // namespace Altseed2

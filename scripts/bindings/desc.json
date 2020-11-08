@@ -1,0 +1,3460 @@
+{
+    "ja": {
+        "GraphicsDeviceType": {
+            "@brief": "描画方法を表します。",
+            "Default": {
+                "@brief": "実行環境をもとに自動選択"
+            },
+            "DirectX": {
+                "@brief": "DirectX"
+            },
+            "Metal": {
+                "@brief": "Metal"
+            },
+            "Vulkan": {
+                "@brief": "Vulkan"
+            }
+        },
+        "FramerateMode": {
+            "@brief": "フレームレートモード",
+            "Variable": {
+                "@brief": "可変フレームレート"
+            },
+            "Constant": {
+                "@brief": "固定フレームレート"
+            }
+        },
+        "ResourceType": {
+            "@brief": "リソースの種類を表します。",
+            "StaticFile": {
+                "@brief": "<see cref=\"Altseed2.StaticFile\"/>を表す"
+            },
+            "StreamFile": {
+                "@brief": "<see cref=\"Altseed2.StreamFile\"/>を表す"
+            },
+            "Texture2D": {
+                "@brief": "<see cref=\"Altseed2.Texture2D\"/>を表す"
+            },
+            "Font": {
+                "@brief": "<see cref=\"Altseed2.Font\"/>を表す"
+            },
+            "Sound": {
+                "@brief": "<see cref=\"Altseed2.Sound\"/>を表す"
+            }
+        },
+        "Key": {
+            "@brief": "キーボードのキーの種類を表します。",
+            "Unknown": {
+                "@brief": "未知のキー"
+            },
+            "Num0": {
+                "@brief": "テンキーの0"
+            },
+            "Num1": {
+                "@brief": "テンキーの1"
+            },
+            "Num2": {
+                "@brief": "テンキーの2"
+            },
+            "Num3": {
+                "@brief": "テンキーの3"
+            },
+            "Num4": {
+                "@brief": "テンキーの4"
+            },
+            "Num5": {
+                "@brief": "テンキーの5"
+            },
+            "Num6": {
+                "@brief": "テンキーの6"
+            },
+            "Num7": {
+                "@brief": "テンキーの7"
+            },
+            "Num8": {
+                "@brief": "テンキーの8"
+            },
+            "Num9": {
+                "@brief": "テンキーの9"
+            },
+            "Right": {
+                "@brief": "矢印キー右"
+            },
+            "Left": {
+                "@brief": "矢印キー左"
+            },
+            "Down": {
+                "@brief": "矢印キー下"
+            },
+            "Up": {
+                "@brief": "矢印キー上"
+            },
+            "LeftShift": {
+                "@brief": "左側のShiftキー"
+            },
+            "LeftControl": {
+                "@brief": "左側のCtrlキー"
+            },
+            "LeftAlt": {
+                "@brief": "左側のAltキー"
+            },
+            "LeftWin": {
+                "@brief": "左側のWinキー"
+            },
+            "RightShift": {
+                "@brief": "右側のShiftキー"
+            },
+            "RightControl": {
+                "@brief": "右側のCtrlキー"
+            },
+            "RightAlt": {
+                "@brief": "右側のAltキー"
+            },
+            "RightWin": {
+                "@brief": "右側のWinキー"
+            }
+        },
+        "ButtonState": {
+            "@brief": "ボタンの押下状態を表します。",
+            "Free": {
+                "@brief": "ボタンが押されていない状態"
+            },
+            "Push": {
+                "@brief": "ボタンが押された瞬間の状態"
+            },
+            "Hold": {
+                "@brief": "ボタンが押されている状態"
+            },
+            "Release": {
+                "@brief": "ボタンが話された瞬間の状態"
+            }
+        },
+        "MouseButton": {
+            "@brief": "マウスのボタンの種類を表します。",
+            "ButtonLeft": {
+                "@brief": "左ボタン"
+            },
+            "ButtonRight": {
+                "@brief": "中央ボタン"
+            },
+            "ButtonMiddle": {
+                "@brief": "右ボタン"
+            },
+            "SubButton1": {
+                "@brief": "サブボタン1"
+            },
+            "SubButton2": {
+                "@brief": "サブボタン2"
+            },
+            "SubButton3": {
+                "@brief": "サブボタン3"
+            },
+            "SubButton4": {
+                "@brief": "サブボタン4"
+            },
+            "SubButton5": {
+                "@brief": "サブボタン5"
+            }
+        },
+        "CursorMode": {
+            "@brief": "カーソルの状態を表します。",
+            "Normal": {
+                "@brief": "通常の状態"
+            },
+            "Hidden": {
+                "@brief": "隠れている状態"
+            },
+            "Disable": {
+                "@brief": "使用できない状態"
+            }
+        },
+        "JoystickType": {
+            "@brief": "ジョイスティックの種類を表します。",
+            "Other": {
+                "@brief": "未知の種類のジョイスティック"
+            },
+            "DualShock3": {
+                "@brief": "PlayStation DualShock3"
+            },
+            "DualShock4": {
+                "@brief": "PlayStation DualShock4"
+            },
+            "DualShock4Slim": {
+                "@brief": "PlayStation DualShock4Slim"
+            },
+            "XBOX360": {
+                "@brief": "XBOX360のジョイスティック"
+            },
+            "JoyconL": {
+                "@brief": "NintendoSwitch 左のJon-Con"
+            },
+            "JoyconR": {
+                "@brief": "NintendoSwitch 右のJon-Con"
+            },
+            "ProController": {
+                "@brief": "NintendoSwitch ProController"
+            }
+        },
+        "JoystickButton": {
+            "@brief": "ジョイスティックのボタンの種類を表します。",
+            "RightDown": {
+                "@brief": "右側下ボタン"
+            },
+            "RightRight": {
+                "@brief": "右側右ボタン"
+            },
+            "RightLeft": {
+                "@brief": "右側左ボタン"
+            },
+            "RightUp": {
+                "@brief": "右側上ボタン"
+            },
+            "LeftBumper": {
+                "@brief": "Lボタン"
+            },
+            "RightBumper": {
+                "@brief": "Rボタン"
+            },
+            "Back": {
+                "@brief": "戻るボタン"
+            },
+            "Start": {
+                "@brief": "スタートボタン"
+            },
+            "Guide": {
+                "@brief": "ガイドボタン"
+            },
+            "LeftThumb": {
+                "@brief": "左スティック押し込み"
+            },
+            "RightThumb": {
+                "@brief": "右スティック押し込み"
+            },
+            "DPadUp": {
+                "@brief": "十字キー上"
+            },
+            "DPadRight": {
+                "@brief": "十字キー右"
+            },
+            "DPadDown": {
+                "@brief": "十字キー下"
+            },
+            "DPadLeft": {
+                "@brief": "十字キー左"
+            }
+        },
+        "JoystickAxis": {
+            "@brief": "ジョイスティックの軸の種類を表します。",
+            "LeftX": {
+                "@brief": "左スティック横"
+            },
+            "LeftY": {
+                "@brief": "左スティック縦"
+            },
+            "RightX": {
+                "@brief": "右スティック横"
+            },
+            "RightY": {
+                "@brief": "右スティック縦"
+            },
+            "LeftTrigger": {
+                "@brief": "左トリガー"
+            },
+            "RightTrigger": {
+                "@brief": "右トリガー"
+            }
+        },
+        "BuiltinShaderType": {
+            "@brief": "ビルド済みシェーダの種類を表します"
+        },
+        "WritingDirection": {
+            "@brief": "テキストの描画方向",
+            "Vertical": {
+                "@brief": "縦書き"
+            },
+            "Horizontal": {
+                "@brief": "横書き"
+            }
+        },
+        "TextureFilterType": {
+            "@brief": "テクスチャをフィルタリングする方法を表します。"
+        },
+        "TextureWrapMode": {
+            "@brief": "テクスチャをサンプリングする方法を表します。"
+        },
+        "ToolUsage": {
+            "@brief": "ツール機能の使用方法(描画位置)",
+            "Overwrapped": {
+                "@brief": "画面の上に表示"
+            },
+            "Main": {
+                "@brief": "画面を表示せずにツールのみ表示"
+            }
+        },
+        "ToolDir": {
+            "@brief": "ツール機能で使用する方向",
+            "Left": {
+                "@brief": "左方向"
+            },
+            "Right": {
+                "@brief": "右方向"
+            },
+            "Up": {
+                "@brief": "上方向"
+            },
+            "Down": {
+                "@brief": "下方向"
+            }
+        },
+        "ToolCond": {
+            "@brief": "バイナリ演算子を使用して複数の値を結合しないでください",
+            "Always": {
+                "@brief": "常に変数を設定します"
+            },
+            "Once": {
+                "@brief": "ランタイムセッションごとに変数を1回設定します（成功した最初の呼び出しのみ）"
+            },
+            "FirstUseEver": {
+                "@brief": "オブジェクト/ウィンドウに永続的に保存されたデータがない場合（.iniファイルにエントリがない場合）、変数を設定します"
+            },
+            "Appearing": {
+                "@brief": "オブジェクト/ウィンドウが非表示/非アクティブになった後（または初めて）表示される場合は、変数を設定します"
+            }
+        },
+        "ToolTreeNodeFlags": {
+            "@brief": "ツール機能のTreeNodeに適用する設定を表します。",
+            "Selected": {
+                "@brief": "Draw as selected"
+            },
+            "Framed": {
+                "@brief": ""
+            },
+            "AllowItemOverlap": {
+                "@brief": ""
+            },
+            "NoTreePushOnOpen": {
+                "@brief": ""
+            },
+            "NoAutoOpenOnLog": {
+                "@brief": ""
+            },
+            "DefaultOpen": {
+                "@brief": ""
+            },
+            "OpenOnDoubleClick": {
+                "@brief": ""
+            },
+            "OpenOnArrow": {
+                "@brief": ""
+            },
+            "Leaf": {
+                "@brief": ""
+            },
+            "Bullet": {
+                "@brief": ""
+            },
+            "FramePadding": {
+                "@brief": ""
+            },
+            "SpanAvailWidth": {
+                "@brief": ""
+            },
+            "SpanFullWidth": {
+                "@brief": ""
+            },
+            "NavLeftJumpsBackHere": {
+                "@brief": ""
+            }
+        },
+        "ToolInputTextFlags": {
+            "@brief": "ツール機能においてインプットされるテキストの設定を表します",
+            "CharsDecimal": {
+                "@brief": "0123456789.+-*/ を許可します。"
+            },
+            "CharsHexadecimal": {
+                "@brief": "0123456789ABCDEFabcdef を許可します"
+            },
+            "CharsUppercase": {
+                "@brief": "a..z を A..Z に変換します"
+            },
+            "CharsNoBlank": {
+                "@brief": "スペースとタブを除外します"
+            },
+            "AutoSelectAll": {
+                "@brief": "最初にマウスフォーカスしたときにテキスト全体を選択します"
+            },
+            "EnterReturnsTrue": {
+                "@brief": "（値が変更されるたびにではなく）Enterが押されたときに 'true' を返します。 'IsItemDeactivatedAfterEdit()' 関数を調べることを検討してください。"
+            },
+            "CallbackCompletion": {
+                "@brief": "Tabキーを押したときのコールバック（完了処理のため）"
+            },
+            "CallbackHistory": {
+                "@brief": "上下矢印を押すとコールバック（履歴処理用）"
+            },
+            "CallbackAlways": {
+                "@brief": "各反復でのコールバック。 ユーザーコードは、カーソル位置を照会し、テキストバッファーを変更できます。"
+            },
+            "CallbackCharFilter": {
+                "@brief": "置換または破棄する文字入力のコールバック。 'EventChar'を変更して置換または破棄するか、コールバックで1を返して破棄します。"
+            },
+            "AllowTabInput": {
+                "@brief": "Tabキーを押すと、テキストフィールドに'\\t'という文字が入力されます。"
+            },
+            "CtrlEnterForNewLine": {
+                "@brief": "複数行モードでは、Enterでフォーカスを外し、Ctrl + Enterで新しい行を追加します（デフォルトは反対です：Ctrl + Enterでフォーカスを外し、Enterで行を追加します）。"
+            },
+            "NoHorizontalScroll": {
+                "@brief": "カーソルの水平方向のフォローを無効にする"
+            },
+            "AlwaysInsertMode": {
+                "@brief": "インサートモード"
+            },
+            "ReadOnly": {
+                "@brief": "読み取り専用モード"
+            },
+            "Password": {
+                "@brief": "パスワードモード。すべての文字を'*'として表示します。"
+            },
+            "NoUndoRedo": {
+                "@brief": "元に戻す/やり直しを無効にします。 アクティブな間は入力テキストがテキストデータを所有していることに注意してください。独自の元に戻す/やり直しスタックを提供する場合は、たとえば ClearActiveID（）を呼び出します。"
+            },
+            "CharsScientific": {
+                "@brief": "0123456789.+-*/eE (科学表記法の入力) を許可します"
+            },
+            "CallbackResize": {
+                "@brief": "バッファ容量のコールバックはリクエストを変更し（'buf_size 'パラメータ値を超えて）、文字列が大きくなります。 文字列のサイズを変更する必要がある場合に通知します（サイズのキャッシュを保持する文字列タイプの場合）。 コールバックで新しいBufSizeが提供され、それを尊重する必要があります。"
+            }
+        },
+        "ToolColorEditFlags": {
+            "@brief": "ツール機能における色の設定を表します",
+            "NoAlpha": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': Alphaコンポーネントを無視します（入力ポインターから3つのコンポーネントのみを読み取ります）。"
+            },
+            "NoPicker": {
+                "@brief": "'ColorEdit': 色付きの正方形をクリックしたときにピッカーを無効にします。"
+            },
+            "NoOptions": {
+                "@brief": "'ColorEdit': 入力/小さなプレビューを右クリックしたときのオプションメニューの切り替えを無効にします。"
+            },
+            "NoSmallPreview": {
+                "@brief": "'ColorEdit, ColorPicker': 入力の横にある色付きの正方形プレビューを無効にします。 （例：入力のみを表示する）"
+            },
+            "NoInputs": {
+                "@brief": "'ColorEdit, ColorPicker: 入力スライダー/テキストウィジェットを無効にします（たとえば、小さなプレビューの色付きの四角形のみを表示します）。"
+            },
+            "NoTooltip": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': プレビューをホバーするときにツールチップを無効にします。"
+            },
+            "NoLabel": {
+                "@brief": "'ColorEdit, ColorPicker': インラインテキストラベルの表示を無効にします（ラベルは引き続きツールチップとピッカーに転送されます）。"
+            },
+            "NoSidePreview": {
+                "@brief": "'ColorPicker': ピッカーの右側の大きなカラープレビューを無効にし、代わりに小さな色付きの正方形プレビューを使用します。"
+            },
+            "NoDragDrop": {
+                "@brief": "'ColorEdit': ドラッグアンドドロップターゲットを無効にします。 'ColorButton': ドラッグアンドドロップソースを無効にします。"
+            },
+            "AlphaBar": {
+                "@brief": "'ColorEdit, ColorPicker': ピッカーに垂直アルファバー/グラデーションを表示します。"
+            },
+            "AlphaPreview": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': プレビューを不透明ではなく、チェッカーボード上の透明色として表示します。"
+            },
+            "AlphaPreviewHalf": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': 不透明ではなく、半不透明/半市松模様を表示します。"
+            },
+            "HDR": {
+                "@brief": "'(WIP) ColorEdit': 現在、RGBAエディションで0.0f..1.0fの制限のみを無効にします（注：おそらくFloatフラグも使用したいでしょう）。"
+            },
+            "DisplayRGB": {
+                "@brief": "'ColorEdit': RGB/HSV/Hexの_display_タイプをオーバーライドします。 'ColorPicker': 1つ以上のRGB/HSV/Hexを使用して任意の組み合わせを選択します。"
+            },
+            "DisplayHSV": {
+                "@brief": ""
+            },
+            "DisplayHex": {
+                "@brief": ""
+            },
+            "Uint8": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': 0..255としてフォーマットされた_display_値。"
+            },
+            "Float": {
+                "@brief": "'ColorEdit, ColorPicker, ColorButton': _display_値は、0..255整数ではなく0.0f..1.0f浮動小数点としてフォーマットされます。 整数による値の往復はありません。"
+            },
+            "PickerHueBar": {
+                "@brief": "'ColorPicker': Hueのバー、Sat/Valueの長方形。"
+            },
+            "PickerHueWheel": {
+                "@brief": "'ColorPicker': Hueのホイール、Sat/Valueの三角形。"
+            },
+            "InputRGB": {
+                "@brief": "'ColorEdit, ColorPicker': RGB形式の入出力データ"
+            },
+            "InputHSV": {
+                "@brief": "'ColorEdit, ColorPicker': HSV形式の入力および出力データ。"
+            },
+            "OptionsDefault": {
+                "@brief": "デフォルトオプション。 'SetColorEditOptions()' を使用して、アプリケーションのデフォルトを設定できます。 意図はおそらくあなたの呼び出しのほとんどでそれらをオーバーライドしたくないことです。 ユーザーがオプションメニューから選択できるようにするか、起動時に'SetColorEditOptions()'を1回呼び出します。"
+            }
+        },
+        "ToolSelectableFlags": {
+            "@brief": "ツール機能のSelectableに適用する設定を表します。",
+            "None": {
+                "@brief": ""
+            },
+            "DontClosePopups": {
+                "@brief": "このボタンをクリックしても、親ポップアップウィンドウは閉じません"
+            },
+            "SpanAllColumns": {
+                "@brief": "選択可能なフレームはすべての列にまたがることができます（テキストは現在の列に収まります）"
+            },
+            "AllowDoubleClick": {
+                "@brief": "ダブルクリックした場合もプレスイベントを生成"
+            },
+            "Disabled": {
+                "@brief": "選択できません、グレー表示されたテキストを表示します"
+            },
+            "AllowItemOverlap": {
+                "@brief": "(WIP) ヒットテストにより、後続のウィジェットがこのウィジェットとオーバーラップできるようにします"
+            }
+        },
+        "ToolWindowFlags": {
+            "@brief": "ツール機能のウィンドウにおける設定を表します",
+            "NoTitleBar": {
+                "@brief": "タイトルバーを無効にする"
+            },
+            "NoResize": {
+                "@brief": "右下のグリップを使ったユーザーのサイズ変更を無効にします"
+            },
+            "NoMove": {
+                "@brief": "ユーザーがウィンドウを移動できないようにする"
+            },
+            "NoScrollbar": {
+                "@brief": "スクロールバーを無効にします（ウィンドウはマウスまたはプログラムでスクロールできます）"
+            },
+            "NoScrollWithMouse": {
+                "@brief": "ユーザーがマウスホイールで垂直にスクロールできないようにします。 子ウィンドウでは、NoScrollbarも設定されていない限り、マウスホイールは親に転送されます。"
+            },
+            "NoCollapse": {
+                "@brief": "ユーザー折りたたみウィンドウをダブルクリックして無効にします"
+            },
+            "AlwaysAutoResize": {
+                "@brief": "フレームごとにコンテンツごとにウィンドウのサイズを変更します"
+            },
+            "NoBackground": {
+                "@brief": "描画背景色('WindowBg'など)および外枠を無効にします。 'SetNextWindowBgAlpha(0.0f)'を使用する場合と同様です。"
+            },
+            "NoSavedSettings": {
+                "@brief": ".iniファイルの設定をロード/保存しない"
+            },
+            "NoMouseInputs": {
+                "@brief": "パススルーでテストをホバリング、キャッチマウスを無効にします。"
+            },
+            "MenuBar": {
+                "@brief": "メニューバーがあります"
+            },
+            "HorizontalScrollbar": {
+                "@brief": "水平スクロールバーの表示を許可します（デフォルトではオフ）。 'Begin()'を呼び出す前に、'SetNextWindowContentSize(Vector2F(width, 0.0f));'を使用して幅を指定できます。"
+            },
+            "NoFocusOnAppearing": {
+                "@brief": "非表示から表示状態に移行するときにフォーカスを取得できないようにします"
+            },
+            "NoBringToFrontOnFocus": {
+                "@brief": "フォーカスを取得するときにウィンドウを前面に移動することを無効にします（たとえば、クリックするか、プログラムでフォーカスを与える）"
+            },
+            "AlwaysVerticalScrollbar": {
+                "@brief": "常に垂直スクロールバーを表示します（'ContentSize.Y &lt; Size.Y'の場合でも）"
+            },
+            "AlwaysHorizontalScrollbar": {
+                "@brief": "常に水平スクロールバーを表示します（'ContentSize.x &lt; Size.x'であっても）"
+            },
+            "AlwaysUseWindowPadding": {
+                "@brief": "境界線のない子ウィンドウが'style.WindowPadding'を使用するようにします（境界線のない子ウィンドウではデフォルトで無視されるため、より便利です）"
+            },
+            "NoNavInputs": {
+                "@brief": "ウィンドウ内にゲームパッド/キーボードナビゲーションはありません"
+            },
+            "NoNavFocus": {
+                "@brief": "ゲームパッド/キーボードナビゲーションでこのウィンドウにフォーカスしない（たとえば、CTRL + TABでスキップ）"
+            },
+            "UnsavedDocument": {
+                "@brief": "###演算子の使用を避けるために、IDに影響を与えずにタイトルに'*'を追加します。 タブ/ドッキングコンテキストで使用する場合、クロージャーでタブが選択され、クロージャーは1フレーム延期され、コードがちらつきなしに（確認ポップアップなどを使用して）クロージャーをキャンセルできるようにします。"
+            }
+        },
+        "ToolTabBarFlags": {
+            "@brief": "ツール機能のタブバーにおける設定を表します",
+            "Reorderable": {
+                "@brief": "タブを手動でドラッグして並べ替えることができます+リストの最後に新しいタブが追加されます"
+            },
+            "AutoSelectNewTabs": {
+                "@brief": "新しいタブが表示されたら自動的に選択する"
+            },
+            "TabListPopupButton": {
+                "@brief": "ボタンを無効にしてタブリストポップアップを開きます"
+            },
+            "NoCloseWithMiddleMouseButton": {
+                "@brief": "マウスの中ボタンでタブを閉じる（p_open！= NULLで送信される）動作を無効にします。 'if（IsItemHovered（）&amp;&amp; IsMouseClicked（2））* p_open = false'を使用すると、ユーザー側でこの動作を再現できます。"
+            },
+            "NoTabListScrollingButtons": {
+                "@brief": "スクロールボタンを無効にする（フィッティングポリシーが'FittingPolicyScroll'の場合に適用）"
+            },
+            "NoTooltip": {
+                "@brief": "タブをホバーするときにツールチップを無効にする"
+            },
+            "FittingPolicyResizeDown": {
+                "@brief": "収まらないタブのサイズを変更する"
+            },
+            "FittingPolicyScroll": {
+                "@brief": "タブが収まらない場合にスクロールボタンを追加する"
+            }
+        },
+        "ToolGlyphRange": {
+            "@brief": "ツール機能を使ってフォントを読み込む際の範囲を指定します。ビット演算は行わないでください。",
+            "Cyrillic": {
+                "@brief": "キリル文字"
+            },
+            "Japanese": {
+                "@brief": "日本語"
+            },
+            "ChineseFull": {
+                "@brief": "繁体字中国語"
+            },
+            "ChineseSimplifiedCommon": {
+                "@brief": "簡体字中国語"
+            },
+            "Korean": {
+                "@brief": "韓国語"
+            },
+            "Thai": {
+                "@brief": "タイ語"
+            }
+        },
+        "ToolFocused": {
+            "@brief": "",
+            "ChildWindows": {
+                "@brief": ""
+            },
+            "RootWindow": {
+                "@brief": ""
+            },
+            "AnyWindow": {
+                "@brief": ""
+            },
+            "RootAndChildWindows": {
+                "@brief": ""
+            }
+        },
+        "ToolColor": {
+            "@brief": "",
+            "Text": {
+                "@brief": ""
+            },
+            "TextDisabled": {
+                "@brief": ""
+            },
+            "WindowBg": {
+                "@brief": ""
+            },
+            "ChildBg": {
+                "@brief": ""
+            },
+            "PopupBg": {
+                "@brief": ""
+            },
+            "Border": {
+                "@brief": ""
+            },
+            "BorderShadow": {
+                "@brief": ""
+            },
+            "FrameBg": {
+                "@brief": ""
+            },
+            "FrameBgHovered": {
+                "@brief": ""
+            },
+            "FrameBgActive": {
+                "@brief": ""
+            },
+            "TitleBg": {
+                "@brief": ""
+            },
+            "TitleBgActive": {
+                "@brief": ""
+            },
+            "TitleBgCollapsed": {
+                "@brief": ""
+            },
+            "MenuBarBg": {
+                "@brief": ""
+            },
+            "ScrollbarBg": {
+                "@brief": ""
+            },
+            "ScrollbarGrab": {
+                "@brief": ""
+            },
+            "ScrollbarGrabHovered": {
+                "@brief": ""
+            },
+            "ScrollbarGrabActive": {
+                "@brief": ""
+            },
+            "CheckMark": {
+                "@brief": ""
+            },
+            "SliderGrab": {
+                "@brief": ""
+            },
+            "SliderGrabActive": {
+                "@brief": ""
+            },
+            "Button": {
+                "@brief": ""
+            },
+            "ButtonHovered": {
+                "@brief": ""
+            },
+            "ButtonActive": {
+                "@brief": ""
+            },
+            "Header": {
+                "@brief": ""
+            },
+            "HeaderHovered": {
+                "@brief": ""
+            },
+            "HeaderActive": {
+                "@brief": ""
+            },
+            "Separator": {
+                "@brief": ""
+            },
+            "SeparatorHovered": {
+                "@brief": ""
+            },
+            "SeparatorActive": {
+                "@brief": ""
+            },
+            "ResizeGrip": {
+                "@brief": ""
+            },
+            "ResizeGripHovered": {
+                "@brief": ""
+            },
+            "ResizeGripActive": {
+                "@brief": ""
+            },
+            "Tab": {
+                "@brief": ""
+            },
+            "TabHovered": {
+                "@brief": ""
+            },
+            "TabActive": {
+                "@brief": ""
+            },
+            "TabUnfocused": {
+                "@brief": ""
+            },
+            "TabUnfocusedActive": {
+                "@brief": ""
+            },
+            "PlotLines": {
+                "@brief": ""
+            },
+            "PlotLinesHovered": {
+                "@brief": ""
+            },
+            "PlotHistogram": {
+                "@brief": ""
+            },
+            "PlotHistogramHovered": {
+                "@brief": ""
+            },
+            "TextSelectedBg": {
+                "@brief": ""
+            },
+            "DragDropTarget": {
+                "@brief": ""
+            },
+            "NavHighlight": {
+                "@brief": ""
+            },
+            "NavWindowingHighlight": {
+                "@brief": ""
+            },
+            "NavWindowingDimBg": {
+                "@brief": ""
+            },
+            "ModalWindowDimBg": {
+                "@brief": ""
+            },
+            "COUNT": {
+                "@brief": ""
+            }
+        },
+        "ToolStyleVar": {
+            "@brief": "",
+            "Alpha": {
+                "@brief": ""
+            },
+            "WindowPadding": {
+                "@brief": ""
+            },
+            "WindowRounding": {
+                "@brief": ""
+            },
+            "WindowBorderSize": {
+                "@brief": ""
+            },
+            "WindowMinSize": {
+                "@brief": ""
+            },
+            "WindowTitleAlign": {
+                "@brief": ""
+            },
+            "ChildRounding": {
+                "@brief": ""
+            },
+            "ChildBorderSize": {
+                "@brief": ""
+            },
+            "PopupRounding": {
+                "@brief": ""
+            },
+            "PopupBorderSize": {
+                "@brief": ""
+            },
+            "FramePadding": {
+                "@brief": ""
+            },
+            "FrameRounding": {
+                "@brief": ""
+            },
+            "FrameBorderSize": {
+                "@brief": ""
+            },
+            "ItemSpacing": {
+                "@brief": ""
+            },
+            "ItemInnerSpacing": {
+                "@brief": ""
+            },
+            "IndentSpacing": {
+                "@brief": ""
+            },
+            "ScrollbarSize": {
+                "@brief": ""
+            },
+            "ScrollbarRounding": {
+                "@brief": ""
+            },
+            "GrabMinSize": {
+                "@brief": ""
+            },
+            "GrabRounding": {
+                "@brief": ""
+            },
+            "TabRounding": {
+                "@brief": ""
+            },
+            "ButtonTextAlign": {
+                "@brief": ""
+            },
+            "SelectableTextAlign": {
+                "@brief": ""
+            },
+            "COUNT": {
+                "@brief": ""
+            }
+        },
+        "ToolComboFlags": {
+            "@brief": "ツール機能のBeginComboに適用する設定を表します。",
+            "None": {
+                "@brief": ""
+            },
+            "PopupAlignLeft": {
+                "@brief": ""
+            },
+            "HeightSmall": {
+                "@brief": ""
+            },
+            "HeightRegular": {
+                "@brief": ""
+            },
+            "HeightLarge": {
+                "@brief": ""
+            },
+            "HeightLargest": {
+                "@brief": ""
+            },
+            "NoArrowButton": {
+                "@brief": ""
+            },
+            "NoPreview": {
+                "@brief": ""
+            },
+            "HeightMask_": {
+                "@brief": ""
+            }
+        },
+        "ToolHoveredFlags": {
+            "@brief": "",
+            "None": {
+                "@brief": ""
+            },
+            "ChildWindows": {
+                "@brief": ""
+            },
+            "RootWindow": {
+                "@brief": ""
+            },
+            "AnyWindow": {
+                "@brief": ""
+            },
+            "AllowWhenBlockedByPopup": {
+                "@brief": ""
+            },
+            "AllowWhenBlockedByActiveItem": {
+                "@brief": ""
+            },
+            "AllowWhenOverlapped": {
+                "@brief": ""
+            },
+            "AllowWhenDisabled": {
+                "@brief": ""
+            },
+            "RectOnly": {
+                "@brief": ""
+            },
+            "RootAndChildWindows": {
+                "@brief": ""
+            }
+        },
+        "FFTWindow": {
+            "@brief": "音のスペクトル解析に使用する窓関数"
+        },
+        "LogLevel": {
+            "@brief": "ログレベルを表します。"
+        },
+        "LogCategory": {
+            "@brief": "ログの範囲を表します。"
+        },
+        "Configuration": {
+            "@brief": "Altseed2 の設定を表すクラス",
+            "Create": {
+                "@brief": "新しいConfigurationを作成します。"
+            },
+            "IsFullscreen": {
+                "@brief": "全画面モードかどうかを取得または設定します。"
+            },
+            "IsResizable": {
+                "@brief": "画面サイズ可変かどうかを取得または設定します。"
+            },
+            "DeviceType": {
+                "@brief": "描画方法を取得または設定します。"
+            },
+            "WaitVSync": {
+                "@brief": "垂直同期信号を待つかどうかを取得または設定します。"
+            },
+            "EnabledCoreModules": {
+                "@brief": "初期化するモジュールを指定します。"
+            },
+            "ConsoleLoggingEnabled": {
+                "@brief": "ログをコンソールに出力するかどうかを取得または設定します。"
+            },
+            "FileLoggingEnabled": {
+                "@brief": "ログをファイルに出力するかどうかを取得または設定します。"
+            },
+            "LogFileName": {
+                "@brief": "ログファイル名を取得または設定します。"
+            }
+        },
+        "Core": {
+            "@brief": "C++のCoreとの仲介を担うクラス",
+            "GetBaseObjectCount": {
+                "@brief": "内部オブジェクトの数を取得します。"
+            },
+            "PrintAllBaseObjectName": {
+                "@brief": "全ての内部オブジェクトの名前を出力します。"
+            },
+            "Initialize": {
+                "@brief": "初期化処理を行います。",
+                "title": {
+                    "@brief": "ウィンドウの左上に表示されるウィンドウん名"
+                },
+                "width": {
+                    "@brief": "ウィンドウの横幅"
+                },
+                "height": {
+                    "@brief": "ウィンドウの縦幅"
+                },
+                "config": {
+                    "@brief": "初期化時の設定"
+                }
+            },
+            "DoEvent": {
+                "@brief": "イベントを実行します。"
+            },
+            "Terminate": {
+                "@brief": "終了処理を行います。"
+            },
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "DeltaSecond": {
+                "@brief": "前のフレームからの経過時間(秒)を取得します。"
+            },
+            "CurrentFPS": {
+                "@brief": "現在のFPSを取得します。"
+            },
+            "TargetFPS": {
+                "@brief": "目標のFPSを取得または設定します。"
+            },
+            "FramerateMode": {
+                "@brief": "フレームレートモードを取得または設定します。デフォルトでは可変フレームレートです。"
+            }
+        },
+        "Int8Array": {
+            "@brief": "8ビット整数の配列のクラスを表します。",
+            "Clear": {
+                "@brief": "データをクリアします。"
+            },
+            "Resize": {
+                "@brief": "サイズを変更します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Assign": {
+                "ptr": {
+                    "@brief": "コピーするデータの先頭のポインタ"
+                },
+                "size": {
+                    "@brief": "コピーする要素の個数"
+                }
+            },
+            "CopyTo": {
+                "@brief": "データを指定したポインタにコピーします。",
+                "ptr": {
+                    "@brief": "ポインタ"
+                }
+            },
+            "GetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "SetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                },
+                "value": {
+                    "@brief": "値"
+                }
+            },
+            "Create": {
+                "@brief": "インスタンスを作成します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Count": {
+                "@brief": "格納されている要素の数を取得します。"
+            }
+        },
+        "Int32Array": {
+            "@brief": "32ビット整数の配列のクラスを表します。",
+            "Clear": {
+                "@brief": "データをクリアします。"
+            },
+            "Resize": {
+                "@brief": "サイズを変更します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Assign": {
+                "ptr": {
+                    "@brief": "コピーするデータの先頭のポインタ"
+                },
+                "size": {
+                    "@brief": "コピーする要素の個数"
+                }
+            },
+            "CopyTo": {
+                "@brief": "データを指定したポインタにコピーします。",
+                "ptr": {
+                    "@brief": "ポインタ"
+                }
+            },
+            "GetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "SetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                },
+                "value": {
+                    "@brief": "値"
+                }
+            },
+            "Create": {
+                "@brief": "インスタンスを作成します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Count": {
+                "@brief": "格納されている要素の数を取得します。"
+            }
+        },
+        "VertexArray": {
+            "@brief": "頂点データの配列のクラスを表します。",
+            "Clear": {
+                "@brief": "データをクリアします。"
+            },
+            "Resize": {
+                "@brief": "サイズを変更します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Assign": {
+                "ptr": {
+                    "@brief": "コピーするデータの先頭のポインタ"
+                },
+                "size": {
+                    "@brief": "コピーする要素の個数"
+                }
+            },
+            "CopyTo": {
+                "@brief": "データを指定したポインタにコピーします。",
+                "ptr": {
+                    "@brief": "ポインタ"
+                }
+            },
+            "GetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "SetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                },
+                "value": {
+                    "@brief": "値"
+                }
+            },
+            "Create": {
+                "@brief": "インスタンスを作成します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Count": {
+                "@brief": "格納されている要素の数を取得します。"
+            }
+        },
+        "FloatArray": {
+            "@brief": "浮動小数点数の配列のクラスを表します。",
+            "Clear": {
+                "@brief": "データをクリアします。"
+            },
+            "Resize": {
+                "@brief": "サイズを変更します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Assign": {
+                "ptr": {
+                    "@brief": "コピーするデータの先頭のポインタ"
+                },
+                "size": {
+                    "@brief": "コピーする要素の個数"
+                }
+            },
+            "CopyTo": {
+                "@brief": "データを指定したポインタにコピーします。",
+                "ptr": {
+                    "@brief": "ポインタ"
+                }
+            },
+            "GetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "SetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                },
+                "value": {
+                    "@brief": "値"
+                }
+            },
+            "Create": {
+                "@brief": "インスタンスを作成します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Count": {
+                "@brief": "格納されている要素の数を取得します。"
+            }
+        },
+        "Vector2FArray": {
+            "@brief": "2次元ベクトルの配列のクラスを表します。",
+            "Clear": {
+                "@brief": "データをクリアします。"
+            },
+            "Resize": {
+                "@brief": "サイズを変更します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Assign": {
+                "ptr": {
+                    "@brief": "コピーするデータの先頭のポインタ"
+                },
+                "size": {
+                    "@brief": "コピーする要素の個数"
+                }
+            },
+            "CopyTo": {
+                "@brief": "データを指定したポインタにコピーします。",
+                "ptr": {
+                    "@brief": "ポインタ"
+                }
+            },
+            "GetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "SetAt": {
+                "@brief": "インデックスアクセス",
+                "index": {
+                    "@brief": "インデックス"
+                },
+                "value": {
+                    "@brief": "値"
+                }
+            },
+            "Create": {
+                "@brief": "インスタンスを作成します。",
+                "size": {
+                    "@brief": "要素数"
+                }
+            },
+            "Count": {
+                "@brief": "格納されている要素の数を取得します。"
+            }
+        },
+        "Resources": {
+            "@brief": "リソースのクラスを表します。",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "GetResourcesCount": {
+                "@brief": "指定した種類のリソースの個数を返します。",
+                "type": {
+                    "@brief": "個数を検索するリソースの種類"
+                }
+            },
+            "Clear": {
+                "@brief": "登録されたリソースをすべて削除します。"
+            },
+            "Reload": {
+                "@brief": "リソースの再読み込みを行います。"
+            }
+        },
+        "Cursor": {
+            "@brief": "カーソルを表します。",
+            "Create": {
+                "@brief": "指定したpng画像を読み込んだ<see cref=\"Cursor\"/>のインスタンスを生成します。",
+                "path": {
+                    "@brief": "読み込むpng画像のパス"
+                },
+                "hot": {
+                    "@brief": "カーソルのクリック判定座標を指定します。カーソル画像はここが中心となります。"
+                }
+            }
+        },
+        "Keyboard": {
+            "@brief": "キーボードを表します。",
+            "GetKeyState": {
+                "@brief": "キーの状態を取得します。",
+                "key": {
+                    "@brief": "キー"
+                }
+            },
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            }
+        },
+        "Mouse": {
+            "@brief": "マウスを表します。",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "GetMouseButtonState": {
+                "@brief": "マウスボタンの状態を取得します。",
+                "button": {
+                    "@brief": "状態を取得するマウスのボタン"
+                }
+            },
+            "SetCursorImage": {
+                "@brief": "カーソル画像をセットします。",
+                "cursor": {
+                    "@brief": "状態を取得するマウスのボタン"
+                }
+            },
+            "Position": {
+                "@brief": "マウスカーソルの座標を取得または設定します。"
+            },
+            "CursorMode": {
+                "@brief": "カーソルのモードを取得または設定します。"
+            },
+            "Wheel": {
+                "@brief": "マウスホイールの回転量を取得します。"
+            }
+        },
+        "JoystickInfo": {
+            "@brief": "ジョイスティックコントローラを表します。",
+            "IsJoystickType": {
+                "@brief": "指定したジョイスティックの種類に合致するかどうかを取得します。"
+            },
+            "Name": {
+                "@brief": "ジョイスティックの名前を取得します。"
+            },
+            "IsGamepad": {
+                "@brief": "ジョイスティックがGamepadとして使えるかどうかを取得します。"
+            },
+            "GamepadName": {
+                "@brief": "ジョイスティックがGamepadとして使える時、その名前を取得します。"
+            },
+            "Vendor": {
+                "@brief": "製造者IDを取得します。"
+            },
+            "Product": {
+                "@brief": "製品IDを取得します。"
+            },
+            "Version": {
+                "@brief": "ジョイスティックのバージョンを取得します。"
+            }
+        },
+        "Joystick": {
+            "@brief": "ジョイスティックを表すクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "IsPresent": {
+                "@brief": "指定したジョイスティックが存在しているかどうかを取得します。",
+                "joystickIndex": {
+                    "@brief": "ジョイスティックのインデックス"
+                }
+            },
+            "GetJoystickInfo": {
+                "@brief": "指定したジョイスティックの情報を取得します。",
+                "joystickIndex": {
+                    "@brief": "ジョイスティックのインデックス"
+                }
+            },
+            "GetButtonStateByIndex": {
+                "@brief": "ボタンの状態をインデックスで取得します。",
+                "joystickIndex": {
+                    "@brief": "検索するジョイスティックのインデックス"
+                },
+                "buttonIndex": {
+                    "@brief": "状態を検索するボタンのインデックス"
+                }
+            },
+            "GetButtonStateByType": {
+                "@brief": "ボタンの状態を種類から取得します。",
+                "joystickIndex": {
+                    "@brief": "検索するジョイスティックのインデックス"
+                },
+                "type": {
+                    "@brief": "状態を検索するボタンの種類"
+                }
+            },
+            "GetAxisStateByIndex": {
+                "@brief": "軸の状態をインデックスで取得します。",
+                "joystickIndex": {
+                    "@brief": "検索するジョイスティックのインデックス"
+                },
+                "axisIndex": {
+                    "@brief": "状態を検索する軸のインデックス"
+                }
+            },
+            "GetAxisStateByType": {
+                "@brief": "軸の状態を軸の種類で取得します。",
+                "joystickIndex": {
+                    "@brief": "検索するジョイスティックのインデックス"
+                },
+                "type": {
+                    "@brief": "状態を検索する軸の種類"
+                }
+            },
+            "ConnectedJoystickCount": {
+                "@brief": "接続されているジョイスティックの数を取得します。"
+            }
+        },
+        "Graphics": {
+            "@brief": "グラフィックの制御を行うクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "BeginFrame": {
+                "@brief": "描画を開始します。"
+            },
+            "EndFrame": {
+                "@brief": "描画を終了します。"
+            },
+            "DoEvents": {
+                "@brief": "イベントを処理します。"
+            },
+            "SaveScreenshot": {
+                "@brief": "スクリーンショットを保存します。",
+                "path": {
+                    "@brief": "出力先のパス"
+                }
+            },
+            "CommandList": {
+                "@brief": "コマンドリストを取得します。"
+            },
+            "BuiltinShader": {
+                "@brief": "組み込みのシェーダを取得します。"
+            }
+        },
+        "TextureBase": {
+            "@brief": "テクスチャのベースクラス",
+            "Save": {
+                "@brief": "png画像として保存します。",
+                "path": {
+                    "@brief": "保存先"
+                }
+            },
+            "Size": {
+                "@brief": "テクスチャの大きさ(ピクセル)を取得します。"
+            },
+            "WrapMode": {
+                "@brief": "テクスチャをサンプリングする方法を取得または設定します。"
+            },
+            "FilterType": {
+                "@brief": "テクスチャをフィルタリングする方法を取得または設定します。"
+            },
+            "Format": {
+                "@brief": "テクスチャのフォーマットを取得します。"
+            }
+        },
+        "Texture2D": {
+            "@brief": "テクスチャのクラス",
+            "Load": {
+                "@brief": "指定したファイルからテクスチャを読み込みます。",
+                "path": {
+                    "@brief": "読み込むファイルのパス"
+                }
+            },
+            "Reload": {
+                "@brief": "再読み込みを行います。"
+            },
+            "Path": {
+                "@brief": "読み込んだファイルのパスを取得します。"
+            }
+        },
+        "RenderTexture": {
+            "@brief": "ポストエフェクトやカメラにおける描画先のクラス",
+            "Create": {
+                "@brief": "指定したサイズとフォーマットを持つRenderTextureの新しいインスタンスを生成します。",
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "format": {
+                    "@brief": "テクスチャのフォーマット"
+                }
+            }
+        },
+        "Material": {
+            "@brief": "マテリアル",
+            "Create": {
+                "@brief": "マテリアルを生成する"
+            },
+            "GetVector4F": {
+                "@brief": "指定した名前を持つ<see cref=\"Vector4F\"/>のインスタンスを取得する",
+                "key": {
+                    "@brief": "検索する<see cref=\"Vector4F\"/>のインスタンスの名前"
+                }
+            },
+            "SetVector4F": {
+                "@brief": "指定した名前を持つ<see cref=\"Vector4F\"/>の値を設定する",
+                "key": {
+                    "@brief": "検索する<see cref=\"Vector4F\"/>のインスタンスの名前"
+                },
+                "value": {
+                    "@brief": "設定する<see cref=\"Vector4F\"/>のインスタンスの値"
+                }
+            },
+            "GetMatrix44F": {
+                "@brief": "指定した名前を持つ<see cref=\"Matrix44F\"/>のインスタンスを取得する",
+                "key": {
+                    "@brief": "検索する<see cref=\"Matrix44F\"/>のインスタンスの名前"
+                }
+            },
+            "SetMatrix44F": {
+                "@brief": "指定した名前を持つ<see cref=\"Matrix44F\"/>の値を設定する",
+                "key": {
+                    "@brief": "検索する<see cref=\"Matrix44F\"/>のインスタンスの名前"
+                },
+                "value": {
+                    "@brief": "設定する<see cref=\"Matrix44F\"/>のインスタンスの値"
+                }
+            },
+            "GetTexture": {
+                "@brief": "指定した名前を持つ<see cref=\"TextureBase\"/>のインスタンスを取得する",
+                "key": {
+                    "@brief": "検索する<see cref=\"TextureBase\"/>のインスタンスの名前"
+                }
+            },
+            "SetTexture": {
+                "@brief": "指定した名前を持つ<see cref=\"TextureBase\"/>の値を設定する",
+                "key": {
+                    "@brief": "検索する<see cref=\"TextureBase\"/>のインスタンスの名前"
+                },
+                "value": {
+                    "@brief": "設定する<see cref=\"TextureBase\"/>のインスタンスの値"
+                }
+            },
+            "GetShader": {
+                "@brief": "指定した種類のシェーダを取得する",
+                "shaderStage": {
+                    "@brief": "検索するシェーダのタイプ"
+                }
+            },
+            "SetShader": {
+                "@brief": "シェーダを設定する",
+                "shader": {
+                    "@brief": "設定するシェーダ"
+                }
+            },
+            "AlphaBlend": {
+                "@brief": "描画時のアルファブレンドを取得または設定します。"
+            }
+        },
+        "Renderer": {
+            "@brief": "レンダラのクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "DrawSprite": {
+                "@brief": "スプライトを描画します。",
+                "sprite": {
+                    "@brief": "描画する<see cref=\"RenderedSprite\"/>のインスタンス"
+                }
+            },
+            "DrawText": {
+                "@brief": "テキストを描画します。",
+                "text": {
+                    "@brief": "描画する<see cref=\"RenderedText\"/>のインスタンス"
+                }
+            },
+            "DrawPolygon": {
+                "@brief": "ポリゴンを描画します。",
+                "polygon": {
+                    "@brief": "描画する<see cref=\"RenderedPolygon\"/>のインスタンス"
+                }
+            },
+            "Render": {
+                "@brief": "コマンドリストを描画します。"
+            },
+            "SetCamera": {
+                "@brief": "使用するカメラを設定します。",
+                "camera": {
+                    "@brief": "描画するカメラ"
+                }
+            },
+            "ResetCamera": {
+                "@brief": "使用するカメラの設定をリセットします。"
+            }
+        },
+        "CommandList": {
+            "@brief": "コマンドリストのクラス",
+            "GetScreenTexture": {
+                "@brief": "スクリーンに表示されている内容をテクスチャとして取得します。"
+            },
+            "SetRenderTarget": {
+                "@brief": "描画する対象のテクスチャを設定します。",
+                "target": {
+                    "@brief": "描画先のテクスチャ"
+                },
+                "renderPassParameter": {
+                    "@brief": "描画に使用する設定"
+                }
+            },
+            "RenderToRenderTexture": {
+                "@brief": "指定したテクスチャに描画を行います。",
+                "material": {
+                    "@brief": "描画に使用するマテリアル"
+                },
+                "target": {
+                    "@brief": "描画先のテクスチャ"
+                },
+                "renderPassparameter": {
+                    "@brief": "描画に使用する設定"
+                }
+            },
+            "RenderToRenderTarget": {
+                "@brief": "設定されたターゲットに描画を行います。",
+                "material": {
+                    "@brief": "描画に使用するマテリアル"
+                }
+            },
+            "CopyTexture": {
+                "@brief": "テクスチャの内容をコピーします。",
+                "src": {
+                    "@brief": "コピーするテクスチャ"
+                },
+                "dst": {
+                    "@brief": "コピー先のテクスチャ"
+                }
+            },
+            "ScreenTextureFormat": {
+                "@brief": "GetScreenTextureで取得するテクスチャのフォーマットを取得または設定します。"
+            }
+        },
+        "Rendered": {
+            "@brief": "描画されるオブジェクトの基本クラスを表します",
+            "Transform": {
+                "@brief": "変換行列を取得または設定します。"
+            },
+            "Id": {
+                "@brief": "BaseObjectのIdを取得します。"
+            }
+        },
+        "RenderedSprite": {
+            "@brief": "スプライトのクラス",
+            "Create": {
+                "@brief": "スプライトを作成します。"
+            },
+            "Texture": {
+                "@brief": "テクスチャを取得または設定します。"
+            },
+            "Src": {
+                "@brief": "描画範囲を取得または設定します。"
+            },
+            "Material": {
+                "@brief": "マテリアルを取得または設定します。"
+            },
+            "Color": {
+                "@brief": "色を取得または設定します。"
+            },
+            "AlphaBlend": {
+                "@brief": "描画時のアルファブレンドを取得または設定します。"
+            }
+        },
+        "RenderedText": {
+            "@brief": "テキストのクラス",
+            "Create": {
+                "@brief": "テキストを作成します。"
+            },
+            "MaterialGlyph": {
+                "@brief": "文字の描画に使用するマテリアルを取得または設定します。"
+            },
+            "MaterialImage": {
+                "@brief": "テクスチャ文字の描画に使用するマテリアルを取得または設定します。"
+            },
+            "Text": {
+                "@brief": "テキストを取得または設定します。"
+            },
+            "Font": {
+                "@brief": "フォントを取得または設定します。"
+            },
+            "Weight": {
+                "@brief": "文字の太さを取得または設定します。(0 ~ 255)"
+            },
+            "IsEnableKerning": {
+                "@brief": "カーニングの有無を取得または設定します。"
+            },
+            "WritingDirection": {
+                "@brief": "行の方向を取得または設定します。"
+            },
+            "CharacterSpace": {
+                "@brief": "字間をピクセル単位で取得または設定します。"
+            },
+            "LineGap": {
+                "@brief": "行間をピクセル単位で取得または設定します。"
+            },
+            "TextureSize": {
+                "@brief": "テキストを描画したときのサイズを取得します"
+            },
+            "Color": {
+                "@brief": "色を取得または設定します。"
+            },
+            "AlphaBlend": {
+                "@brief": "描画時のアルファブレンドを取得または設定します。"
+            }
+        },
+        "RenderedPolygon": {
+            "@brief": "ポリゴンのクラス",
+            "Create": {
+                "@brief": "ポリゴンを作成します。"
+            },
+            "CreateVertexesByVector2F": {
+                "@brief": "頂点情報"
+            },
+            "OverwriteVertexesColor": {
+                "@brief": "頂点情報"
+            },
+            "SetDefaultIndexBuffer": {
+                "@brief": "インデックスバッファーを既定のものに設定します。"
+            },
+            "Buffers": {
+                "@brief": "インデックスバッファー情報を取得または設定します。"
+            },
+            "Vertexes": {
+                "@brief": "頂点情報を取得または設定します。"
+            },
+            "Texture": {
+                "@brief": "テクスチャを取得または設定します。"
+            },
+            "Src": {
+                "@brief": "描画範囲を取得または設定します。"
+            },
+            "Material": {
+                "@brief": "マテリアルを取得または設定します。"
+            },
+            "AlphaBlend": {
+                "@brief": "描画時のアルファブレンドを取得または設定します。"
+            }
+        },
+        "RenderedCamera": {
+            "@brief": "カメラのクラス",
+            "Create": {
+                "@brief": "RenderedCameraを作成します。"
+            },
+            "ViewMatrix": {
+                "@brief": "RenderPassParameterを取得または設定します。"
+            },
+            "TargetTexture": {
+                "@brief": "TargetTextureを取得または設定します。"
+            },
+            "RenderPassParameter": {
+                "@brief": "RenderPassParameterを取得または設定します。"
+            }
+        },
+        "BuiltinShader": {
+            "@brief": "組み込みシェーダの取得を行うクラス",
+            "Create": {
+                "@brief": "シェーダを取得します。",
+                "type": {
+                    "@brief": "シェーダの種類"
+                }
+            }
+        },
+        "ShaderCompileResult": {
+            "@brief": "シェーダのコンパイル結果を表すクラス",
+            "Value": {
+                "@brief": "コンパイルに失敗した場合はnull"
+            },
+            "Message": {
+                "@brief": "コンパイル結果のメッセージ"
+            }
+        },
+        "Shader": {
+            "@brief": "シェーダ",
+            "Compile": {
+                "@brief": "コードをコンパイルしてシェーダを生成します。",
+                "name": {
+                    "@brief": "シェーダの名前"
+                },
+                "code": {
+                    "@brief": "コンパイルするコード"
+                },
+                "shaderStage": {
+                    "@brief": ""
+                }
+            },
+            "CompileFromFile": {
+                "@brief": "ファイルからコードをコンパイルしてシェーダを生成します。",
+                "name": {
+                    "@brief": "シェーダの名前"
+                },
+                "path": {
+                    "@brief": "コンパイルするコードのパス"
+                },
+                "shaderStage": {
+                    "@brief": ""
+                }
+            },
+            "StageType": {
+                "@brief": "シェーダの種類を取得します。"
+            },
+            "Code": {
+                "@brief": "インスタンス生成に使用したコードを取得します。"
+            },
+            "Name": {
+                "@brief": "名前を取得します。"
+            }
+        },
+        "Glyph": {
+            "@brief": "文字情報",
+            "TextureSize": {
+                "@brief": "文字テクスチャのサイズを取得します。"
+            },
+            "TextureIndex": {
+                "@brief": "文字テクスチャのインデックスを取得します。"
+            },
+            "Position": {
+                "@brief": "文字の座標を取得します。"
+            },
+            "Size": {
+                "@brief": "文字のサイズを取得します。"
+            },
+            "Offset": {
+                "@brief": "文字のオフセットを取得します。"
+            },
+            "GlyphWidth": {
+                "@brief": "文字の幅を取得します。"
+            }
+        },
+        "Font": {
+            "@brief": "フォント",
+            "LoadDynamicFont": {
+                "@brief": "フォントファイルを読み込んでFontの新しいインスタンスを生成します。",
+                "path": {
+                    "@brief": "読み込むフォントのパス"
+                },
+                "size": {
+                    "@brief": "フォントのサイズ"
+                }
+            },
+            "LoadStaticFont": {
+                "@brief": "FontGeneratorで生成したフォントを読み込んでFontの新しいインスタンスを生成します。",
+                "path": {
+                    "@brief": "読み込むフォントのパス"
+                }
+            },
+            "GenerateFontFile": {
+                "@brief": "a2fフォントを生成します。",
+                "dynamicFontPath": {
+                    "@brief": "読み込むtruetypeフォントのパス"
+                },
+                "staticFontPath": {
+                    "@brief": "生成するa2fフォントのパス"
+                },
+                "size": {
+                    "@brief": "フォントのサイズ"
+                },
+                "characters": {
+                    "@brief": "フォント化させる文字列"
+                }
+            },
+            "GetGlyph": {
+                "@brief": "文字情報を取得します。",
+                "character": {
+                    "@brief": "文字"
+                }
+            },
+            "GetFontTexture": {
+                "@brief": "指定した文字のテクスチャを取得します。",
+                "index": {
+                    "@brief": "インデックス"
+                }
+            },
+            "GetKerning": {
+                "@brief": "カーニングを取得します。",
+                "c1": {
+                    "@brief": "文字1"
+                },
+                "c2": {
+                    "@brief": "文字2"
+                }
+            },
+            "CreateImageFont": {
+                "@brief": "テクスチャ追加対応フォントを生成します。",
+                "baseFont": {
+                    "@brief": "ベースとなるフォント"
+                }
+            },
+            "AddImageGlyph": {
+                "@brief": "テクスチャ文字を追加します。",
+                "character": {
+                    "@brief": "文字"
+                },
+                "texture": {
+                    "@brief": "テクスチャ"
+                }
+            },
+            "GetImageGlyph": {
+                "@brief": "テクスチャ文字を取得します。",
+                "character": {
+                    "@brief": "文字"
+                }
+            },
+            "Size": {
+                "@brief": "フォントのサイズを取得します。"
+            },
+            "Ascent": {
+                "@brief": "フォントのベースラインからトップラインまでの距離を取得します。"
+            },
+            "Descent": {
+                "@brief": "フォントのベースラインからボトムラインまでの距離を取得します。"
+            },
+            "LineGap": {
+                "@brief": "フォントの行間の距離を取得します。"
+            },
+            "IsStaticFont": {
+                "@brief": "StaticFontかどうかを取得します。"
+            },
+            "Path": {
+                "@brief": "読み込んだファイルのパスを取得します。"
+            }
+        },
+        "CullingSystem": {
+            "@brief": "カリングのクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "Register": {
+                "@brief": "Renderedをカリングシステムに登録します。",
+                "rendered": {
+                    "@brief": "登録するRendered"
+                }
+            },
+            "Unregister": {
+                "@brief": "Renderedをカリングシステムから登録解除します。",
+                "rendered": {
+                    "@brief": "登録解除するRendered"
+                }
+            },
+            "UpdateAABB": {
+                "@brief": "RenderedのAABBを更新します。"
+            },
+            "DrawingRenderedCount": {
+                "@brief": "描画されているRenderedの個数を取得します。"
+            },
+            "DrawingRenderedIds": {
+                "@brief": "描画されているRenderedのIdの配列を取得します。"
+            }
+        },
+        "Tool": {
+            "@brief": "imguiのツール処理を行うクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "AddFontFromFileTTF": {
+                "@brief": "パスからフォントを読み込みます。パックされたファイルは非対応です。"
+            },
+            "Begin": {
+                "@brief": "'End()' を呼び出してください。"
+            },
+            "End": {
+                "@brief": ""
+            },
+            "NewFrame": {
+                "@brief": ""
+            },
+            "Render": {
+                "@brief": ""
+            },
+            "Dummy": {
+                "@brief": "空白を生成します。",
+                "size": {
+                    "@brief": "空白のサイズ"
+                }
+            },
+            "Text": {
+                "@brief": "テキストを生成します。",
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "TextUnformatted": {
+                "@brief": "",
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "TextWrapped": {
+                "@brief": "",
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "TextColored": {
+                "@brief": "色付きテキストを生成します。",
+                "color": {
+                    "@brief": "テキストの色"
+                },
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "TextDisabled": {
+                "@brief": "灰字のテキストを生成します。",
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "BulletText": {
+                "@brief": "箇条書きテキストを生成します。",
+                "text": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "LabelText": {
+                "@brief": "横にラベルの付いたテキストを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "text": {
+                    "@brief": "横に表示するラベルのテキスト"
+                }
+            },
+            "CollapsingHeader": {
+                "@brief": "折り畳み式のヘッダを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "TreeNode": {
+                "@brief": "ツリーのノードを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "TreeNodeEx": {
+                "@brief": "ツリーのノードを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "TreePop": {
+                "@brief": "TreeNodeのツリーを開きます。"
+            },
+            "SetNextItemOpen": {
+                "@brief": ""
+            },
+            "Button": {
+                "@brief": "ボタンを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                }
+            },
+            "CheckBox": {
+                "@brief": "チェックボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "isChecked": {
+                    "@brief": "チェックされているかどうか"
+                }
+            },
+            "RadioButton": {
+                "@brief": "ラジオボタンを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "active": {
+                    "@brief": "チェックが入っているかどうか"
+                }
+            },
+            "ArrowButton": {
+                "@brief": "矢印ボタンを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "dir": {
+                    "@brief": "矢印の向き"
+                }
+            },
+            "InvisibleButton": {
+                "@brief": "見えないボタンを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                }
+            },
+            "ListBox": {
+                "@brief": "リストボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "current": {
+                    "@brief": "選択中のアイテムのインデックス -1で選択無し"
+                },
+                "items": {
+                    "@brief": "タブ文字を用いて分割したアイテム"
+                },
+                "popupMaxHeightInItems": {
+                    "@brief": "一度に表示されるアイテムの個数"
+                }
+            },
+            "Selectable": {
+                "@brief": "選択式のテキストを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                },
+                "selected": {
+                    "@brief": "選択されているかどうか"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "InputText": {
+                "@brief": "テキストを入力するボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "input": {
+                    "@brief": "入力するテキスト"
+                },
+                "maxLength": {
+                    "@brief": "処理するテキストの最大長"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "InputTextWithHint": {
+                "@brief": "ヒント付きのテキスト入力ボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "hint": {
+                    "@brief": "インプットされている文字列長が0の時に表示されるヒント"
+                },
+                "input": {
+                    "@brief": "入力するテキスト"
+                },
+                "maxLength": {
+                    "@brief": "処理するテキストの最大長"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "InputTextMultiline": {
+                "@brief": "複数行のテキストが入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "input": {
+                    "@brief": "入力するテキスト"
+                },
+                "maxLength": {
+                    "@brief": "処理するテキストの最大長"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "InputInt": {
+                "@brief": "1つの整数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputInt2": {
+                "@brief": "2つの整数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputInt3": {
+                "@brief": "3つの整数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputInt4": {
+                "@brief": "4つの整数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputFloat": {
+                "@brief": "1つの小数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputFloat2": {
+                "@brief": "2つの小数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputFloat3": {
+                "@brief": "3つの小数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "InputFloat4": {
+                "@brief": "4つの小数が入力可能なボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "array": {
+                    "@brief": "扱う値"
+                }
+            },
+            "SliderInt": {
+                "@brief": "1つのスライドで値が増減するバーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "speed": {
+                    "@brief": "スライドで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "SliderInt2": {
+                "@brief": ""
+            },
+            "SliderInt3": {
+                "@brief": ""
+            },
+            "SliderInt4": {
+                "@brief": ""
+            },
+            "SliderFloat": {
+                "@brief": "1つのスライドで値が増減するバーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "speed": {
+                    "@brief": "スライドで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "SliderFloat2": {
+                "@brief": ""
+            },
+            "SliderFloat3": {
+                "@brief": ""
+            },
+            "SliderFloat4": {
+                "@brief": ""
+            },
+            "SliderAngle": {
+                "@brief": "スライドで値が増減する，角度を扱うバーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "angle": {
+                    "@brief": "扱う角度の値"
+                }
+            },
+            "VSliderInt": {
+                "@brief": "スライドで値が増減する縦バーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "VSliderFloat": {
+                "@brief": "スライドで値が増減する縦バーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "DragInt": {
+                "@brief": "1つのドラッグで値が増減するバーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "speed": {
+                    "@brief": "ドラッグで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "DragFloat": {
+                "@brief": "1つのドラッグで値が増減するバーを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "value": {
+                    "@brief": "扱う値"
+                },
+                "speed": {
+                    "@brief": "ドラッグで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "DragIntRange2": {
+                "@brief": "2つのドラッグで値が増減するバーを生成します",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "currentMin": {
+                    "@brief": "扱う値のうち小さい方"
+                },
+                "currentMax": {
+                    "@brief": "扱う値のうち大きい方"
+                },
+                "speed": {
+                    "@brief": "ドラッグで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "DragFloatRange2": {
+                "@brief": "2つのドラッグで値が増減するバーを生成します",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "currentMin": {
+                    "@brief": "扱う値のうち小さい方"
+                },
+                "currentMax": {
+                    "@brief": "扱う値のうち大きい方"
+                },
+                "speed": {
+                    "@brief": "ドラッグで増減する値"
+                },
+                "valueMin": {
+                    "@brief": "最小値"
+                },
+                "valueMax": {
+                    "@brief": "最大値"
+                }
+            },
+            "ColorEdit3": {
+                "@brief": "色を入力するツールを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "color": {
+                    "@brief": "扱う色"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "ColorEdit4": {
+                "@brief": "色を入力するツールを生成します。",
+                "label": {
+                    "@brief": "横に表示するラベルのテキスト"
+                },
+                "color": {
+                    "@brief": "扱う色"
+                },
+                "flags": {
+                    "@brief": "適用する設定"
+                }
+            },
+            "OpenPopup": {
+                "@brief": ""
+            },
+            "BeginPopup": {
+                "@brief": "'EndPopup()' を呼び出してください"
+            },
+            "BeginPopupModal": {
+                "@brief": "'EndPopup()' を呼び出してください"
+            },
+            "EndPopup": {
+                "@brief": ""
+            },
+            "BeginChild": {
+                "@brief": "'EndChild()' を呼び出してください"
+            },
+            "EndChild": {
+                "@brief": ""
+            },
+            "BeginMenuBar": {
+                "@brief": "'EndMenuBar()' を呼び出してください"
+            },
+            "EndMenuBar": {
+                "@brief": ""
+            },
+            "BeginMenu": {
+                "@brief": "'EndMenu()' を呼び出してください"
+            },
+            "EndMenu": {
+                "@brief": ""
+            },
+            "MenuItem": {
+                "@brief": ""
+            },
+            "BeginTabBar": {
+                "@brief": "'EndTabBar()' を呼び出してください"
+            },
+            "EndTabBar": {
+                "@brief": ""
+            },
+            "BeginTabItem": {
+                "@brief": "'EndTabItem()' を呼び出してください"
+            },
+            "EndTabItem": {
+                "@brief": ""
+            },
+            "Indent": {
+                "@brief": "次の要素を右にずらします。"
+            },
+            "Unindent": {
+                "@brief": "右にずらすインデントを1つ分打消します。"
+            },
+            "Separator": {
+                "@brief": "仕切りを生成します。"
+            },
+            "SetTooltip": {
+                "@brief": ""
+            },
+            "BeginTooltip": {
+                "@brief": "'EndTooltip()' を呼び出してください"
+            },
+            "EndTooltip": {
+                "@brief": ""
+            },
+            "NewLine": {
+                "@brief": ""
+            },
+            "SameLine": {
+                "@brief": ""
+            },
+            "PushTextWrapPos": {
+                "@brief": ""
+            },
+            "PopTextWrapPos": {
+                "@brief": ""
+            },
+            "PushItemWidth": {
+                "@brief": ""
+            },
+            "PopItemWidth": {
+                "@brief": ""
+            },
+            "PushButtonRepeat": {
+                "@brief": ""
+            },
+            "PopButtonRepeat": {
+                "@brief": ""
+            },
+            "Columns": {
+                "@brief": ""
+            },
+            "NextColumn": {
+                "@brief": ""
+            },
+            "PushID": {
+                "@brief": ""
+            },
+            "PopID": {
+                "@brief": ""
+            },
+            "IsItemActive": {
+                "@brief": ""
+            },
+            "IsItemHovered": {
+                "@brief": ""
+            },
+            "SetScrollHere": {
+                "@brief": ""
+            },
+            "GetTextLineHeight": {
+                "@brief": ""
+            },
+            "GetFontSize": {
+                "@brief": ""
+            },
+            "GetWindowSize": {
+                "@brief": ""
+            },
+            "SetWindowSize": {
+                "@brief": ""
+            },
+            "IsMousePosValid": {
+                "@brief": ""
+            },
+            "IsMouseDragging": {
+                "@brief": ""
+            },
+            "IsMouseDoubleClicked": {
+                "@brief": ""
+            },
+            "GetMouseDragDelta": {
+                "@brief": ""
+            },
+            "ResetMouseDragDelta": {
+                "@brief": ""
+            },
+            "SetNextWindowContentSize": {
+                "@brief": ""
+            },
+            "SetNextWindowSize": {
+                "@brief": ""
+            },
+            "SetNextWindowPos": {
+                "@brief": ""
+            },
+            "IsWindowAppearing": {
+                "@brief": ""
+            },
+            "IsWindowCollapsed": {
+                "@brief": ""
+            },
+            "IsWindowFocused": {
+                "@brief": ""
+            },
+            "IsWindowHovered": {
+                "@brief": ""
+            },
+            "GetWindowPos": {
+                "@brief": ""
+            },
+            "SetNextWindowCollapsed": {
+                "@brief": ""
+            },
+            "SetNextWindowFocus": {
+                "@brief": ""
+            },
+            "SetNextWindowBgAlpha": {
+                "@brief": ""
+            },
+            "SetWindowPosWithCond": {
+                "@brief": ""
+            },
+            "SetWindowSizeWithCond": {
+                "@brief": ""
+            },
+            "SetWindowCollapsedWithCond": {
+                "@brief": ""
+            },
+            "SetWindowFocus": {
+                "@brief": ""
+            },
+            "SetWindowFontScale": {
+                "@brief": ""
+            },
+            "SetWindowPosByName": {
+                "@brief": ""
+            },
+            "SetWindowSizeByName": {
+                "@brief": ""
+            },
+            "SetWindowCollapsedByName": {
+                "@brief": ""
+            },
+            "SetWindowFocusByName": {
+                "@brief": ""
+            },
+            "GetContentRegionMax": {
+                "@brief": ""
+            },
+            "GetContentRegionAvail": {
+                "@brief": ""
+            },
+            "GetWindowContentRegionMin": {
+                "@brief": ""
+            },
+            "GetWindowContentRegionMax": {
+                "@brief": ""
+            },
+            "GetWindowContentRegionWidth": {
+                "@brief": ""
+            },
+            "GetScrollX": {
+                "@brief": ""
+            },
+            "GetScrollY": {
+                "@brief": ""
+            },
+            "GetScrollMaxX": {
+                "@brief": ""
+            },
+            "GetScrollMaxY": {
+                "@brief": ""
+            },
+            "SetScrollX": {
+                "@brief": ""
+            },
+            "SetScrollY": {
+                "@brief": ""
+            },
+            "SetScrollHereX": {
+                "@brief": ""
+            },
+            "SetScrollHereY": {
+                "@brief": ""
+            },
+            "SetScrollFromPosX": {
+                "@brief": ""
+            },
+            "SetScrollFromPosY": {
+                "@brief": ""
+            },
+            "PushStyleColor": {
+                "@brief": ""
+            },
+            "PopStyleColor": {
+                "@brief": ""
+            },
+            "PushStyleVarFloat": {
+                "@brief": ""
+            },
+            "PushStyleVarVector2F": {
+                "@brief": ""
+            },
+            "PopStyleVar": {
+                "@brief": ""
+            },
+            "GetStyleColor": {
+                "@brief": ""
+            },
+            "GetFontTexUvWhitePixel": {
+                "@brief": ""
+            },
+            "SetNextItemWidth": {
+                "@brief": ""
+            },
+            "CalcItemWidth": {
+                "@brief": ""
+            },
+            "PushAllowKeyboardFocus": {
+                "@brief": ""
+            },
+            "PopAllowKeyboardFocus": {
+                "@brief": ""
+            },
+            "Spacing": {
+                "@brief": ""
+            },
+            "BeginGroup": {
+                "@brief": ""
+            },
+            "EndGroup": {
+                "@brief": ""
+            },
+            "GetCursorPos": {
+                "@brief": ""
+            },
+            "SetCursorPos": {
+                "@brief": ""
+            },
+            "GetCursorStartPos": {
+                "@brief": ""
+            },
+            "GetCursorScreenPos": {
+                "@brief": ""
+            },
+            "AlignTextToFramePadding": {
+                "@brief": ""
+            },
+            "GetTextLineHeightWithSpacing": {
+                "@brief": ""
+            },
+            "GetFrameHeight": {
+                "@brief": ""
+            },
+            "GetFrameHeightWithSpacing": {
+                "@brief": ""
+            },
+            "SmallButton": {
+                "@brief": "小さなボタンを生成します。",
+                "label": {
+                    "@brief": "表示するテキスト"
+                }
+            },
+            "Image": {
+                "@brief": "画像表示ボックスを生成します。",
+                "texture": {
+                    "@brief": "表示するテクスチャ"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "uv0": {
+                    "@brief": "テクスチャのUV値(0~1)"
+                },
+                "uv1": {
+                    "@brief": "テクスチャのUV値(0~1)"
+                },
+                "tintColor": {
+                    "@brief": "テクスチャの色"
+                },
+                "borderColor": {
+                    "@brief": "縁の色"
+                }
+            },
+            "ImageButton": {
+                "@brief": "ボタンとして機能する画像表示ボックスを生成します。",
+                "texture": {
+                    "@brief": "表示するテクスチャ"
+                },
+                "size": {
+                    "@brief": "サイズ"
+                },
+                "uv0": {
+                    "@brief": "テクスチャのUV値(0~1)"
+                },
+                "uv1": {
+                    "@brief": "テクスチャのUV値(0~1)"
+                },
+                "framePadding": {
+                    "@brief": "縁の太さ"
+                },
+                "tintColor": {
+                    "@brief": "テクスチャの色"
+                },
+                "borderColor": {
+                    "@brief": "縁の色"
+                }
+            },
+            "ProgressBar": {
+                "@brief": "プログレスバーを生成します。",
+                "fraction": {
+                    "@brief": "進行度(0.0~1.0)"
+                },
+                "sizeArg": {
+                    "@brief": "サイズ"
+                },
+                "overlay": {
+                    "@brief": "表示されるテキスト"
+                }
+            },
+            "Bullet": {
+                "@brief": "点を生成します。"
+            },
+            "BeginCombo": {
+                "@brief": ""
+            },
+            "EndCombo": {
+                "@brief": ""
+            },
+            "Combo": {
+                "@brief": "コンボボックスを生成します。",
+                "label": {
+                    "@brief": "横に表示されるラベルのテキスト"
+                },
+                "current_item": {
+                    "@brief": "選択されているアイテムのインデックス -1で選択無し"
+                },
+                "items": {
+                    "@brief": "タブ文字を用いて分割したアイテム"
+                },
+                "popupMaxHeightInItems": {
+                    "@brief": "一度に表示する最大アイテム数"
+                }
+            },
+            "ColorButton": {
+                "@brief": ""
+            },
+            "SetColorEditOptions": {
+                "@brief": ""
+            },
+            "GetTreeNodeToLabelSpacing": {
+                "@brief": ""
+            },
+            "ListBoxHeader": {
+                "@brief": ""
+            },
+            "ListBoxFooter": {
+                "@brief": ""
+            },
+            "PlotLines": {
+                "@brief": ""
+            },
+            "PlotHistogram": {
+                "@brief": ""
+            },
+            "ValueBool": {
+                "@brief": "boolの値を表示する",
+                "prefix": {
+                    "@brief": "表示するテキスト"
+                },
+                "b": {
+                    "@brief": "表示するboolの値"
+                }
+            },
+            "ValueInt": {
+                "@brief": "intの値を表示する",
+                "prefix": {
+                    "@brief": "表示するテキスト"
+                },
+                "v": {
+                    "@brief": "表示するintの値"
+                }
+            },
+            "ValueFloat": {
+                "@brief": "",
+                "prefix": {
+                    "@brief": "表示するテキスト"
+                },
+                "v": {
+                    "@brief": "表示するfloatの値"
+                },
+                "floatFormat": {
+                    "@brief": "使用するフォーマット"
+                }
+            },
+            "BeginMainMenuBar": {
+                "@brief": ""
+            },
+            "EndMainMenuBar": {
+                "@brief": ""
+            },
+            "BeginPopupContextItem": {
+                "@brief": ""
+            },
+            "BeginPopupContextWindow": {
+                "@brief": ""
+            },
+            "BeginPopupContextVoid": {
+                "@brief": ""
+            },
+            "BeginPopupModalEx": {
+                "@brief": ""
+            },
+            "OpenPopupOnItemClick": {
+                "@brief": ""
+            },
+            "IsPopupOpen": {
+                "@brief": ""
+            },
+            "CloseCurrentPopup": {
+                "@brief": ""
+            },
+            "GetColumnIndex": {
+                "@brief": ""
+            },
+            "GetColumnWidth": {
+                "@brief": ""
+            },
+            "SetColumnWidth": {
+                "@brief": ""
+            },
+            "GetColumnOffset": {
+                "@brief": ""
+            },
+            "SetColumnOffset": {
+                "@brief": ""
+            },
+            "GetColumnsCount": {
+                "@brief": ""
+            },
+            "SetTabItemClosed": {
+                "@brief": ""
+            },
+            "PushClipRect": {
+                "@brief": ""
+            },
+            "PopClipRect": {
+                "@brief": ""
+            },
+            "SetItemDefaultFocus": {
+                "@brief": ""
+            },
+            "SetKeyboardFocusHere": {
+                "@brief": ""
+            },
+            "IsItemHoveredWithFlags": {
+                "@brief": ""
+            },
+            "IsItemFocused": {
+                "@brief": ""
+            },
+            "IsItemClicked": {
+                "@brief": ""
+            },
+            "IsItemVisible": {
+                "@brief": ""
+            },
+            "IsItemEdited": {
+                "@brief": ""
+            },
+            "IsItemActivated": {
+                "@brief": ""
+            },
+            "IsItemDeactivated": {
+                "@brief": ""
+            },
+            "IsItemDeactivatedAfterEdit": {
+                "@brief": ""
+            },
+            "IsAnyItemHovered": {
+                "@brief": ""
+            },
+            "IsAnyItemActive": {
+                "@brief": ""
+            },
+            "IsAnyItemFocused": {
+                "@brief": ""
+            },
+            "GetItemRectMin": {
+                "@brief": ""
+            },
+            "GetItemRectMax": {
+                "@brief": ""
+            },
+            "GetItemRectSize": {
+                "@brief": ""
+            },
+            "SetItemAllowOverlap": {
+                "@brief": ""
+            },
+            "IsRectVisible": {
+                "@brief": ""
+            },
+            "IsRectVisibleVector2F2": {
+                "@brief": ""
+            },
+            "GetTime": {
+                "@brief": ""
+            },
+            "GetClipboardText": {
+                "@brief": ""
+            },
+            "SetClipboardText": {
+                "@brief": ""
+            },
+            "LoadIniSettingsFromDisk": {
+                "@brief": ""
+            },
+            "SaveIniSettingsToDisk": {
+                "@brief": ""
+            },
+            "OpenDialog": {
+                "@brief": "1つの開くファイルを選択するダイアログを開きます。",
+                "filter": {
+                    "@brief": "読み込むファイルの拡張子のフィルタ"
+                },
+                "defaultPath": {
+                    "@brief": "ファイルダイアログの初期位置のパス"
+                }
+            },
+            "OpenDialogMultiple": {
+                "@brief": "複数の開くファイルを選択するダイアログを開きます。",
+                "filter": {
+                    "@brief": "読み込むファイルの拡張子のフィルタ"
+                },
+                "defaultPath": {
+                    "@brief": "ファイルダイアログの初期位置のパス"
+                }
+            },
+            "SaveDialog": {
+                "@brief": "保存するファイルを選択するダイアログを開きます。",
+                "filter": {
+                    "@brief": "保存するファイルの拡張子のフィルタ"
+                },
+                "defaultPath": {
+                    "@brief": "ファイルダイアログの初期位置のパス"
+                }
+            },
+            "PickFolder": {
+                "@brief": "フォルダを選択するダイアログを開きます。",
+                "defaultPath": {
+                    "@brief": "ファイルダイアログの初期位置のパス"
+                }
+            },
+            "ToolUsage": {
+                "@brief": "ツールの使用方法を取得または設定します。"
+            }
+        },
+        "StreamFile": {
+            "@brief": "段階的にファイルを読み取るクラス",
+            "Create": {
+                "@brief": "指定ファイルを読み込む<see cref=\"StreamFile\"/>の新しいインスタンスを生成します。",
+                "path": {
+                    "@brief": "読み込むファイルのパス"
+                }
+            },
+            "Read": {
+                "@brief": "指定した分ファイルを読み込みます。",
+                "size": {
+                    "@brief": "この処理で読み込むデータサイズ"
+                }
+            },
+            "GetTempBuffer": {
+                "@brief": "現在読み込んでいるファイルのデータを取得します。"
+            },
+            "Reload": {
+                "@brief": "再読み込みを行います。"
+            },
+            "Size": {
+                "@brief": "読み込むファイルのデータサイズを取得します。"
+            },
+            "CurrentPosition": {
+                "@brief": "現在読み込んでいるファイル上の位置を取得します。"
+            },
+            "TempBufferSize": {
+                "@brief": "現在読み込んでいるファイルのデータサイズを取得します。"
+            },
+            "IsInPackage": {
+                "@brief": "読み込むファイルがファイルパッケージ内に格納されているかどうかを取得します。"
+            },
+            "Path": {
+                "@brief": "読み込んだファイルのパスを取得します。"
+            }
+        },
+        "StaticFile": {
+            "@brief": "一度でファイルを読み取るクラス",
+            "Create": {
+                "@brief": "指定ファイルを読み込んだ<see cref=\"StaticFile\"/>の新しいインスタンスを生成します。",
+                "path": {
+                    "@brief": "読み込むファイルのパス"
+                }
+            },
+            "GetBuffer": {
+                "@brief": "読み込んだファイルのデータを取得します。"
+            },
+            "Reload": {
+                "@brief": "再読み込みを行います。"
+            },
+            "Path": {
+                "@brief": "読み込んだファイルのパスを取得します。"
+            },
+            "Size": {
+                "@brief": "読み込んだファイルのデータサイズを取得します。"
+            },
+            "IsInPackage": {
+                "@brief": "読み込んだファイルがファイルパッケージ内に格納されているかどうかを取得します。"
+            }
+        },
+        "File": {
+            "@brief": "ファイル制御を行うクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "AddRootDirectory": {
+                "@brief": "ファイル読み込み時に自動的に保管されるディレクトリを追加します。",
+                "path": {
+                    "@brief": "追加するディレクトリ"
+                }
+            },
+            "AddRootPackageWithPassword": {
+                "@brief": "ファイルパッケージをパスワード有りで読み込みます。",
+                "path": {
+                    "@brief": "読み込むファイルパッケージのパス"
+                },
+                "password": {
+                    "@brief": "読み込むファイルパッケージのパスワード"
+                }
+            },
+            "AddRootPackage": {
+                "@brief": "ファイルパッケージをパスワード無しで読み込みます。",
+                "path": {
+                    "@brief": "読み込むファイルパッケージのパス"
+                }
+            },
+            "ClearRootDirectories": {
+                "@brief": "追加されたディレクトリやファイルパッケージをすべて削除します。"
+            },
+            "Exists": {
+                "@brief": "指定したファイルが存在するかどうかを検索します。",
+                "path": {
+                    "@brief": "存在を確認するファイルのパス"
+                }
+            },
+            "Pack": {
+                "@brief": "指定したディレクトリのファイルをパックします。",
+                "srcPath": {
+                    "@brief": "パックするファイルのディレクトリ"
+                },
+                "dstPath": {
+                    "@brief": "パックされたファイル名"
+                }
+            },
+            "PackWithPassword": {
+                "@brief": "指定したディレクトリのファイルをパスワード付きでパックします。",
+                "srcPath": {
+                    "@brief": "パックするファイルのディレクトリ"
+                },
+                "dstPath": {
+                    "@brief": "パックされたファイル名"
+                },
+                "password": {
+                    "@brief": "かけるパスワード"
+                }
+            }
+        },
+        "Sound": {
+            "@brief": "音源のクラス",
+            "Load": {
+                "@brief": "音声ファイルを読み込みます。",
+                "path": {
+                    "@brief": "読み込む音声ファイルのパス"
+                },
+                "isDecompressed": {
+                    "@brief": "ロード時に全て解凍しておくかどうか"
+                }
+            },
+            "LoopStartingPoint": {
+                "@brief": "ループ開始地点(秒)を取得または設定します。"
+            },
+            "LoopEndPoint": {
+                "@brief": "ループ終了地点(秒)を取得または設定します。"
+            },
+            "IsLoopingMode": {
+                "@brief": "ループするかどうかを取得または設定します。"
+            },
+            "Length": {
+                "@brief": "音源の長さ(秒)を取得します。"
+            },
+            "Path": {
+                "@brief": "読み込んだファイルのパスを取得します。"
+            },
+            "IsDecompressed": {
+                "@brief": "音源が解凍されているかどうかを取得します。"
+            }
+        },
+        "SoundMixer": {
+            "@brief": "音源を操作するクラス",
+            "Play": {
+                "@brief": "音を再生します。",
+                "sound": {
+                    "@brief": "音源データ"
+                }
+            },
+            "GetIsPlaying": {
+                "@brief": "指定した音が再生中であるかを取得します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "StopAll": {
+                "@brief": "再生中の音を全て停止します。"
+            },
+            "Stop": {
+                "@brief": "指定した音の再生を停止します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "Pause": {
+                "@brief": "指定した音の再生を一時停止します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "Resume": {
+                "@brief": "指定した音の再生を再開します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "SetVolume": {
+                "@brief": "指定した音の音量を変更します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "volume": {
+                    "@brief": "音量(0.0～1.0)"
+                }
+            },
+            "FadeIn": {
+                "@brief": "指定した音をフェードインさせます。",
+                "id": {
+                    "@brief": ""
+                },
+                "second": {
+                    "@brief": "フェードインに使用する時間(秒)"
+                }
+            },
+            "FadeOut": {
+                "@brief": "指定した音をフェードアウトさせます。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "second": {
+                    "@brief": "フェードアウトに使用する時間(秒)"
+                }
+            },
+            "Fade": {
+                "@brief": "指定した音の音量を一定時間かけて変更します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "second": {
+                    "@brief": "フェードに使用する時間(秒)"
+                },
+                "targetedVolume": {
+                    "@brief": "変更後の音量(0.0～1.0)"
+                }
+            },
+            "GetIsPlaybackSpeedEnabled": {
+                "@brief": "再生速度を変更するかを取得します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "SetIsPlaybackSpeedEnabled": {
+                "@brief": "再生速度を変更するかを設定します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "isPlaybackSpeedEnabled": {
+                    "@brief": "再生速度を変更するかどうか"
+                }
+            },
+            "GetPlaybackSpeed": {
+                "@brief": "再生速度を取得します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "SetPlaybackSpeed": {
+                "@brief": "再生速度を設定します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "playbackSpeed": {
+                    "@brief": "変更後の再生速度"
+                }
+            },
+            "GetPanningPosition": {
+                "@brief": "パン位置を取得します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "SetPanningPosition": {
+                "@brief": "パン位置を設定します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "panningPosition": {
+                    "@brief": "パン位置 : 0.0で中央, -1.0で左, 1.0で右"
+                }
+            },
+            "GetPlaybackPosition": {
+                "@brief": "指定した音の再生位置を取得します。",
+                "id": {
+                    "@brief": "音のID"
+                }
+            },
+            "SetPlaybackPosition": {
+                "@brief": "指定した音の再生位置を変更します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "position": {
+                    "@brief": "再生位置(秒)"
+                }
+            },
+            "GetSpectrum": {
+                "@brief": "再生中の音のスペクトル情報を取得します。",
+                "id": {
+                    "@brief": "音のID"
+                },
+                "spectrums": {
+                    "@brief": "音のスペクトル情報を格納するための配列"
+                },
+                "window": {
+                    "@brief": "フーリエ変換に用いる窓関数"
+                }
+            }
+        },
+        "Log": {
+            "@brief": "ログを出力するクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "Write": {
+                "@brief": "ログを出力します。"
+            },
+            "Trace": {
+                "@brief": "<see cref=\"LogLevel.Trace\"/>でログを出力します。"
+            },
+            "Debug": {
+                "@brief": "<see cref=\"LogLevel.Debug\"/>でログを出力します。"
+            },
+            "Info": {
+                "@brief": "<see cref=\"LogLevel.Info\"/>でログを出力します。"
+            },
+            "Warn": {
+                "@brief": "<see cref=\"LogLevel.Warn\"/>でログを出力します。"
+            },
+            "Error": {
+                "@brief": "<see cref=\"LogLevel.Error\"/>でログを出力します。"
+            },
+            "Critical": {
+                "@brief": "<see cref=\"LogLevel.Critical\"/>でログを出力します。"
+            },
+            "SetLevel": {
+                "@brief": "ログレベルを設定します。"
+            }
+        },
+        "Window": {
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "Title": {
+                "@brief": "ウィンドウに表示するタイトルを取得または設定します"
+            },
+            "Size": {
+                "@brief": "ウィンドウサイズを取得します"
+            }
+        },
+        "Collider": {
+            "@brief": "コライダの抽象基本クラスです",
+            "GetIsCollidedWith": {
+                "@brief": "指定したコライダとの衝突判定を行います。"
+            },
+            "Position": {
+                "@brief": "コライダの位置情報を取得または設定します。"
+            },
+            "Rotation": {
+                "@brief": "コライダの回転情報を取得または設定します。"
+            },
+            "Transform": {
+                "@brief": "変形行列を取得または設定します。"
+            }
+        },
+        "CircleCollider": {
+            "@brief": "円形コライダのクラス",
+            "Create": {
+                "@brief": "円形コライダを作成します。"
+            },
+            "Radius": {
+                "@brief": "円形コライダの半径を取得または設定します。"
+            }
+        },
+        "EdgeCollider": {
+            "@brief": "線分コライダのクラス",
+            "Create": {
+                "@brief": "線分コライダを作成します。"
+            },
+            "Point1": {
+                "@brief": "線分コライダの端点1を取得または設定します。"
+            },
+            "Point2": {
+                "@brief": "線分コライダの端点2を取得または設定します。"
+            }
+        },
+        "ShapeCollider": {
+            "@brief": "図形コライダのクラス",
+            "Create": {
+                "@brief": "図形コライダを作成します。"
+            },
+            "Vertexes": {
+                "@brief": "頂点座標を取得または設定します。"
+            }
+        },
+        "PolygonCollider": {
+            "@brief": "多角形コライダのクラス",
+            "Create": {
+                "@brief": "多角形コライダを作成します。"
+            },
+            "SetDefaultIndexBuffer": {
+                "@brief": "インデックスバッファーを既定のものに設定します。"
+            },
+            "Buffers": {
+                "@brief": "インデックスバッファー情報を取得または設定します。"
+            },
+            "Vertexes": {
+                "@brief": "多角形コライダの頂点の座標を取得または設定します"
+            }
+        }
+    }
+}

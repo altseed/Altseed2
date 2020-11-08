@@ -83,13 +83,12 @@ public:
 
     bool GetIsDecompressed() const;
 
-#if !SWIG
+#if !USE_CBG
 
     std::shared_ptr<osm::Sound> GetSound() { return m_sound; }
 
-    bool Reload() override;
-
 #endif
+    bool Reload() override;
 };
 
 }  // namespace Altseed2

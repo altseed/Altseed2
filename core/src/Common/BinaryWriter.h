@@ -12,6 +12,8 @@
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
 
+#if !USE_CBG
+
 namespace Altseed2 {
 class BinaryWriter {
 protected:
@@ -129,3 +131,5 @@ public:
     virtual ~BinaryWriter() {}
 };
 }  // namespace Altseed2
+
+#endif

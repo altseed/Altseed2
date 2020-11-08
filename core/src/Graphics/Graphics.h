@@ -90,6 +90,7 @@ public:
 
     static void Terminate();
 
+#if !USE_CBG
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
     LLGI::RenderPass* GetCurrentScreen(const LLGI::Color8& clearColor, bool isColorCleared = false, bool isDepthCleared = false);
@@ -103,6 +104,7 @@ public:
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
     LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
     LLGI::Platform* GetLLGIPlatform() const { return platform_; }
+#endif
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }
