@@ -127,6 +127,8 @@ ExternalProject_Add(
                     -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
                     -DCMAKE_DEBUG_POSTFIX=d
                     -DBUILD_SHARED_LIBS=OFF
+                    -DWITH_BZip2=OFF
+                    -DWITH_HarfBuzz=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )

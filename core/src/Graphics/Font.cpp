@@ -3,8 +3,8 @@
 #include "Font.h"
 
 #undef INFINITE
-#include <msdfgen/msdfgen.h>
 #include <msdfgen/msdfgen-ext.h>
+#include <msdfgen/msdfgen.h>
 
 #include <sstream>
 #include <string>
@@ -23,13 +23,12 @@
 
 namespace Altseed2 {
 
-
 using namespace msdfgen;
 
 int testcode() {
-    FreetypeHandle *ft = initializeFreetype();
+    FreetypeHandle* ft = initializeFreetype();
     if (ft) {
-        FontHandle *font = loadFont(ft, "C:\\Windows\\Fonts\\arialbd.ttf");
+        FontHandle* font = loadFont(ft, "C:\\Windows\\Fonts\\arialbd.ttf");
         if (font) {
             Shape shape;
             if (loadGlyph(shape, font, 'A')) {
@@ -48,7 +47,6 @@ int testcode() {
     }
     return 0;
 }
-
 
 Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth)
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
