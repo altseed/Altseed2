@@ -244,6 +244,9 @@ target_link_libraries(
 
     debug msdfgend
     optimized msdfgen
+    debug msdfgen-extd
+    optimized msdfgen-ext
+    
 )
 
 if (MSVC)
