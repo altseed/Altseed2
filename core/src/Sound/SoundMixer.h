@@ -31,7 +31,6 @@ private:
     std::shared_ptr<Resources> m_resources;
 
 public:
-
 #if !USE_CBG
     static bool Initialize(bool isReloadingEnabled);
 
