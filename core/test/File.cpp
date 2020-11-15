@@ -87,7 +87,7 @@ TEST(File, StaticFile) {
     EXPECT_NE(testPack = Altseed2::StaticFile::Create(u"test.txt"), nullptr);
     EXPECT_TRUE(testPack->GetIsInPackage());
     EXPECT_EQ(test->GetSize(), testPack->GetSize());
-    EXPECT_EQ(test->GetBuffer()->GetVector(), testPack->GetBuffer()->GetVector());
+    EXPECT_EQ(test->GetInt8ArrayBuffer()->GetVector(), testPack->GetInt8ArrayBuffer()->GetVector());
 
     // add package
     EXPECT_TRUE(Altseed2::File::GetInstance()->AddRootPackageWithPassword(u"TestData/IO/password.pack", u"altseed"));
@@ -106,13 +106,13 @@ TEST(File, StaticFile) {
     EXPECT_TRUE(testPack2->GetIsInPackage());
     EXPECT_NE(testPack, testPack2);
     EXPECT_NE(testPack->GetSize(), testPack2->GetSize());
-    EXPECT_NE(testPack->GetBuffer()->GetVector(), testPack2->GetBuffer()->GetVector());
+    EXPECT_NE(testPack->GetInt8ArrayBuffer()->GetVector(), testPack2->GetInt8ArrayBuffer()->GetVector());
 
     // create static file, and compare no-package and package with password
     std::shared_ptr<Altseed2::StaticFile> test3 = nullptr;
     EXPECT_NE(test3 = Altseed2::StaticFile::Create(u"TestData/IO/pack/test.txt"), nullptr);
     EXPECT_EQ(test3->GetSize(), testPack2->GetSize());
-    EXPECT_EQ(test3->GetBuffer()->GetVector(), testPack2->GetBuffer()->GetVector());
+    EXPECT_EQ(test3->GetInt8ArrayBuffer()->GetVector(), testPack2->GetInt8ArrayBuffer()->GetVector());
 
     Altseed2::Core::Terminate();
 }
@@ -145,7 +145,7 @@ TEST(File, StreamFile) {
         EXPECT_EQ(testPack->Read(1), 1);
         EXPECT_EQ(test->GetTempBufferSize(), i + 1);
         EXPECT_EQ(testPack->GetTempBufferSize(), i + 1);
-        EXPECT_EQ(test->GetTempBuffer(), test->GetTempBuffer());
+        EXPECT_EQ(test->GetInt8ArrayTempBuffer(), test->GetInt8ArrayTempBuffer());
     }
 
     // add package
@@ -178,7 +178,7 @@ TEST(File, StreamFile) {
         EXPECT_EQ(testPack2->Read(1), 1);
         EXPECT_EQ(test3->GetTempBufferSize(), i + 1);
         EXPECT_EQ(testPack2->GetTempBufferSize(), i + 1);
-        EXPECT_EQ(test3->GetTempBuffer()->GetVector(), testPack2->GetTempBuffer()->GetVector());
+        EXPECT_EQ(test3->GetInt8ArrayTempBuffer()->GetVector(), testPack2->GetInt8ArrayTempBuffer()->GetVector());
     }
 
     Altseed2::Core::Terminate();
@@ -211,10 +211,10 @@ TEST(File, Zenkaku) {
     EXPECT_NE(testPack1, nullptr);
     EXPECT_NE(testPack2, nullptr);
 
-    EXPECT_NE(test1->GetBuffer()->GetCount(), 0);
-    EXPECT_NE(test2->GetBuffer()->GetCount(), 0);
-    EXPECT_NE(testPack1->GetBuffer()->GetCount(), 0);
-    EXPECT_NE(testPack2->GetBuffer()->GetCount(), 0);
+    EXPECT_NE(test1->GetInt8ArrayBuffer()->GetCount(), 0);
+    EXPECT_NE(test2->GetInt8ArrayBuffer()->GetCount(), 0);
+    EXPECT_NE(testPack1->GetInt8ArrayBuffer()->GetCount(), 0);
+    EXPECT_NE(testPack2->GetInt8ArrayBuffer()->GetCount(), 0);
 
     Altseed2::Core::Terminate();
 }
@@ -277,10 +277,10 @@ TEST(File, StaticFileAsync) {
     EXPECT_EQ(testPackCache, testPack2);
 
     // test1->GetBuffer() == testPack1->GetBuffer();
-    EXPECT_EQ(test1->GetBuffer()->GetVector(), testPack1->GetBuffer()->GetVector());
-    EXPECT_EQ(test2->GetBuffer()->GetVector(), testPack2->GetBuffer()->GetVector());
-    EXPECT_EQ(test3->GetBuffer()->GetVector(), testPack3->GetBuffer()->GetVector());
-    EXPECT_EQ(test4->GetBuffer()->GetVector(), testPack4->GetBuffer()->GetVector());
+    EXPECT_EQ(test1->GetInt8ArrayBuffer()->GetVector(), testPack1->GetInt8ArrayBuffer()->GetVector());
+    EXPECT_EQ(test2->GetInt8ArrayBuffer()->GetVector(), testPack2->GetInt8ArrayBuffer()->GetVector());
+    EXPECT_EQ(test3->GetInt8ArrayBuffer()->GetVector(), testPack3->GetInt8ArrayBuffer()->GetVector());
+    EXPECT_EQ(test4->GetInt8ArrayBuffer()->GetVector(), testPack4->GetInt8ArrayBuffer()->GetVector());
 
     Altseed2::Core::Terminate();
 }
