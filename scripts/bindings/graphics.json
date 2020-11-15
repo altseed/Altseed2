@@ -543,7 +543,6 @@
             "is_public": false,
             "is_Sealed": true,
             "SerializeType": "Interface_Usebase",
-            "base_class": "Rendered",
             "properties": {
                 "ViewMatrix": {
                     "serialized": true,

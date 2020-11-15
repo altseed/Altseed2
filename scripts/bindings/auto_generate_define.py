@@ -1736,7 +1736,6 @@ with Rendered as class_:
 define.classes.append(Rendered)
 
 with RenderedCamera as class_:
-    class_.base_class = Rendered
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface_Usebase
     class_.is_Sealed = True
