@@ -31,9 +31,11 @@ private:
     std::shared_ptr<Resources> m_resources;
 
 public:
+#if !USE_CBG
     static bool Initialize(bool isReloadingEnabled);
 
     static void Terminate();
+#endif
 
     static std::shared_ptr<SoundMixer>& GetInstance();
 

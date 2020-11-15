@@ -19,8 +19,8 @@ void Collider::SetPosition(Vector2F position) {
     transformMatrix_ = t * r;
 }
 
-double Collider::GetRotation() const { return rotation_; }
-void Collider::SetRotation(double rotation) {
+float Collider::GetRotation() const { return rotation_; }
+void Collider::SetRotation(float rotation) {
     rotation_ = rotation;
     transform_.q = b2Rot(rotation);
     Matrix44F t, r;

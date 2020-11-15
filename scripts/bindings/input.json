@@ -21,23 +21,23 @@
         "Keyboard": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
+            },
+            "methods": {
+                "GetInstance": {
                     "is_public": false,
                     "is_static": true
                 }
-            },
-            "methods": {
             }
         },
         "Mouse": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
+            },
+            "methods": {
+                "GetInstance": {
                     "is_public": false,
                     "is_static": true
                 }
-            },
-            "methods": {
             }
         },
         "JoystickInfo": {
@@ -76,15 +76,15 @@
         "Joystick": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "ConnectedJoystickCount": {
                     "is_public": true
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "GetButtonStateByIndex": {
                     "is_public": false,
                     "onlyExtern": true

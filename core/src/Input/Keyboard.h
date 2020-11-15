@@ -147,9 +147,11 @@ private:
     std::array<bool, static_cast<int>(Key::MAX)> oldState_;
 
 public:
+#if !USE_CBG
     static bool Initialize(std::shared_ptr<Window>& window);
 
     static void Terminate() { instance_ = nullptr; }
+#endif
 
     static std::shared_ptr<Keyboard>& GetInstance();
 

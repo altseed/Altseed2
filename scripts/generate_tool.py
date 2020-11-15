@@ -288,6 +288,8 @@ private:
 public:
     static std::shared_ptr<Tool>& GetInstance();
 
+#if !USE_CBG
+
     static bool Initialize(std::shared_ptr<Graphics> graphics);
 
     static void Terminate();
@@ -297,6 +299,7 @@ public:
     virtual ~Tool();
 
     void OnTerminating() override;
+#endif
 
     ToolUsage GetToolUsage() const;
 

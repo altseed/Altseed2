@@ -30,7 +30,7 @@ public:
 
     static std::shared_ptr<StaticFile> Create(const char16_t* path);
 
-    const std::shared_ptr<Int8Array>& GetBuffer() const;
+    const std::shared_ptr<Int8Array>& GetInt8ArrayBuffer() const;
 
     const char16_t* GetPath() const;
 

@@ -69,8 +69,8 @@ class Parser:
         self.classes = {}
         self.structs = {}
         self.enums = {}
-    
-    def cbg_method_definition(self, method_name, method, overload = False):
+
+    def cbg_method_definition(self, method_name, method, overload=False):
         try:
             method_code = f'''\
     with class_.add_func('{method_name}') as func_:
@@ -95,7 +95,7 @@ class Parser:
         func_.is_public = {method["is_public"]}
 '''
                 is_pass = False
-            
+
             if overload:
                 method_code += f'''\
         func_.is_overload = True
@@ -112,6 +112,10 @@ class Parser:
                 type_ = self.to_cbg_parameter_type(param["type"])
                 is_pass = False
                 is_arg_pass = True
+
+                if param_name == "in":
+                    param_name += "_"
+
                 method_code += f'''\
         with func_.add_arg({type_}, '{param_name}') as arg:
 '''
@@ -246,7 +250,8 @@ with {name} as class_:
                     code += '\n'
                 elif type(method) is list:
                     for m in method:
-                        code += self.cbg_method_definition(method_name, m, True)
+                        code += self.cbg_method_definition(
+                            method_name, m, True)
                         code += '\n'
 
             for property_name, prop in _class["properties"].items():
@@ -328,12 +333,15 @@ define.classes.append({name})
         }
         if cursor.spelling in self.enums:
             enum = self.enums[cursor.spelling]
+
+        count = 0
         for child in cursor.get_children():
             if child.kind.name == 'ENUM_CONSTANT_DECL':
-                self.enum_constant(child, enum["values"])
+                self.enum_constant(child, enum["values"], count)
+                count += 1
         self.enums[cursor.spelling] = enum
 
-    def enum_constant(self, cursor, enum_dic):
+    def enum_constant(self, cursor, enum_dic, count):
         value = ""
         for child in cursor.get_children():
             tokens = []
@@ -345,7 +353,7 @@ define.classes.append({name})
             if len(tokens) > 0:
                 value = " ".join(tokens)
         if value == "":
-            value = str(len(enum_dic))
+            value = str(count)
         enum_dic[cursor.spelling] = value
 
     def _class(self, cursor):
@@ -389,14 +397,16 @@ define.classes.append({name})
                     if type_ == "const char16_t *":
                         params[child.spelling]["nullable"] = False
 
-        if re.match(r"Get.*", cursor.spelling) and len(params) == 0 and not "is_tool" in class_def:
+        if re.match(r"Get.*", cursor.spelling) and len(params) == 0 and cursor.spelling != "GetInstance" and \
+                (not "is_tool" in class_def or cursor.spelling in ["GetToolUsage"]):
             name = re.sub(r"Get(.*)", r"\1", cursor.spelling)
             if not name in class_def["properties"]:
                 class_def["properties"][name] = {}
             prop = class_def["properties"][name]
             prop["type"] = cursor.type.spelling.split('(')[0].strip()
             prop["get"] = True
-        elif re.match(r"Set.*", cursor.spelling) and len(params) == 1 and not "is_tool" in class_def:
+        elif re.match(r"Set.*", cursor.spelling) and len(params) == 1 and \
+                (not "is_tool" in class_def or cursor.spelling in ["SetToolUsage"]):
             name = re.sub(r"Set(.*)", r"\1", cursor.spelling)
             if not name in class_def["properties"]:
                 class_def["properties"][name] = {}
@@ -410,17 +420,25 @@ define.classes.append({name})
                 "params": params,
                 "params_digest": params_digest
             }
+
+            if "is_tool" in class_def and any([re.match(r".*Array", param["type"]) for param in params.values()]):
+                method["is_public"] = False
+
+            if "is_tool" in class_def and cursor.spelling == "GetInstance":
+                method["is_static"] = True
+                method["is_public"] = False
+
             if cursor.spelling in class_def["methods"] and \
-                type(class_def["methods"][cursor.spelling]) is dict and \
-                class_def["methods"][cursor.spelling]["params_digest"] != params_digest:
+                    type(class_def["methods"][cursor.spelling]) is dict and \
+                    class_def["methods"][cursor.spelling]["params_digest"] != params_digest:
                 class_def["methods"][cursor.spelling] = [
                     class_def["methods"][cursor.spelling],
                     method
                 ]
                 print(cursor.spelling)
             elif cursor.spelling in class_def["methods"] and \
-                type(class_def["methods"][cursor.spelling]) is list and \
-                all([m["params_digest"] != params_digest for m in class_def["methods"][cursor.spelling]]):
+                    type(class_def["methods"][cursor.spelling]) is list and \
+                    all([m["params_digest"] != params_digest for m in class_def["methods"][cursor.spelling]]):
                 class_def["methods"][cursor.spelling].append(method)
                 print(cursor.spelling)
             else:

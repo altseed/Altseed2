@@ -12,8 +12,8 @@ CircleCollider::CircleCollider() {
 
 std::shared_ptr<CircleCollider> CircleCollider::Create() { return MakeAsdShared<CircleCollider>(); }
 
-double CircleCollider::GetRadius() const { return radius_; }
-void CircleCollider::SetRadius(double radius) {
+float CircleCollider::GetRadius() const { return radius_; }
+void CircleCollider::SetRadius(float radius) {
     radius_ = radius;
     shape_.m_radius = radius;
 }

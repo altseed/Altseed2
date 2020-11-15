@@ -41,12 +41,12 @@
         "SoundMixer": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "Play": {
                     "params": {
                         "sound": {

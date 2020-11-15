@@ -71,7 +71,7 @@ int32_t StreamFile::Read(int32_t size) {
     return readSize;
 }
 
-std::shared_ptr<Int8Array>& StreamFile::GetTempBuffer() { return m_buffer; }
+std::shared_ptr<Int8Array>& StreamFile::GetInt8ArrayTempBuffer() { return m_buffer; }
 
 int32_t StreamFile::GetTempBufferSize() { return m_buffer->GetCount(); }
 

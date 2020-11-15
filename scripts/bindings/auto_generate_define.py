@@ -5,31 +5,32 @@ import sys
 
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
 with ShaderStageType as enum_:
-    enum_.add('Vertex', 2)
-    enum_.add('Pixel', 2)
+    enum_.alias = "ShaderStage"
+    enum_.add('Vertex', 0)
+    enum_.add('Pixel', 1)
 define.enums.append(ShaderStageType)
 
 ResourceType = cbg.Enum('Altseed2', 'ResourceType')
 with ResourceType as enum_:
-    enum_.add('StaticFile', 6)
-    enum_.add('StreamFile', 6)
-    enum_.add('Texture2D', 6)
-    enum_.add('Font', 6)
-    enum_.add('Sound', 6)
-    enum_.add('MAX', 6)
+    enum_.add('StaticFile', 0)
+    enum_.add('StreamFile', 1)
+    enum_.add('Texture2D', 2)
+    enum_.add('Font', 3)
+    enum_.add('Sound', 4)
+    enum_.add('MAX', 5)
 define.enums.append(ResourceType)
 
 TextureWrapMode = cbg.Enum('Altseed2', 'TextureWrapMode')
 with TextureWrapMode as enum_:
-    enum_.add('Clamp', 2)
-    enum_.add('Repeat', 2)
+    enum_.add('Clamp', 0)
+    enum_.add('Repeat', 1)
 define.enums.append(TextureWrapMode)
 
 TextureFilterType = cbg.Enum('Altseed2', 'TextureFilterType')
 with TextureFilterType as enum_:
     enum_.alias = "TextureFilter"
-    enum_.add('Nearest', 2)
-    enum_.add('Linear', 2)
+    enum_.add('Nearest', 0)
+    enum_.add('Linear', 1)
 define.enums.append(TextureFilterType)
 
 TextureFormatType = cbg.Enum('Altseed2', 'TextureFormatType')
@@ -48,34 +49,36 @@ define.enums.append(TextureFormatType)
 
 BlendEquationType = cbg.Enum('Altseed2', 'BlendEquationType')
 with BlendEquationType as enum_:
-    enum_.add('Add', 5)
-    enum_.add('Sub', 5)
-    enum_.add('ReverseSub', 5)
-    enum_.add('Min', 5)
-    enum_.add('Max', 5)
+    enum_.alias = "BlendEquation"
+    enum_.add('Add', 0)
+    enum_.add('Sub', 1)
+    enum_.add('ReverseSub', 2)
+    enum_.add('Min', 3)
+    enum_.add('Max', 4)
 define.enums.append(BlendEquationType)
 
 BlendFuncType = cbg.Enum('Altseed2', 'BlendFuncType')
 with BlendFuncType as enum_:
-    enum_.add('Zero', 10)
-    enum_.add('One', 10)
-    enum_.add('SrcColor', 10)
-    enum_.add('OneMinusSrcColor', 10)
-    enum_.add('SrcAlpha', 10)
-    enum_.add('OneMinusSrcAlpha', 10)
-    enum_.add('DstAlpha', 10)
-    enum_.add('OneMinusDstAlpha', 10)
-    enum_.add('DstColor', 10)
-    enum_.add('OneMinusDstColor', 10)
+    enum_.alias = "BlendFunction"
+    enum_.add('Zero', 0)
+    enum_.add('One', 1)
+    enum_.add('SrcColor', 2)
+    enum_.add('OneMinusSrcColor', 3)
+    enum_.add('SrcAlpha', 4)
+    enum_.add('OneMinusSrcAlpha', 5)
+    enum_.add('DstAlpha', 6)
+    enum_.add('OneMinusDstAlpha', 7)
+    enum_.add('DstColor', 8)
+    enum_.add('OneMinusDstColor', 9)
 define.enums.append(BlendFuncType)
 
 GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')
 with GraphicsDeviceType as enum_:
     enum_.alias = "GraphicsDevice"
-    enum_.add('Default', 4)
-    enum_.add('DirectX12', 4)
-    enum_.add('Metal', 4)
-    enum_.add('Vulkan', 4)
+    enum_.add('Default', 0)
+    enum_.add('DirectX12', 1)
+    enum_.add('Metal', 2)
+    enum_.add('Vulkan', 3)
 define.enums.append(GraphicsDeviceType)
 
 CoreModules = cbg.Enum('Altseed2', 'CoreModules')
@@ -97,8 +100,8 @@ define.enums.append(CoreModules)
 
 FramerateMode = cbg.Enum('Altseed2', 'FramerateMode')
 with FramerateMode as enum_:
-    enum_.add('Variable', 2)
-    enum_.add('Constant', 2)
+    enum_.add('Variable', 0)
+    enum_.add('Constant', 1)
 define.enums.append(FramerateMode)
 
 BuiltinShaderType = cbg.Enum('Altseed2', 'BuiltinShaderType')
@@ -110,14 +113,14 @@ define.enums.append(BuiltinShaderType)
 
 RenderTargetCareType = cbg.Enum('Altseed2', 'RenderTargetCareType')
 with RenderTargetCareType as enum_:
-    enum_.add('DontCare', 2)
-    enum_.add('Clear', 2)
+    enum_.add('DontCare', 0)
+    enum_.add('Clear', 1)
 define.enums.append(RenderTargetCareType)
 
 WritingDirection = cbg.Enum('Altseed2', 'WritingDirection')
 with WritingDirection as enum_:
-    enum_.add('Vertical', 2)
-    enum_.add('Horizontal', 2)
+    enum_.add('Vertical', 0)
+    enum_.add('Horizontal', 1)
 define.enums.append(WritingDirection)
 
 ButtonState = cbg.Enum('Altseed2', 'ButtonState')
@@ -811,7 +814,6 @@ with ToolFontAtlasFlags as enum_:
 define.enums.append(ToolFontAtlasFlags)
 
 Core = cbg.Class('Altseed2', 'Core')
-BaseObject = cbg.Class('Altseed2', 'BaseObject')
 Window = cbg.Class('Altseed2', 'Window')
 ShaderCompileResult = cbg.Class('Altseed2', 'ShaderCompileResult')
 Shader = cbg.Class('Altseed2', 'Shader')
@@ -880,6 +882,11 @@ with Core as class_:
         func_.is_static = True
         func_.is_public = False
 
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Core
+        func_.is_static = True
+        func_.is_public = False
+
     with class_.add_func('DoEvent') as func_:
         func_.return_value.type_ = bool
         func_.is_public = False
@@ -889,11 +896,6 @@ with Core as class_:
         prop_.has_setter = False
         prop_.is_public = False
         prop_.is_static = False
-    with class_.add_property(Core, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(float, 'DeltaSecond') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -912,17 +914,14 @@ with Core as class_:
         prop_.is_public = False
 define.classes.append(Core)
 
-with BaseObject as class_:
-    class_.is_public = False
-    with class_.add_property(int, 'Id') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-define.classes.append(BaseObject)
-
 with Window as class_:
     class_.is_public = False
     class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Window
+        func_.is_static = True
+        func_.is_public = False
+
     with class_.add_func('DoEvent') as func_:
         func_.return_value.type_ = bool
 
@@ -935,7 +934,6 @@ with Window as class_:
         prop_.has_getter = True
         prop_.has_setter = True
         prop_.is_public = False
-    # class_.add_property(not found, 'Instance')
 define.classes.append(Window)
 
 with ShaderCompileResult as class_:
@@ -999,11 +997,10 @@ define.classes.append(Shader)
 with Resources as class_:
     class_.is_public = False
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Resources
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('GetResourcesCount') as func_:
         func_.return_value.type_ = int
@@ -1017,11 +1014,6 @@ with Resources as class_:
     with class_.add_func('Reload') as func_:
         func_.is_public = False
 
-    with class_.add_property(Resources, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
 define.classes.append(Resources)
 
 with TextureBase as class_:
@@ -1295,6 +1287,11 @@ define.classes.append(CommandList)
 
 with Graphics as class_:
     class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Graphics
+        func_.is_static = True
+        func_.is_public = False
+
 # GraphicsInitializationParameter
     """
     with class_.add_func('Initialize') as func_:
@@ -1325,11 +1322,6 @@ with Graphics as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
 
-    with class_.add_property(Graphics, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(CommandList, 'CommandList') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1340,6 +1332,7 @@ with Graphics as class_:
 define.classes.append(Graphics)
 
 with Configuration as class_:
+    class_.SerializeType = cbg.SerializeType.Interface
     class_.is_Sealed = True
     class_.handleCache = False
     with class_.add_func('Create') as func_:
@@ -1384,13 +1377,10 @@ define.classes.append(Configuration)
 
 with File as class_:
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(Resources, 'resources') as arg:
-            pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = File
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('AddRootDirectory') as func_:
         func_.return_value.type_ = bool
@@ -1440,11 +1430,6 @@ with File as class_:
 
     """
 
-    with class_.add_property(File, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     # class_.add_property(not found, 'Path')
     # class_.add_property(not found, 'TempBuffer')
 define.classes.append(File)
@@ -1462,9 +1447,10 @@ with StaticFile as class_:
     with class_.add_func('Reload') as func_:
         func_.return_value.type_ = bool
 
-    with class_.add_property(Int8Array, 'Buffer') as prop_:
+    with class_.add_property(Int8Array, 'Int8ArrayBuffer') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
+        prop_.is_public = False
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1524,6 +1510,8 @@ with Glyph as class_:
 define.classes.append(Glyph)
 
 with Font as class_:
+    class_.SerializeType = cbg.SerializeType.Interface
+    class_.CallBackType = cbg.CallBackType.Enable
     class_.cache_mode = cbg.CacheMode.ThreadSafeCache
     class_.is_Sealed = True
     with class_.add_func('GetGlyph') as func_:
@@ -1601,23 +1589,20 @@ with Font as class_:
     with class_.add_property(int, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = False
+        prop_.serialized = True
     with class_.add_property(int, 'Ascent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = False
     with class_.add_property(int, 'Descent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = False
     with class_.add_property(int, 'LineGap') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = False
+        prop_.serialized = True
     with class_.add_property(int, 'ActualSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1698,6 +1683,11 @@ define.classes.append(ImageFont)
 with CullingSystem as class_:
     class_.is_public = False
     class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = CullingSystem
+        func_.is_static = True
+        func_.is_public = False
+
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
 
@@ -1721,11 +1711,6 @@ with CullingSystem as class_:
         with func_.add_arg(Rendered, 'rendered') as arg:
             pass
 
-    with class_.add_property(CullingSystem, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(int, 'DrawingRenderedCount') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1737,7 +1722,6 @@ with CullingSystem as class_:
 define.classes.append(CullingSystem)
 
 with Rendered as class_:
-    class_.base_class = BaseObject
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Interface
     with class_.add_property(Matrix44F, 'Transform') as prop_:
@@ -1745,6 +1729,10 @@ with Rendered as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
+    with class_.add_property(int, 'Id') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+        prop_.is_public = False
 define.classes.append(Rendered)
 
 with RenderedCamera as class_:
@@ -1944,6 +1932,11 @@ define.classes.append(RenderedPolygon)
 with Renderer as class_:
     class_.is_public = False
     class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Renderer
+        func_.is_static = True
+        func_.is_public = False
+
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(Window, 'window') as arg:
@@ -1977,11 +1970,6 @@ with Renderer as class_:
     with class_.add_func('ResetCamera') as func_:
         func_.is_public = False
 
-    with class_.add_property(Renderer, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(RenderedCamera, 'Camera') as prop_:
         prop_.has_getter = False
         prop_.has_setter = True
@@ -1989,6 +1977,9 @@ with Renderer as class_:
 define.classes.append(Renderer)
 
 with ShaderCompiler as class_:
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = ShaderCompiler
+
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
         with func_.add_arg(Graphics, 'graphics') as arg:
@@ -2006,13 +1997,11 @@ with ShaderCompiler as class_:
 
     """
 
-    with class_.add_property(ShaderCompiler, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
 define.classes.append(ShaderCompiler)
 
 with StreamFile as class_:
     class_.SerializeType = cbg.SerializeType.Interface
+    class_.CallBackType = cbg.CallBackType.Enable
     class_.cache_mode = cbg.CacheMode.ThreadSafeCache
     class_.is_Sealed = True
     with class_.add_func('Create') as func_:
@@ -2036,7 +2025,7 @@ with StreamFile as class_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
-    with class_.add_property(Int8Array, 'TempBuffer') as prop_:
+    with class_.add_property(Int8Array, 'Int8ArrayTempBuffer') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = False
@@ -2113,11 +2102,10 @@ define.classes.append(JoystickInfo)
 
 with Joystick as class_:
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Joystick
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('RefreshInputState') as func_:
         pass
@@ -2168,11 +2156,6 @@ with Joystick as class_:
         with func_.add_arg(JoystickAxis, 'type') as arg:
             pass
 
-    with class_.add_property(Joystick, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(int, 'ConnectedJoystickCount') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -2181,13 +2164,10 @@ define.classes.append(Joystick)
 
 with Keyboard as class_:
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(Window, 'window') as arg:
-            pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Keyboard
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('RefleshKeyStates') as func_:
         pass
@@ -2197,22 +2177,14 @@ with Keyboard as class_:
         with func_.add_arg(Key, 'key') as arg:
             pass
 
-    with class_.add_property(Keyboard, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
 define.classes.append(Keyboard)
 
 with Mouse as class_:
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(Window, 'window') as arg:
-            pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Mouse
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('RefreshInputState') as func_:
         pass
@@ -2222,11 +2194,6 @@ with Mouse as class_:
         with func_.add_arg(MouseButton, 'button') as arg:
             pass
 
-    with class_.add_property(Mouse, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
     with class_.add_property(Vector2F, 'Position') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
@@ -2245,6 +2212,7 @@ with Collider as class_:
     class_.SerializeType = cbg.SerializeType.Interface
     with class_.add_func('GetIsCollidedWith') as func_:
         func_.return_value.type_ = bool
+        func_.onlyExtern = True
         with func_.add_arg(Collider, 'collider') as arg:
             pass
 
@@ -2253,7 +2221,11 @@ with Collider as class_:
         prop_.has_setter = True
         prop_.onlyExtern = True
         prop_.serialized = False
-    # class_.add_property(double, 'Rotation')
+    with class_.add_property(float, 'Rotation') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.onlyExtern = True
+        prop_.serialized = False
     with class_.add_property(Matrix44F, 'Transform') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
@@ -2310,11 +2282,11 @@ with EdgeCollider as class_:
     with class_.add_property(Vector2F, 'Point1') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-        prop_.serialized = False
+        prop_.serialized = True
     with class_.add_property(Vector2F, 'Point2') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-        prop_.serialized = False
+        prop_.serialized = True
 define.classes.append(EdgeCollider)
 
 with CircleCollider as class_:
@@ -2324,7 +2296,10 @@ with CircleCollider as class_:
         func_.return_value.type_ = CircleCollider
         func_.is_static = True
 
-    # class_.add_property(double, 'Radius')
+    with class_.add_property(float, 'Radius') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.serialized = True
 define.classes.append(CircleCollider)
 
 with Sound as class_:
@@ -2371,13 +2346,10 @@ define.classes.append(Sound)
 
 with SoundMixer as class_:
     class_.is_Sealed = True
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(bool, 'isReloadingEnabled') as arg:
-            pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = SoundMixer
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('Play') as func_:
         func_.return_value.type_ = int
@@ -2486,35 +2458,14 @@ with SoundMixer as class_:
     with class_.add_func('Reload') as func_:
         pass
 
-    with class_.add_property(SoundMixer, 'Instance') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-        prop_.is_public = False
-        prop_.is_static = True
 define.classes.append(SoundMixer)
 
 with Tool as class_:
     class_.is_Sealed = True
     with class_.add_func('GetInstance') as func_:
         func_.return_value.type_ = Tool
-
-    with class_.add_func('Initialize') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(Graphics, 'graphics') as arg:
-            pass
-
-    with class_.add_func('Terminate') as func_:
-        pass
-
-    with class_.add_func('OnTerminating') as func_:
-        pass
-
-    with class_.add_func('GetToolUsage') as func_:
-        func_.return_value.type_ = ToolUsage
-
-    with class_.add_func('SetToolUsage') as func_:
-        with func_.add_arg(ToolUsage, 'toolUsage') as arg:
-            pass
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('NewFrame') as func_:
         pass
@@ -2591,6 +2542,7 @@ with Tool as class_:
 
     with class_.add_func('ColorEdit3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
@@ -2611,6 +2563,7 @@ with Tool as class_:
 
     with class_.add_func('ColorEdit4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
@@ -2671,6 +2624,7 @@ with Tool as class_:
     """
 
     with class_.add_func('PlotLines') as func_:
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'values') as arg:
@@ -2691,6 +2645,7 @@ with Tool as class_:
             pass
 
     with class_.add_func('PlotHistogram') as func_:
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'values') as arg:
@@ -3321,6 +3276,7 @@ with Tool as class_:
 
     with class_.add_func('DragFloat2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3338,6 +3294,7 @@ with Tool as class_:
 
     with class_.add_func('DragFloat3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3355,6 +3312,7 @@ with Tool as class_:
 
     with class_.add_func('DragFloat4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3410,6 +3368,7 @@ with Tool as class_:
 
     with class_.add_func('DragInt2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3427,6 +3386,7 @@ with Tool as class_:
 
     with class_.add_func('DragInt3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3444,6 +3404,7 @@ with Tool as class_:
 
     with class_.add_func('DragInt4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3497,6 +3458,7 @@ with Tool as class_:
 
     with class_.add_func('SliderFloat2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3512,6 +3474,7 @@ with Tool as class_:
 
     with class_.add_func('SliderFloat3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3527,6 +3490,7 @@ with Tool as class_:
 
     with class_.add_func('SliderFloat4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3572,6 +3536,7 @@ with Tool as class_:
 
     with class_.add_func('SliderInt2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3587,6 +3552,7 @@ with Tool as class_:
 
     with class_.add_func('SliderInt3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3602,6 +3568,7 @@ with Tool as class_:
 
     with class_.add_func('SliderInt4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3666,6 +3633,7 @@ with Tool as class_:
 
     with class_.add_func('InputFloat2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3677,6 +3645,7 @@ with Tool as class_:
 
     with class_.add_func('InputFloat3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3688,6 +3657,7 @@ with Tool as class_:
 
     with class_.add_func('InputFloat4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'v') as arg:
@@ -3712,6 +3682,7 @@ with Tool as class_:
 
     with class_.add_func('InputInt2') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3721,6 +3692,7 @@ with Tool as class_:
 
     with class_.add_func('InputInt3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3730,6 +3702,7 @@ with Tool as class_:
 
     with class_.add_func('InputInt4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(Int32Array, 'v') as arg:
@@ -3739,6 +3712,7 @@ with Tool as class_:
 
     with class_.add_func('ColorPicker3') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'col') as arg:
@@ -3748,6 +3722,7 @@ with Tool as class_:
 
     with class_.add_func('ColorPicker4') as func_:
         func_.return_value.type_ = bool
+        func_.is_public = False
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
             arg.nullable = False
         with func_.add_arg(FloatArray, 'col') as arg:
@@ -4253,12 +4228,12 @@ with Tool as class_:
 
     with class_.add_func('ColorConvertU32ToFloat4') as func_:
         func_.return_value.type_ = Vector4F
-        with func_.add_arg(int, 'in') as arg:
+        with func_.add_arg(int, 'in_') as arg:
             pass
 
     with class_.add_func('ColorConvertFloat4ToU32') as func_:
         func_.return_value.type_ = int
-        with func_.add_arg(Vector4F, 'in') as arg:
+        with func_.add_arg(Vector4F, 'in_') as arg:
             pass
 
     with class_.add_func('GetKeyIndex') as func_:
@@ -4377,5 +4352,8 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
             arg.nullable = False
 
+    with class_.add_property(ToolUsage, 'ToolUsage') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
 define.classes.append(Tool)
 

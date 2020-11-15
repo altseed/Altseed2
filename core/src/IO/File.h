@@ -25,9 +25,11 @@ private:
     std::mutex streamMtx_;
 
 public:
+#if !USE_CBG
     static bool Initialize(std::shared_ptr<Resources> resources);
 
     static void Terminate();
+#endif
 
     static std::shared_ptr<File>& GetInstance();
 

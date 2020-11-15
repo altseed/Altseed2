@@ -20,6 +20,9 @@
                 }
             },
             "methods": {
+                "GetIsCollidedWith": {
+                    "onlyExtern": true
+                }
             }
         },
         "CircleCollider": {
@@ -27,7 +30,7 @@
             "base_class": "Collider",
             "properties": {
                 "Radius": {
-                    "serialized": false
+                    "serialized": true
                 }
             },
             "methods": {
@@ -41,10 +44,10 @@
             "base_class": "Collider",
             "properties": {
                 "Point1": {
-                    "serialized": false
+                    "serialized": true
                 },
                 "Point2": {
-                    "serialized": false
+                    "serialized": true
                 }
             },
             "methods": {

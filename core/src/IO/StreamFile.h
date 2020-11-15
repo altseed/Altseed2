@@ -33,7 +33,7 @@ public:
 
     int32_t Read(int32_t size);
 
-    std::shared_ptr<Int8Array>& GetTempBuffer();
+    std::shared_ptr<Int8Array>& GetInt8ArrayTempBuffer();
 
     int32_t GetTempBufferSize();
 
