@@ -63,7 +63,7 @@ std::shared_ptr<StaticFile> StaticFile::Create(const char16_t* path) {
     return res;
 }
 
-const std::shared_ptr<Int8Array>& StaticFile::GetBuffer() const { return m_buffer; }
+const std::shared_ptr<Int8Array>& StaticFile::GetInt8ArrayBuffer() const { return m_buffer; }
 
 const char16_t* StaticFile::GetPath() const { return sourcePath_.c_str(); }
 

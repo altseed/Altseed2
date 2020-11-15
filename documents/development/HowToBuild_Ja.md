@@ -55,7 +55,15 @@ git submodule update --init
 
 ## Wrapper生成
 
-スクリプト `scripts/generate_wrapper.py` を実行します。
+まず、ヘッダファイルからCBG定義を出力するために 下記のコマンドを実行します。
+
+```
+python scripts/generate_cbg_definition.py "C:\Program Files\LLVM\bin"
+```
+
+また、実行するときには LLVMとpythonパッケージ `clang`で、LLVMのbinディレクトリを指定する必要があります。
+
+次にスクリプト `scripts/generate_wrapper.py` を実行します。
 
 ## ビルド
 

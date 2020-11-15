@@ -39,10 +39,10 @@ public:
 
     static void Terminate();
 
-    static std::shared_ptr<Window>& GetInstance();
-
     void OnTerminating() override;
 #endif
+
+    static std::shared_ptr<Window>& GetInstance();
 
     void SetTitle(const char16_t* title);
 

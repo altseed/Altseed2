@@ -10,6 +10,9 @@
             "properties": {
                 "Path": {
                     "serialized": true
+                },
+                "Int8ArrayBuffer": {
+                    "is_public": false
                 }
             },
             "methods": {
@@ -27,6 +30,7 @@
             "is_Sealed": true,
             "cache_mode": "ThreadSafeCache",
             "SerializeType": "Interface",
+            "CallBackType": "Enable",
             "properties": {
                 "CurrentPosition": {
                     "serialized": true
@@ -34,7 +38,7 @@
                 "Path": {
                     "serialized": true
                 },
-                "TempBuffer": {
+                "Int8ArrayTempBuffer": {
                     "is_public": false
                 }
             },
@@ -52,10 +56,6 @@
         "File": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "Path": {
                     "serialized": true
                 },
@@ -64,6 +64,10 @@
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "AddRootDirectory": {
                     "params": {
                         "path": {

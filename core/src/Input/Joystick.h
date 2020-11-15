@@ -111,9 +111,13 @@ private:
 public:
     Joystick();
 
+#if !USE_CBG
+
     static bool Initialize();
 
     static void Terminate();
+
+#endif
 
     static std::shared_ptr<Joystick>& GetInstance();
 

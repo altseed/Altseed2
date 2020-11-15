@@ -5,6 +5,15 @@
         },
         "TextureFormatType": {
             "alias": "TextureFormat"
+        },
+        "BlendFuncType": {
+            "alias": "BlendFunction"
+        },
+        "BlendEquationType": {
+            "alias": "BlendEquation"
+        },
+        "ShaderStageType": {
+            "alias": "ShaderStage"
         }
     },
     "classes": {
@@ -257,15 +266,15 @@
         "Graphics": {
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "BuiltinShader": {
                     "is_public": false
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "BeginFrame": {
                     "is_public": false
                 },
@@ -295,23 +304,14 @@
         "Font": {
             "is_Sealed": true,
             "cache_mode": "ThreadSafeCache",
-            "CallBackType": "Interface",
-            "SerializeType": "Enable",
+            "CallBackType": "Enable",
+            "SerializeType": "Interface",
             "properties": {
                 "Size": {
-                    "serialized": false
-                },
-                "Ascent": {
-                    "serialized": false
-                },
-                "Descent": {
-                    "serialized": false
-                },
-                "LineGap": {
-                    "serialized": false
+                    "serialized": true
                 },
                 "IsStaticFont": {
-                    "serialized": false
+                    "serialized": true
                 },
                 "Path": {
                     "serialized": true,
@@ -381,10 +381,15 @@
         "Rendered": {
             "is_public": false,
             "SerializeType": "Interface",
-            "base_class": "BaseObject",
             "properties": {
                 "Transform": {
                     "serialized": true,
+                    "is_public": false
+                },
+                "Id": {
+                    "type": "int32_t",
+                    "get": true,
+                    "set": false,
                     "is_public": false
                 }
             },
@@ -564,15 +569,15 @@
             "is_public": false,
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "Camera": {
                     "is_public": false
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "DrawSprite": {
                     "is_public": false
                 },
@@ -594,10 +599,6 @@
             "is_public": false,
             "is_Sealed": true,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "DrawingRenderedCount": {
                     "is_public": false
                 },
@@ -606,6 +607,10 @@
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "Register": {
                     "is_public": false
                 },

@@ -17,7 +17,7 @@ protected:
     Matrix44F transformMatrix_;
 
     Vector2F position_;
-    double rotation_;
+    float rotation_;
 
     virtual bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) { throw "Not implemented."; }
 
@@ -31,8 +31,8 @@ public:
     void SetPosition(Vector2F position);
 
     // 回転
-    double GetRotation() const;
-    void SetRotation(double rotation);
+    float GetRotation() const;
+    void SetRotation(float rotation);
 
     // 変形行列
     Matrix44F GetTransform() const;

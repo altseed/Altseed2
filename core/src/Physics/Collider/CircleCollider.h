@@ -16,7 +16,7 @@ class CircleCollider : public Collider {
 private:
     b2CircleShape shape_;
 
-    double radius_;
+    float radius_;
 
     bool GetIsCollidedWith_(std::shared_ptr<Collider> shape) override;
 
@@ -26,8 +26,8 @@ public:
     static std::shared_ptr<CircleCollider> Create();
 
     // 半径
-    double GetRadius() const;
-    void SetRadius(double radius);
+    float GetRadius() const;
+    void SetRadius(float radius);
 };
 
 }  // namespace Altseed2

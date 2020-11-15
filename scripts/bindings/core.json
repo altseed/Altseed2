@@ -6,6 +6,7 @@
     },
     "classes": {
         "Configuration": {
+            "SerializeType": "Interface",
             "is_Sealed": true,
             "handleCache": false,
             "properties": {
@@ -46,10 +47,6 @@
             "is_Sealed": true,
             "is_public": false,
             "properties": {
-                "Instance": {
-                    "is_public": false,
-                    "is_static": true
-                },
                 "DeltaSecond": {
                     "is_public": false
                 },
@@ -68,6 +65,10 @@
                 }
             },
             "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                },
                 "PrintAllBaseObjectName": {
                     "is_public": false,
                     "is_static": false

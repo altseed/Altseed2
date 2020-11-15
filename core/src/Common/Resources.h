@@ -22,9 +22,11 @@ private:
     std::map<ResourceType, std::shared_ptr<ResourceContainer>> m_containers;
 
 public:
+#if !USE_CBG
     static bool Initialize();
 
     static void Terminate();
+#endif
 
     static std::shared_ptr<Resources>& GetInstance();
 
