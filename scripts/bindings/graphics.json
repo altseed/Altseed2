@@ -176,7 +176,7 @@
             "cache_mode": "Cache",
             "properties": {
                 "AlphaBlend": {
-                    "serialized": false
+                    "serialized": true
                 }
             },
             "methods": {

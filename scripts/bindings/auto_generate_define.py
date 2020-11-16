@@ -1176,7 +1176,7 @@ with Material as class_:
     with class_.add_property(AlphaBlend, 'AlphaBlend') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
-        prop_.serialized = False
+        prop_.serialized = True
     with class_.add_property(MaterialPropertyBlock, 'PropertyBlock') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
