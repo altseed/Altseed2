@@ -223,7 +223,7 @@ enum class ToolDataType : int32_t {
 };
 
 enum class ToolDir : int32_t {
-    None = - 1,
+    None = -1,
     Left = 0,
     Right = 1,
     Up = 2,
@@ -448,7 +448,7 @@ enum class ToolMouseButton : int32_t {
 };
 
 enum class ToolMouseCursor : int32_t {
-    None = - 1,
+    None = -1,
     Arrow = 0,
     TextInput,
     ResizeAll,
@@ -615,7 +615,7 @@ public:
 
     float GetTime();
 
-    void Tool::DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags);
+    void DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags);
 
     bool BeginDockHost(const char16_t* label, Vector2F offset);
 
@@ -678,9 +678,9 @@ public:
 
     void End();
 
-    bool BeginChild(const char16_t* str_id, Vector2F size = Vector2F ( 0 , 0 ), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginChild(const char16_t* str_id, Vector2F size = Vector2F(0, 0), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
 
-    bool BeginChild(uint32_t id, Vector2F size = Vector2F ( 0 , 0 ), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginChild(uint32_t id, Vector2F size = Vector2F(0, 0), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void EndChild();
 
@@ -706,7 +706,7 @@ public:
 
     float GetWindowHeight();
 
-    void SetNextWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0, Vector2F pivot = Vector2F ( 0 , 0 ));
+    void SetNextWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0, Vector2F pivot = Vector2F(0, 0));
 
     void SetNextWindowSize(Vector2F size, ToolCond cond = (ToolCond)0);
 
@@ -822,7 +822,7 @@ public:
 
     void Separator();
 
-    void SameLine(float offset_from_start_x = 0.0f, float spacing = - 1.0f);
+    void SameLine(float offset_from_start_x = 0.0f, float spacing = -1.0f);
 
     void NewLine();
 
@@ -908,7 +908,7 @@ public:
 
     // void (const char *, va_list) BulletTextV
 
-    bool Button(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Button(const char16_t* label, Vector2F size = Vector2F(0, 0));
 
     bool SmallButton(const char16_t* label);
 
@@ -928,7 +928,7 @@ public:
 
     bool RadioButton(const char16_t* label, int32_t* v, int32_t v_button);
 
-    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t* overlay = NULL);
+    void ProgressBar(float fraction, Vector2F size_arg = Vector2F(-1, 0), const char16_t* overlay = NULL);
 
     void Bullet();
 
@@ -968,7 +968,7 @@ public:
 
     bool SliderFloat4(const char16_t* label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t* format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderAngle(const char16_t* label, float* v_rad, float v_degrees_min = - 360.0f, float v_degrees_max = + 360.0f, const char16_t* format = u"%.0f deg", ToolSliderFlags flags = (ToolSliderFlags)0);
+    bool SliderAngle(const char16_t* label, float* v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, const char16_t* format = u"%.0f deg", ToolSliderFlags flags = (ToolSliderFlags)0);
 
     bool SliderInt(const char16_t* label, int32_t* v, int32_t v_min, int32_t v_max, const char16_t* format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
@@ -1062,17 +1062,17 @@ public:
 
     void SetNextItemOpen(bool is_open, ToolCond cond = (ToolCond)0);
 
-    bool Selectable(const char16_t* label, bool selected = false, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Selectable(const char16_t* label, bool selected = false, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F(0, 0));
 
-    bool Selectable(const char16_t* label, bool* p_selected, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Selectable(const char16_t* label, bool* p_selected, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F(0, 0));
 
     // bool (const char *, int *, const char *const *, int, int) ListBox
 
     // bool (const char *, int *, bool (*)(void *, int, const char **), void *, int, int) ListBox
 
-    bool ListBoxHeader(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
+    bool ListBoxHeader(const char16_t* label, Vector2F size = Vector2F(0, 0));
 
-    bool ListBoxHeader(const char16_t* label, int32_t items_count, int32_t height_in_items = - 1);
+    bool ListBoxHeader(const char16_t* label, int32_t items_count, int32_t height_in_items = -1);
 
     void ListBoxFooter();
 
@@ -1142,11 +1142,11 @@ public:
 
     int32_t GetColumnIndex();
 
-    float GetColumnWidth(int32_t column_index = - 1);
+    float GetColumnWidth(int32_t column_index = -1);
 
     void SetColumnWidth(int32_t column_index, float width);
 
-    float GetColumnOffset(int32_t column_index = - 1);
+    float GetColumnOffset(int32_t column_index = -1);
 
     void SetColumnOffset(int32_t column_index, float offset_x);
 
@@ -1176,11 +1176,11 @@ public:
 
     bool IsWindowDocked();
 
-    void LogToTTY(int32_t auto_open_depth = - 1);
+    void LogToTTY(int32_t auto_open_depth = -1);
 
-    void LogToFile(int32_t auto_open_depth = - 1, const char16_t* filename = NULL);
+    void LogToFile(int32_t auto_open_depth = -1, const char16_t* filename = NULL);
 
-    void LogToClipboard(int32_t auto_open_depth = - 1);
+    void LogToClipboard(int32_t auto_open_depth = -1);
 
     void LogFinish();
 
@@ -1274,7 +1274,7 @@ public:
 
     void EndChildFrame();
 
-    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
+    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
 
     Vector4F ColorConvertU32ToFloat4(uint32_t in);
 
@@ -1314,9 +1314,9 @@ public:
 
     Vector2F GetMousePosOnOpeningCurrentPopup();
 
-    bool IsMouseDragging(ToolMouseButton button, float lock_threshold = - 1.0f);
+    bool IsMouseDragging(ToolMouseButton button, float lock_threshold = -1.0f);
 
-    Vector2F GetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0, float lock_threshold = - 1.0f);
+    Vector2F GetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0, float lock_threshold = -1.0f);
 
     void ResetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0);
 
@@ -1359,7 +1359,6 @@ public:
     // ImGuiViewport *(ImGuiID) FindViewportByID
 
     // ImGuiViewport *(void *) FindViewportByPlatformHandle
-
 };
 
-}
+}  // namespace Altseed2
