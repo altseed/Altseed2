@@ -122,7 +122,7 @@ def to_altseed2_parameter_type(_type):
     raise
 
 
-def to_imgui_parameter_type(name, _type, default_value = None):
+def to_imgui_parameter_type(name, _type, default_value=None):
     if _type == "char *":
         raise
     if _type == "void *":
@@ -375,6 +375,22 @@ public:
 
     float GetTime();
 
+    void Tool::DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags);
+
+    bool BeginDockHost(const char16_t* label, Vector2F offset);
+
+    void ShowDemoWindowNoCloseButton();
+
+    void ShowAboutWindowNoCloseButton();
+
+    void ShowMetricsWindowNoCloseButton();
+
+    bool Begin(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginPopupModal(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginTabItem(const char16_t* label, ToolTabItemFlags flags = (ToolTabItemFlags)0);
+
     const char16_t* OpenDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath);
@@ -527,12 +543,12 @@ def make_tool_header():
     with open("../core/src/Tool/Tool.h", mode="w", encoding="utf-8-sig", newline="\n") as f:
 
         code = """#pragma once
-# include <cfloat>
+#include <cfloat>
 
-# include "../Common/Array.h"
-# include "../Graphics/Graphics.h"
-# include "../Math/Vector2F.h"
-# include "../Math/Vector4F.h"
+#include "../Common/Array.h"
+#include "../Graphics/Graphics.h"
+#include "../Math/Vector2F.h"
+#include "../Math/Vector4F.h"
 
 class ImguiPlatform;
 

@@ -128,6 +128,12 @@ bool Tool::IsWindowHovered(ToolHoveredFlags flags) {
 
 // ImDrawList *() GetWindowDrawList
 
+float Tool::GetWindowDpiScale() {
+    return ImGui::GetWindowDpiScale();
+}
+
+// ImGuiViewport *() GetWindowViewport
+
 Vector2F Tool::GetWindowPos() {
     return toVector2F(ImGui::GetWindowPos());
 }
@@ -168,6 +174,10 @@ void Tool::SetNextWindowFocus() {
 
 void Tool::SetNextWindowBgAlpha(float alpha) {
     ImGui::SetNextWindowBgAlpha(alpha);
+}
+
+void Tool::SetNextWindowViewport(uint32_t viewport_id) {
+    ImGui::SetNextWindowViewport(viewport_id);
 }
 
 void Tool::SetWindowPos(Vector2F pos, ToolCond cond) {
@@ -994,6 +1004,24 @@ void Tool::SetTabItemClosed(const char16_t* tab_or_docked_window_label) {
     ImGui::SetTabItemClosed(utf16_to_utf8(tab_or_docked_window_label).c_str());
 }
 
+// void (ImGuiID, const ImVec2 &, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpace
+
+// ImGuiID (ImGuiViewport *, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpaceOverViewport
+
+void Tool::SetNextWindowDockID(uint32_t dock_id, ToolCond cond) {
+    ImGui::SetNextWindowDockID(dock_id, (ImGuiCond)cond);
+}
+
+// void (const ImGuiWindowClass *) SetNextWindowClass
+
+uint32_t Tool::GetWindowDockID() {
+    return ImGui::GetWindowDockID();
+}
+
+bool Tool::IsWindowDocked() {
+    return ImGui::IsWindowDocked();
+}
+
 void Tool::LogToTTY(int32_t auto_open_depth) {
     ImGui::LogToTTY(auto_open_depth);
 }
@@ -1142,6 +1170,10 @@ int32_t Tool::GetFrameCount() {
 
 // ImDrawList *() GetForegroundDrawList
 
+// ImDrawList *(ImGuiViewport *) GetBackgroundDrawList
+
+// ImDrawList *(ImGuiViewport *) GetForegroundDrawList
+
 // ImDrawListSharedData *() GetDrawListSharedData
 
 const char16_t* Tool::GetStyleColorName(ToolCol idx) {
@@ -1289,5 +1321,23 @@ void Tool::SaveIniSettingsToDisk(const char16_t* ini_filename) {
 // void *(size_t) MemAlloc
 
 // void (void *) MemFree
+
+// ImGuiPlatformIO &() GetPlatformIO
+
+// ImGuiViewport *() GetMainViewport
+
+void Tool::UpdatePlatformWindows() {
+    ImGui::UpdatePlatformWindows();
+}
+
+// void (void *, void *) RenderPlatformWindowsDefault
+
+void Tool::DestroyPlatformWindows() {
+    ImGui::DestroyPlatformWindows();
+}
+
+// ImGuiViewport *(ImGuiID) FindViewportByID
+
+// ImGuiViewport *(void *) FindViewportByPlatformHandle
 
 }

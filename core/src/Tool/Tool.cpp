@@ -22,9 +22,9 @@
 #include "../IO/StaticFile.h"
 #include "../Logger/Log.h"
 #include "../System/SynchronizationContext.h"
+#include "../Window/Window.h"
 
 namespace Altseed2 {
-
 std::shared_ptr<Tool> Tool::instance_;
 
 std::shared_ptr<Tool>& Tool::GetInstance() { return instance_; }
@@ -61,6 +61,8 @@ Tool::Tool(std::shared_ptr<Graphics> graphics) {
     (void)io;
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -128,6 +130,9 @@ void Tool::Render() {
     }
 
     ImGui::Render();
+
+    ImGui::UpdatePlatformWindows();
+    ImGui::RenderPlatformWindowsDefault();
 
     platform_->RenderDrawData(ImGui::GetDrawData(), Graphics::GetInstance()->GetCommandList()->GetLL());
 }
@@ -422,6 +427,46 @@ void Tool::PlotHistogram(
 }
 
 float Tool::GetTime() { return (float)ImGui::GetTime(); }
+
+void Tool::DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags) { ImGui::DockSpace(id, toImVec2(size), (ImGuiDockNodeFlags)flags); }
+
+bool Tool::BeginDockHost(const char16_t* label, Vector2F offset) {
+    Vector2F windowSize = Vector2F(graphics_->GetLLGIWindow()->GetWindowSize().X, graphics_->GetLLGIWindow()->GetWindowSize().Y);
+    SetNextWindowSize(windowSize);
+
+    auto pos = toVector2F(ImGui::GetMainViewport()->Pos);
+    pos.X += offset.X;
+    pos.Y += offset.Y;
+    SetNextWindowPos(pos);
+
+    ToolWindowFlags flags = (ToolWindowFlags)((int32_t)ToolWindowFlags::NoMove | (int32_t)ToolWindowFlags::NoBringToFrontOnFocus | (int32_t)ToolWindowFlags::NoResize | (int32_t)ToolWindowFlags::NoScrollbar | (int32_t)ToolWindowFlags::NoSavedSettings | (int32_t)ToolWindowFlags::NoTitleBar | (int32_t)ToolWindowFlags::DockNodeHost);
+    PushStyleVar(ToolStyleVar::WindowRounding, 0);
+    PushStyleVar(ToolStyleVar::WindowPadding, Vector2F());
+    const bool visible = Begin(label, nullptr, flags);
+    ImGui::PopStyleVar(2);
+
+    DockSpace(GetID(u"dock host"), Vector2F(), ToolDockNodeFlags::None);
+
+    return visible;
+}
+
+void Tool::ShowDemoWindowNoCloseButton() { ShowDemoWindow(NULL); }
+
+void Tool::ShowAboutWindowNoCloseButton() { ShowAboutWindow(NULL); }
+
+void Tool::ShowMetricsWindowNoCloseButton() { ShowMetricsWindow(NULL); }
+
+bool Tool::Begin(const char16_t* name, ToolWindowFlags flags) {
+    return Begin(name, NULL, flags);
+}
+
+bool Tool::BeginPopupModal(const char16_t* name, ToolWindowFlags flags) {
+    return BeginPopupModal(name, NULL, flags);
+}
+
+bool Tool::BeginTabItem(const char16_t* label, ToolTabItemFlags flags) {
+    return BeginTabItem(label, NULL, flags);
+}
 
 //! for Dialog
 static std::u16string temp;

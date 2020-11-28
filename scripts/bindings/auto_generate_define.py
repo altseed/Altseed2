@@ -361,12 +361,14 @@ with ToolWindowFlags as enum_:
     enum_.add('NoNav', (1 << 18) | (1 << 19))
     enum_.add('NoInputs', (1 << 9) | (1 << 18) | (1 << 19))
     enum_.add('UnsavedDocument', 1 << 20)
+    enum_.add('NoDocking', 1 << 21)
     enum_.add('NavFlattened', 1 << 23)
     enum_.add('ChildWindow', 1 << 24)
     enum_.add('Tooltip', 1 << 25)
     enum_.add('Popup', 1 << 26)
     enum_.add('Modal', 1 << 27)
     enum_.add('ChildMenu', 1 << 28)
+    enum_.add('DockNodeHost', 1 << 29)
 define.enums.append(ToolWindowFlags)
 
 ToolInputTextFlags = cbg.Enum('Altseed2', 'ToolInputTextFlags')
@@ -500,6 +502,17 @@ with ToolHoveredFlags as enum_:
     enum_.add('AllowWhenDisabled', 1 << 7)
 define.enums.append(ToolHoveredFlags)
 
+ToolDockNodeFlags = cbg.Enum('Altseed2', 'ToolDockNodeFlags')
+with ToolDockNodeFlags as enum_:
+    enum_.add('None', 0)
+    enum_.add('KeepAliveOnly', 1 << 0)
+    enum_.add('NoDockingInCentralNode', 1 << 2)
+    enum_.add('PassthruCentralNode', 1 << 3)
+    enum_.add('NoSplit', 1 << 4)
+    enum_.add('NoResize', 1 << 5)
+    enum_.add('AutoHideTabBar', 1 << 6)
+define.enums.append(ToolDockNodeFlags)
+
 ToolDragDropFlags = cbg.Enum('Altseed2', 'ToolDragDropFlags')
 with ToolDragDropFlags as enum_:
     enum_.add('None', 0)
@@ -606,6 +619,10 @@ with ToolConfigFlags as enum_:
     enum_.add('NavNoCaptureKeyboard', 1 << 3)
     enum_.add('NoMouse', 1 << 4)
     enum_.add('NoMouseCursorChange', 1 << 5)
+    enum_.add('DockingEnable', 1 << 6)
+    enum_.add('ViewportsEnable', 1 << 10)
+    enum_.add('DpiEnableScaleViewports', 1 << 14)
+    enum_.add('DpiEnableScaleFonts', 1 << 15)
     enum_.add('IsSRGB', 1 << 20)
     enum_.add('IsTouchScreen', 1 << 21)
 define.enums.append(ToolConfigFlags)
@@ -617,6 +634,9 @@ with ToolBackendFlags as enum_:
     enum_.add('HasMouseCursors', 1 << 1)
     enum_.add('HasSetMousePos', 1 << 2)
     enum_.add('RendererHasVtxOffset', 1 << 3)
+    enum_.add('PlatformHasViewports', 1 << 10)
+    enum_.add('HasMouseHoveredViewport', 1 << 11)
+    enum_.add('RendererHasViewports', 1 << 12)
 define.enums.append(ToolBackendFlags)
 
 ToolCol = cbg.Enum('Altseed2', 'ToolCol')
@@ -659,17 +679,19 @@ with ToolCol as enum_:
     enum_.add('TabActive', 35)
     enum_.add('TabUnfocused', 36)
     enum_.add('TabUnfocusedActive', 37)
-    enum_.add('PlotLines', 38)
-    enum_.add('PlotLinesHovered', 39)
-    enum_.add('PlotHistogram', 40)
-    enum_.add('PlotHistogramHovered', 41)
-    enum_.add('TextSelectedBg', 42)
-    enum_.add('DragDropTarget', 43)
-    enum_.add('NavHighlight', 44)
-    enum_.add('NavWindowingHighlight', 45)
-    enum_.add('NavWindowingDimBg', 46)
-    enum_.add('ModalWindowDimBg', 47)
-    enum_.add('COUNT', 48)
+    enum_.add('DockingPreview', 38)
+    enum_.add('DockingEmptyBg', 39)
+    enum_.add('PlotLines', 40)
+    enum_.add('PlotLinesHovered', 41)
+    enum_.add('PlotHistogram', 42)
+    enum_.add('PlotHistogramHovered', 43)
+    enum_.add('TextSelectedBg', 44)
+    enum_.add('DragDropTarget', 45)
+    enum_.add('NavHighlight', 46)
+    enum_.add('NavWindowingHighlight', 47)
+    enum_.add('NavWindowingDimBg', 48)
+    enum_.add('ModalWindowDimBg', 49)
+    enum_.add('COUNT', 50)
 define.enums.append(ToolCol)
 
 ToolStyleVar = cbg.Enum('Altseed2', 'ToolStyleVar')
@@ -812,6 +834,21 @@ with ToolFontAtlasFlags as enum_:
     enum_.add('NoMouseCursors', 1 << 1)
     enum_.add('NoBakedLines', 1 << 2)
 define.enums.append(ToolFontAtlasFlags)
+
+ToolViewportFlags = cbg.Enum('Altseed2', 'ToolViewportFlags')
+with ToolViewportFlags as enum_:
+    enum_.add('None', 0)
+    enum_.add('NoDecoration', 1 << 0)
+    enum_.add('NoTaskBarIcon', 1 << 1)
+    enum_.add('NoFocusOnAppearing', 1 << 2)
+    enum_.add('NoFocusOnClick', 1 << 3)
+    enum_.add('NoInputs', 1 << 4)
+    enum_.add('NoRendererClear', 1 << 5)
+    enum_.add('TopMost', 1 << 6)
+    enum_.add('Minimized', 1 << 7)
+    enum_.add('NoAutoMerge', 1 << 8)
+    enum_.add('CanHostOtherWindows', 1 << 9)
+define.enums.append(ToolViewportFlags)
 
 Core = cbg.Class('Altseed2', 'Core')
 Window = cbg.Class('Altseed2', 'Window')
@@ -2667,6 +2704,84 @@ with Tool as class_:
     with class_.add_func('GetTime') as func_:
         func_.return_value.type_ = float
 
+    with class_.add_func('DockSpace') as func_:
+        with func_.add_arg(int, 'id') as arg:
+            pass
+        with func_.add_arg(Vector2F, 'size') as arg:
+            pass
+        with func_.add_arg(ToolDockNodeFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginDockHost') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(Vector2F, 'offset') as arg:
+            pass
+
+    with class_.add_func('ShowDemoWindowNoCloseButton') as func_:
+        pass
+
+    with class_.add_func('ShowAboutWindowNoCloseButton') as func_:
+        pass
+
+    with class_.add_func('ShowMetricsWindowNoCloseButton') as func_:
+        pass
+
+    with class_.add_func('Begin') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('Begin') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'p_open') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginPopupModal') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginPopupModal') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'p_open') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginTabItem') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolTabItemFlags, 'flags') as arg:
+            pass
+
+    with class_.add_func('BeginTabItem') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(bool, 'p_open') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+        with func_.add_arg(ToolTabItemFlags, 'flags') as arg:
+            pass
+
     with class_.add_func('OpenDialog') as func_:
         func_.return_value.type_ = ctypes.c_wchar_p
         with func_.add_arg(ctypes.c_wchar_p, 'filter') as arg:
@@ -2720,15 +2835,6 @@ with Tool as class_:
     with class_.add_func('GetVersion') as func_:
         func_.return_value.type_ = ctypes.c_wchar_p
 
-    with class_.add_func('Begin') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
-            arg.nullable = False
-        with func_.add_arg(bool, 'p_open') as arg:
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
-            pass
-
     with class_.add_func('End') as func_:
         pass
 
@@ -2775,6 +2881,9 @@ with Tool as class_:
         with func_.add_arg(ToolHoveredFlags, 'flags') as arg:
             pass
 
+    with class_.add_func('GetWindowDpiScale') as func_:
+        func_.return_value.type_ = float
+
     with class_.add_func('GetWindowPos') as func_:
         func_.return_value.type_ = Vector2F
 
@@ -2816,6 +2925,10 @@ with Tool as class_:
 
     with class_.add_func('SetNextWindowBgAlpha') as func_:
         with func_.add_arg(float, 'alpha') as arg:
+            pass
+
+    with class_.add_func('SetNextWindowViewport') as func_:
+        with func_.add_arg(int, 'viewport_id') as arg:
             pass
 
     with class_.add_func('SetWindowPos') as func_:
@@ -3932,15 +4045,6 @@ with Tool as class_:
         with func_.add_arg(ToolWindowFlags, 'flags') as arg:
             pass
 
-    with class_.add_func('BeginPopupModal') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
-            arg.nullable = False
-        with func_.add_arg(bool, 'p_open') as arg:
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ToolWindowFlags, 'flags') as arg:
-            pass
-
     with class_.add_func('EndPopup') as func_:
         pass
 
@@ -4036,15 +4140,6 @@ with Tool as class_:
     with class_.add_func('EndTabBar') as func_:
         pass
 
-    with class_.add_func('BeginTabItem') as func_:
-        func_.return_value.type_ = bool
-        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
-            arg.nullable = False
-        with func_.add_arg(bool, 'p_open') as arg:
-            arg.called_by = cbg.ArgCalledBy.Ref
-        with func_.add_arg(ToolTabItemFlags, 'flags') as arg:
-            pass
-
     with class_.add_func('EndTabItem') as func_:
         pass
 
@@ -4058,6 +4153,18 @@ with Tool as class_:
     with class_.add_func('SetTabItemClosed') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'tab_or_docked_window_label') as arg:
             arg.nullable = False
+
+    with class_.add_func('SetNextWindowDockID') as func_:
+        with func_.add_arg(int, 'dock_id') as arg:
+            pass
+        with func_.add_arg(ToolCond, 'cond') as arg:
+            pass
+
+    with class_.add_func('GetWindowDockID') as func_:
+        func_.return_value.type_ = int
+
+    with class_.add_func('IsWindowDocked') as func_:
+        func_.return_value.type_ = bool
 
     with class_.add_func('LogToTTY') as func_:
         with func_.add_arg(int, 'auto_open_depth') as arg:
@@ -4350,6 +4457,12 @@ with Tool as class_:
     with class_.add_func('SaveIniSettingsToDisk') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
             arg.nullable = False
+
+    with class_.add_func('UpdatePlatformWindows') as func_:
+        pass
+
+    with class_.add_func('DestroyPlatformWindows') as func_:
+        pass
 
     with class_.add_property(ToolUsage, 'ToolUsage') as prop_:
         prop_.has_getter = True

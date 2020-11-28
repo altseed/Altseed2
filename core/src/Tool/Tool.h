@@ -1,10 +1,10 @@
 ﻿#pragma once
-# include <cfloat>
+#include <cfloat>
 
-# include "../Common/Array.h"
-# include "../Graphics/Graphics.h"
-# include "../Math/Vector2F.h"
-# include "../Math/Vector4F.h"
+#include "../Common/Array.h"
+#include "../Graphics/Graphics.h"
+#include "../Math/Vector2F.h"
+#include "../Math/Vector4F.h"
 
 class ImguiPlatform;
 
@@ -49,6 +49,7 @@ enum class ToolWindowFlags : int32_t {
     NoNavInputs = 1 << 18,
     NoNavFocus = 1 << 19,
     UnsavedDocument = 1 << 20,
+    NoDocking = 1 << 21,
     NoNav = NoNavInputs | NoNavFocus,
     NoDecoration = NoTitleBar | NoResize | NoScrollbar | NoCollapse,
     NoInputs = NoMouseInputs | NoNavInputs | NoNavFocus,
@@ -58,6 +59,7 @@ enum class ToolWindowFlags : int32_t {
     Popup = 1 << 26,
     Modal = 1 << 27,
     ChildMenu = 1 << 28,
+    DockNodeHost = 1 << 29,
 };
 
 enum class ToolInputTextFlags : int32_t {
@@ -182,6 +184,16 @@ enum class ToolHoveredFlags : int32_t {
     RootAndChildWindows = RootWindow | ChildWindows,
 };
 
+enum class ToolDockNodeFlags : int32_t {
+    None = 0,
+    KeepAliveOnly = 1 << 0,
+    NoDockingInCentralNode = 1 << 2,
+    PassthruCentralNode = 1 << 3,
+    NoSplit = 1 << 4,
+    NoResize = 1 << 5,
+    AutoHideTabBar = 1 << 6,
+};
+
 enum class ToolDragDropFlags : int32_t {
     None = 0,
     SourceNoPreviewTooltip = 1 << 0,
@@ -281,6 +293,10 @@ enum class ToolConfigFlags : int32_t {
     NavNoCaptureKeyboard = 1 << 3,
     NoMouse = 1 << 4,
     NoMouseCursorChange = 1 << 5,
+    DockingEnable = 1 << 6,
+    ViewportsEnable = 1 << 10,
+    DpiEnableScaleViewports = 1 << 14,
+    DpiEnableScaleFonts = 1 << 15,
     IsSRGB = 1 << 20,
     IsTouchScreen = 1 << 21,
 };
@@ -291,6 +307,9 @@ enum class ToolBackendFlags : int32_t {
     HasMouseCursors = 1 << 1,
     HasSetMousePos = 1 << 2,
     RendererHasVtxOffset = 1 << 3,
+    PlatformHasViewports = 1 << 10,
+    HasMouseHoveredViewport = 1 << 11,
+    RendererHasViewports = 1 << 12,
 };
 
 enum class ToolCol : int32_t {
@@ -332,6 +351,8 @@ enum class ToolCol : int32_t {
     TabActive,
     TabUnfocused,
     TabUnfocusedActive,
+    DockingPreview,
+    DockingEmptyBg,
     PlotLines,
     PlotLinesHovered,
     PlotHistogram,
@@ -476,6 +497,20 @@ enum class ToolFontAtlasFlags : int32_t {
     NoBakedLines = 1 << 2,
 };
 
+enum class ToolViewportFlags : int32_t {
+    None = 0,
+    NoDecoration = 1 << 0,
+    NoTaskBarIcon = 1 << 1,
+    NoFocusOnAppearing = 1 << 2,
+    NoFocusOnClick = 1 << 3,
+    NoInputs = 1 << 4,
+    NoRendererClear = 1 << 5,
+    TopMost = 1 << 6,
+    Minimized = 1 << 7,
+    NoAutoMerge = 1 << 8,
+    CanHostOtherWindows = 1 << 9,
+};
+
 class Tool : public BaseObject {
 private:
     static std::shared_ptr<Tool> instance_;
@@ -580,6 +615,22 @@ public:
 
     float GetTime();
 
+    void Tool::DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags);
+
+    bool BeginDockHost(const char16_t* label, Vector2F offset);
+
+    void ShowDemoWindowNoCloseButton();
+
+    void ShowAboutWindowNoCloseButton();
+
+    void ShowMetricsWindowNoCloseButton();
+
+    bool Begin(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginPopupModal(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginTabItem(const char16_t* label, ToolTabItemFlags flags = (ToolTabItemFlags)0);
+
     const char16_t* OpenDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath);
@@ -643,6 +694,10 @@ public:
 
     // ImDrawList *() GetWindowDrawList
 
+    float GetWindowDpiScale();
+
+    // ImGuiViewport *() GetWindowViewport
+
     Vector2F GetWindowPos();
 
     Vector2F GetWindowSize();
@@ -664,6 +719,8 @@ public:
     void SetNextWindowFocus();
 
     void SetNextWindowBgAlpha(float alpha);
+
+    void SetNextWindowViewport(uint32_t viewport_id);
 
     void SetWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0);
 
@@ -1107,6 +1164,18 @@ public:
 
     void SetTabItemClosed(const char16_t* tab_or_docked_window_label);
 
+    // void (ImGuiID, const ImVec2 &, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpace
+
+    // ImGuiID (ImGuiViewport *, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpaceOverViewport
+
+    void SetNextWindowDockID(uint32_t dock_id, ToolCond cond = (ToolCond)0);
+
+    // void (const ImGuiWindowClass *) SetNextWindowClass
+
+    uint32_t GetWindowDockID();
+
+    bool IsWindowDocked();
+
     void LogToTTY(int32_t auto_open_depth = - 1);
 
     void LogToFile(int32_t auto_open_depth = - 1, const char16_t* filename = NULL);
@@ -1186,6 +1255,10 @@ public:
     // ImDrawList *() GetBackgroundDrawList
 
     // ImDrawList *() GetForegroundDrawList
+
+    // ImDrawList *(ImGuiViewport *) GetBackgroundDrawList
+
+    // ImDrawList *(ImGuiViewport *) GetForegroundDrawList
 
     // ImDrawListSharedData *() GetDrawListSharedData
 
@@ -1272,6 +1345,20 @@ public:
     // void *(size_t) MemAlloc
 
     // void (void *) MemFree
+
+    // ImGuiPlatformIO &() GetPlatformIO
+
+    // ImGuiViewport *() GetMainViewport
+
+    void UpdatePlatformWindows();
+
+    // void (void *, void *) RenderPlatformWindowsDefault
+
+    void DestroyPlatformWindows();
+
+    // ImGuiViewport *(ImGuiID) FindViewportByID
+
+    // ImGuiViewport *(void *) FindViewportByPlatformHandle
 
 };
 
