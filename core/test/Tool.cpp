@@ -132,7 +132,7 @@ TEST(Tool, Window) {
 
 TEST(Tool, Text) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Text")) {
+        if (t->Begin(u"Text", NULL)) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"Normal Text");
             t->TextUnformatted(u"Unformatted");
@@ -160,7 +160,7 @@ TEST(Tool, Text) {
 
 TEST(Tool, Japanese) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"日本語")) {
+        if (t->Begin(u"日本語", NULL)) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"通常のテキスト");
             t->TextUnformatted(u"フォーマットされないテキスト");
@@ -190,7 +190,7 @@ TEST(Tool, Button) {
     int counter = 0;
 
     ToolTestTemplate(LoopFrames, [&isOpen, &radio, &counter](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Button")) {
+        if (t->Begin(u"Button", NULL)) {
             if (t->Button(u"open/close##1", Altseed2::Vector2F())) {
                 isOpen = !isOpen;
             }
@@ -225,7 +225,7 @@ TEST(Tool, Button) {
         }
 
         if (isOpen) {
-            if (t->Begin(u"Another Window")) {
+            if (t->Begin(u"Another Window", NULL)) {
                 t->Text(u"aaaaa");
                 t->End();
             }
@@ -237,7 +237,7 @@ TEST(Tool, Input) {
     int current = 0;
 
     ToolTestTemplate(LoopFrames, [&current](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Input")) {
+        if (t->Begin(u"Input", NULL)) {
             t->LabelText(u"label", u"value");
 
             const char16_t* items = u"AAA\tBBB\tCCC";
@@ -292,7 +292,7 @@ TEST(Tool, Input) {
 
 TEST(Tool, Slider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Slider")) {
+        if (t->Begin(u"Slider", NULL)) {
             static int i1 = 50, i2 = 42;
             t->DragInt(u"DragInt", &i1, 1, 0, 0);
             t->DragInt(u"%", &i2, 1, 0, 100);
@@ -339,7 +339,7 @@ TEST(Tool, Slider) {
 
 TEST(Tool, VSlider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"VSlider")) {
+        if (t->Begin(u"VSlider", NULL)) {
             static float values[7] = {0.0f, 0.60f, 0.35f, 0.9f, 0.70f, 0.20f, 0.0f};
             for (int i = 0; i < 7; i++) {
                 if (i > 0) t->SameLine();
@@ -361,7 +361,7 @@ TEST(Tool, VSlider) {
 
 TEST(Tool, Color) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Color")) {
+        if (t->Begin(u"Color", NULL)) {
             static Altseed2::Color col1 = Altseed2::Color(10, 20, 50, 100);
             static Altseed2::Color col2 = Altseed2::Color(10, 20, 50, 100);
 
@@ -381,7 +381,7 @@ TEST(Tool, Color) {
 
 TEST(Tool, ListBox) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"ListBox")) {
+        if (t->Begin(u"ListBox", NULL)) {
             const char16_t* items = u"Apple\tBanana\tCherry\tKiwi\tMango\tOrange\tPineapple\tStrawberry\tWatermelon";
             static int current = 1;
 
@@ -394,7 +394,7 @@ TEST(Tool, ListBox) {
 
 TEST(Tool, Selectable) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Selectable")) {
+        if (t->Begin(u"Selectable", NULL)) {
             static bool selection[5] = {false, true, false, false, false};
 
             t->Selectable(u"Selectable 1", &selection[0]);
@@ -412,7 +412,7 @@ TEST(Tool, Selectable) {
 
 TEST(Tool, Table) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Table")) {
+        if (t->Begin(u"Table", NULL)) {
             t->Columns(3, NULL, true);
             static bool selected[12] = {};
             for (int i = 0; i < 12; i++) {
@@ -464,7 +464,7 @@ TEST(Tool, Table) {
 
 TEST(Tool, Sortable) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Sortable")) {
+        if (t->Begin(u"Sortable", NULL)) {
             static const char16_t* item_names[] = {u"Sortable 1", u"Sortable 2", u"Sortable 3", u"Sortable 4", u"Sortable 5"};
             static const char16_t* item_current = item_names[0];
             for (int n = 0; n < 5; n++) {
@@ -489,7 +489,7 @@ TEST(Tool, Sortable) {
 
 TEST(Tool, CollapsingHeader) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"CollapsingHeader")) {
+        if (t->Begin(u"CollapsingHeader", NULL)) {
             if (t->CollapsingHeader(u"open/close field")) {
                 if (t->TreeNode(u"TreeNode A")) {
                     t->Text(u"hogehoge");
@@ -509,7 +509,7 @@ TEST(Tool, CollapsingHeader) {
 }
 TEST(Tool, Tooltip) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Tooltip")) {
+        if (t->Begin(u"Tooltip", NULL)) {
             t->TextDisabled(u"(?)");
             if (t->IsItemHovered()) {
                 t->BeginTooltip();
@@ -527,7 +527,7 @@ TEST(Tool, Tooltip) {
 TEST(Tool, Popup) {
     bool isOpen = true;
     ToolTestTemplate(LoopFrames, [&isOpen](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Popup")) {
+        if (t->Begin(u"Popup", NULL)) {
             const char16_t* names[] = {u"AAA", u"BBB", u"CCC", u"DDD"};
             static int selected = -1;
             if (t->Button(u"Select..", Altseed2::Vector2F())) {
@@ -580,7 +580,7 @@ TEST(Tool, Image) {
         Altseed2::Renderer::GetInstance()->DrawSprite(s1);
         Altseed2::Renderer::GetInstance()->Render();
 
-        if (t->Begin(u"Image")) {
+        if (t->Begin(u"Image", NULL)) {
             t->Image(t1, Altseed2::Vector2F(100, 100));
             t->ImageButton(t1, Altseed2::Vector2F(100, 100));
             t->ImageButton(rt, Altseed2::Vector2F(100, 100));
