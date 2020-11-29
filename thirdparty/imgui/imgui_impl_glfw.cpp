@@ -855,4 +855,7 @@ static void ImGui_ImplGlfw_InitPlatformInterface()
 
 static void ImGui_ImplGlfw_ShutdownPlatformInterface()
 {
+#if !GLFW_HAS_MOUSE_PASSTHROUGH && GLFW_HAS_WINDOW_HOVERED && defined(_WIN32)
+    g_GlfwWndProc = NULL;
+#endif
 }
