@@ -118,15 +118,15 @@ TEST(Tool, Window) {
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
         if (t->Begin(u"Window1", NULL, flag)) {
             t->Text(u"Text");
-            t->End();
         }
+        t->End();
 
         t->SetNextWindowPos(Altseed2::Vector2F(320, 0));
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
         if (t->Begin(u"Window2", NULL, flag)) {
             t->Text(u"Text");
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -153,8 +153,8 @@ TEST(Tool, Text) {
             t->PushTextWrapPos(200.0f);
             t->Text(u"Text between PushTextWrapPos and PopTextWrapPos is wrapped");
             t->PopTextWrapPos();
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -179,8 +179,8 @@ TEST(Tool, Japanese) {
             t->PushTextWrapPos(200.0f);
             t->Text(u"PushTextWrapPosからPopTextWrapPosまでの間のTextは折り返して表示されます");
             t->PopTextWrapPos();
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -220,15 +220,14 @@ TEST(Tool, Button) {
 
             t->SameLine();
             t->Text(format(u"%d", counter).c_str());
-
-            t->End();
         }
+        t->End();
 
         if (isOpen) {
             if (t->Begin(u"Another Window", NULL)) {
                 t->Text(u"aaaaa");
-                t->End();
             }
+            t->End();
         }
     });
 }
@@ -284,9 +283,8 @@ TEST(Tool, Input) {
             t->InputInt(u"InputInt", &i0);
             t->InputFloat(u"InputFloat", &f0);
             t->InputFloat3(u"InputFloat3", vec3);
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -332,8 +330,8 @@ TEST(Tool, Slider) {
             t->SliderFloat(u"Z", &z, 0.0f, 5.0f);
 
             t->PopItemWidth();
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -354,8 +352,8 @@ TEST(Tool, VSlider) {
 
                 t->PopID();
             }
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -374,8 +372,8 @@ TEST(Tool, Color) {
 
             );
             t->ColorEdit3(u"Color ID", &col1, flag);
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -386,9 +384,8 @@ TEST(Tool, ListBox) {
             static int current = 1;
 
             t->ListBox(u"ListBox", &current, items, 9);
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -404,9 +401,8 @@ TEST(Tool, Selectable) {
                 if (t->IsMouseDoubleClicked(Altseed2::ToolMouseButton::Left)) selection[2] = !selection[2];
 
             t->Selectable(u"Selectable 5", &selection[4], Altseed2::ToolSelectableFlags::Disabled);
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -456,9 +452,8 @@ TEST(Tool, Table) {
                 t->NextColumn();
             }
             t->Columns(1, NULL, false);
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -481,9 +476,8 @@ TEST(Tool, Sortable) {
                 }
             }
             t->Text(format(u"%s is selected", item_current).c_str());
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -502,9 +496,8 @@ TEST(Tool, CollapsingHeader) {
                     t->TreePop();
                 }
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 TEST(Tool, Tooltip) {
@@ -518,9 +511,8 @@ TEST(Tool, Tooltip) {
                 t->PopTextWrapPos();
                 t->EndTooltip();
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -543,9 +535,8 @@ TEST(Tool, Popup) {
                     if (t->Selectable(names[i], &isOpen)) selected = i;
                 t->EndPopup();
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -585,8 +576,8 @@ TEST(Tool, Image) {
             t->ImageButton(t1, Altseed2::Vector2F(100, 100));
             t->ImageButton(rt, Altseed2::Vector2F(100, 100));
             t->ImageButton(t1, Altseed2::Vector2F(100, 100));
-            t->End();
         }
+        t->End();
     });
 }
 
