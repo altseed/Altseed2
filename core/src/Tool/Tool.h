@@ -1,10 +1,10 @@
 ﻿#pragma once
-# include <cfloat>
+#include <cfloat>
 
-# include "../Common/Array.h"
-# include "../Graphics/Graphics.h"
-# include "../Math/Vector2F.h"
-# include "../Math/Vector4F.h"
+#include "../Common/Array.h"
+#include "../Graphics/Graphics.h"
+#include "../Math/Vector2F.h"
+#include "../Math/Vector4F.h"
 
 class ImguiPlatform;
 
@@ -49,6 +49,7 @@ enum class ToolWindowFlags : int32_t {
     NoNavInputs = 1 << 18,
     NoNavFocus = 1 << 19,
     UnsavedDocument = 1 << 20,
+    NoDocking = 1 << 21,
     NoNav = NoNavInputs | NoNavFocus,
     NoDecoration = NoTitleBar | NoResize | NoScrollbar | NoCollapse,
     NoInputs = NoMouseInputs | NoNavInputs | NoNavFocus,
@@ -58,6 +59,7 @@ enum class ToolWindowFlags : int32_t {
     Popup = 1 << 26,
     Modal = 1 << 27,
     ChildMenu = 1 << 28,
+    DockNodeHost = 1 << 29,
 };
 
 enum class ToolInputTextFlags : int32_t {
@@ -182,6 +184,16 @@ enum class ToolHoveredFlags : int32_t {
     RootAndChildWindows = RootWindow | ChildWindows,
 };
 
+enum class ToolDockNodeFlags : int32_t {
+    None = 0,
+    KeepAliveOnly = 1 << 0,
+    NoDockingInCentralNode = 1 << 2,
+    PassthruCentralNode = 1 << 3,
+    NoSplit = 1 << 4,
+    NoResize = 1 << 5,
+    AutoHideTabBar = 1 << 6,
+};
+
 enum class ToolDragDropFlags : int32_t {
     None = 0,
     SourceNoPreviewTooltip = 1 << 0,
@@ -211,7 +223,7 @@ enum class ToolDataType : int32_t {
 };
 
 enum class ToolDir : int32_t {
-    None = - 1,
+    None = -1,
     Left = 0,
     Right = 1,
     Up = 2,
@@ -281,6 +293,10 @@ enum class ToolConfigFlags : int32_t {
     NavNoCaptureKeyboard = 1 << 3,
     NoMouse = 1 << 4,
     NoMouseCursorChange = 1 << 5,
+    DockingEnable = 1 << 6,
+    ViewportsEnable = 1 << 10,
+    DpiEnableScaleViewports = 1 << 14,
+    DpiEnableScaleFonts = 1 << 15,
     IsSRGB = 1 << 20,
     IsTouchScreen = 1 << 21,
 };
@@ -291,6 +307,9 @@ enum class ToolBackendFlags : int32_t {
     HasMouseCursors = 1 << 1,
     HasSetMousePos = 1 << 2,
     RendererHasVtxOffset = 1 << 3,
+    PlatformHasViewports = 1 << 10,
+    HasMouseHoveredViewport = 1 << 11,
+    RendererHasViewports = 1 << 12,
 };
 
 enum class ToolCol : int32_t {
@@ -332,6 +351,8 @@ enum class ToolCol : int32_t {
     TabActive,
     TabUnfocused,
     TabUnfocusedActive,
+    DockingPreview,
+    DockingEmptyBg,
     PlotLines,
     PlotLinesHovered,
     PlotHistogram,
@@ -427,7 +448,7 @@ enum class ToolMouseButton : int32_t {
 };
 
 enum class ToolMouseCursor : int32_t {
-    None = - 1,
+    None = -1,
     Arrow = 0,
     TextInput,
     ResizeAll,
@@ -474,6 +495,20 @@ enum class ToolFontAtlasFlags : int32_t {
     NoPowerOfTwoHeight = 1 << 0,
     NoMouseCursors = 1 << 1,
     NoBakedLines = 1 << 2,
+};
+
+enum class ToolViewportFlags : int32_t {
+    None = 0,
+    NoDecoration = 1 << 0,
+    NoTaskBarIcon = 1 << 1,
+    NoFocusOnAppearing = 1 << 2,
+    NoFocusOnClick = 1 << 3,
+    NoInputs = 1 << 4,
+    NoRendererClear = 1 << 5,
+    TopMost = 1 << 6,
+    Minimized = 1 << 7,
+    NoAutoMerge = 1 << 8,
+    CanHostOtherWindows = 1 << 9,
 };
 
 class Tool : public BaseObject {
@@ -580,6 +615,22 @@ public:
 
     float GetTime();
 
+    void DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags);
+
+    bool BeginDockHost(const char16_t* label, Vector2F offset);
+
+    void ShowDemoWindowNoCloseButton();
+
+    void ShowAboutWindowNoCloseButton();
+
+    void ShowMetricsWindowNoCloseButton();
+
+    bool Begin(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginPopupModal(const char16_t* name, ToolWindowFlags flags = (ToolWindowFlags)0);
+
+    bool BeginTabItem(const char16_t* label, ToolTabItemFlags flags = (ToolTabItemFlags)0);
+
     const char16_t* OpenDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* OpenDialogMultiple(const char16_t* filter, const char16_t* defaultPath);
@@ -627,9 +678,9 @@ public:
 
     void End();
 
-    bool BeginChild(const char16_t* str_id, Vector2F size = Vector2F ( 0 , 0 ), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginChild(const char16_t* str_id, Vector2F size = Vector2F(0, 0), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
 
-    bool BeginChild(uint32_t id, Vector2F size = Vector2F ( 0 , 0 ), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginChild(uint32_t id, Vector2F size = Vector2F(0, 0), bool border = false, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void EndChild();
 
@@ -643,6 +694,10 @@ public:
 
     // ImDrawList *() GetWindowDrawList
 
+    float GetWindowDpiScale();
+
+    // ImGuiViewport *() GetWindowViewport
+
     Vector2F GetWindowPos();
 
     Vector2F GetWindowSize();
@@ -651,7 +706,7 @@ public:
 
     float GetWindowHeight();
 
-    void SetNextWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0, Vector2F pivot = Vector2F ( 0 , 0 ));
+    void SetNextWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0, Vector2F pivot = Vector2F(0, 0));
 
     void SetNextWindowSize(Vector2F size, ToolCond cond = (ToolCond)0);
 
@@ -664,6 +719,8 @@ public:
     void SetNextWindowFocus();
 
     void SetNextWindowBgAlpha(float alpha);
+
+    void SetNextWindowViewport(uint32_t viewport_id);
 
     void SetWindowPos(Vector2F pos, ToolCond cond = (ToolCond)0);
 
@@ -765,7 +822,7 @@ public:
 
     void Separator();
 
-    void SameLine(float offset_from_start_x = 0.0f, float spacing = - 1.0f);
+    void SameLine(float offset_from_start_x = 0.0f, float spacing = -1.0f);
 
     void NewLine();
 
@@ -851,7 +908,7 @@ public:
 
     // void (const char *, va_list) BulletTextV
 
-    bool Button(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Button(const char16_t* label, Vector2F size = Vector2F(0, 0));
 
     bool SmallButton(const char16_t* label);
 
@@ -871,7 +928,7 @@ public:
 
     bool RadioButton(const char16_t* label, int32_t* v, int32_t v_button);
 
-    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t* overlay = NULL);
+    void ProgressBar(float fraction, Vector2F size_arg = Vector2F(-1, 0), const char16_t* overlay = NULL);
 
     void Bullet();
 
@@ -911,7 +968,7 @@ public:
 
     bool SliderFloat4(const char16_t* label, std::shared_ptr<FloatArray> v, float v_min, float v_max, const char16_t* format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool SliderAngle(const char16_t* label, float* v_rad, float v_degrees_min = - 360.0f, float v_degrees_max = + 360.0f, const char16_t* format = u"%.0f deg", ToolSliderFlags flags = (ToolSliderFlags)0);
+    bool SliderAngle(const char16_t* label, float* v_rad, float v_degrees_min = -360.0f, float v_degrees_max = +360.0f, const char16_t* format = u"%.0f deg", ToolSliderFlags flags = (ToolSliderFlags)0);
 
     bool SliderInt(const char16_t* label, int32_t* v, int32_t v_min, int32_t v_max, const char16_t* format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
@@ -1005,17 +1062,17 @@ public:
 
     void SetNextItemOpen(bool is_open, ToolCond cond = (ToolCond)0);
 
-    bool Selectable(const char16_t* label, bool selected = false, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Selectable(const char16_t* label, bool selected = false, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F(0, 0));
 
-    bool Selectable(const char16_t* label, bool* p_selected, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F ( 0 , 0 ));
+    bool Selectable(const char16_t* label, bool* p_selected, ToolSelectableFlags flags = (ToolSelectableFlags)0, Vector2F size = Vector2F(0, 0));
 
     // bool (const char *, int *, const char *const *, int, int) ListBox
 
     // bool (const char *, int *, bool (*)(void *, int, const char **), void *, int, int) ListBox
 
-    bool ListBoxHeader(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
+    bool ListBoxHeader(const char16_t* label, Vector2F size = Vector2F(0, 0));
 
-    bool ListBoxHeader(const char16_t* label, int32_t items_count, int32_t height_in_items = - 1);
+    bool ListBoxHeader(const char16_t* label, int32_t items_count, int32_t height_in_items = -1);
 
     void ListBoxFooter();
 
@@ -1085,11 +1142,11 @@ public:
 
     int32_t GetColumnIndex();
 
-    float GetColumnWidth(int32_t column_index = - 1);
+    float GetColumnWidth(int32_t column_index = -1);
 
     void SetColumnWidth(int32_t column_index, float width);
 
-    float GetColumnOffset(int32_t column_index = - 1);
+    float GetColumnOffset(int32_t column_index = -1);
 
     void SetColumnOffset(int32_t column_index, float offset_x);
 
@@ -1107,11 +1164,23 @@ public:
 
     void SetTabItemClosed(const char16_t* tab_or_docked_window_label);
 
-    void LogToTTY(int32_t auto_open_depth = - 1);
+    // void (ImGuiID, const ImVec2 &, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpace
 
-    void LogToFile(int32_t auto_open_depth = - 1, const char16_t* filename = NULL);
+    // ImGuiID (ImGuiViewport *, ImGuiDockNodeFlags, const ImGuiWindowClass *) DockSpaceOverViewport
 
-    void LogToClipboard(int32_t auto_open_depth = - 1);
+    void SetNextWindowDockID(uint32_t dock_id, ToolCond cond = (ToolCond)0);
+
+    // void (const ImGuiWindowClass *) SetNextWindowClass
+
+    uint32_t GetWindowDockID();
+
+    bool IsWindowDocked();
+
+    void LogToTTY(int32_t auto_open_depth = -1);
+
+    void LogToFile(int32_t auto_open_depth = -1, const char16_t* filename = NULL);
+
+    void LogToClipboard(int32_t auto_open_depth = -1);
 
     void LogFinish();
 
@@ -1187,6 +1256,10 @@ public:
 
     // ImDrawList *() GetForegroundDrawList
 
+    // ImDrawList *(ImGuiViewport *) GetBackgroundDrawList
+
+    // ImDrawList *(ImGuiViewport *) GetForegroundDrawList
+
     // ImDrawListSharedData *() GetDrawListSharedData
 
     const char16_t* GetStyleColorName(ToolCol idx);
@@ -1201,7 +1274,7 @@ public:
 
     void EndChildFrame();
 
-    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
+    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
 
     Vector4F ColorConvertU32ToFloat4(uint32_t in);
 
@@ -1241,9 +1314,9 @@ public:
 
     Vector2F GetMousePosOnOpeningCurrentPopup();
 
-    bool IsMouseDragging(ToolMouseButton button, float lock_threshold = - 1.0f);
+    bool IsMouseDragging(ToolMouseButton button, float lock_threshold = -1.0f);
 
-    Vector2F GetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0, float lock_threshold = - 1.0f);
+    Vector2F GetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0, float lock_threshold = -1.0f);
 
     void ResetMouseDragDelta(ToolMouseButton button = (ToolMouseButton)0);
 
@@ -1273,6 +1346,19 @@ public:
 
     // void (void *) MemFree
 
+    // ImGuiPlatformIO &() GetPlatformIO
+
+    // ImGuiViewport *() GetMainViewport
+
+    void UpdatePlatformWindows();
+
+    // void (void *, void *) RenderPlatformWindowsDefault
+
+    void DestroyPlatformWindows();
+
+    // ImGuiViewport *(ImGuiID) FindViewportByID
+
+    // ImGuiViewport *(void *) FindViewportByPlatformHandle
 };
 
-}
+}  // namespace Altseed2

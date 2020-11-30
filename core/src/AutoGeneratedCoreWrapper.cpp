@@ -3621,6 +3621,99 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_GetTime(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_DockSpace(void* cbg_self, int32_t id, Altseed2::Vector2F_C size, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = id;
+    Altseed2::Vector2F_C cbg_arg1 = size;
+    Altseed2::ToolDockNodeFlags cbg_arg2 = (Altseed2::ToolDockNodeFlags)flags;
+    cbg_self_->DockSpace(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginDockHost(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C offset) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::Vector2F_C cbg_arg1 = offset;
+    bool cbg_ret = cbg_self_->BeginDockHost(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowDemoWindowNoCloseButton(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->ShowDemoWindowNoCloseButton();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowAboutWindowNoCloseButton(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->ShowAboutWindowNoCloseButton();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_ShowMetricsWindowNoCloseButton(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->ShowMetricsWindowNoCloseButton();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin_char16p_ToolWindowFlags(void* cbg_self, const char16_t* name, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    Altseed2::ToolWindowFlags cbg_arg1 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin_char16p_boolp_ToolWindowFlags(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal_char16p_ToolWindowFlags(void* cbg_self, const char16_t* name, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    Altseed2::ToolWindowFlags cbg_arg1 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal_char16p_boolp_ToolWindowFlags(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
+    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem_char16p_ToolTabItemFlags(void* cbg_self, const char16_t* label, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    Altseed2::ToolTabItemFlags cbg_arg1 = (Altseed2::ToolTabItemFlags)flags;
+    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0, cbg_arg1);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem_char16p_boolp_ToolTabItemFlags(void* cbg_self, const char16_t* label, bool * p_open, int32_t flags) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    bool* cbg_arg1 = p_open;
+    Altseed2::ToolTabItemFlags cbg_arg2 = (Altseed2::ToolTabItemFlags)flags;
+    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_OpenDialog(void* cbg_self, const char16_t* filter, const char16_t* defaultPath) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -3705,16 +3798,6 @@ CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_GetVersion(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_Begin(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = name;
-    bool* cbg_arg1 = p_open;
-    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
-    bool cbg_ret = cbg_self_->Begin(cbg_arg0, cbg_arg1, cbg_arg2);
-    return cbg_ret;
-}
-
 CBGEXPORT void CBGSTDCALL cbg_Tool_End(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -3776,6 +3859,13 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowHovered(void* cbg_self, int32_t flags
 
     Altseed2::ToolHoveredFlags cbg_arg0 = (Altseed2::ToolHoveredFlags)flags;
     bool cbg_ret = cbg_self_->IsWindowHovered(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Tool_GetWindowDpiScale(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetWindowDpiScale();
     return cbg_ret;
 }
 
@@ -3850,6 +3940,13 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowBgAlpha(void* cbg_self, float al
 
     float cbg_arg0 = alpha;
     cbg_self_->SetNextWindowBgAlpha(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowViewport(void* cbg_self, int32_t viewport_id) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = viewport_id;
+    cbg_self_->SetNextWindowViewport(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_SetWindowPos_Vector2F_C_ToolCond(void* cbg_self, Altseed2::Vector2F_C pos, int32_t cond) {
@@ -5186,16 +5283,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* st
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopupModal(void* cbg_self, const char16_t* name, bool * p_open, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = name;
-    bool* cbg_arg1 = p_open;
-    Altseed2::ToolWindowFlags cbg_arg2 = (Altseed2::ToolWindowFlags)flags;
-    bool cbg_ret = cbg_self_->BeginPopupModal(cbg_arg0, cbg_arg1, cbg_arg2);
-    return cbg_ret;
-}
-
 CBGEXPORT void CBGSTDCALL cbg_Tool_EndPopup(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -5336,16 +5423,6 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabBar(void* cbg_self) {
     cbg_self_->EndTabBar();
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginTabItem(void* cbg_self, const char16_t* label, bool * p_open, int32_t flags) {
-    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
-
-    const char16_t* cbg_arg0 = label;
-    bool* cbg_arg1 = p_open;
-    Altseed2::ToolTabItemFlags cbg_arg2 = (Altseed2::ToolTabItemFlags)flags;
-    bool cbg_ret = cbg_self_->BeginTabItem(cbg_arg0, cbg_arg1, cbg_arg2);
-    return cbg_ret;
-}
-
 CBGEXPORT void CBGSTDCALL cbg_Tool_EndTabItem(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -5366,6 +5443,28 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetTabItemClosed(void* cbg_self, const char16
 
     const char16_t* cbg_arg0 = tab_or_docked_window_label;
     cbg_self_->SetTabItemClosed(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetNextWindowDockID(void* cbg_self, int32_t dock_id, int32_t cond) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_arg0 = dock_id;
+    Altseed2::ToolCond cbg_arg1 = (Altseed2::ToolCond)cond;
+    cbg_self_->SetNextWindowDockID(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetWindowDockID(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetWindowDockID();
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_IsWindowDocked(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->IsWindowDocked();
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_LogToTTY(void* cbg_self, int32_t auto_open_depth) {
@@ -5848,6 +5947,18 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SaveIniSettingsToDisk(void* cbg_self, const c
 
     const char16_t* cbg_arg0 = ini_filename;
     cbg_self_->SaveIniSettingsToDisk(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_UpdatePlatformWindows(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->UpdatePlatformWindows();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_DestroyPlatformWindows(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    cbg_self_->DestroyPlatformWindows();
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetToolUsage(void* cbg_self) {

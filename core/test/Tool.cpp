@@ -118,21 +118,21 @@ TEST(Tool, Window) {
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
         if (t->Begin(u"Window1", NULL, flag)) {
             t->Text(u"Text");
-            t->End();
         }
+        t->End();
 
         t->SetNextWindowPos(Altseed2::Vector2F(320, 0));
         t->SetNextWindowSize(Altseed2::Vector2F(320, 720));
         if (t->Begin(u"Window2", NULL, flag)) {
             t->Text(u"Text");
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Text) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Text")) {
+        if (t->Begin(u"Text", NULL)) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"Normal Text");
             t->TextUnformatted(u"Unformatted");
@@ -153,14 +153,14 @@ TEST(Tool, Text) {
             t->PushTextWrapPos(200.0f);
             t->Text(u"Text between PushTextWrapPos and PopTextWrapPos is wrapped");
             t->PopTextWrapPos();
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Japanese) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"日本語")) {
+        if (t->Begin(u"日本語", NULL)) {
             t->Dummy(Altseed2::Vector2F(10, 10));
             t->Text(u"通常のテキスト");
             t->TextUnformatted(u"フォーマットされないテキスト");
@@ -179,8 +179,8 @@ TEST(Tool, Japanese) {
             t->PushTextWrapPos(200.0f);
             t->Text(u"PushTextWrapPosからPopTextWrapPosまでの間のTextは折り返して表示されます");
             t->PopTextWrapPos();
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -190,7 +190,7 @@ TEST(Tool, Button) {
     int counter = 0;
 
     ToolTestTemplate(LoopFrames, [&isOpen, &radio, &counter](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Button")) {
+        if (t->Begin(u"Button", NULL)) {
             if (t->Button(u"open/close##1", Altseed2::Vector2F())) {
                 isOpen = !isOpen;
             }
@@ -220,15 +220,14 @@ TEST(Tool, Button) {
 
             t->SameLine();
             t->Text(format(u"%d", counter).c_str());
-
-            t->End();
         }
+        t->End();
 
         if (isOpen) {
-            if (t->Begin(u"Another Window")) {
+            if (t->Begin(u"Another Window", NULL)) {
                 t->Text(u"aaaaa");
-                t->End();
             }
+            t->End();
         }
     });
 }
@@ -237,7 +236,7 @@ TEST(Tool, Input) {
     int current = 0;
 
     ToolTestTemplate(LoopFrames, [&current](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Input")) {
+        if (t->Begin(u"Input", NULL)) {
             t->LabelText(u"label", u"value");
 
             const char16_t* items = u"AAA\tBBB\tCCC";
@@ -284,15 +283,14 @@ TEST(Tool, Input) {
             t->InputInt(u"InputInt", &i0);
             t->InputFloat(u"InputFloat", &f0);
             t->InputFloat3(u"InputFloat3", vec3);
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Slider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Slider")) {
+        if (t->Begin(u"Slider", NULL)) {
             static int i1 = 50, i2 = 42;
             t->DragInt(u"DragInt", &i1, 1, 0, 0);
             t->DragInt(u"%", &i2, 1, 0, 100);
@@ -332,14 +330,14 @@ TEST(Tool, Slider) {
             t->SliderFloat(u"Z", &z, 0.0f, 5.0f);
 
             t->PopItemWidth();
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, VSlider) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"VSlider")) {
+        if (t->Begin(u"VSlider", NULL)) {
             static float values[7] = {0.0f, 0.60f, 0.35f, 0.9f, 0.70f, 0.20f, 0.0f};
             for (int i = 0; i < 7; i++) {
                 if (i > 0) t->SameLine();
@@ -354,14 +352,14 @@ TEST(Tool, VSlider) {
 
                 t->PopID();
             }
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Color) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Color")) {
+        if (t->Begin(u"Color", NULL)) {
             static Altseed2::Color col1 = Altseed2::Color(10, 20, 50, 100);
             static Altseed2::Color col2 = Altseed2::Color(10, 20, 50, 100);
 
@@ -374,27 +372,26 @@ TEST(Tool, Color) {
 
             );
             t->ColorEdit3(u"Color ID", &col1, flag);
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, ListBox) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"ListBox")) {
+        if (t->Begin(u"ListBox", NULL)) {
             const char16_t* items = u"Apple\tBanana\tCherry\tKiwi\tMango\tOrange\tPineapple\tStrawberry\tWatermelon";
             static int current = 1;
 
             t->ListBox(u"ListBox", &current, items, 9);
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Selectable) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Selectable")) {
+        if (t->Begin(u"Selectable", NULL)) {
             static bool selection[5] = {false, true, false, false, false};
 
             t->Selectable(u"Selectable 1", &selection[0]);
@@ -404,15 +401,14 @@ TEST(Tool, Selectable) {
                 if (t->IsMouseDoubleClicked(Altseed2::ToolMouseButton::Left)) selection[2] = !selection[2];
 
             t->Selectable(u"Selectable 5", &selection[4], Altseed2::ToolSelectableFlags::Disabled);
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Table) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Table")) {
+        if (t->Begin(u"Table", NULL)) {
             t->Columns(3, NULL, true);
             static bool selected[12] = {};
             for (int i = 0; i < 12; i++) {
@@ -456,15 +452,14 @@ TEST(Tool, Table) {
                 t->NextColumn();
             }
             t->Columns(1, NULL, false);
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Sortable) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Sortable")) {
+        if (t->Begin(u"Sortable", NULL)) {
             static const char16_t* item_names[] = {u"Sortable 1", u"Sortable 2", u"Sortable 3", u"Sortable 4", u"Sortable 5"};
             static const char16_t* item_current = item_names[0];
             for (int n = 0; n < 5; n++) {
@@ -481,15 +476,14 @@ TEST(Tool, Sortable) {
                 }
             }
             t->Text(format(u"%s is selected", item_current).c_str());
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, CollapsingHeader) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"CollapsingHeader")) {
+        if (t->Begin(u"CollapsingHeader", NULL)) {
             if (t->CollapsingHeader(u"open/close field")) {
                 if (t->TreeNode(u"TreeNode A")) {
                     t->Text(u"hogehoge");
@@ -502,14 +496,13 @@ TEST(Tool, CollapsingHeader) {
                     t->TreePop();
                 }
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 TEST(Tool, Tooltip) {
     ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Tooltip")) {
+        if (t->Begin(u"Tooltip", NULL)) {
             t->TextDisabled(u"(?)");
             if (t->IsItemHovered()) {
                 t->BeginTooltip();
@@ -518,16 +511,15 @@ TEST(Tool, Tooltip) {
                 t->PopTextWrapPos();
                 t->EndTooltip();
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 
 TEST(Tool, Popup) {
     bool isOpen = true;
     ToolTestTemplate(LoopFrames, [&isOpen](std::shared_ptr<Altseed2::Tool> t) {
-        if (t->Begin(u"Popup")) {
+        if (t->Begin(u"Popup", NULL)) {
             const char16_t* names[] = {u"AAA", u"BBB", u"CCC", u"DDD"};
             static int selected = -1;
             if (t->Button(u"Select..", Altseed2::Vector2F())) {
@@ -543,9 +535,8 @@ TEST(Tool, Popup) {
                     if (t->Selectable(names[i], &isOpen)) selected = i;
                 t->EndPopup();
             }
-
-            t->End();
         }
+        t->End();
     });
 }
 
@@ -580,13 +571,13 @@ TEST(Tool, Image) {
         Altseed2::Renderer::GetInstance()->DrawSprite(s1);
         Altseed2::Renderer::GetInstance()->Render();
 
-        if (t->Begin(u"Image")) {
+        if (t->Begin(u"Image", NULL)) {
             t->Image(t1, Altseed2::Vector2F(100, 100));
             t->ImageButton(t1, Altseed2::Vector2F(100, 100));
             t->ImageButton(rt, Altseed2::Vector2F(100, 100));
             t->ImageButton(t1, Altseed2::Vector2F(100, 100));
-            t->End();
         }
+        t->End();
     });
 }
 
