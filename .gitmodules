@@ -35,9 +35,9 @@
 [submodule "thirdparty/nativefiledialog"]
 	path = thirdparty/nativefiledialog
 	url = https://github.com/altseed/nativefiledialog.git
-[submodule "thirdparty/freetype2"]
-	path = thirdparty/freetype2
-	url = git://git.sv.nongnu.org/freetype/freetype2.git
+[submodule "thirdparty/freetype"]
+	path = thirdparty/freetype
+	url = https://github.com/altseed/freetype.git
 [submodule "thirdparty/msdfgen"]
 	path = thirdparty/msdfgen
 	url = https://github.com/altseed/msdfgen.git

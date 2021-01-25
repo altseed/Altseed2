@@ -118,10 +118,10 @@ endif()
 # freetype
 ExternalProject_Add(
     EP_freetype
-    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/freetype2
-    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/freetype2
-    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
-    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/freetype
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/freetype
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
                     -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
@@ -131,8 +131,8 @@ ExternalProject_Add(
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
 )
 
-list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/include)
-list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/lib)
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/lib)
 
 # msdfgen
 ExternalProject_Add(
@@ -145,8 +145,8 @@ ExternalProject_Add(
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
                     -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
-                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/include/freetype2
-                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include/freetype
+                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
                     -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
                     -DCMAKE_DEBUG_POSTFIX=d
                     -DBUILD_SHARED_LIBS=OFF
