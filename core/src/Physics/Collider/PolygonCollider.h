@@ -10,10 +10,6 @@
 namespace Altseed2 {
 
 class PolygonCollider : public Collider {
-    friend class CircleCollider;
-    friend class EdgeCollider;
-    friend class ShapeCollider;
-
 private:
     std::shared_ptr<Int32Array> buffers_;
 
@@ -21,9 +17,10 @@ private:
 
     std::shared_ptr<Vector2FArray> vertexes_;
 
-    bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) override;
-
     void UpdateTriangles();
+
+protected:
+    std::pair<b2Shape*, int32_t> GetB2Shapes() override { return {triangles_.data(), triangles_.size()}; }
 
 public:
     PolygonCollider();

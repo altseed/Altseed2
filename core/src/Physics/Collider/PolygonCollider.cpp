@@ -25,44 +25,6 @@ void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
     UpdateTriangles();
 }
 
-bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
-    auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if (circle != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &circle->shape_, 0, transform_, circle->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto edge = std::dynamic_pointer_cast<EdgeCollider>(collider);
-    if (edge != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &edge->shape_, 0, transform_, edge->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto shape = std::dynamic_pointer_cast<ShapeCollider>(collider);
-    if (shape != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &shape->shape_, 0, transform_, shape->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto polygon = std::dynamic_pointer_cast<PolygonCollider>(collider);
-    if (polygon != nullptr) {
-        for (auto triangle1 : triangles_) {
-            for (auto triangle2 : polygon->triangles_) {
-                if (b2TestOverlap(&triangle1, 0, &triangle2, 0, transform_, polygon->transform_)) return true;
-            }
-        }
-        return false;
-    }
-
-    return false;
-}
-
 void PolygonCollider::SetDefaultIndexBuffer() {
     auto vs = vertexes_->GetVector();
     if (vs.size() < 3) {

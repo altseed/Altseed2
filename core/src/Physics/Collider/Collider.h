@@ -19,11 +19,10 @@ protected:
     Vector2F position_;
     float rotation_;
 
-    virtual bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) { throw "Not implemented."; }
+    virtual std::pair<b2Shape*, int32_t> GetB2Shapes() { return {nullptr, 0}; }
 
 public:
     Collider();
-
     bool GetIsCollidedWith(std::shared_ptr<Collider> collider);
 
     // 位置
