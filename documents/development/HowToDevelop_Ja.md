@@ -25,6 +25,37 @@
 
 3. `scripts/generate_wrapper.py`を実行し、再度コアをビルドします。この時エラーが出ず正常にビルドできることを確認します。
 
+#### 自動生成ファイルについて
+
+これらの設定はC++のファイルとJsonファイルから自動生成することもできます。
+
+clangのpythonバインディングをインストールします。
+
+```
+pip install clang
+```
+
+Windowsの場合、Clangをインストールします。Macの場合、XCodeをインストールします。
+
+そして、下記のコマンドで生成します。
+
+Windowsの場合、
+
+```
+cd scripts
+python generate_cbg_definition.py --clang (libclang.dllが存在するディレクトリ)
+```
+
+Macの場合、
+
+```
+cd scripts
+python generate_cbg_definition.py --xcode (xcodeが存在するディレクトリ)
+```
+
+ただしApplication/にインストールした場合は引数は必要ありません。
+
+
 ### ドキュメント
 
 TODO: Core 部分に関する開発者向けの仕様解説ドキュメントを用意

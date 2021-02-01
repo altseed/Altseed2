@@ -7,7 +7,12 @@ import sys
 import os
 import copy
 import json
-os.chdir(os.path.dirname(__file__))
+import argparse
+import platform
+
+current_dir = os.path.dirname(__file__)
+if current_dir != '':
+    os.chdir(current_dir)
 
 
 def merge_list(a, b):
@@ -598,16 +603,40 @@ jsons = [
     "bindings/sound.json",
     "bindings/window.json",
 ]
-parser = Parser()
 
-if len(sys.argv) == 2:
-    Config.set_library_path(sys.argv[1])
+aparser = argparse.ArgumentParser()
+aparser.add_argument('--libclang', default='./', help='a path to a directory which contains libclang.dll (Windows, Linux)')
+aparser.add_argument('--xcode', default='/Applications/Xcode.app/', help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
+args = aparser.parse_args()
+
+options = ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"]
+
+pf = platform.system()
+
+if pf == 'Darwin':
+    xcode_path = args.xcode + 'Contents/Frameworks/'
+    xcode_include_path = args.xcode + 'Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/'
+    if not os.path.exists(xcode_path):
+        print(f'Not found {xcode_path}')
+        sys.exit(1)
+
+    if not os.path.exists(xcode_include_path):
+        print(f'Not found {xcode_include_path}')
+        sys.exit(1)
+
+    Config.set_library_path(xcode_path)
+    options.extend(['-I', xcode_include_path])
+
+else:
+    Config.set_library_path(args.libclang)
+
+parser = Parser()
 
 for header in headers:
     print(header)
 
     translation_unit = Index.create().parse(
-        source_path + header, ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"], None, TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
+        source_path + header, options, None, TranslationUnit.PARSE_SKIP_FUNCTION_BODIES)
 
     # dump(translation_unit.cursor)
     parser.parse(translation_unit.cursor, header == "Tool/Tool.h")
@@ -617,5 +646,8 @@ for json_ in jsons:
         option = json.load(f)
         parser.add_definition_option(option)
 
-with open("bindings/auto_generate_define.py", mode="w", encoding="utf-8-sig") as f:
+dst_path = "bindings/auto_generate_define.py"
+
+with open(dst_path, mode="w", encoding="utf-8-sig") as f:
     f.write(parser.cbg_definition())
+    print(f'export {dst_path}')
