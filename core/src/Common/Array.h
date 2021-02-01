@@ -95,7 +95,7 @@ public:
 
 struct BatchVertex;
 
-#if defined(USE_CBG) 
+#if defined(USE_CBG)
 using int8_t = char;
 using int32_t = int;
 #endif
