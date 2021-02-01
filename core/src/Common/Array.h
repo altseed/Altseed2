@@ -95,6 +95,11 @@ public:
 
 struct BatchVertex;
 
+#if defined(USE_CBG) 
+using int8_t = char;
+using int32_t = int;
+#endif
+
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;
 using FloatArray = Array<float>;
