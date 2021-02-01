@@ -605,7 +605,7 @@ jsons = [
 ]
 
 aparser = argparse.ArgumentParser()
-aparser.add_argument('--libclang', default='./', help='a path to a directory which contains libclang.dll (Windows, Linux)')
+aparser.add_argument('--clang', default='./', help='a path to a directory which contains libclang.dll (Windows, Linux)')
 aparser.add_argument('--xcode', default='/Applications/Xcode.app/', help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
 args = aparser.parse_args()
 
@@ -628,7 +628,7 @@ if pf == 'Darwin':
     options.extend(['-I', xcode_include_path])
 
 else:
-    Config.set_library_path(args.libclang)
+    Config.set_library_path(args.clang)
 
 parser = Parser()
 
