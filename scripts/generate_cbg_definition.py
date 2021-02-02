@@ -397,10 +397,10 @@ define.classes.append({name})
 
                 if self.tool_mode:
                     type_ = params[child.spelling]["type"]
-                    if type_ == "int32_t *" or type_ == "bool *" or type_ == "float *":
-                        params[child.spelling]["called_by"] = "Ref"
                     if type_ == "const char16_t *":
                         params[child.spelling]["nullable"] = False
+                    elif "*" in type_:
+                        params[child.spelling]["called_by"] = "Ref"
 
         if re.match(r"Get.*", cursor.spelling) and len(params) == 0 and cursor.spelling != "GetInstance" and \
                 (not "is_tool" in class_def or cursor.spelling in ["GetToolUsage"]):
