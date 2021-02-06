@@ -24,6 +24,8 @@ set(core_files
     Common/BinaryWriter.h
     Common/BinaryReader.h
     Common/HashHelper.h
+    Common/Profiler.h
+    Common/Profiler.cpp
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
     Graphics/BuiltinShader.h
@@ -245,6 +247,9 @@ target_link_libraries(
 
     debug msdfgend
     optimized msdfgen
+
+    debug easy_profilerd
+    optimized easy_profiler
 )
 
 if (MSVC)
@@ -333,6 +338,7 @@ add_dependencies(
     EP_libpng
     EP_libzip
     EP_msdfgen
+    EP_easy_profiler
     box2d
     nativefiledialog)
 
@@ -341,6 +347,13 @@ SET_TARGET_PROPERTIES(Altseed2_Core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 # make c++17 enabled
 SET_TARGET_PROPERTIES(Altseed2_Core PROPERTIES CXX_STANDARD 17)
+
+# easy profiler
+target_compile_definitions(Altseed2_Core PUBLIC BUILD_WITH_EASY_PROFILER)
+
+if(MSVC)
+    target_link_libraries(Altseed2_Core PUBLIC psapi)
+endif()
 
 clang_format(Altseed2_Core)
 clang_tidy(Altseed2_Core)

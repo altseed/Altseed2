@@ -42,3 +42,6 @@
 	path = thirdparty/msdfgen
 	url = https://github.com/altseed/msdfgen.git
 	branch = altseed2
+[submodule "thirdparty/easy_profiler"]
+	path = thirdparty/easy_profiler
+	url = https://github.com/yse/easy_profiler.git

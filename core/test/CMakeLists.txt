@@ -75,6 +75,8 @@ target_link_libraries(
     ShaderTranspilerCore
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
+    debug easy_profilerd
+    optimized easy_profiler
 )
 
 target_include_directories(

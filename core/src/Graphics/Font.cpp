@@ -10,6 +10,7 @@
 
 #include "../Common/BinaryReader.h"
 #include "../Common/BinaryWriter.h"
+#include "../Common/Profiler.h"
 #include "../IO/File.h"
 #include "../Logger/Log.h"
 #include "../Platform/FileSystem.h"
@@ -111,6 +112,8 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) {
+    EASY_BLOCK("Altseed2(C++).Font.LoadDynamicFont");
+
     RETURN_IF_NULL(path, nullptr);
 
     auto resources = Resources::GetInstance();
@@ -149,6 +152,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
+    EASY_BLOCK("Altseed2(C++).Font.LoadStaticFont");
+
     RETURN_IF_NULL(path, nullptr);
 
     auto resources = Resources::GetInstance();
@@ -217,6 +222,8 @@ std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters) {
+    EASY_BLOCK("Altseed2(C++).Font.GenerateFontFile");
+
     RETURN_IF_NULL(dynamicFontPath, false);
     RETURN_IF_NULL(staticFontPath, false);
     RETURN_IF_NULL(characters, false);

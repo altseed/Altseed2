@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "BaseObject.h"
+#include "Common/Profiler.h"
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/CullingSystem.h"
@@ -181,6 +182,8 @@ bool Core::Initialize(int32_t width, int32_t height) {
 }
 
 void Core::Terminate() {
+    EASY_BLOCK("Altseed2(C++).Core.Terminate");
+
     SynchronizationContext::GetInstance()->Run();
 
     if (Graphics::GetInstance() != nullptr) {
@@ -249,6 +252,8 @@ std::shared_ptr<Core>& Core::GetInstance() { return instance; }
 Core::Core() : maxBaseObjectId_(0) {}
 
 bool Core::DoEvent() {
+    EASY_BLOCK("Altseed2(C++).Core.DoEvent");
+
     auto coreModules = Core::instance->config_->GetEnabledCoreModules();
 
     if (CoreModulesHasBit(coreModules, CoreModules::Keyboard)) {
