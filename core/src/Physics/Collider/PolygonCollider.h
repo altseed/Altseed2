@@ -23,8 +23,7 @@ private:
 
 protected:
     const std::vector<const b2Shape*>& GetB2Shapes() override {
-        if (updatedTriangles_)
-        {
+        if (updatedTriangles_) {
             shapesBuffer_.clear();
             for (int i = 0; i < triangles_.size(); i++) {
                 shapesBuffer_.emplace_back(&triangles_[i]);
