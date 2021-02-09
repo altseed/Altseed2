@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <stdint.h>
+
 #include <cstring>
 #include <memory>
 #include <vector>
@@ -8,6 +9,7 @@
 #include "../BaseObject.h"
 #include "../Graphics/BatchRenderer.h"
 #include "../Math/Vector2F.h"
+#include "../StdIntCBG.h"
 
 namespace Altseed2 {
 
@@ -94,11 +96,6 @@ public:
 };
 
 struct BatchVertex;
-
-#if defined(USE_CBG)
-using int8_t = char;
-using int32_t = int;
-#endif
 
 using Int8Array = Array<int8_t>;
 using Int32Array = Array<int32_t>;

@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../BaseObject.h"
+#include "../StdIntCBG.h"
 #include "ResourceContainer.h"
 
 namespace Altseed2 {
