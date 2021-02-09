@@ -8,6 +8,7 @@ CircleCollider::CircleCollider() {
 
     shape_.m_p = b2Vec2_zero;
     shape_.m_radius = 0;
+    shapesBuffer_.emplace_back(&shape_);
 }
 
 std::shared_ptr<CircleCollider> CircleCollider::Create() { return MakeAsdShared<CircleCollider>(); }

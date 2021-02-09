@@ -19,8 +19,20 @@ private:
 
     void UpdateTriangles();
 
+    bool updatedTriangles_;
+
 protected:
-    std::pair<b2Shape*, int32_t> GetB2Shapes() override { return {triangles_.data(), triangles_.size()}; }
+    const std::vector<const b2Shape*>& GetB2Shapes() override {
+        if (updatedTriangles_)
+        {
+            shapesBuffer_.clear();
+            for (int i = 0; i < triangles_.size(); i++) {
+                shapesBuffer_.emplace_back(&triangles_[i]);
+            }
+            updatedTriangles_ = false;
+        }
+        return shapesBuffer_;
+    }
 
 public:
     PolygonCollider();

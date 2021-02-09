@@ -9,8 +9,8 @@ ShapeCollider::ShapeCollider() {
     position_ = Vector2F(0, 0);
     rotation_ = 0;
     vertexes_ = Vector2FArray::Create(0);
-
     shape_.m_count = 0;
+    shapesBuffer_.emplace_back(&shape_);
 }
 
 std::shared_ptr<ShapeCollider> ShapeCollider::Create() { return MakeAsdShared<ShapeCollider>(); }

@@ -40,13 +40,13 @@ void Collider::SetTransform(const Matrix44F& transform) {
     rotation_ = r;
 }
 
-bool Collider::GetIsCollidedWith(std::shared_ptr<Collider> collider) {
+bool Collider::GetIsCollidedWith(const std::shared_ptr<Collider>& collider) {
     auto selfShapes = GetB2Shapes();
     auto otherShapes = collider->GetB2Shapes();
 
-    for (int i = 0; i < selfShapes.second; i++) {
-        for (int j = 0; j < otherShapes.second; j++) {
-            if (b2TestOverlap(selfShapes.first + i, 0, otherShapes.first + j, 0, transform_, collider->transform_)) {
+    for (auto s1 : selfShapes) {
+        for (auto s2 : otherShapes) {
+            if (b2TestOverlap(s1, 0, s2, 0, transform_, collider->transform_)) {
                 return true;
             }
         }

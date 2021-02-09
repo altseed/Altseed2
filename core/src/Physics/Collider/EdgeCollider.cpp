@@ -9,6 +9,7 @@ EdgeCollider::EdgeCollider() {
     point2_ = Vector2F();
     shape_.m_vertex1 = b2Vec2_zero;
     shape_.m_vertex2 = b2Vec2_zero;
+    shapesBuffer_.emplace_back(&shape_);
 }
 
 std::shared_ptr<EdgeCollider> EdgeCollider::Create() { return MakeAsdShared<EdgeCollider>(); }

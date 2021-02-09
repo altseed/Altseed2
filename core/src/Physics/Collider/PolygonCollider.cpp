@@ -9,6 +9,7 @@ PolygonCollider::PolygonCollider() {
     vertexes_ = Vector2FArray::Create(0);
     position_ = Vector2F(0, 0);
     rotation_ = 0;
+    updatedTriangles_ = false;
 }
 
 std::shared_ptr<PolygonCollider> PolygonCollider::Create() { return MakeAsdShared<PolygonCollider>(); }
@@ -47,6 +48,8 @@ void PolygonCollider::SetDefaultIndexBuffer() {
         triangle.m_vertices[2] = Box2DHelper::ToBox2D_Vec(vertexes_->GetVector()[i + 2]);
         triangles_[i] = triangle;
     }
+
+    updatedTriangles_ = true;
 }
 
 void PolygonCollider::UpdateTriangles() {
@@ -68,6 +71,8 @@ void PolygonCollider::UpdateTriangles() {
         triangle.m_vertices[2] = Box2DHelper::ToBox2D_Vec(vertexes_->GetVector()[ib3]);
         triangles_[i] = triangle;
     }
+
+    updatedTriangles_ = true;
 }
 
 }  // namespace Altseed2

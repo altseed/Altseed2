@@ -14,7 +14,9 @@ private:
     std::shared_ptr<Vector2FArray> vertexes_;
 
 protected:
-    std::pair<b2Shape*, int32_t> GetB2Shapes() override { return {&shape_, 1}; }
+    const std::vector<const b2Shape*>& GetB2Shapes() override {
+        return shapesBuffer_;
+    }
 
 public:
     ShapeCollider();
