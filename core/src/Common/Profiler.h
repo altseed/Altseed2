@@ -12,44 +12,32 @@ class ProfilerBlockDescriptor : public BaseObject {
     const ::profiler::BaseBlockDescriptor* descriptor_;
 
 public:
-    ProfilerBlockDescriptor(const ::profiler::BaseBlockDescriptor* descriptor)
-        : descriptor_(descriptor) {}
-
+    ProfilerBlockDescriptor(const ::profiler::BaseBlockDescriptor* descriptor);
     virtual ~ProfilerBlockDescriptor() = default;
 
-    const ::profiler::BaseBlockDescriptor* GetDescriptor() const { return descriptor_; }
+    const ::profiler::BaseBlockDescriptor* GetDescriptor() const;
 };
 
 class ProfilerBlock : public BaseObject {
-    ::profiler::Block block_;
+    std::shared_ptr<ProfilerBlockDescriptor> desc_;
+    std::string name_;
 
 public:
-    ProfilerBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name) : block_(desc->GetDescriptor(), name) {}
+    ProfilerBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name);
     virtual ~ProfilerBlock() = default;
-    ::profiler::Block& GetBlock() { return block_; }
+    std::string& GetName() { return name_; }
+    std::shared_ptr<ProfilerBlockDescriptor>& GetDescriptor() { return desc_; }
 };
 
 class Profiler {
 public:
-    static std::shared_ptr<ProfilerBlock> createBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name) {
-        return MakeAsdShared<ProfilerBlock>(desc, name);
-    };
+    static std::shared_ptr<ProfilerBlock> CreateBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name);
 
-    static void beginBlock(std::shared_ptr<ProfilerBlock> block) {
-        ::profiler::beginBlock(block->GetBlock());
-    }
+    static void BeginBlock(std::shared_ptr<ProfilerBlock> block);
 
-    static void endBlock() {
-        ::profiler::endBlock();
-    }
+    static void EndBlock();
 
-    static std::shared_ptr<ProfilerBlockDescriptor> registerDescription(const char* _autogenUniqueId, const char* _compiletimeName, const char* _filename, int _line, ::profiler::color_t _color) {
-        const auto uniqueName = std::string(_filename) + " : " + std::to_string(_line);
-
-        auto desc = ::profiler::registerDescription(profiler::EasyBlockStatus::ON, uniqueName.c_str(), uniqueName.c_str(), _filename, _line, ::profiler::BlockType::Block, _color, true);
-
-        return MakeAsdShared<ProfilerBlockDescriptor>(desc);
-    }
+    static std::shared_ptr<ProfilerBlockDescriptor> RegisterDescription(const char* _compiletimeName, const char* _filename, int _line, ::profiler::color_t _color);
 
     static void StartCapture();
 
@@ -57,7 +45,7 @@ public:
 
     static void StartListen(int port);
 
-    static void DumpToFile(const char16_t* path);
+    static void DumpToFileAndStopCapture(const char16_t* path);
 };
 
 }  // namespace Altseed2
