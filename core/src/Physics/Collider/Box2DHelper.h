@@ -13,13 +13,20 @@ namespace Altseed2 {
 class Box2DHelper {
 public:
     /**
+    @brief 変形行列をb2Transformにset
+    @param transform 対象のb2transform
+    @param mat 変形行列
+    */
+    static void SetMat(b2Transform& transform, const Matrix44F& mat);
+
+    /**
     @brief 変形行列をAltseed2->Box2Dに変換
     @param transform 変換したいAltseed2の変形行列
     @return Box2Dの変形行列
     */
     static b2Transform ToBox2D_Mat(const Matrix44F& transform);
-    /**
 
+    /**
     @brief 変形行列をBox2D->Altseed2に変換
     @param transform 変換したいBox2Dの変形行列
     @return Altseed2の変形行列

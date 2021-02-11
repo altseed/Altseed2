@@ -2,14 +2,18 @@
 
 namespace Altseed2 {
 
-b2Transform Box2DHelper::ToBox2D_Mat(const Matrix44F& transform) {
-    b2Transform ret;
+void Box2DHelper::SetMat(b2Transform& transform, const Matrix44F& mat) {
     Matrix44F rotation;
     Vector2F position;
     Vector2F scale;
-    Matrix44F::CalcFromTransform2D(transform, rotation, position, scale);
-    ret.p = ToBox2D_Vec(position);
-    ret.q = ToBox2D_Rot(rotation);
+    Matrix44F::CalcFromTransform2D(mat, rotation, position, scale);
+    transform.p = ToBox2D_Vec(position);
+    transform.q = ToBox2D_Rot(rotation);
+}
+
+b2Transform Box2DHelper::ToBox2D_Mat(const Matrix44F& transform) {
+    b2Transform ret;
+    SetMat(ret, transform);
     return ret;
 }
 

@@ -9,6 +9,7 @@ PolygonCollider::PolygonCollider() {
     vertexes_ = Vector2FArray::Create(0);
     position_ = Vector2F(0, 0);
     rotation_ = 0;
+    updatedTriangles_ = false;
 }
 
 std::shared_ptr<PolygonCollider> PolygonCollider::Create() { return MakeAsdShared<PolygonCollider>(); }
@@ -23,44 +24,6 @@ std::shared_ptr<Vector2FArray> PolygonCollider::GetVertexes() const { return ver
 void PolygonCollider::SetVertexes(std::shared_ptr<Vector2FArray> vertexes) {
     vertexes_ = vertexes;
     UpdateTriangles();
-}
-
-bool PolygonCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
-    auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if (circle != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &circle->shape_, 0, transform_, circle->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto edge = std::dynamic_pointer_cast<EdgeCollider>(collider);
-    if (edge != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &edge->shape_, 0, transform_, edge->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto shape = std::dynamic_pointer_cast<ShapeCollider>(collider);
-    if (shape != nullptr) {
-        for (auto triangle : triangles_) {
-            if (b2TestOverlap(&triangle, 0, &shape->shape_, 0, transform_, shape->transform_)) return true;
-        }
-        return false;
-    }
-
-    auto polygon = std::dynamic_pointer_cast<PolygonCollider>(collider);
-    if (polygon != nullptr) {
-        for (auto triangle1 : triangles_) {
-            for (auto triangle2 : polygon->triangles_) {
-                if (b2TestOverlap(&triangle1, 0, &triangle2, 0, transform_, polygon->transform_)) return true;
-            }
-        }
-        return false;
-    }
-
-    return false;
 }
 
 void PolygonCollider::SetDefaultIndexBuffer() {
@@ -85,6 +48,8 @@ void PolygonCollider::SetDefaultIndexBuffer() {
         triangle.m_vertices[2] = Box2DHelper::ToBox2D_Vec(vertexes_->GetVector()[i + 2]);
         triangles_[i] = triangle;
     }
+
+    updatedTriangles_ = true;
 }
 
 void PolygonCollider::UpdateTriangles() {
@@ -106,6 +71,8 @@ void PolygonCollider::UpdateTriangles() {
         triangle.m_vertices[2] = Box2DHelper::ToBox2D_Vec(vertexes_->GetVector()[ib3]);
         triangles_[i] = triangle;
     }
+
+    updatedTriangles_ = true;
 }
 
 }  // namespace Altseed2

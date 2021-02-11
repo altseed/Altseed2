@@ -9,15 +9,14 @@
 namespace Altseed2 {
 
 class ShapeCollider : public Collider {
-    friend class CircleCollider;
-    friend class EdgeCollider;
-    friend class PolygonCollider;
-
 private:
     b2PolygonShape shape_;
     std::shared_ptr<Vector2FArray> vertexes_;
 
-    bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) override;
+protected:
+    const std::vector<const b2Shape*>& GetB2Shapes() override {
+        return shapesBuffer_;
+    }
 
 public:
     ShapeCollider();

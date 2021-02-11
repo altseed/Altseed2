@@ -19,12 +19,13 @@ protected:
     Vector2F position_;
     float rotation_;
 
-    virtual bool GetIsCollidedWith_(std::shared_ptr<Collider> collider) { throw "Not implemented."; }
+    std::vector<const b2Shape*> shapesBuffer_;
+
+    virtual const std::vector<const b2Shape*>& GetB2Shapes() { throw "Not implemented."; }
 
 public:
     Collider();
-
-    bool GetIsCollidedWith(std::shared_ptr<Collider> collider);
+    bool GetIsCollidedWith(const std::shared_ptr<Collider>& collider);
 
     // 位置
     Vector2F GetPosition() const;

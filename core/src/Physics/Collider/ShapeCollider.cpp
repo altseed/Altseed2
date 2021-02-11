@@ -9,38 +9,11 @@ ShapeCollider::ShapeCollider() {
     position_ = Vector2F(0, 0);
     rotation_ = 0;
     vertexes_ = Vector2FArray::Create(0);
-
     shape_.m_count = 0;
+    shapesBuffer_.emplace_back(&shape_);
 }
 
 std::shared_ptr<ShapeCollider> ShapeCollider::Create() { return MakeAsdShared<ShapeCollider>(); }
-
-bool ShapeCollider::GetIsCollidedWith_(std::shared_ptr<Collider> collider) {
-    auto circle = std::dynamic_pointer_cast<CircleCollider>(collider);
-    if (circle != nullptr) {
-        return b2TestOverlap(&shape_, 0, &circle->shape_, 0, transform_, circle->transform_);
-    }
-
-    auto edge = std::dynamic_pointer_cast<EdgeCollider>(collider);
-    if (edge != nullptr) {
-        return b2TestOverlap(&shape_, 0, &edge->shape_, 0, transform_, edge->transform_);
-    }
-
-    auto shape = std::dynamic_pointer_cast<ShapeCollider>(collider);
-    if (shape != nullptr) {
-        return b2TestOverlap(&shape_, 0, &shape->shape_, 0, transform_, shape->transform_);
-    }
-
-    auto polygon = std::dynamic_pointer_cast<PolygonCollider>(collider);
-    if (polygon != nullptr) {
-        for (auto triangle : polygon->triangles_) {
-            if (b2TestOverlap(&shape_, 0, &triangle, 0, transform_, polygon->transform_)) return true;
-        }
-        return false;
-    }
-
-    return false;
-}
 
 std::shared_ptr<Vector2FArray> ShapeCollider::GetVertexes() const { return vertexes_; }
 void ShapeCollider::SetVertexes(const std::shared_ptr<Vector2FArray>& vertexes) {
