@@ -18,6 +18,7 @@ set(core_test_files
     Font.cpp
     ShaderCompiler.cpp
     Physics.cpp
+    Profiler.cpp
     Sound.cpp
     Log.cpp
     Keyboard.cpp

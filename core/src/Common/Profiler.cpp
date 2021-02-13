@@ -2,31 +2,52 @@
 
 namespace Altseed2 {
 
-ProfilerBlockDescriptor::ProfilerBlockDescriptor(const ::profiler::BaseBlockDescriptor* descriptor)
-    : descriptor_(descriptor) {}
+ProfilerBlock::ProfilerBlock(const ::profiler::BaseBlockDescriptor* descriptor, const char* name) : descriptor_(descriptor), name_(name) {}
 
-const ::profiler::BaseBlockDescriptor* ProfilerBlockDescriptor::GetDescriptor() const { return descriptor_; }
+std::shared_ptr<Profiler> Profiler::instance_;
 
-ProfilerBlock::ProfilerBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name) : desc_(desc), name_(name) {}
+std::shared_ptr<Profiler>& Profiler::GetInstance() {
+    return instance_;
+}
 
-std::shared_ptr<ProfilerBlock> Profiler::CreateBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name) {
+bool Profiler::Initialize() {
+    if (instance_ != nullptr) {
+        return false;
+    }
+
+    instance_ = MakeAsdShared<Profiler>();
+
+    return true;
+}
+
+void Profiler::Terminate() {
+    instance_.reset();
+}
+
+std::shared_ptr<ProfilerBlock> Profiler::CreateBlock(const char* name, const char* _filename, int _line, const Color& color) {
+    uint32_t c = 0xff << 24;
+    c += (color.R << 16);
+    c += (color.G << 8);
+    c += (color.B << 0);
+
+    auto desc = ::profiler::registerDescription(profiler::EasyBlockStatus::ON, name, name, _filename, _line, ::profiler::BlockType::Block, c, true);
     return MakeAsdShared<ProfilerBlock>(desc, name);
 };
 
-void Profiler::BeginBlock(std::shared_ptr<ProfilerBlock> block) {
-    ::profiler::beginNonScopedBlock(block->GetDescriptor()->GetDescriptor(), block->GetName().c_str());
+void Profiler::BeginBlock(const char* name, const char* _filename, int _line, const Color& color) {
+    auto uniqueName = std::string(_filename) + ":" + std::to_string(_line);
+    auto it = blocks_.find(uniqueName);
+    if (it != blocks_.end()) {
+        ::profiler::beginNonScopedBlock(it->second->GetDescriptor(), it->second->GetName().c_str());
+    } else {
+        auto block = CreateBlock(name, _filename, _line, color);
+        blocks_.emplace(uniqueName, block);
+        ::profiler::beginNonScopedBlock(block->GetDescriptor(), block->GetName().c_str());
+    }
 }
 
 void Profiler::EndBlock() {
     ::profiler::endBlock();
-}
-
-std::shared_ptr<ProfilerBlockDescriptor> Profiler::RegisterDescription(const char* _compiletimeName, const char* _filename, int _line, ::profiler::color_t _color) {
-    const auto uniqueName = std::string(_filename) + " : " + std::to_string(_line);
-
-    auto desc = ::profiler::registerDescription(profiler::EasyBlockStatus::ON, uniqueName.c_str(), uniqueName.c_str(), _filename, _line, ::profiler::BlockType::Block, _color, true);
-
-    return MakeAsdShared<ProfilerBlockDescriptor>(desc);
 }
 
 void Profiler::StartCapture() {

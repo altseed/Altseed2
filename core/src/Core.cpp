@@ -58,6 +58,11 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
         return false;
     }
 
+    if (!Profiler::Initialize()) {
+        LOG_CRITICAL(u"Profiler::Initialize failed");
+        return false;
+    }
+
     Core::instance = MakeAsdShared<Core>();
     Core::instance->config_ = config;
 
@@ -241,6 +246,8 @@ void Core::Terminate() {
     if (CoreModulesHasBit(coreModules, CoreModules::Tool)) {
         Tool::Terminate();
     }
+
+    Profiler::Terminate();
 
     Log::Terminate();
 

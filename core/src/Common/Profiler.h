@@ -4,48 +4,47 @@
 #include <easy/profiler.h>
 
 #include "../BaseObject.h"
+#include "../Graphics/Color.h"
 #include "StringHelper.h"
 
 namespace Altseed2 {
 
-class ProfilerBlockDescriptor : public BaseObject {
-    const ::profiler::BaseBlockDescriptor* descriptor_;
-
-public:
-    ProfilerBlockDescriptor(const ::profiler::BaseBlockDescriptor* descriptor);
-    virtual ~ProfilerBlockDescriptor() = default;
-
-    const ::profiler::BaseBlockDescriptor* GetDescriptor() const;
-};
-
 class ProfilerBlock : public BaseObject {
-    std::shared_ptr<ProfilerBlockDescriptor> desc_;
+    const ::profiler::BaseBlockDescriptor* descriptor_;
     std::string name_;
+    Color color_;
 
 public:
-    ProfilerBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name);
+    ProfilerBlock(const ::profiler::BaseBlockDescriptor* descriptor, const char* name);
     virtual ~ProfilerBlock() = default;
     std::string& GetName() { return name_; }
-    std::shared_ptr<ProfilerBlockDescriptor>& GetDescriptor() { return desc_; }
+    const ::profiler::BaseBlockDescriptor* GetDescriptor() const { return descriptor_; }
 };
 
-class Profiler {
+class Profiler : public BaseObject {
+private:
+    static std::shared_ptr<Profiler> instance_;
+    std::unordered_map<std::string, std::shared_ptr<ProfilerBlock>> blocks_;
+    static std::shared_ptr<ProfilerBlock> CreateBlock(const char* name, const char* _filename, int _line, const Color& color);
+
 public:
-    static std::shared_ptr<ProfilerBlock> CreateBlock(std::shared_ptr<ProfilerBlockDescriptor> desc, const char* name);
+    static std::shared_ptr<Profiler>& GetInstance();
 
-    static void BeginBlock(std::shared_ptr<ProfilerBlock> block);
+    static bool Initialize();
 
-    static void EndBlock();
+    static void Terminate();
 
-    static std::shared_ptr<ProfilerBlockDescriptor> RegisterDescription(const char* _compiletimeName, const char* _filename, int _line, ::profiler::color_t _color);
+    void BeginBlock(const char* name, const char* _filename, int _line, const Color& color);
 
-    static void StartCapture();
+    void EndBlock();
 
-    static void StopCapture();
+    void StartCapture();
 
-    static void StartListen(int port);
+    void StopCapture();
 
-    static void DumpToFileAndStopCapture(const char16_t* path);
+    void StartListen(int port);
+
+    void DumpToFileAndStopCapture(const char16_t* path);
 };
 
 }  // namespace Altseed2
