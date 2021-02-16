@@ -531,6 +531,7 @@ headers = [
     'Common/BinaryWriter.h',
     'Common/BinaryReader.h',
     'Common/HashHelper.h',
+    'Common/Profiler.h',
     'Graphics/BatchRenderer.h',
     'Graphics/BuiltinShader.h',
     'Graphics/Color.h',

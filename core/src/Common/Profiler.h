@@ -9,6 +9,8 @@
 
 namespace Altseed2 {
 
+#if !USE_CBG
+
 class ProfilerBlock : public BaseObject {
     const ::profiler::BaseBlockDescriptor* descriptor_;
     std::string name_;
@@ -21,6 +23,8 @@ public:
     const ::profiler::BaseBlockDescriptor* GetDescriptor() const { return descriptor_; }
 };
 
+#endif
+
 class Profiler : public BaseObject {
 private:
     static std::shared_ptr<Profiler> instance_;
@@ -30,11 +34,13 @@ private:
 public:
     static std::shared_ptr<Profiler>& GetInstance();
 
+#if !USE_CBG
     static bool Initialize();
 
     static void Terminate();
+#endif
 
-    void BeginBlock(const char* name, const char* _filename, int _line, const Color& color);
+    void BeginBlock(const char16_t* name, const char16_t* _filename, int _line, const Color& color);
 
     void EndBlock();
 

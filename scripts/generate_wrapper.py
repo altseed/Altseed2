@@ -19,6 +19,7 @@ if __name__ == '__main__':
 #include "Common/Resource.h"
 #include "Common/ResourceContainer.h"
 #include "Common/Resources.h"
+#include "Common/Profiler.h"
 #include "Core.h"
 #include "Graphics/BuiltinShader.h"
 #include "Graphics/CommandList.h"

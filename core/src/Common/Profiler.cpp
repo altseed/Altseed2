@@ -34,13 +34,13 @@ std::shared_ptr<ProfilerBlock> Profiler::CreateBlock(const char* name, const cha
     return MakeAsdShared<ProfilerBlock>(desc, name);
 };
 
-void Profiler::BeginBlock(const char* name, const char* _filename, int _line, const Color& color) {
-    auto uniqueName = std::string(_filename) + ":" + std::to_string(_line);
+void Profiler::BeginBlock(const char16_t* name, const char16_t* _filename, int _line, const Color& color) {
+    auto uniqueName = std::string(utf16_to_utf8(name)) + ":" + std::to_string(_line);
     auto it = blocks_.find(uniqueName);
     if (it != blocks_.end()) {
         ::profiler::beginNonScopedBlock(it->second->GetDescriptor(), it->second->GetName().c_str());
     } else {
-        auto block = CreateBlock(name, _filename, _line, color);
+        auto block = CreateBlock(utf16_to_utf8(name).c_str(), utf16_to_utf8(_filename).c_str(), _line, color);
         blocks_.emplace(uniqueName, block);
         ::profiler::beginNonScopedBlock(block->GetDescriptor(), block->GetName().c_str());
     }
