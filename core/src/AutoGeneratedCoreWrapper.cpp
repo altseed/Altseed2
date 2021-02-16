@@ -1579,10 +1579,8 @@ CBGEXPORT void CBGSTDCALL cbg_StaticFile_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Profiler_GetInstance(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Profiler> cbg_ret = cbg_self_->GetInstance();
+CBGEXPORT void* CBGSTDCALL cbg_Profiler_GetInstance() {
+    std::shared_ptr<Altseed2::Profiler> cbg_ret = Altseed2::Profiler::GetInstance();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Profiler>(cbg_ret);
 }
 

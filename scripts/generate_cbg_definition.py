@@ -603,6 +603,7 @@ jsons = [
     "bindings/physics.json",
     "bindings/sound.json",
     "bindings/window.json",
+    "bindings/profiler.json",
 ]
 
 aparser = argparse.ArgumentParser()

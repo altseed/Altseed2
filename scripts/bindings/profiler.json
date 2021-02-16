@@ -1,0 +1,15 @@
+{
+    "enums": {},
+    "classes": {
+        "Profiler": {
+            "is_Sealed": true,
+            "properties": {},
+            "methods": {
+                "GetInstance": {
+                    "is_public": false,
+                    "is_static": true
+                }
+            }
+        }
+    }
+}

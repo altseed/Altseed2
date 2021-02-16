@@ -1502,8 +1502,11 @@ with StaticFile as class_:
 define.classes.append(StaticFile)
 
 with Profiler as class_:
+    class_.is_Sealed = True
     with class_.add_func('GetInstance') as func_:
         func_.return_value.type_ = Profiler
+        func_.is_static = True
+        func_.is_public = False
 
     with class_.add_func('BeginBlock') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
