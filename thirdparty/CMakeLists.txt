@@ -157,6 +157,25 @@ ExternalProject_Add(
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/lib)
 
+# easy_profiler
+
+ExternalProject_Add(
+    EP_easy_profiler
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/easy_profiler
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/easy_profiler
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=true
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler/lib)
+
 # box2d
 set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "disable box2d unit test" FORCE)
 set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "disable box2d testbed" FORCE)

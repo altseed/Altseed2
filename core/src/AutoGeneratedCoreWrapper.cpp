@@ -39,6 +39,7 @@
 #include "Common/Resource.h"
 #include "Common/ResourceContainer.h"
 #include "Common/Resources.h"
+#include "Common/Profiler.h"
 #include "Core.h"
 #include "Graphics/BuiltinShader.h"
 #include "Graphics/CommandList.h"
@@ -1574,6 +1575,65 @@ CBGEXPORT void CBGSTDCALL cbg_StaticFile_AddRef(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_StaticFile_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::StaticFile*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Profiler_GetInstance() {
+    std::shared_ptr<Altseed2::Profiler> cbg_ret = Altseed2::Profiler::GetInstance();
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Profiler>(cbg_ret);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_BeginBlock(void* cbg_self, const char16_t* name, const char16_t* _filename, int32_t _line, Altseed2::Color_C color) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    const char16_t* cbg_arg0 = name;
+    const char16_t* cbg_arg1 = _filename;
+    int32_t cbg_arg2 = _line;
+    Altseed2::Color_C cbg_arg3 = color;
+    cbg_self_->BeginBlock(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_EndBlock(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    cbg_self_->EndBlock();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_StartCapture(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    cbg_self_->StartCapture();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_StopCapture(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    cbg_self_->StopCapture();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_StartListen(void* cbg_self, int32_t port) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    int32_t cbg_arg0 = port;
+    cbg_self_->StartListen(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_DumpToFileAndStopCapture(void* cbg_self, const char16_t* path) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    const char16_t* cbg_arg0 = path;
+    cbg_self_->DumpToFileAndStopCapture(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_AddRef(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    cbg_self_->AddRef();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Profiler_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
 
     cbg_self_->Release();
 }

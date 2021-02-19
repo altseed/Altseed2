@@ -18,6 +18,7 @@ set(core_test_files
     Font.cpp
     ShaderCompiler.cpp
     Physics.cpp
+    Profiler.cpp
     Sound.cpp
     Log.cpp
     Keyboard.cpp
@@ -75,6 +76,8 @@ target_link_libraries(
     ShaderTranspilerCore
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
+    debug easy_profilerd
+    optimized easy_profiler
 )
 
 target_include_directories(

@@ -868,6 +868,7 @@ Graphics = cbg.Class('Altseed2', 'Graphics')
 Configuration = cbg.Class('Altseed2', 'Configuration')
 File = cbg.Class('Altseed2', 'File')
 StaticFile = cbg.Class('Altseed2', 'StaticFile')
+Profiler = cbg.Class('Altseed2', 'Profiler')
 RenderTexture = cbg.Class('Altseed2', 'RenderTexture')
 Glyph = cbg.Class('Altseed2', 'Glyph')
 Font = cbg.Class('Altseed2', 'Font')
@@ -1499,6 +1500,42 @@ with StaticFile as class_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(StaticFile)
+
+with Profiler as class_:
+    class_.is_Sealed = True
+    with class_.add_func('GetInstance') as func_:
+        func_.return_value.type_ = Profiler
+        func_.is_static = True
+        func_.is_public = False
+
+    with class_.add_func('BeginBlock') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
+            pass
+        with func_.add_arg(ctypes.c_wchar_p, '_filename') as arg:
+            pass
+        with func_.add_arg(int, '_line') as arg:
+            pass
+        with func_.add_arg(Color, 'color') as arg:
+            pass
+
+    with class_.add_func('EndBlock') as func_:
+        pass
+
+    with class_.add_func('StartCapture') as func_:
+        pass
+
+    with class_.add_func('StopCapture') as func_:
+        pass
+
+    with class_.add_func('StartListen') as func_:
+        with func_.add_arg(int, 'port') as arg:
+            pass
+
+    with class_.add_func('DumpToFileAndStopCapture') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            pass
+
+define.classes.append(Profiler)
 
 with RenderTexture as class_:
     class_.base_class = TextureBase
