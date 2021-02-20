@@ -11,10 +11,6 @@ std::shared_ptr<Profiler>& Profiler::GetInstance() {
 }
 
 bool Profiler::Initialize() {
-    if (instance_ != nullptr) {
-        return false;
-    }
-
     instance_ = MakeAsdShared<Profiler>();
 
     return true;
