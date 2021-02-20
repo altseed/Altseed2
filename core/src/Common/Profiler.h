@@ -28,6 +28,7 @@ public:
 class Profiler : public BaseObject {
 private:
     static std::shared_ptr<Profiler> instance_;
+    bool isProfilerRunning_ = false;
     std::unordered_map<std::string, std::shared_ptr<ProfilerBlock>> blocks_;
     static std::shared_ptr<ProfilerBlock> CreateBlock(const char* name, const char* _filename, int _line, const Color& color);
 
@@ -51,6 +52,8 @@ public:
     void StartListen(int port);
 
     void DumpToFileAndStopCapture(const char16_t* path);
+
+    bool GetIsProfilerRunning() const;
 };
 
 }  // namespace Altseed2

@@ -48,10 +48,12 @@ void Profiler::EndBlock() {
 
 void Profiler::StartCapture() {
     ::profiler::setEnabled(true);
+    isProfilerRunning_ = true;
 }
 
 void Profiler::StopCapture() {
     ::profiler::setEnabled(false);
+    isProfilerRunning_ = false;
 }
 
 void Profiler::StartListen(int port) {
@@ -60,5 +62,11 @@ void Profiler::StartListen(int port) {
 
 void Profiler::DumpToFileAndStopCapture(const char16_t* path) {
     ::profiler::dumpBlocksToFile(utf16_to_utf8(path).c_str());
+    isProfilerRunning_ = false;
 }
+
+bool Profiler::GetIsProfilerRunning() const {
+    return isProfilerRunning_;
+}
+
 }  // namespace Altseed2
