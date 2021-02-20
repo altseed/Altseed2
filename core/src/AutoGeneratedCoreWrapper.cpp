@@ -1626,6 +1626,13 @@ CBGEXPORT void CBGSTDCALL cbg_Profiler_DumpToFileAndStopCapture(void* cbg_self, 
     cbg_self_->DumpToFileAndStopCapture(cbg_arg0);
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Profiler_GetIsProfilerRunning(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
+
+    bool cbg_ret = cbg_self_->GetIsProfilerRunning();
+    return cbg_ret;
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Profiler_AddRef(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Profiler*)(cbg_self);
 

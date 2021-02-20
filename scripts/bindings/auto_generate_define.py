@@ -1535,6 +1535,9 @@ with Profiler as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             pass
 
+    with class_.add_property(bool, 'IsProfilerRunning') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
 define.classes.append(Profiler)
 
 with RenderTexture as class_:

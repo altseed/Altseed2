@@ -1,0 +1,46 @@
+{
+    "ja": {
+        "Profiler": {
+            "@brief": "プロファイラのクラス",
+            "GetInstance": {
+                "@brief": "インスタンスを取得します。"
+            },
+            "BeginBlock": {
+                "@brief": "測定するブロックを開始します。",
+                "name": {
+                    "@brief": "ブロックの名称"
+                },
+                "_filename": {
+                    "@brief": "ブロックが位置するファイル名"
+                },
+                "_line": {
+                    "@brief": "ブロックが位置する行数"
+                },
+                "color": {
+                    "@brief": "ブロックの色"
+                }
+            },
+            "EndBlock": {
+                "@brief": "測定するブロックを終了します。"
+            },
+            "StartCapture": {
+                "@brief": "測定を開始します。"
+            },
+            "StopCapture": {
+                "@brief": "測定を終了します。"
+            },
+            "StartListen": {
+                "@brief": "リモートから状態を監視します。",
+                "port": {
+                    "@brief": "通信に使用するポート"
+                }
+            },
+            "DumpToFileAndStopCapture": {
+                "@brief": "測定を終了し、結果を出力します。",
+                "path": {
+                    "@brief": "出力先"
+                }
+            }
+        }
+    }
+}

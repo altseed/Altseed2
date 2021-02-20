@@ -37,6 +37,8 @@ pip install clang
 
 Windowsの場合、Clangをインストールします。Macの場合、XCodeをインストールします。
 
+[clang(LLVM)](https://releases.llvm.org/download.html)
+
 そして、下記のコマンドで生成します。
 
 Windowsの場合、
@@ -46,6 +48,8 @@ cd scripts
 python generate_cbg_definition.py --clang (libclang.dllが存在するディレクトリ)
 ```
 
+ただしLLVMをデフォルトのディレクトリにインストールした場合は引数は必要ありません。
+
 Macの場合、
 
 ```
@@ -53,8 +57,9 @@ cd scripts
 python generate_cbg_definition.py --xcode (xcodeが存在するディレクトリ)
 ```
 
-ただしApplication/にインストールした場合は引数は必要ありません。
+ただしxcodeをApplication/にインストールした場合は引数は必要ありません。
 
+新しくC++のファイルの増やした場合は、``` generate_cbg_definition.py ``` を編集する必要があります。
 
 ### ドキュメント
 
