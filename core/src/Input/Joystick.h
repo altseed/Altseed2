@@ -8,6 +8,7 @@
 
 #include "../Window/Window.h"
 #include "ButtonState.h"
+#include "HID.h"
 
 namespace Altseed2 {
 
@@ -95,8 +96,6 @@ private:
 
     int32_t connectedJoystickCount_;
 
-    // std::array<std::unique_ptr<hid_device>, MAX_JOYSTICKS_NUM> hidapiDevices_;
-
     std::array<std::shared_ptr<JoystickInfo>, MAX_JOYSTICKS_NUM> joystickInfo_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> currentHit_;
     std::array<std::array<bool, MAX_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> preHit_;
@@ -105,6 +104,8 @@ private:
     std::array<std::array<bool, MAX_GAMEPAD_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> gamepadCurrentHit_;
     std::array<std::array<bool, MAX_GAMEPAD_BUTTONS_NUM>, MAX_JOYSTICKS_NUM> gamepadPreHit_;
     std::array<std::array<float, MAX_GAMEPAD_AXES_NUM>, MAX_JOYSTICKS_NUM> gamepadCurrentAxis_;
+
+    // std::unique_ptr<HID> hid_;
 
     std::u16string ToU16(const std::wstring& wstr) const;
 
@@ -133,7 +134,8 @@ public:
     float GetAxisStateByIndex(int32_t joystickIndex, int32_t axisIndex) const;
     float GetAxisStateByType(int32_t joystickIndex, JoystickAxis type) const;
 
-    // void Vibrate(int32_t joystickIndex, float frequency, float amplitude);
+    // bool SetLight(int32_t joystickIndex, int32_t number);
+    // bool Vibrate(int32_t joystickIndex, float frequency, float amplitude);
 };
 
 }  // namespace Altseed2
