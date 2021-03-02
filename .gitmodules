@@ -45,3 +45,6 @@
 [submodule "thirdparty/easy_profiler"]
 	path = thirdparty/easy_profiler
 	url = https://github.com/yse/easy_profiler.git
+[submodule "thirdparty/harfbuzz"]
+	path = thirdparty/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz.git

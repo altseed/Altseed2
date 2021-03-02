@@ -1,6 +1,7 @@
 ﻿#pragma once
 
-#include <stb_truetype.h>
+#include <msdfgen/msdfgen.h>
+#include <msdfgen/msdfgen-ext.h>
 
 #include <array>
 #include <map>
@@ -43,12 +44,9 @@ class Font : public Resource {
 private:
     std::shared_ptr<Resources> resources_;
 
-    stbtt_fontinfo fontinfo_;
-    float scale_, actualScale_;
+    msdfgen::FontHandle* fontHandle_;
     int32_t ascent_, descent_, lineGap_;
-
     int32_t size_;
-    int32_t actualSize_;
 
     std::shared_ptr<StaticFile> file_;
 
@@ -65,26 +63,28 @@ private:
 
     static std::mutex mtx;
 
+    static msdfgen::FreetypeHandle *freetypeHandle_;
+
 public:
     Font(std::u16string path);
     Font(std::shared_ptr<Resources>& resources,
          std::shared_ptr<StaticFile>& file,
-         stbtt_fontinfo fontinfo,
+         msdfgen::FontHandle* fontHandle,
          int32_t size,
          std::u16string path);
 
     virtual ~Font();
 
-    virtual int32_t GetSize() { return actualSize_; }
-    virtual int32_t GetAscent() { return ascent_ * actualScale_; }
-    virtual int32_t GetDescent() { return descent_ * actualScale_; }
-    virtual int32_t GetLineGap() { return lineGap_ * actualScale_; }
-    virtual bool GetIsStaticFont() { return isStaticFont_; }
+#if !USE_CBG
+    static bool Initialize();
+    static void Terminate();
+#endif
 
-    virtual int GetActualSize() { return actualSize_; }
-    virtual float GetPixelDistScale() { return size_ / 2; }
-    virtual float GetActualScale() { return actualScale_; }
-    virtual float GetScale() { return scale_; }
+    virtual int32_t GetSize() { return size_; }
+    virtual int32_t GetAscent() { return ascent_; }
+    virtual int32_t GetDescent() { return descent_; }
+    virtual int32_t GetLineGap() { return lineGap_; }
+    virtual bool GetIsStaticFont() { return isStaticFont_; }
 
     virtual std::shared_ptr<Glyph> GetGlyph(const int32_t character);
     virtual std::shared_ptr<Texture2D> GetFontTexture(int32_t index) {

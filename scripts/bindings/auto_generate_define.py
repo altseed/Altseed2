@@ -1680,18 +1680,6 @@ with Font as class_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
-    with class_.add_property(int, 'ActualSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PixelDistScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ActualScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'Scale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1741,18 +1729,6 @@ with ImageFont as class_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(int, 'ActualSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PixelDistScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ActualScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'Scale') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(ImageFont)

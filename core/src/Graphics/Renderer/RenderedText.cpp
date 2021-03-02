@@ -81,7 +81,7 @@ Vector2F RenderedText::GetTextureSize() {
 
             pos = offset + glyph->GetOffset().To2F() + Vector2F(0, GetFont()->GetAscent());
 
-            scale = Vector2F(1, 1) * GetFont()->GetActualScale();
+            scale = Vector2F(1, 1);
         }
 
         if (writingDirection_ == WritingDirection::Horizontal) {

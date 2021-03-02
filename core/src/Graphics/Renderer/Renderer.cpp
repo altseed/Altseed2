@@ -150,9 +150,6 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
     if (materialGlyph == nullptr) {
         materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
-    materialGlyph->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    materialGlyph->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    materialGlyph->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
@@ -204,7 +201,7 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
             pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
 
-            scale = Vector2F(1, 1) * text->GetFont()->GetActualScale();
+            scale = Vector2F(1, 1);
         }
 
         int ib[] = {0, 1, 2, 2, 3, 0};

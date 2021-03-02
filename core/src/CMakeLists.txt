@@ -250,6 +250,10 @@ target_link_libraries(
 
     debug easy_profilerd
     optimized easy_profiler
+    debug msdfgen-extd
+    optimized msdfgen-ext
+
+    harfbuzz
 )
 
 if (MSVC)
@@ -339,6 +343,8 @@ add_dependencies(
     EP_libzip
     EP_msdfgen
     EP_easy_profiler
+    EP_msdfgen-ext
+    EP_harfbuzz
     box2d
     nativefiledialog)
 

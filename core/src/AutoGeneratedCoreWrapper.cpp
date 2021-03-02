@@ -1844,34 +1844,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Font_GetIsStaticFont(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetActualSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetActualSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetPixelDistScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPixelDistScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetActualScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetActualScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetScale();
-    return cbg_ret;
-}
-
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Font_GetPath(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
@@ -1964,34 +1936,6 @@ CBGEXPORT bool CBGSTDCALL cbg_ImageFont_GetIsStaticFont(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     bool cbg_ret = cbg_self_->GetIsStaticFont();
-    return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetActualSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetActualSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetPixelDistScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPixelDistScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetActualScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetActualScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetScale();
     return cbg_ret;
 }
 
