@@ -242,18 +242,18 @@ target_link_libraries(
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 
+    harfbuzz
+
     debug freetyped
     optimized freetype
 
     debug msdfgend
     optimized msdfgen
-
+    
     debug easy_profilerd
     optimized easy_profiler
     debug msdfgen-extd
     optimized msdfgen-ext
-
-    harfbuzz
 )
 
 if (MSVC)
