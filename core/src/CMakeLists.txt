@@ -242,7 +242,8 @@ target_link_libraries(
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 
-    harfbuzz
+    debug harfbuzzd
+    optimized harfbuzz
 
     debug freetyped
     optimized freetype

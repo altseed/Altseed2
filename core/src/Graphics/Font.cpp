@@ -22,6 +22,7 @@ Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vect
     : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
 
 std::mutex Font::mtx;
+msdfgen::FreetypeHandle* Font::freetypeHandle_;
 
 Font::Font(std::u16string path)
     : resources_(nullptr),
@@ -150,7 +151,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t size) 
         return nullptr;
     }
 
-    msdfgen::FontHandle* fontHandle = msdfgen::loadFontMemory(freetypeHandle_, (unsigned char*)file->GetData(), file->GetSize());
+    msdfgen::FontHandle* fontHandle = msdfgen::loadFontMemory(Font::freetypeHandle_, (unsigned char*)file->GetData(), file->GetSize());
 
     if (fontHandle == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
