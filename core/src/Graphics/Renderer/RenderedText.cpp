@@ -19,6 +19,7 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
     t->SetMaterialGlyph(nullptr);
     t->SetMaterialImage(nullptr);
+    t->SetFontSize(32);
 
     return t;
 }
@@ -32,6 +33,9 @@ Vector2F RenderedText::GetTextureSize() {
     if (GetFont() == nullptr) {
         return Vector2F(0, 0);
     }
+
+    auto fontSize = (float)GetFontSize();
+    auto samplingSize = (float)font_->GetSamplingSize();
 
     const auto& characters = GetTextAsStr();
 
@@ -66,34 +70,36 @@ Vector2F RenderedText::GetTextureSize() {
 
         auto texture = GetFont()->GetImageGlyph(character);
         if (texture != nullptr) {
-            src = RectF(RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+            auto texSize = texture->GetSize();
+            src = RectF(RectF(0, 0, texSize.X, texSize.Y));
 
             pos = offset;
 
-            scale = Vector2F((float)GetFont()->GetSize() / texture->GetSize().Y, (float)GetFont()->GetSize() / texture->GetSize().Y);
+            scale = Vector2F(fontSize / texSize.Y, fontSize / texSize.Y);
         } else {
             glyph = GetFont()->GetGlyph(character);
             if (glyph == nullptr) continue;
 
             texture = GetFont()->GetFontTexture(glyph->GetTextureIndex());
 
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
+            // msdfgenに移行して、fontSize == samplingSizeとなっている
+            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, samplingSize, samplingSize);
 
             pos = offset + glyph->GetOffset().To2F() + Vector2F(0, GetFont()->GetAscent());
 
-            scale = Vector2F(1, 1);
+            scale = Vector2F(1, 1) * fontSize / samplingSize;
         }
 
         if (writingDirection_ == WritingDirection::Horizontal) {
             if (glyph != nullptr)
-                lineOffset += glyph->GetGlyphWidth();
+                lineOffset += glyph->GetGlyphWidth() * scale.X;
             else
-                lineOffset += (float)texture->GetSize().X * GetFont()->GetSize() / texture->GetSize().Y;
+                lineOffset += (float)texture->GetSize().X * fontSize / texture->GetSize().Y;
         } else {
             if (glyph != nullptr)
-                lineOffset += (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X;
+                lineOffset += (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X * scale.Y;
             else
-                lineOffset += (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X;
+                lineOffset += (float)texture->GetSize().Y * fontSize / texture->GetSize().X;
         }
 
         // character spcae

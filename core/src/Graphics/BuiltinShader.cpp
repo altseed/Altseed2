@@ -63,6 +63,11 @@ const char* FontUnlitPS = R"(
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);
 
+cbuffer Consts : register(b1)
+{
+    float4 pxRange;
+}
+
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
@@ -76,20 +81,29 @@ float median (float3 col)
     return max(min(col.r, col.g), min(max(col.r, col.g), col.b));
 }
 
-float fwidth(float2 p)
-{
-    return abs(ddx(p)) + abs(ddy(p));
+uint2 GetTextureSize(Texture2D texture_){
+    uint width, height;
+    texture_.GetDimensions(width, height);
+    return uint2(width, height);
+}
+
+float screenPxRange(float2 uv) {
+    float2 unitRange = pxRange.xx / float2(GetTextureSize(mainTex));
+    float2 screenTexSize = 1.0.xx/fwidth(uv);
+    return max(0.5 * dot(unitRange, screenTexSize), 1.0);
 }
 
 float4 main(PS_INPUT input) : SV_TARGET 
 {
-    float3 sample = mainTex.Sample(mainSamp, input.UV1).rgb;
-    float dist = median(sample) - 0.5;
-    float sigDist = fwidth(dist);
-    float opacity = smoothstep(-sigDist, sigDist, dist);
-    
-    if (opacity <= 0) discard;
-    return float4(input.Color.xyz, opacity);
+    float3 msd = mainTex.Sample(mainSamp, input.UV1).rgb;
+
+    float sd = median(msd);
+    float screenPxDistance = screenPxRange(input.UV1)*(sd - 0.5);
+    float opacity = clamp(screenPxDistance + 0.5, 0.0, 1.0);
+
+    if (opacity <= 0.0) discard;
+
+    return float4(input.Color.rgb, opacity);
 }
 )";
 

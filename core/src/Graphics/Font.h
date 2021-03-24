@@ -27,17 +27,17 @@ private:
     Vector2I size_;
 
     Vector2I offset_;
-    int32_t glyphWidth_;
+    float glyphWidth_;
 
 public:
-    Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, int32_t glyphWidth);
+    Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, float glyphWidth);
 
     Vector2I GetTextureSize() { return textureSize_; }
     int32_t GetTextureIndex() { return textureIndex_; }
     Vector2I GetPosition() { return position_; }
     Vector2I GetSize() { return size_; }
     Vector2I GetOffset() { return offset_; }
-    int32_t GetGlyphWidth() { return glyphWidth_; }
+    float GetGlyphWidth() { return glyphWidth_; }
 };
 
 class Font : public Resource {
@@ -46,7 +46,7 @@ private:
 
     msdfgen::FontHandle* fontHandle_;
     int32_t ascent_, descent_, lineGap_;
-    int32_t size_;
+    int32_t samplingSize_;
 
     std::shared_ptr<StaticFile> file_;
 
@@ -63,14 +63,16 @@ private:
 
     static std::mutex mtx;
 
-    static msdfgen::FreetypeHandle *freetypeHandle_;
+    static std::shared_ptr<msdfgen::FreetypeHandle> freetypeHandle_;
 
 public:
+    static constexpr float PxRange = 4.0;
+
     Font(std::u16string path);
     Font(std::shared_ptr<Resources>& resources,
          std::shared_ptr<StaticFile>& file,
          msdfgen::FontHandle* fontHandle,
-         int32_t size,
+         int32_t samplingSize,
          std::u16string path);
 
     virtual ~Font();
@@ -80,7 +82,7 @@ public:
     static void Terminate();
 #endif
 
-    virtual int32_t GetSize() { return size_; }
+    virtual int32_t GetSamplingSize() { return samplingSize_; }
     virtual int32_t GetAscent() { return ascent_; }
     virtual int32_t GetDescent() { return descent_; }
     virtual int32_t GetLineGap() { return lineGap_; }
@@ -94,11 +96,11 @@ public:
 
     virtual int32_t GetKerning(const int32_t c1, const int32_t c2);
 
-    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t size);
+    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t samplingSize);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
     static std::shared_ptr<Font> CreateImageFont(std::shared_ptr<Font> baseFont);
 
-    static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters);
+    static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters);
 
     virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
     virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }

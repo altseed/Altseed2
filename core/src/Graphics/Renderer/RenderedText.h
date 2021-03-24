@@ -26,6 +26,7 @@ private:
     WritingDirection writingDirection_;
     float characterSpace_;
     float lineGap_;
+    int32_t fontSize_;
 
 public:
     static std::shared_ptr<RenderedText> Create();
@@ -81,6 +82,9 @@ public:
     }
 
     float GetLineGap() { return lineGap_; }
+
+    int32_t GetFontSize() const { return fontSize_; }
+    void SetFontSize(int32_t fontSize) { fontSize_ = fontSize; }
 
     void SetText(const char16_t* text);
 

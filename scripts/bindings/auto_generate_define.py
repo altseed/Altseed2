@@ -1617,7 +1617,7 @@ with Font as class_:
         func_.is_public = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
-        with func_.add_arg(int, 'size') as arg:
+        with func_.add_arg(int, 'samplingSize') as arg:
             pass
 
     with class_.add_func('LoadStaticFont') as func_:
@@ -1642,7 +1642,7 @@ with Font as class_:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
             arg.nullable = False
-        with func_.add_arg(int, 'size') as arg:
+        with func_.add_arg(int, 'samplingSize') as arg:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
             arg.nullable = False
@@ -1663,10 +1663,9 @@ with Font as class_:
     with class_.add_func('Reload') as func_:
         func_.return_value.type_ = bool
 
-    with class_.add_property(int, 'Size') as prop_:
+    with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.serialized = True
     with class_.add_property(int, 'Ascent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1685,6 +1684,7 @@ with Font as class_:
         prop_.has_setter = False
         prop_.null_deserialized = False
         prop_.serialized = True
+    # class_.add_property(not found, 'Size')
 define.classes.append(Font)
 
 with ImageFont as class_:
@@ -1716,7 +1716,7 @@ with ImageFont as class_:
         with func_.add_arg(int, 'character') as arg:
             pass
 
-    with class_.add_property(int, 'Size') as prop_:
+    with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(int, 'Ascent') as prop_:
@@ -1919,6 +1919,9 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
+    with class_.add_property(int, 'FontSize') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
     with class_.add_property(Vector2F, 'TextureSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False

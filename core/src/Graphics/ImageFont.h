@@ -22,7 +22,7 @@ private:
 public:
     ImageFont(std::shared_ptr<Font> baseFont);
 
-    int32_t GetSize() override { return baseFont_->GetSize(); }
+    int32_t GetSamplingSize() override { return baseFont_->GetSamplingSize(); }
     int32_t GetAscent() override { return baseFont_->GetAscent(); }
     int32_t GetDescent() override { return baseFont_->GetDescent(); }
     int32_t GetLineGap() override { return baseFont_->GetLineGap(); }

@@ -142,7 +142,8 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 }
 
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
-    if (text->GetFont() == nullptr) return;
+    auto font = text->GetFont();
+    if (font == nullptr) return;
 
     const auto& characters = text->GetTextAsStr();
 
@@ -151,10 +152,15 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
 
+    materialGlyph->SetVector4F(u"pxRange", Vector4F(Font::PxRange, 0.0f, 0.0f, 0.0f));
+
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
         materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetAlphaBlend());
     }
+
+    auto fontSize = (float)text->GetFontSize();
+    auto samplingSize = (float)font->GetSamplingSize();
 
     Vector2F offset(0, 0);
     for (size_t i = 0; i < characters.size(); i++) {
@@ -183,25 +189,27 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         Vector2F scale;
         std::shared_ptr<Glyph> glyph = nullptr;
 
-        auto texture = text->GetFont()->GetImageGlyph(character);
+        auto texture = font->GetImageGlyph(character);
+
         if (texture != nullptr) {
-            src = RectF(Altseed2::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+            auto texSize = texture->GetSize();
+            src = RectF(0, 0, texSize.X, texSize.Y);
 
             pos = offset;
 
-            scale = Vector2F(
-                    (float)text->GetFont()->GetSize() / texture->GetSize().Y, (float)text->GetFont()->GetSize() / texture->GetSize().Y);
+            scale = Vector2F(fontSize / texSize.Y, fontSize / texSize.Y);
         } else {
-            glyph = text->GetFont()->GetGlyph(character);
+            glyph = font->GetGlyph(character);
             if (glyph == nullptr) continue;
 
-            texture = text->GetFont()->GetFontTexture(glyph->GetTextureIndex());
+            texture = font->GetFontTexture(glyph->GetTextureIndex());
 
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
+            // msdfgenに移行して、fontSize == samplingSizeとなっている
+            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, samplingSize, samplingSize);
 
-            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
+            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, font->GetAscent());
 
-            scale = Vector2F(1, 1);
+            scale = Vector2F(1, 1) * fontSize / samplingSize;
         }
 
         int ib[] = {0, 1, 2, 2, 3, 0};
@@ -246,14 +254,14 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
         if (text->GetWritingDirection() == WritingDirection::Horizontal) {
             if (glyph != nullptr)
-                offset += Vector2F(glyph->GetGlyphWidth(), 0);
+                offset += Vector2F(glyph->GetGlyphWidth(), 0) * scale;
             else
-                offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
+                offset += Vector2F((float)texture->GetSize().X * fontSize / texture->GetSize().Y, 0);
         } else {
             if (glyph != nullptr)
-                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X);
+                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X) * scale;
             else
-                offset += Vector2F(0, (float)texture->GetSize().Y * text->GetFont()->GetSize() / texture->GetSize().X);
+                offset += Vector2F(0, (float)texture->GetSize().Y * fontSize / texture->GetSize().X);
         }
 
         // character spcae
@@ -269,9 +277,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(text->GetFont()->GetKerning(character, next), 0);
+                offset += Altseed2::Vector2F(font->GetKerning(character, next), 0);
             else
-                offset += Altseed2::Vector2F(0, text->GetFont()->GetKerning(character, next));
+                offset += Altseed2::Vector2F(0, font->GetKerning(character, next));
         }
     }
 }
