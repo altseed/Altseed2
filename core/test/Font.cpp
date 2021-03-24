@@ -55,7 +55,7 @@ TEST(Font, Basic) {
 
         auto instance = Altseed2::Graphics::GetInstance();
 
-        for (int count = 0; count++ < 1000 && instance->DoEvents();) {
+        for (int count = 0; count++ < 100 && instance->DoEvents();) {
             Altseed2::CullingSystem::GetInstance()->UpdateAABB();
             Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
@@ -525,7 +525,7 @@ TEST(Font, SamplingSize) {
 
     auto instance = Altseed2::Graphics::GetInstance();
 
-    for (int count = 0; count++ < 10000 && instance->DoEvents();) {
+    for (int count = 0; count++ < 100 && instance->DoEvents();) {
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
         Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
 
