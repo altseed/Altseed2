@@ -145,7 +145,8 @@ ExternalProject_Add(
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
                     -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
-                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DCMAKE_DEBUG_POSTFIX=_d
+                    -DCMAKE_RELEASE_POSTFIX=_r
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
@@ -172,8 +173,7 @@ ExternalProject_Add(
                     -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include/freetype2
                     -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/lib
                     -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
-                    -DCMAKE_DEBUG_POSTFIX=_d
-                    -DCMAKE_RELEASE_POSTFIX=_r
+                    -DCMAKE_DEBUG_POSTFIX=d
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
