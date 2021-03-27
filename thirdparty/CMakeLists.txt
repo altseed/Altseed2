@@ -172,7 +172,8 @@ ExternalProject_Add(
                     -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include/freetype2
                     -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/lib
                     -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
-                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DCMAKE_DEBUG_POSTFIX=_d
+                    -DCMAKE_RELEASE_POSTFIX=_r
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
