@@ -151,6 +151,7 @@ ExternalProject_Add(
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
                     -DFT_WITH_ZLIB=ON
                     -DFT_WITH_HARFBUZZ=ON
+                    -DFT_WITH_BROTLI=OFF
                     -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
                     -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib
 )
