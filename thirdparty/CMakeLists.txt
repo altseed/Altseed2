@@ -176,6 +176,7 @@ ExternalProject_Add(
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+                    -DFREETYPE_EXTERNAL=ON
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/include)
