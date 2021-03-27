@@ -245,8 +245,8 @@ target_link_libraries(
     debug harfbuzzd
     optimized harfbuzz
 
-    debug freetype_d
-    optimized freetype_r
+    debug freetyped
+    optimized freetype
 
     debug msdfgend
     optimized msdfgen
