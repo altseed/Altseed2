@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #undef INFINITE
-#include <msdfgen/msdfgen.h>
 #include <msdfgen/msdfgen-ext.h>
+#include <msdfgen/msdfgen.h>
 
 #include <array>
 #include <map>
