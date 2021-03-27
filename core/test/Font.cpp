@@ -24,9 +24,9 @@ TEST(Font, LoadDynamicFont) {
     EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
-    
+
     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32);
-    
+
     Altseed2::Core::Terminate();
 }
 
@@ -464,7 +464,6 @@ TEST(Font, SamplingSize) {
     EXPECT_TRUE(config != nullptr);
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
-
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
