@@ -355,10 +355,13 @@ void Font::AddGlyph(const int32_t character) {
         return;
     }
 
-    shape.normalize();
-    msdfgen::edgeColoringSimple(shape, 3.0);
     msdfgen::Bitmap<float, 3> msdf(w, h);
-    msdfgen::generateMSDF(msdf, shape, Font::PxRange, 1.0, msdfgen::Vector2(4.0, 4.0));
+
+    if (shape.edgeCount() > 0) {
+        shape.normalize();
+        msdfgen::edgeColoringSimple(shape, 3.0);
+        msdfgen::generateMSDF(msdf, shape, Font::PxRange, 1.0, msdfgen::Vector2(4.0, 4.0));
+    }
 
     // TODO
     // stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
