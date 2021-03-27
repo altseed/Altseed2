@@ -266,6 +266,9 @@ if (MSVC)
         optimized zlibstatic
     )
 
+    target_compile_definitions(Altseed2_Core PRIVATE NOMINMAX)
+
+
 elseif(APPLE)
 
     find_library(OPEN_AL OpenAL)

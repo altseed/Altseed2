@@ -86,6 +86,7 @@ target_include_directories(
     ${THIRDPARTY_INCLUDES})
 
 if (MSVC)
+    target_compile_definitions(Altseed2_Core_Test PRIVATE NOMINMAX)
 
 elseif(APPLE)
 else()

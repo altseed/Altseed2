@@ -151,6 +151,8 @@ ExternalProject_Add(
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
                     -DFT_WITH_ZLIB=ON
                     -DFT_WITH_HARFBUZZ=ON
+                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
+                    -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include)
@@ -208,8 +210,8 @@ ExternalProject_Add(
                     -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
                     -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
                     -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
-                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2/include/freetype2
-                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype2
+                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include/freetype2
+                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
                     -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
                     -DCMAKE_DEBUG_POSTFIX=d
                     -DBUILD_SHARED_LIBS=OFF
