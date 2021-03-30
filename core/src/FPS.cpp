@@ -5,11 +5,26 @@
 #include "Common/Assertion.h"
 #include "Logger/Log.h"
 
+#ifdef _WIN32
+#pragma comment(lib, "Winmm.lib")
+#include <Windows.h>
+#endif
+
 namespace Altseed2 {
 
 FPS::FPS() {
     previousTime_ = std::chrono::system_clock::now();
     SetTarget(60);
+
+#ifdef _WIN32
+    timeBeginPeriod(1);
+#endif
+}
+
+FPS::~FPS() {
+#ifdef _WIN32
+    timeEndPeriod(1);
+#endif
 }
 
 void FPS::Update() {

@@ -25,6 +25,7 @@ private:
 
 public:
     FPS();
+    ~FPS();
     void Update();
 
     float GetDeltaSecond() const;
