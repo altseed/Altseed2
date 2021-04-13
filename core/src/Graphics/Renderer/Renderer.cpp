@@ -142,7 +142,7 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 }
 
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
-    auto font = text->GetFont();
+    const auto font = text->GetFont();
     if (font == nullptr) return;
 
     const auto& characters = text->GetTextAsStr();
@@ -152,15 +152,16 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
 
-    materialGlyph->SetVector4F(u"pxRange", Vector4F(Font::PxRange, 0.0f, 0.0f, 0.0f));
+    materialGlyph->SetVector4F(u"pxRange", Vector4F(font->GetPxRange(), 0.0f, 0.0f, 0.0f));
 
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
         materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetAlphaBlend());
     }
 
-    auto fontSize = (float)text->GetFontSize();
-    auto samplingSize = (float)font->GetSamplingSize();
+    const auto fontSize = (float)text->GetFontSize();
+    const auto samplingSize = (float)font->GetSamplingSize();
+    const auto fontScale = fontSize / font->GetEmSize();
 
     Vector2F offset(0, 0);
     for (size_t i = 0; i < characters.size(); i++) {
@@ -186,30 +187,32 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
 
         RectF src;
         Vector2F pos;
-        Vector2F scale;
+        float texScale;
         std::shared_ptr<Glyph> glyph = nullptr;
 
         auto texture = font->GetImageGlyph(character);
 
         if (texture != nullptr) {
             auto texSize = texture->GetSize();
+
             src = RectF(0, 0, texSize.X, texSize.Y);
 
-            pos = offset;
+            pos = offset + Vector2F(0, font->GetAscent() * fontScale - fontSize);
 
-            scale = Vector2F(fontSize / texSize.Y, fontSize / texSize.Y);
+            texScale = fontSize / texSize.Y;
         } else {
             glyph = font->GetGlyph(character);
             if (glyph == nullptr) continue;
 
             texture = font->GetFontTexture(glyph->GetTextureIndex());
 
-            // msdfgenに移行して、fontSize == samplingSizeとなっている
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, samplingSize, samplingSize);
+            auto glyphPos = glyph->GetPosition();
+            auto glyphSize = glyph->GetSize();
+            src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
 
-            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, font->GetAscent());
+            pos = offset + Vector2F(0, font->GetAscent() * fontScale) + glyph->GetOffset() * fontScale;
 
-            scale = Vector2F(1, 1) * fontSize / samplingSize;
+            texScale = fontScale / glyph->GetScale();
         }
 
         int ib[] = {0, 1, 2, 2, 3, 0};
@@ -219,16 +222,16 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         vs[0].Pos.Y = pos.Y;
         vs[0].Pos.Z = 0.5f;
 
-        vs[1].Pos.X = pos.X + src.Width * scale.X;
+        vs[1].Pos.X = pos.X + src.Width * texScale;
         vs[1].Pos.Y = pos.Y;
         vs[1].Pos.Z = 0.5f;
 
-        vs[2].Pos.X = pos.X + src.Width * scale.X;
-        vs[2].Pos.Y = pos.Y + src.Height * scale.Y;
+        vs[2].Pos.X = pos.X + src.Width * texScale;
+        vs[2].Pos.Y = pos.Y + src.Height * texScale;
         vs[2].Pos.Z = 0.5f;
 
         vs[3].Pos.X = pos.X;
-        vs[3].Pos.Y = pos.Y + src.Height * scale.Y;
+        vs[3].Pos.Y = pos.Y + src.Height * texScale;
         vs[3].Pos.Z = 0.5f;
 
         vs[0].UV1.X = src.X;
@@ -252,34 +255,40 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         auto material = (glyph == nullptr) ? materialImage : materialGlyph;
         batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
 
+        // advance
         if (text->GetWritingDirection() == WritingDirection::Horizontal) {
-            if (glyph != nullptr)
-                offset += Vector2F(glyph->GetGlyphWidth(), 0) * scale;
-            else
+            if (glyph != nullptr) {
+                offset += Vector2F(glyph->GetAdvance() * fontScale, 0);
+            } else {
                 offset += Vector2F((float)texture->GetSize().X * fontSize / texture->GetSize().Y, 0);
+            }
         } else {
-            if (glyph != nullptr)
-                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X) * scale;
-            else
+            if (glyph != nullptr) {
+                offset += Vector2F(0, (float)glyph->GetAdvance() * glyph->GetSize().Y / glyph->GetSize().X * fontScale);
+            } else {
                 offset += Vector2F(0, (float)texture->GetSize().Y * fontSize / texture->GetSize().X);
+            }
         }
 
         // character spcae
         if (i != characters.size() - 1) {
-            if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(text->GetCharacterSpace(), 0);
-            else
-                offset += Altseed2::Vector2F(0, text->GetCharacterSpace());
+            const auto space = text->GetCharacterSpace();
+            if (text->GetWritingDirection() == WritingDirection::Horizontal) {
+                offset += Altseed2::Vector2F(space, 0);
+            } else {
+                offset += Altseed2::Vector2F(0, space);
+            }
         }
 
         // kerning
         if (text->GetIsEnableKerning() && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
-            int32_t next = static_cast<int32_t>(tmp);
+            const int32_t next = static_cast<int32_t>(tmp);
+            const auto kern = font->GetKerning(character, next) * fontScale;
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(font->GetKerning(character, next), 0);
+                offset += Altseed2::Vector2F(kern, 0);
             else
-                offset += Altseed2::Vector2F(0, font->GetKerning(character, next));
+                offset += Altseed2::Vector2F(0, kern);
         }
     }
 }

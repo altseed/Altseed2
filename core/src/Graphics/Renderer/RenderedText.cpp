@@ -36,6 +36,7 @@ Vector2F RenderedText::GetTextureSize() {
 
     auto fontSize = (float)GetFontSize();
     auto samplingSize = (float)font_->GetSamplingSize();
+    auto fontScale = fontSize / samplingSize;
 
     const auto& characters = GetTextAsStr();
 
@@ -65,7 +66,6 @@ Vector2F RenderedText::GetTextureSize() {
 
         RectF src;
         Vector2F pos;
-        Vector2F scale;
         std::shared_ptr<Glyph> glyph = nullptr;
 
         auto texture = GetFont()->GetImageGlyph(character);
@@ -74,32 +74,31 @@ Vector2F RenderedText::GetTextureSize() {
             src = RectF(RectF(0, 0, texSize.X, texSize.Y));
 
             pos = offset;
-
-            scale = Vector2F(fontSize / texSize.Y, fontSize / texSize.Y);
         } else {
             glyph = GetFont()->GetGlyph(character);
             if (glyph == nullptr) continue;
 
             texture = GetFont()->GetFontTexture(glyph->GetTextureIndex());
+            
+            auto glyphPos = glyph->GetPosition();
+            auto glyphSize = glyph->GetSize();
+            src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
 
-            // msdfgenに移行して、fontSize == samplingSizeとなっている
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, samplingSize, samplingSize);
-
-            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, GetFont()->GetAscent());
-
-            scale = Vector2F(1, 1) * fontSize / samplingSize;
+            pos = offset + glyph->GetOffset() * fontScale + Vector2F(0, GetFont()->GetAscent() * fontScale);
         }
 
         if (writingDirection_ == WritingDirection::Horizontal) {
-            if (glyph != nullptr)
-                lineOffset += glyph->GetGlyphWidth() * scale.X;
-            else
+            if (glyph != nullptr) {
+                lineOffset += glyph->GetAdvance() * fontScale;
+            } else {
                 lineOffset += (float)texture->GetSize().X * fontSize / texture->GetSize().Y;
+            }
         } else {
-            if (glyph != nullptr)
-                lineOffset += (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X * scale.Y;
-            else
+            if (glyph != nullptr) {
+                lineOffset += (float)glyph->GetAdvance() * glyph->GetSize().Y / glyph->GetSize().X * fontScale;
+            } else {
                 lineOffset += (float)texture->GetSize().Y * fontSize / texture->GetSize().X;
+            }
         }
 
         // character spcae
@@ -109,7 +108,7 @@ Vector2F RenderedText::GetTextureSize() {
         if (isEnableKerning_ && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
             int32_t next = static_cast<int32_t>(tmp);
-            lineOffset += GetFont()->GetKerning(character, next);
+            lineOffset += GetFont()->GetKerning(character, next) * fontScale;
         }
     }
 

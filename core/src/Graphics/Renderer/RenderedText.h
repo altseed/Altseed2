@@ -21,12 +21,12 @@ private:
     std::shared_ptr<Font> font_;
     std::u16string text_;
     Color color_;
-    float weight_;
+    // float weight_;
     bool isEnableKerning_;
     WritingDirection writingDirection_;
     float characterSpace_;
     float lineGap_;
-    int32_t fontSize_;
+    float fontSize_;
 
 public:
     static std::shared_ptr<RenderedText> Create();
@@ -34,8 +34,8 @@ public:
     AlphaBlend GetAlphaBlend() const { return alphaBlend_; }
     void SetAlphaBlend(AlphaBlend alphaBlend) { alphaBlend_ = alphaBlend; }
 
-    float GetWeight() const { return weight_; }
-    void SetWeight(float weight) { weight_ = weight; }
+    // float GetWeight() const { return weight_; }
+    // void SetWeight(float weight) { weight_ = weight; }
 
     std::shared_ptr<Material> GetMaterialGlyph() const { return materialGlyph_; }
     void SetMaterialGlyph(const std::shared_ptr<Material>& material) { materialGlyph_ = material; }
@@ -52,7 +52,8 @@ public:
         font_ = font;
 
         if (font_ != nullptr) {
-            lineGap_ = (float)font_->GetLineGap();
+            const auto fontScale = fontSize_ / font->GetEmSize();
+            lineGap_ = font_->GetLineGap() * fontScale;
         }
         cullingSystem_->RequestUpdateAABB(this);
     }
@@ -76,15 +77,14 @@ public:
 
     float GetCharacterSpace() { return characterSpace_; }
 
+    float GetLineGap() { return lineGap_; }
     void SetLineGap(float lineGap) {
         lineGap_ = lineGap;
         cullingSystem_->RequestUpdateAABB(this);
     }
 
-    float GetLineGap() { return lineGap_; }
-
-    int32_t GetFontSize() const { return fontSize_; }
-    void SetFontSize(int32_t fontSize) { fontSize_ = fontSize; }
+    float GetFontSize() const { return fontSize_; }
+    void SetFontSize(float fontSize) { fontSize_ = fontSize; }
 
     void SetText(const char16_t* text);
 

@@ -98,10 +98,11 @@ float4 main(PS_INPUT input) : SV_TARGET
     float3 msd = mainTex.Sample(mainSamp, input.UV1).rgb;
 
     float sd = median(msd);
-    float screenPxDistance = screenPxRange(input.UV1)*(sd - 0.5);
+    float screenPxDistance = screenPxRange(input.UV1) * (sd - 0.5);
     float opacity = clamp(screenPxDistance + 0.5, 0.0, 1.0);
 
     if (opacity <= 0.0) discard;
+    // if (opacity <= 0.0) { return float4(input.UV1, 1.0, 0.3); }
 
     return float4(input.Color.rgb, opacity);
 }

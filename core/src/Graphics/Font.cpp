@@ -18,11 +18,16 @@
 
 namespace Altseed2 {
 
-Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2I offset, float glyphWidth)
-    : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), glyphWidth_(glyphWidth) {}
+Glyph::Glyph()
+    : textureSize_(Vector2I(0, 0)), textureIndex_(0), position_(Vector2I(0, 0)), size_(Vector2I(0, 0)), offset_(Vector2F(0, 0)), advance_(0.0f), scale_(0.0f) {}
+Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance, float scale)
+    : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), advance_(advance), scale_(scale) {}
 
 std::mutex Font::mtx;
 std::shared_ptr<msdfgen::FreetypeHandle> Font::freetypeHandle_;
+
+static constexpr float PxRangeDefault = 4.0;
+static constexpr float AngleThresholdDefault = 3.0;
 
 Font::Font(std::u16string path)
     : resources_(nullptr),
@@ -39,21 +44,26 @@ Font::Font(std::u16string path)
 Font::Font(
         std::shared_ptr<Resources>& resources,
         std::shared_ptr<StaticFile>& file,
-        msdfgen::FontHandle* fontHandle,
+        std::shared_ptr<msdfgen::FontHandle> fontHandle,
         int32_t samplingSize,
+        float pxRange,
+        float angleThreshold,
         std::u16string path)
     : resources_(resources),
       fontHandle_(fontHandle),
       samplingSize_(samplingSize),
+      pxRange_(pxRange),
+      angleThreshold_(angleThreshold),
       file_(file),
       textureSize_(Vector2I(2000, 2000)),
       sourcePath_(path),
       isStaticFont_(false) {
     msdfgen::FontMetrics metrics;
-    msdfgen::getFontMetrics(metrics, fontHandle);
-    ascent_ = metrics.ascenderY;
-    descent_ = metrics.descenderY;
-    lineGap_ = metrics.lineHeight;
+    msdfgen::getFontMetrics(metrics, fontHandle.get());
+    ascent_ = (float)metrics.ascenderY;
+    descent_ = (float)metrics.descenderY;
+    lineGap_ = (float)(metrics.ascenderY - metrics.descenderY + metrics.lineHeight);
+    emSize_ = (float)metrics.emSize;
 
     AddFontTexture();
 
@@ -61,15 +71,10 @@ Font::Font(
 }
 
 Font::~Font() {
-    if (fontHandle_ != nullptr) {
-        msdfgen::destroyFont(fontHandle_);
-        fontHandle_ = nullptr;
-    }
-
     std::lock_guard<std::mutex> lock(mtx);
     if (resources_ != nullptr && sourcePath_ != u"") {
         resources_->GetResourceContainer(ResourceType::Font)
-                ->Unregister(sourcePath_ + (isStaticFont_ ? u"" : utf8_to_utf16(std::to_string(samplingSize_))));
+                ->Unregister(isStaticFont_ ? sourcePath_ : Font::GetKeyName(sourcePath_.c_str(), samplingSize_, pxRange_, angleThreshold_));
         resources_ = nullptr;
     }
 }
@@ -114,7 +119,7 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
     }
 
     double kern;
-    if (!msdfgen::getKerning(kern, fontHandle_, c1, c2)) {
+    if (!msdfgen::getKerning(kern, fontHandle_.get(), c1, c2)) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GetKerning: failed to get kerning");
         return 0;
     }
@@ -125,6 +130,10 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize) {
+    return Font::LoadDynamicFont(path, samplingSize, PxRangeDefault, AngleThresholdDefault);
+}
+
+std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize, float pxRange, float angleThreshold) {
     EASY_BLOCK("Altseed2(C++).Font.LoadDynamicFont");
 
     RETURN_IF_NULL(path, nullptr);
@@ -137,8 +146,10 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
 
     std::lock_guard<std::mutex> lock(mtx);
 
+    const auto resourceKeyName = Font::GetKeyName(path, samplingSize, pxRange, angleThreshold);
+
     auto cache = std::dynamic_pointer_cast<Font>(
-            resources->GetResourceContainer(ResourceType::Font)->Get(path + utf8_to_utf16(std::to_string(samplingSize))));
+            resources->GetResourceContainer(ResourceType::Font)->Get(resourceKeyName));
     if (cache != nullptr && cache->GetRef() > 0 && !cache->GetIsStaticFont()) {
         return cache;
     }
@@ -150,16 +161,16 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
         return nullptr;
     }
 
-    msdfgen::FontHandle* fontHandle = msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize());
+    std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
 
     if (fontHandle == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
         return nullptr;
     }
 
-    auto res = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, path);
+    auto res = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, path);
     resources->GetResourceContainer(ResourceType::Font)
-            ->Register(path + utf8_to_utf16(std::to_string(samplingSize)), std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+            ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
 
     return res;
 }
@@ -190,13 +201,16 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     auto font = MakeAsdShared<Font>(path);
     font->resources_ = resources;
     font->file_ = file;
-    font->samplingSize_ = reader.Get<int32_t>();
-    font->ascent_ = reader.Get<int32_t>();
-    font->descent_ = reader.Get<int32_t>();
-    font->lineGap_ = reader.Get<int32_t>();
-    font->textureSize_ = reader.Get<Vector2I>();
+    reader.Get(&font->samplingSize_);
+    reader.Get(&font->pxRange_);
+    reader.Get(&font->angleThreshold_);
+    reader.Get(&font->ascent_);
+    reader.Get(&font->descent_);
+    reader.Get(&font->lineGap_);
+    reader.Get(&font->emSize_);
+    reader.Get(&font->textureSize_);
 
-    int textureCount = reader.Get<int32_t>();
+    const auto textureCount = reader.Get<int32_t>();
     for (size_t i = 0; i < textureCount; i++) {
         auto texturePath = FileSystem::GetParentPath(path) + u"/Textures/font" + utf8_to_utf16(std::to_string(i)) + u".png";
         auto texture = Texture2D::Load(texturePath.c_str());
@@ -204,18 +218,11 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
         font->textures_.push_back(texture);
     }
 
-    int glyphCount = reader.Get<int32_t>();
+    const auto glyphCount = reader.Get<int32_t>();
     for (size_t i = 0; i < glyphCount; i++) {
-        int32_t character = reader.Get<int32_t>();
+        const auto character = reader.Get<int32_t>();
         if (reader.Get<bool>()) continue;
-        Vector2I textureSize = reader.Get<Vector2I>();
-        int32_t index = reader.Get<int32_t>();
-        Vector2I position = reader.Get<Vector2I>();
-        Vector2I size = reader.Get<Vector2I>();
-        Vector2I offset = reader.Get<Vector2I>();
-        int32_t width = reader.Get<int32_t>();
-
-        auto glyph = MakeAsdShared<Glyph>(textureSize, index, position, size, offset, width);
+        const auto glyph = reader.GetAsShared<Glyph>();
         font->glyphs_[character] = glyph;
 
         for (size_t l = 0; l < glyphCount; l++) {
@@ -232,6 +239,10 @@ std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
+    return Font::GenerateFontFile(dynamicFontPath, staticFontPath, samplingSize, PxRangeDefault, AngleThresholdDefault, characters);
+}
+
+bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, float pxRange, float angleThreshold, const char16_t* characters) {
     EASY_BLOCK("Altseed2(C++).Font.GenerateFontFile");
 
     RETURN_IF_NULL(dynamicFontPath, false);
@@ -245,16 +256,19 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     }
     BinaryWriter writer;
 
-    auto font = Font::LoadDynamicFont(dynamicFontPath, samplingSize);
+    auto font = Font::LoadDynamicFont(dynamicFontPath, samplingSize, pxRange, angleThreshold);
     if (font == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create font");
         return false;
     }
 
     writer.Push(font->samplingSize_);
+    writer.Push(font->pxRange_);
+    writer.Push(font->angleThreshold_);
     writer.Push(font->ascent_);
     writer.Push(font->descent_);
     writer.Push(font->lineGap_);
+    writer.Push(font->emSize_);
     writer.Push(font->textureSize_);
 
     // add characters
@@ -283,12 +297,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
         writer.Push(glyph.first);
         writer.Push(glyph.second == nullptr);
         if (glyph.second == nullptr) continue;
-        writer.Push(glyph.second->GetTextureSize());
-        writer.Push(glyph.second->GetTextureIndex());
-        writer.Push(glyph.second->GetPosition());
-        writer.Push(glyph.second->GetSize());
-        writer.Push(glyph.second->GetOffset());
-        writer.Push(glyph.second->GetGlyphWidth());
+        writer.Push(glyph.second);
         for (auto glyph2 : glyphs) {
             writer.Push(glyph.first);
             writer.Push(glyph2.first);
@@ -334,65 +343,82 @@ void Font::AddFontTexture() {
     currentTexturePosition_ = Vector2I();
 }
 
-const int padding = 64;
+static constexpr int32_t padding = 8;
 
 void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
-    Vector2I offset;
-    const int32_t w = samplingSize_;
-    const int32_t h = samplingSize_;
-    double glyphW = 0.0;
+    double advance = 0.0;
 
     msdfgen::Shape shape;
-    // TODO
-    if (!msdfgen::loadGlyph(shape, fontHandle_, character, &glyphW)) {
+    if (!msdfgen::loadGlyph(shape, fontHandle_.get(), character, &advance)) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::AddGlyph: failed to load glyph");
 
-        // TODO
-        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(w, h), offset, glyphW);
+        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), Vector2F(0.0f, 0.0f), advance, 1.0f);
         glyphs_[character] = glyph;
         return;
     }
 
-    msdfgen::Bitmap<float, 3> msdf(w, h);
+    if (shape.edgeCount() < 1) {
+        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), Vector2F(0.0f, 0.0f), advance, 1.0f);
+        glyphs_[character] = glyph;
+        return;
+    }
 
-    if (shape.edgeCount() > 0) {
+    auto bounds = shape.getBounds();
+
+    const Vector2F boundsSize(bounds.r - bounds.l, bounds.t - bounds.b);
+
+    const float scale = samplingSize_ / std::max(boundsSize.X, boundsSize.Y);
+
+    const auto w = boundsSize.X * scale;
+    const auto h = boundsSize.Y * scale;
+
+    int32_t wi = std::ceil(w) + 1;
+    int32_t hi = std::ceil(h) + 1;
+
+    // 1 pixel 余分に領域を使うので、その分中心に寄せる差分
+    const auto d = boundsSize / Vector2F(wi, hi) * 0.5f;
+
+    const Vector2F offset(0.0f, -(float)bounds.t - d.Y);
+
+    msdfgen::Bitmap<float, 3> msdf(wi, hi);
+    {
+        shape.inverseYAxis = !shape.inverseYAxis;
         shape.normalize();
-        msdfgen::edgeColoringSimple(shape, 3.0);
-        msdfgen::generateMSDF(msdf, shape, Font::PxRange, 1.0, msdfgen::Vector2(4.0, 4.0));
+        msdfgen::edgeColoringSimple(shape, angleThreshold_);
+
+        msdfgen::generateMSDF(msdf, shape, pxRange_, scale, msdfgen::Vector2(-bounds.l + d.X, -bounds.b + d.Y));
     }
 
-    // TODO
-    // stbtt_GetCodepointHMetrics(&fontinfo_, character, &glyphW, 0);
-    // offset = (offset.To2F()).To2I();
-
-    if (textureSize_.X < currentTexturePosition_.X + w) {
+    if (textureSize_.X < currentTexturePosition_.X + wi) {
         currentTexturePosition_.X = 0;
-        currentTexturePosition_.Y += padding * 2 + samplingSize_;
+        currentTexturePosition_.Y += padding + hi;
     }
-    if (textureSize_.Y < currentTexturePosition_.Y + h) AddFontTexture();
+
+    if (textureSize_.Y < currentTexturePosition_.Y + hi) AddFontTexture();
 
     const auto pos = currentTexturePosition_;
+
     {
         const auto llgiTexture = textures_.back()->GetNativeTexture();
         const auto buf = (LLGI::Color8*)llgiTexture->Lock();
 
-        for (int32_t y = pos.Y; y < pos.Y + h; y++) {
-            for (int32_t x = pos.X; x < pos.X + w; x++) {
-                const auto msdfY = h - (y - pos.Y);
-                const auto msdfX = x - pos.X;
-                buf[x + y * textureSize_.X].R = msdfgen::pixelFloatToByte(msdf(msdfX, msdfY)[0]);
-                buf[x + y * textureSize_.X].G = msdfgen::pixelFloatToByte(msdf(msdfX, msdfY)[1]);
-                buf[x + y * textureSize_.X].B = msdfgen::pixelFloatToByte(msdf(msdfX, msdfY)[2]);
+        for (int32_t y = 0; y < hi; y++) {
+            const auto ty = pos.Y + y;
+            for (int32_t x = 0; x < wi; x++) {
+                const auto tx = x + pos.X;
+                buf[tx + ty * textureSize_.X].R = msdfgen::pixelFloatToByte(msdf(x, y)[0]);
+                buf[tx + ty * textureSize_.X].G = msdfgen::pixelFloatToByte(msdf(x, y)[1]);
+                buf[tx + ty * textureSize_.X].B = msdfgen::pixelFloatToByte(msdf(x, y)[2]);
                 // buf[x + y * textureSize_.X].A = 0;
             }
         }
         llgiTexture->Unlock();
-        currentTexturePosition_.X += w;
+        currentTexturePosition_.X += wi + padding;
     }
 
-    const auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(w, h), offset, glyphW);
+    const auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(wi, hi), offset, advance, scale);
     glyphs_[character] = glyph;
 }
 
