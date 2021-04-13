@@ -224,7 +224,7 @@ TEST(Graphics, RenderedText) {
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        weightText->SetWeight(count / 20.0f - 2.5f);
+        // weightText->SetWeight(count / 20.0f - 2.5f);
         rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
 
         for (const auto& t : texts) {
