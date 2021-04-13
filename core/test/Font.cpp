@@ -316,8 +316,9 @@ TEST(Font, StaticFont) {
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Font.StaticFont", 1280, 720, config));
 
-    const auto text = u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができ"
-                u"ます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n";
+    const auto text =
+            u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができ"
+            u"ます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n";
 
     EXPECT_TRUE(
             Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/test.a2f", DefaultSamplingSize, text));

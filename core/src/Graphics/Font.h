@@ -33,7 +33,6 @@ private:
     float advance_;
     float scale_;
 
-
 public:
     Glyph();
     Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance, float scale);
@@ -47,7 +46,7 @@ public:
     float GetScale() { return scale_; }
 
 #if !USE_CBG
-    inline void Write(BinaryWriter *writer) {
+    inline void Write(BinaryWriter* writer) {
         writer->Push(textureSize_);
         writer->Push(textureIndex_);
         writer->Push(position_);
@@ -57,7 +56,7 @@ public:
         writer->Push(scale_);
     }
 
-    static inline std::shared_ptr<Glyph> Read(BinaryReader *reader) {
+    static inline std::shared_ptr<Glyph> Read(BinaryReader* reader) {
         auto glyph = MakeAsdShared<Glyph>();
         reader->Get(&glyph->textureSize_);
         reader->Get(&glyph->textureIndex_);
@@ -151,7 +150,7 @@ private:
 #if !USE_CBG
     void AddFontTexture();
     void AddGlyph(const int32_t character);
-    
+
     static std::u16string GetKeyName(const char16_t* path, float samplingSize, float pxRange, float angleThreshold) {
         return std::u16string(path) + utf8_to_utf16(std::to_string(samplingSize)) + utf8_to_utf16(std::to_string(pxRange)) + utf8_to_utf16(std::to_string(angleThreshold));
     }
