@@ -174,9 +174,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         // return
         if (character == '\n') {
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + text->GetLineGap());
+                offset.Y += text->GetLineGap();
             else
-                offset = Vector2F(offset.X - text->GetLineGap(), 0);
+                offset.X -= text->GetLineGap();
             continue;
         }
 
@@ -211,6 +211,10 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
             src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
 
             pos = offset + Vector2F(0, font->GetAscent() * fontScale) + glyph->GetOffset() * fontScale;
+
+            if (text->GetWritingDirection() == WritingDirection::Vertical) {
+                pos.X += -glyph->GetAdvance();
+            }
 
             texScale = fontScale / glyph->GetScale();
         }

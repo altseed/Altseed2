@@ -73,7 +73,7 @@ Vector2F RenderedText::GetTextureSize() {
             auto texSize = texture->GetSize();
             src = RectF(RectF(0, 0, texSize.X, texSize.Y));
 
-            pos = offset;
+            pos = offset + Vector2F(0, GetFont()->GetAscent() * fontScale - fontSize);
         } else {
             glyph = GetFont()->GetGlyph(character);
             if (glyph == nullptr) continue;
@@ -85,8 +85,13 @@ Vector2F RenderedText::GetTextureSize() {
             src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
 
             pos = offset + glyph->GetOffset() * fontScale + Vector2F(0, GetFont()->GetAscent() * fontScale);
+
+            if (GetWritingDirection() == WritingDirection::Vertical) {
+                pos.X += -glyph->GetAdvance();
+            }
         }
 
+        // advance
         if (writingDirection_ == WritingDirection::Horizontal) {
             if (glyph != nullptr) {
                 lineOffset += glyph->GetAdvance() * fontScale;

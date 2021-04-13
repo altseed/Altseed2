@@ -364,23 +364,23 @@ void Font::AddGlyph(const int32_t character) {
         glyphs_[character] = glyph;
         return;
     }
+    
+    const Vector2F areaSize(advance, ascent_ - descent_);
 
     auto bounds = shape.getBounds();
 
     const Vector2F boundsSize(bounds.r - bounds.l, bounds.t - bounds.b);
 
-    const float scale = samplingSize_ / std::max(boundsSize.X, boundsSize.Y);
+    const float scale = samplingSize_ / areaSize.Y;
 
-    const auto w = boundsSize.X * scale;
-    const auto h = boundsSize.Y * scale;
+    const auto w = areaSize.X * scale;
+    const Float32 h = samplingSize_;
 
-    int32_t wi = std::ceil(w) + 1;
-    int32_t hi = std::ceil(h) + 1;
+    int32_t wi = std::ceil(w);
+    int32_t hi = samplingSize_;
 
-    // 1 pixel 余分に領域を使うので、その分中心に寄せる差分
-    const auto d = boundsSize / Vector2F(wi, hi) * 0.5f;
 
-    const Vector2F offset(0.0f, -(float)bounds.t - d.Y);
+    const Vector2F offset(0.0f, -(float)ascent_);
 
     msdfgen::Bitmap<float, 3> msdf(wi, hi);
     {
@@ -388,7 +388,7 @@ void Font::AddGlyph(const int32_t character) {
         shape.normalize();
         msdfgen::edgeColoringSimple(shape, angleThreshold_);
 
-        msdfgen::generateMSDF(msdf, shape, pxRange_, scale, msdfgen::Vector2(-bounds.l + d.X, -bounds.b + d.Y));
+        msdfgen::generateMSDF(msdf, shape, pxRange_, scale, msdfgen::Vector2(0.0, -descent_));
     }
 
     if (textureSize_.X < currentTexturePosition_.X + wi) {
