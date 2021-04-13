@@ -34,11 +34,26 @@ public:
         idx = 0;
     }
 
+    // template <typename T>
+    // inline T Get() {
+    //     assert(!"The type cannot be serializable.");
+    //     return T();
+    // };
+
     template <typename T>
     inline T Get() {
-        assert(!"The type cannot be serializable.");
-        return T();
+        return T::Read(this);
+    }
+
+    template <typename T>
+    inline std::shared_ptr<T> GetAsShared() {
+        return T::Read(this);
     };
+
+    template <typename T>
+    inline void Get(T* ptr) {
+        *ptr = Get<T>();
+    }
 
     bool IsEmpty() const { return idx >= data.size(); }
 

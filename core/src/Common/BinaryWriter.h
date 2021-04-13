@@ -119,6 +119,16 @@ public:
         }
     }
 
+    // template <typename T>
+    // inline void Push(T const& a) {
+    //     a.Write(this);
+    // }
+
+    template <typename T>
+    inline void Push(std::shared_ptr<T>& a) {
+        a->Write(this);
+    }
+
     bool WriteOut(std::ostream& os) const {
         if (!os) {
             return false;
