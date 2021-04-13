@@ -152,7 +152,7 @@ private:
     void AddFontTexture();
     void AddGlyph(const int32_t character);
     
-    std::u16string GetKeyName(const char16_t* path, float samplingSize, float pxRange, float angleThreshold) const {
+    static std::u16string GetKeyName(const char16_t* path, float samplingSize, float pxRange, float angleThreshold) const {
         return std::u16string(path) + utf8_to_utf16(std::to_string(samplingSize)) + utf8_to_utf16(std::to_string(pxRange)) + utf8_to_utf16(std::to_string(angleThreshold));
     }
 #endif
