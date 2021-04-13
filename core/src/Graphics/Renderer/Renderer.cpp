@@ -174,9 +174,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         // return
         if (character == '\n') {
             if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + text->GetLineGap());
+                offset = Vector2F(0, offset.Y + text->GetLineSpace());
             else
-                offset = Vector2F(offset.X - text->GetLineGap(), 0);
+                offset = Vector2F(offset.X - text->GetLineSpace(), 0);
             continue;
         }
 

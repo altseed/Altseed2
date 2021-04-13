@@ -27,7 +27,7 @@ public:
     float GetAngleThreshold() override { return baseFont_->GetAngleThreshold(); }
     float GetAscent() override { return baseFont_->GetAscent(); }
     float GetDescent() override { return baseFont_->GetDescent(); }
-    float GetLineGap() override { return baseFont_->GetLineGap(); }
+    float GetLineSpace() override { return baseFont_->GetLineSpace(); }
     float GetEmSize() override { return baseFont_->GetEmSize(); }
 
     bool GetIsStaticFont() override { return baseFont_->GetIsStaticFont(); }

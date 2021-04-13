@@ -52,9 +52,9 @@ Vector2F RenderedText::GetTextureSize() {
         // return
         if (character == '\n') {
             if (writingDirection_ == WritingDirection::Horizontal)
-                offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
+                offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineSpace());
             else
-                offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
+                offset = Vector2F(offset.X - GetLineSpace(), fmax(offset.Y, lineOffset));
             lineOffset = 0;
             continue;
         }

@@ -1879,10 +1879,10 @@ CBGEXPORT float CBGSTDCALL cbg_Font_GetDescent(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT float CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_Font_GetLineSpace(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
-    float cbg_ret = cbg_self_->GetLineGap();
+    float cbg_ret = cbg_self_->GetLineSpace();
     return cbg_ret;
 }
 
@@ -1995,10 +1995,10 @@ CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetDescent(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetLineGap(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetLineSpace(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
-    float cbg_ret = cbg_self_->GetLineGap();
+    float cbg_ret = cbg_self_->GetLineSpace();
     return cbg_ret;
 }
 
@@ -2416,10 +2416,10 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetCharacterSpace(void* cbg_self, flo
     cbg_self_->SetCharacterSpace(cbg_arg0);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetLineGap(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetLineSpace(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
-    float cbg_ret = cbg_self_->GetLineGap();
+    float cbg_ret = cbg_self_->GetLineSpace();
     return cbg_ret;
 }
 

@@ -29,15 +29,17 @@ std::shared_ptr<msdfgen::FreetypeHandle> Font::freetypeHandle_;
 static constexpr float PxRangeDefault = 4.0;
 static constexpr float AngleThresholdDefault = 3.0;
 
+static constexpr int32_t TextureSize = 1024;
+
 Font::Font(std::u16string path)
     : resources_(nullptr),
       fontHandle_(nullptr),
       ascent_(0),
       descent_(0),
-      lineGap_(0),
+      lineSpace_(0),
       samplingSize_(0),
       file_(nullptr),
-      textureSize_(Vector2I(2000, 2000)),
+      textureSize_(Vector2I(TextureSize, TextureSize)),
       sourcePath_(path),
       isStaticFont_(true) {}
 
@@ -55,14 +57,14 @@ Font::Font(
       pxRange_(pxRange),
       angleThreshold_(angleThreshold),
       file_(file),
-      textureSize_(Vector2I(2000, 2000)),
+      textureSize_(Vector2I(TextureSize, TextureSize)),
       sourcePath_(path),
       isStaticFont_(false) {
     msdfgen::FontMetrics metrics;
     msdfgen::getFontMetrics(metrics, fontHandle.get());
     ascent_ = (float)metrics.ascenderY;
     descent_ = (float)metrics.descenderY;
-    lineGap_ = (float)(metrics.ascenderY - metrics.descenderY + metrics.lineHeight);
+    lineSpace_ = (float)(metrics.lineHeight);
     emSize_ = (float)metrics.emSize;
 
     AddFontTexture();
@@ -138,6 +140,8 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
 
     RETURN_IF_NULL(path, nullptr);
 
+    const auto normalizedPath = FileSystem::NormalizePath(path);
+
     auto resources = Resources::GetInstance();
     if (resources == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"File is not initialized.");
@@ -146,7 +150,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
 
     std::lock_guard<std::mutex> lock(mtx);
 
-    const auto resourceKeyName = Font::GetKeyName(path, samplingSize, pxRange, angleThreshold);
+    const auto resourceKeyName = Font::GetKeyName(normalizedPath.c_str(), samplingSize, pxRange, angleThreshold);
 
     auto cache = std::dynamic_pointer_cast<Font>(
             resources->GetResourceContainer(ResourceType::Font)->Get(resourceKeyName));
@@ -154,23 +158,23 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
         return cache;
     }
 
-    auto file = StaticFile::Create(path);
+    auto file = StaticFile::Create(normalizedPath.c_str());
     if (file == nullptr) {
         Log::GetInstance()->Error(
-                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(path).c_str());
+                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(normalizedPath).c_str());
         return nullptr;
     }
 
     std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
 
     if (fontHandle == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(path).c_str());
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(normalizedPath).c_str());
         return nullptr;
     }
 
-    auto res = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, path);
+    auto res = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, normalizedPath);
     resources->GetResourceContainer(ResourceType::Font)
-            ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(res, path));
+            ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(res, normalizedPath));
 
     return res;
 }
@@ -180,6 +184,9 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
     RETURN_IF_NULL(path, nullptr);
 
+    const auto normalizedPath = FileSystem::NormalizePath(path);
+    const auto rawFilename = FileSystem::GetFileName(normalizedPath, false);
+
     auto resources = Resources::GetInstance();
     if (resources == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"File is not initialized.");
@@ -188,17 +195,17 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
     std::lock_guard<std::mutex> lock(mtx);
 
-    auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(path));
+    auto cache = std::dynamic_pointer_cast<Font>(resources->GetResourceContainer(ResourceType::Font)->Get(normalizedPath));
     if (cache != nullptr && cache->GetRef() > 0 && cache->GetIsStaticFont()) {
         return cache;
     }
 
-    auto file = StaticFile::Create(path);
+    auto file = StaticFile::Create(normalizedPath.c_str());
     if (file == nullptr) return nullptr;
 
     BinaryReader reader(file);
 
-    auto font = MakeAsdShared<Font>(path);
+    auto font = MakeAsdShared<Font>(normalizedPath);
     font->resources_ = resources;
     font->file_ = file;
     reader.Get(&font->samplingSize_);
@@ -206,13 +213,13 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     reader.Get(&font->angleThreshold_);
     reader.Get(&font->ascent_);
     reader.Get(&font->descent_);
-    reader.Get(&font->lineGap_);
+    reader.Get(&font->lineSpace_);
     reader.Get(&font->emSize_);
     reader.Get(&font->textureSize_);
 
     const auto textureCount = reader.Get<int32_t>();
     for (size_t i = 0; i < textureCount; i++) {
-        auto texturePath = FileSystem::GetParentPath(path) + u"/Textures/font" + utf8_to_utf16(std::to_string(i)) + u".png";
+        auto texturePath = FileSystem::GetParentPath(normalizedPath) + u"/" + rawFilename + u"/Texture" + utf8_to_utf16(std::to_string(i)) + u".png";
         auto texture = Texture2D::Load(texturePath.c_str());
         if (texture == nullptr) return nullptr;
         font->textures_.push_back(texture);
@@ -249,14 +256,18 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     RETURN_IF_NULL(staticFontPath, false);
     RETURN_IF_NULL(characters, false);
 
-    auto parentDir = FileSystem::GetParentPath(FileSystem::GetAbusolutePath(staticFontPath));
+    const auto nDynamicFontPath = FileSystem::NormalizePath(dynamicFontPath);
+    const auto nStaticFontPath = FileSystem::NormalizePath(staticFontPath);
+    const auto staticFontRawFilename = FileSystem::GetFileName(nStaticFontPath, false);
+
+    auto parentDir = FileSystem::GetParentPath(FileSystem::GetAbusolutePath(nStaticFontPath));
     if (!FileSystem::GetIsDirectory(parentDir)) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: The output directory cannot be accessed.");
         return false;
     }
     BinaryWriter writer;
 
-    auto font = Font::LoadDynamicFont(dynamicFontPath, samplingSize, pxRange, angleThreshold);
+    auto font = Font::LoadDynamicFont(nDynamicFontPath.c_str(), samplingSize, pxRange, angleThreshold);
     if (font == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create font");
         return false;
@@ -267,7 +278,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     writer.Push(font->angleThreshold_);
     writer.Push(font->ascent_);
     writer.Push(font->descent_);
-    writer.Push(font->lineGap_);
+    writer.Push(font->lineSpace_);
     writer.Push(font->emSize_);
     writer.Push(font->textureSize_);
 
@@ -306,20 +317,24 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     }
 
     // save font textures
-    auto textureDir = FileSystem::GetParentPath(staticFontPath) +
-                      (FileSystem::GetParentPath(staticFontPath).size() == 0 ? u"Textures" : u"/Textures");
-    if (!FileSystem::GetIsDirectory(textureDir.c_str()))
-        if (!FileSystem::CreateDirectory(textureDir.c_str())) return false;
+    const auto parentPath = FileSystem::GetParentPath(nStaticFontPath);
+    auto textureDir = parentPath + (parentPath.size() == 0 ? u"" : u"/") + staticFontRawFilename;
+    if (!FileSystem::GetIsDirectory(textureDir.c_str())) {
+        if (!FileSystem::CreateDirectory(textureDir.c_str())) {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create directory: {0}", utf16_to_utf8(textureDir));
+            return false;
+        }
+    }
     int i = 0;
     for (auto& texture : font->textures_) {
-        texture->Save((textureDir + u"/font" + utf8_to_utf16(std::to_string(i++)) + u".png").c_str());
+        texture->Save((textureDir + u"/Texture" + utf8_to_utf16(std::to_string(i++)) + u".png").c_str());
     }
 
     std::ofstream fs;
 #ifdef _WIN32
-    fs.open((wchar_t*)staticFontPath, std::basic_ios<char>::out | std::basic_ios<char>::binary);
+    fs.open((wchar_t*)nStaticFontPath, std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #else
-    fs.open(utf16_to_utf8(staticFontPath).c_str(), std::basic_ios<char>::out | std::basic_ios<char>::binary);
+    fs.open(utf16_to_utf8(nStaticFontPath).c_str(), std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #endif
     if (!fs.is_open()) return false;
 

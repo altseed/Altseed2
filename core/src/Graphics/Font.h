@@ -76,7 +76,7 @@ private:
     std::shared_ptr<Resources> resources_;
 
     std::shared_ptr<msdfgen::FontHandle> fontHandle_;
-    float ascent_, descent_, lineGap_, emSize_;
+    float ascent_, descent_, lineSpace, emSize_;
     int32_t samplingSize_;
     float pxRange_;
     float angleThreshold_;
@@ -120,7 +120,7 @@ public:
     virtual float GetAngleThreshold() { return angleThreshold_; }
     virtual float GetAscent() { return ascent_; }
     virtual float GetDescent() { return descent_; }
-    virtual float GetLineGap() { return lineGap_; }
+    virtual float GetLineSpace() { return lineSpace; }
     virtual float GetEmSize() { return emSize_; }
     virtual bool GetIsStaticFont() { return isStaticFont_; }
 
