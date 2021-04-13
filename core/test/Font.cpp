@@ -19,7 +19,7 @@
 #include "TestHelper.h"
 #include "Tool/Tool.h"
 
-static const int32_t TestCount = 1000;
+static const int32_t TestCount = 10;
 static const int32_t DefaultSamplingSize = 32;
 
 TEST(Font, LoadDynamicFont) {
