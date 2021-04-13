@@ -1578,10 +1578,13 @@ with Glyph as class_:
     with class_.add_property(Vector2I, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(Vector2I, 'Offset') as prop_:
+    with class_.add_property(Vector2F, 'Offset') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'GlyphWidth') as prop_:
+    with class_.add_property(float, 'Advance') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'Scale') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(Glyph)
@@ -1613,11 +1616,22 @@ with Font as class_:
 
     with class_.add_func('LoadDynamicFont') as func_:
         func_.return_value.type_ = Font
-        func_.is_static = True
-        func_.is_public = True
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            arg.nullable = False
+            pass
         with func_.add_arg(int, 'samplingSize') as arg:
+            pass
+
+    with class_.add_func('LoadDynamicFont') as func_:
+        func_.return_value.type_ = Font
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            pass
+        with func_.add_arg(int, 'samplingSize') as arg:
+            pass
+        with func_.add_arg(float, 'pxRange') as arg:
+            pass
+        with func_.add_arg(float, 'angleThreshold') as arg:
             pass
 
     with class_.add_func('LoadStaticFont') as func_:
@@ -1636,16 +1650,31 @@ with Font as class_:
 
     with class_.add_func('GenerateFontFile') as func_:
         func_.return_value.type_ = bool
-        func_.is_static = True
-        func_.is_public = True
+        func_.is_overload = True
         with func_.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
-            arg.nullable = False
+            pass
         with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
-            arg.nullable = False
+            pass
         with func_.add_arg(int, 'samplingSize') as arg:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
-            arg.nullable = False
+            pass
+
+    with class_.add_func('GenerateFontFile') as func_:
+        func_.return_value.type_ = bool
+        func_.is_overload = True
+        with func_.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
+            pass
+        with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
+            pass
+        with func_.add_arg(int, 'samplingSize') as arg:
+            pass
+        with func_.add_arg(float, 'pxRange') as arg:
+            pass
+        with func_.add_arg(float, 'angleThreshold') as arg:
+            pass
+        with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
+            pass
 
     with class_.add_func('AddImageGlyph') as func_:
         func_.is_public = False
@@ -1666,13 +1695,22 @@ with Font as class_:
     with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Ascent') as prop_:
+    with class_.add_property(float, 'PxRange') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Descent') as prop_:
+    with class_.add_property(float, 'AngleThreshold') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'LineGap') as prop_:
+    with class_.add_property(float, 'Ascent') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'Descent') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'LineGap') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'EmSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
@@ -1719,13 +1757,22 @@ with ImageFont as class_:
     with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Ascent') as prop_:
+    with class_.add_property(float, 'PxRange') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Descent') as prop_:
+    with class_.add_property(float, 'AngleThreshold') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'LineGap') as prop_:
+    with class_.add_property(float, 'Ascent') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'Descent') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'LineGap') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'EmSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
@@ -1869,11 +1916,6 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(float, 'Weight') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-        prop_.is_public = False
-        prop_.serialized = True
     with class_.add_property(Material, 'MaterialGlyph') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
@@ -1919,13 +1961,14 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(int, 'FontSize') as prop_:
+    with class_.add_property(float, 'FontSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
     with class_.add_property(Vector2F, 'TextureSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = False
+    # class_.add_property(not found, 'Weight')
 define.classes.append(RenderedText)
 
 with RenderedPolygon as class_:
