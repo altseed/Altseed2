@@ -379,7 +379,7 @@ void Font::AddGlyph(const int32_t character) {
         glyphs_[character] = glyph;
         return;
     }
-    
+
     const Vector2F areaSize(advance, ascent_ - descent_);
 
     auto bounds = shape.getBounds();
@@ -393,7 +393,6 @@ void Font::AddGlyph(const int32_t character) {
 
     int32_t wi = std::ceil(w);
     int32_t hi = samplingSize_;
-
 
     const Vector2F offset(0.0f, -(float)ascent_);
 

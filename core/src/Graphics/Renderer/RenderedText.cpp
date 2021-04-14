@@ -79,7 +79,7 @@ Vector2F RenderedText::GetTextureSize() {
             if (glyph == nullptr) continue;
 
             texture = GetFont()->GetFontTexture(glyph->GetTextureIndex());
-            
+
             auto glyphPos = glyph->GetPosition();
             auto glyphSize = glyph->GetSize();
             src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
