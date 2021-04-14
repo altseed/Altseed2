@@ -26,7 +26,7 @@ Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vect
 std::mutex Font::mtx;
 std::shared_ptr<msdfgen::FreetypeHandle> Font::freetypeHandle_;
 
-static constexpr float PxRangeDefault = 4.0;
+// static constexpr float PxRangeDefault = 4.0;
 static constexpr float AngleThresholdDefault = 3.0;
 
 static constexpr int32_t TextureSize = 1024;
@@ -133,7 +133,7 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize) {
-    return Font::LoadDynamicFont(path, samplingSize, PxRangeDefault, AngleThresholdDefault);
+    return Font::LoadDynamicFont(path, samplingSize, (float)samplingSize / 8.0, AngleThresholdDefault);
 }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize, float pxRange, float angleThreshold) {
@@ -149,35 +149,41 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
         return nullptr;
     }
 
-    std::lock_guard<std::mutex> lock(mtx);
-
     const auto resourceKeyName = Font::GetKeyName(normalizedPath.c_str(), samplingSize, pxRange, angleThreshold);
 
-    auto cache = std::dynamic_pointer_cast<Font>(
-            resources->GetResourceContainer(ResourceType::Font)->Get(resourceKeyName));
-    if (cache != nullptr && cache->GetRef() > 0 && !cache->GetIsStaticFont()) {
-        return cache;
+    std::shared_ptr<Font> result = nullptr;
+
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+
+        result = std::dynamic_pointer_cast<Font>(
+                resources->GetResourceContainer(ResourceType::Font)->Get(resourceKeyName));
+        if (result != nullptr && result->GetRef() > 0 && !result->GetIsStaticFont()) {
+            return result;
+        }
+
+        auto file = StaticFile::Create(normalizedPath.c_str());
+        if (file == nullptr) {
+            Log::GetInstance()->Error(
+                    LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(normalizedPath).c_str());
+            return nullptr;
+        }
+
+        std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
+
+        if (fontHandle == nullptr) {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(normalizedPath).c_str());
+            return nullptr;
+        }
+
+        result = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, normalizedPath);
+        resources->GetResourceContainer(ResourceType::Font)
+                ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(result, normalizedPath));
     }
 
-    auto file = StaticFile::Create(normalizedPath.c_str());
-    if (file == nullptr) {
-        Log::GetInstance()->Error(
-                LogCategory::Core, u"Font::LoadDynamicFont: Failed to create file from '{0}'", utf16_to_utf8(normalizedPath).c_str());
-        return nullptr;
-    }
+    result->AddGlyph('\0');
 
-    std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
-
-    if (fontHandle == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(normalizedPath).c_str());
-        return nullptr;
-    }
-
-    auto res = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, normalizedPath);
-    resources->GetResourceContainer(ResourceType::Font)
-            ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(res, normalizedPath));
-
-    return res;
+    return result;
 }
 
 std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
@@ -247,7 +253,7 @@ std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
-    return Font::GenerateFontFile(dynamicFontPath, staticFontPath, samplingSize, PxRangeDefault, AngleThresholdDefault, characters);
+    return Font::GenerateFontFile(dynamicFontPath, staticFontPath, samplingSize, (float)samplingSize / 8.0, AngleThresholdDefault, characters);
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, float pxRange, float angleThreshold, const char16_t* characters) {
@@ -362,19 +368,21 @@ void Font::AddFontTexture() {
 void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
+    const Vector2F offset(0.0f, -(float)ascent_);
     double advance = 0.0;
 
     msdfgen::Shape shape;
     if (!msdfgen::loadGlyph(shape, fontHandle_.get(), character, &advance)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::AddGlyph: failed to load glyph");
-
-        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), Vector2F(0.0f, 0.0f), advance, 1.0f);
-        glyphs_[character] = glyph;
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::AddGlyph: failed to load glyph of character '{0}'", (char)character);
+        // auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), offset, advance, 1.0f);
+        // glyphs_[character] = glyph;
+        glyphs_[character] = GetGlyph('\0');
         return;
     }
 
     if (shape.edgeCount() < 1) {
-        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), Vector2F(0.0f, 0.0f), advance, 1.0f);
+        Log::GetInstance()->Info(LogCategory::Core, u"Font::AddGlyph: Edge Count of '{0}' is less than 1", (char)character);
+        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), offset, advance, 1.0f);
         glyphs_[character] = glyph;
         return;
     }
@@ -392,8 +400,6 @@ void Font::AddGlyph(const int32_t character) {
 
     int32_t wi = std::ceil(w);
     int32_t hi = samplingSize_;
-
-    const Vector2F offset(0.0f, -(float)ascent_);
 
     msdfgen::Bitmap<float, 3> msdf(wi, hi);
     {
