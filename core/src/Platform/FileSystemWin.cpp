@@ -42,7 +42,7 @@ std::u16string FileSystem::GetFileName(const std::u16string& path, bool withExte
         return pathObj.filename().u16string();
     } else {
         if (pathObj.has_stem()) {
-            return pathObj.stem().u16string()
+            return pathObj.stem().u16string();
         } else {
             return u"";
         }
