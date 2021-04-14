@@ -20,7 +20,7 @@
 #include "Tool/Tool.h"
 
 static const int32_t TestCount = 10;
-static const int32_t DefaultSamplingSize = 32;
+static const int32_t DefaultSamplingSize = 64;
 
 TEST(Font, LoadDynamicFont) {
     auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
@@ -75,6 +75,10 @@ TEST(Font, Basic) {
             Altseed2::Renderer::GetInstance()->Render();
 
             EXPECT_TRUE(instance->EndFrame());
+
+            if (count == 5) {
+                Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.Basic.png");
+            }
         }
 
         for (const auto& t : texts) {
@@ -210,14 +214,14 @@ TEST(Font, Surrogate) {
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Font.Surrogate", 1280, 720, config));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 48);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", DefaultSamplingSize);
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
     {
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷");
+        t->SetText(u"𠀋𡈽𡌛𡑮𡢽𠮟𡚴𡸴\n𣇄𣗄𣜿𣝣𣳾𤟱𥒎𥔎\n𥝱𥧄𥶡𦫿𦹀𧃴𧚄𨉷");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
         t->SetFontSize(100);
         texts.push_back(t);
@@ -246,6 +250,10 @@ TEST(Font, Surrogate) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.Surrogate.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -301,6 +309,10 @@ TEST(Font, ImageFont) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.ImageFont.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -369,6 +381,10 @@ TEST(Font, StaticFont) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.StaticFont.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -457,6 +473,10 @@ TEST(Font, FontSize) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.FontSize.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -474,54 +494,77 @@ TEST(Font, SamplingSize) {
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
+    const auto size = 64;
+    const auto offset = size + 8;
+
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32, 4, 3.0);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
         t->SetText(
-                u"親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。");
+                u"32, 4: 親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
-        t->SetFontSize(32);
+        t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize * 2);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48, 6, 3.0);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 20, 0));
-        t->SetFontSize(32);
+        t->SetText(u"48, 6: なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset, 0));
+        t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize * 4);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 64, 8, 3.0);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"新築の二階から首を出していたら、同級生の一人が冗談に、");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 50, 0));
-        t->SetFontSize(32);
+        t->SetText(u"64, 8: 新築の二階から首を出していたら、同級生の一人が冗談に、");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 2, 0));
+        t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize * 8);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 96, 12, 3.0);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"いくら威張っても、そこから飛び降りる事は出来まい。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 100, 0));
-        t->SetFontSize(32);
+        t->SetText(u"96, 12: いくら威張っても、そこから飛び降りる事は出来まい。");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 3, 0));
+        t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize * 16);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 128, 16, 3.0);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"弱虫やーい。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 190, 0));
-        t->SetFontSize(32);
+        t->SetText(u"128, 16: 弱虫やーい。");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 4, 0));
+        t->SetFontSize(size);
+        texts.push_back(t);
+    }
+
+    {
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 176, 176, 3.0);
+        auto t = Altseed2::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"176, 176: と囃はやしたからである。");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 5, 0));
+        t->SetFontSize(size);
+        texts.push_back(t);
+    }
+
+    {
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 256, 384, 3.0);
+        auto t = Altseed2::RenderedText::Create();
+        t->SetFont(font);
+        t->SetText(u"256, 384: 小使いに負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 6, 0));
+        t->SetFontSize(size);
         texts.push_back(t);
     }
 
@@ -548,6 +591,10 @@ TEST(Font, SamplingSize) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.SamplingSize.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -601,6 +648,10 @@ TEST(Font, Return) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.Return.png");
+        }
     }
 
     for (const auto& t : texts) {
@@ -655,6 +706,10 @@ TEST(Font, Vertical) {
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
+
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Font.Vertical.png");
+        }
     }
 
     for (const auto& t : texts) {

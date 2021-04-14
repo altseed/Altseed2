@@ -131,7 +131,7 @@ TEST(Graphics, RenderedText) {
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
@@ -166,7 +166,7 @@ TEST(Graphics, RenderedText) {
         texts.push_back(weightText);
     }
 
-    auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 32);
+    auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 48);
     {
         auto t = Altseed2::RenderedText::Create();
         Altseed2::CullingSystem::GetInstance()->Register(t);
@@ -869,7 +869,7 @@ TEST(Graphics, Culling) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
     auto t = Altseed2::RenderedText::Create();
     t->SetFont(font);
     t->SetText((u"Drawing Rendered: " +
@@ -932,7 +932,7 @@ TEST(Graphics, CullingTooManySprite) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
     auto t = Altseed2::RenderedText::Create();
     Altseed2::CullingSystem::GetInstance()->Register(t);
     t->SetFont(font);
