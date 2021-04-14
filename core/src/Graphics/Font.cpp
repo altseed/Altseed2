@@ -332,7 +332,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
 
     std::ofstream fs;
 #ifdef _WIN32
-    fs.open((wchar_t*)nStaticFontPath, std::basic_ios<char>::out | std::basic_ios<char>::binary);
+    fs.open((wchar_t*)nStaticFontPath.c_str(), std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #else
     fs.open(utf16_to_utf8(nStaticFontPath).c_str(), std::basic_ios<char>::out | std::basic_ios<char>::binary);
 #endif
@@ -389,7 +389,7 @@ void Font::AddGlyph(const int32_t character) {
     const float scale = samplingSize_ / areaSize.Y;
 
     const auto w = areaSize.X * scale;
-    const Float32 h = samplingSize_;
+    const float h = samplingSize_;
 
     int32_t wi = std::ceil(w);
     int32_t hi = samplingSize_;
