@@ -55,7 +55,7 @@ jobs:
             wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
             sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.1.121-xenial.list http://packages.lunarg.com/vulkan/1.1.121/lunarg-vulkan-1.1.121-xenial.list
             sudo apt update
-            sudo apt -y install vulkan-sdk clang-format clang-tidy
+            sudo apt -y install vulkan-sdk clang-format clang-tidy libgraphite2-dev
             
       - task: Bash@3
         inputs:
@@ -91,7 +91,7 @@ jobs:
             cd ../..
             git lfs install
             git lfs pull
-            sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev libgraphite2-dev libx11-xcb-dev
+            sudo apt -y install libx11-dev libxrandr-dev libxi-dev libxinerama-dev libxcursor-dev libudev-dev libx11-xcb-dev
             sudo apt -y install libssl-dev
             sudo apt -y install libglu1-mesa-dev mesa-common-dev
             sudo apt -y install libpulse-dev
