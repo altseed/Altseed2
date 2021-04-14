@@ -30,6 +30,7 @@ static constexpr float PxRangeDefault = 4.0;
 static constexpr float AngleThresholdDefault = 3.0;
 
 static constexpr int32_t TextureSize = 1024;
+static constexpr int32_t TextureAtlasPaddingPixel = 4;
 
 Font::Font(std::u16string path)
     : resources_(nullptr),
@@ -358,8 +359,6 @@ void Font::AddFontTexture() {
     currentTexturePosition_ = Vector2I();
 }
 
-static constexpr int32_t padding = 8;
-
 void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
@@ -407,7 +406,7 @@ void Font::AddGlyph(const int32_t character) {
 
     if (textureSize_.X < currentTexturePosition_.X + wi) {
         currentTexturePosition_.X = 0;
-        currentTexturePosition_.Y += padding + hi;
+        currentTexturePosition_.Y += TextureAtlasPaddingPixel + hi;
     }
 
     if (textureSize_.Y < currentTexturePosition_.Y + hi) AddFontTexture();
@@ -429,7 +428,7 @@ void Font::AddGlyph(const int32_t character) {
             }
         }
         llgiTexture->Unlock();
-        currentTexturePosition_.X += wi + padding;
+        currentTexturePosition_.X += wi + TextureAtlasPaddingPixel;
     }
 
     const auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(wi, hi), offset, advance, scale);
