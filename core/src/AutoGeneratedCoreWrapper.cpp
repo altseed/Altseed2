@@ -1765,23 +1765,10 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int
     return cbg_ret;
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont_char16p_int(void* cbg_self, const char16_t* path, int32_t samplingSize) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
+CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t samplingSize) {
     const char16_t* cbg_arg0 = path;
     int32_t cbg_arg1 = samplingSize;
-    std::shared_ptr<Altseed2::Font> cbg_ret = cbg_self_->LoadDynamicFont(cbg_arg0, cbg_arg1);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Font>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont_char16p_int_float_float(void* cbg_self, const char16_t* path, int32_t samplingSize, float pxRange, float angleThreshold) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    const char16_t* cbg_arg0 = path;
-    int32_t cbg_arg1 = samplingSize;
-    float cbg_arg2 = pxRange;
-    float cbg_arg3 = angleThreshold;
-    std::shared_ptr<Altseed2::Font> cbg_ret = cbg_self_->LoadDynamicFont(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+    std::shared_ptr<Altseed2::Font> cbg_ret = Altseed2::Font::LoadDynamicFont(cbg_arg0, cbg_arg1);
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Font>(cbg_ret);
 }
 
@@ -1797,27 +1784,12 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_CreateImageFont(void* baseFont) {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Font>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Font_GenerateFontFile_char16p_char16p_int_char16p(void* cbg_self, const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
+CBGEXPORT bool CBGSTDCALL cbg_Font_GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
     const char16_t* cbg_arg0 = dynamicFontPath;
     const char16_t* cbg_arg1 = staticFontPath;
     int32_t cbg_arg2 = samplingSize;
     const char16_t* cbg_arg3 = characters;
-    bool cbg_ret = cbg_self_->GenerateFontFile(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
-    return cbg_ret;
-}
-
-CBGEXPORT bool CBGSTDCALL cbg_Font_GenerateFontFile_char16p_char16p_int_float_float_char16p(void* cbg_self, const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, float pxRange, float angleThreshold, const char16_t* characters) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    const char16_t* cbg_arg0 = dynamicFontPath;
-    const char16_t* cbg_arg1 = staticFontPath;
-    int32_t cbg_arg2 = samplingSize;
-    float cbg_arg3 = pxRange;
-    float cbg_arg4 = angleThreshold;
-    const char16_t* cbg_arg5 = characters;
-    bool cbg_ret = cbg_self_->GenerateFontFile(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5);
+    bool cbg_ret = Altseed2::Font::GenerateFontFile(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
 
@@ -1848,20 +1820,6 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetSamplingSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetSamplingSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetPxRange(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPxRange();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetAngleThreshold(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetAngleThreshold();
     return cbg_ret;
 }
 
@@ -1964,20 +1922,6 @@ CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetSamplingSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     int32_t cbg_ret = cbg_self_->GetSamplingSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetPxRange(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPxRange();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetAngleThreshold(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetAngleThreshold();
     return cbg_ret;
 }
 

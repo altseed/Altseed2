@@ -152,8 +152,6 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
 
-    materialGlyph->SetVector4F(u"pxRange", Vector4F(font->GetPxRange(), 0.0f, 0.0f, 0.0f));
-
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
         materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetAlphaBlend());

@@ -1616,22 +1616,11 @@ with Font as class_:
 
     with class_.add_func('LoadDynamicFont') as func_:
         func_.return_value.type_ = Font
-        func_.is_overload = True
+        func_.is_static = True
+        func_.is_public = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            pass
+            arg.nullable = False
         with func_.add_arg(int, 'samplingSize') as arg:
-            pass
-
-    with class_.add_func('LoadDynamicFont') as func_:
-        func_.return_value.type_ = Font
-        func_.is_overload = True
-        with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
-            pass
-        with func_.add_arg(int, 'samplingSize') as arg:
-            pass
-        with func_.add_arg(float, 'pxRange') as arg:
-            pass
-        with func_.add_arg(float, 'angleThreshold') as arg:
             pass
 
     with class_.add_func('LoadStaticFont') as func_:
@@ -1650,31 +1639,16 @@ with Font as class_:
 
     with class_.add_func('GenerateFontFile') as func_:
         func_.return_value.type_ = bool
-        func_.is_overload = True
+        func_.is_static = True
+        func_.is_public = True
         with func_.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
-            pass
+            arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
-            pass
+            arg.nullable = False
         with func_.add_arg(int, 'samplingSize') as arg:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
-            pass
-
-    with class_.add_func('GenerateFontFile') as func_:
-        func_.return_value.type_ = bool
-        func_.is_overload = True
-        with func_.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
-            pass
-        with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
-            pass
-        with func_.add_arg(int, 'samplingSize') as arg:
-            pass
-        with func_.add_arg(float, 'pxRange') as arg:
-            pass
-        with func_.add_arg(float, 'angleThreshold') as arg:
-            pass
-        with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
-            pass
+            arg.nullable = False
 
     with class_.add_func('AddImageGlyph') as func_:
         func_.is_public = False
@@ -1693,12 +1667,6 @@ with Font as class_:
         func_.return_value.type_ = bool
 
     with class_.add_property(int, 'SamplingSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PxRange') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'AngleThreshold') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(float, 'Ascent') as prop_:
@@ -1755,12 +1723,6 @@ with ImageFont as class_:
             pass
 
     with class_.add_property(int, 'SamplingSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PxRange') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'AngleThreshold') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(float, 'Ascent') as prop_:

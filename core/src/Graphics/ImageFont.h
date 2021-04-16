@@ -23,8 +23,6 @@ public:
     ImageFont(std::shared_ptr<Font> baseFont);
 
     int32_t GetSamplingSize() override { return baseFont_->GetSamplingSize(); }
-    float GetPxRange() override { return baseFont_->GetPxRange(); }
-    float GetAngleThreshold() override { return baseFont_->GetAngleThreshold(); }
     float GetAscent() override { return baseFont_->GetAscent(); }
     float GetDescent() override { return baseFont_->GetDescent(); }
     float GetLineSpace() override { return baseFont_->GetLineSpace(); }

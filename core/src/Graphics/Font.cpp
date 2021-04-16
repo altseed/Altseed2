@@ -26,7 +26,7 @@ Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vect
 std::mutex Font::mtx;
 std::shared_ptr<msdfgen::FreetypeHandle> Font::freetypeHandle_;
 
-// static constexpr float PxRangeDefault = 4.0;
+static constexpr float PxRangeDefault = 4.0;
 static constexpr float AngleThresholdDefault = 3.0;
 
 static constexpr int32_t TextureSize = 1024;
@@ -49,14 +49,10 @@ Font::Font(
         std::shared_ptr<StaticFile>& file,
         std::shared_ptr<msdfgen::FontHandle> fontHandle,
         int32_t samplingSize,
-        float pxRange,
-        float angleThreshold,
         std::u16string path)
     : resources_(resources),
       fontHandle_(fontHandle),
       samplingSize_(samplingSize),
-      pxRange_(pxRange),
-      angleThreshold_(angleThreshold),
       file_(file),
       textureSize_(Vector2I(TextureSize, TextureSize)),
       sourcePath_(path),
@@ -77,7 +73,7 @@ Font::~Font() {
     std::lock_guard<std::mutex> lock(mtx);
     if (resources_ != nullptr && sourcePath_ != u"") {
         resources_->GetResourceContainer(ResourceType::Font)
-                ->Unregister(isStaticFont_ ? sourcePath_ : Font::GetKeyName(sourcePath_.c_str(), samplingSize_, pxRange_, angleThreshold_));
+                ->Unregister(isStaticFont_ ? sourcePath_ : Font::GetKeyName(sourcePath_.c_str(), samplingSize_));
         resources_ = nullptr;
     }
 }
@@ -133,10 +129,6 @@ int32_t Font::GetKerning(const int32_t c1, const int32_t c2) {
 const char16_t* Font::GetPath() const { return sourcePath_.c_str(); }
 
 std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize) {
-    return Font::LoadDynamicFont(path, samplingSize, (float)samplingSize / 8.0, AngleThresholdDefault);
-}
-
-std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t samplingSize, float pxRange, float angleThreshold) {
     EASY_BLOCK("Altseed2(C++).Font.LoadDynamicFont");
 
     RETURN_IF_NULL(path, nullptr);
@@ -149,7 +141,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
         return nullptr;
     }
 
-    const auto resourceKeyName = Font::GetKeyName(normalizedPath.c_str(), samplingSize, pxRange, angleThreshold);
+    const auto resourceKeyName = Font::GetKeyName(normalizedPath.c_str(), samplingSize);
 
     std::shared_ptr<Font> result = nullptr;
 
@@ -176,7 +168,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
             return nullptr;
         }
 
-        result = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, pxRange, angleThreshold, normalizedPath);
+        result = MakeAsdShared<Font>(resources, file, fontHandle, samplingSize, normalizedPath);
         resources->GetResourceContainer(ResourceType::Font)
                 ->Register(resourceKeyName, std::make_shared<ResourceContainer::ResourceInfomation>(result, normalizedPath));
     }
@@ -216,8 +208,6 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     font->resources_ = resources;
     font->file_ = file;
     reader.Get(&font->samplingSize_);
-    reader.Get(&font->pxRange_);
-    reader.Get(&font->angleThreshold_);
     reader.Get(&font->ascent_);
     reader.Get(&font->descent_);
     reader.Get(&font->lineSpace_);
@@ -253,10 +243,6 @@ std::shared_ptr<Font> Font::CreateImageFont(std::shared_ptr<Font> baseFont) {
 }
 
 bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
-    return Font::GenerateFontFile(dynamicFontPath, staticFontPath, samplingSize, (float)samplingSize / 8.0, AngleThresholdDefault, characters);
-}
-
-bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, float pxRange, float angleThreshold, const char16_t* characters) {
     EASY_BLOCK("Altseed2(C++).Font.GenerateFontFile");
 
     RETURN_IF_NULL(dynamicFontPath, false);
@@ -274,15 +260,13 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     }
     BinaryWriter writer;
 
-    auto font = Font::LoadDynamicFont(nDynamicFontPath.c_str(), samplingSize, pxRange, angleThreshold);
+    auto font = Font::LoadDynamicFont(nDynamicFontPath.c_str(), samplingSize);
     if (font == nullptr) {
         Log::GetInstance()->Error(LogCategory::Core, u"Font::GenerateFontFile: Failed to create font");
         return false;
     }
 
     writer.Push(font->samplingSize_);
-    writer.Push(font->pxRange_);
-    writer.Push(font->angleThreshold_);
     writer.Push(font->ascent_);
     writer.Push(font->descent_);
     writer.Push(font->lineSpace_);
@@ -405,9 +389,9 @@ void Font::AddGlyph(const int32_t character) {
     {
         shape.inverseYAxis = !shape.inverseYAxis;
         shape.normalize();
-        msdfgen::edgeColoringSimple(shape, angleThreshold_);
+        msdfgen::edgeColoringSimple(shape, AngleThresholdDefault);
 
-        msdfgen::generateMSDF(msdf, shape, pxRange_, scale, msdfgen::Vector2(0.0, -descent_));
+        msdfgen::generateMSDF(msdf, shape, PxRangeDefault, scale, msdfgen::Vector2(0.0, -descent_));
     }
 
     if (textureSize_.X < currentTexturePosition_.X + wi) {

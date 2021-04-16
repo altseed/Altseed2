@@ -77,8 +77,6 @@ private:
     std::shared_ptr<msdfgen::FontHandle> fontHandle_;
     float ascent_, descent_, lineSpace_, emSize_;
     int32_t samplingSize_;
-    float pxRange_;
-    float angleThreshold_;
 
     std::shared_ptr<StaticFile> file_;
 
@@ -103,8 +101,6 @@ public:
          std::shared_ptr<StaticFile>& file,
          std::shared_ptr<msdfgen::FontHandle> fontHandle,
          int32_t samplingSize,
-         float pxRange,
-         float angleThreshold,
          std::u16string path);
 
     virtual ~Font();
@@ -115,8 +111,6 @@ public:
 #endif
 
     virtual int32_t GetSamplingSize() { return samplingSize_; }
-    virtual float GetPxRange() { return pxRange_; }
-    virtual float GetAngleThreshold() { return angleThreshold_; }
     virtual float GetAscent() { return ascent_; }
     virtual float GetDescent() { return descent_; }
     virtual float GetLineSpace() { return lineSpace_; }
@@ -132,12 +126,10 @@ public:
     virtual int32_t GetKerning(const int32_t c1, const int32_t c2);
 
     static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t samplingSize);
-    static std::shared_ptr<Font> LoadDynamicFont(const char16_t* path, int32_t samplingSize, float pxRange, float angleThreshold);
     static std::shared_ptr<Font> LoadStaticFont(const char16_t* path);
     static std::shared_ptr<Font> CreateImageFont(std::shared_ptr<Font> baseFont);
 
     static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters);
-    static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, float pxRange, float angleThreshold, const char16_t* characters);
 
     virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
     virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }
@@ -151,8 +143,8 @@ private:
     void AddFontTexture();
     void AddGlyph(const int32_t character);
 
-    static std::u16string GetKeyName(const char16_t* path, float samplingSize, float pxRange, float angleThreshold) {
-        return std::u16string(path) + utf8_to_utf16(std::to_string(samplingSize)) + utf8_to_utf16(std::to_string(pxRange)) + utf8_to_utf16(std::to_string(angleThreshold));
+    static std::u16string GetKeyName(const char16_t* path, float samplingSize) {
+        return std::u16string(path) + utf8_to_utf16(std::to_string(samplingSize));
     }
 #endif
 };

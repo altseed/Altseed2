@@ -498,71 +498,71 @@ TEST(Font, SamplingSize) {
     const auto offset = size + 8;
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32, 4, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 32);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
         t->SetText(
-                u"32, 4: 親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。");
+                u"32: 親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48, 6, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"48, 6: なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。");
+        t->SetText(u"48: なぜそんな無闇をしたと聞く人があるかも知れぬ。別段深い理由でもない。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 64, 8, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 64);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"64, 8: 新築の二階から首を出していたら、同級生の一人が冗談に、");
+        t->SetText(u"64: 新築の二階から首を出していたら、同級生の一人が冗談に、");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 2, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 96, 12, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 96);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"96, 12: いくら威張っても、そこから飛び降りる事は出来まい。");
+        t->SetText(u"96: いくら威張っても、そこから飛び降りる事は出来まい。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 3, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 128, 16, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 128);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"128, 16: 弱虫やーい。");
+        t->SetText(u"128: 弱虫やーい。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 4, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 176, 176, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 176);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"176, 176: と囃はやしたからである。");
+        t->SetText(u"176: と囃はやしたからである。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 5, 0));
         t->SetFontSize(size);
         texts.push_back(t);
     }
 
     {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 256, 384, 3.0);
+        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 256);
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
-        t->SetText(u"256, 384: 小使いに負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。");
+        t->SetText(u"256: 小使いに負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 6, 0));
         t->SetFontSize(size);
         texts.push_back(t);
