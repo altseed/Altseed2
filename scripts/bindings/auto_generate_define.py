@@ -1669,6 +1669,7 @@ with Font as class_:
     with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
+        prop_.serialized = True
     with class_.add_property(float, 'Ascent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1690,7 +1691,6 @@ with Font as class_:
         prop_.has_setter = False
         prop_.null_deserialized = False
         prop_.serialized = True
-    # class_.add_property(not found, 'Size')
 define.classes.append(Font)
 
 with ImageFont as class_:
@@ -1929,11 +1929,12 @@ with RenderedText as class_:
     with class_.add_property(float, 'FontSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
+        prop_.is_public = False
+        prop_.serialized = True
     with class_.add_property(Vector2F, 'TextureSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.is_public = False
-    # class_.add_property(not found, 'Weight')
 define.classes.append(RenderedText)
 
 with RenderedPolygon as class_:

@@ -307,7 +307,7 @@
             "CallBackType": "Enable",
             "SerializeType": "Interface",
             "properties": {
-                "Size": {
+                "SamplingSize": {
                     "serialized": true
                 },
                 "IsStaticFont": {
@@ -456,7 +456,7 @@
                     "serialized": true,
                     "is_public": false
                 },
-                "Weight": {
+                "FontSize": {
                     "serialized": true,
                     "is_public": false
                 },
