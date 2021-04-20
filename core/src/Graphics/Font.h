@@ -113,7 +113,7 @@ public:
     virtual int32_t GetSamplingSize() { return samplingSize_; }
     virtual float GetAscent() { return ascent_; }
     virtual float GetDescent() { return descent_; }
-    virtual float GetLineSpace() { return lineSpace_; }
+    virtual float GetLineGap() { return lineSpace_; }
     virtual float GetEmSize() { return emSize_; }
     virtual bool GetIsStaticFont() { return isStaticFont_; }
 

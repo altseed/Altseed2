@@ -53,7 +53,7 @@ public:
 
         if (font_ != nullptr) {
             const auto fontScale = fontSize_ / font_->GetEmSize();
-            lineGap_ = font_->GetLineSpace() * fontScale;
+            lineGap_ = font_->GetLineGap() * fontScale;
         }
         cullingSystem_->RequestUpdateAABB(this);
     }
@@ -77,7 +77,7 @@ public:
 
     float GetCharacterSpace() { return characterSpace_; }
 
-    float GetLineSpace() { return lineGap_; }
+    float GetLineGap() { return lineGap_; }
     void SetLineGap(float lineGap) {
         lineGap_ = lineGap;
         cullingSystem_->RequestUpdateAABB(this);
@@ -88,7 +88,7 @@ public:
         fontSize_ = fontSize;
         if (font_ != nullptr) {
             const auto fontScale = fontSize_ / font_->GetEmSize();
-            lineGap_ = font_->GetLineSpace() * fontScale;
+            lineGap_ = font_->GetLineGap() * fontScale;
         }
         cullingSystem_->RequestUpdateAABB(this);
     }

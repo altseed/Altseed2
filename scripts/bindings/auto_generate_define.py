@@ -1676,7 +1676,7 @@ with Font as class_:
     with class_.add_property(float, 'Descent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(float, 'LineSpace') as prop_:
+    with class_.add_property(float, 'LineGap') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(float, 'EmSize') as prop_:
@@ -1731,7 +1731,7 @@ with ImageFont as class_:
     with class_.add_property(float, 'Descent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(float, 'LineSpace') as prop_:
+    with class_.add_property(float, 'LineGap') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(float, 'EmSize') as prop_:
@@ -1918,11 +1918,8 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(float, 'LineSpace') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
     with class_.add_property(float, 'LineGap') as prop_:
-        prop_.has_getter = False
+        prop_.has_getter = True
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True

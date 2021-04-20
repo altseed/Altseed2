@@ -25,7 +25,7 @@ public:
     int32_t GetSamplingSize() override { return baseFont_->GetSamplingSize(); }
     float GetAscent() override { return baseFont_->GetAscent(); }
     float GetDescent() override { return baseFont_->GetDescent(); }
-    float GetLineSpace() override { return baseFont_->GetLineSpace(); }
+    float GetLineGap() override { return baseFont_->GetLineGap(); }
     float GetEmSize() override { return baseFont_->GetEmSize(); }
 
     bool GetIsStaticFont() override { return baseFont_->GetIsStaticFont(); }

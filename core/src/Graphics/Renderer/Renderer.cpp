@@ -175,9 +175,9 @@ void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
         if (character == '\n') {
             // 改行位置のリセット、次の行への移動
             if (writingDir == WritingDirection::Horizontal) {
-                offset = Vector2F(0, offset.Y + text->GetLineSpace());
+                offset = Vector2F(0, offset.Y + text->GetLineGap());
             } else {
-                offset = Vector2F(offset.X - text->GetLineSpace(), 0);
+                offset = Vector2F(offset.X - text->GetLineGap(), 0);
             }
             continue;
         }
