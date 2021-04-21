@@ -320,7 +320,7 @@
             },
             "methods": {
                 "LoadDynamicFont": {
-                    "is_public": true,
+                    "is_public": false,
                     "is_static": true,
                     "params": {
                         "path": {
@@ -338,7 +338,7 @@
                     }
                 },
                 "GenerateFontFile": {
-                    "is_public": true,
+                    "is_public": false,
                     "is_static": true,
                     "params": {
                         "dynamicFontPath": {
