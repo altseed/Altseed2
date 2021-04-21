@@ -115,9 +115,29 @@ else()
     set(GLFW3_LIB_RELEASE "glfw3" PARENT_SCOPE)
 endif()
 
+# harfbuzz
+ExternalProject_Add(
+    EP_harfbuzz
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/harfbuzz
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/harfbuzz
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/harfbuzz
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/harfbuzz
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/harfbuzz/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/harfbuzz/lib)
+
 # freetype
 ExternalProject_Add(
     EP_freetype
+    DEPENDS         EP_harfbuzz EP_zlib EP_libzip
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/freetype
     PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/freetype
     INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
@@ -129,6 +149,11 @@ ExternalProject_Add(
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+                    -DFT_WITH_ZLIB=ON
+                    -DFT_WITH_HARFBUZZ=ON
+                    -DFT_WITH_BROTLI=OFF
+                    -DZLIB_INCLUDE_DIR=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/include
+                    -DZLIB_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/zlib/lib
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include)
@@ -152,6 +177,7 @@ ExternalProject_Add(
                     -DBUILD_SHARED_LIBS=OFF
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+                    -DFREETYPE_EXTERNAL=ON
 )
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen/include)
@@ -175,6 +201,28 @@ ExternalProject_Add(
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler/include)
 list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/easy_profiler/lib)
+# msdfgen-ext
+ExternalProject_Add(
+    EP_msdfgen-ext
+    DEPENDS         EP_freetype
+    SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/msdfgen
+    PREFIX          ${CMAKE_CURRENT_BINARY_DIR}/Build/msdfgen-ext
+    INSTALL_DIR     ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen-ext
+    CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen-ext
+                    -DCMAKE_USER_MAKE_RULES_OVERRIDE=${CMAKE_CURRENT_SOURCE_DIR}/CFlagOverrides.cmake
+                    -DUSE_MSVC_RUNTIME_LIBRARY_DLL=${USE_MSVC_RUNTIME_LIBRARY_DLL}
+                    -DMSVC_SANITIZE_ENABLED=${MSVC_SANITIZE_ENABLED}
+                    -DFREETYPE_INCLUDE_DIRS=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype/include/freetype2
+                    -DFREETYPE_LIBRARY=${CMAKE_CURRENT_BINARY_DIR}/Install/freetype
+                    -DMSDFGEN_BUILD_MSDFGEN_STANDALONE=OFF
+                    -DCMAKE_DEBUG_POSTFIX=d
+                    -DBUILD_SHARED_LIBS=OFF
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen-ext/include)
+list(APPEND THIRDPARTY_LIBRARY_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/Install/msdfgen-ext/lib)
 
 # box2d
 set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "disable box2d unit test" FORCE)

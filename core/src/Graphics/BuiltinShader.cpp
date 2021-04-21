@@ -62,12 +62,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 const char* FontUnlitPS = R"(
 Texture2D mainTex : register(t0);
 SamplerState mainSamp : register(s0);
-cbuffer Consts : register(b1)
-{
-    float4 weight;
-    float4 pixelDistScale;
-    float4 scale;
-};
+
 struct PS_INPUT
 {
     float4  Position : SV_POSITION;
@@ -75,17 +70,22 @@ struct PS_INPUT
     float2  UV1 : UV0;
     float2  UV2 : UV1;
 };
-float4 main(PS_INPUT input) : SV_TARGET 
-{ 
-    float4 c;
-    c = mainTex.Sample(mainSamp, input.UV1);
-    c = c * 255.0f;
-    c = (c - weight.xxxx) / pixelDistScale.xxxx;
-    c = c * scale.xxxx;
-    c = c + 0.5f;
 
-    if (c.r <= 0) discard;
-    return lerp(input.Color * c.r, input.Color, c.r >= 1.0f);
+float median (float3 col)
+{
+    return max(min(col.r, col.g), min(max(col.r, col.g), col.b));
+}
+
+float4 main(PS_INPUT input) : SV_TARGET 
+{
+    float3 tex = mainTex.Sample(mainSamp, input.UV1).rgb;
+    float dist = median(tex) - 0.5f;
+    float sigDist = fwidth(dist);
+    float opacity = smoothstep(-sigDist, sigDist, dist);
+
+    if (opacity <= 0.0) discard;
+
+    return float4(input.Color.rgb, opacity);
 }
 )";
 

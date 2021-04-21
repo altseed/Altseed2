@@ -97,4 +97,20 @@ std::u16string FileSystem::NormalizePath(const std::u16string& path) {
     return res;
 }
 
+std::u16string FileSystem::GetFileName(const std::u16string& path, bool withExtension) {
+    char* tmp = new char[utf16_to_utf8(path).size() + 1];
+    strcpy(tmp, utf16_to_utf8(path).c_str());
+    const std::u16string filename(utf8_to_utf16(basename(tmp)));
+
+    if (withExtension) {
+        delete[] tmp;
+        return filename;
+    } else {
+        const size_t lastindex = filename.find_last_of(u".");
+        const std::u16string rawname = filename.substr(0, lastindex);
+        delete[] tmp;
+        return rawname;
+    }
+}
+
 }  // namespace Altseed2

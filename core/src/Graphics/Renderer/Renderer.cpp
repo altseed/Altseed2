@@ -142,141 +142,66 @@ void Renderer::DrawSprite(std::shared_ptr<RenderedSprite> sprite) {
 }
 
 void Renderer::DrawText(std::shared_ptr<RenderedText> text) {
-    if (text->GetFont() == nullptr) return;
+    const auto font = text->GetFont();
+    if (font == nullptr) return;
 
     const auto& characters = text->GetTextAsStr();
+    if (characters.size() == 0) return;
 
     auto materialGlyph = text->GetMaterialGlyph();
     if (materialGlyph == nullptr) {
         materialGlyph = batchRenderer_->GetMaterialDefaultText(text->GetAlphaBlend());
     }
-    materialGlyph->SetVector4F(u"weight", Vector4F(128 - text->GetWeight() * text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    materialGlyph->SetVector4F(u"pixelDistScale", Vector4F(text->GetFont()->GetPixelDistScale(), 0.0f, 0.0f, 0.0f));
-    materialGlyph->SetVector4F(u"scale", Vector4F(text->GetFont()->GetActualScale(), 0.0f, 0.0f, 0.0f));
 
     auto materialImage = text->GetMaterialImage();
     if (materialImage == nullptr) {
         materialImage = batchRenderer_->GetMaterialDefaultSprite(text->GetAlphaBlend());
     }
 
-    Vector2F offset(0, 0);
-    for (size_t i = 0; i < characters.size(); i++) {
-        char32_t tmp = 0;
-        ASD_ASSERT(i < characters.size(), "buffer overrun");
+    text->IterateTexts([materialGlyph, materialImage, text, this](Vector2F pos, RectF src, float texScale, std::shared_ptr<TextureBase>& texture, bool isGlyph) {
+        // space や tab など大きさ0の文字の描画は行わない
+        if (src.Width != 0 && src.Height != 0) {
+            int ib[] = {0, 1, 2, 2, 3, 0};
+            std::array<BatchVertex, 4> vs;
 
-        ConvChU16ToU32({characters[i], i + 1 < characters.size() ? characters[i + 1] : u'\0'}, tmp);
-        int32_t character = static_cast<int32_t>(tmp);
+            vs[0].Pos.X = pos.X;
+            vs[0].Pos.Y = pos.Y;
+            vs[0].Pos.Z = 0.5f;
 
-        // return
-        if (character == '\n') {
-            if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset = Vector2F(0, offset.Y + text->GetLineGap());
-            else
-                offset = Vector2F(offset.X - text->GetLineGap(), 0);
-            continue;
+            vs[1].Pos.X = pos.X + src.Width * texScale;
+            vs[1].Pos.Y = pos.Y;
+            vs[1].Pos.Z = 0.5f;
+
+            vs[2].Pos.X = pos.X + src.Width * texScale;
+            vs[2].Pos.Y = pos.Y + src.Height * texScale;
+            vs[2].Pos.Z = 0.5f;
+
+            vs[3].Pos.X = pos.X;
+            vs[3].Pos.Y = pos.Y + src.Height * texScale;
+            vs[3].Pos.Z = 0.5f;
+
+            vs[0].UV1.X = src.X;
+            vs[0].UV1.Y = src.Y;
+            vs[1].UV1.X = src.X + src.Width;
+            vs[1].UV1.Y = src.Y;
+            vs[2].UV1.X = src.X + src.Width;
+            vs[2].UV1.Y = src.Y + src.Height;
+            vs[3].UV1.X = src.X;
+            vs[3].UV1.Y = src.Y + src.Height;
+
+            const auto textureSize = texture->GetSize().To2F();
+            for (size_t i = 0; i < 4; i++) {
+                vs[i].UV1 /= textureSize;
+                vs[i].UV2 = Vector2F();  // There is no valid UV2 because BatchVertex is NOT provided by RenderedSprite.
+                vs[i].Col = text->GetColor();
+
+                vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
+            }
+
+            const auto material = isGlyph ? materialGlyph : materialImage;
+            batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
         }
-
-        // Surrogate pair
-        if (characters[i] >= 0xD800 && characters[i] <= 0xDBFF) {
-            i++;
-        }
-
-        RectF src;
-        Vector2F pos;
-        Vector2F scale;
-        std::shared_ptr<Glyph> glyph = nullptr;
-
-        auto texture = text->GetFont()->GetImageGlyph(character);
-        if (texture != nullptr) {
-            src = RectF(Altseed2::RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
-
-            pos = offset;
-
-            scale = Vector2F(
-                    (float)text->GetFont()->GetSize() / texture->GetSize().Y, (float)text->GetFont()->GetSize() / texture->GetSize().Y);
-        } else {
-            glyph = text->GetFont()->GetGlyph(character);
-            if (glyph == nullptr) continue;
-
-            texture = text->GetFont()->GetFontTexture(glyph->GetTextureIndex());
-
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
-
-            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, text->GetFont()->GetAscent());
-
-            scale = Vector2F(1, 1) * text->GetFont()->GetActualScale();
-        }
-
-        int ib[] = {0, 1, 2, 2, 3, 0};
-        std::array<BatchVertex, 4> vs;
-
-        vs[0].Pos.X = pos.X;
-        vs[0].Pos.Y = pos.Y;
-        vs[0].Pos.Z = 0.5f;
-
-        vs[1].Pos.X = pos.X + src.Width * scale.X;
-        vs[1].Pos.Y = pos.Y;
-        vs[1].Pos.Z = 0.5f;
-
-        vs[2].Pos.X = pos.X + src.Width * scale.X;
-        vs[2].Pos.Y = pos.Y + src.Height * scale.Y;
-        vs[2].Pos.Z = 0.5f;
-
-        vs[3].Pos.X = pos.X;
-        vs[3].Pos.Y = pos.Y + src.Height * scale.Y;
-        vs[3].Pos.Z = 0.5f;
-
-        vs[0].UV1.X = src.X;
-        vs[0].UV1.Y = src.Y;
-        vs[1].UV1.X = src.X + src.Width;
-        vs[1].UV1.Y = src.Y;
-        vs[2].UV1.X = src.X + src.Width;
-        vs[2].UV1.Y = src.Y + src.Height;
-        vs[3].UV1.X = src.X;
-        vs[3].UV1.Y = src.Y + src.Height;
-
-        auto textureSize = texture->GetSize().To2F();
-        for (size_t i = 0; i < 4; i++) {
-            vs[i].UV1 /= textureSize;
-            vs[i].UV2 = Vector2F();  // There is no valid UV2 because BatchVertex is NOT provided by RenderedSprite.
-            vs[i].Col = text->GetColor();
-
-            vs[i].Pos = text->GetTransform().Transform3D(vs[i].Pos);
-        }
-
-        auto material = (glyph == nullptr) ? materialImage : materialGlyph;
-        batchRenderer_->Draw(vs.data(), ib, 4, 6, texture, material, nullptr);
-
-        if (text->GetWritingDirection() == WritingDirection::Horizontal) {
-            if (glyph != nullptr)
-                offset += Vector2F(glyph->GetGlyphWidth(), 0);
-            else
-                offset += Vector2F((float)texture->GetSize().X * text->GetFont()->GetSize() / texture->GetSize().Y, 0);
-        } else {
-            if (glyph != nullptr)
-                offset += Vector2F(0, (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X);
-            else
-                offset += Vector2F(0, (float)texture->GetSize().Y * text->GetFont()->GetSize() / texture->GetSize().X);
-        }
-
-        // character spcae
-        if (i != characters.size() - 1) {
-            if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(text->GetCharacterSpace(), 0);
-            else
-                offset += Altseed2::Vector2F(0, text->GetCharacterSpace());
-        }
-
-        // kerning
-        if (text->GetIsEnableKerning() && i != characters.size() - 1) {
-            ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
-            int32_t next = static_cast<int32_t>(tmp);
-            if (text->GetWritingDirection() == WritingDirection::Horizontal)
-                offset += Altseed2::Vector2F(text->GetFont()->GetKerning(character, next), 0);
-            else
-                offset += Altseed2::Vector2F(0, text->GetFont()->GetKerning(character, next));
-        }
-    }
+    });
 }
 
 void Renderer::SetCamera(std::shared_ptr<RenderedCamera> camera) {

@@ -6,6 +6,7 @@
 
 #include "BaseObject.h"
 #include "Common/Profiler.h"
+#include "Graphics/Font.h"
 #include "Graphics/FrameDebugger.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Renderer/CullingSystem.h"
@@ -132,6 +133,12 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
             return false;
         }
 
+        if (!Font::Initialize()) {
+            LOG_CRITICAL(u"Font::Initialize failed");
+            Core::instance = nullptr;
+            return false;
+        }
+
         if (!Graphics::Initialize(Window::GetInstance(), graphicsParameter)) {
             LOG_CRITICAL(u"Graphics::Initialize failed");
             Core::instance = nullptr;
@@ -234,6 +241,7 @@ void Core::Terminate() {
 
     if (CoreModulesHasBit(coreModules, CoreModules::RequireGraphics)) {
         CullingSystem::Terminate();
+        Font::Terminate();
         Graphics::Terminate();
         ShaderCompiler::Terminate();
         Renderer::Terminate();

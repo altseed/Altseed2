@@ -45,4 +45,17 @@ std::u16string FileSystem::NormalizePath(const std::u16string& path) {
     return res;
 }
 
+std::u16string FileSystem::GetFileName(const std::u16string& path, bool withExtension) {
+    const fs::path pathObj(path);
+    if (withExtension) {
+        return pathObj.filename().u16string();
+    } else {
+        if (pathObj.has_stem()) {
+            return pathObj.stem().u16string();
+        } else {
+            return u"";
+        }
+    }
+}
+
 }  // namespace Altseed2

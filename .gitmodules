@@ -38,6 +38,7 @@
 [submodule "thirdparty/freetype"]
 	path = thirdparty/freetype
 	url = https://github.com/altseed/freetype.git
+	branch = altseed2
 [submodule "thirdparty/msdfgen"]
 	path = thirdparty/msdfgen
 	url = https://github.com/altseed/msdfgen.git
@@ -45,3 +46,6 @@
 [submodule "thirdparty/easy_profiler"]
 	path = thirdparty/easy_profiler
 	url = https://github.com/yse/easy_profiler.git
+[submodule "thirdparty/harfbuzz"]
+	path = thirdparty/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz.git

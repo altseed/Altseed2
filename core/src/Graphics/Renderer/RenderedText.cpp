@@ -19,6 +19,7 @@ std::shared_ptr<RenderedText> RenderedText::Create() {
     t->SetColor(Color(TextureDefaultColor, TextureDefaultColor, TextureDefaultColor, TextureDefaultColor));
     t->SetMaterialGlyph(nullptr);
     t->SetMaterialImage(nullptr);
+    t->SetFontSize(32);
 
     return t;
 }
@@ -28,15 +29,27 @@ void RenderedText::SetText(const char16_t* text) {
     cullingSystem_->RequestUpdateAABB(this);
 }
 
-Vector2F RenderedText::GetTextureSize() {
-    if (GetFont() == nullptr) {
-        return Vector2F(0, 0);
-    }
+Vector2F RenderedText::IterateTexts(std::function<void(Vector2F pos, RectF src, float texScale, std::shared_ptr<TextureBase>& texture, bool isGlyph)> doEachText) {
+    const auto font = GetFont();
+    if (font == nullptr) return Vector2F(0.0f, 0.0f);
 
-    const auto& characters = GetTextAsStr();
+    auto& characters = GetTextAsStr();
+    if (characters.size() == 0) Vector2F(0.0f, 0.0f);
 
+    const auto fontSize = GetFontSize();
+    if (fontSize == 0.0f) return Vector2F(0.0f, 0.0f);
+
+    const auto samplingSize = (float)font->GetSamplingSize();
+    const auto fontScale = fontSize / font->GetEmSize();
+
+    const auto writingDir = GetWritingDirection();
+
+    // 各文字のオフセットを格納する
     Vector2F offset(0, 0);
-    float lineOffset = 0;
+
+    // 各ラインの最大長
+    float lineMax = 0.0f;
+
     for (size_t i = 0; i < characters.size(); i++) {
         char32_t tmp = 0;
         ASD_ASSERT(i < characters.size(), "buffer overrun");
@@ -46,11 +59,14 @@ Vector2F RenderedText::GetTextureSize() {
 
         // return
         if (character == '\n') {
-            if (writingDirection_ == WritingDirection::Horizontal)
-                offset = Vector2F(fmax(offset.X, lineOffset), offset.Y + GetLineGap());
-            else
-                offset = Vector2F(offset.X - GetLineGap(), fmax(offset.Y, lineOffset));
-            lineOffset = 0;
+            // 改行位置のリセット、次の行への移動
+            if (writingDir == WritingDirection::Horizontal) {
+                lineMax = std::fmax(lineMax, offset.X);
+                offset = Vector2F(0, offset.Y + GetLineGap());
+            } else {
+                lineMax = std::fmax(lineMax, offset.Y);
+                offset = Vector2F(offset.X - GetLineGap(), 0);
+            }
             continue;
         }
 
@@ -61,65 +77,94 @@ Vector2F RenderedText::GetTextureSize() {
 
         RectF src;
         Vector2F pos;
-        Vector2F scale;
+        float texScale;
         std::shared_ptr<Glyph> glyph = nullptr;
 
-        auto texture = GetFont()->GetImageGlyph(character);
+        auto texture = font->GetImageGlyph(character);
+
         if (texture != nullptr) {
-            src = RectF(RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+            auto texSize = texture->GetSize();
 
-            pos = offset;
+            src = RectF(0, 0, texSize.X, texSize.Y);
 
-            scale = Vector2F((float)GetFont()->GetSize() / texture->GetSize().Y, (float)GetFont()->GetSize() / texture->GetSize().Y);
+            pos = offset + Vector2F(0, font->GetAscent() * fontScale - fontSize);
+
+            texScale = fontSize / texSize.Y;
         } else {
-            glyph = GetFont()->GetGlyph(character);
+            glyph = font->GetGlyph(character);
             if (glyph == nullptr) continue;
 
-            texture = GetFont()->GetFontTexture(glyph->GetTextureIndex());
+            texture = font->GetFontTexture(glyph->GetTextureIndex());
 
-            src = RectF(glyph->GetPosition().X, glyph->GetPosition().Y, glyph->GetSize().X, glyph->GetSize().Y);
+            auto glyphPos = glyph->GetPosition();
+            auto glyphSize = glyph->GetSize();
+            src = RectF(glyphPos.X, glyphPos.Y, glyphSize.X, glyphSize.Y);
 
-            pos = offset + glyph->GetOffset().To2F() + Vector2F(0, GetFont()->GetAscent());
+            pos = offset + Vector2F(0, font->GetAscent() * fontScale) + glyph->GetOffset() * fontScale;
 
-            scale = Vector2F(1, 1) * GetFont()->GetActualScale();
+            if (writingDir == WritingDirection::Vertical) {
+                pos.X += -glyph->GetAdvance();
+            }
+
+            texScale = fontScale / glyph->GetScale();
         }
 
-        if (writingDirection_ == WritingDirection::Horizontal) {
-            if (glyph != nullptr)
-                lineOffset += glyph->GetGlyphWidth();
-            else
-                lineOffset += (float)texture->GetSize().X * GetFont()->GetSize() / texture->GetSize().Y;
+        if (doEachText != nullptr) {
+            doEachText(pos, src, texScale, texture, glyph != nullptr);
+        }
+
+        // advance
+        if (writingDir == WritingDirection::Horizontal) {
+            if (glyph != nullptr) {
+                offset += Vector2F(glyph->GetAdvance() * fontScale, 0);
+            } else {
+                offset += Vector2F((float)texture->GetSize().X * fontSize / texture->GetSize().Y, 0);
+            }
         } else {
-            if (glyph != nullptr)
-                lineOffset += (float)glyph->GetGlyphWidth() * glyph->GetSize().Y / glyph->GetSize().X;
-            else
-                lineOffset += (float)texture->GetSize().Y * GetFont()->GetSize() / texture->GetSize().X;
+            if (glyph != nullptr) {
+                offset += Vector2F(0, (float)glyph->GetAdvance() * glyph->GetSize().Y / glyph->GetSize().X * fontScale);
+            } else {
+                offset += Vector2F(0, (float)texture->GetSize().Y * fontSize / texture->GetSize().X);
+            }
         }
 
         // character spcae
-        if (i != characters.size() - 1) lineOffset += GetCharacterSpace();
+        if (i != characters.size() - 1) {
+            const auto space = GetCharacterSpace();
+            if (writingDir == WritingDirection::Horizontal) {
+                offset += Altseed2::Vector2F(space, 0);
+            } else {
+                offset += Altseed2::Vector2F(0, space);
+            }
+        }
 
         // kerning
-        if (isEnableKerning_ && i != characters.size() - 1) {
+        if (GetIsEnableKerning() && i != characters.size() - 1) {
             ConvChU16ToU32({characters[i + 1], i + 2 < characters.size() ? characters[i + 2] : u'\0'}, tmp);
-            int32_t next = static_cast<int32_t>(tmp);
-            lineOffset += GetFont()->GetKerning(character, next);
+            const int32_t next = static_cast<int32_t>(tmp);
+            const auto kern = font->GetKerning(character, next) * fontScale;
+            if (writingDir == WritingDirection::Horizontal) {
+                offset += Altseed2::Vector2F(kern, 0);
+            } else {
+                offset += Altseed2::Vector2F(0, kern);
+            }
         }
     }
 
-    // update ofset
-    if (writingDirection_ == WritingDirection::Horizontal)
-        offset.X = fmax(offset.X, lineOffset);
-    else
-        offset.Y = fmax(offset.Y, lineOffset);
-    offset.Y += GetFont()->GetAscent() - GetFont()->GetDescent();
+    if (writingDir == WritingDirection::Horizontal) {
+        return Vector2F(std::fmax(lineMax, offset.X), offset.Y + GetLineGap());
+    } else {
+        return Vector2F(std::abs(offset.X - GetLineGap()), std::fmax(lineMax, offset.Y));
+    }
+}
 
-    return offset;
+Vector2F RenderedText::GetRenderingSize() {
+    return IterateTexts(nullptr);
 }
 
 b2AABB RenderedText::GetAABB() {
     b2AABB res;
-    auto size = GetTextureSize();
+    auto size = GetRenderingSize();
     auto vertexes = std::array<Vector3F, 4>();
     vertexes[0] = Vector3F();
     vertexes[1] = Vector3F(size.X, 0, 0);

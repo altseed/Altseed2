@@ -1707,17 +1707,24 @@ CBGEXPORT Altseed2::Vector2I_C CBGSTDCALL cbg_Glyph_GetSize(void* cbg_self) {
     return (cbg_ret);
 }
 
-CBGEXPORT Altseed2::Vector2I_C CBGSTDCALL cbg_Glyph_GetOffset(void* cbg_self) {
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Glyph_GetOffset(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Glyph*)(cbg_self);
 
-    Altseed2::Vector2I_C cbg_ret = cbg_self_->GetOffset();
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetOffset();
     return (cbg_ret);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Glyph_GetGlyphWidth(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_Glyph_GetAdvance(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Glyph*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetGlyphWidth();
+    float cbg_ret = cbg_self_->GetAdvance();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Glyph_GetScale(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Glyph*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetScale();
     return cbg_ret;
 }
 
@@ -1758,9 +1765,9 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetKerning(void* cbg_self, int32_t c1, int
     return cbg_ret;
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t size) {
+CBGEXPORT void* CBGSTDCALL cbg_Font_LoadDynamicFont(const char16_t* path, int32_t samplingSize) {
     const char16_t* cbg_arg0 = path;
-    int32_t cbg_arg1 = size;
+    int32_t cbg_arg1 = samplingSize;
     std::shared_ptr<Altseed2::Font> cbg_ret = Altseed2::Font::LoadDynamicFont(cbg_arg0, cbg_arg1);
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Font>(cbg_ret);
 }
@@ -1777,10 +1784,10 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_CreateImageFont(void* baseFont) {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Font>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Font_GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t size, const char16_t* characters) {
+CBGEXPORT bool CBGSTDCALL cbg_Font_GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters) {
     const char16_t* cbg_arg0 = dynamicFontPath;
     const char16_t* cbg_arg1 = staticFontPath;
-    int32_t cbg_arg2 = size;
+    int32_t cbg_arg2 = samplingSize;
     const char16_t* cbg_arg3 = characters;
     bool cbg_ret = Altseed2::Font::GenerateFontFile(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
@@ -1790,7 +1797,7 @@ CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph(void* cbg_self, int32_t charact
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)texture);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
     cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
 }
 
@@ -1798,8 +1805,8 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_GetImageGlyph(void* cbg_self, int32_t charac
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Font_Reload(void* cbg_self) {
@@ -1809,31 +1816,38 @@ CBGEXPORT bool CBGSTDCALL cbg_Font_Reload(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetSize(void* cbg_self) {
+CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetSamplingSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetSize();
+    int32_t cbg_ret = cbg_self_->GetSamplingSize();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetAscent(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_Font_GetAscent(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetAscent();
+    float cbg_ret = cbg_self_->GetAscent();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetDescent(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_Font_GetDescent(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetDescent();
+    float cbg_ret = cbg_self_->GetDescent();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_Font_GetLineGap(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetLineGap();
+    float cbg_ret = cbg_self_->GetLineGap();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_Font_GetEmSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetEmSize();
     return cbg_ret;
 }
 
@@ -1841,34 +1855,6 @@ CBGEXPORT bool CBGSTDCALL cbg_Font_GetIsStaticFont(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     bool cbg_ret = cbg_self_->GetIsStaticFont();
-    return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_Font_GetActualSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetActualSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetPixelDistScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPixelDistScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetActualScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetActualScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Font_GetScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Font*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetScale();
     return cbg_ret;
 }
 
@@ -1920,7 +1906,7 @@ CBGEXPORT void CBGSTDCALL cbg_ImageFont_AddImageGlyph(void* cbg_self, int32_t ch
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)texture);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
     cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
 }
 
@@ -1928,35 +1914,42 @@ CBGEXPORT void* CBGSTDCALL cbg_ImageFont_GetImageGlyph(void* cbg_self, int32_t c
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetSize(void* cbg_self) {
+CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetSamplingSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetSize();
+    int32_t cbg_ret = cbg_self_->GetSamplingSize();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetAscent(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetAscent(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetAscent();
+    float cbg_ret = cbg_self_->GetAscent();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetDescent(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetDescent(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetDescent();
+    float cbg_ret = cbg_self_->GetDescent();
     return cbg_ret;
 }
 
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetLineGap(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetLineGap(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
-    int32_t cbg_ret = cbg_self_->GetLineGap();
+    float cbg_ret = cbg_self_->GetLineGap();
+    return cbg_ret;
+}
+
+CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetEmSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
+
+    float cbg_ret = cbg_self_->GetEmSize();
     return cbg_ret;
 }
 
@@ -1964,34 +1957,6 @@ CBGEXPORT bool CBGSTDCALL cbg_ImageFont_GetIsStaticFont(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     bool cbg_ret = cbg_self_->GetIsStaticFont();
-    return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetActualSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetActualSize();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetPixelDistScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetPixelDistScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetActualScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetActualScale();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_ImageFont_GetScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetScale();
     return cbg_ret;
 }
 
@@ -2283,20 +2248,6 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetAlphaBlend(void* cbg_self, Altseed
     cbg_self_->SetAlphaBlend(cbg_arg0);
 }
 
-CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetWeight(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetWeight();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetWeight(void* cbg_self, float value) {
-    auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
-
-    float cbg_arg0 = value;
-    cbg_self_->SetWeight(cbg_arg0);
-}
-
 CBGEXPORT void* CBGSTDCALL cbg_RenderedText_GetMaterialGlyph(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
@@ -2423,10 +2374,24 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetLineGap(void* cbg_self, float valu
     cbg_self_->SetLineGap(cbg_arg0);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RenderedText_GetTextureSize(void* cbg_self) {
+CBGEXPORT float CBGSTDCALL cbg_RenderedText_GetFontSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetTextureSize();
+    float cbg_ret = cbg_self_->GetFontSize();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetFontSize(void* cbg_self, float value) {
+    auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
+
+    float cbg_arg0 = value;
+    cbg_self_->SetFontSize(cbg_arg0);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RenderedText_GetRenderingSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetRenderingSize();
     return (cbg_ret);
 }
 

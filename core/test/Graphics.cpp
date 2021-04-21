@@ -131,53 +131,53 @@ TEST(Graphics, RenderedText) {
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText", 1280, 720, config));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 100);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
     {
         auto t = Altseed2::RenderedText::Create();
-        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(font);
         t->SetText(u"Hello, world! こんにちは");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
+        t->SetFontSize(100);
         texts.push_back(t);
     }
 
     {
         auto t = Altseed2::RenderedText::Create();
-        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(font);
         t->SetText(u"色を指定する。");
         t->SetColor(Altseed2::Color(0, 0, 255, 255));
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 100.0f, 0));
+        t->SetFontSize(100);
         texts.push_back(t);
     }
 
-    auto weitText = Altseed2::RenderedText::Create();
+    auto weightText = Altseed2::RenderedText::Create();
     {
-        Altseed2::CullingSystem::GetInstance()->Register(weitText);
-        weitText->SetText(u"太さを指定する。");
-        weitText->SetFont(font);
-        weitText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 200.0f, 0));
-        texts.push_back(weitText);
+        weightText->SetText(u"太さを指定する。");
+        weightText->SetFont(font);
+        weightText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 200.0f, 0));
+        weightText->SetFontSize(100);
+        texts.push_back(weightText);
     }
 
-    auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 100);
+    auto fontGenyomin = Altseed2::Font::LoadDynamicFont(u"TestData/Font/GenYoMinJP-Bold.ttf", 48);
     {
         auto t = Altseed2::RenderedText::Create();
-        Altseed2::CullingSystem::GetInstance()->Register(t);
         t->SetFont(fontGenyomin);
         t->SetText(u"𠀋 𡈽 𡌛 𡑮 𡢽 𠮟 𡚴 𡸴 𣇄 𣗄 𣜿 𣝣 𣳾 𤟱 𥒎 𥔎 𥝱 𥧄 𥶡 𦫿 𦹀 𧃴 𧚄 𨉷");
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 300.0f, 0));
+        t->SetFontSize(100);
         texts.push_back(t);
     }
 
     auto rotatedText = Altseed2::RenderedText::Create();
     {
-        Altseed2::CullingSystem::GetInstance()->Register(rotatedText);
         rotatedText->SetFont(font);
         rotatedText->SetText(u"くるくるまわる");
+        rotatedText->SetFontSize(100);
         texts.push_back(rotatedText);
     }
 
@@ -185,21 +185,27 @@ TEST(Graphics, RenderedText) {
         auto imageFont = Altseed2::Font::CreateImageFont(font);
         imageFont->AddImageGlyph(u'〇', Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png"));
         auto imageFontText = Altseed2::RenderedText::Create();
-        Altseed2::CullingSystem::GetInstance()->Register(imageFontText);
         imageFontText->SetFont(imageFont);
         imageFontText->SetText(u"Altseed〇Altseed");
         imageFontText->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 500.0f, 0));
+        imageFontText->SetFontSize(100);
         texts.push_back(imageFontText);
     }
 
     {
         auto t = Altseed2::RenderedText::Create();
         t->SetFont(font);
+        t->SetFontSize(100);
         t->SetText(u"Altseed おるとしーど");
-        EXPECT_TRUE(t->GetTextureSize().X > 0.0f);
-        EXPECT_TRUE(t->GetTextureSize().Y > 0.0f);
+        const auto size = t->GetRenderingSize();
+        EXPECT_TRUE(size.X > 0.0f);
+        EXPECT_TRUE(size.Y > 0.0f);
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 600.0f, 0));
         texts.push_back(t);
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
     }
 
     auto rotatedTrans = Altseed2::Matrix44F().SetTranslation(600.0f, 400.0f, 0.0f);
@@ -217,7 +223,7 @@ TEST(Graphics, RenderedText) {
         renderPassParameter.IsDepthCleared = true;
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
-        weitText->SetWeight(count / 20.0f - 2.5f);
+        // weightText->SetWeight(count / 20.0f - 2.5f);
         rotatedText->SetTransform(rotatedTrans * rotatedRot.SetRotationZ(4 * count * M_PI / 180.0));
 
         for (const auto& t : texts) {
@@ -231,6 +237,74 @@ TEST(Graphics, RenderedText) {
         // Take a screenshot
         if (count == 5) {
             Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedText.png");
+        }
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Unregister(t);
+    }
+
+    Altseed2::Core::Terminate();
+}
+
+TEST(Graphics, RenderedText_RenderingSize) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"RenderedText_RenderingSize", 1280, 720, config));
+
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 64);
+
+    std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
+
+    {
+        auto t = Altseed2::RenderedText::Create();
+        t->SetFont(font);
+        t->SetFontSize(100);
+        t->SetText(u"A");
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0.0f, 0.0f, 0));
+        texts.push_back(t);
+    }
+
+    {
+        auto t = Altseed2::RenderedText::Create();
+        t->SetFont(font);
+        t->SetFontSize(100);
+        t->SetText(u"A");
+        const auto size = t->GetRenderingSize();
+        EXPECT_TRUE(size.X > 0.0f);
+        EXPECT_TRUE(size.Y > 0.0f);
+        t->SetTransform(Altseed2::Matrix44F().SetTranslation(-size.X * 0.5f, 100.0f, 0));
+        texts.push_back(t);
+    }
+
+    for (const auto& t : texts) {
+        Altseed2::CullingSystem::GetInstance()->Register(t);
+    }
+
+    auto instance = Altseed2::Graphics::GetInstance();
+
+    for (int count = 0; count++ < 100 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent();) {
+        Altseed2::CullingSystem::GetInstance()->UpdateAABB();
+        Altseed2::CullingSystem::GetInstance()->Cull(Altseed2::RectF(Altseed2::Vector2F(), Altseed2::Window::GetInstance()->GetSize().To2F()));
+
+        Altseed2::RenderPassParameter renderPassParameter;
+        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
+        renderPassParameter.IsColorCleared = true;
+        renderPassParameter.IsDepthCleared = true;
+        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
+
+        for (const auto& t : texts) {
+            Altseed2::Renderer::GetInstance()->DrawText(t);
+        }
+
+        Altseed2::Renderer::GetInstance()->Render();
+
+        EXPECT_TRUE(instance->EndFrame());
+
+        // Take a screenshot
+        if (count == 5) {
+            Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Graphics.RenderedText_RenderingSize.png");
         }
     }
 
@@ -862,13 +936,14 @@ TEST(Graphics, Culling) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 80);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
     auto t = Altseed2::RenderedText::Create();
     t->SetFont(font);
     t->SetText((u"Drawing Rendered: " +
                 Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                        .c_str());
     t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
+    t->SetFontSize(80);
 
     while (count++ < 100 && instance->DoEvents()) {
         auto trans = Altseed2::Matrix44F();
@@ -924,7 +999,7 @@ TEST(Graphics, CullingTooManySprite) {
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 128, 128));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 40);
+    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 48);
     auto t = Altseed2::RenderedText::Create();
     Altseed2::CullingSystem::GetInstance()->Register(t);
     t->SetFont(font);
@@ -932,6 +1007,7 @@ TEST(Graphics, CullingTooManySprite) {
                 Altseed2::utf8_to_utf16(std::to_string(Altseed2::CullingSystem::GetInstance()->GetDrawingRenderedCount())))
                        .c_str());
     t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
+    t->SetFontSize(40);
 
     std::vector<std::shared_ptr<Altseed2::RenderedSprite>> sprites;
 

@@ -242,14 +242,19 @@ target_link_libraries(
     debug "${GLFW3_LIB_DEBUG}"
     optimized "${GLFW3_LIB_RELEASE}"
 
+    debug harfbuzzd
+    optimized harfbuzz
+
     debug freetyped
     optimized freetype
 
     debug msdfgend
     optimized msdfgen
-
+    
     debug easy_profilerd
     optimized easy_profiler
+    debug msdfgen-extd
+    optimized msdfgen-ext
 )
 
 if (MSVC)
@@ -260,6 +265,9 @@ if (MSVC)
         debug zlibstaticd
         optimized zlibstatic
     )
+
+    target_compile_definitions(Altseed2_Core PRIVATE NOMINMAX)
+
 
 elseif(APPLE)
 
@@ -339,6 +347,8 @@ add_dependencies(
     EP_libzip
     EP_msdfgen
     EP_easy_profiler
+    EP_msdfgen-ext
+    EP_harfbuzz
     box2d
     nativefiledialog)
 

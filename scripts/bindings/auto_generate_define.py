@@ -1578,10 +1578,13 @@ with Glyph as class_:
     with class_.add_property(Vector2I, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(Vector2I, 'Offset') as prop_:
+    with class_.add_property(Vector2F, 'Offset') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'GlyphWidth') as prop_:
+    with class_.add_property(float, 'Advance') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'Scale') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(Glyph)
@@ -1617,7 +1620,7 @@ with Font as class_:
         func_.is_public = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
-        with func_.add_arg(int, 'size') as arg:
+        with func_.add_arg(int, 'samplingSize') as arg:
             pass
 
     with class_.add_func('LoadStaticFont') as func_:
@@ -1642,7 +1645,7 @@ with Font as class_:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
             arg.nullable = False
-        with func_.add_arg(int, 'size') as arg:
+        with func_.add_arg(int, 'samplingSize') as arg:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'characters') as arg:
             arg.nullable = False
@@ -1651,11 +1654,11 @@ with Font as class_:
         func_.is_public = False
         with func_.add_arg(int, 'character') as arg:
             pass
-        with func_.add_arg(Texture2D, 'texture') as arg:
+        with func_.add_arg(TextureBase, 'texture') as arg:
             pass
 
     with class_.add_func('GetImageGlyph') as func_:
-        func_.return_value.type_ = Texture2D
+        func_.return_value.type_ = TextureBase
         func_.is_public = True
         with func_.add_arg(int, 'character') as arg:
             pass
@@ -1663,35 +1666,26 @@ with Font as class_:
     with class_.add_func('Reload') as func_:
         func_.return_value.type_ = bool
 
-    with class_.add_property(int, 'Size') as prop_:
+    with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
-    with class_.add_property(int, 'Ascent') as prop_:
+    with class_.add_property(float, 'Ascent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Descent') as prop_:
+    with class_.add_property(float, 'Descent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'LineGap') as prop_:
+    with class_.add_property(float, 'LineGap') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'EmSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
         prop_.serialized = True
-    with class_.add_property(int, 'ActualSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PixelDistScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ActualScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'Scale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -1720,39 +1714,30 @@ with ImageFont as class_:
     with class_.add_func('AddImageGlyph') as func_:
         with func_.add_arg(int, 'character') as arg:
             pass
-        with func_.add_arg(Texture2D, 'texture') as arg:
+        with func_.add_arg(TextureBase, 'texture') as arg:
             pass
 
     with class_.add_func('GetImageGlyph') as func_:
-        func_.return_value.type_ = Texture2D
+        func_.return_value.type_ = TextureBase
         with func_.add_arg(int, 'character') as arg:
             pass
 
-    with class_.add_property(int, 'Size') as prop_:
+    with class_.add_property(int, 'SamplingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Ascent') as prop_:
+    with class_.add_property(float, 'Ascent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'Descent') as prop_:
+    with class_.add_property(float, 'Descent') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(int, 'LineGap') as prop_:
+    with class_.add_property(float, 'LineGap') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(float, 'EmSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(bool, 'IsStaticFont') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(int, 'ActualSize') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'PixelDistScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'ActualScale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(float, 'Scale') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(ImageFont)
@@ -1893,11 +1878,6 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(float, 'Weight') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-        prop_.is_public = False
-        prop_.serialized = True
     with class_.add_property(Material, 'MaterialGlyph') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
@@ -1943,10 +1923,15 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(Vector2F, 'TextureSize') as prop_:
+    with class_.add_property(float, 'FontSize') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+        prop_.is_public = False
+        prop_.serialized = True
+    with class_.add_property(Vector2F, 'RenderingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.is_public = False
+    # class_.add_property(not found, 'TextureSize')
 define.classes.append(RenderedText)
 
 with RenderedPolygon as class_:
