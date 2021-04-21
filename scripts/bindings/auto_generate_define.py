@@ -1617,7 +1617,7 @@ with Font as class_:
     with class_.add_func('LoadDynamicFont') as func_:
         func_.return_value.type_ = Font
         func_.is_static = True
-        func_.is_public = False
+        func_.onlyExtern = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
         with func_.add_arg(int, 'samplingSize') as arg:
@@ -1640,7 +1640,7 @@ with Font as class_:
     with class_.add_func('GenerateFontFile') as func_:
         func_.return_value.type_ = bool
         func_.is_static = True
-        func_.is_public = False
+        func_.onlyExtern = True
         with func_.add_arg(ctypes.c_wchar_p, 'dynamicFontPath') as arg:
             arg.nullable = False
         with func_.add_arg(ctypes.c_wchar_p, 'staticFontPath') as arg:
