@@ -1654,11 +1654,11 @@ with Font as class_:
         func_.is_public = False
         with func_.add_arg(int, 'character') as arg:
             pass
-        with func_.add_arg(Texture2D, 'texture') as arg:
+        with func_.add_arg(TextureBase, 'texture') as arg:
             pass
 
     with class_.add_func('GetImageGlyph') as func_:
-        func_.return_value.type_ = Texture2D
+        func_.return_value.type_ = TextureBase
         func_.is_public = True
         with func_.add_arg(int, 'character') as arg:
             pass
@@ -1714,11 +1714,11 @@ with ImageFont as class_:
     with class_.add_func('AddImageGlyph') as func_:
         with func_.add_arg(int, 'character') as arg:
             pass
-        with func_.add_arg(Texture2D, 'texture') as arg:
+        with func_.add_arg(TextureBase, 'texture') as arg:
             pass
 
     with class_.add_func('GetImageGlyph') as func_:
-        func_.return_value.type_ = Texture2D
+        func_.return_value.type_ = TextureBase
         with func_.add_arg(int, 'character') as arg:
             pass
 
@@ -1928,10 +1928,10 @@ with RenderedText as class_:
         prop_.has_setter = True
         prop_.is_public = False
         prop_.serialized = True
-    with class_.add_property(Vector2F, 'TextureSize') as prop_:
+    with class_.add_property(Vector2F, 'RenderingSize') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-        prop_.is_public = False
+    # class_.add_property(not found, 'TextureSize')
 define.classes.append(RenderedText)
 
 with RenderedPolygon as class_:

@@ -16,7 +16,7 @@ namespace Altseed2 {
 
 class ImageFont : public Font {
 private:
-    std::map<int32_t, std::shared_ptr<Texture2D>> imageGlyphs_;
+    std::map<int32_t, std::shared_ptr<TextureBase>> imageGlyphs_;
     std::shared_ptr<Font> baseFont_;
 
 public:
@@ -35,7 +35,7 @@ public:
 
     int32_t GetKerning(const int32_t c1, const int32_t c2) override { return baseFont_->GetKerning(c1, c2); }
 
-    void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) override;
-    std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) override;
+    void AddImageGlyph(const int32_t character, std::shared_ptr<TextureBase> texture) override;
+    std::shared_ptr<TextureBase> GetImageGlyph(const int32_t character) override;
 };
 }  // namespace Altseed2

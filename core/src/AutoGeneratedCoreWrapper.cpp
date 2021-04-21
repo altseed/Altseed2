@@ -1797,7 +1797,7 @@ CBGEXPORT void CBGSTDCALL cbg_Font_AddImageGlyph(void* cbg_self, int32_t charact
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)texture);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
     cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
 }
 
@@ -1805,8 +1805,8 @@ CBGEXPORT void* CBGSTDCALL cbg_Font_GetImageGlyph(void* cbg_self, int32_t charac
     auto cbg_self_ = (Altseed2::Font*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Font_Reload(void* cbg_self) {
@@ -1906,7 +1906,7 @@ CBGEXPORT void CBGSTDCALL cbg_ImageFont_AddImageGlyph(void* cbg_self, int32_t ch
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)texture);
+    std::shared_ptr<Altseed2::TextureBase> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)texture);
     cbg_self_->AddImageGlyph(cbg_arg0, cbg_arg1);
 }
 
@@ -1914,8 +1914,8 @@ CBGEXPORT void* CBGSTDCALL cbg_ImageFont_GetImageGlyph(void* cbg_self, int32_t c
     auto cbg_self_ = (Altseed2::ImageFont*)(cbg_self);
 
     int32_t cbg_arg0 = character;
-    std::shared_ptr<Altseed2::Texture2D> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
+    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetImageGlyph(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
 }
 
 CBGEXPORT int32_t CBGSTDCALL cbg_ImageFont_GetSamplingSize(void* cbg_self) {
@@ -2388,10 +2388,10 @@ CBGEXPORT void CBGSTDCALL cbg_RenderedText_SetFontSize(void* cbg_self, float val
     cbg_self_->SetFontSize(cbg_arg0);
 }
 
-CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RenderedText_GetTextureSize(void* cbg_self) {
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_RenderedText_GetRenderingSize(void* cbg_self) {
     auto cbg_self_ = (Altseed2::RenderedText*)(cbg_self);
 
-    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetTextureSize();
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetRenderingSize();
     return (cbg_ret);
 }
 

@@ -131,8 +131,8 @@ public:
 
     static bool GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* staticFontPath, int32_t samplingSize, const char16_t* characters);
 
-    virtual void AddImageGlyph(const int32_t character, std::shared_ptr<Texture2D> texture) {}
-    virtual std::shared_ptr<Texture2D> GetImageGlyph(const int32_t character) { return nullptr; }
+    virtual void AddImageGlyph(const int32_t character, std::shared_ptr<TextureBase> texture) {}
+    virtual std::shared_ptr<TextureBase> GetImageGlyph(const int32_t character) { return nullptr; }
 
     bool Reload() override;
 

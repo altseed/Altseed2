@@ -95,9 +95,11 @@ public:
 
     void SetText(const char16_t* text);
 
-    Vector2F GetTextureSize();
+    Vector2F GetRenderingSize();
 
 #if !USE_CBG
+
+    Vector2F IterateTexts(std::function<void(Vector2F pos, RectF uv, float texScale, std::shared_ptr<TextureBase>& texture, bool isGlyph)> doEachText);
 
     //! Internal function
     const std::u16string& GetTextAsStr() const { return text_; }
