@@ -85,7 +85,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 
     if (opacity <= 0.0) discard;
 
-    return float4(input.Color.rgb, opacity);
+    return float4(input.Color.rgb, opacity * input.Color.a);
 }
 )";
 
