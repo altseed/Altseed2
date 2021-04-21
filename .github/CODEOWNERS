@@ -3,7 +3,8 @@
 /core/src/Graphics/PostEffect/ @wraikny @durswd
 /core/src/Graphics/ShaderCompiler/ @durswd
 /core/src/Graphics/Renderer/CullingSystem.* @gon6109
-/core/src/Graphics/Font.* @gon6109
+/core/src/Graphics/Renderer/RenderedText.* @wraikny
+/core/src/Graphics/Font.* @gon6109 @wraikny
 /core/src/Graphics/ImageFont.* @gon6109
 /core/src/Input/ @wraikny
 /core/src/Logger/ @wraikny
