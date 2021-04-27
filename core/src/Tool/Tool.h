@@ -523,6 +523,8 @@ private:
 
     std::mutex terminatingMtx_;
 
+    std::string iniFilename_;
+
     void Dispose();
 
 public:
@@ -530,11 +532,11 @@ public:
 
 #if !USE_CBG
 
-    static bool Initialize(std::shared_ptr<Graphics> graphics);
+    static bool Initialize(std::shared_ptr<Graphics> graphics, const char16_t* iniFilename);
 
     static void Terminate();
 
-    Tool(std::shared_ptr<Graphics> graphics);
+    Tool(std::shared_ptr<Graphics> graphics, const char16_t* iniFilename);
 
     virtual ~Tool();
 

@@ -90,6 +90,15 @@ static void ToolTestTemplate(const int loopCount, std::function<void(std::shared
     Altseed2::Core::Terminate();
 }
 
+TEST(Tool, WithoutIni) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics | Altseed2::CoreModules::Tool);
+    EXPECT_TRUE(config != nullptr);
+
+    config->SetToolSettingFileName(nullptr);
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Tool.WithoutIni", 1280, 720, config));
+    Altseed2::Core::Terminate();
+}
+
 TEST(Tool, Window) {
     auto flags = {
             // Altseed2::ToolWindowFlags::NoTitleBar,

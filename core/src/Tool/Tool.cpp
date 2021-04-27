@@ -39,14 +39,14 @@ void Tool::Dispose() {
     }
 }
 
-bool Tool::Initialize(std::shared_ptr<Graphics> graphics) {
-    instance_ = MakeAsdShared<Tool>(graphics);
+bool Tool::Initialize(std::shared_ptr<Graphics> graphics, const char16_t* iniFilename) {
+    instance_ = MakeAsdShared<Tool>(graphics, iniFilename);
     return true;
 }
 
 void Tool::Terminate() { instance_ = nullptr; }
 
-Tool::Tool(std::shared_ptr<Graphics> graphics) {
+Tool::Tool(std::shared_ptr<Graphics> graphics, const char16_t* iniFilename) {
     SetIsTerminateingEnabled(true);
 
     graphics_ = graphics;
@@ -63,6 +63,14 @@ Tool::Tool(std::shared_ptr<Graphics> graphics) {
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+    if (iniFilename == nullptr) {
+        iniFilename_ = "";
+        io.IniFilename = nullptr;
+    } else {
+        iniFilename_ = utf16_to_utf8(iniFilename);
+        io.IniFilename = iniFilename_.c_str();
+    }
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();

@@ -173,7 +173,9 @@ bool Core::Initialize(const char16_t* title, int32_t width, int32_t height, std:
     }
 
     if (CoreModulesHasBit(coreModules, CoreModules::Tool)) {
-        if (!Tool::Initialize(Graphics::GetInstance())) {
+        const auto fileName = config->GetToolSettingFileName();
+
+        if (!Tool::Initialize(Graphics::GetInstance(), fileName == u"" ? nullptr : fileName)) {
             LOG_CRITICAL(u"Tool::Initialize failed");
             Core::instance = nullptr;
             return false;
