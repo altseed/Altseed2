@@ -436,6 +436,26 @@ void Tool::PlotHistogram(
 
 float Tool::GetTime() { return (float)ImGui::GetTime(); }
 
+int32_t Tool::GetMainViewportID() {
+    return ImGui::GetMainViewport()->ID;
+}
+
+Vector2F Tool::GetMainViewportPos() {
+    return toVector2F(ImGui::GetMainViewport()->Pos);
+}
+
+Vector2F Tool::GetMainViewportSize() {
+    return toVector2F(ImGui::GetMainViewport()->Size);
+}
+
+Vector2F Tool::GetMainViewportWorkPos() {
+    return toVector2F(ImGui::GetMainViewport()->GetWorkPos());
+}
+
+Vector2F Tool::GetMainViewportWorkSize() {
+    return toVector2F(ImGui::GetMainViewport()->GetWorkSize());
+}
+
 void Tool::DockSpace(int32_t id, Vector2F size, ToolDockNodeFlags flags) { ImGui::DockSpace(id, toImVec2(size), (ImGuiDockNodeFlags)flags); }
 
 bool Tool::BeginDockHost(const char16_t* label, Vector2F offset) {
