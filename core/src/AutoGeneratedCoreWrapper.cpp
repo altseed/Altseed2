@@ -3667,6 +3667,41 @@ CBGEXPORT float CBGSTDCALL cbg_Tool_GetTime(void* cbg_self) {
     return cbg_ret;
 }
 
+CBGEXPORT int32_t CBGSTDCALL cbg_Tool_GetMainViewportID(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetMainViewportID();
+    return cbg_ret;
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMainViewportPos(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMainViewportPos();
+    return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMainViewportSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMainViewportSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMainViewportWorkPos(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMainViewportWorkPos();
+    return (cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2F_C CBGSTDCALL cbg_Tool_GetMainViewportWorkSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector2F_C cbg_ret = cbg_self_->GetMainViewportWorkSize();
+    return (cbg_ret);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_DockSpace(void* cbg_self, int32_t id, Altseed2::Vector2F_C size, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
