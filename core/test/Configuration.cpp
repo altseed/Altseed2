@@ -16,6 +16,7 @@ TEST(Configuration, Initialize) {
     EXPECT_EQ(config->GetFileLoggingEnabled(), false);
     EXPECT_EQ(config->GetEnabledCoreModules(), Altseed2::CoreModules::Default);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log.txt");
+    EXPECT_EQ(std::u16string(config->GetToolSettingFileName()), u"imgui.ini");
 
     auto coreModuels = Altseed2::CoreModules::Graphics;
 
@@ -25,6 +26,7 @@ TEST(Configuration, Initialize) {
     config->SetFileLoggingEnabled(true);
     config->SetEnabledCoreModules(coreModuels);
     config->SetLogFileName(u"Log-configtest.txt");
+    config->SetToolSettingFileName(u"toolsettinggilename-configtest.ini");
 
     //EXPECT_EQ(config->GetIsFullscreen(), true);
     EXPECT_EQ(config->GetIsResizable(), true);
@@ -32,6 +34,7 @@ TEST(Configuration, Initialize) {
     EXPECT_EQ(config->GetFileLoggingEnabled(), true);
     EXPECT_EQ(config->GetEnabledCoreModules(), coreModuels);
     EXPECT_EQ(std::u16string(config->GetLogFileName()), u"Log-configtest.txt");
+    EXPECT_EQ(std::u16string(config->GetToolSettingFileName()), u"toolsettinggilename-configtest.ini");
 
     EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
 

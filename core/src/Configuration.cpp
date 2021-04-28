@@ -54,9 +54,9 @@ void Configuration::SetLogFileName(const char16_t* logFilename) {
     logFileName_ = logFilename == nullptr ? u"" : std::u16string(logFilename);
 }
 
-const char16_t* Configuration::GetToolSettingFileName() const { return ToolSettingFileName_.c_str(); }
-void Configuration::SetToolSettingFileName(const char16_t* ToolSettingFileName) {
-    ToolSettingFileName_ = ToolSettingFileName == nullptr ? u"" : std::u16string(ToolSettingFileName);
+const char16_t* Configuration::GetToolSettingFileName() const { return toolSettingFileName_.c_str(); }
+void Configuration::SetToolSettingFileName(const char16_t* toolSettingFileName) {
+    toolSettingFileName_ = toolSettingFileName == nullptr ? u"" : std::u16string(toolSettingFileName);
 }
 
 }  // namespace Altseed2
