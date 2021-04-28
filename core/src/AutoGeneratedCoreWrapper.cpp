@@ -1439,6 +1439,20 @@ CBGEXPORT void CBGSTDCALL cbg_Configuration_SetLogFileName(void* cbg_self, const
     cbg_self_->SetLogFileName(cbg_arg0);
 }
 
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Configuration_GetToolSettingFileName(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
+
+    const char16_t* cbg_ret = cbg_self_->GetToolSettingFileName();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Configuration_SetToolSettingFileName(void* cbg_self, const char16_t* value) {
+    auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
+
+    const char16_t* cbg_arg0 = value;
+    cbg_self_->SetToolSettingFileName(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Configuration_AddRef(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Configuration*)(cbg_self);
 

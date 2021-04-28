@@ -33,6 +33,9 @@
                 },
                 "LogFileName": {
                     "serialized": true
+                },
+                "ToolSettingFileName": {
+                    "serialized": true
                 }
             },
             "methods": {

@@ -48,10 +48,15 @@ bool Configuration::GetFileLoggingEnabled() const { return fileLoggingEnabled_; 
 
 void Configuration::SetFileLoggingEnabled(bool fileLoggingEnabled) { fileLoggingEnabled_ = fileLoggingEnabled; }
 
-const char16_t* Configuration::GetLogFileName() { return logFileName_.c_str(); }
+const char16_t* Configuration::GetLogFileName() const { return logFileName_.c_str(); }
 
 void Configuration::SetLogFileName(const char16_t* logFilename) {
     logFileName_ = logFilename == nullptr ? u"" : std::u16string(logFilename);
+}
+
+const char16_t* Configuration::GetToolSettingFileName() const { return ToolSettingFileName_.c_str(); }
+void Configuration::SetToolSettingFileName(const char16_t* ToolSettingFileName) {
+    ToolSettingFileName_ = ToolSettingFileName == nullptr ? u"" : std::u16string(ToolSettingFileName);
 }
 
 }  // namespace Altseed2

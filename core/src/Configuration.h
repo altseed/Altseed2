@@ -40,6 +40,8 @@ private:
 
     std::u16string logFileName_ = u"Log.txt";
 
+    std::u16string ToolSettingFileName_ = u"imgui.ini";
+
 public:
     Configuration();
     ~Configuration();
@@ -66,8 +68,11 @@ public:
     bool GetFileLoggingEnabled() const;
     void SetFileLoggingEnabled(bool enabeldFileLogging);
 
-    const char16_t* GetLogFileName();
+    const char16_t* GetLogFileName() const;
     void SetLogFileName(const char16_t* logFileName);
+
+    const char16_t* GetToolSettingFileName() const;
+    void SetToolSettingFileName(const char16_t* ToolSettingFileName);
 };
 
 }  // namespace Altseed2
