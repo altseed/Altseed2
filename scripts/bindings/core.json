@@ -35,7 +35,8 @@
                     "serialized": true
                 },
                 "ToolSettingFileName": {
-                    "serialized": true
+                    "serialized": true,
+                    "nullable": true
                 }
             },
             "methods": {

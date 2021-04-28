@@ -1414,6 +1414,7 @@ with Configuration as class_:
     with class_.add_property(ctypes.c_wchar_p, 'ToolSettingFileName') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
+        prop_.nullable = True
         prop_.serialized = True
 define.classes.append(Configuration)
 
