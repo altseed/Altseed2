@@ -590,4 +590,42 @@ TEST(Tool, Image) {
     });
 }
 
+TEST(Tool, FullScreen) {
+    ToolTestTemplate(1000, [](std::shared_ptr<Altseed2::Tool> t) {
+        static auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
+        EXPECT_TRUE(t1 != nullptr);
+        static auto s1 = Altseed2::RenderedSprite::Create();
+        s1->SetTexture(t1);
+
+        static auto rt = Altseed2::RenderTexture::Create(Altseed2::Vector2I(200, 200));
+        static auto camera = Altseed2::RenderedCamera::Create();
+
+        static auto matView = Altseed2::Matrix44F();
+        matView.SetTranslation(640, 360, 0);
+
+        camera->SetTargetTexture(rt);
+        camera->SetViewMatrix(matView.GetInverted());
+
+        Altseed2::Renderer::GetInstance()->SetCamera(camera);
+        Altseed2::Renderer::GetInstance()->DrawSprite(s1);
+        Altseed2::Renderer::GetInstance()->Render();
+
+        t->SetNextWindowViewport(t->GetMainViewportID());
+        t->SetNextWindowPos(t->GetMainViewportPos());
+        t->SetNextWindowSize(t->GetMainViewportSize());
+        auto flags = static_cast<Altseed2::ToolWindowFlags>(
+                static_cast<int32_t>(Altseed2::ToolWindowFlags::NoDocking) |
+                static_cast<int32_t>(Altseed2::ToolWindowFlags::NoTitleBar) |
+                static_cast<int32_t>(Altseed2::ToolWindowFlags::NoMove) |
+                static_cast<int32_t>(Altseed2::ToolWindowFlags::NoResize));
+        if (t->Begin(u" ", flags)) {
+            t->Image(t1, Altseed2::Vector2F(100, 100));
+            t->ImageButton(t1, Altseed2::Vector2F(100, 100));
+            t->ImageButton(rt, Altseed2::Vector2F(100, 100));
+            t->ImageButton(t1, Altseed2::Vector2F(100, 100));
+        }
+        t->End();
+    });
+}
+
 #endif
