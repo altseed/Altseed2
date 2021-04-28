@@ -591,7 +591,7 @@ TEST(Tool, Image) {
 }
 
 TEST(Tool, FullScreen) {
-    ToolTestTemplate(1000, [](std::shared_ptr<Altseed2::Tool> t) {
+    ToolTestTemplate(LoopFrames, [](std::shared_ptr<Altseed2::Tool> t) {
         static auto t1 = Altseed2::Texture2D::Load(u"TestData/IO/AltseedPink.png");
         EXPECT_TRUE(t1 != nullptr);
         static auto s1 = Altseed2::RenderedSprite::Create();
