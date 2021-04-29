@@ -2734,21 +2734,6 @@ with Tool as class_:
     with class_.add_func('GetTime') as func_:
         func_.return_value.type_ = float
 
-    with class_.add_func('GetMainViewportID') as func_:
-        func_.return_value.type_ = int
-
-    with class_.add_func('GetMainViewportPos') as func_:
-        func_.return_value.type_ = Vector2F
-
-    with class_.add_func('GetMainViewportSize') as func_:
-        func_.return_value.type_ = Vector2F
-
-    with class_.add_func('GetMainViewportWorkPos') as func_:
-        func_.return_value.type_ = Vector2F
-
-    with class_.add_func('GetMainViewportWorkSize') as func_:
-        func_.return_value.type_ = Vector2F
-
     with class_.add_func('DockSpace') as func_:
         with func_.add_arg(int, 'id') as arg:
             pass
