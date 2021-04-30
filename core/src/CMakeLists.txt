@@ -146,6 +146,8 @@ set(core_files
     Window/Window.cpp
     System/SynchronizationContext.h
     System/SynchronizationContext.cpp
+    Media/MediaPlayer.h
+    Media/MediaPlayer.cpp
 )
 
 # imgui
