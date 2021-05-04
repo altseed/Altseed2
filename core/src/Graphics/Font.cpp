@@ -388,6 +388,7 @@ void Font::AddGlyph(const int32_t character) {
     msdfgen::Bitmap<float, 3> msdf(wi, hi);
     {
         shape.inverseYAxis = !shape.inverseYAxis;
+        msdfgen::resolveShapeGeometry(shape);
         shape.normalize();
         msdfgen::edgeColoringSimple(shape, AngleThresholdDefault);
 
