@@ -664,11 +664,11 @@ public:
 
     // ImDrawData *() GetDrawData
 
-    void ShowDemoWindow(bool* p_open = NULL);
+    void ShowDemoWindow(bool* p_open = nullptr);
 
-    void ShowAboutWindow(bool* p_open = NULL);
+    void ShowAboutWindow(bool* p_open = nullptr);
 
-    void ShowMetricsWindow(bool* p_open = NULL);
+    void ShowMetricsWindow(bool* p_open = nullptr);
 
     // void (ImGuiStyle *) ShowStyleEditor
 
@@ -686,7 +686,7 @@ public:
 
     // void (ImGuiStyle *) StyleColorsLight
 
-    bool Begin(const char16_t* name, bool* p_open = NULL, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool Begin(const char16_t* name, bool* p_open = nullptr, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void End();
 
@@ -894,31 +894,31 @@ public:
 
     // ImGuiID (const void *) GetID
 
-    void TextUnformatted(const char16_t* text, const char16_t* text_end = NULL);
+    void TextUnformatted(const char16_t* text, const char16_t* text_end = nullptr);
 
     void Text(const char16_t* fmt);
 
-    // void (const char *, va_list) TextV
+    void TextV(const char16_t* fmt, int32_t args);
 
     void TextColored(Vector4F col, const char16_t* fmt);
 
-    // void (const ImVec4 &, const char *, va_list) TextColoredV
+    void TextColoredV(Vector4F col, const char16_t* fmt, int32_t args);
 
     void TextDisabled(const char16_t* fmt);
 
-    // void (const char *, va_list) TextDisabledV
+    void TextDisabledV(const char16_t* fmt, int32_t args);
 
     void TextWrapped(const char16_t* fmt);
 
-    // void (const char *, va_list) TextWrappedV
+    void TextWrappedV(const char16_t* fmt, int32_t args);
 
     void LabelText(const char16_t* label, const char16_t* fmt);
 
-    // void (const char *, const char *, va_list) LabelTextV
+    void LabelTextV(const char16_t* label, const char16_t* fmt, int32_t args);
 
     void BulletText(const char16_t* fmt);
 
-    // void (const char *, va_list) BulletTextV
+    void BulletTextV(const char16_t* fmt, int32_t args);
 
     bool Button(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
 
@@ -940,7 +940,7 @@ public:
 
     bool RadioButton(const char16_t* label, int32_t* v, int32_t v_button);
 
-    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t* overlay = NULL);
+    void ProgressBar(float fraction, Vector2F size_arg = Vector2F ( - 1 , 0 ), const char16_t* overlay = nullptr);
 
     void Bullet();
 
@@ -956,7 +956,7 @@ public:
 
     bool DragFloat4(const char16_t* label, std::shared_ptr<FloatArray> v, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t* format = u"%.3f", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragFloatRange2(const char16_t* label, float* v_current_min, float* v_current_max, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t* format = u"%.3f", const char16_t* format_max = NULL, ToolSliderFlags flags = (ToolSliderFlags)0);
+    bool DragFloatRange2(const char16_t* label, float* v_current_min, float* v_current_max, float v_speed = 1.0f, float v_min = 0.0f, float v_max = 0.0f, const char16_t* format = u"%.3f", const char16_t* format_max = nullptr, ToolSliderFlags flags = (ToolSliderFlags)0);
 
     bool DragInt(const char16_t* label, int32_t* v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t* format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
@@ -966,7 +966,7 @@ public:
 
     bool DragInt4(const char16_t* label, std::shared_ptr<Int32Array> v, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t* format = u"%d", ToolSliderFlags flags = (ToolSliderFlags)0);
 
-    bool DragIntRange2(const char16_t* label, int32_t* v_current_min, int32_t* v_current_max, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t* format = u"%d", const char16_t* format_max = NULL, ToolSliderFlags flags = (ToolSliderFlags)0);
+    bool DragIntRange2(const char16_t* label, int32_t* v_current_min, int32_t* v_current_max, float v_speed = 1.0f, int32_t v_min = 0, int32_t v_max = 0, const char16_t* format = u"%d", const char16_t* format_max = nullptr, ToolSliderFlags flags = (ToolSliderFlags)0);
 
     // bool (const char *, ImGuiDataType, void *, float, const void *, const void *, const char *, ImGuiSliderFlags) DragScalar
 
@@ -1000,11 +1000,11 @@ public:
 
     // bool (const char *, const ImVec2 &, ImGuiDataType, void *, const void *, const void *, const char *, ImGuiSliderFlags) VSliderScalar
 
-    // bool (const char *, char *, size_t, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputText
+    // bool (const char *, char *, int, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputText
 
-    // bool (const char *, char *, size_t, const ImVec2 &, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputTextMultiline
+    // bool (const char *, char *, int, const ImVec2 &, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputTextMultiline
 
-    // bool (const char *, const char *, char *, size_t, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputTextWithHint
+    // bool (const char *, const char *, char *, int, ImGuiInputTextFlags, ImGuiInputTextCallback, void *) InputTextWithHint
 
     bool InputFloat(const char16_t* label, float* v, float step = 0.0f, float step_fast = 0.0f, const char16_t* format = u"%.3f", ToolInputTextFlags flags = (ToolInputTextFlags)0);
 
@@ -1034,7 +1034,7 @@ public:
 
     bool ColorPicker3(const char16_t* label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0);
 
-    bool ColorPicker4(const char16_t* label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0, float* ref_col = NULL);
+    bool ColorPicker4(const char16_t* label, std::shared_ptr<FloatArray> col, ToolColorEditFlags flags = (ToolColorEditFlags)0, float* ref_col = nullptr);
 
     // bool (const char *, const ImVec4 &, ImGuiColorEditFlags, ImVec2) ColorButton
 
@@ -1046,9 +1046,9 @@ public:
 
     // bool (const void *, const char *, ...) TreeNode
 
-    // bool (const char *, const char *, va_list) TreeNodeV
+    bool TreeNodeV(const char16_t* str_id, const char16_t* fmt, int32_t args);
 
-    // bool (const void *, const char *, va_list) TreeNodeV
+    // bool (const void *, const char *, int) TreeNodeV
 
     bool TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags = (ToolTreeNodeFlags)0);
 
@@ -1056,9 +1056,9 @@ public:
 
     // bool (const void *, ImGuiTreeNodeFlags, const char *, ...) TreeNodeEx
 
-    // bool (const char *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+    bool TreeNodeExV(const char16_t* str_id, ToolTreeNodeFlags flags, const char16_t* fmt, int32_t args);
 
-    // bool (const void *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+    // bool (const void *, ImGuiTreeNodeFlags, const char *, int) TreeNodeExV
 
     void TreePush(const char16_t* str_id);
 
@@ -1102,7 +1102,7 @@ public:
 
     // void (const char *, unsigned int) Value
 
-    void Value(const char16_t* prefix, float v, const char16_t* float_format = NULL);
+    void Value(const char16_t* prefix, float v, const char16_t* float_format = nullptr);
 
     bool BeginMenuBar();
 
@@ -1116,7 +1116,7 @@ public:
 
     void EndMenu();
 
-    bool MenuItem(const char16_t* label, const char16_t* shortcut = NULL, bool selected = false, bool enabled = true);
+    bool MenuItem(const char16_t* label, const char16_t* shortcut = nullptr, bool selected = false, bool enabled = true);
 
     bool MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected, bool enabled = true);
 
@@ -1126,29 +1126,29 @@ public:
 
     void SetTooltip(const char16_t* fmt);
 
-    // void (const char *, va_list) SetTooltipV
+    void SetTooltipV(const char16_t* fmt, int32_t args);
 
     bool BeginPopup(const char16_t* str_id, ToolWindowFlags flags = (ToolWindowFlags)0);
 
-    bool BeginPopupModal(const char16_t* name, bool* p_open = NULL, ToolWindowFlags flags = (ToolWindowFlags)0);
+    bool BeginPopupModal(const char16_t* name, bool* p_open = nullptr, ToolWindowFlags flags = (ToolWindowFlags)0);
 
     void EndPopup();
 
     void OpenPopup(const char16_t* str_id, ToolPopupFlags popup_flags = (ToolPopupFlags)0);
 
-    void OpenPopupOnItemClick(const char16_t* str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+    void OpenPopupOnItemClick(const char16_t* str_id = nullptr, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
 
     void CloseCurrentPopup();
 
-    bool BeginPopupContextItem(const char16_t* str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+    bool BeginPopupContextItem(const char16_t* str_id = nullptr, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
 
-    bool BeginPopupContextWindow(const char16_t* str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+    bool BeginPopupContextWindow(const char16_t* str_id = nullptr, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
 
-    bool BeginPopupContextVoid(const char16_t* str_id = NULL, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
+    bool BeginPopupContextVoid(const char16_t* str_id = nullptr, ToolPopupFlags popup_flags = (ToolPopupFlags)1);
 
     bool IsPopupOpen(const char16_t* str_id, ToolPopupFlags flags = (ToolPopupFlags)0);
 
-    void Columns(int32_t count = 1, const char16_t* id = NULL, bool border = true);
+    void Columns(int32_t count = 1, const char16_t* id = nullptr, bool border = true);
 
     void NextColumn();
 
@@ -1168,7 +1168,7 @@ public:
 
     void EndTabBar();
 
-    bool BeginTabItem(const char16_t* label, bool* p_open = NULL, ToolTabItemFlags flags = (ToolTabItemFlags)0);
+    bool BeginTabItem(const char16_t* label, bool* p_open = nullptr, ToolTabItemFlags flags = (ToolTabItemFlags)0);
 
     void EndTabItem();
 
@@ -1190,7 +1190,7 @@ public:
 
     void LogToTTY(int32_t auto_open_depth = - 1);
 
-    void LogToFile(int32_t auto_open_depth = - 1, const char16_t* filename = NULL);
+    void LogToFile(int32_t auto_open_depth = - 1, const char16_t* filename = nullptr);
 
     void LogToClipboard(int32_t auto_open_depth = - 1);
 
@@ -1202,7 +1202,7 @@ public:
 
     bool BeginDragDropSource(ToolDragDropFlags flags = (ToolDragDropFlags)0);
 
-    // bool (const char *, const void *, size_t, ImGuiCond) SetDragDropPayload
+    // bool (const char *, const void *, int, ImGuiCond) SetDragDropPayload
 
     void EndDragDropSource();
 
@@ -1286,7 +1286,7 @@ public:
 
     void EndChildFrame();
 
-    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
+    Vector2F CalcTextSize(const char16_t* text, const char16_t* text_end = nullptr, bool hide_text_after_double_hash = false, float wrap_width = - 1.0f);
 
     Vector4F ColorConvertU32ToFloat4(uint32_t in);
 
@@ -1344,17 +1344,17 @@ public:
 
     void LoadIniSettingsFromDisk(const char16_t* ini_filename);
 
-    // void (const char *, size_t) LoadIniSettingsFromMemory
+    void LoadIniSettingsFromMemory(const char16_t* ini_data, int32_t ini_size = 0);
 
     void SaveIniSettingsToDisk(const char16_t* ini_filename);
 
-    // const char *(size_t *) SaveIniSettingsToMemory
+    const char16_t* SaveIniSettingsToMemory(int32_t* out_ini_size = nullptr);
 
-    // bool (const char *, size_t, size_t, size_t, size_t, size_t, size_t) DebugCheckVersionAndDataLayout
+    bool DebugCheckVersionAndDataLayout(const char16_t* version_str, int32_t sz_io, int32_t sz_style, int32_t sz_vec2, int32_t sz_vec4, int32_t sz_drawvert, int32_t sz_drawidx);
 
-    // void (void *(*)(size_t, void *), void (*)(void *, void *), void *) SetAllocatorFunctions
+    // void (void *(*)(int, void *), void (*)(void *, void *), void *) SetAllocatorFunctions
 
-    // void *(size_t) MemAlloc
+    // void *(int) MemAlloc
 
     // void (void *) MemFree
 
