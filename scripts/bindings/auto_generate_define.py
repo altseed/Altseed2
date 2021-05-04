@@ -3314,19 +3314,45 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
+    with class_.add_func('TextV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
+
     with class_.add_func('TextColored') as func_:
         with func_.add_arg(Vector4F, 'col') as arg:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
+    with class_.add_func('TextColoredV') as func_:
+        with func_.add_arg(Vector4F, 'col') as arg:
+            pass
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
+
     with class_.add_func('TextDisabled') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
+    with class_.add_func('TextDisabledV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
+
     with class_.add_func('TextWrapped') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
+
+    with class_.add_func('TextWrappedV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
 
     with class_.add_func('LabelText') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
@@ -3334,9 +3360,23 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
+    with class_.add_func('LabelTextV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'label') as arg:
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
+
     with class_.add_func('BulletText') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
+
+    with class_.add_func('BulletTextV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
 
     with class_.add_func('Button') as func_:
         func_.return_value.type_ = bool
@@ -3907,6 +3947,15 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
 
+    with class_.add_func('TreeNodeV') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
+
     with class_.add_func('TreeNodeEx') as func_:
         func_.return_value.type_ = bool
         func_.is_overload = True
@@ -3924,6 +3973,17 @@ with Tool as class_:
             pass
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
+
+    with class_.add_func('TreeNodeExV') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolTreeNodeFlags, 'flags') as arg:
+            pass
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
 
     with class_.add_func('TreePush') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'str_id') as arg:
@@ -4082,6 +4142,12 @@ with Tool as class_:
     with class_.add_func('SetTooltip') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
             arg.nullable = False
+
+    with class_.add_func('SetTooltipV') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'fmt') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'args') as arg:
+            pass
 
     with class_.add_func('BeginPopup') as func_:
         func_.return_value.type_ = bool
@@ -4499,9 +4565,37 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
             arg.nullable = False
 
+    with class_.add_func('LoadIniSettingsFromMemory') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'ini_data') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'ini_size') as arg:
+            pass
+
     with class_.add_func('SaveIniSettingsToDisk') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'ini_filename') as arg:
             arg.nullable = False
+
+    with class_.add_func('SaveIniSettingsToMemory') as func_:
+        func_.return_value.type_ = ctypes.c_wchar_p
+        with func_.add_arg(int, 'out_ini_size') as arg:
+            arg.called_by = cbg.ArgCalledBy.Ref
+
+    with class_.add_func('DebugCheckVersionAndDataLayout') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(ctypes.c_wchar_p, 'version_str') as arg:
+            arg.nullable = False
+        with func_.add_arg(int, 'sz_io') as arg:
+            pass
+        with func_.add_arg(int, 'sz_style') as arg:
+            pass
+        with func_.add_arg(int, 'sz_vec2') as arg:
+            pass
+        with func_.add_arg(int, 'sz_vec4') as arg:
+            pass
+        with func_.add_arg(int, 'sz_drawvert') as arg:
+            pass
+        with func_.add_arg(int, 'sz_drawidx') as arg:
+            pass
 
     with class_.add_func('UpdatePlatformWindows') as func_:
         pass

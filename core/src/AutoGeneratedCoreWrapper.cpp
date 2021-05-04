@@ -4581,12 +4581,29 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Text(void* cbg_self, const char16_t* fmt) {
     cbg_self_->Text(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextV(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_TextColored(void* cbg_self, Altseed2::Vector4F_C col, const char16_t* fmt) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     Altseed2::Vector4F_C cbg_arg0 = col;
     const char16_t* cbg_arg1 = fmt;
     cbg_self_->TextColored(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextColoredV(void* cbg_self, Altseed2::Vector4F_C col, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    Altseed2::Vector4F_C cbg_arg0 = col;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    cbg_self_->TextColoredV(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabled(void* cbg_self, const char16_t* fmt) {
@@ -4596,11 +4613,27 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabled(void* cbg_self, const char16_t* 
     cbg_self_->TextDisabled(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextDisabledV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextDisabledV(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrapped(void* cbg_self, const char16_t* fmt) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = fmt;
     cbg_self_->TextWrapped(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_TextWrappedV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->TextWrappedV(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_LabelText(void* cbg_self, const char16_t* label, const char16_t* fmt) {
@@ -4611,11 +4644,28 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_LabelText(void* cbg_self, const char16_t* lab
     cbg_self_->LabelText(cbg_arg0, cbg_arg1);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_LabelTextV(void* cbg_self, const char16_t* label, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = label;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    cbg_self_->LabelTextV(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_BulletText(void* cbg_self, const char16_t* fmt) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = fmt;
     cbg_self_->BulletText(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_BulletTextV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->BulletTextV(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Tool_Button(void* cbg_self, const char16_t* label, Altseed2::Vector2F_C size) {
@@ -5135,6 +5185,16 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNode_char16p_char16p(void* cbg_self, cons
     return cbg_ret;
 }
 
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeV(void* cbg_self, const char16_t* str_id, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    const char16_t* cbg_arg1 = fmt;
+    int32_t cbg_arg2 = args;
+    bool cbg_ret = cbg_self_->TreeNodeV(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
 CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx_char16p_ToolTreeNodeFlags(void* cbg_self, const char16_t* label, int32_t flags) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
@@ -5151,6 +5211,17 @@ CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeEx_char16p_ToolTreeNodeFlags_char16p(
     Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
     const char16_t* cbg_arg2 = fmt;
     bool cbg_ret = cbg_self_->TreeNodeEx(cbg_arg0, cbg_arg1, cbg_arg2);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_TreeNodeExV(void* cbg_self, const char16_t* str_id, int32_t flags, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = str_id;
+    Altseed2::ToolTreeNodeFlags cbg_arg1 = (Altseed2::ToolTreeNodeFlags)flags;
+    const char16_t* cbg_arg2 = fmt;
+    int32_t cbg_arg3 = args;
+    bool cbg_ret = cbg_self_->TreeNodeExV(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
     return cbg_ret;
 }
 
@@ -5353,6 +5424,14 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltip(void* cbg_self, const char16_t* fm
 
     const char16_t* cbg_arg0 = fmt;
     cbg_self_->SetTooltip(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Tool_SetTooltipV(void* cbg_self, const char16_t* fmt, int32_t args) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = fmt;
+    int32_t cbg_arg1 = args;
+    cbg_self_->SetTooltipV(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT bool CBGSTDCALL cbg_Tool_BeginPopup(void* cbg_self, const char16_t* str_id, int32_t flags) {
@@ -6023,11 +6102,41 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_LoadIniSettingsFromDisk(void* cbg_self, const
     cbg_self_->LoadIniSettingsFromDisk(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_Tool_LoadIniSettingsFromMemory(void* cbg_self, const char16_t* ini_data, int32_t ini_size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = ini_data;
+    int32_t cbg_arg1 = ini_size;
+    cbg_self_->LoadIniSettingsFromMemory(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_Tool_SaveIniSettingsToDisk(void* cbg_self, const char16_t* ini_filename) {
     auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
 
     const char16_t* cbg_arg0 = ini_filename;
     cbg_self_->SaveIniSettingsToDisk(cbg_arg0);
+}
+
+CBGEXPORT const char16_t* CBGSTDCALL cbg_Tool_SaveIniSettingsToMemory(void* cbg_self, int32_t * out_ini_size) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    int32_t* cbg_arg0 = out_ini_size;
+    const char16_t* cbg_ret = cbg_self_->SaveIniSettingsToMemory(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_Tool_DebugCheckVersionAndDataLayout(void* cbg_self, const char16_t* version_str, int32_t sz_io, int32_t sz_style, int32_t sz_vec2, int32_t sz_vec4, int32_t sz_drawvert, int32_t sz_drawidx) {
+    auto cbg_self_ = (Altseed2::Tool*)(cbg_self);
+
+    const char16_t* cbg_arg0 = version_str;
+    int32_t cbg_arg1 = sz_io;
+    int32_t cbg_arg2 = sz_style;
+    int32_t cbg_arg3 = sz_vec2;
+    int32_t cbg_arg4 = sz_vec4;
+    int32_t cbg_arg5 = sz_drawvert;
+    int32_t cbg_arg6 = sz_drawidx;
+    bool cbg_ret = cbg_self_->DebugCheckVersionAndDataLayout(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3, cbg_arg4, cbg_arg5, cbg_arg6);
+    return cbg_ret;
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Tool_UpdatePlatformWindows(void* cbg_self) {
