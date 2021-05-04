@@ -5,6 +5,13 @@
 
 #include <memory>
 
+TEST(Physics, CollisionWithNull) {
+    auto collider1 = Altseed2::MakeAsdShared<Altseed2::CircleCollider>();
+    collider1->SetPosition(Altseed2::Vector2F(100, 100));
+    collider1->SetRadius(250);
+    EXPECT_FALSE(collider1->GetIsCollidedWith(nullptr));
+}
+
 TEST(Physics, CollisionWithCircles) {
     auto collider1 = Altseed2::MakeAsdShared<Altseed2::CircleCollider>();
     auto collider2 = Altseed2::MakeAsdShared<Altseed2::CircleCollider>();
