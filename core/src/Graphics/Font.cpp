@@ -161,7 +161,7 @@ std::shared_ptr<Font> Font::LoadDynamicFont(const char16_t* path, int32_t sampli
             return nullptr;
         }
 
-        std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontMemory(Font::freetypeHandle_.get(), (unsigned char*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
+        std::shared_ptr<msdfgen::FontHandle> fontHandle(msdfgen::loadFontData(Font::freetypeHandle_.get(), (byte*)file->GetData(), file->GetSize()), msdfgen::destroyFont);
 
         if (fontHandle == nullptr) {
             Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadDynamicFont: Failed to initialize font '{0}'", utf16_to_utf8(normalizedPath).c_str());
