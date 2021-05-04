@@ -1,12 +1,12 @@
 
 #include "Graphics/Font.h"
 
-#include <Core.h>
 #include <gtest/gtest.h>
 
 #include <memory>
 
 #include "Common/StringHelper.h"
+#include "Core.h"
 #include "Graphics/BuiltinShader.h"
 #include "Graphics/Color.h"
 #include "Graphics/CommandList.h"
@@ -16,6 +16,7 @@
 #include "Graphics/Renderer/RenderedText.h"
 #include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
+#include "IO/File.h"
 #include "TestHelper.h"
 #include "Tool/Tool.h"
 
@@ -318,6 +319,23 @@ TEST(Font, ImageFont) {
     for (const auto& t : texts) {
         Altseed2::CullingSystem::GetInstance()->Unregister(t);
     }
+
+    Altseed2::Core::Terminate();
+}
+
+TEST(Font, StaticFontWithInvalidFile) {
+    auto config = Altseed2TestConfig(Altseed2::CoreModules::Graphics);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"Font.StaticFont", 1, 1, config));
+
+    const auto text = u"Hello, Altseed2!\n";
+
+    const auto path = u"TestData/Font/mplus-1m-regular.ttf";
+    EXPECT_TRUE(Altseed2::File::GetInstance()->Exists(path));
+    auto staticFont = Altseed2::Font::LoadStaticFont(path);
+
+    EXPECT_TRUE(staticFont == nullptr);
 
     Altseed2::Core::Terminate();
 }

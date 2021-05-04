@@ -204,6 +204,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
 
     BinaryReader reader(file);
 
+    
     auto font = MakeAsdShared<Font>(normalizedPath);
     font->resources_ = resources;
     font->file_ = file;
@@ -215,10 +216,22 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     reader.Get(&font->textureSize_);
 
     const auto textureCount = reader.Get<int32_t>();
+    const auto textureDirectoryPath = FileSystem::GetParentPath(normalizedPath);
+    
     for (size_t i = 0; i < textureCount; i++) {
-        auto texturePath = FileSystem::GetParentPath(normalizedPath) + u"/" + rawFilename + u"/Texture" + utf8_to_utf16(std::to_string(i)) + u".png";
+        auto texturePath = textureDirectoryPath + u"/" + rawFilename + u"/Texture" + utf8_to_utf16(std::to_string(i)) + u".png";
+        if (!File::GetInstance()->Exists(texturePath.c_str()))
+        {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadStaticFont: Texture '{0}' not found", utf16_to_utf8(texturePath).c_str());
+            return nullptr;
+        }
+
         auto texture = Texture2D::Load(texturePath.c_str());
-        if (texture == nullptr) return nullptr;
+        if (texture == nullptr) {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadStaticFont: Failed to load texture from '{0}'", utf16_to_utf8(texturePath).c_str());
+            return nullptr;
+        }
+
         font->textures_.push_back(texture);
     }
 
@@ -226,7 +239,21 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     for (size_t i = 0; i < glyphCount; i++) {
         const auto character = reader.Get<int32_t>();
         if (reader.Get<bool>()) continue;
+
         const auto glyph = reader.GetAsShared<Glyph>();
+        if (glyph->GetTextureIndex() > font->textures_.size() || 0 > glyph->GetTextureIndex()) {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadStaticFont: Glyph index is out of textures");
+            return nullptr;
+        }
+
+        const auto pos = glyph->GetPosition();
+        const auto size = glyph->GetSize();
+        if (pos.X < 0 || pos.Y < 0 || pos.X + size.X > TextureSize || pos.Y + size.Y > TextureSize)
+        {
+            Log::GetInstance()->Error(LogCategory::Core, u"Font::LoadStaticFont: Glyph position is out of texture size");
+            return nullptr;
+        }
+        
         font->glyphs_[character] = glyph;
 
         for (size_t l = 0; l < glyphCount; l++) {
