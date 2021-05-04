@@ -2,6 +2,8 @@
 
 #include "Box2DHelper.h"
 
+#include "../../Logger/Log.h"
+
 namespace Altseed2 {
 
 Collider::Collider() {
@@ -41,6 +43,7 @@ void Collider::SetTransform(const Matrix44F& transform) {
 }
 
 bool Collider::GetIsCollidedWith(const std::shared_ptr<Collider>& collider) {
+    RETURN_IF_NULL(collider, false);
     auto selfShapes = GetB2Shapes();
     auto otherShapes = collider->GetB2Shapes();
 
