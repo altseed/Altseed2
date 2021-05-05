@@ -28,6 +28,7 @@ public:
 
     bool Reload() override;
     static std::shared_ptr<Texture2D> Load(const char16_t* path);
+    static std::shared_ptr<Texture2D> Create(Vector2I size);
     const char16_t* GetPath() const;
 };
 }  // namespace Altseed2

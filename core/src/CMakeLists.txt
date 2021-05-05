@@ -150,6 +150,15 @@ set(core_files
     Media/MediaPlayer.cpp
 )
 
+
+if(WIN32)
+    list(APPEND
+        core_files
+        Media/Platform/MediaPlayer_WMV.h
+        Media/Platform/MediaPlayer_WMV.cpp
+    )
+endif()
+
 # imgui
 
 if(WIN32)

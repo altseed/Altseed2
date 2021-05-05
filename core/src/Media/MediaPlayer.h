@@ -1,50 +1,35 @@
 
 #pragma once
 
+#include <memory>
 
+#include "../Graphics/Texture2D.h"
+#include "../Math/Vector2I.h"
 
 namespace Altseed2 {
 
-	class MediaPlayer
-    : public ReferenceObject {
+class MediaPlayer_Impl;
+
+class MediaPlayer
+    : public BaseObject {
 private:
+    std::shared_ptr<MediaPlayer_Impl> impl_;
+
 protected:
     MediaPlayer() {}
     virtual ~MediaPlayer() {}
-    bool isLoopingMode = false;
+    bool isLoopingMode_ = false;
 
 public:
-    /**
-		@brief	映像を再生する。
-		@param	isLoopingMode	ループ再生するか?
-	*/
-    virtual bool Play(bool isLoopingMode) = 0;
+    bool Play(bool isLoopingMode);
 
-    /**
-		@brief	映像を読み込む。
-		@param	path	ファイルのパス
-		@note
-		H264を推奨する。
-	*/
-    virtual bool Load(const char16_t* path) = 0;
+    bool Load(const char16_t* path);
 
-    /**
-		@brief	現在の映像をテクスチャに書き込む。
-		@param	target	書き込み先
-		@note
-		映像とテクスチャの解像度は等しい必要がある。
-	*/
-    virtual bool WriteToTexture2D(Texture2D* target) = 0;
+    bool WriteToTexture2D(std::shared_ptr<Texture2D> target);
 
-    /**
-		@brief	読み込んだ映像の大きさを取得する。
-	*/
-    virtual Vector2DI GetSize() const = 0;
+    Vector2I GetSize() const;
 
-    /**
-		@brief	現在再生中の映像のフレーム番号を取得する。
-	*/
-    virtual int32_t GetCurrentFrame() const = 0;
+    int32_t GetCurrentFrame() const;
 };
 
-}
+}  // namespace Altseed2
