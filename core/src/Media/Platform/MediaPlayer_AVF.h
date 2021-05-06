@@ -1,50 +1,36 @@
 #pragma once
 
-#ifdef __APPLE__
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+#include <propvarutil.h>
 
-#include "../asd.MediaPlayer.h"
+#include <mutex>
+#include <thread>
+#include <vector>
 
-#include <chrono>
+#include "MediaPlayer_Impl.h"
 
-namespace asd {
+namespace Altseed2 {
 
-class MediaPlayerAVF_Impl;
-    
-class MediaPlayerAVF
-	: public MediaPlayer
-{
+class MediaPlayer_AVF : public MediaPlayer_Impl {
 private:
-	Graphics* graphics = nullptr;
-    std::shared_ptr<MediaPlayerAVF_Impl> impl;
-    
+    class Impl;
+    std::shared_ptr<Impl> impl_;
+
 public:
+    MediaPlayer_AVF();
+    ~MediaPlayer_AVF();
 
-	MediaPlayerAVF(Graphics* graphics);
+    bool Play(bool isLoopingMode) override;
 
-	virtual ~MediaPlayerAVF();
+    bool SetSourceFromPath(const char16_t* path) override;
 
-	bool Play(bool isLoopingMode);
+    Vector2I GetSize() const override;
 
-	void Write(void* dst);
+    int32_t GetCurrentFrame() const override;
 
-	bool SetSourceFromPath(const char16_t* path);
-
-	int32_t GetWidth() const;
-
-	int32_t GetHeight() const;
-
-	int32_t GetCurrentFrame() const override;
-
-	Vector2DI GetSize() const override
-	{
-		return Vector2DI(GetWidth(), GetHeight());
-	}
-
-	bool Load(const achar* path) override;
-
-	bool WriteToTexture2D(Texture2D* target) override;
+    bool WriteToTexture2D(std::shared_ptr<Texture2D> target) override;
 };
 
-}
-
-#endif
+}  // namespace Altseed2

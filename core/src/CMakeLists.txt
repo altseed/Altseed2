@@ -148,14 +148,22 @@ set(core_files
     System/SynchronizationContext.cpp
     Media/MediaPlayer.h
     Media/MediaPlayer.cpp
+    Media/Platform/MediaPlayer_FFmpeg.h
+    Media/Platform/MediaPlayer_FFmpeg.cpp
 )
 
 
 if(WIN32)
     list(APPEND
         core_files
-        Media/Platform/MediaPlayer_WMV.h
-        Media/Platform/MediaPlayer_WMV.cpp
+        Media/Platform/MediaPlayer_WMF.h
+        Media/Platform/MediaPlayer_WMF.cpp
+    )
+elseif(APPLE)
+    list(APPEND
+        core_files
+        Media/Platform/MediaPlayer_AVF.h
+        Media/Platform/MediaPlayer_AVF.mm
     )
 endif()
 
@@ -246,6 +254,7 @@ target_link_libraries(
     imgui
     nativefiledialog
     box2d
+    tiny-process-library
     ShaderTranspilerCore
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"

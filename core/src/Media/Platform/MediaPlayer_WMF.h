@@ -1,7 +1,11 @@
 #pragma once
 
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfreadwrite.h>
+#include <propvarutil.h>
+
 #include <mutex>
-#include <process.hpp>
 #include <thread>
 #include <vector>
 
@@ -9,26 +13,30 @@
 
 namespace Altseed2 {
 
-class MediaPlayer_FFmpeg : public MediaPlayer_Impl {
+class MediaPlayer_WMF : public MediaPlayer_Impl {
     std::mutex mtx;
     std::thread thread_;
     Vector2I size_;
     float fps = 0;
-    bool isLoopingMode_ = false;
+    bool isLoopingMode_ = false; 
+    std::vector<uint8_t> internalBufferYUY;
     std::vector<uint8_t> internalBuffer;
+    std::vector<uint8_t> internalBufferEditing;
 
     bool isPlaying = false;
     bool isThreadRequiredToJoin = false;
 
     int32_t currentFrame = 0;
     std::chrono::system_clock::time_point startTime;
-    std::shared_ptr<TinyProcessLib::Process> process_;
+
+    IMFSourceReader* reader = nullptr;
 
     void ThreadLoop();
 
 public:
-    MediaPlayer_FFmpeg();
-    ~MediaPlayer_FFmpeg();
+
+    MediaPlayer_WMF();
+    ~MediaPlayer_WMF();
 
     bool Play(bool isLoopingMode) override;
 

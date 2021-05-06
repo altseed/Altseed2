@@ -1,10 +1,4 @@
-#include "asd.MediaPlayerAVF.h"
-
-#ifdef __APPLE__
-
-#include "../../asd.Graphics.h"
-#include "../../asd.Graphics_Imp.h"
-
+#include "MediaPlayer_AVF.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <Cocoa/Cocoa.h>
@@ -43,10 +37,10 @@
 
 @end
 
-namespace asd
+namespace Altseed2
 {
     
-class MediaPlayerAVF_Impl
+class MediaPlayer_AVF::Impl
 {
 public:
         
@@ -63,11 +57,11 @@ public:
     float frameRate = 0;
     bool isLoopingMode = false;
     
-    MediaPlayerAVF_Impl()
+    Impl()
     {
     }
         
-    virtual ~MediaPlayerAVF_Impl()
+    ~Impl()
     {
         reset();
     }
@@ -195,128 +189,112 @@ public:
         return true;
     }
         
-        void play(bool isLoopingMode)
-        {
-            if(!isLoaded) return;
-            if(isPlaying) return;
-            this->isLoopingMode = isLoopingMode;
-            isPlaying = true;
-            _playerWrapper.isLoopingMode = this->isLoopingMode;
-            [_player play];
-        }
+    void play(bool isLoopingMode)
+    {
+        if(!isLoaded) return;
+        if(isPlaying) return;
+        this->isLoopingMode = isLoopingMode;
+        isPlaying = true;
+        _playerWrapper.isLoopingMode = this->isLoopingMode;
+        [_player play];
+    }
+
+    int getCurrentFrame()
+    {
+        CMTime currentTime = _playerItem.currentTime;
+        float time = ((float)currentTime.value / (float)currentTime.timescale);
+        return time * frameRate;
+    }
     
-        int getCurrentFrame()
+    void getFrame(uint8_t* data)
+    {
+        if(_playerItem.status != AVPlayerStatusReadyToPlay)
         {
-            CMTime currentTime = _playerItem.currentTime;
-            float time = ((float)currentTime.value / (float)currentTime.timescale);
-            return time * frameRate;
+            return;
         }
         
-        void getFrame(uint8_t* data)
+        CMTime currentTime = _playerItem.currentTime;
+        
+        CVPixelBufferRef pixelBuffer = [_playerItemVideoOutput copyPixelBufferForItemTime:currentTime itemTimeForDisplay: nullptr];
+        
+        if(pixelBuffer == nullptr)
         {
-            if(_playerItem.status != AVPlayerStatusReadyToPlay)
-            {
-                return;
-            }
-            
-            CMTime currentTime = _playerItem.currentTime;
-            
-            CVPixelBufferRef pixelBuffer = [_playerItemVideoOutput copyPixelBufferForItemTime:currentTime itemTimeForDisplay: nullptr];
-            
-            if(pixelBuffer == nullptr)
-            {
-                return;
-            }
-            
-            CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
-            int width = CVPixelBufferGetWidth(pixelBuffer);
-            int height = CVPixelBufferGetHeight(pixelBuffer);
-            uint8_t* baseAddress = (uint8_t*)CVPixelBufferGetBaseAddress(pixelBuffer);
-            int bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer);
-            
-            for(int y = 0; y < height; y++)
-            {
-                for(int x = 0; x < width; x++)
-                {
-                    data[(x + y * width) * 4 + 0] = baseAddress[x * 4 + 2 + y * bytesPerRow];
-                    data[(x + y * width) * 4 + 1] = baseAddress[x * 4 + 1 + y * bytesPerRow];
-                    data[(x + y * width) * 4 + 2] = baseAddress[x * 4 + 0 + y * bytesPerRow];
-                    data[(x + y * width) * 4 + 3] = baseAddress[x * 4 + 3 + y * bytesPerRow];
-                }
-            }
-            
-            CVPixelBufferUnlockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
+            return;
         }
-    };
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
+        int width = CVPixelBufferGetWidth(pixelBuffer);
+        int height = CVPixelBufferGetHeight(pixelBuffer);
+        uint8_t* baseAddress = (uint8_t*)CVPixelBufferGetBaseAddress(pixelBuffer);
+        int bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer);
+        
+        for(int y = 0; y < height; y++)
+        {
+            for(int x = 0; x < width; x++)
+            {
+                data[(x + y * width) * 4 + 0] = baseAddress[x * 4 + 2 + y * bytesPerRow];
+                data[(x + y * width) * 4 + 1] = baseAddress[x * 4 + 1 + y * bytesPerRow];
+                data[(x + y * width) * 4 + 2] = baseAddress[x * 4 + 0 + y * bytesPerRow];
+                data[(x + y * width) * 4 + 3] = baseAddress[x * 4 + 3 + y * bytesPerRow];
+            }
+        }
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
+    }
+};
     
-	MediaPlayerAVF::MediaPlayerAVF(Graphics* graphics)
-		: graphics(graphics)
-	{
-		SafeAddRef(graphics);
-        impl = std::make_shared<MediaPlayerAVF_Impl>();
-	}
-
-	MediaPlayerAVF::~MediaPlayerAVF()
-	{
-		SafeRelease(graphics);
-	}
-
-	bool MediaPlayerAVF::Play(bool isLoopingMode)
-	{
-        impl->play(isLoopingMode);
-		return true;
-	}
-
-	void MediaPlayerAVF::Write(void* dst)
-	{
-        impl->getFrame((uint8_t*)dst);
-	}
-
-	bool MediaPlayerAVF::SetSourceFromPath(const char16_t* path)
-	{
-        std::vector<int8_t> dst;
-        Utf16ToUtf8(dst, (const int16_t*)path);
-        return impl->initialize((const char*)dst.data());
-	}
-
-	int32_t MediaPlayerAVF::GetWidth() const
-	{
-        return impl->movieWidth;
-	}
-
-	int32_t MediaPlayerAVF::GetHeight() const
-	{
-        return impl->movieHeight;
-	}
-
-	int32_t MediaPlayerAVF::GetCurrentFrame() const
-	{
-        return impl->getCurrentFrame();
-	}
-
-	bool MediaPlayerAVF::Load(const achar* path)
-	{
-		return SetSourceFromPath(path);
-	}
-
-	bool MediaPlayerAVF::WriteToTexture2D(Texture2D* target)
-	{
-		if (target == nullptr) return false;
-		if (target->GetSize() != GetSize()) return false;
-		if (!(target->GetFormat() == TextureFormat::R8G8B8A8_UNORM || target->GetFormat() == TextureFormat::R8G8B8A8_UNORM_SRGB)) return false;
-
-		TextureLockInfomation l;
-
-		if (target->Lock(&l))
-		{
-			Write(l.GetPixels());
-
-			target->Unlock();
-			return true;
-		}
-
-		return false;
-	}
+MediaPlayer_AVF::MediaPlayer_AVF(Graphics)
+{
+    impl = std::make_shared<Impl>();
 }
 
-#endif
+MediaPlayer_AVF::~MediaPlayer_AVF()
+{
+}
+
+bool MediaPlayer_AVF::Play(bool isLoopingMode)
+{
+    impl->play(isLoopingMode);
+	return true;
+}
+
+bool MediaPlayer_AVF::SetSourceFromPath(const char16_t* path)
+{
+    std::vector<int8_t> dst;
+    Utf16ToUtf8(dst, (const int16_t*)path);
+    return impl->initialize((const char*)dst.data());
+}
+
+Vector2I MediaPlayer_AVF::GetSize() const
+{
+    return Vector2I{impl->movieWidth, impl->movieHeight};
+}
+
+int32_t MediaPlayer_AVF::GetCurrentFrame() const
+{
+    return impl->getCurrentFrame();
+}
+
+bool MediaPlayerAVF::WriteToTexture2D(Texture2D* target)
+{
+    if (target == nullptr)
+        return false;
+    if (target->GetSize() != GetSize())
+        return false;
+    if (!(target->GetFormat() == TextureFormatType::R8G8B8A8_UNORM || target->GetFormat() == TextureFormatType::R8G8B8A8_UNORM_SRGB))
+        return false;
+
+    auto& native = target->GetNativeTexture();
+
+    auto ptr = native->Lock();
+    if (native != nullptr) {
+        std::lock_guard<std::mutex> lock(mtx);
+        impl->getFrame(ptr);
+        native->Unlock();
+        return true;
+    }
+
+    return false;
+}
+
+}
