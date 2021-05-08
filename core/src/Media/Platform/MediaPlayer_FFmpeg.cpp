@@ -12,84 +12,56 @@ void MediaPlayer_FFmpeg::ThreadLoop() {
     std::vector<char> data;
     data.reserve(imageSize * 2);
 
-    TinyProcessLib::Process process("ffmpeg -i input.mp4 -c:v bmp -f rawvideo pipe:1", "", [&](const char* bytes, size_t n) {
-        const auto offset = data.size();
-        data.resize(offset + n);
-        memcpy(data.data() + offset, bytes, n);
+    do {
+        currentFrame = 0;
+        startTime = std::chrono::system_clock::now();
 
-        if (data.size() >= imageSize) {
-            {
-                auto now = std::chrono::system_clock::now();
-                auto diff = now - startTime;
-                auto diff_micro = std::chrono::duration_cast<std::chrono::microseconds>(diff).count();
+        std::shared_ptr<TinyProcessLib::Process> process;
 
-                if (diff_micro + 1000 < (currentFrame / fps) * 1000 * 1000) {
-                    auto sleeping = (currentFrame / fps) * 1000 * 1000 - diff_micro;
-                    std::this_thread::sleep_for(std::chrono::microseconds((int)sleeping));
+        process = std::make_shared<TinyProcessLib::Process>("ffmpeg -i input.mp4 -c:v bmp -f rawvideo pipe:1", "", [&](const char* bytes, size_t n) {
+
+            if (!isPlaying) {
+                TinyProcessLib::Process::kill(process->get_id(), true);
+                return;
+            }
+
+            const auto offset = data.size();
+            data.resize(offset + n);
+            memcpy(data.data() + offset, bytes, n);
+
+            if (data.size() >= imageSize) {
+                {
+                    auto now = std::chrono::system_clock::now();
+                    auto diff = now - startTime;
+                    auto diff_micro = std::chrono::duration_cast<std::chrono::microseconds>(diff).count();
+
+                    if (diff_micro + 1000 < (currentFrame / fps) * 1000 * 1000) {
+                        auto sleeping = (currentFrame / fps) * 1000 * 1000 - diff_micro;
+                        std::this_thread::sleep_for(std::chrono::microseconds((int)sleeping));
+                    }
                 }
-            }
 
-            {
-                std::lock_guard<std::mutex> lock(mtx);
-                internalBuffer = data;
-            }
+                {
+                    std::lock_guard<std::mutex> lock(mtx);
 
-            data.erase(data.begin(), data.begin() + imageSize);
-            currentFrame++;
-        }
-
-       
-    });
-    auto exit_status = process.get_exit_status();
-
-    while (isPlaying) {
-        DWORD flags;
-        IMFSample* sample;
-        reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, NULL, &flags, NULL, &sample);
-        if (sample == nullptr) {
-            // Loop
-            if (isLoopingMode_) {
-                PROPVARIANT propvar;
-                HRESULT hr = InitPropVariantFromInt64(0, &propvar);
-                reader->SetCurrentPosition(GUID_NULL, propvar);
-                PropVariantClear(&propvar);
-
-                currentFrame = 0;
-                startTime = std::chrono::system_clock::now();
-
-                reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, NULL, &flags, NULL, &sample);
-                if (sample == nullptr) {
-                    isPlaying = false;
-                    break;
+                    for (size_t y = 0; y < size_.Y; y++) {
+                        for (size_t x = 0; x < size_.X; x++) {
+                            internalBuffer[(x + y * size_.X) * 4 + 0] = data[(x + y * size_.X) * 3 + 0];
+                            internalBuffer[(x + y * size_.X) * 4 + 1] = data[(x + y * size_.X) * 3 + 1];
+                            internalBuffer[(x + y * size_.X) * 4 + 2] = data[(x + y * size_.X) * 3 + 2];
+                            internalBuffer[(x + y * size_.X) * 4 + 3] = 255;
+                        }
+                    }
                 }
-            } else {
-                isPlaying = false;
-                break;
+
+                data.erase(data.begin(), data.begin() + imageSize);
+                currentFrame++;
             }
-        }
+        });
+        auto exit_status = process->get_exit_status();
+    } while (isLoopingMode_);
 
-        IMFMediaBuffer* buffer;
-        sample->GetBufferByIndex(0, &buffer);
-
-        BYTE* p;
-        DWORD size;
-        buffer->Lock(&p, NULL, &size);
-
-        if (size != internalBufferYUY.size()) {
-            buffer->Unlock();
-            buffer->Release();
-            sample->Release();
-
-            isPlaying = false;
-            break;
-        }
-
-        memcpy(internalBufferYUY.data(), p, size);
-        buffer->Unlock();
-
-        buffer->Release();
-        sample->Release();
-    }
+    isPlaying = false;
 }
 
 MediaPlayer_FFmpeg::MediaPlayer_FFmpeg() {
