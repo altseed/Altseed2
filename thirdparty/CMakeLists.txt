@@ -282,6 +282,8 @@ else()
         tiny-process-library/process_unix.cpp)
 endif()
 
+SET_TARGET_PROPERTIES(tiny-process-library PROPERTIES CXX_STANDARD 17)
+
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/tiny-process-library)
 
 # assign valiables into the parent scope

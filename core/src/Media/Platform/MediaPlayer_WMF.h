@@ -18,7 +18,7 @@ class MediaPlayer_WMF : public MediaPlayer_Impl {
     std::thread thread_;
     Vector2I size_;
     float fps = 0;
-    bool isLoopingMode_ = false; 
+    bool isLoopingMode_ = false;
     std::vector<uint8_t> internalBufferYUY;
     std::vector<uint8_t> internalBuffer;
     std::vector<uint8_t> internalBufferEditing;
@@ -34,7 +34,6 @@ class MediaPlayer_WMF : public MediaPlayer_Impl {
     void ThreadLoop();
 
 public:
-
     MediaPlayer_WMF();
     ~MediaPlayer_WMF();
 

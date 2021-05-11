@@ -19,7 +19,6 @@ void MediaPlayer_FFmpeg::ThreadLoop() {
         std::shared_ptr<TinyProcessLib::Process> process;
 
         process = std::make_shared<TinyProcessLib::Process>("ffmpeg -i input.mp4 -c:v bmp -f rawvideo pipe:1", "", [&](const char* bytes, size_t n) {
-
             if (!isPlaying) {
                 TinyProcessLib::Process::kill(process->get_id(), true);
                 return;

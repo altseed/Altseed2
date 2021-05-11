@@ -27,10 +27,6 @@ bool MediaPlayer::Play(bool isLoopingMode) {
     return impl_->Play(isLoopingMode);
 }
 
-bool MediaPlayer::Load(const char16_t* path) {
-    return impl_->SetSourceFromPath(path);
-}
-
 bool MediaPlayer::WriteToTexture2D(std::shared_ptr<Texture2D> target) {
     return impl_->WriteToTexture2D(target);
 }
@@ -41,6 +37,15 @@ Vector2I MediaPlayer::GetSize() const {
 
 int32_t MediaPlayer::GetCurrentFrame() const {
     return impl_->GetCurrentFrame();
+}
+
+std::shared_ptr<MediaPlayer> MediaPlayer::Load(const char16_t* path) {
+    auto ret = MakeAsdShared<MediaPlayer>();
+    if (ret->impl_->SetSourceFromPath(path)) {
+        return ret;
+    }
+
+    return nullptr;
 }
 
 }  // namespace Altseed2

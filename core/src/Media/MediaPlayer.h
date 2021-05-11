@@ -15,21 +15,19 @@ class MediaPlayer
 private:
     std::shared_ptr<MediaPlayer_Impl> impl_;
 
-protected:
+public:
     MediaPlayer();
     virtual ~MediaPlayer() = default;
-    bool isLoopingMode_ = false;
 
-public:
     bool Play(bool isLoopingMode);
-
-    bool Load(const char16_t* path);
 
     bool WriteToTexture2D(std::shared_ptr<Texture2D> target);
 
     Vector2I GetSize() const;
 
     int32_t GetCurrentFrame() const;
+
+    static std::shared_ptr<MediaPlayer> Load(const char16_t* path);
 };
 
 }  // namespace Altseed2
