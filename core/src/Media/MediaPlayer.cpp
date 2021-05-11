@@ -1,8 +1,27 @@
 #include "MediaPlayer.h"
 
+#include "Platform/MediaPlayer_FFmpeg.h"
 #include "Platform/MediaPlayer_Impl.h"
 
+#ifdef _WIN32
+#include "Platform/MediaPlayer_WMF.h"
+#endif
+
+#ifdef __APPLE__
+#include "Platform/MediaPlayer_AVF.h"
+#endif
+
 namespace Altseed2 {
+
+MediaPlayer::MediaPlayer() {
+#ifdef _WIN32
+    impl_ = std::make_shared<MediaPlayer_WMF>();
+#elif defined(__APPLE__)
+    impl_ = std::make_shared<MediaPlayer_AVF>();
+#else
+    impl_ = std::make_shared<MediaPlayer_FFmpeg>();
+#endif
+}
 
 bool MediaPlayer::Play(bool isLoopingMode) {
     return impl_->Play(isLoopingMode);

@@ -16,8 +16,8 @@ private:
     std::shared_ptr<MediaPlayer_Impl> impl_;
 
 protected:
-    MediaPlayer() {}
-    virtual ~MediaPlayer() {}
+    MediaPlayer();
+    virtual ~MediaPlayer() = default;
     bool isLoopingMode_ = false;
 
 public:
