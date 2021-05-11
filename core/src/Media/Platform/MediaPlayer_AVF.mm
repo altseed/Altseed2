@@ -243,7 +243,7 @@ public:
     }
 };
     
-MediaPlayer_AVF::MediaPlayer_AVF(Graphics)
+MediaPlayer_AVF::MediaPlayer_AVF()
 {
     impl = std::make_shared<Impl>();
 }
@@ -275,7 +275,7 @@ int32_t MediaPlayer_AVF::GetCurrentFrame() const
     return impl->getCurrentFrame();
 }
 
-bool MediaPlayerAVF::WriteToTexture2D(Texture2D* target)
+bool MediaPlayerAVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
 {
     if (target == nullptr)
         return false;
