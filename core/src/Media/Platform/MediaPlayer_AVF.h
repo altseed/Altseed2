@@ -1,10 +1,5 @@
 #pragma once
 
-#include <mfapi.h>
-#include <mfidl.h>
-#include <mfreadwrite.h>
-#include <propvarutil.h>
-
 #include <mutex>
 #include <thread>
 #include <vector>
