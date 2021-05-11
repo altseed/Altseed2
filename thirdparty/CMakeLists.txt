@@ -283,6 +283,7 @@ else()
 endif()
 
 SET_TARGET_PROPERTIES(tiny-process-library PROPERTIES CXX_STANDARD 17)
+set_property(TARGET tiny-process-library PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/tiny-process-library)
 
