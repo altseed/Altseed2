@@ -245,7 +245,7 @@ public:
     
 MediaPlayer_AVF::MediaPlayer_AVF()
 {
-    impl = std::make_shared<Impl>();
+    impl_ = std::make_shared<Impl>();
 }
 
 MediaPlayer_AVF::~MediaPlayer_AVF()
@@ -255,14 +255,12 @@ MediaPlayer_AVF::~MediaPlayer_AVF()
 bool MediaPlayer_AVF::Play(bool isLoopingMode)
 {
     impl->play(isLoopingMode);
-	return true;
+    return true;
 }
 
 bool MediaPlayer_AVF::SetSourceFromPath(const char16_t* path)
 {
-    std::vector<int8_t> dst;
-    Utf16ToUtf8(dst, (const int16_t*)path);
-    return impl->initialize((const char*)dst.data());
+    return impl->initialize(utf16_to_utf8(path).c_ptr());
 }
 
 Vector2I MediaPlayer_AVF::GetSize() const
@@ -288,7 +286,6 @@ bool MediaPlayerAVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
 
     auto ptr = native->Lock();
     if (native != nullptr) {
-        std::lock_guard<std::mutex> lock(mtx);
         impl->getFrame(ptr);
         native->Unlock();
         return true;
