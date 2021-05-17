@@ -254,26 +254,26 @@ MediaPlayer_AVF::~MediaPlayer_AVF()
 
 bool MediaPlayer_AVF::Play(bool isLoopingMode)
 {
-    impl->play(isLoopingMode);
+    impl_->play(isLoopingMode);
     return true;
 }
 
 bool MediaPlayer_AVF::SetSourceFromPath(const char16_t* path)
 {
-    return impl->initialize(utf16_to_utf8(path).c_ptr());
+    return impl_->initialize(utf16_to_utf8(std::u16string(path)).c_str());
 }
 
 Vector2I MediaPlayer_AVF::GetSize() const
 {
-    return Vector2I{impl->movieWidth, impl->movieHeight};
+    return Vector2I{impl_->movieWidth, impl_->movieHeight};
 }
 
 int32_t MediaPlayer_AVF::GetCurrentFrame() const
 {
-    return impl->getCurrentFrame();
+    return impl_->getCurrentFrame();
 }
 
-bool MediaPlayerAVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
+bool MediaPlayer_AVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
 {
     if (target == nullptr)
         return false;
@@ -284,9 +284,9 @@ bool MediaPlayerAVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
 
     auto& native = target->GetNativeTexture();
 
-    auto ptr = native->Lock();
+    auto ptr = static_cast<uint8_t*>(native->Lock());
     if (native != nullptr) {
-        impl->getFrame(ptr);
+        impl_->getFrame(ptr);
         native->Unlock();
         return true;
     }
