@@ -63,7 +63,7 @@ python scripts/generate_cbg_definition.py --clang "C:\Program Files\LLVM\bin"
 
 また、実行するときには LLVMとpythonパッケージ `clang`で、LLVMのbinディレクトリを指定する必要があります。
 
-次にスクリプト `scripts/generate_wrapper.py` を実行します。
+次にスクリプト `python scripts/generate_wrapper.py` を実行します。
 
 ## ビルド
 
