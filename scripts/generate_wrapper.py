@@ -46,6 +46,7 @@ if __name__ == '__main__':
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
+#include "Media/MediaPlayer.h"
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/EdgeCollider.h"

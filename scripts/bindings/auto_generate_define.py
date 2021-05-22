@@ -887,6 +887,8 @@ JoystickInfo = cbg.Class('Altseed2', 'JoystickInfo')
 Joystick = cbg.Class('Altseed2', 'Joystick')
 Keyboard = cbg.Class('Altseed2', 'Keyboard')
 Mouse = cbg.Class('Altseed2', 'Mouse')
+MediaPlayer_Impl = cbg.Class('Altseed2', 'MediaPlayer_Impl')
+MediaPlayer = cbg.Class('Altseed2', 'MediaPlayer')
 Collider = cbg.Class('Altseed2', 'Collider')
 ShapeCollider = cbg.Class('Altseed2', 'ShapeCollider')
 PolygonCollider = cbg.Class('Altseed2', 'PolygonCollider')
@@ -1233,6 +1235,12 @@ with Texture2D as class_:
         func_.is_static = True
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
+
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = Texture2D
+        func_.is_static = True
+        with func_.add_arg(Vector2I, 'size') as arg:
+            pass
 
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
@@ -2279,6 +2287,31 @@ with Mouse as class_:
         prop_.has_getter = False
         prop_.has_setter = True
 define.classes.append(Mouse)
+
+with MediaPlayer as class_:
+    with class_.add_func('Play') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(bool, 'isLoopingMode') as arg:
+            pass
+
+    with class_.add_func('WriteToTexture2D') as func_:
+        func_.return_value.type_ = bool
+        with func_.add_arg(Texture2D, 'target') as arg:
+            pass
+
+    with class_.add_func('Load') as func_:
+        func_.return_value.type_ = MediaPlayer
+        func_.is_static = True
+        with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
+            pass
+
+    with class_.add_property(Vector2I, 'Size') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(int, 'CurrentFrame') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+define.classes.append(MediaPlayer)
 
 with Collider as class_:
     class_.SerializeType = cbg.SerializeType.Interface
