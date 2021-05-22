@@ -21,13 +21,12 @@ TEST(Movie, Basic) {
 
     auto instance = Altseed2::Graphics::GetInstance();
 
-    auto t1 = Altseed2::Texture2D::Create({1280, 720});
+    auto t1 = Altseed2::Texture2D::Create({640, 480});
 
-    auto movie = Altseed2::MediaPlayer::Load(u"C:/Dev/test.mp4");
+    auto movie = Altseed2::MediaPlayer::Load(u"TestData/Movie/Test1.mp4");
 
     EXPECT_TRUE(t1 != nullptr);
     EXPECT_TRUE(movie != nullptr);
-
 
     movie->Play(false);
 
@@ -35,10 +34,9 @@ TEST(Movie, Basic) {
 
     Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
-    s1->SetSrc(Altseed2::RectF(0, 0, 1280, 720));
+    s1->SetSrc(Altseed2::RectF(0, 0, 640, 480));
 
     while (count++ < 10 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
-
         movie->WriteToTexture2D(t1);
 
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
