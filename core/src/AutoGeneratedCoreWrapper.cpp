@@ -1176,10 +1176,8 @@ CBGEXPORT void CBGSTDCALL cbg_BuiltinShader_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_CommandList_Create(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    std::shared_ptr<Altseed2::CommandList> cbg_ret = cbg_self_->Create();
+CBGEXPORT void* CBGSTDCALL cbg_CommandList_Create() {
+    std::shared_ptr<Altseed2::CommandList> cbg_ret = Altseed2::CommandList::Create();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::CommandList>(cbg_ret);
 }
 
@@ -1283,10 +1281,8 @@ CBGEXPORT bool CBGSTDCALL cbg_Graphics_DoEvents(void* cbg_self) {
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Graphics_Terminate(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Graphics*)(cbg_self);
-
-    cbg_self_->Terminate();
+CBGEXPORT void CBGSTDCALL cbg_Graphics_Terminate() {
+    Altseed2::Graphics::Terminate();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_SaveScreenshot(void* cbg_self, const char16_t* path) {
@@ -1991,17 +1987,13 @@ CBGEXPORT void* CBGSTDCALL cbg_CullingSystem_GetInstance() {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::CullingSystem>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_CullingSystem_Initialize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::CullingSystem*)(cbg_self);
-
-    bool cbg_ret = cbg_self_->Initialize();
+CBGEXPORT bool CBGSTDCALL cbg_CullingSystem_Initialize() {
+    bool cbg_ret = Altseed2::CullingSystem::Initialize();
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Terminate(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::CullingSystem*)(cbg_self);
-
-    cbg_self_->Terminate();
+CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Terminate() {
+    Altseed2::CullingSystem::Terminate();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CullingSystem_Register(void* cbg_self, void* rendered) {
@@ -2547,20 +2539,16 @@ CBGEXPORT void* CBGSTDCALL cbg_Renderer_GetInstance() {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Renderer>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_Renderer_Initialize(void* cbg_self, void* window, void* graphics, void* cullingSystem) {
-    auto cbg_self_ = (Altseed2::Renderer*)(cbg_self);
-
+CBGEXPORT bool CBGSTDCALL cbg_Renderer_Initialize(void* window, void* graphics, void* cullingSystem) {
     std::shared_ptr<Altseed2::Window> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Window>((Altseed2::Window*)window);
     std::shared_ptr<Altseed2::Graphics> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Graphics>((Altseed2::Graphics*)graphics);
     std::shared_ptr<Altseed2::CullingSystem> cbg_arg2 = Altseed2::CreateAndAddSharedPtr<Altseed2::CullingSystem>((Altseed2::CullingSystem*)cullingSystem);
-    bool cbg_ret = cbg_self_->Initialize(cbg_arg0, cbg_arg1, cbg_arg2);
+    bool cbg_ret = Altseed2::Renderer::Initialize(cbg_arg0, cbg_arg1, cbg_arg2);
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Renderer_Terminate(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Renderer*)(cbg_self);
-
-    cbg_self_->Terminate();
+CBGEXPORT void CBGSTDCALL cbg_Renderer_Terminate() {
+    Altseed2::Renderer::Terminate();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Renderer_DrawPolygon(void* cbg_self, void* polygon) {
@@ -2615,26 +2603,20 @@ CBGEXPORT void CBGSTDCALL cbg_Renderer_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_ShaderCompiler_GetInstance(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ShaderCompiler*)(cbg_self);
-
-    std::shared_ptr<Altseed2::ShaderCompiler> cbg_ret = cbg_self_->GetInstance();
+CBGEXPORT void* CBGSTDCALL cbg_ShaderCompiler_GetInstance() {
+    std::shared_ptr<Altseed2::ShaderCompiler> cbg_ret = Altseed2::ShaderCompiler::GetInstance();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ShaderCompiler>(cbg_ret);
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_ShaderCompiler_Initialize(void* cbg_self, void* graphics, void* file) {
-    auto cbg_self_ = (Altseed2::ShaderCompiler*)(cbg_self);
-
+CBGEXPORT bool CBGSTDCALL cbg_ShaderCompiler_Initialize(void* graphics, void* file) {
     std::shared_ptr<Altseed2::Graphics> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Graphics>((Altseed2::Graphics*)graphics);
     std::shared_ptr<Altseed2::File> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::File>((Altseed2::File*)file);
-    bool cbg_ret = cbg_self_->Initialize(cbg_arg0, cbg_arg1);
+    bool cbg_ret = Altseed2::ShaderCompiler::Initialize(cbg_arg0, cbg_arg1);
     return cbg_ret;
 }
 
-CBGEXPORT void CBGSTDCALL cbg_ShaderCompiler_Terminate(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ShaderCompiler*)(cbg_self);
-
-    cbg_self_->Terminate();
+CBGEXPORT void CBGSTDCALL cbg_ShaderCompiler_Terminate() {
+    Altseed2::ShaderCompiler::Terminate();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_ShaderCompiler_AddRef(void* cbg_self) {
