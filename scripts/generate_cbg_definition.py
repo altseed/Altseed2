@@ -426,6 +426,9 @@ define.classes.append({name})
                 "params_digest": params_digest
             }
 
+            if cursor.is_static_method():
+                method["is_static"] = True
+
             if "is_tool" in class_def and any([re.match(r".*Array", param["type"]) for param in params.values()]):
                 method["is_public"] = False
 
@@ -614,17 +617,19 @@ default_llvm_path = './'
 if pf == 'Windows':
     default_llvm_path = r'C:/Program Files/LLVM/bin/'
 
-aparser.add_argument('--clang', default=default_llvm_path, help='a path to a directory which contains libclang.dll (Windows, Linux)')
-aparser.add_argument('--xcode', default='/Applications/Xcode.app/', help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
+aparser.add_argument('--clang', default=default_llvm_path,
+                     help='a path to a directory which contains libclang.dll (Windows, Linux)')
+aparser.add_argument('--xcode', default='/Applications/Xcode.app/',
+                     help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
 args = aparser.parse_args()
 
 options = ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"]
 
 
-
 if pf == 'Darwin':
     xcode_path = args.xcode + 'Contents/Frameworks/'
-    xcode_include_path = args.xcode + 'Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/'
+    xcode_include_path = args.xcode + \
+        'Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/'
     if not os.path.exists(xcode_path):
         print(f'Not found {xcode_path}')
         sys.exit(1)

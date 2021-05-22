@@ -1284,6 +1284,7 @@ with CommandList as class_:
     class_.is_Sealed = True
     with class_.add_func('Create') as func_:
         func_.return_value.type_ = CommandList
+        func_.is_static = True
 
     with class_.add_func('SetRenderTarget') as func_:
         with func_.add_arg(RenderTexture, 'target') as arg:
@@ -1334,6 +1335,7 @@ with Graphics as class_:
     """
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
+        func_.is_static = True
         with func_.add_arg(Window, 'window') as arg:
             pass
 
@@ -1354,7 +1356,7 @@ with Graphics as class_:
         func_.is_public = False
 
     with class_.add_func('Terminate') as func_:
-        pass
+        func_.is_static = True
 
     with class_.add_func('SaveScreenshot') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
@@ -1757,9 +1759,10 @@ with CullingSystem as class_:
 
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
+        func_.is_static = True
 
     with class_.add_func('Terminate') as func_:
-        pass
+        func_.is_static = True
 
     with class_.add_func('Register') as func_:
         func_.is_public = False
@@ -2005,6 +2008,7 @@ with Renderer as class_:
 
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
+        func_.is_static = True
         with func_.add_arg(Window, 'window') as arg:
             pass
         with func_.add_arg(Graphics, 'graphics') as arg:
@@ -2013,7 +2017,7 @@ with Renderer as class_:
             pass
 
     with class_.add_func('Terminate') as func_:
-        pass
+        func_.is_static = True
 
     with class_.add_func('DrawPolygon') as func_:
         func_.is_public = False
@@ -2045,16 +2049,18 @@ define.classes.append(Renderer)
 with ShaderCompiler as class_:
     with class_.add_func('GetInstance') as func_:
         func_.return_value.type_ = ShaderCompiler
+        func_.is_static = True
 
     with class_.add_func('Initialize') as func_:
         func_.return_value.type_ = bool
+        func_.is_static = True
         with func_.add_arg(Graphics, 'graphics') as arg:
             pass
         with func_.add_arg(File, 'file') as arg:
             pass
 
     with class_.add_func('Terminate') as func_:
-        pass
+        func_.is_static = True
 
 # char *
     """
