@@ -58,7 +58,7 @@ git submodule update --init
 まず、ヘッダファイルからCBG定義を出力するために 下記のコマンドを実行します。
 
 ```
-python scripts/generate_cbg_definition.py "C:\Program Files\LLVM\bin"
+python scripts/generate_cbg_definition.py --clang "C:\Program Files\LLVM\bin"
 ```
 
 また、実行するときには LLVMとpythonパッケージ `clang`で、LLVMのbinディレクトリを指定する必要があります。
