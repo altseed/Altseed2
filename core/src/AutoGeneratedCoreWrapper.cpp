@@ -66,6 +66,7 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
+#include "Media/MediaPlayer.h"
 #include "Physics/Collider/Collider.h"
 #include "Physics/Collider/CircleCollider.h"
 #include "Physics/Collider/EdgeCollider.h"
@@ -1085,6 +1086,12 @@ CBGEXPORT bool CBGSTDCALL cbg_Texture2D_Reload(void* cbg_self) {
 CBGEXPORT void* CBGSTDCALL cbg_Texture2D_Load(const char16_t* path) {
     const char16_t* cbg_arg0 = path;
     std::shared_ptr<Altseed2::Texture2D> cbg_ret = Altseed2::Texture2D::Load(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Texture2D_Create(Altseed2::Vector2I_C size) {
+    Altseed2::Vector2I_C cbg_arg0 = size;
+    std::shared_ptr<Altseed2::Texture2D> cbg_ret = Altseed2::Texture2D::Create(cbg_arg0);
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
 }
 
@@ -2997,6 +3004,54 @@ CBGEXPORT void CBGSTDCALL cbg_Mouse_AddRef(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Mouse_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Mouse*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_Play(void* cbg_self, bool isLoopingMode) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
+
+    bool cbg_arg0 = isLoopingMode;
+    bool cbg_ret = cbg_self_->Play(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_WriteToTexture2D(void* cbg_self, void* target) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Texture2D> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)target);
+    bool cbg_ret = cbg_self_->WriteToTexture2D(cbg_arg0);
+    return cbg_ret;
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_MediaPlayer_Load(const char16_t* path) {
+    const char16_t* cbg_arg0 = path;
+    std::shared_ptr<Altseed2::MediaPlayer> cbg_ret = Altseed2::MediaPlayer::Load(cbg_arg0);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::MediaPlayer>(cbg_ret);
+}
+
+CBGEXPORT Altseed2::Vector2I_C CBGSTDCALL cbg_MediaPlayer_GetSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
+
+    Altseed2::Vector2I_C cbg_ret = cbg_self_->GetSize();
+    return (cbg_ret);
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_MediaPlayer_GetCurrentFrame(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetCurrentFrame();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_MediaPlayer_AddRef(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
+
+    cbg_self_->AddRef();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_MediaPlayer_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
 
     cbg_self_->Release();
 }

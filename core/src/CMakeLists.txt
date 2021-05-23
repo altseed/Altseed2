@@ -146,7 +146,26 @@ set(core_files
     Window/Window.cpp
     System/SynchronizationContext.h
     System/SynchronizationContext.cpp
+    Media/MediaPlayer.h
+    Media/MediaPlayer.cpp
+    Media/Platform/MediaPlayer_FFmpeg.h
+    Media/Platform/MediaPlayer_FFmpeg.cpp
 )
+
+
+if(WIN32)
+    list(APPEND
+        core_files
+        Media/Platform/MediaPlayer_WMF.h
+        Media/Platform/MediaPlayer_WMF.cpp
+    )
+elseif(APPLE)
+    list(APPEND
+        core_files
+        Media/Platform/MediaPlayer_AVF.h
+        Media/Platform/MediaPlayer_AVF.mm
+    )
+endif()
 
 # imgui
 
@@ -235,6 +254,7 @@ target_link_libraries(
     imgui
     nativefiledialog
     box2d
+    tiny-process-library
     ShaderTranspilerCore
     debug "${LIBPNG_LIB_DEBUG}"
     optimized "${LIBPNG_LIB_RELEASE}"
@@ -276,11 +296,13 @@ elseif(APPLE)
     find_library(IOKIT_FRAMEWORK IOKit)
     find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
     find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+    find_library(CORE_MEDIA_FRAMEWORK CoreMedia)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(METAL_LIBRARY Metal)
     find_library(APPKIT_LIBRARY AppKit)
     find_library(METALKIT_LIBRARY MetalKit)
     find_library(QUARTZ_CORE_LIBRARY QuartzCore)
+    find_library(AVFOUNDATION_LIBRARY AVFoundation)
 
     target_link_libraries(
         Altseed2_Core
@@ -291,10 +313,12 @@ elseif(APPLE)
         ${IOKIT_FRAMEWORK}
         ${CORE_FOUNDATION_FRAMEWORK}
         ${CORE_VIDEO_FRAMEWORK}
+        ${CORE_MEDIA_FRAMEWORK}
         ${APPKIT_LIBRARY}
         ${METAL_LIBRARY}
         ${METALKIT_LIBRARY}
         ${QUARTZ_CORE_LIBRARY}
+        ${AVFOUNDATION_LIBRARY}
     )
 
 else()

@@ -584,6 +584,7 @@ headers = [
     'Math/Vector3I.h',
     'Math/Vector4F.h',
     'Math/Vector4I.h',
+    'Media/MediaPlayer.h',
     'Physics/Collider/Box2DHelper.h',
     'Physics/Collider/Collider.h',
     'Physics/Collider/CircleCollider.h',

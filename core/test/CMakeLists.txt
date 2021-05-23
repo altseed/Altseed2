@@ -23,6 +23,7 @@ set(core_test_files
     Log.cpp
     Keyboard.cpp
     Mouse.cpp
+    Movie.cpp
     Joystick.cpp
     main.cpp
 )

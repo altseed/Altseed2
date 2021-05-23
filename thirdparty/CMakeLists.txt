@@ -271,6 +271,22 @@ list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/OpenSoundMixer/src)
 # stb
 list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/stb)
 
+# tiny-process-library
+if(WIN32)
+    add_library(tiny-process-library 
+        tiny-process-library/process.cpp
+        tiny-process-library/process_win.cpp)
+else()
+    add_library(tiny-process-library 
+        tiny-process-library/process.cpp
+        tiny-process-library/process_unix.cpp)
+endif()
+
+SET_TARGET_PROPERTIES(tiny-process-library PROPERTIES CXX_STANDARD 17)
+set_property(TARGET tiny-process-library PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+list(APPEND THIRDPARTY_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/tiny-process-library)
+
 # assign valiables into the parent scope
 set(THIRDPARTY_INCLUDES ${THIRDPARTY_INCLUDES} PARENT_SCOPE)
 set(THIRDPARTY_LIBRARY_DIRECTORIES ${THIRDPARTY_LIBRARY_DIRECTORIES} PARENT_SCOPE)

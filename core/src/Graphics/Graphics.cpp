@@ -152,37 +152,40 @@ std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t wi
         return nullptr;
     }
 
-    auto texture_buf = (LLGI::Color8*)texture->Lock();
-    if (channel == 4) {
-        for (int32_t y = 0; y < height; y++) {
-            for (int32_t x = 0; x < width; x++) {
-                texture_buf[x + y * width].R = data[4 * (x + y * width)];
-                texture_buf[x + y * width].G = data[4 * (x + y * width) + 1];
-                texture_buf[x + y * width].B = data[4 * (x + y * width) + 2];
-                texture_buf[x + y * width].A = data[4 * (x + y * width) + 3];
+    if (data != nullptr) {
+        auto texture_buf = (LLGI::Color8*)texture->Lock();
+        if (channel == 4) {
+            for (int32_t y = 0; y < height; y++) {
+                for (int32_t x = 0; x < width; x++) {
+                    texture_buf[x + y * width].R = data[4 * (x + y * width)];
+                    texture_buf[x + y * width].G = data[4 * (x + y * width) + 1];
+                    texture_buf[x + y * width].B = data[4 * (x + y * width) + 2];
+                    texture_buf[x + y * width].A = data[4 * (x + y * width) + 3];
+                }
+            }
+        } else if (channel == 3) {
+            for (int32_t y = 0; y < height; y++) {
+                for (int32_t x = 0; x < width; x++) {
+                    texture_buf[x + y * width].R = data[3 * (x + y * width)];
+                    texture_buf[x + y * width].G = data[3 * (x + y * width) + 1];
+                    texture_buf[x + y * width].B = data[3 * (x + y * width) + 2];
+                    texture_buf[x + y * width].A = 255;
+                }
+            }
+        } else if (channel == 1) {
+            for (int32_t y = 0; y < height; y++) {
+                for (int32_t x = 0; x < width; x++) {
+                    texture_buf[x + y * width].R = data[x + y * width];
+                    texture_buf[x + y * width].G = data[x + y * width];
+                    texture_buf[x + y * width].B = data[x + y * width];
+                    texture_buf[x + y * width].A = 255;
+                }
             }
         }
-    } else if (channel == 3) {
-        for (int32_t y = 0; y < height; y++) {
-            for (int32_t x = 0; x < width; x++) {
-                texture_buf[x + y * width].R = data[3 * (x + y * width)];
-                texture_buf[x + y * width].G = data[3 * (x + y * width) + 1];
-                texture_buf[x + y * width].B = data[3 * (x + y * width) + 2];
-                texture_buf[x + y * width].A = 255;
-            }
-        }
-    } else if (channel == 1) {
-        for (int32_t y = 0; y < height; y++) {
-            for (int32_t x = 0; x < width; x++) {
-                texture_buf[x + y * width].R = data[x + y * width];
-                texture_buf[x + y * width].G = data[x + y * width];
-                texture_buf[x + y * width].B = data[x + y * width];
-                texture_buf[x + y * width].A = 255;
-            }
-        }
+
+        texture->Unlock();
     }
 
-    texture->Unlock();
     return texture;
 }
 
