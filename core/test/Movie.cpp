@@ -25,8 +25,8 @@ TEST(Movie, Basic) {
 
     auto movie = Altseed2::MediaPlayer::Load(u"TestData/Movie/Test1.mp4");
 
-    EXPECT_TRUE(t1 != nullptr);
-    EXPECT_TRUE(movie != nullptr);
+    ASSERT_TRUE(t1 != nullptr);
+    ASSERT_TRUE(movie != nullptr);
 
     movie->Play(false);
 
