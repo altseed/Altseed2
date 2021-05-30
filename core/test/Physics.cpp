@@ -1,3 +1,4 @@
+#include <Core.h>
 #include <Physics/Collider/CircleCollider.h>
 #include <Physics/Collider/PolygonCollider.h>
 #include <Physics/Collider/ShapeCollider.h>
@@ -5,11 +6,21 @@
 
 #include <memory>
 
+#include "TestHelper.h"
+
 TEST(Physics, CollisionWithNull) {
+    auto coreModules = Altseed2::CoreModules::Window | Altseed2::CoreModules::File | Altseed2::CoreModules::Keyboard | Altseed2::CoreModules::Mouse | Altseed2::CoreModules::Joystick | Altseed2::CoreModules::Joystick | Altseed2::CoreModules::Graphics;
+    auto config = Altseed2TestConfig(coreModules);
+    EXPECT_TRUE(config != nullptr);
+
+    EXPECT_TRUE(Altseed2::Core::Initialize(u"test", 640, 480, config));
+
     auto collider1 = Altseed2::MakeAsdShared<Altseed2::CircleCollider>();
     collider1->SetPosition(Altseed2::Vector2F(100, 100));
     collider1->SetRadius(250);
     EXPECT_FALSE(collider1->GetIsCollidedWith(nullptr));
+
+    Altseed2::Core::Terminate();
 }
 
 TEST(Physics, CollisionWithCircles) {
