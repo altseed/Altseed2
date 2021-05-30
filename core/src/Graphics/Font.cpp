@@ -389,6 +389,7 @@ void Font::AddGlyph(const int32_t character) {
     {
         shape.inverseYAxis = !shape.inverseYAxis;
         shape.normalize();
+        shape.orientContours();
         msdfgen::edgeColoringSimple(shape, AngleThresholdDefault);
 
         msdfgen::generateMSDF(msdf, shape, PxRangeDefault, scale, msdfgen::Vector2(0.0, -descent_));
