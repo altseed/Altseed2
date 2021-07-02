@@ -273,7 +273,7 @@ int32_t MediaPlayer_AVF::GetCurrentFrame() const
     return impl_->getCurrentFrame();
 }
 
-bool MediaPlayer_AVF::WriteToTexture2D(std::shared_ptr<Texture2D> target)
+bool MediaPlayer_AVF::WriteToRenderTexture(std::shared_ptr<RenderTexture> target)
 {
     if (target == nullptr)
         return false;

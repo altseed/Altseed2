@@ -249,7 +249,7 @@ Vector2I MediaPlayer_WMF::GetSize() const { return size_; }
 
 int32_t MediaPlayer_WMF::GetCurrentFrame() const { return currentFrame; }
 
-bool MediaPlayer_WMF::WriteToTexture2D(std::shared_ptr<Texture2D> target) {
+bool MediaPlayer_WMF::WriteToRenderTexture(std::shared_ptr<RenderTexture> target) {
     if (target == nullptr)
         return false;
     if (target->GetSize() != GetSize())

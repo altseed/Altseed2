@@ -2294,9 +2294,9 @@ with MediaPlayer as class_:
         with func_.add_arg(bool, 'isLoopingMode') as arg:
             pass
 
-    with class_.add_func('WriteToTexture2D') as func_:
+    with class_.add_func('WriteToRenderTexture') as func_:
         func_.return_value.type_ = bool
-        with func_.add_arg(Texture2D, 'target') as arg:
+        with func_.add_arg(RenderTexture, 'target') as arg:
             pass
 
     with class_.add_func('Load') as func_:

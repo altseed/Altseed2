@@ -27,8 +27,8 @@ bool MediaPlayer::Play(bool isLoopingMode) {
     return impl_->Play(isLoopingMode);
 }
 
-bool MediaPlayer::WriteToTexture2D(std::shared_ptr<Texture2D> target) {
-    return impl_->WriteToTexture2D(target);
+bool MediaPlayer::WriteToRenderTexture(std::shared_ptr<RenderTexture> target) {
+    return impl_->WriteToRenderTexture(target);
 }
 
 Vector2I MediaPlayer::GetSize() const {

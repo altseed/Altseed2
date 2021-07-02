@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../Graphics/Texture2D.h"
+#include "../Graphics/RenderTexture.h"
 #include "../Math/Vector2I.h"
 
 namespace Altseed2 {
@@ -21,7 +21,7 @@ public:
 
     bool Play(bool isLoopingMode);
 
-    bool WriteToTexture2D(std::shared_ptr<Texture2D> target);
+    bool WriteToRenderTexture(std::shared_ptr<RenderTexture> target);
 
     Vector2I GetSize() const;
 

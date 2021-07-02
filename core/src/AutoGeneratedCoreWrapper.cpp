@@ -3016,11 +3016,11 @@ CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_Play(void* cbg_self, bool isLoopingMod
     return cbg_ret;
 }
 
-CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_WriteToTexture2D(void* cbg_self, void* target) {
+CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_WriteToRenderTexture(void* cbg_self, void* target) {
     auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
 
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)target);
-    bool cbg_ret = cbg_self_->WriteToTexture2D(cbg_arg0);
+    std::shared_ptr<Altseed2::RenderTexture> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)target);
+    bool cbg_ret = cbg_self_->WriteToRenderTexture(cbg_arg0);
     return cbg_ret;
 }
 
