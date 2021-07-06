@@ -28,13 +28,13 @@ TEST(Movie, Basic) {
     ASSERT_TRUE(t1 != nullptr);
     ASSERT_TRUE(movie != nullptr);
 
-    movie->Play(false);
-
     auto s1 = Altseed2::RenderedSprite::Create();
 
     Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 640, 480));
+
+    movie->Play(false);
 
     while (count++ < 10 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         movie->WriteToRenderTexture(t1);
