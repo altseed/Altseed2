@@ -1236,12 +1236,6 @@ with Texture2D as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
             arg.nullable = False
 
-    with class_.add_func('Create') as func_:
-        func_.return_value.type_ = Texture2D
-        func_.is_static = True
-        with func_.add_arg(Vector2I, 'size') as arg:
-            pass
-
     with class_.add_property(ctypes.c_wchar_p, 'Path') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
@@ -2296,7 +2290,7 @@ with MediaPlayer as class_:
 
     with class_.add_func('WriteToTexture2D') as func_:
         func_.return_value.type_ = bool
-        with func_.add_arg(Texture2D, 'target') as arg:
+        with func_.add_arg(RenderTexture, 'target') as arg:
             pass
 
     with class_.add_func('Load') as func_:

@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "../Graphics/RenderTexture.h"
 #include "../Graphics/Texture2D.h"
 #include "../Math/Vector2I.h"
 
@@ -21,7 +22,7 @@ public:
 
     bool Play(bool isLoopingMode);
 
-    bool WriteToTexture2D(std::shared_ptr<Texture2D> target);
+    bool WriteToTexture2D(std::shared_ptr<RenderTexture> target);
 
     Vector2I GetSize() const;
 

@@ -142,7 +142,7 @@ Vector2I MediaPlayer_FFmpeg::GetSize() const { return size_; }
 
 int32_t MediaPlayer_FFmpeg::GetCurrentFrame() const { return currentFrame_; }
 
-bool MediaPlayer_FFmpeg::WriteToTexture2D(std::shared_ptr<Texture2D> target) {
+bool MediaPlayer_FFmpeg::WriteToTexture2D(std::shared_ptr<RenderTexture> target) {
     if (target == nullptr)
         return false;
     if (target->GetSize() != GetSize())

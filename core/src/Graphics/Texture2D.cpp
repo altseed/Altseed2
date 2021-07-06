@@ -75,12 +75,4 @@ std::shared_ptr<Texture2D> Texture2D::Load(const char16_t* path) {
     return res;
 }
 
-std::shared_ptr<Texture2D> Texture2D::Create(Vector2I size) {
-    auto llgiTexture = Graphics::GetInstance()->CreateTexture(nullptr, size.X, size.Y, 4);
-    if (llgiTexture == nullptr) {
-        return nullptr;
-    }
-    return MakeAsdShared<Texture2D>(nullptr, llgiTexture, u"");
-}
-
 }  // namespace Altseed2

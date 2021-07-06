@@ -1089,12 +1089,6 @@ CBGEXPORT void* CBGSTDCALL cbg_Texture2D_Load(const char16_t* path) {
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_Texture2D_Create(Altseed2::Vector2I_C size) {
-    Altseed2::Vector2I_C cbg_arg0 = size;
-    std::shared_ptr<Altseed2::Texture2D> cbg_ret = Altseed2::Texture2D::Create(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Texture2D>(cbg_ret);
-}
-
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Texture2D_GetPath(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Texture2D*)(cbg_self);
 
@@ -3019,7 +3013,7 @@ CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_Play(void* cbg_self, bool isLoopingMod
 CBGEXPORT bool CBGSTDCALL cbg_MediaPlayer_WriteToTexture2D(void* cbg_self, void* target) {
     auto cbg_self_ = (Altseed2::MediaPlayer*)(cbg_self);
 
-    std::shared_ptr<Altseed2::Texture2D> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Texture2D>((Altseed2::Texture2D*)target);
+    std::shared_ptr<Altseed2::RenderTexture> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)target);
     bool cbg_ret = cbg_self_->WriteToTexture2D(cbg_arg0);
     return cbg_ret;
 }
