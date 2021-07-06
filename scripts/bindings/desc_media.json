@@ -8,7 +8,7 @@
                     "@brief": "ループ再生するか?"
                 }
             },
-            "WriteToTexture2D": {
+            "WriteToRenderTexture": {
                 "@brief": "現在の映像のフレームをテクスチャに書き込みます。映像とテクスチャは同じサイズである必要があります。",
                 "target": {
                     "@brief": "テクスチャ"

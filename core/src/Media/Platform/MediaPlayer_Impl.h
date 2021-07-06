@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Graphics/Graphics.h"
+#include "../../Graphics/RenderTexture.h"
 #include "../../Math/Vector2I.h"
 
 namespace Altseed2 {
@@ -15,7 +16,7 @@ public:
 
     virtual int32_t GetCurrentFrame() const = 0;
 
-    virtual bool WriteToTexture2D(std::shared_ptr<Texture2D> target) = 0;
+    virtual bool WriteToRenderTexture(std::shared_ptr<RenderTexture> target) = 0;
 };
 
 }  // namespace Altseed2

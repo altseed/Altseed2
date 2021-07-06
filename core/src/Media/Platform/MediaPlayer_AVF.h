@@ -25,7 +25,7 @@ public:
 
     int32_t GetCurrentFrame() const override;
 
-    bool WriteToTexture2D(std::shared_ptr<Texture2D> target) override;
+    bool WriteToRenderTexture(std::shared_ptr<RenderTexture> target) override;
 };
 
 }  // namespace Altseed2
