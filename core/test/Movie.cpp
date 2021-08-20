@@ -33,10 +33,9 @@ TEST(Movie, Basic) {
     Altseed2::CullingSystem::GetInstance()->Register(s1);
     s1->SetTexture(t1);
     s1->SetSrc(Altseed2::RectF(0, 0, 640, 480));
-
     movie->Play(false);
 
-    while (count++ < 10 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
+    while (count++ < 50 && instance->DoEvents() && Altseed2::Core::GetInstance()->DoEvent()) {
         movie->WriteToRenderTexture(t1);
 
         Altseed2::CullingSystem::GetInstance()->UpdateAABB();
@@ -55,7 +54,7 @@ TEST(Movie, Basic) {
         EXPECT_TRUE(instance->EndFrame());
 
         // Take a screenshot
-        if (count == 5) {
+        if (count == 49) {
             Altseed2::Graphics::GetInstance()->SaveScreenshot(u"Movie.Basic.png");
         }
     }

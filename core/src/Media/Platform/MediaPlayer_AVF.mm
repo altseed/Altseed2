@@ -133,26 +133,33 @@ public:
             AVKeyValueStatus tracksStatus = [_asset statusOfValueForKey:@"preferredTransform" error:&error];
             switch (tracksStatus) {
                 case AVKeyValueStatusLoaded:
+                    finished = true;
+                    break;
+                case AVKeyValueStatusUnknown:
+                    break;
+                case AVKeyValueStatusLoading:
                     break;
                 case AVKeyValueStatusFailed:
                     NSLog(@"The asset's tracks were not loaded:\n%@", [error localizedDescription]);
                     hasError = true;
                     break;
                 case AVKeyValueStatusCancelled:
+                    finished = true;
+                    break;
+                default:
                     break;
             }
-            finished = true;
         }];
             
         while(!finished)
         {
             usleep(100);
         }
-            
+
         if(hasError)
         {
             return false;
-            }
+        }
             
         CGSize naturalSize = [[[_asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] naturalSize];
         movieWidth = naturalSize.width;
@@ -208,7 +215,7 @@ public:
     
     void getFrame(uint8_t* data)
     {
-        if(_playerItem.status != AVPlayerStatusReadyToPlay)
+        if(_playerItem.status != AVPlayerItemStatusReadyToPlay)
         {
             return;
         }
