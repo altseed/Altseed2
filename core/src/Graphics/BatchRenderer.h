@@ -68,6 +68,7 @@ public:
             const std::shared_ptr<Material>& material,
             const std::shared_ptr<MaterialPropertyBlock>& propBlock);
 
+    void UpdateBuffer();
     void Render();
     void ResetCache();
 

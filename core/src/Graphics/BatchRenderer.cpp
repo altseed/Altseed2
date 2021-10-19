@@ -53,7 +53,7 @@ void BatchRenderer::Draw(
     b.IndexCount += ibCount;
 }
 
-void BatchRenderer::Render() {
+void BatchRenderer::UpdateBuffer() {
     if (batches_.size() == 0) return;
 
     auto commandList = Graphics::GetInstance()->GetCommandList();
@@ -87,6 +87,21 @@ void BatchRenderer::Render() {
 
     vertexBuffer_->Unlock();
     indexBuffer_->Unlock();
+
+    commandList->UpdateData(indexBuffer_);
+    commandList->UpdateData(vertexBuffer_);
+}
+
+void BatchRenderer::Render() {
+    if (batches_.size() == 0) return;
+
+    // TODO need to cause warning
+    if (VertexBufferMax < rawVertexBuffer_.size()) return;
+
+    // TODO need to cause warning
+    if (IndexBufferMax < rawIndexBuffer_.size()) return;
+
+    auto commandList = Graphics::GetInstance()->GetCommandList();
 
     for (const auto& batch : batches_) {
         if (batch.material == nullptr) {

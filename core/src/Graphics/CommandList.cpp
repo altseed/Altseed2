@@ -288,6 +288,18 @@ void CommandList::ResumeRenderPass() {
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
+void CommandList::UpdateData(std::shared_ptr<LLGI::IndexBuffer> indexBuffer) {
+    currentCommandList_->UpdateData(indexBuffer.get());
+}
+
+void CommandList::UpdateData(std::shared_ptr<LLGI::VertexBuffer> vertexBuffer) {
+    currentCommandList_->UpdateData(vertexBuffer.get());
+}
+
+void CommandList::UpdateData(std::shared_ptr<LLGI::ConstantBuffer> constantBuffer) {
+    currentCommandList_->UpdateData(constantBuffer.get());
+}
+
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
     if (!isInFrame_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SetRenderTarget: This function must be called in Frame.");

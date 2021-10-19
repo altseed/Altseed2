@@ -99,6 +99,12 @@ public:
 
     void ResumeRenderPass();
 
+    void UpdateData(std::shared_ptr<LLGI::IndexBuffer> indexBuffer);
+
+    void UpdateData(std::shared_ptr<LLGI::VertexBuffer> vertexBuffer);
+
+    void UpdateData(std::shared_ptr<LLGI::ConstantBuffer> constantBuffer);
+
 #endif
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
