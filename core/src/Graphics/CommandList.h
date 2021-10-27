@@ -67,8 +67,8 @@ private:
     std::shared_ptr<RenderTexture> internalScreen_;
     TextureFormatType screenTextureFormat_;
 
-    std::shared_ptr<LLGI::VertexBuffer> blitVB_;
-    std::shared_ptr<LLGI::IndexBuffer> blitIB_;
+    std::shared_ptr<LLGI::Buffer> blitVB_;
+    std::shared_ptr<LLGI::Buffer> blitIB_;
     std::shared_ptr<Material> copyMaterial_;
 
     std::shared_ptr<LLGI::Texture> proxyTexture_;
@@ -99,11 +99,11 @@ public:
 
     void ResumeRenderPass();
 
-    void UpdateData(std::shared_ptr<LLGI::IndexBuffer> indexBuffer);
+    void UploadBuffer(std::shared_ptr<LLGI::Buffer> buffer);
 
-    void UpdateData(std::shared_ptr<LLGI::VertexBuffer> vertexBuffer);
+    void ReadbackBuffer(std::shared_ptr<LLGI::Buffer> buffer);
 
-    void UpdateData(std::shared_ptr<LLGI::ConstantBuffer> constantBuffer);
+    void CopyBuffer(std::shared_ptr<LLGI::Buffer> src, std::shared_ptr<LLGI::Buffer> dst);
 
 #endif
 
@@ -144,9 +144,9 @@ public:
     */
     void SetIsPresentScreenBufferDirectly(bool value);
 
-    void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
+    void SetVertexBuffer(LLGI::Buffer* vb, int32_t stride, int32_t offset);
 
-    void SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset);
+    void SetIndexBuffer(LLGI::Buffer* ib, int32_t stride, int32_t offset);
 
     void StoreUniforms(
             CommandList* commandList,

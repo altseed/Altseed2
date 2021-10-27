@@ -89,8 +89,8 @@ std::shared_ptr<CommandList> CommandList::Create() {
     ret->matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
     {
-        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateVertexBuffer(sizeof(BatchVertex) * 4));
-        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateIndexBuffer(4, 6));
+        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Vertex, sizeof(BatchVertex) * 4));
+        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Index, 4 * 6));
 
         {
             auto vb = static_cast<BatchVertex*>(ret->blitVB_->Lock());
@@ -195,6 +195,9 @@ void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
             it++;
         }
     }
+
+    currentCommandList_->UploadBuffer(blitIB_.get());
+    currentCommandList_->UploadBuffer(blitVB_.get());
 }
 
 void CommandList::EndFrame() {
@@ -288,16 +291,16 @@ void CommandList::ResumeRenderPass() {
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
-void CommandList::UpdateData(std::shared_ptr<LLGI::IndexBuffer> indexBuffer) {
-    currentCommandList_->UpdateData(indexBuffer.get());
+void CommandList::UploadBuffer(std::shared_ptr<LLGI::Buffer> buffer) {
+    currentCommandList_->UploadBuffer(buffer.get());
 }
 
-void CommandList::UpdateData(std::shared_ptr<LLGI::VertexBuffer> vertexBuffer) {
-    currentCommandList_->UpdateData(vertexBuffer.get());
+void CommandList::ReadbackBuffer(std::shared_ptr<LLGI::Buffer> buffer) {
+    currentCommandList_->ReadBackBuffer(buffer.get());
 }
 
-void CommandList::UpdateData(std::shared_ptr<LLGI::ConstantBuffer> constantBuffer) {
-    currentCommandList_->UpdateData(constantBuffer.get());
+void CommandList::CopyBuffer(std::shared_ptr<LLGI::Buffer> src, std::shared_ptr<LLGI::Buffer> dst) {
+    currentCommandList_->CopyBuffer(src.get(), dst.get());
 }
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
@@ -359,7 +362,7 @@ void CommandList::RenderToRenderTarget(std::shared_ptr<Material> material) {
 
     // VB, IB
     currentCommandList_->SetVertexBuffer(blitVB_.get(), sizeof(BatchVertex), 0);
-    currentCommandList_->SetIndexBuffer(blitIB_.get(), 0);
+    currentCommandList_->SetIndexBuffer(blitIB_.get(), 4, 0);
 
     // pipeline state
     auto renderPass = GetCurrentRenderPass();
@@ -451,13 +454,13 @@ void CommandList::StoreTextures(
     }
 }
 
-void CommandList::SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset) {
+void CommandList::SetVertexBuffer(LLGI::Buffer* vb, int32_t stride, int32_t offset) {
     GetLL()->SetVertexBuffer(vb, stride, offset);
     FrameDebugger::GetInstance()->SetVertexBuffer(stride, offset);
 }
 
-void CommandList::SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset) {
-    GetLL()->SetIndexBuffer(ib, offset);
+void CommandList::SetIndexBuffer(LLGI::Buffer* ib, int32_t stride, int32_t offset) {
+    GetLL()->SetIndexBuffer(ib, stride, offset);
     FrameDebugger::GetInstance()->SetIndexBuffer(offset);
 }
 
@@ -470,7 +473,7 @@ void CommandList::StoreUniforms(
         return;
     }
 
-    LLGI::ConstantBuffer* cb = nullptr;
+    LLGI::Buffer* cb = nullptr;
     cb = commandList->GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
 
     auto bufv = static_cast<uint8_t*>(cb->Lock());
@@ -492,6 +495,9 @@ void CommandList::StoreUniforms(
     cb->Unlock();
 
     commandList->GetLL()->SetConstantBuffer(cb, shaderStage);
+    //commandList->PauseRenderPass();
+    commandList->GetLL()->UploadBuffer(cb);
+    //commandList->ResumeRenderPass();
 
     LLGI::SafeRelease(cb);
 }
