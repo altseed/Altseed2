@@ -13,6 +13,7 @@ class ShaderCompileResult;
 enum class ShaderStageType {
     Vertex,
     Pixel,
+    Compute,
 };
 
 struct ShaderReflectionUniform {

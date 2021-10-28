@@ -149,6 +149,29 @@ std::shared_ptr<CommandList> CommandList::Create() {
 
 std::shared_ptr<RenderTexture> CommandList::GetScreenTexture() const { return internalScreen_; }
 
+void CommandList::Begin() {
+    if (isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::Begin: This function must be paired with EndFrame.");
+        return;
+    }
+
+    isInFrame_ = true;
+
+    currentCommandList_ = commandListPool_->Get();
+    currentCommandList_->Begin();
+}
+
+void CommandList::End() {
+    if (!isInFrame_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::End: This function must be paired with StartFrame.");
+        return;
+    }
+
+    currentCommandList_->End();
+
+    isInFrame_ = false;
+}
+
 void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
     if (isInFrame_) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::StartFrame: This function must be paired with EndFrame.");
@@ -291,16 +314,16 @@ void CommandList::ResumeRenderPass() {
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
-void CommandList::UploadBuffer(std::shared_ptr<LLGI::Buffer> buffer) {
-    currentCommandList_->UploadBuffer(buffer.get());
+void CommandList::UploadBuffer(std::shared_ptr<Buffer> buffer) {
+    currentCommandList_->UploadBuffer(buffer->GetLL().get());
 }
 
-void CommandList::ReadbackBuffer(std::shared_ptr<LLGI::Buffer> buffer) {
-    currentCommandList_->ReadBackBuffer(buffer.get());
+void CommandList::ReadbackBuffer(std::shared_ptr<Buffer> buffer) {
+    currentCommandList_->ReadBackBuffer(buffer->GetLL().get());
 }
 
-void CommandList::CopyBuffer(std::shared_ptr<LLGI::Buffer> src, std::shared_ptr<LLGI::Buffer> dst) {
-    currentCommandList_->CopyBuffer(src.get(), dst.get());
+void CommandList::CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst) {
+    currentCommandList_->CopyBuffer(src->GetLL().get(), dst->GetLL().get());
 }
 
 void CommandList::SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter) {
@@ -495,9 +518,7 @@ void CommandList::StoreUniforms(
     cb->Unlock();
 
     commandList->GetLL()->SetConstantBuffer(cb, shaderStage);
-    //commandList->PauseRenderPass();
     commandList->GetLL()->UploadBuffer(cb);
-    //commandList->ResumeRenderPass();
 
     LLGI::SafeRelease(cb);
 }
@@ -529,6 +550,157 @@ void CommandList::Draw(int32_t instanceCount) {
 
         SaveRenderTexture(path.c_str(), target);
     }
+}
+
+void CommandList::SetVertexBuffer(std::shared_ptr<Buffer> vb, int32_t stride, int32_t offset) {
+    SetVertexBuffer(vb->GetLL().get(), stride, offset);
+}
+
+void CommandList::SetIndexBuffer(std::shared_ptr<Buffer> ib, int32_t stride, int32_t offset) {
+    SetIndexBuffer(ib->GetLL().get(), stride, offset);
+}
+
+void CommandList::SetMaterial(std::shared_ptr<Material> material) {
+    if (!isInRenderPass_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SetMaterial: This function must be called in Frame.");
+        return;
+    }
+
+    for (int i = 0; i < 2; i++) {
+        auto shaderStage = static_cast<ShaderStageType>(i);
+
+        auto shader = material->GetShader(shaderStage);
+        if (shader == nullptr || shader->GetUniformSize() == 0) {
+            return;
+        }
+
+        LLGI::Buffer* cb = nullptr;
+        cb = GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
+
+        auto bufv = static_cast<uint8_t*>(cb->Lock());
+        for (const auto& info : shader->GetReflectionUniforms()) {
+            if (info.Size == sizeof(float) * 4) {
+                auto v = material->GetPropertyBlock()->GetVector4F(info.Name.c_str());
+                memcpy(bufv + info.Offset, &v, info.Size);
+                FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+            }
+
+            if (info.Size == sizeof(float) * 16) {
+                auto v = material->GetPropertyBlock()->GetMatrix44F(info.Name.c_str());
+                v.SetTransposed();
+                memcpy(bufv + info.Offset, &v, info.Size);
+                FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+            }
+        }
+
+        cb->Unlock();
+
+        GetLL()->SetConstantBuffer(cb, (LLGI::ShaderStageType)shaderStage);
+        GetLL()->UploadBuffer(cb);
+
+        LLGI::SafeRelease(cb);
+
+        for (const auto& info : shader->GetReflectionTextures()) {
+            auto v = material->GetPropertyBlock()->GetTexture(info.Name.c_str());
+
+            if (v.get() == nullptr) {
+                GetLL()->SetTexture(
+                        proxyTexture_.get(),
+                        static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
+                        static_cast<LLGI::TextureMinMagFilter>(TextureFilterType::Linear),
+                        info.Offset,
+                        (LLGI::ShaderStageType)shaderStage);
+                FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
+
+            } else {
+                GetLL()->SetTexture(
+                        v->GetNativeTexture().get(),
+                        static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
+                        static_cast<LLGI::TextureMinMagFilter>(v->GetFilterType()),
+                        info.Offset,
+                        (LLGI::ShaderStageType)shaderStage);
+                FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
+            }
+        }
+    }
+
+    // pipeline state
+    GetLL()->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+}
+
+void CommandList::BeginComputePass() {
+    GetLL()->BeginComputePass();
+}
+
+void CommandList::EndComputePass() {
+    GetLL()->EndComputePass();
+}
+
+void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer) {
+    GetLL()->SetComputeBuffer(buffer->GetLL().get());
+}
+
+void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState) {
+    auto shader = computePipelineState->GetShader();
+    if (shader == nullptr || shader->GetUniformSize() == 0) {
+        return;
+    }
+
+    LLGI::Buffer* cb = nullptr;
+    cb = GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
+
+    auto bufv = static_cast<uint8_t*>(cb->Lock());
+    for (const auto& info : shader->GetReflectionUniforms()) {
+        if (info.Size == sizeof(float) * 4) {
+            auto v = computePipelineState->GetPropertyBlock()->GetVector4F(info.Name.c_str());
+            memcpy(bufv + info.Offset, &v, info.Size);
+            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+        }
+
+        if (info.Size == sizeof(float) * 16) {
+            auto v = computePipelineState->GetPropertyBlock()->GetMatrix44F(info.Name.c_str());
+            v.SetTransposed();
+            memcpy(bufv + info.Offset, &v, info.Size);
+            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+        }
+    }
+
+    cb->Unlock();
+
+    GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
+    GetLL()->UploadBuffer(cb);
+
+    LLGI::SafeRelease(cb);
+
+    for (const auto& info : shader->GetReflectionTextures()) {
+        auto v = computePipelineState->GetPropertyBlock()->GetTexture(info.Name.c_str());
+
+        if (v.get() == nullptr) {
+            GetLL()->SetTexture(
+                    proxyTexture_.get(),
+                    static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
+                    static_cast<LLGI::TextureMinMagFilter>(TextureFilterType::Linear),
+                    info.Offset,
+                    LLGI::ShaderStageType::Compute);
+            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
+
+        } else {
+            GetLL()->SetTexture(
+                    v->GetNativeTexture().get(),
+                    static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
+                    static_cast<LLGI::TextureMinMagFilter>(v->GetFilterType()),
+                    info.Offset,
+                    LLGI::ShaderStageType::Compute);
+            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
+        }
+    }
+
+    // pipeline state
+    GetLL()->SetPipelineState(computePipelineState->GetPipelineState().get());
+}
+
+void CommandList::Dispatch(int32_t x, int32_t y, int32_t z) {
+    GetLL()->Dispatch(x, y, z);
 }
 
 void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst) {

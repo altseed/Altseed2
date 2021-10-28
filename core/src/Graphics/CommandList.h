@@ -9,6 +9,7 @@
 #include "../BaseObject.h"
 #include "../Graphics/BatchRenderer.h"
 #include "../Graphics/Color.h"
+#include "ComputePipelineState.h"
 #include "../Math/RectI.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
@@ -83,7 +84,9 @@ public:
 
     std::shared_ptr<RenderTexture> GetScreenTexture() const;
 
-#if !USE_CBG
+    void Begin();
+
+    void End();
 
     void StartFrame(const RenderPassParameter& renderPassParameter);
 
@@ -91,7 +94,9 @@ public:
 
     void SetScissor(const RectI& scissor);
 
+#if !USE_CBG
     void BeginRenderPass(std::shared_ptr<RenderPass> renderPass);
+#endif
 
     void EndRenderPass();
 
@@ -99,13 +104,11 @@ public:
 
     void ResumeRenderPass();
 
-    void UploadBuffer(std::shared_ptr<LLGI::Buffer> buffer);
+    void UploadBuffer(std::shared_ptr<Buffer> buffer);
 
-    void ReadbackBuffer(std::shared_ptr<LLGI::Buffer> buffer);
+    void ReadbackBuffer(std::shared_ptr<Buffer> buffer);
 
-    void CopyBuffer(std::shared_ptr<LLGI::Buffer> src, std::shared_ptr<LLGI::Buffer> dst);
-
-#endif
+    void CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst);
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
@@ -161,6 +164,17 @@ public:
 
     void Draw(int32_t instanceCount);
 #endif
+
+    void SetVertexBuffer(std::shared_ptr<Buffer> vb, int32_t stride, int32_t offset);
+    void SetIndexBuffer(std::shared_ptr<Buffer> ib, int32_t stride, int32_t offset);
+    void SetMaterial(std::shared_ptr<Material> material);
+
+    void BeginComputePass();
+    void EndComputePass();
+
+    void SetComputeBuffer(std::shared_ptr<Buffer> buffer);
+    void SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState);
+    void Dispatch(int32_t x, int32_t y, int32_t z);
 
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
 

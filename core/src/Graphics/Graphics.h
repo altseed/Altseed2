@@ -23,6 +23,7 @@
 #include "Material.h"
 #include "Shader.h"
 #include "Texture2D.h"
+#include "Buffer.h"
 
 namespace Altseed2 {
 
@@ -42,13 +43,6 @@ enum class GraphicsDeviceType {
     DirectX12,
     Metal,
     Vulkan,
-};
-
-enum class BufferUsageType {
-    Index = (int32_t)LLGI::BufferUsageType::Index,
-    Vertex = (int32_t)LLGI::BufferUsageType::Vertex,
-    Constant = (int32_t)LLGI::BufferUsageType::Constant,
-    Compute = (int32_t)LLGI::BufferUsageType::Compute,
 };
 
 struct GraphicsInitializationParameter {
@@ -95,6 +89,9 @@ public:
 
     static void Terminate();
 
+    void ExecuteCommandList();
+    void WaitFinish();
+
 #if !USE_CBG
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
@@ -102,13 +99,14 @@ public:
     LLGI::RenderPassPipelineState* CreateRenderPassPipelineState(LLGI::RenderPass* renderpass);
     LLGI::PipelineState* CreatePipelineState();
 
-    std::shared_ptr<LLGI::Buffer> CreateBuffer(BufferUsageType usage, int32_t size);
+    std::shared_ptr<LLGI::Buffer> CreateBuffer(LLGI::BufferUsageType usage, int32_t size);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
     std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height, TextureFormatType format = TextureFormatType::R8G8B8A8_UNORM);
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);
     LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
     LLGI::Platform* GetLLGIPlatform() const { return platform_; }
 #endif
+
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }

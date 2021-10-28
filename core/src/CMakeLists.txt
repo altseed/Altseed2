@@ -26,6 +26,8 @@ set(core_files
     Common/HashHelper.h
     Common/Profiler.h
     Common/Profiler.cpp
+    Graphics/Buffer.h
+    Graphics/Buffer.cpp
     Graphics/BatchRenderer.h
     Graphics/BatchRenderer.cpp
     Graphics/BuiltinShader.h
@@ -34,6 +36,8 @@ set(core_files
     Graphics/Color.cpp
     Graphics/CommandList.h
     Graphics/CommandList.cpp
+    Graphics/ComputePipelineState.h
+    Graphics/ComputePipelineState.cpp
     Graphics/Font.h
     Graphics/Font.cpp
     Graphics/FrameDebugger.h
