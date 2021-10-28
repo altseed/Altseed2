@@ -1360,6 +1360,15 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_EndComputePass(void* cbg_self) {
     cbg_self_->EndComputePass();
 }
 
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputeBuffer(void* cbg_self, void* buffer, int32_t stride, int32_t unit) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Buffer> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)buffer);
+    int32_t cbg_arg1 = stride;
+    int32_t cbg_arg2 = unit;
+    cbg_self_->SetComputeBuffer(cbg_arg0, cbg_arg1, cbg_arg2);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_CommandList_Dispatch(void* cbg_self, int32_t x, int32_t y, int32_t z) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 
@@ -1418,13 +1427,6 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetMaterial(void* cbg_self, void* valu
 
     std::shared_ptr<Altseed2::Material> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Material>((Altseed2::Material*)value);
     cbg_self_->SetMaterial(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputeBuffer(void* cbg_self, void* value) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Buffer> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)value);
-    cbg_self_->SetComputeBuffer(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputePipelineState(void* cbg_self, void* value) {
@@ -1898,70 +1900,6 @@ CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetMatrix44F(void* cbg_self, 
     cbg_self_->SetMatrix44F(cbg_arg0, cbg_arg1);
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_ComputePipelineState_GetTexture(void* cbg_self, const char16_t* key) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    const char16_t* cbg_arg0 = key;
-    std::shared_ptr<Altseed2::TextureBase> cbg_ret = cbg_self_->GetTexture(cbg_arg0);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::TextureBase>(cbg_ret);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetTexture(void* cbg_self, const char16_t* key, void* value) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    const char16_t* cbg_arg0 = key;
-    std::shared_ptr<Altseed2::TextureBase> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::TextureBase>((Altseed2::TextureBase*)value);
-    cbg_self_->SetTexture(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT const char16_t* CBGSTDCALL cbg_ComputePipelineState_GetVertexLayoutName(void* cbg_self, int32_t index) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    const char16_t* cbg_ret = cbg_self_->GetVertexLayoutName(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetVertexLayoutName(void* cbg_self, int32_t index, const char16_t* name) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    const char16_t* cbg_arg1 = name;
-    cbg_self_->SetVertexLayoutName(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_ComputePipelineState_GetVertexLayoutFormat(void* cbg_self, int32_t index) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    Altseed2::VertexLayoutFormat cbg_ret = cbg_self_->GetVertexLayoutFormat(cbg_arg0);
-    return (int32_t)cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetVertexLayoutFormat(void* cbg_self, int32_t index, int32_t format) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    Altseed2::VertexLayoutFormat cbg_arg1 = (Altseed2::VertexLayoutFormat)format;
-    cbg_self_->SetVertexLayoutFormat(cbg_arg0, cbg_arg1);
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_ComputePipelineState_GetVertexLayoutSemasntics(void* cbg_self, int32_t index) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    int32_t cbg_ret = cbg_self_->GetVertexLayoutSemasntics(cbg_arg0);
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetVertexLayoutSemasntics(void* cbg_self, int32_t index, int32_t semantics) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = index;
-    int32_t cbg_arg1 = semantics;
-    cbg_self_->SetVertexLayoutSemasntics(cbg_arg0, cbg_arg1);
-}
-
 CBGEXPORT void* CBGSTDCALL cbg_ComputePipelineState_GetShader(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
 
@@ -1974,20 +1912,6 @@ CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetShader(void* cbg_self, voi
 
     std::shared_ptr<Altseed2::Shader> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Shader>((Altseed2::Shader*)value);
     cbg_self_->SetShader(cbg_arg0);
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_ComputePipelineState_GetVertexLayoutCount(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetVertexLayoutCount();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_ComputePipelineState_SetVertexLayoutCount(void* cbg_self, int32_t value) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    int32_t cbg_arg0 = value;
-    cbg_self_->SetVertexLayoutCount(cbg_arg0);
 }
 
 CBGEXPORT void* CBGSTDCALL cbg_ComputePipelineState_GetPropertyBlock(void* cbg_self) {

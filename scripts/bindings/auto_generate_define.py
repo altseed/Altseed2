@@ -1417,6 +1417,14 @@ with CommandList as class_:
     with class_.add_func('EndComputePass') as func_:
         pass
 
+    with class_.add_func('SetComputeBuffer') as func_:
+        with func_.add_arg(Buffer, 'buffer') as arg:
+            pass
+        with func_.add_arg(int, 'stride') as arg:
+            pass
+        with func_.add_arg(int, 'unit') as arg:
+            pass
+
     with class_.add_func('Dispatch') as func_:
         with func_.add_arg(int, 'x') as arg:
             pass
@@ -1447,9 +1455,6 @@ with CommandList as class_:
         prop_.has_getter = True
         prop_.has_setter = True
     with class_.add_property(Material, 'Material') as prop_:
-        prop_.has_getter = False
-        prop_.has_setter = True
-    with class_.add_property(Buffer, 'ComputeBuffer') as prop_:
         prop_.has_getter = False
         prop_.has_setter = True
     with class_.add_property(ComputePipelineState, 'ComputePipelineState') as prop_:
@@ -1712,54 +1717,7 @@ with ComputePipelineState as class_:
         with func_.add_arg(Matrix44F, 'value') as arg:
             pass
 
-    with class_.add_func('GetTexture') as func_:
-        func_.return_value.type_ = TextureBase
-        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
-            pass
-
-    with class_.add_func('SetTexture') as func_:
-        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
-            pass
-        with func_.add_arg(TextureBase, 'value') as arg:
-            pass
-
-    with class_.add_func('GetVertexLayoutName') as func_:
-        func_.return_value.type_ = ctypes.c_wchar_p
-        with func_.add_arg(int, 'index') as arg:
-            pass
-
-    with class_.add_func('SetVertexLayoutName') as func_:
-        with func_.add_arg(int, 'index') as arg:
-            pass
-        with func_.add_arg(ctypes.c_wchar_p, 'name') as arg:
-            pass
-
-    with class_.add_func('GetVertexLayoutFormat') as func_:
-        func_.return_value.type_ = VertexLayoutFormat
-        with func_.add_arg(int, 'index') as arg:
-            pass
-
-    with class_.add_func('SetVertexLayoutFormat') as func_:
-        with func_.add_arg(int, 'index') as arg:
-            pass
-        with func_.add_arg(VertexLayoutFormat, 'format') as arg:
-            pass
-
-    with class_.add_func('GetVertexLayoutSemasntics') as func_:
-        func_.return_value.type_ = int
-        with func_.add_arg(int, 'index') as arg:
-            pass
-
-    with class_.add_func('SetVertexLayoutSemasntics') as func_:
-        with func_.add_arg(int, 'index') as arg:
-            pass
-        with func_.add_arg(int, 'semantics') as arg:
-            pass
-
     with class_.add_property(Shader, 'Shader') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = True
-    with class_.add_property(int, 'VertexLayoutCount') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True
     with class_.add_property(MaterialPropertyBlock, 'PropertyBlock') as prop_:

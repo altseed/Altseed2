@@ -41,23 +41,8 @@ public:
     Matrix44F GetMatrix44F(const char16_t* key) const;
     void SetMatrix44F(const char16_t* key, const Matrix44F& value);
 
-    std::shared_ptr<TextureBase> GetTexture(const char16_t* key) const;
-    void SetTexture(const char16_t* key, const std::shared_ptr<TextureBase>& value);
-
     void SetShader(std::shared_ptr<Shader> shader);
     std::shared_ptr<Shader> GetShader();
-
-    const char16_t* GetVertexLayoutName(int32_t index);
-    void SetVertexLayoutName(int32_t index, const char16_t* name);
-
-    VertexLayoutFormat GetVertexLayoutFormat(int32_t index);
-    void SetVertexLayoutFormat(int32_t index, VertexLayoutFormat format);
-
-    int32_t GetVertexLayoutSemasntics(int32_t index);
-    void SetVertexLayoutSemasntics(int32_t index, int32_t semantics);
-
-    int32_t GetVertexLayoutCount();
-    void SetVertexLayoutCount(int32_t count);
 
     std::shared_ptr<MaterialPropertyBlock> GetPropertyBlock() const;
 

@@ -636,8 +636,8 @@ void CommandList::EndComputePass() {
     GetLL()->EndComputePass();
 }
 
-void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer) {
-    GetLL()->SetComputeBuffer(buffer->GetLL().get());
+void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit) {
+    GetLL()->SetComputeBuffer(buffer->GetLL().get(), stride, unit);
 }
 
 void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState) {
@@ -671,29 +671,6 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
     GetLL()->UploadBuffer(cb);
 
     LLGI::SafeRelease(cb);
-
-    for (const auto& info : shader->GetReflectionTextures()) {
-        auto v = computePipelineState->GetPropertyBlock()->GetTexture(info.Name.c_str());
-
-        if (v.get() == nullptr) {
-            GetLL()->SetTexture(
-                    proxyTexture_.get(),
-                    static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
-                    static_cast<LLGI::TextureMinMagFilter>(TextureFilterType::Linear),
-                    info.Offset,
-                    LLGI::ShaderStageType::Compute);
-            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
-
-        } else {
-            GetLL()->SetTexture(
-                    v->GetNativeTexture().get(),
-                    static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
-                    static_cast<LLGI::TextureMinMagFilter>(v->GetFilterType()),
-                    info.Offset,
-                    LLGI::ShaderStageType::Compute);
-            FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
-        }
-    }
 
     // pipeline state
     GetLL()->SetPipelineState(computePipelineState->GetPipelineState().get());
