@@ -1694,6 +1694,7 @@ define.classes.append(Profiler)
 with ComputePipelineState as class_:
     with class_.add_func('Create') as func_:
         func_.return_value.type_ = ComputePipelineState
+        func_.is_static = True
 
     with class_.add_func('GetVector4F') as func_:
         func_.return_value.type_ = Vector4F

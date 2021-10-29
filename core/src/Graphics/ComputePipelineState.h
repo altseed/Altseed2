@@ -33,7 +33,7 @@ private:
 public:
     ComputePipelineState();
 
-    std::shared_ptr<ComputePipelineState> Create();
+    static std::shared_ptr<ComputePipelineState> Create();
 
     Vector4F GetVector4F(const char16_t* key) const;
     void SetVector4F(const char16_t* key, const Vector4F& value);
