@@ -75,10 +75,10 @@ define.enums.append(BlendFuncType)
 
 BufferUsageType = cbg.Enum('Altseed2', 'BufferUsageType')
 with BufferUsageType as enum_:
-    enum_.add('Index', 0)
-    enum_.add('Vertex', 1)
-    enum_.add('Constant', 2)
-    enum_.add('Compute', 3)
+    enum_.add('Index', 1 << 0)
+    enum_.add('Vertex', 1 << 1)
+    enum_.add('Constant', 1 << 2)
+    enum_.add('Compute', 1 << 3)
 define.enums.append(BufferUsageType)
 
 GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')

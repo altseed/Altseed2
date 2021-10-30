@@ -6,11 +6,11 @@
 
 namespace Altseed2 {
 
-enum class BufferUsageType {
-    Index = (int32_t)LLGI::BufferUsageType::Index,
-    Vertex = (int32_t)LLGI::BufferUsageType::Vertex,
-    Constant = (int32_t)LLGI::BufferUsageType::Constant,
-    Compute = (int32_t)LLGI::BufferUsageType::Compute,
+enum class BufferUsageType : int32_t{
+    Index = 1 << 0,
+    Vertex = 1 << 1,
+    Constant = 1 << 2,
+    Compute = 1 << 3,
 };
 
 class Buffer : public BaseObject {
