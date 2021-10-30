@@ -7,6 +7,7 @@ set(core_test_files
     TestHelper.cpp
     BaseObject.cpp
     Configuration.cpp
+    ComputeShader.cpp
     FPS.cpp
     Core.cpp
     Window.cpp
