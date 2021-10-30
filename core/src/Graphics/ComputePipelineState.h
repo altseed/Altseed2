@@ -23,11 +23,6 @@ private:
 
     std::shared_ptr<MaterialPropertyBlock> propertyBlock_;
 
-    std::array<std::string, LLGI::VertexLayoutMax> vertexLayoutNames_;
-    std::array<VertexLayoutFormat, LLGI::VertexLayoutMax> vertexLayouts_;
-    std::array<int32_t, LLGI::VertexLayoutMax> vertexLayoutSemantics_;
-    int32_t vertexLayoutCount_ = 0;
-
     bool requireCompile = true;
 
 public:

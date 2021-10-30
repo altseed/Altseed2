@@ -642,35 +642,34 @@ void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t strid
 
 void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState) {
     auto shader = computePipelineState->GetShader();
-    if (shader == nullptr || shader->GetUniformSize() == 0) {
-        return;
-    }
 
-    LLGI::Buffer* cb = nullptr;
-    cb = GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
+    if (shader != nullptr && shader->GetUniformSize() != 0) {
+        LLGI::Buffer* cb = nullptr;
+        cb = GetMemoryPool()->CreateConstantBuffer(shader->GetUniformSize());
 
-    auto bufv = static_cast<uint8_t*>(cb->Lock());
-    for (const auto& info : shader->GetReflectionUniforms()) {
-        if (info.Size == sizeof(float) * 4) {
-            auto v = computePipelineState->GetPropertyBlock()->GetVector4F(info.Name.c_str());
-            memcpy(bufv + info.Offset, &v, info.Size);
-            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+        auto bufv = static_cast<uint8_t*>(cb->Lock());
+        for (const auto& info : shader->GetReflectionUniforms()) {
+            if (info.Size == sizeof(float) * 4) {
+                auto v = computePipelineState->GetPropertyBlock()->GetVector4F(info.Name.c_str());
+                memcpy(bufv + info.Offset, &v, info.Size);
+                FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+            }
+
+            if (info.Size == sizeof(float) * 16) {
+                auto v = computePipelineState->GetPropertyBlock()->GetMatrix44F(info.Name.c_str());
+                v.SetTransposed();
+                memcpy(bufv + info.Offset, &v, info.Size);
+                FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
+            }
         }
 
-        if (info.Size == sizeof(float) * 16) {
-            auto v = computePipelineState->GetPropertyBlock()->GetMatrix44F(info.Name.c_str());
-            v.SetTransposed();
-            memcpy(bufv + info.Offset, &v, info.Size);
-            FrameDebugger::GetInstance()->Uniform(shader->GetStageType(), info.Name, v);
-        }
+        cb->Unlock();
+
+        GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
+        GetLL()->UploadBuffer(cb);
+
+        LLGI::SafeRelease(cb);
     }
-
-    cb->Unlock();
-
-    GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
-    GetLL()->UploadBuffer(cb);
-
-    LLGI::SafeRelease(cb);
 
     // pipeline state
     GetLL()->SetPipelineState(computePipelineState->GetPipelineState().get());
