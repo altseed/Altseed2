@@ -157,6 +157,7 @@ void CommandList::Begin() {
 
     isInFrame_ = true;
 
+    memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
     currentCommandList_->Begin();
 }
