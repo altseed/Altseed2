@@ -100,6 +100,8 @@ public:
 
     ButtonState GetMouseButtonState(MouseButton button) const;
 
+    void SetMouseButtonState(MouseButton button, ButtonState state);
+
     void SetCursorMode(CursorMode mode);
 
     void SetCursorImage(std::shared_ptr<Cursor> cursor);
