@@ -69,4 +69,4 @@ python scripts/generate_cbg_definition.py --clang "C:\Program Files\LLVM\bin"
 
 ### Windows
 
-`build\Altseed.sln` （もしくは `build_clang_format\Altseed.sln`） を開き、ソリューションをビルドします。プロジェクト `Altseed_Core_Test` を実行し、テストが走ったら成功です。
+`build\Altseed_Core.sln` （もしくは `build_clang_format\Altseed_Core.sln`） を開き、ソリューションをビルドします。プロジェクト `Altseed_Core_Test` を実行し、テストが走ったら成功です。
