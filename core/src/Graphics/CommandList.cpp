@@ -578,6 +578,9 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
         return;
     }
 
+    // pipeline state
+    GetLL()->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+
     for (int i = 0; i < 2; i++) {
         auto shaderStage = static_cast<ShaderStageType>(i);
 
@@ -641,9 +644,6 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
             }
         }
     }
-
-    // pipeline state
-    GetLL()->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
 }
 
 void CommandList::BeginComputePass() {

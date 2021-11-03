@@ -249,6 +249,9 @@
         "CommandList": {
             "is_Sealed": true,
             "properties": {
+                "Material": {
+                    "onlyExtern": true
+                }
             },
             "methods": {
                 "CopyTexture": {

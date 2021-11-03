@@ -1467,6 +1467,7 @@ with CommandList as class_:
     with class_.add_property(Material, 'Material') as prop_:
         prop_.has_getter = False
         prop_.has_setter = True
+        prop_.onlyExtern = True
     with class_.add_property(ComputePipelineState, 'ComputePipelineState') as prop_:
         prop_.has_getter = False
         prop_.has_setter = True
