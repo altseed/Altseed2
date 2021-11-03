@@ -687,7 +687,7 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
         EndComputePass();
         GetLL()->UploadBuffer(cb);
         BeginComputePass();
-        
+
         LLGI::SafeRelease(cb);
     }
 
