@@ -260,6 +260,24 @@
                             "nullable": false
                         }
                     }
+                },
+                "UploadBuffer": {
+                    "is_public": false
+                },
+                "ReadbackBuffer": {
+                    "is_public": false
+                },
+                "CopyBuffer": {
+                    "is_public": false
+                },
+                "SetVertexBuffer": {
+                    "is_public": false
+                },
+                "SetIndexBuffer": {
+                    "is_public": false
+                },
+                "SetComputeBuffer": {
+                    "is_public": false
                 }
             }
         },

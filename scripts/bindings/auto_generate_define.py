@@ -1358,14 +1358,17 @@ with CommandList as class_:
         pass
 
     with class_.add_func('UploadBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'buffer') as arg:
             pass
 
     with class_.add_func('ReadbackBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'buffer') as arg:
             pass
 
     with class_.add_func('CopyBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'src') as arg:
             pass
         with func_.add_arg(Buffer, 'dst') as arg:
@@ -1394,6 +1397,7 @@ with CommandList as class_:
             pass
 
     with class_.add_func('SetVertexBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'vb') as arg:
             pass
         with func_.add_arg(int, 'stride') as arg:
@@ -1402,6 +1406,7 @@ with CommandList as class_:
             pass
 
     with class_.add_func('SetIndexBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'ib') as arg:
             pass
         with func_.add_arg(int, 'stride') as arg:
@@ -1416,6 +1421,7 @@ with CommandList as class_:
         pass
 
     with class_.add_func('SetComputeBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Buffer, 'buffer') as arg:
             pass
         with func_.add_arg(int, 'stride') as arg:
