@@ -12,6 +12,7 @@
 #include "../Math/RectI.h"
 #include "../Math/Vector2F.h"
 #include "../Math/Vector3F.h"
+#include "ComputePipelineState.h"
 
 namespace Altseed2 {
 
@@ -67,8 +68,8 @@ private:
     std::shared_ptr<RenderTexture> internalScreen_;
     TextureFormatType screenTextureFormat_;
 
-    std::shared_ptr<LLGI::VertexBuffer> blitVB_;
-    std::shared_ptr<LLGI::IndexBuffer> blitIB_;
+    std::shared_ptr<LLGI::Buffer> blitVB_;
+    std::shared_ptr<LLGI::Buffer> blitIB_;
     std::shared_ptr<Material> copyMaterial_;
 
     std::shared_ptr<LLGI::Texture> proxyTexture_;
@@ -83,15 +84,21 @@ public:
 
     std::shared_ptr<RenderTexture> GetScreenTexture() const;
 
-#if !USE_CBG
+    void Begin();
 
+    void End();
+
+#if !USE_CBG
     void StartFrame(const RenderPassParameter& renderPassParameter);
 
     void EndFrame();
+#endif
 
     void SetScissor(const RectI& scissor);
 
+#if !USE_CBG
     void BeginRenderPass(std::shared_ptr<RenderPass> renderPass);
+#endif
 
     void EndRenderPass();
 
@@ -99,7 +106,11 @@ public:
 
     void ResumeRenderPass();
 
-#endif
+    void UploadBuffer(std::shared_ptr<Buffer> buffer);
+
+    void ReadbackBuffer(std::shared_ptr<Buffer> buffer);
+
+    void CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst);
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
 
@@ -138,9 +149,9 @@ public:
     */
     void SetIsPresentScreenBufferDirectly(bool value);
 
-    void SetVertexBuffer(LLGI::VertexBuffer* vb, int32_t stride, int32_t offset);
+    void SetVertexBuffer(LLGI::Buffer* vb, int32_t stride, int32_t offset);
 
-    void SetIndexBuffer(LLGI::IndexBuffer* ib, int32_t offset);
+    void SetIndexBuffer(LLGI::Buffer* ib, int32_t stride, int32_t offset);
 
     void StoreUniforms(
             CommandList* commandList,
@@ -152,11 +163,25 @@ public:
             std::shared_ptr<Shader> shader,
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
-
-    void Draw(int32_t instanceCount);
 #endif
 
+    void Draw(int32_t instanceCount);
+
+    void SetVertexBuffer(std::shared_ptr<Buffer> vb, int32_t stride, int32_t offset);
+    void SetIndexBuffer(std::shared_ptr<Buffer> ib, int32_t stride, int32_t offset);
+    void SetMaterial(std::shared_ptr<Material> material);
+
+    void BeginComputePass();
+    void EndComputePass();
+
+    void SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit);
+    void SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState);
+    void Dispatch(int32_t x, int32_t y, int32_t z);
+
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
+
+    void ResetTextures();
+    void ResetComputeBuffers();
 
 #if !USE_CBG
 

@@ -249,6 +249,9 @@
         "CommandList": {
             "is_Sealed": true,
             "properties": {
+                "Material": {
+                    "onlyExtern": true
+                }
             },
             "methods": {
                 "CopyTexture": {
@@ -260,6 +263,24 @@
                             "nullable": false
                         }
                     }
+                },
+                "UploadBuffer": {
+                    "is_public": false
+                },
+                "ReadbackBuffer": {
+                    "is_public": false
+                },
+                "CopyBuffer": {
+                    "is_public": false
+                },
+                "SetVertexBuffer": {
+                    "is_public": false
+                },
+                "SetIndexBuffer": {
+                    "is_public": false
+                },
+                "SetComputeBuffer": {
+                    "is_public": false
                 }
             }
         },
@@ -620,6 +641,9 @@
                     "is_public": false
                 }
             }
+        },
+        "Buffer": {
+            "is_public": false
         }
     }
 }

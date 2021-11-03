@@ -89,6 +89,8 @@ std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, c
         shaderStageLLGI = LLGI::ShaderStageType::Vertex;
     } else if (shaderStage == ShaderStageType::Pixel) {
         shaderStageLLGI = LLGI::ShaderStageType::Pixel;
+    } else if (shaderStage == ShaderStageType::Compute) {
+        shaderStageLLGI = LLGI::ShaderStageType::Compute;
     }
 
     // compile actually

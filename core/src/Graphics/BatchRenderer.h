@@ -45,8 +45,8 @@ private:
     std::vector<Batch> batches_;
     std::vector<BatchVertex> rawVertexBuffer_;
     std::vector<int32_t> rawIndexBuffer_;
-    std::shared_ptr<LLGI::VertexBuffer> vertexBuffer_;
-    std::shared_ptr<LLGI::IndexBuffer> indexBuffer_;
+    std::shared_ptr<LLGI::Buffer> vertexBuffer_;
+    std::shared_ptr<LLGI::Buffer> indexBuffer_;
     int32_t vbOffset_ = 0;
     int32_t ibOffset_ = 0;
 
@@ -68,6 +68,7 @@ public:
             const std::shared_ptr<Material>& material,
             const std::shared_ptr<MaterialPropertyBlock>& propBlock);
 
+    void UploadBuffer();
     void Render();
     void ResetCache();
 

@@ -11,8 +11,8 @@ namespace Altseed2 {
 BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto gLL = graphics->GetGraphicsLLGI();
     rawVertexBuffer_.reserve(VertexBufferMax);
-    vertexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateVertexBuffer(sizeof(BatchVertex) * VertexBufferMax));
-    indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateIndexBuffer(4, IndexBufferMax));
+    vertexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Vertex, sizeof(BatchVertex) * VertexBufferMax));
+    indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Index, 4 * IndexBufferMax));
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 }
 
@@ -53,7 +53,7 @@ void BatchRenderer::Draw(
     b.IndexCount += ibCount;
 }
 
-void BatchRenderer::Render() {
+void BatchRenderer::UploadBuffer() {
     if (batches_.size() == 0) return;
 
     auto commandList = Graphics::GetInstance()->GetCommandList();
@@ -88,6 +88,21 @@ void BatchRenderer::Render() {
     vertexBuffer_->Unlock();
     indexBuffer_->Unlock();
 
+    commandList->GetLL()->UploadBuffer(indexBuffer_.get());
+    commandList->GetLL()->UploadBuffer(vertexBuffer_.get());
+}
+
+void BatchRenderer::Render() {
+    if (batches_.size() == 0) return;
+
+    // TODO need to cause warning
+    if (VertexBufferMax < rawVertexBuffer_.size()) return;
+
+    // TODO need to cause warning
+    if (IndexBufferMax < rawIndexBuffer_.size()) return;
+
+    auto commandList = Graphics::GetInstance()->GetCommandList();
+
     for (const auto& batch : batches_) {
         if (batch.material == nullptr) {
             LOG_CRITICAL(u"BatchRenderer : Material not set.");
@@ -109,7 +124,7 @@ void BatchRenderer::Render() {
 
         // VB, IB
         commandList->SetVertexBuffer(vertexBuffer_.get(), sizeof(BatchVertex), (vbOffset_ + batch.VertexOffset) * sizeof(BatchVertex));
-        commandList->SetIndexBuffer(indexBuffer_.get(), (ibOffset_ + batch.IndexOffset) * sizeof(int32_t));
+        commandList->SetIndexBuffer(indexBuffer_.get(), 4, (ibOffset_ + batch.IndexOffset) * sizeof(int32_t));
 
         // pipeline state
         commandList->GetLL()->SetPipelineState(material->GetPipelineState(commandList->GetCurrentRenderPass()).get());

@@ -8,6 +8,7 @@ with ShaderStageType as enum_:
     enum_.alias = "ShaderStage"
     enum_.add('Vertex', 0)
     enum_.add('Pixel', 1)
+    enum_.add('Compute', 2)
 define.enums.append(ShaderStageType)
 
 ResourceType = cbg.Enum('Altseed2', 'ResourceType')
@@ -72,6 +73,14 @@ with BlendFuncType as enum_:
     enum_.add('OneMinusDstColor', 9)
 define.enums.append(BlendFuncType)
 
+BufferUsageType = cbg.Enum('Altseed2', 'BufferUsageType')
+with BufferUsageType as enum_:
+    enum_.add('Index', 1 << 0)
+    enum_.add('Vertex', 1 << 1)
+    enum_.add('Constant', 1 << 2)
+    enum_.add('Compute', 1 << 3)
+define.enums.append(BufferUsageType)
+
 GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')
 with GraphicsDeviceType as enum_:
     enum_.alias = "GraphicsDevice"
@@ -110,6 +119,16 @@ with BuiltinShaderType as enum_:
     enum_.add('SpriteUnlitPS', 1)
     enum_.add('FontUnlitPS', 2)
 define.enums.append(BuiltinShaderType)
+
+VertexLayoutFormat = cbg.Enum('Altseed2', 'VertexLayoutFormat')
+with VertexLayoutFormat as enum_:
+    enum_.add('R32G32B32_FLOAT', 0)
+    enum_.add('R32G32B32A32_FLOAT', 1)
+    enum_.add('R8G8B8A8_UNORM', 2)
+    enum_.add('R8G8B8A8_UINT', 3)
+    enum_.add('R32G32_FLOAT', 4)
+    enum_.add('R32_FLOAT', 5)
+define.enums.append(VertexLayoutFormat)
 
 RenderTargetCareType = cbg.Enum('Altseed2', 'RenderTargetCareType')
 with RenderTargetCareType as enum_:
@@ -860,6 +879,7 @@ MaterialPropertyBlock = cbg.Class('Altseed2', 'MaterialPropertyBlock')
 MaterialPropertyBlockCollection = cbg.Class('Altseed2', 'MaterialPropertyBlockCollection')
 Material = cbg.Class('Altseed2', 'Material')
 Texture2D = cbg.Class('Altseed2', 'Texture2D')
+Buffer = cbg.Class('Altseed2', 'Buffer')
 Sprite = cbg.Class('Altseed2', 'Sprite')
 Camera = cbg.Class('Altseed2', 'Camera')
 BuiltinShader = cbg.Class('Altseed2', 'BuiltinShader')
@@ -869,6 +889,7 @@ Configuration = cbg.Class('Altseed2', 'Configuration')
 File = cbg.Class('Altseed2', 'File')
 StaticFile = cbg.Class('Altseed2', 'StaticFile')
 Profiler = cbg.Class('Altseed2', 'Profiler')
+ComputePipelineState = cbg.Class('Altseed2', 'ComputePipelineState')
 RenderTexture = cbg.Class('Altseed2', 'RenderTexture')
 Glyph = cbg.Class('Altseed2', 'Glyph')
 Font = cbg.Class('Altseed2', 'Font')
@@ -1250,6 +1271,33 @@ with Texture2D as class_:
         prop_.serialized = True
 define.classes.append(Texture2D)
 
+with Buffer as class_:
+    class_.is_public = False
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = Buffer
+        func_.is_static = True
+        with func_.add_arg(BufferUsageType, 'usage') as arg:
+            pass
+        with func_.add_arg(int, 'size') as arg:
+            pass
+
+    with class_.add_func('Lock') as func_:
+        func_.return_value.type_ = ctypes.c_void_p
+
+    with class_.add_func('Unlock') as func_:
+        pass
+
+    with class_.add_func('Read') as func_:
+        func_.return_value.type_ = ctypes.c_void_p
+
+    with class_.add_property(int, 'Size') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(BufferUsageType, 'BufferUsage') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+define.classes.append(Buffer)
+
 with BuiltinShader as class_:
     class_.is_Sealed = True
     with class_.add_func('Create') as func_:
@@ -1294,6 +1342,38 @@ with CommandList as class_:
         func_.return_value.type_ = CommandList
         func_.is_static = True
 
+    with class_.add_func('Begin') as func_:
+        pass
+
+    with class_.add_func('End') as func_:
+        pass
+
+    with class_.add_func('EndRenderPass') as func_:
+        pass
+
+    with class_.add_func('PauseRenderPass') as func_:
+        pass
+
+    with class_.add_func('ResumeRenderPass') as func_:
+        pass
+
+    with class_.add_func('UploadBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'buffer') as arg:
+            pass
+
+    with class_.add_func('ReadbackBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'buffer') as arg:
+            pass
+
+    with class_.add_func('CopyBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'src') as arg:
+            pass
+        with func_.add_arg(Buffer, 'dst') as arg:
+            pass
+
     with class_.add_func('SetRenderTarget') as func_:
         with func_.add_arg(RenderTexture, 'target') as arg:
             pass
@@ -1312,11 +1392,62 @@ with CommandList as class_:
         with func_.add_arg(Material, 'material') as arg:
             pass
 
+    with class_.add_func('Draw') as func_:
+        with func_.add_arg(int, 'instanceCount') as arg:
+            pass
+
+    with class_.add_func('SetVertexBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'vb') as arg:
+            pass
+        with func_.add_arg(int, 'stride') as arg:
+            pass
+        with func_.add_arg(int, 'offset') as arg:
+            pass
+
+    with class_.add_func('SetIndexBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'ib') as arg:
+            pass
+        with func_.add_arg(int, 'stride') as arg:
+            pass
+        with func_.add_arg(int, 'offset') as arg:
+            pass
+
+    with class_.add_func('BeginComputePass') as func_:
+        pass
+
+    with class_.add_func('EndComputePass') as func_:
+        pass
+
+    with class_.add_func('SetComputeBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Buffer, 'buffer') as arg:
+            pass
+        with func_.add_arg(int, 'stride') as arg:
+            pass
+        with func_.add_arg(int, 'unit') as arg:
+            pass
+
+    with class_.add_func('Dispatch') as func_:
+        with func_.add_arg(int, 'x') as arg:
+            pass
+        with func_.add_arg(int, 'y') as arg:
+            pass
+        with func_.add_arg(int, 'z') as arg:
+            pass
+
     with class_.add_func('CopyTexture') as func_:
         with func_.add_arg(RenderTexture, 'src') as arg:
             arg.nullable = False
         with func_.add_arg(RenderTexture, 'dst') as arg:
             arg.nullable = False
+
+    with class_.add_func('ResetTextures') as func_:
+        pass
+
+    with class_.add_func('ResetComputeBuffers') as func_:
+        pass
 
     with class_.add_func('SaveRenderTexture') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
@@ -1327,8 +1458,18 @@ with CommandList as class_:
     with class_.add_property(RenderTexture, 'ScreenTexture') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
+    with class_.add_property(RectI, 'Scissor') as prop_:
+        prop_.has_getter = False
+        prop_.has_setter = True
     with class_.add_property(TextureFormatType, 'ScreenTextureFormat') as prop_:
         prop_.has_getter = True
+        prop_.has_setter = True
+    with class_.add_property(Material, 'Material') as prop_:
+        prop_.has_getter = False
+        prop_.has_setter = True
+        prop_.onlyExtern = True
+    with class_.add_property(ComputePipelineState, 'ComputePipelineState') as prop_:
+        prop_.has_getter = False
         prop_.has_setter = True
 define.classes.append(CommandList)
 
@@ -1365,6 +1506,12 @@ with Graphics as class_:
 
     with class_.add_func('Terminate') as func_:
         func_.is_static = True
+
+    with class_.add_func('ExecuteCommandList') as func_:
+        pass
+
+    with class_.add_func('WaitFinish') as func_:
+        pass
 
     with class_.add_func('SaveScreenshot') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
@@ -1554,6 +1701,41 @@ with Profiler as class_:
         prop_.has_getter = True
         prop_.has_setter = False
 define.classes.append(Profiler)
+
+with ComputePipelineState as class_:
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = ComputePipelineState
+        func_.is_static = True
+
+    with class_.add_func('GetVector4F') as func_:
+        func_.return_value.type_ = Vector4F
+        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            pass
+
+    with class_.add_func('SetVector4F') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            pass
+        with func_.add_arg(Vector4F, 'value') as arg:
+            pass
+
+    with class_.add_func('GetMatrix44F') as func_:
+        func_.return_value.type_ = Matrix44F
+        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            pass
+
+    with class_.add_func('SetMatrix44F') as func_:
+        with func_.add_arg(ctypes.c_wchar_p, 'key') as arg:
+            pass
+        with func_.add_arg(Matrix44F, 'value') as arg:
+            pass
+
+    with class_.add_property(Shader, 'Shader') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = True
+    with class_.add_property(MaterialPropertyBlock, 'PropertyBlock') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+define.classes.append(ComputePipelineState)
 
 with RenderTexture as class_:
     class_.base_class = TextureBase

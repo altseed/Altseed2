@@ -123,6 +123,14 @@ void Graphics::Terminate() {
     instance = nullptr;
 }
 
+void Graphics::ExecuteCommandList() {
+    graphics_->Execute(commandList_->GetLL());
+}
+
+void Graphics::WaitFinish() {
+    graphics_->WaitFinish();
+}
+
 LLGI::RenderPass* Graphics::GetCurrentScreen(const LLGI::Color8& clearColor, bool isColorCleared, bool isDepthCleared) {
     return instance->platform_->GetCurrentScreen(clearColor, isColorCleared, isDepthCleared);
 }
@@ -133,12 +141,8 @@ LLGI::RenderPassPipelineState* Graphics::CreateRenderPassPipelineState(LLGI::Ren
 
 LLGI::PipelineState* Graphics::CreatePipelineState() { return instance->graphics_->CreatePiplineState(); }
 
-std::shared_ptr<LLGI::IndexBuffer> Graphics::CreateIndexBuffer(int32_t stride, int32_t count) {
-    return LLGI::CreateSharedPtr(instance->graphics_->CreateIndexBuffer(stride, count));
-}
-
-std::shared_ptr<LLGI::VertexBuffer> Graphics::CreateVertexBuffer(int32_t size) {
-    return LLGI::CreateSharedPtr(instance->graphics_->CreateVertexBuffer(size));
+std::shared_ptr<LLGI::Buffer> Graphics::CreateBuffer(LLGI::BufferUsageType usage, int32_t size) {
+    return LLGI::CreateSharedPtr(instance->graphics_->CreateBuffer((LLGI::BufferUsageType)usage, size));
 }
 
 std::shared_ptr<LLGI::Texture> Graphics::CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel) {

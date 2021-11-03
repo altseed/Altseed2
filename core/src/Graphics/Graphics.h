@@ -1,16 +1,14 @@
 ﻿#pragma once
 
 #include <LLGI.Base.h>
+#include <LLGI.Buffer.h>
 #include <LLGI.CommandList.h>
 #include <LLGI.Compiler.h>
-#include <LLGI.ConstantBuffer.h>
 #include <LLGI.Graphics.h>
-#include <LLGI.IndexBuffer.h>
 #include <LLGI.PipelineState.h>
 #include <LLGI.Platform.h>
 #include <LLGI.Shader.h>
 #include <LLGI.Texture.h>
-#include <LLGI.VertexBuffer.h>
 
 #include <array>
 #include <map>
@@ -20,6 +18,7 @@
 
 #include "../Math/Vector2F.h"
 #include "../Window/Window.h"
+#include "Buffer.h"
 #include "Color.h"
 #include "LLGIWindow.h"
 #include "Material.h"
@@ -90,6 +89,9 @@ public:
 
     static void Terminate();
 
+    void ExecuteCommandList();
+    void WaitFinish();
+
 #if !USE_CBG
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 
@@ -97,8 +99,7 @@ public:
     LLGI::RenderPassPipelineState* CreateRenderPassPipelineState(LLGI::RenderPass* renderpass);
     LLGI::PipelineState* CreatePipelineState();
 
-    std::shared_ptr<LLGI::IndexBuffer> CreateIndexBuffer(int32_t stride, int32_t count);
-    std::shared_ptr<LLGI::VertexBuffer> CreateVertexBuffer(int32_t size);
+    std::shared_ptr<LLGI::Buffer> CreateBuffer(LLGI::BufferUsageType usage, int32_t size);
     std::shared_ptr<LLGI::Texture> CreateTexture(uint8_t* data, int32_t width, int32_t height, int32_t channel);
     std::shared_ptr<LLGI::Texture> CreateRenderTexture(int32_t width, int32_t height, TextureFormatType format = TextureFormatType::R8G8B8A8_UNORM);
     std::shared_ptr<LLGI::RenderPass> CreateRenderPass(LLGI::Texture* renderTexture);

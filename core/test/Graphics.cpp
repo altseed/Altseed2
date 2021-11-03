@@ -358,6 +358,7 @@ TEST(Graphics, RenderedPolygon) {
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed2::Renderer::GetInstance()->DrawPolygon(polygon);
+
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
@@ -430,6 +431,7 @@ TEST(Graphics, RenderedIBPolygon) {
         EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
 
         Altseed2::Renderer::GetInstance()->DrawPolygon(polygon);
+
         Altseed2::Renderer::GetInstance()->Render();
 
         EXPECT_TRUE(instance->EndFrame());
@@ -493,6 +495,8 @@ TEST(Graphics, AlphaBlend) {
 
         Altseed2::Renderer::GetInstance()->DrawSprite(s1);
         Altseed2::Renderer::GetInstance()->DrawSprite(s2);
+
+        instance->GetCommandList()->SetRenderTarget(instance->GetCommandList()->GetScreenTexture(), renderPassParameter);
 
         Altseed2::Renderer::GetInstance()->Render();
 

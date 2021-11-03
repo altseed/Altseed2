@@ -465,6 +465,9 @@ define.classes.append({name})
         if _type == "char16_t *":
             return "ctypes.c_wchar_p"
 
+        if _type == "void *":
+            return "ctypes.c_void_p"
+
         if _type == "int":
             return "int"
         if _type == "int32_t":
@@ -535,10 +538,12 @@ headers = [
     'Common/BinaryReader.h',
     'Common/HashHelper.h',
     'Common/Profiler.h',
+    'Graphics/Buffer.h',
     'Graphics/BatchRenderer.h',
     'Graphics/BuiltinShader.h',
     'Graphics/Color.h',
     'Graphics/CommandList.h',
+    'Graphics/ComputePipelineState.h',
     'Graphics/Font.h',
     'Graphics/FrameDebugger.h',
     'Graphics/ImageFont.h',

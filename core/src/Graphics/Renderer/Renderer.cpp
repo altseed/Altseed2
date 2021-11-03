@@ -82,6 +82,9 @@ void Renderer::Render() {
         batchRenderer_->SetViewProjectionWithWindowsSize(Vector2I(w, h));
     }
 
+    Graphics::GetInstance()->GetCommandList()->PauseRenderPass();
+    batchRenderer_->UploadBuffer();
+    Graphics::GetInstance()->GetCommandList()->ResumeRenderPass();
     batchRenderer_->Render();
     batchRenderer_->ResetCache();
 }
