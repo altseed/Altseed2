@@ -127,8 +127,7 @@ void main(uint3 dtid : SV_DispatchThreadID)
         renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;
-        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
-        instance->GetCommandList()->PauseRenderPass();
+        instance->GetCommandList()->Begin();
 
         instance->GetCommandList()->UploadBuffer(read);
         
@@ -149,7 +148,9 @@ void main(uint3 dtid : SV_DispatchThreadID)
         instance->GetCommandList()->ReadbackBuffer(write);
         instance->GetCommandList()->ReadbackBuffer(write2);
 
-        EXPECT_TRUE(instance->EndFrame());
+        instance->GetCommandList()->End();
+        instance->ExecuteCommandList();
+        instance->WaitFinish();
 
         {
             auto data = (OutputData*)write->Read();
