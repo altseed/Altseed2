@@ -583,7 +583,7 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
 
         auto shader = material->GetShader(shaderStage);
         if (shader == nullptr || shader->GetUniformSize() == 0) {
-            return;
+            continue;
         }
 
         LLGI::Buffer* cb = nullptr;
