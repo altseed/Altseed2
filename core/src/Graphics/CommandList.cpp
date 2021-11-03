@@ -301,15 +301,20 @@ void CommandList::ResumeRenderPass() {
         return;
     }
 
-    if (isInRenderPass_ || currentRenderPass_ == nullptr) {
+    if (isInRenderPass_ || (currentRenderPass_ == nullptr && currentRenderPassLL_ == nullptr)) {
         Log::GetInstance()->Error(LogCategory::Core, u"CommandList::ResumeRenderPass: invalid CommandList state");
         return;
     }
 
-    currentRenderPass_->Stored->SetIsColorCleared(false);
-    currentRenderPass_->Stored->SetIsDepthCleared(false);
+    if (currentRenderPass_ != nullptr) {
+        currentRenderPass_->Stored->SetIsColorCleared(false);
+        currentRenderPass_->Stored->SetIsDepthCleared(false);
 
-    currentCommandList_->BeginRenderPass(currentRenderPass_->Stored.get());
+        currentCommandList_->BeginRenderPass(currentRenderPass_->Stored.get());
+    } else {
+        currentCommandList_->BeginRenderPass(currentRenderPassLL_);
+    }
+
     isInRenderPass_ = true;
 
     FrameDebugger::GetInstance()->BeginRenderPass();
@@ -518,8 +523,14 @@ void CommandList::StoreUniforms(
 
     cb->Unlock();
 
+    bool isPauseRenderPass = isInRenderPass_;
+
     commandList->GetLL()->SetConstantBuffer(cb, shaderStage);
+    if (isPauseRenderPass)
+        PauseRenderPass();
     commandList->GetLL()->UploadBuffer(cb);
+    if (isPauseRenderPass)
+        ResumeRenderPass();
 
     LLGI::SafeRelease(cb);
 }
@@ -596,8 +607,14 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
 
         cb->Unlock();
 
+        bool isPauseRenderPass = isInRenderPass_;
+
         GetLL()->SetConstantBuffer(cb, (LLGI::ShaderStageType)shaderStage);
+        if (isPauseRenderPass)
+            PauseRenderPass();
         GetLL()->UploadBuffer(cb);
+        if (isPauseRenderPass)
+            ResumeRenderPass();
 
         LLGI::SafeRelease(cb);
 
@@ -664,7 +681,9 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
             }
         }
 
+        EndComputePass();
         cb->Unlock();
+        BeginComputePass();
 
         GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
         GetLL()->UploadBuffer(cb);
@@ -699,6 +718,14 @@ void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_pt
     } else {
         currentCommandList_->CopyTexture(src->GetNativeTexture().get(), dst->GetNativeTexture().get());
     }
+}
+
+void CommandList::ResetTextures() {
+    currentCommandList_->ResetTextures();
+}
+
+void CommandList::ResetComputeBuffers() {
+    currentCommandList_->ResetComputeBuffer();
 }
 
 LLGI::SingleFrameMemoryPool* CommandList::GetMemoryPool() const { return memoryPool_.get(); }

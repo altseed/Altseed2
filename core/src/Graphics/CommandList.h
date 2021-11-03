@@ -88,9 +88,11 @@ public:
 
     void End();
 
+#if !USE_CBG
     void StartFrame(const RenderPassParameter& renderPassParameter);
 
     void EndFrame();
+#endif
 
     void SetScissor(const RectI& scissor);
 
@@ -161,9 +163,9 @@ public:
             std::shared_ptr<Shader> shader,
             LLGI::ShaderStageType shaderStage,
             std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection);
+#endif
 
     void Draw(int32_t instanceCount);
-#endif
 
     void SetVertexBuffer(std::shared_ptr<Buffer> vb, int32_t stride, int32_t offset);
     void SetIndexBuffer(std::shared_ptr<Buffer> ib, int32_t stride, int32_t offset);
@@ -177,6 +179,9 @@ public:
     void Dispatch(int32_t x, int32_t y, int32_t z);
 
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);
+
+    void ResetTextures();
+    void ResetComputeBuffers();
 
 #if !USE_CBG
 
