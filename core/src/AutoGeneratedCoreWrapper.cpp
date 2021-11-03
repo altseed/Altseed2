@@ -1253,19 +1253,6 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_End(void* cbg_self) {
     cbg_self_->End();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_StartFrame(void* cbg_self, Altseed2::RenderPassParameter_C renderPassParameter) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    Altseed2::RenderPassParameter_C cbg_arg0 = renderPassParameter;
-    cbg_self_->StartFrame(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_CommandList_EndFrame(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    cbg_self_->EndFrame();
-}
-
 CBGEXPORT void CBGSTDCALL cbg_CommandList_EndRenderPass(void* cbg_self) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 
@@ -1330,6 +1317,13 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_RenderToRenderTarget(void* cbg_self, v
     cbg_self_->RenderToRenderTarget(cbg_arg0);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_CommandList_Draw(void* cbg_self, int32_t instanceCount) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    int32_t cbg_arg0 = instanceCount;
+    cbg_self_->Draw(cbg_arg0);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_CommandList_SetVertexBuffer(void* cbg_self, void* vb, int32_t stride, int32_t offset) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 
@@ -1384,6 +1378,18 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_CopyTexture(void* cbg_self, void* src,
     std::shared_ptr<Altseed2::RenderTexture> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)src);
     std::shared_ptr<Altseed2::RenderTexture> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::RenderTexture>((Altseed2::RenderTexture*)dst);
     cbg_self_->CopyTexture(cbg_arg0, cbg_arg1);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_ResetTextures(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    cbg_self_->ResetTextures();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_ResetComputeBuffers(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    cbg_self_->ResetComputeBuffers();
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_SaveRenderTexture(void* cbg_self, const char16_t* path, void* texture) {
@@ -1861,10 +1867,8 @@ CBGEXPORT void CBGSTDCALL cbg_Profiler_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
-CBGEXPORT void* CBGSTDCALL cbg_ComputePipelineState_Create(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::ComputePipelineState*)(cbg_self);
-
-    std::shared_ptr<Altseed2::ComputePipelineState> cbg_ret = cbg_self_->Create();
+CBGEXPORT void* CBGSTDCALL cbg_ComputePipelineState_Create() {
+    std::shared_ptr<Altseed2::ComputePipelineState> cbg_ret = Altseed2::ComputePipelineState::Create();
     return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::ComputePipelineState>(cbg_ret);
 }
 

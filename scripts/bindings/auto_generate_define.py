@@ -1272,6 +1272,7 @@ with Texture2D as class_:
 define.classes.append(Texture2D)
 
 with Buffer as class_:
+    class_.is_public = False
     with class_.add_func('Create') as func_:
         func_.return_value.type_ = Buffer
         func_.is_static = True
@@ -1347,13 +1348,6 @@ with CommandList as class_:
     with class_.add_func('End') as func_:
         pass
 
-    with class_.add_func('StartFrame') as func_:
-        with func_.add_arg(RenderPassParameter, 'renderPassParameter') as arg:
-            pass
-
-    with class_.add_func('EndFrame') as func_:
-        pass
-
     with class_.add_func('EndRenderPass') as func_:
         pass
 
@@ -1393,6 +1387,10 @@ with CommandList as class_:
 
     with class_.add_func('RenderToRenderTarget') as func_:
         with func_.add_arg(Material, 'material') as arg:
+            pass
+
+    with class_.add_func('Draw') as func_:
+        with func_.add_arg(int, 'instanceCount') as arg:
             pass
 
     with class_.add_func('SetVertexBuffer') as func_:
@@ -1438,6 +1436,12 @@ with CommandList as class_:
             arg.nullable = False
         with func_.add_arg(RenderTexture, 'dst') as arg:
             arg.nullable = False
+
+    with class_.add_func('ResetTextures') as func_:
+        pass
+
+    with class_.add_func('ResetComputeBuffers') as func_:
+        pass
 
     with class_.add_func('SaveRenderTexture') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
