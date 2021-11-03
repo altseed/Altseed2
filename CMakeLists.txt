@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 if(CMAKE_GENERATOR STREQUAL Xcode)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "" FORCE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.14" CACHE STRING "" FORCE)
 endif()
 
 # solution name
