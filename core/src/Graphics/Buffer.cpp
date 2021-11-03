@@ -1,6 +1,7 @@
 #include "Buffer.h"
-#include "Graphics.h"
+
 #include "../Logger/Log.h"
+#include "Graphics.h"
 
 namespace Altseed2 {
 

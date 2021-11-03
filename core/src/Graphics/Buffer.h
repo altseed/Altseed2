@@ -6,7 +6,7 @@
 
 namespace Altseed2 {
 
-enum class BufferUsageType : int32_t{
+enum class BufferUsageType : int32_t {
     Index = 1 << 0,
     Vertex = 1 << 1,
     Constant = 1 << 2,

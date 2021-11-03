@@ -130,7 +130,7 @@ void main(uint3 dtid : SV_DispatchThreadID)
         instance->GetCommandList()->Begin();
 
         instance->GetCommandList()->UploadBuffer(read);
-        
+
         instance->GetCommandList()->BeginComputePass();
 
         instance->GetCommandList()->SetComputeBuffer(read, sizeof(InputData), 0);

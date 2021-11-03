@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include <LLGI.Base.h>
+#include <LLGI.Buffer.h>
 #include <LLGI.CommandList.h>
 #include <LLGI.Compiler.h>
-#include <LLGI.Buffer.h>
 #include <LLGI.Graphics.h>
 #include <LLGI.PipelineState.h>
 #include <LLGI.Platform.h>
@@ -18,12 +18,12 @@
 
 #include "../Math/Vector2F.h"
 #include "../Window/Window.h"
+#include "Buffer.h"
 #include "Color.h"
 #include "LLGIWindow.h"
 #include "Material.h"
 #include "Shader.h"
 #include "Texture2D.h"
-#include "Buffer.h"
 
 namespace Altseed2 {
 
@@ -106,7 +106,6 @@ public:
     LLGI::Graphics* GetGraphicsLLGI() const { return graphics_; }
     LLGI::Platform* GetLLGIPlatform() const { return platform_; }
 #endif
-
 
     std::shared_ptr<CommandList> GetCommandList() const { return commandList_; }
     std::shared_ptr<BuiltinShader> GetBuiltinShader() const { return BuiltinShader_; }

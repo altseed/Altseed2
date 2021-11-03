@@ -44,7 +44,6 @@ public:
 #if !USE_CBG
     std::shared_ptr<LLGI::PipelineState> GetPipelineState();
 #endif
-
 };
 
 }  // namespace Altseed2
