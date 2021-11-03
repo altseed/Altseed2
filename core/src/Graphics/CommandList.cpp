@@ -681,13 +681,13 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
             }
         }
 
-        EndComputePass();
         cb->Unlock();
-        BeginComputePass();
 
         GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
+        EndComputePass();
         GetLL()->UploadBuffer(cb);
-
+        BeginComputePass();
+        
         LLGI::SafeRelease(cb);
     }
 
