@@ -620,6 +620,9 @@
                     "is_public": false
                 }
             }
+        },
+        "Buffer": {
+            "is_public": false
         }
     }
 }
