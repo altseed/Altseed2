@@ -3,6 +3,7 @@
 #include <LLGI.Base.h>
 
 #include "../BaseObject.h"
+#include "../StdIntCBG.h"
 
 namespace Altseed2 {
 

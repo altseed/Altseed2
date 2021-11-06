@@ -685,6 +685,59 @@ CBGEXPORT void CBGSTDCALL cbg_Window_Release(void* cbg_self) {
     cbg_self_->Release();
 }
 
+CBGEXPORT void* CBGSTDCALL cbg_Buffer_Create(int32_t usage, int32_t size) {
+    Altseed2::BufferUsageType cbg_arg0 = (Altseed2::BufferUsageType)usage;
+    int32_t cbg_arg1 = size;
+    std::shared_ptr<Altseed2::Buffer> cbg_ret = Altseed2::Buffer::Create(cbg_arg0, cbg_arg1);
+    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Buffer>(cbg_ret);
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Buffer_Lock(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->Lock();
+    return cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Buffer_Unlock(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    cbg_self_->Unlock();
+}
+
+CBGEXPORT void* CBGSTDCALL cbg_Buffer_Read(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    void* cbg_ret = cbg_self_->Read();
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Buffer_GetSize(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    int32_t cbg_ret = cbg_self_->GetSize();
+    return cbg_ret;
+}
+
+CBGEXPORT int32_t CBGSTDCALL cbg_Buffer_GetBufferUsage(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    Altseed2::BufferUsageType cbg_ret = cbg_self_->GetBufferUsage();
+    return (int32_t)cbg_ret;
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Buffer_AddRef(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    cbg_self_->AddRef();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Buffer_Release(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
+
+    cbg_self_->Release();
+}
+
 CBGEXPORT void* CBGSTDCALL cbg_ShaderCompileResult_GetValue(void* cbg_self) {
     auto cbg_self_ = (Altseed2::ShaderCompileResult*)(cbg_self);
 
@@ -732,6 +785,13 @@ CBGEXPORT int32_t CBGSTDCALL cbg_Shader_GetUniformSize(void* cbg_self) {
 
     int32_t cbg_ret = cbg_self_->GetUniformSize();
     return cbg_ret;
+}
+
+CBGEXPORT Altseed2::Vector3I_C CBGSTDCALL cbg_Shader_GetNumThreads(void* cbg_self) {
+    auto cbg_self_ = (Altseed2::Shader*)(cbg_self);
+
+    Altseed2::Vector3I_C cbg_ret = cbg_self_->GetNumThreads();
+    return (cbg_ret);
 }
 
 CBGEXPORT const char16_t* CBGSTDCALL cbg_Shader_GetCode(void* cbg_self) {
@@ -1110,59 +1170,6 @@ CBGEXPORT void CBGSTDCALL cbg_Texture2D_AddRef(void* cbg_self) {
 
 CBGEXPORT void CBGSTDCALL cbg_Texture2D_Release(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Texture2D*)(cbg_self);
-
-    cbg_self_->Release();
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Buffer_Create(int32_t usage, int32_t size) {
-    Altseed2::BufferUsageType cbg_arg0 = (Altseed2::BufferUsageType)usage;
-    int32_t cbg_arg1 = size;
-    std::shared_ptr<Altseed2::Buffer> cbg_ret = Altseed2::Buffer::Create(cbg_arg0, cbg_arg1);
-    return (void*)Altseed2::AddAndGetSharedPtr<Altseed2::Buffer>(cbg_ret);
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Buffer_Lock(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    void* cbg_ret = cbg_self_->Lock();
-    return cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Buffer_Unlock(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    cbg_self_->Unlock();
-}
-
-CBGEXPORT void* CBGSTDCALL cbg_Buffer_Read(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    void* cbg_ret = cbg_self_->Read();
-    return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_Buffer_GetSize(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    int32_t cbg_ret = cbg_self_->GetSize();
-    return cbg_ret;
-}
-
-CBGEXPORT int32_t CBGSTDCALL cbg_Buffer_GetBufferUsage(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    Altseed2::BufferUsageType cbg_ret = cbg_self_->GetBufferUsage();
-    return (int32_t)cbg_ret;
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Buffer_AddRef(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
-
-    cbg_self_->AddRef();
-}
-
-CBGEXPORT void CBGSTDCALL cbg_Buffer_Release(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Buffer*)(cbg_self);
 
     cbg_self_->Release();
 }

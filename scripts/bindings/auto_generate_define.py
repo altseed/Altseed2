@@ -3,6 +3,14 @@ from .define import *
 import ctypes
 import sys
 
+BufferUsageType = cbg.Enum('Altseed2', 'BufferUsageType')
+with BufferUsageType as enum_:
+    enum_.add('Index', 1 << 0)
+    enum_.add('Vertex', 1 << 1)
+    enum_.add('Constant', 1 << 2)
+    enum_.add('Compute', 1 << 3)
+define.enums.append(BufferUsageType)
+
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
 with ShaderStageType as enum_:
     enum_.alias = "ShaderStage"
@@ -72,14 +80,6 @@ with BlendFuncType as enum_:
     enum_.add('DstColor', 8)
     enum_.add('OneMinusDstColor', 9)
 define.enums.append(BlendFuncType)
-
-BufferUsageType = cbg.Enum('Altseed2', 'BufferUsageType')
-with BufferUsageType as enum_:
-    enum_.add('Index', 1 << 0)
-    enum_.add('Vertex', 1 << 1)
-    enum_.add('Constant', 1 << 2)
-    enum_.add('Compute', 1 << 3)
-define.enums.append(BufferUsageType)
 
 GraphicsDeviceType = cbg.Enum('Altseed2', 'GraphicsDeviceType')
 with GraphicsDeviceType as enum_:
@@ -871,6 +871,7 @@ define.enums.append(ToolViewportFlags)
 
 Core = cbg.Class('Altseed2', 'Core')
 Window = cbg.Class('Altseed2', 'Window')
+Buffer = cbg.Class('Altseed2', 'Buffer')
 ShaderCompileResult = cbg.Class('Altseed2', 'ShaderCompileResult')
 Shader = cbg.Class('Altseed2', 'Shader')
 Resources = cbg.Class('Altseed2', 'Resources')
@@ -879,7 +880,6 @@ MaterialPropertyBlock = cbg.Class('Altseed2', 'MaterialPropertyBlock')
 MaterialPropertyBlockCollection = cbg.Class('Altseed2', 'MaterialPropertyBlockCollection')
 Material = cbg.Class('Altseed2', 'Material')
 Texture2D = cbg.Class('Altseed2', 'Texture2D')
-Buffer = cbg.Class('Altseed2', 'Buffer')
 Sprite = cbg.Class('Altseed2', 'Sprite')
 Camera = cbg.Class('Altseed2', 'Camera')
 BuiltinShader = cbg.Class('Altseed2', 'BuiltinShader')
@@ -997,6 +997,33 @@ with Window as class_:
         prop_.is_public = False
 define.classes.append(Window)
 
+with Buffer as class_:
+    class_.is_public = False
+    with class_.add_func('Create') as func_:
+        func_.return_value.type_ = Buffer
+        func_.is_static = True
+        with func_.add_arg(BufferUsageType, 'usage') as arg:
+            pass
+        with func_.add_arg(int, 'size') as arg:
+            pass
+
+    with class_.add_func('Lock') as func_:
+        func_.return_value.type_ = ctypes.c_void_p
+
+    with class_.add_func('Unlock') as func_:
+        pass
+
+    with class_.add_func('Read') as func_:
+        func_.return_value.type_ = ctypes.c_void_p
+
+    with class_.add_property(int, 'Size') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(BufferUsageType, 'BufferUsage') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+define.classes.append(Buffer)
+
 with ShaderCompileResult as class_:
     class_.is_public = False
     class_.SerializeType = cbg.SerializeType.Disable
@@ -1039,6 +1066,9 @@ with Shader as class_:
             pass
 
     with class_.add_property(int, 'UniformSize') as prop_:
+        prop_.has_getter = True
+        prop_.has_setter = False
+    with class_.add_property(Vector3I, 'NumThreads') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
     with class_.add_property(ctypes.c_wchar_p, 'Code') as prop_:
@@ -1270,33 +1300,6 @@ with Texture2D as class_:
         prop_.is_public = False
         prop_.serialized = True
 define.classes.append(Texture2D)
-
-with Buffer as class_:
-    class_.is_public = False
-    with class_.add_func('Create') as func_:
-        func_.return_value.type_ = Buffer
-        func_.is_static = True
-        with func_.add_arg(BufferUsageType, 'usage') as arg:
-            pass
-        with func_.add_arg(int, 'size') as arg:
-            pass
-
-    with class_.add_func('Lock') as func_:
-        func_.return_value.type_ = ctypes.c_void_p
-
-    with class_.add_func('Unlock') as func_:
-        pass
-
-    with class_.add_func('Read') as func_:
-        func_.return_value.type_ = ctypes.c_void_p
-
-    with class_.add_property(int, 'Size') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-    with class_.add_property(BufferUsageType, 'BufferUsage') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
-define.classes.append(Buffer)
 
 with BuiltinShader as class_:
     class_.is_Sealed = True

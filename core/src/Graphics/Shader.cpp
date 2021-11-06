@@ -9,9 +9,10 @@ Shader::Shader(
         std::u16string name,
         const std::vector<ShaderReflectionTexture>& textures,
         const std::vector<ShaderReflectionUniform>& uniforms,
+        Vector3I numThreads,
         std::shared_ptr<LLGI::Shader> shader,
         ShaderStageType stage)
-    : code_(code), name_(name), textures_(textures), uniforms_(uniforms), shader_(shader), stage_(stage) {
+    : code_(code), name_(name), textures_(textures), uniforms_(uniforms), shader_(shader), numThreads_(numThreads), stage_(stage) {
     for (const auto& u : uniforms_) {
         uniformSize_ = std::max(u.Offset + u.Size, uniformSize_);
     }

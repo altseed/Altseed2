@@ -33,6 +33,7 @@ private:
     std::u16string name_;
     std::vector<ShaderReflectionTexture> textures_;
     std::vector<ShaderReflectionUniform> uniforms_;
+    Vector3I numThreads_;
     int32_t uniformSize_ = 0;
 
     std::shared_ptr<LLGI::Shader> shader_ = nullptr;
@@ -50,6 +51,7 @@ public:
            std::u16string name,
            const std::vector<ShaderReflectionTexture>& textures,
            const std::vector<ShaderReflectionUniform>& uniforms,
+           Vector3I numThreads,
            std::shared_ptr<LLGI::Shader> shader,
            ShaderStageType stage);
 
@@ -59,10 +61,11 @@ public:
 
     const std::vector<ShaderReflectionTexture>& GetReflectionTextures() const { return textures_; }
     const std::vector<ShaderReflectionUniform>& GetReflectionUniforms() const { return uniforms_; }
-
     LLGI::Shader* Get() const { return shader_.get(); }
 
 #endif
+
+    const Vector3I GetNumThreads() { return numThreads_; }
 
     static std::shared_ptr<ShaderCompileResult> Compile(const char16_t* name, const char16_t* code, ShaderStageType shaderStage);
 

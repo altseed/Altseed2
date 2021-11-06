@@ -75,6 +75,8 @@ private:
     std::shared_ptr<LLGI::Texture> proxyTexture_;
     std::shared_ptr<MaterialPropertyBlockCollection> matPropBlockCollection_;
 
+    Vector3I numThreads_;
+
     bool isPresentScreenBufferDirectly_ = true;
 
     std::shared_ptr<RenderPass> CreateRenderPass(std::shared_ptr<RenderTexture> target);

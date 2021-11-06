@@ -121,6 +121,7 @@ std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, c
 
     std::vector<ShaderReflectionTexture> textures;
     std::vector<ShaderReflectionUniform> uniforms;
+    Vector3I numThreads;
 
     for (auto& t : spirvReflection_->Textures) {
         auto _ = ShaderReflectionTexture{utf8_to_utf16(t.Name), t.Offset};
@@ -132,11 +133,16 @@ std::shared_ptr<ShaderCompileResult> ShaderCompiler::Compile(const char* path, c
         uniforms.emplace_back(_);
     }
 
+    numThreads.X = spirvReflection_->NumThreads.X;
+    numThreads.Y = spirvReflection_->NumThreads.Y;
+    numThreads.Z = spirvReflection_->NumThreads.Z;
+
     auto shader = MakeAsdShared<Shader>(
             utf8_to_utf16(code),
             utf8_to_utf16(name),
             textures,
             uniforms,
+            numThreads,
             shaderLLGI,
             shaderStage);
     return MakeAsdShared<ShaderCompileResult>(shader, utf8_to_utf16(result.Message));

@@ -160,6 +160,8 @@ void CommandList::Begin() {
     memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
     currentCommandList_->Begin();
+    
+    numThreads_ = Vector3I(1, 1, 1);
 }
 
 void CommandList::End() {
@@ -691,12 +693,14 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
         LLGI::SafeRelease(cb);
     }
 
+    numThreads_ = shader->GetNumThreads();
+
     // pipeline state
     GetLL()->SetPipelineState(computePipelineState->GetPipelineState().get());
 }
 
 void CommandList::Dispatch(int32_t x, int32_t y, int32_t z) {
-    GetLL()->Dispatch(x, y, z);
+    GetLL()->Dispatch(x, y, z, numThreads_.X, numThreads_.Y, numThreads_.Z);
 }
 
 void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst) {
