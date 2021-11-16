@@ -3,13 +3,50 @@ import re
 
 import sys
 import os
+import argparse
+import platform
+
 os.chdir(os.path.dirname(__file__))
 
-if len(sys.argv) == 2:
-    Config.set_library_path(sys.argv[1])
+aparser = argparse.ArgumentParser()
+pf = platform.system()
+
+default_llvm_path = './'
+if pf == 'Windows':
+    default_llvm_path = r'C:/Program Files/LLVM/bin/'
+
+aparser.add_argument('--clang', default=default_llvm_path,
+                     help='a path to a directory which contains libclang.dll (Windows, Linux)')
+aparser.add_argument('--xcode', default='/Applications/Xcode.app/',
+                     help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
+aparser.add_argument('--clang-file', default=None,
+                     help='a path to libclang binary (All Environment)')
+
+args = aparser.parse_args()
+
+options = ['-x', 'c++-header', "-std=c++17", '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS', '-D__cplusplus']
+
+if pf == 'Darwin':
+    xcode_path = args.xcode + 'Contents/Frameworks/'
+    xcode_include_path = args.xcode + \
+        'Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/'
+    if not os.path.exists(xcode_path):
+        print(f'Not found {xcode_path}')
+        sys.exit(1)
+
+    if not os.path.exists(xcode_include_path):
+        print(f'Not found {xcode_include_path}')
+        sys.exit(1)
+
+    options.extend(['-I', xcode_include_path])
+
+if args.clang_file:
+    Config.set_library_file(args.clang_file)
+else:
+    Config.set_library_path(args.clang)
 
 translation_unit = Index.create().parse(
-    '../thirdparty/imgui/imgui.h', ['-x', 'c++-header', "-std=c++17", '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS', '-D__cplusplus'])
+    '../thirdparty/imgui/imgui.h', options)
 
 exclude_funcs = [
     "NewFrame", "EndFrame", "Render", "Combo"

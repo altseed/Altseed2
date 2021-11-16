@@ -43,3 +43,4 @@ build_clang_format
 
 #Python
 __pycache__
+*.pyc

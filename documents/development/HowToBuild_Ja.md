@@ -55,6 +55,18 @@ git submodule update --init
 
 ## Wrapper生成
 
+### Dockerを使用する(推奨)
+
+`docker` と　`docker-compose`をインストールしてください．
+
+以下コマンドを実行します．
+```
+docker-compose build
+docker-compose up
+```
+
+### Dockerを使用しない
+
 まず、ヘッダファイルからCBG定義を出力するために 下記のコマンドを実行します。
 
 ```

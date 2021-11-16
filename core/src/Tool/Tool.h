@@ -898,27 +898,27 @@ public:
 
     void Text(const char16_t* fmt);
 
-    // void (const char *, va_list) TextV
+    // void (const char *, __va_list_tag *) TextV
 
     void TextColored(Vector4F col, const char16_t* fmt);
 
-    // void (const ImVec4 &, const char *, va_list) TextColoredV
+    // void (const ImVec4 &, const char *, __va_list_tag *) TextColoredV
 
     void TextDisabled(const char16_t* fmt);
 
-    // void (const char *, va_list) TextDisabledV
+    // void (const char *, __va_list_tag *) TextDisabledV
 
     void TextWrapped(const char16_t* fmt);
 
-    // void (const char *, va_list) TextWrappedV
+    // void (const char *, __va_list_tag *) TextWrappedV
 
     void LabelText(const char16_t* label, const char16_t* fmt);
 
-    // void (const char *, const char *, va_list) LabelTextV
+    // void (const char *, const char *, __va_list_tag *) LabelTextV
 
     void BulletText(const char16_t* fmt);
 
-    // void (const char *, va_list) BulletTextV
+    // void (const char *, __va_list_tag *) BulletTextV
 
     bool Button(const char16_t* label, Vector2F size = Vector2F ( 0 , 0 ));
 
@@ -1046,9 +1046,9 @@ public:
 
     // bool (const void *, const char *, ...) TreeNode
 
-    // bool (const char *, const char *, va_list) TreeNodeV
+    // bool (const char *, const char *, __va_list_tag *) TreeNodeV
 
-    // bool (const void *, const char *, va_list) TreeNodeV
+    // bool (const void *, const char *, __va_list_tag *) TreeNodeV
 
     bool TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags = (ToolTreeNodeFlags)0);
 
@@ -1056,9 +1056,9 @@ public:
 
     // bool (const void *, ImGuiTreeNodeFlags, const char *, ...) TreeNodeEx
 
-    // bool (const char *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+    // bool (const char *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
 
-    // bool (const void *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+    // bool (const void *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
 
     void TreePush(const char16_t* str_id);
 
@@ -1126,7 +1126,7 @@ public:
 
     void SetTooltip(const char16_t* fmt);
 
-    // void (const char *, va_list) SetTooltipV
+    // void (const char *, __va_list_tag *) SetTooltipV
 
     bool BeginPopup(const char16_t* str_id, ToolWindowFlags flags = (ToolWindowFlags)0);
 

@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  altseed2:
+    build: .
+    command: ./scripts/docker-entrypoint.sh
+    volumes:
+      - .:/home/src
+    ports:
+      - 3000:3000

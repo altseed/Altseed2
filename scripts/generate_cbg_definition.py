@@ -627,6 +627,9 @@ aparser.add_argument('--clang', default=default_llvm_path,
                      help='a path to a directory which contains libclang.dll (Windows, Linux)')
 aparser.add_argument('--xcode', default='/Applications/Xcode.app/',
                      help='a path to a directory which contains xcode like /Applications/Xcode.app/ (MacOSX)')
+aparser.add_argument('--clang-file', default=None,
+                     help='a path to libclang binary (All Environment)')
+
 args = aparser.parse_args()
 
 options = ['-x', 'c++-header', "-std=c++17", "-DUSE_CBG"]
@@ -644,9 +647,10 @@ if pf == 'Darwin':
         print(f'Not found {xcode_include_path}')
         sys.exit(1)
 
-    Config.set_library_path(xcode_path)
     options.extend(['-I', xcode_include_path])
-
+    
+if args.clang_file:
+    Config.set_library_file(args.clang_file)
 else:
     Config.set_library_path(args.clang)
 
