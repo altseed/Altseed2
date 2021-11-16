@@ -160,7 +160,7 @@ void CommandList::Begin() {
     memoryPool_->NewFrame();
     currentCommandList_ = commandListPool_->Get();
     currentCommandList_->Begin();
-    
+
     numThreads_ = Vector3I(1, 1, 1);
 }
 
