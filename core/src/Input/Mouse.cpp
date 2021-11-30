@@ -74,6 +74,26 @@ ButtonState Mouse::GetMouseButtonState(MouseButton button) const {
     return static_cast<ButtonState>((currentState_[index] ? 1 : 0) | (oldState_[index] ? 2 : 0));
 }
 
+void Mouse::SetMouseButtonState(MouseButton button, ButtonState state) {
+    int index = (int32_t)button;
+
+    ASD_ASSERT(0 <= index && index < currentState_.size(), "Invalid Button.");
+
+    if (state == ButtonState::Free) {
+        currentState_[index] = false;
+        oldState_[index] = false;
+    } else if (state == ButtonState::Push) {
+        currentState_[index] = true;
+        oldState_[index] = false;
+    } else if (state == ButtonState::Release) {
+        currentState_[index] = false;
+        oldState_[index] = true;
+    } else if (state == ButtonState::Hold) {
+        currentState_[index] = true;
+        oldState_[index] = true;
+    }
+}
+
 void Mouse::SetCursorMode(CursorMode mode) {
     auto w = window_->GetNativeWindow();
     int index = (int32_t)mode;
