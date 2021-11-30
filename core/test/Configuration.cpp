@@ -20,7 +20,7 @@ TEST(Configuration, Initialize) {
 
     auto coreModuels = Altseed2::CoreModules::Graphics;
 
-    //config->SetIsFullscreen(true);
+    // config->SetIsFullscreen(true);
     config->SetIsResizable(true);
     config->SetConsoleLoggingEnabled(true);
     config->SetFileLoggingEnabled(true);
@@ -28,7 +28,7 @@ TEST(Configuration, Initialize) {
     config->SetLogFileName(u"Log-configtest.txt");
     config->SetToolSettingFileName(u"toolsettinggilename-configtest.ini");
 
-    //EXPECT_EQ(config->GetIsFullscreen(), true);
+    // EXPECT_EQ(config->GetIsFullscreen(), true);
     EXPECT_EQ(config->GetIsResizable(), true);
     EXPECT_EQ(config->GetConsoleLoggingEnabled(), true);
     EXPECT_EQ(config->GetFileLoggingEnabled(), true);

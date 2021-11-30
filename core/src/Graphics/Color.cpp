@@ -1,4 +1,5 @@
 ﻿#include "Color.h"
+
 #include "Graphics.h"
 
 namespace Altseed2 {

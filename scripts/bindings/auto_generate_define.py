@@ -2459,6 +2459,12 @@ with Mouse as class_:
         with func_.add_arg(MouseButton, 'button') as arg:
             pass
 
+    with class_.add_func('SetMouseButtonState') as func_:
+        with func_.add_arg(MouseButton, 'button') as arg:
+            pass
+        with func_.add_arg(ButtonState, 'state') as arg:
+            pass
+
     with class_.add_property(Vector2F, 'Position') as prop_:
         prop_.has_getter = True
         prop_.has_setter = True

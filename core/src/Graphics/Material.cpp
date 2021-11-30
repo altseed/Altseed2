@@ -239,7 +239,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
 
     // Transpiled
     /*
-	piplineState->VertexLayoutNames[0] = "POSITION";
+        piplineState->VertexLayoutNames[0] = "POSITION";
     piplineState->VertexLayoutNames[1] = "COLOR";
     piplineState->VertexLayoutNames[2] = "UV";
     piplineState->VertexLayoutNames[3] = "UV";
@@ -247,7 +247,7 @@ std::shared_ptr<LLGI::PipelineState> Material::GetPipelineState(LLGI::RenderPass
     piplineState->VertexLayoutSemantics[1] = 0;
     piplineState->VertexLayoutSemantics[2] = 0;
     piplineState->VertexLayoutSemantics[3] = 1;
-	*/
+        */
     piplineState->VertexLayoutCount = 4;
 
     piplineState->IsBlendEnabled = alphaBlend_.IsBlendEnabled;

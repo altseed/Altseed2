@@ -889,9 +889,9 @@ VS_OUTPUT main(VS_INPUT input){
     auto material = Altseed2::MakeAsdShared<Altseed2::Material>();
     auto vs = Altseed2::ShaderCompiler::GetInstance()->Compile("", "VS", vsCode, Altseed2::ShaderStageType::Vertex)->GetValue();
     EXPECT_TRUE(vs != nullptr);
-    //auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
+    // auto ps = Altseed2::ShaderCompiler::GetInstance()->Compile("PS", psCode, Altseed2::ShaderStageType::Pixel);
     material->SetShader(vs);
-    //material->SetShader(ps);
+    // material->SetShader(ps);
     material->SetTexture(u"vtfTex", t1);
     sprite->SetMaterial(material);
 

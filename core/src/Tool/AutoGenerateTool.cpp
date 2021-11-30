@@ -1,9 +1,8 @@
-﻿#include "Tool.h"
-
-#include <nfd.h>
+﻿#include <nfd.h>
 
 #include "../Common/StringHelper.h"
 #include "Platform/ImGuiPlatform.h"
+#include "Tool.h"
 #ifdef _WIN32
 #include "Platform/ImGuiPlatformDX12.h"
 #elif __APPLE__
@@ -21,8 +20,8 @@
 #include "../IO/File.h"
 #include "../IO/StaticFile.h"
 #include "../Logger/Log.h"
-#include "../System/SynchronizationContext.h"
 #include "../Math/Vector4F.h"
+#include "../System/SynchronizationContext.h"
 
 namespace Altseed2 {
 
@@ -1340,4 +1339,4 @@ void Tool::DestroyPlatformWindows() {
 
 // ImGuiViewport *(void *) FindViewportByPlatformHandle
 
-}
+}  // namespace Altseed2
