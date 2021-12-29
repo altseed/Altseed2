@@ -9,6 +9,8 @@
 
 #include "ImGuiPlatform.h"
 
+#undef CreateFont
+
 #if !USE_CBG
 
 class ImguiPlatformDX12 : public ImguiPlatform {

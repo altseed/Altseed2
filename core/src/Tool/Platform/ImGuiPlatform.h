@@ -7,6 +7,8 @@
 
 #if !USE_CBG
 
+#undef CreateFont
+
 class ImguiPlatform {
 public:
     ImguiPlatform() = default;
