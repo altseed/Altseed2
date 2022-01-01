@@ -3083,6 +3083,26 @@ with Tool as class_:
         with func_.add_arg(ctypes.c_wchar_p, 'defaultPath') as arg:
             arg.nullable = False
 
+    with class_.add_func('SetDragDropPayload') as func_:
+        func_.return_value.type_ = bool
+        func_.is_public = False
+        with func_.add_arg(ctypes.c_wchar_p, 'type') as arg:
+            arg.nullable = False
+        with func_.add_arg(Int8Array, 'data') as arg:
+            pass
+        with func_.add_arg(ToolCond, 'cond') as arg:
+            pass
+
+    with class_.add_func('AcceptDragDropPayload') as func_:
+        func_.return_value.type_ = bool
+        func_.is_public = False
+        with func_.add_arg(ctypes.c_wchar_p, 'type') as arg:
+            arg.nullable = False
+        with func_.add_arg(ToolDragDropFlags, 'dragDropFlags') as arg:
+            pass
+        with func_.add_arg(Int8Array, 'result') as arg:
+            pass
+
     with class_.add_func('ShowDemoWindow') as func_:
         with func_.add_arg(bool, 'p_open') as arg:
             arg.called_by = cbg.ArgCalledBy.Ref
