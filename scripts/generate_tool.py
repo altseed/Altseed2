@@ -447,6 +447,10 @@ public:
     const char16_t* SaveDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* PickFolder(const char16_t* defaultPath);
+
+    bool SetDragDropPayload(const char16_t* type, std::shared_ptr<Int8Array> data, ToolCond cond);
+
+    bool AcceptDragDropPayload(const char16_t* type, ToolDragDropFlags dragDropFlags, std::shared_ptr<Int8Array> result);
 """
 
     for child in cursor.get_children():

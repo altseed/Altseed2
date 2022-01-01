@@ -650,6 +650,10 @@ public:
     const char16_t* SaveDialog(const char16_t* filter, const char16_t* defaultPath);
 
     const char16_t* PickFolder(const char16_t* defaultPath);
+
+    bool SetDragDropPayload(const char16_t* type, std::shared_ptr<Int8Array> data, ToolCond cond);
+
+    bool AcceptDragDropPayload(const char16_t* type, ToolDragDropFlags dragDropFlags, std::shared_ptr<Int8Array> result);
     // ImGuiContext *(ImFontAtlas *) CreateContext
 
     // void (ImGuiContext *) DestroyContext
@@ -898,27 +902,27 @@ public:
 
     void Text(const char16_t* fmt);
 
-    // void (const char *, __va_list_tag *) TextV
+    // void (const char *, va_list) TextV
 
     void TextColored(Vector4F col, const char16_t* fmt);
 
-    // void (const ImVec4 &, const char *, __va_list_tag *) TextColoredV
+    // void (const ImVec4 &, const char *, va_list) TextColoredV
 
     void TextDisabled(const char16_t* fmt);
 
-    // void (const char *, __va_list_tag *) TextDisabledV
+    // void (const char *, va_list) TextDisabledV
 
     void TextWrapped(const char16_t* fmt);
 
-    // void (const char *, __va_list_tag *) TextWrappedV
+    // void (const char *, va_list) TextWrappedV
 
     void LabelText(const char16_t* label, const char16_t* fmt);
 
-    // void (const char *, const char *, __va_list_tag *) LabelTextV
+    // void (const char *, const char *, va_list) LabelTextV
 
     void BulletText(const char16_t* fmt);
 
-    // void (const char *, __va_list_tag *) BulletTextV
+    // void (const char *, va_list) BulletTextV
 
     bool Button(const char16_t* label, Vector2F size = Vector2F(0, 0));
 
@@ -1046,9 +1050,9 @@ public:
 
     // bool (const void *, const char *, ...) TreeNode
 
-    // bool (const char *, const char *, __va_list_tag *) TreeNodeV
+    // bool (const char *, const char *, va_list) TreeNodeV
 
-    // bool (const void *, const char *, __va_list_tag *) TreeNodeV
+    // bool (const void *, const char *, va_list) TreeNodeV
 
     bool TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags = (ToolTreeNodeFlags)0);
 
@@ -1056,9 +1060,9 @@ public:
 
     // bool (const void *, ImGuiTreeNodeFlags, const char *, ...) TreeNodeEx
 
-    // bool (const char *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
+    // bool (const char *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
 
-    // bool (const void *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
+    // bool (const void *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
 
     void TreePush(const char16_t* str_id);
 
@@ -1126,7 +1130,7 @@ public:
 
     void SetTooltip(const char16_t* fmt);
 
-    // void (const char *, __va_list_tag *) SetTooltipV
+    // void (const char *, va_list) SetTooltipV
 
     bool BeginPopup(const char16_t* str_id, ToolWindowFlags flags = (ToolWindowFlags)0);
 

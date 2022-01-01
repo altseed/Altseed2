@@ -598,4 +598,17 @@ const char16_t* Tool::PickFolder(const char16_t* defaultPath) {
     return nullptr;
 }
 
+bool Tool::SetDragDropPayload(const char16_t* type, std::shared_ptr<Int8Array> data, ToolCond cond) {
+    return ImGui::SetDragDropPayload(utf16_to_utf8(type).c_str(), data->GetData(), data->GetCount(), static_cast<ImGuiCond>(cond));
+}
+
+bool Tool::AcceptDragDropPayload(const char16_t* type, ToolDragDropFlags dragDropFlags, std::shared_ptr<Int8Array> result) {
+    const auto payload = ImGui::AcceptDragDropPayload(utf16_to_utf8(type).c_str(), static_cast<ImGuiDragDropFlags>(dragDropFlags));
+    if (payload == nullptr) {
+        return false;
+    }
+
+    return true;
+}
+
 }  // namespace Altseed2
