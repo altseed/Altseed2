@@ -1419,6 +1419,7 @@ with CommandList as class_:
             pass
 
     with class_.add_func('SetMaterialWithConstantBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(Material, 'material') as arg:
             pass
         with func_.add_arg(Buffer, 'constantBuffer') as arg:
@@ -1442,6 +1443,7 @@ with CommandList as class_:
             pass
 
     with class_.add_func('SetComputePipelineStateWithConstantBuffer') as func_:
+        func_.is_public = False
         with func_.add_arg(ComputePipelineState, 'computePipelineState') as arg:
             pass
         with func_.add_arg(Buffer, 'constantBuffer') as arg:

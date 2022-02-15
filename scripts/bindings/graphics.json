@@ -281,6 +281,12 @@
                 },
                 "SetComputeBuffer": {
                     "is_public": false
+                },
+                "SetMaterialWithConstantBuffer": {
+                    "is_public": false
+                },
+                "SetComputePipelineStateWithConstantBuffer": {
+                    "is_public": false
                 }
             }
         },
