@@ -131,6 +131,14 @@ void Graphics::WaitFinish() {
     graphics_->WaitFinish();
 }
 
+void Graphics::ExecuteCommandList(std::shared_ptr<CommandList> commandList) {
+    graphics_->Execute(commandList->GetLL());
+}
+
+void Graphics::WaitFinish(std::shared_ptr<CommandList> commandList) {
+    commandList->GetLL()->WaitUntilCompleted();
+}
+
 LLGI::RenderPass* Graphics::GetCurrentScreen(const LLGI::Color8& clearColor, bool isColorCleared, bool isDepthCleared) {
     return instance->platform_->GetCurrentScreen(clearColor, isColorCleared, isDepthCleared);
 }

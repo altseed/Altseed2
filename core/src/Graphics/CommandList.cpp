@@ -641,6 +641,50 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
     }
 }
 
+void CommandList::SetMaterialWithConstantBuffer(std::shared_ptr<Material> material, std::shared_ptr<Buffer> constantBuffer) {
+    if (!isInRenderPass_) {
+        Log::GetInstance()->Error(LogCategory::Core, u"CommandList::SetMaterial: This function must be called in Frame.");
+        return;
+    }
+
+    // pipeline state
+    GetLL()->SetPipelineState(material->GetPipelineState(GetCurrentRenderPass()).get());
+
+    for (int i = 0; i < 2; i++) {
+        auto shaderStage = static_cast<ShaderStageType>(i);
+
+        auto shader = material->GetShader(shaderStage);
+        if (shader == nullptr || shader->GetUniformSize() == 0) {
+            continue;
+        }
+
+        GetLL()->SetConstantBuffer(constantBuffer->GetLL().get(), (LLGI::ShaderStageType)shaderStage);
+
+        for (const auto& info : shader->GetReflectionTextures()) {
+            auto v = material->GetPropertyBlock()->GetTexture(info.Name.c_str());
+
+            if (v.get() == nullptr) {
+                GetLL()->SetTexture(
+                        proxyTexture_.get(),
+                        static_cast<LLGI::TextureWrapMode>(TextureWrapMode::Clamp),
+                        static_cast<LLGI::TextureMinMagFilter>(TextureFilterType::Linear),
+                        info.Offset,
+                        (LLGI::ShaderStageType)shaderStage);
+                FrameDebugger::GetInstance()->Texture(shader->GetStageType(), u"proxyTexture_");
+
+            } else {
+                GetLL()->SetTexture(
+                        v->GetNativeTexture().get(),
+                        static_cast<LLGI::TextureWrapMode>(v->GetWrapMode()),
+                        static_cast<LLGI::TextureMinMagFilter>(v->GetFilterType()),
+                        info.Offset,
+                        (LLGI::ShaderStageType)shaderStage);
+                FrameDebugger::GetInstance()->Texture(shader->GetStageType(), v->GetInstanceName());
+            }
+        }
+    }
+}
+
 void CommandList::BeginComputePass() {
     GetLL()->BeginComputePass();
 }
@@ -714,6 +758,19 @@ void CommandList::CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_pt
     } else {
         currentCommandList_->CopyTexture(src->GetNativeTexture().get(), dst->GetNativeTexture().get());
     }
+}
+
+void CommandList::SetComputePipelineStateWithConstantBuffer(std::shared_ptr<ComputePipelineState> computePipelineState, std::shared_ptr<Buffer> constantBuffer) {
+    auto shader = computePipelineState->GetShader();
+
+    if (shader != nullptr && shader->GetUniformSize() != 0) {
+        GetLL()->SetConstantBuffer(constantBuffer->GetLL().get(), LLGI::ShaderStageType::Compute);
+    }
+
+    numThreads_ = shader->GetNumThreads();
+
+    // pipeline state
+    GetLL()->SetPipelineState(computePipelineState->GetPipelineState().get());
 }
 
 void CommandList::ResetTextures() {
