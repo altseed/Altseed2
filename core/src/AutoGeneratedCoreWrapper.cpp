@@ -1341,6 +1341,14 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetIndexBuffer(void* cbg_self, void* i
     cbg_self_->SetIndexBuffer(cbg_arg0, cbg_arg1, cbg_arg2);
 }
 
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetMaterialWithConstantBuffer(void* cbg_self, void* material, void* constantBuffer) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed2::Material> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Material>((Altseed2::Material*)material);
+    std::shared_ptr<Altseed2::Buffer> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)constantBuffer);
+    cbg_self_->SetMaterialWithConstantBuffer(cbg_arg0, cbg_arg1);
+}
+
 CBGEXPORT void CBGSTDCALL cbg_CommandList_BeginComputePass(void* cbg_self) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 
@@ -1361,6 +1369,14 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputeBuffer(void* cbg_self, void*
     int32_t cbg_arg2 = unit;
     Altseed2::ShaderStageType cbg_arg3 = (Altseed2::ShaderStageType)shaderStage;
     cbg_self_->SetComputeBuffer(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputePipelineStateWithConstantBuffer(void* cbg_self, void* computePipelineState, void* constantBuffer) {
+    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
+
+    std::shared_ptr<Altseed2::ComputePipelineState> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::ComputePipelineState>((Altseed2::ComputePipelineState*)computePipelineState);
+    std::shared_ptr<Altseed2::Buffer> cbg_arg1 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)constantBuffer);
+    cbg_self_->SetComputePipelineStateWithConstantBuffer(cbg_arg0, cbg_arg1);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_Dispatch(void* cbg_self, int32_t x, int32_t y, int32_t z) {
@@ -1485,16 +1501,30 @@ CBGEXPORT void CBGSTDCALL cbg_Graphics_Terminate() {
     Altseed2::Graphics::Terminate();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Graphics_ExecuteCommandList(void* cbg_self) {
+CBGEXPORT void CBGSTDCALL cbg_Graphics_ExecuteCommandList_(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Graphics*)(cbg_self);
 
     cbg_self_->ExecuteCommandList();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_Graphics_WaitFinish(void* cbg_self) {
+CBGEXPORT void CBGSTDCALL cbg_Graphics_ExecuteCommandList_CommandList(void* cbg_self, void* commandList) {
+    auto cbg_self_ = (Altseed2::Graphics*)(cbg_self);
+
+    std::shared_ptr<Altseed2::CommandList> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::CommandList>((Altseed2::CommandList*)commandList);
+    cbg_self_->ExecuteCommandList(cbg_arg0);
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Graphics_WaitFinish_(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Graphics*)(cbg_self);
 
     cbg_self_->WaitFinish();
+}
+
+CBGEXPORT void CBGSTDCALL cbg_Graphics_WaitFinish_CommandList(void* cbg_self, void* commandList) {
+    auto cbg_self_ = (Altseed2::Graphics*)(cbg_self);
+
+    std::shared_ptr<Altseed2::CommandList> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::CommandList>((Altseed2::CommandList*)commandList);
+    cbg_self_->WaitFinish(cbg_arg0);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_Graphics_SaveScreenshot(void* cbg_self, const char16_t* path) {
