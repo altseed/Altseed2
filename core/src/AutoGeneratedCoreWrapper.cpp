@@ -1353,13 +1353,14 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_EndComputePass(void* cbg_self) {
     cbg_self_->EndComputePass();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputeBuffer(void* cbg_self, void* buffer, int32_t stride, int32_t unit) {
+CBGEXPORT void CBGSTDCALL cbg_CommandList_SetComputeBuffer(void* cbg_self, void* buffer, int32_t stride, int32_t unit, int32_t shaderStage) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 
     std::shared_ptr<Altseed2::Buffer> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)buffer);
     int32_t cbg_arg1 = stride;
     int32_t cbg_arg2 = unit;
-    cbg_self_->SetComputeBuffer(cbg_arg0, cbg_arg1, cbg_arg2);
+    Altseed2::ShaderStageType cbg_arg3 = (Altseed2::ShaderStageType)shaderStage;
+    cbg_self_->SetComputeBuffer(cbg_arg0, cbg_arg1, cbg_arg2, cbg_arg3);
 }
 
 CBGEXPORT void CBGSTDCALL cbg_CommandList_Dispatch(void* cbg_self, int32_t x, int32_t y, int32_t z) {

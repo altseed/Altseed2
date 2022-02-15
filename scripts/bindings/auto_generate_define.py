@@ -1432,6 +1432,8 @@ with CommandList as class_:
             pass
         with func_.add_arg(int, 'unit') as arg:
             pass
+        with func_.add_arg(ShaderStageType, 'shaderStage') as arg:
+            pass
 
     with class_.add_func('Dispatch') as func_:
         with func_.add_arg(int, 'x') as arg:
