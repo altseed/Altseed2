@@ -176,7 +176,7 @@ public:
     void BeginComputePass();
     void EndComputePass();
 
-    void SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit);
+    void SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit, ShaderStageType shaderStage = ShaderStageType::Compute);
     void SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState);
     void Dispatch(int32_t x, int32_t y, int32_t z);
 

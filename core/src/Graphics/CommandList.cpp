@@ -649,8 +649,8 @@ void CommandList::EndComputePass() {
     GetLL()->EndComputePass();
 }
 
-void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit) {
-    GetLL()->SetComputeBuffer(buffer->GetLL().get(), stride, unit, LLGI::ShaderStageType::Compute);
+void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit, ShaderStageType shaderStage) {
+    GetLL()->SetComputeBuffer(buffer->GetLL().get(), stride, unit, (LLGI::ShaderStageType)shaderStage);
 }
 
 void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState) {
