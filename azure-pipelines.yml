@@ -107,7 +107,7 @@ jobs:
 
   - job: MacOS
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: 'macOS-10.15'
     steps:
       - task: PowerShell@2
         inputs:
