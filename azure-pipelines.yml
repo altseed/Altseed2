@@ -24,7 +24,7 @@ jobs:
 
       - task: CMake@1
         inputs:
-          cmakeArgs: '.. -G "Visual Studio 15 2017" -A x64 -DBUILD_TEST=ON'
+          cmakeArgs: '.. -G "Visual Studio 16 2019" -A x64 -DBUILD_TEST=ON'
 
       - task: CMake@1
         inputs:
