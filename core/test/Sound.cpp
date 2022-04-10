@@ -57,9 +57,9 @@ TEST(Sound, SoundLoop) {
     clock_t start = clock();
 
     while (asd::Core::GetInstance()->DoEvent() && mixer->GetIsPlaying(id_bgm)) {
-        double time = (clock() - start) * 0.01;
+        double time = (clock() - start) / CLOCKS_PER_SEC;
 
-        if (time > 5000) mixer->Stop(id_bgm);
+        if (time > 5) mixer->Stop(id_bgm);
     }
 
     asd::Core::Terminate();
