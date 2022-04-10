@@ -33,25 +33,24 @@
 #endif
 #endif
 
-
 #include "BaseObject.h"
 #include "Common/Array.h"
+#include "Common/Profiler.h"
 #include "Common/Resource.h"
 #include "Common/ResourceContainer.h"
 #include "Common/Resources.h"
-#include "Common/Profiler.h"
 #include "Core.h"
 #include "Graphics/BuiltinShader.h"
 #include "Graphics/CommandList.h"
 #include "Graphics/Font.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/ImageFont.h"
-#include "Graphics/Renderer/RenderedText.h"
-#include "Graphics/Renderer/RenderedCamera.h"
-#include "Graphics/Renderer/RenderedSprite.h"
-#include "Graphics/Renderer/RenderedPolygon.h"
-#include "Graphics/Renderer/Renderer.h"
 #include "Graphics/RenderTexture.h"
+#include "Graphics/Renderer/RenderedCamera.h"
+#include "Graphics/Renderer/RenderedPolygon.h"
+#include "Graphics/Renderer/RenderedSprite.h"
+#include "Graphics/Renderer/RenderedText.h"
+#include "Graphics/Renderer/Renderer.h"
 #include "Graphics/ShaderCompiler/ShaderCompiler.h"
 #include "Graphics/Texture2D.h"
 #include "IO/BaseFileReader.h"
@@ -67,8 +66,8 @@
 #include "Input/Mouse.h"
 #include "Logger/Log.h"
 #include "Media/MediaPlayer.h"
-#include "Physics/Collider/Collider.h"
 #include "Physics/Collider/CircleCollider.h"
+#include "Physics/Collider/Collider.h"
 #include "Physics/Collider/EdgeCollider.h"
 #include "Physics/Collider/PolygonCollider.h"
 #include "Physics/Collider/ShapeCollider.h"
@@ -76,7 +75,7 @@
 #include "Sound/SoundMixer.h"
 #include "Tool/Tool.h"
 #include "Window/Window.h"
-    
+
 extern "C" {
 
 CBGEXPORT void CBGSTDCALL cbg_Int8Array_Clear(void* cbg_self) {
@@ -2017,13 +2016,6 @@ CBGEXPORT float CBGSTDCALL cbg_Glyph_GetAdvance(void* cbg_self) {
     auto cbg_self_ = (Altseed2::Glyph*)(cbg_self);
 
     float cbg_ret = cbg_self_->GetAdvance();
-    return cbg_ret;
-}
-
-CBGEXPORT float CBGSTDCALL cbg_Glyph_GetScale(void* cbg_self) {
-    auto cbg_self_ = (Altseed2::Glyph*)(cbg_self);
-
-    float cbg_ret = cbg_self_->GetScale();
     return cbg_ret;
 }
 
@@ -6414,7 +6406,4 @@ CBGEXPORT void CBGSTDCALL cbg_Tool_Release(void* cbg_self) {
 
     cbg_self_->Release();
 }
-
-
 }
-

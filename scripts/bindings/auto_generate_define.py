@@ -1784,9 +1784,6 @@ with Glyph as class_:
     with class_.add_property(float, 'Advance') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False
-    with class_.add_property(float, 'Scale') as prop_:
-        prop_.has_getter = True
-        prop_.has_setter = False
 define.classes.append(Glyph)
 
 with Font as class_:

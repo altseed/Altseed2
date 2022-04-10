@@ -19,28 +19,22 @@
 namespace Altseed2 {
 
 Glyph::Glyph()
-    : textureSize_(Vector2I(0, 0)), textureIndex_(0), position_(Vector2I(0, 0)), size_(Vector2I(0, 0)), offset_(Vector2F(0, 0)), advance_(0.0f), scale_(0.0f) {}
-Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance, float scale)
-    : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), advance_(advance), scale_(scale) {}
+    : textureSize_(Vector2I(0, 0)), textureIndex_(0), position_(Vector2I(0, 0)), size_(Vector2I(0, 0)), offset_(Vector2F(0, 0)), advance_(0.0f) {}
+Glyph::Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance)
+    : textureSize_(textureSize), textureIndex_(textureIndex), position_(position), size_(size), offset_(offset), advance_(advance) {}
 
 std::mutex Font::mtx;
 std::shared_ptr<msdfgen::FreetypeHandle> Font::freetypeHandle_;
-
-static constexpr float PxRangeDefault = 4.0;
-static constexpr float AngleThresholdDefault = 3.0;
-
-static constexpr int32_t TextureSize = 1024;
-static constexpr int32_t TextureAtlasPaddingPixel = 4;
 
 Font::Font(std::u16string path)
     : resources_(nullptr),
       fontHandle_(nullptr),
       ascent_(0),
       descent_(0),
-      lineSpace_(0),
+      lineGap_(0),
       samplingSize_(0),
       file_(nullptr),
-      textureSize_(Vector2I(TextureSize, TextureSize)),
+      textureSize_(Vector2I(Font::TextureSize, Font::TextureSize)),
       sourcePath_(path),
       isStaticFont_(true) {}
 
@@ -54,15 +48,17 @@ Font::Font(
       fontHandle_(fontHandle),
       samplingSize_(samplingSize),
       file_(file),
-      textureSize_(Vector2I(TextureSize, TextureSize)),
+      textureSize_(Vector2I(Font::TextureSize, Font::TextureSize)),
       sourcePath_(path),
       isStaticFont_(false) {
     msdfgen::FontMetrics metrics;
     msdfgen::getFontMetrics(metrics, fontHandle.get());
-    ascent_ = (float)metrics.ascenderY;
-    descent_ = (float)metrics.descenderY;
-    lineSpace_ = (float)(metrics.lineHeight);
-    emSize_ = (float)metrics.emSize;
+    ascent_ = static_cast<float>(metrics.ascenderY);
+    descent_ = static_cast<float>(metrics.descenderY);
+    emSize_ = static_cast<float>(metrics.emSize);
+    lineGap_ = static_cast<float>(metrics.lineHeight);
+
+    Log::GetInstance()->Info(LogCategory::Core, u"Font::Font: enSize={0}, ascent={1}, descent={2}, lineGap={3}", emSize_, ascent_, descent_, lineGap_);
 
     AddFontTexture();
 
@@ -210,7 +206,7 @@ std::shared_ptr<Font> Font::LoadStaticFont(const char16_t* path) {
     reader.Get(&font->samplingSize_);
     reader.Get(&font->ascent_);
     reader.Get(&font->descent_);
-    reader.Get(&font->lineSpace_);
+    reader.Get(&font->lineGap_);
     reader.Get(&font->emSize_);
     reader.Get(&font->textureSize_);
 
@@ -269,7 +265,7 @@ bool Font::GenerateFontFile(const char16_t* dynamicFontPath, const char16_t* sta
     writer.Push(font->samplingSize_);
     writer.Push(font->ascent_);
     writer.Push(font->descent_);
-    writer.Push(font->lineSpace_);
+    writer.Push(font->lineGap_);
     writer.Push(font->emSize_);
     writer.Push(font->textureSize_);
 
@@ -352,65 +348,71 @@ void Font::AddFontTexture() {
 void Font::AddGlyph(const int32_t character) {
     if (GetIsStaticFont()) return;
 
-    const Vector2F offset(0.0f, -(float)ascent_);
     double advance = 0.0;
 
+    // フォントデータ読み込み
     msdfgen::Shape shape;
     if (!msdfgen::loadGlyph(shape, fontHandle_.get(), character, &advance)) {
-        Log::GetInstance()->Error(LogCategory::Core, u"Font::AddGlyph: failed to load glyph of character '{0}'", (char)character);
-        // auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), offset, advance, 1.0f);
-        // glyphs_[character] = glyph;
+        Log::GetInstance()->Error(LogCategory::Core, u"Font::AddGlyph: failed to load glyph of character '{0}'", static_cast<char>(character));
         glyphs_[character] = GetGlyph('\0');
         return;
     }
 
+    // 空白等形状なしのフォント
     if (shape.edgeCount() < 1) {
-        Log::GetInstance()->Info(LogCategory::Core, u"Font::AddGlyph: Edge Count of '{0}' is less than 1", (char)character);
-        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), offset, advance, 1.0f);
+        Log::GetInstance()->Info(LogCategory::Core, u"Font::AddGlyph: Edge Count of '{0}' is less than 1", static_cast<char>(character));
+        auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, currentTexturePosition_, Vector2I(0, 0), Vector2F(), advance);
         glyphs_[character] = glyph;
         return;
     }
 
-    const Vector2F areaSize(advance, ascent_ - descent_);
-
-    auto bounds = shape.getBounds();
-
+    const auto bounds = shape.getBounds();
     const Vector2F boundsSize(bounds.r - bounds.l, bounds.t - bounds.b);
 
-    const float scale = samplingSize_ / areaSize.Y;
+    const float scale = samplingSize_ / (ascent_ - descent_);
 
-    const auto w = areaSize.X * scale;
+    const auto w = advance * scale;
     const float h = samplingSize_;
 
-    int32_t wi = std::ceil(w);
-    int32_t hi = samplingSize_;
+    const int32_t width = std::ceil(w);
+    const int32_t height = samplingSize_;
 
-    msdfgen::Bitmap<float, 3> msdf(wi, hi);
+    const auto widthWithPadding = width + TextureSamplingPaddingPixel;
+    const auto heightWithPadding = height + TextureSamplingPaddingPixel;
+
+    // MDFGデータ生成
+    msdfgen::Bitmap<float, 3> msdf(widthWithPadding, heightWithPadding);
     {
-        shape.inverseYAxis = !shape.inverseYAxis;
+        shape.inverseYAxis = true;
         shape.normalize();
         shape.orientContours();
         msdfgen::edgeColoringSimple(shape, AngleThresholdDefault);
 
-        msdfgen::generateMSDF(msdf, shape, PxRangeDefault, scale, msdfgen::Vector2(0.0, -descent_));
+        const auto padding = static_cast<double>(TextureSamplingPaddingPixel / 2);
+
+        const auto translate = msdfgen::Vector2(padding / width, padding / height - bounds.b - descent_);
+
+        msdfgen::generateMSDF(msdf, shape, PxRangeDefault, msdfgen::Vector2(scale), translate);
     }
 
-    if (textureSize_.X < currentTexturePosition_.X + wi) {
+    // 横幅が収まらない場合は次の行へ
+    if (textureSize_.X < currentTexturePosition_.X + widthWithPadding) {
         currentTexturePosition_.X = 0;
-        currentTexturePosition_.Y += TextureAtlasPaddingPixel + hi;
+        currentTexturePosition_.Y += TextureAtlasMarginPixel + heightWithPadding;
     }
 
-    if (textureSize_.Y < currentTexturePosition_.Y + hi) AddFontTexture();
+    // 縦幅が収まらない場合は新しいテクスチャを追加
+    if (textureSize_.Y < currentTexturePosition_.Y + heightWithPadding) AddFontTexture();
 
-    const auto pos = currentTexturePosition_;
+    auto pos = currentTexturePosition_;
 
     {
         const auto llgiTexture = textures_.back()->GetNativeTexture();
         const auto buf = (LLGI::Color8*)llgiTexture->Lock();
 
-        for (int32_t y = 0; y < hi; y++) {
+        for (int32_t y = 0; y < heightWithPadding; y++) {
             const auto ty = pos.Y + y;
-            for (int32_t x = 0; x < wi; x++) {
+            for (int32_t x = 0; x < widthWithPadding; x++) {
                 const auto tx = x + pos.X;
                 buf[tx + ty * textureSize_.X].R = msdfgen::pixelFloatToByte(msdf(x, y)[0]);
                 buf[tx + ty * textureSize_.X].G = msdfgen::pixelFloatToByte(msdf(x, y)[1]);
@@ -418,11 +420,16 @@ void Font::AddGlyph(const int32_t character) {
                 // buf[x + y * textureSize_.X].A = 0;
             }
         }
+
         llgiTexture->Unlock();
-        currentTexturePosition_.X += wi + TextureAtlasPaddingPixel;
+        currentTexturePosition_.X += widthWithPadding + Font::TextureAtlasMarginPixel;
     }
 
-    const auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, pos, Vector2I(wi, hi), offset, advance, scale);
+    const Vector2F offset(0.0f, -ascent_ - bounds.b);
+
+    const auto glyphPos = pos + Vector2I(TextureSamplingPaddingPixel / 2, TextureSamplingPaddingPixel / 2);
+
+    const auto glyph = MakeAsdShared<Glyph>(textureSize_, textures_.size() - 1, glyphPos, Vector2I(width, height), offset, advance);
     glyphs_[character] = glyph;
 }
 
