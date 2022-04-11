@@ -7,11 +7,11 @@ Vector4F::Vector4F() : X(0), Y(0), Z(0), W(0) {}
 
 Vector4F::Vector4F(float x, float y, float z, float w) : X(x), Y(y), Z(z), W(w) {}
 
-bool Vector4F::operator==(const Vector4F& o) { return X == o.X && Y == o.Y && Z == o.Z && W == o.W; }
+bool Vector4F::operator==(const Vector4F& o) const { return X == o.X && Y == o.Y && Z == o.Z && W == o.W; }
 
-bool Vector4F::operator!=(const Vector4F& o) { return !(X == o.X && Y == o.Y && Z == o.Z && W == o.W); }
+bool Vector4F::operator!=(const Vector4F& o) const { return !(X == o.X && Y == o.Y && Z == o.Z && W == o.W); }
 
-Vector4F Vector4F::operator-() { return Vector4F(-X, -Y, -Z, -W); }
+Vector4F Vector4F::operator-() const { return Vector4F(-X, -Y, -Z, -W); }
 
 Vector4F Vector4F::operator+(const Vector4F& o) const { return Vector4F(X + o.X, Y + o.Y, Z + o.Z, W + o.W); }
 

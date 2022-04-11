@@ -74,7 +74,7 @@ Vector3I Matrix33I::Transform3D(const Vector3I& in) const {
     return o;
 }
 
-Matrix33I Matrix33I::operator*(const Matrix33I& right) {
+Matrix33I Matrix33I::operator*(const Matrix33I& right) const {
     Matrix33I result;
 
     for (int i = 0; i < 3; ++i) {
@@ -89,7 +89,7 @@ Matrix33I Matrix33I::operator*(const Matrix33I& right) {
     return result;
 }
 
-Vector3I Matrix33I::operator*(const Vector3I& right) {
+Vector3I Matrix33I::operator*(const Vector3I& right) const {
     int32_t elements[3] = {0, 0, 0};
     int32_t rop[3] = {right.X, right.Y, right.Z};
 

@@ -5,11 +5,11 @@ Vector4I::Vector4I() : X(0), Y(0), Z(0), W(0) {}
 
 Vector4I::Vector4I(int32_t x, int32_t y, int32_t z, int32_t w) : X(x), Y(y), Z(z), W(w) {}
 
-bool Vector4I::operator==(const Vector4I& o) { return X == o.X && Y == o.Y && Z == o.Z && W == o.W; }
+bool Vector4I::operator==(const Vector4I& o) const { return X == o.X && Y == o.Y && Z == o.Z && W == o.W; }
 
-bool Vector4I::operator!=(const Vector4I& o) { return !(X == o.X && Y == o.Y && Z == o.Z && W == o.W); }
+bool Vector4I::operator!=(const Vector4I& o) const { return !(X == o.X && Y == o.Y && Z == o.Z && W == o.W); }
 
-Vector4I Vector4I::operator-() { return Vector4I(-X, -Y, -Z, -W); }
+Vector4I Vector4I::operator-() const { return Vector4I(-X, -Y, -Z, -W); }
 
 Vector4I Vector4I::operator+(const Vector4I& o) const { return Vector4I(X + o.X, Y + o.Y, Z + o.Z, W + o.W); }
 

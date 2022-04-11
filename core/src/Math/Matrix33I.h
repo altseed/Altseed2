@@ -55,9 +55,9 @@ public:
     */
     Vector3I Transform3D(const Vector3I& in) const;
 
-    Matrix33I operator*(const Matrix33I& right);
+    Matrix33I operator*(const Matrix33I& right) const;
 
-    Vector3I operator*(const Vector3I& right);
+    Vector3I operator*(const Vector3I& right) const;
 
     operator Matrix33I_C() const;
 };

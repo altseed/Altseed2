@@ -26,7 +26,7 @@ public:
         (*this) *= (value / length);
     }
 
-    Vector2F GetNormal() {
+    Vector2F GetNormal() const {
         float length = GetLength();
         return Vector2F(X / length, Y / length);
     }
@@ -54,14 +54,14 @@ public:
         Y *= length;
     }
 
-    bool operator==(const Vector2F& right);
+    bool operator==(const Vector2F& right) const;
 
-    bool operator!=(const Vector2F& right);
+    bool operator!=(const Vector2F& right) const;
 
     bool operator>(const Vector2F& o) const;
     bool operator<(const Vector2F& o) const;
 
-    Vector2F operator-();
+    Vector2F operator-() const;
 
     Vector2F operator+(const Vector2F& right) const;
 

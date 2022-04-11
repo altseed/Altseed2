@@ -24,7 +24,7 @@ public:
         (*this) *= (value / length);
     }
 
-    Vector4F GetNormal() {
+    Vector4F GetNormal() const {
         float length = GetLength();
         return Vector4F(X / length, Y / length, Z / length, W / length);
     }
@@ -33,10 +33,10 @@ public:
         (*this) /= length;
     }
 
-    bool operator==(const Vector4F& o);
-    bool operator!=(const Vector4F& o);
+    bool operator==(const Vector4F& o) const;
+    bool operator!=(const Vector4F& o) const;
 
-    Vector4F operator-();
+    Vector4F operator-() const;
     Vector4F operator+(const Vector4F& o) const;
     Vector4F operator-(const Vector4F& o) const;
     Vector4F operator*(const Vector4F& o) const;

@@ -16,23 +16,23 @@ public:
 
     Vector2I(int32_t x, int32_t y);
 
-    bool operator==(const Vector2I& o);
+    bool operator==(const Vector2I& o) const;
 
-    bool operator!=(const Vector2I& o);
+    bool operator!=(const Vector2I& o) const;
 
-    Vector2I operator-();
+    Vector2I operator-() const;
 
-    Vector2I operator+(const Vector2I& right);
+    Vector2I operator+(const Vector2I& right) const;
 
-    Vector2I operator-(const Vector2I& right);
+    Vector2I operator-(const Vector2I& right) const;
 
-    Vector2I operator*(const Vector2I& right);
+    Vector2I operator*(const Vector2I& right) const;
 
-    Vector2I operator/(const Vector2I& right);
+    Vector2I operator/(const Vector2I& right) const;
 
-    Vector2I operator*(int32_t right);
+    Vector2I operator*(int32_t right) const;
 
-    Vector2I operator/(int32_t right);
+    Vector2I operator/(int32_t right) const;
 
     Vector2I& operator+=(const Vector2I& right);
 

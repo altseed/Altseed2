@@ -18,12 +18,12 @@ public:
     Vector3F();
     Vector3F(float x, float y, float z);
 
-    bool operator==(const Vector3F& o);
-    bool operator!=(const Vector3F& o);
+    bool operator==(const Vector3F& o) const;
+    bool operator!=(const Vector3F& o) const;
     bool operator>(const Vector3F& o) const;
     bool operator<(const Vector3F& o) const;
 
-    Vector3F operator-();
+    Vector3F operator-() const;
 
     Vector3F operator+(const Vector3F& o) const;
 
@@ -58,7 +58,7 @@ public:
         (*this) *= (value / length);
     }
 
-    Vector3F GetNormal() {
+    Vector3F GetNormal() const {
         float length = GetLength();
         return Vector3F(X / length, Y / length, Z / length);
     }

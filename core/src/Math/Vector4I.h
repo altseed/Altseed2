@@ -21,10 +21,10 @@ public:
 
     int32_t GetSquaredLength() const { return X * X + Y * Y + Z * Z + W * W; }
 
-    bool operator==(const Vector4I& o);
-    bool operator!=(const Vector4I& o);
+    bool operator==(const Vector4I& o) const;
+    bool operator!=(const Vector4I& o) const;
 
-    Vector4I operator-();
+    Vector4I operator-() const;
     Vector4I operator+(const Vector4I& o) const;
     Vector4I operator-(const Vector4I& o) const;
     Vector4I operator*(const Vector4I& o) const;

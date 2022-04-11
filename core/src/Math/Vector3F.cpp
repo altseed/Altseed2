@@ -27,9 +27,9 @@ Vector3F::Vector3F() : X(0.0f), Y(0.0f), Z(0.0f) {}
 
 Vector3F::Vector3F(float x, float y, float z) : X(x), Y(y), Z(z) {}
 
-bool Vector3F::operator==(const Vector3F& o) { return X == o.X && Y == o.Y && Z == o.Z; }
+bool Vector3F::operator==(const Vector3F& o) const { return X == o.X && Y == o.Y && Z == o.Z; }
 
-bool Vector3F::operator!=(const Vector3F& o) { return !(X == o.X && Y == o.Y && Z == o.Z); }
+bool Vector3F::operator!=(const Vector3F& o) const { return !(X == o.X && Y == o.Y && Z == o.Z); }
 
 bool Vector3F::operator>(const Vector3F& o) const {
     if (X != o.X) return X > o.X;
@@ -45,7 +45,7 @@ bool Vector3F::operator<(const Vector3F& o) const {
     return false;
 }
 
-Vector3F Vector3F::operator-() { return Vector3F(-X, -Y, -Z); }
+Vector3F Vector3F::operator-() const { return Vector3F(-X, -Y, -Z); }
 
 Vector3F Vector3F::operator+(const Vector3F& o) const { return Vector3F(X + o.X, Y + o.Y, Z + o.Z); }
 
