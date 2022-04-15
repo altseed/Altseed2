@@ -31,11 +31,10 @@ private:
 
     Vector2F offset_;
     float advance_;
-    float scale_;
 
 public:
     Glyph();
-    Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance, float scale);
+    Glyph(Vector2I textureSize, int32_t textureIndex, Vector2I position, Vector2I size, Vector2F offset, float advance);
 
     Vector2I GetTextureSize() { return textureSize_; }
     int32_t GetTextureIndex() { return textureIndex_; }
@@ -43,7 +42,6 @@ public:
     Vector2I GetSize() { return size_; }
     Vector2F GetOffset() { return offset_; }
     float GetAdvance() { return advance_; }
-    float GetScale() { return scale_; }
 
 #if !USE_CBG
     inline void Write(BinaryWriter* writer) {
@@ -53,7 +51,6 @@ public:
         writer->Push(size_);
         writer->Push(offset_);
         writer->Push(advance_);
-        writer->Push(scale_);
     }
 
     static inline std::shared_ptr<Glyph> Read(BinaryReader* reader) {
@@ -64,7 +61,6 @@ public:
         reader->Get(&glyph->size_);
         reader->Get(&glyph->offset_);
         reader->Get(&glyph->advance_);
-        reader->Get(&glyph->scale_);
         return glyph;
     }
 #endif
@@ -75,7 +71,7 @@ private:
     std::shared_ptr<Resources> resources_;
 
     std::shared_ptr<msdfgen::FontHandle> fontHandle_;
-    float ascent_, descent_, lineSpace_, emSize_;
+    float ascent_, descent_, lineGap_, emSize_;
     int32_t samplingSize_;
 
     std::shared_ptr<StaticFile> file_;
@@ -96,6 +92,13 @@ private:
     static std::shared_ptr<msdfgen::FreetypeHandle> freetypeHandle_;
 
 public:
+    static constexpr float PxRangeDefault = 4.0;
+    static constexpr float AngleThresholdDefault = 3.0;
+
+    static constexpr int32_t TextureSize = 1024;
+    static constexpr int32_t TextureAtlasMarginPixel = 4;
+    static constexpr int32_t TextureSamplingPaddingPixel = 4;
+
     Font(std::u16string path);
     Font(std::shared_ptr<Resources>& resources,
          std::shared_ptr<StaticFile>& file,
@@ -113,7 +116,7 @@ public:
     virtual int32_t GetSamplingSize() { return samplingSize_; }
     virtual float GetAscent() { return ascent_; }
     virtual float GetDescent() { return descent_; }
-    virtual float GetLineGap() { return lineSpace_; }
+    virtual float GetLineGap() { return lineGap_; }
     virtual float GetEmSize() { return emSize_; }
     virtual bool GetIsStaticFont() { return isStaticFont_; }
 

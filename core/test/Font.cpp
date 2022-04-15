@@ -329,32 +329,26 @@ TEST(Font, StaticFont) {
     EXPECT_TRUE(Altseed2::Core::Initialize(u"Font.StaticFont", 1280, 720, config));
 
     const auto text =
-            u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\nオブジェクト指向を用いて効率的にゲームを組み立てることができ"
-            u"ます。\nこのパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n";
+            u"abcdefghijklmnopqrstuvwxyz\n"
+            u"ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"
+            u"0123456789\n"
+            u"Altseed2はマルチプラットフォームな和製ゲームエンジンです。\n"
+            u"オブジェクト指向を用いて効率的にゲームを組み立てることができます。\n"
+            u"このパッケージにはゲームエンジンのライブラリ部分のみが含まれます。\n";
 
     EXPECT_TRUE(
             Altseed2::Font::GenerateFontFile(u"TestData/Font/mplus-1m-regular.ttf", u"TestData/test.a2f", DefaultSamplingSize, text));
 
-    auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", DefaultSamplingSize);
     auto staticFont = Altseed2::Font::LoadStaticFont(u"TestData/test.a2f");
 
     std::vector<std::shared_ptr<Altseed2::RenderedText>> texts;
 
     {
         auto t = Altseed2::RenderedText::Create();
-        t->SetFont(font);
+        t->SetFont(staticFont);
         t->SetText(text);
         t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 0, 0));
-        t->SetFontSize(100);
-        texts.push_back(t);
-    }
-
-    {
-        auto t = Altseed2::RenderedText::Create();
-        t->SetFont(staticFont);
-        t->SetText(u"Hello, Altseed2! こんにちは------");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, 350, 0));
-        t->SetFontSize(100);
+        t->SetFontSize(64);
         texts.push_back(t);
     }
 

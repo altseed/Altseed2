@@ -41,8 +41,11 @@ Vector2F RenderedText::IterateTexts(std::function<void(Vector2F pos, RectF src, 
 
     const auto samplingSize = (float)font->GetSamplingSize();
     const auto fontScale = fontSize / font->GetEmSize();
+    const auto glyphScale = samplingSize / (font->GetAscent() - font->GetDescent());
 
     const auto writingDir = GetWritingDirection();
+
+    const auto lineSpace = GetLineGap();
 
     // 各文字のオフセットを格納する
     Vector2F offset(0, 0);
@@ -62,10 +65,10 @@ Vector2F RenderedText::IterateTexts(std::function<void(Vector2F pos, RectF src, 
             // 改行位置のリセット、次の行への移動
             if (writingDir == WritingDirection::Horizontal) {
                 lineMax = std::fmax(lineMax, offset.X);
-                offset = Vector2F(0, offset.Y + GetLineGap());
+                offset = Vector2F(0, offset.Y + lineSpace);
             } else {
                 lineMax = std::fmax(lineMax, offset.Y);
-                offset = Vector2F(offset.X - GetLineGap(), 0);
+                offset = Vector2F(offset.X - lineSpace, 0);
             }
             continue;
         }
@@ -106,7 +109,7 @@ Vector2F RenderedText::IterateTexts(std::function<void(Vector2F pos, RectF src, 
                 pos.X += -glyph->GetAdvance();
             }
 
-            texScale = fontScale / glyph->GetScale();
+            texScale = fontScale / glyphScale;
         }
 
         if (doEachText != nullptr) {
@@ -152,9 +155,9 @@ Vector2F RenderedText::IterateTexts(std::function<void(Vector2F pos, RectF src, 
     }
 
     if (writingDir == WritingDirection::Horizontal) {
-        return Vector2F(std::fmax(lineMax, offset.X), offset.Y + GetLineGap());
+        return Vector2F(std::fmax(lineMax, offset.X), offset.Y + lineSpace);
     } else {
-        return Vector2F(std::abs(offset.X - GetLineGap()), std::fmax(lineMax, offset.Y));
+        return Vector2F(std::abs(offset.X - lineSpace), std::fmax(lineMax, offset.Y));
     }
 }
 
