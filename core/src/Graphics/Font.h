@@ -51,6 +51,9 @@ public:
         writer->Push(size_);
         writer->Push(offset_);
         writer->Push(advance_);
+
+        // for removed field
+        writer->Push(static_cast<float>(0));
     }
 
     static inline std::shared_ptr<Glyph> Read(BinaryReader* reader) {
@@ -61,6 +64,10 @@ public:
         reader->Get(&glyph->size_);
         reader->Get(&glyph->offset_);
         reader->Get(&glyph->advance_);
+
+        // for removed field
+        reader->Get<float>();
+
         return glyph;
     }
 #endif
