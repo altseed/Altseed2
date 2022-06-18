@@ -9,6 +9,7 @@ Buffer::Buffer(std::shared_ptr<LLGI::Buffer> buffer) {
     buffer_ = buffer;
 }
 
+// ユーザーがRead,Writeを指定できるようにすべきかも
 std::shared_ptr<Buffer> Buffer::Create(BufferUsageType usage, int32_t size) {
     auto graphics = Graphics::GetInstance();
     if (graphics == nullptr) {

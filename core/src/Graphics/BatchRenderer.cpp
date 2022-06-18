@@ -11,8 +11,8 @@ namespace Altseed2 {
 BatchRenderer::BatchRenderer(std::shared_ptr<Graphics> graphics) {
     auto gLL = graphics->GetGraphicsLLGI();
     rawVertexBuffer_.reserve(VertexBufferMax);
-    vertexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Vertex, sizeof(BatchVertex) * VertexBufferMax));
-    indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Index, 4 * IndexBufferMax));
+    vertexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Vertex | LLGI::BufferUsageType::MapWrite, sizeof(BatchVertex) * VertexBufferMax));
+    indexBuffer_ = LLGI::CreateSharedPtr(gLL->CreateBuffer(LLGI::BufferUsageType::Index | LLGI::BufferUsageType::MapWrite, 4 * IndexBufferMax));
     matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 }
 

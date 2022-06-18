@@ -89,8 +89,8 @@ std::shared_ptr<CommandList> CommandList::Create() {
     ret->matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
     {
-        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Vertex, sizeof(BatchVertex) * 4));
-        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Index, 4 * 6));
+        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Vertex | LLGI::BufferUsageType::MapWrite, sizeof(BatchVertex) * 4));
+        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Index | LLGI::BufferUsageType::MapWrite, 4 * 6));
 
         {
             auto vb = static_cast<BatchVertex*>(ret->blitVB_->Lock());
