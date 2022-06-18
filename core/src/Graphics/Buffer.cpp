@@ -34,10 +34,6 @@ void Buffer::Unlock() {
     buffer_->Unlock();
 }
 
-void* Buffer::Read() {
-    return buffer_->Read();
-}
-
 int32_t Buffer::GetSize() {
     return buffer_->GetSize();
 }

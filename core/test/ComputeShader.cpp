@@ -152,19 +152,6 @@ void main(uint3 dtid : SV_DispatchThreadID)
         instance->ExecuteCommandList();
         instance->WaitFinish();
 
-        {
-            auto data = (OutputData*)write->Read();
-            for (int i = 0; i < dataSize; i++) {
-                std::cout << "write[" << i << "] = " << data[i].value << std::endl;
-            }
-        }
-        {
-            auto data = (OutputData*)write2->Read();
-            for (int i = 0; i < dataSize; i++) {
-                std::cout << "write2[" << i << "] = " << data[i].value << std::endl;
-            }
-        }
-
         renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
         renderPassParameter.IsColorCleared = true;
         renderPassParameter.IsDepthCleared = true;

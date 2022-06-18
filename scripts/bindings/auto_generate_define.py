@@ -1013,9 +1013,6 @@ with Buffer as class_:
     with class_.add_func('Unlock') as func_:
         pass
 
-    with class_.add_func('Read') as func_:
-        func_.return_value.type_ = ctypes.c_void_p
-
     with class_.add_property(int, 'Size') as prop_:
         prop_.has_getter = True
         prop_.has_setter = False

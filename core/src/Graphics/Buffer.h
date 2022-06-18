@@ -26,8 +26,6 @@ public:
     void* Lock();
     void Unlock();
 
-    void* Read();
-
     int32_t GetSize();
 
     BufferUsageType GetBufferUsage();

@@ -87,9 +87,6 @@ void BatchRenderer::UploadBuffer() {
 
     vertexBuffer_->Unlock();
     indexBuffer_->Unlock();
-
-    commandList->GetLL()->UploadBuffer(indexBuffer_.get());
-    commandList->GetLL()->UploadBuffer(vertexBuffer_.get());
 }
 
 void BatchRenderer::Render() {
