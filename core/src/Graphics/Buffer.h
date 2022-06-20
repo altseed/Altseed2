@@ -12,7 +12,20 @@ enum class BufferUsageType : int32_t {
     Vertex = 1 << 1,
     Constant = 1 << 2,
     Compute = 1 << 3,
+    MapRead = 1 << 4,
+    MapWrite = 1 << 5,
+    CopySrc = 1 << 6,
+    CopyDst = 1 << 7,
 };
+
+
+inline BufferUsageType operator|(BufferUsageType lhs, BufferUsageType rhs) {
+    return static_cast<BufferUsageType>(static_cast<uint32_t>(lhs) | static_cast<uint32_t>(rhs));
+}
+
+inline BufferUsageType operator&(BufferUsageType lhs, BufferUsageType rhs) {
+    return static_cast<BufferUsageType>(static_cast<uint32_t>(lhs) & static_cast<uint32_t>(rhs));
+}
 
 class Buffer : public BaseObject {
 private:

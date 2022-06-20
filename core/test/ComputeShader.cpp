@@ -108,7 +108,7 @@ void main(uint3 dtid : SV_DispatchThreadID)
 
     int dataSize = 256;
 
-    auto read = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute, sizeof(InputData) * dataSize);
+    auto read = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(InputData) * dataSize);
 
     {
         auto data = (InputData*)read->Lock();
@@ -119,8 +119,8 @@ void main(uint3 dtid : SV_DispatchThreadID)
         read->Unlock();
     }
 
-    auto write = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute, sizeof(OutputData) * dataSize);
-    auto write2 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute, sizeof(OutputData) * dataSize);
+    auto write = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
+    auto write2 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
 
     while (count++ < 10 && instance->DoEvents()) {
         Altseed2::RenderPassParameter renderPassParameter;
