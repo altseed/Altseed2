@@ -108,19 +108,21 @@ void main(uint3 dtid : SV_DispatchThreadID)
 
     int dataSize = 256;
 
-    auto read = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(InputData) * dataSize);
+    auto input = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(InputData) * dataSize);
 
     {
-        auto data = (InputData*)read->Lock();
+        auto data = (InputData*)input->Lock();
         for (int i = 0; i < dataSize; i++) {
             data[i].value1 = (float)i * 2;
             data[i].value2 = (float)i * 2 + 1;
         }
-        read->Unlock();
+        input->Unlock();
     }
 
-    auto write = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
-    auto write2 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
+    auto inputBuffer = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopyDst, sizeof(InputData) * dataSize);
+
+    auto output = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
+    auto output2 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
 
     while (count++ < 10 && instance->DoEvents()) {
         Altseed2::RenderPassParameter renderPassParameter;
@@ -129,24 +131,24 @@ void main(uint3 dtid : SV_DispatchThreadID)
         renderPassParameter.IsDepthCleared = true;
         instance->GetCommandList()->Begin();
 
-        instance->GetCommandList()->UploadBuffer(read);
+        instance->GetCommandList()->CopyBuffer(input, inputBuffer);
 
         instance->GetCommandList()->BeginComputePass();
 
-        instance->GetCommandList()->SetComputeBuffer(read, sizeof(InputData), 0);
-        instance->GetCommandList()->SetComputeBuffer(write, sizeof(OutputData), 1);
+        instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
+        instance->GetCommandList()->SetComputeBuffer(output, sizeof(OutputData), 1);
         instance->GetCommandList()->SetComputePipelineState(pipeline1);
         instance->GetCommandList()->Dispatch(dataSize, 1, 1);
 
-        instance->GetCommandList()->SetComputeBuffer(read, sizeof(InputData), 0);
-        instance->GetCommandList()->SetComputeBuffer(write2, sizeof(OutputData), 1);
+        instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
+        instance->GetCommandList()->SetComputeBuffer(output2, sizeof(OutputData), 1);
         instance->GetCommandList()->SetComputePipelineState(pipeline2);
         instance->GetCommandList()->Dispatch(dataSize, 1, 1);
 
         instance->GetCommandList()->EndComputePass();
 
-        instance->GetCommandList()->ReadbackBuffer(write);
-        instance->GetCommandList()->ReadbackBuffer(write2);
+        instance->GetCommandList()->ReadbackBuffer(output);
+        instance->GetCommandList()->ReadbackBuffer(output2);
 
         instance->GetCommandList()->End();
         instance->ExecuteCommandList();
