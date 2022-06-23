@@ -18,7 +18,6 @@ enum class BufferUsageType : int32_t {
     CopyDst = 1 << 7,
 };
 
-
 inline BufferUsageType operator|(BufferUsageType lhs, BufferUsageType rhs) {
     return static_cast<BufferUsageType>(static_cast<uint32_t>(lhs) | static_cast<uint32_t>(rhs));
 }
