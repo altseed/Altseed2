@@ -89,8 +89,8 @@ std::shared_ptr<CommandList> CommandList::Create() {
     ret->matPropBlockCollection_ = MakeAsdShared<MaterialPropertyBlockCollection>();
 
     {
-        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Vertex, sizeof(BatchVertex) * 4));
-        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Index, 4 * 6));
+        ret->blitVB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Vertex | LLGI::BufferUsageType::MapWrite, sizeof(BatchVertex) * 4));
+        ret->blitIB_ = LLGI::CreateSharedPtr(g->CreateBuffer(LLGI::BufferUsageType::Index | LLGI::BufferUsageType::MapWrite, 4 * 6));
 
         {
             auto vb = static_cast<BatchVertex*>(ret->blitVB_->Lock());
@@ -221,9 +221,6 @@ void CommandList::StartFrame(const RenderPassParameter& renderPassParameter) {
             it++;
         }
     }
-
-    currentCommandList_->UploadBuffer(blitIB_.get());
-    currentCommandList_->UploadBuffer(blitVB_.get());
 }
 
 void CommandList::EndFrame() {
@@ -323,11 +320,9 @@ void CommandList::ResumeRenderPass() {
 }
 
 void CommandList::UploadBuffer(std::shared_ptr<Buffer> buffer) {
-    currentCommandList_->UploadBuffer(buffer->GetLL().get());
 }
 
 void CommandList::ReadbackBuffer(std::shared_ptr<Buffer> buffer) {
-    currentCommandList_->ReadBackBuffer(buffer->GetLL().get());
 }
 
 void CommandList::CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst) {
@@ -530,7 +525,6 @@ void CommandList::StoreUniforms(
     commandList->GetLL()->SetConstantBuffer(cb, shaderStage);
     if (isPauseRenderPass)
         PauseRenderPass();
-    commandList->GetLL()->UploadBuffer(cb);
     if (isPauseRenderPass)
         ResumeRenderPass();
 
@@ -617,7 +611,6 @@ void CommandList::SetMaterial(std::shared_ptr<Material> material) {
         GetLL()->SetConstantBuffer(cb, (LLGI::ShaderStageType)shaderStage);
         if (isPauseRenderPass)
             PauseRenderPass();
-        GetLL()->UploadBuffer(cb);
         if (isPauseRenderPass)
             ResumeRenderPass();
 
@@ -657,7 +650,7 @@ void CommandList::EndComputePass() {
 }
 
 void CommandList::SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit) {
-    GetLL()->SetComputeBuffer(buffer->GetLL().get(), stride, unit);
+    GetLL()->SetComputeBuffer(buffer->GetLL().get(), stride, unit, LLGI::ShaderStageType::Compute);
 }
 
 void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState) {
@@ -687,7 +680,6 @@ void CommandList::SetComputePipelineState(std::shared_ptr<ComputePipelineState> 
 
         GetLL()->SetConstantBuffer(cb, LLGI::ShaderStageType::Compute);
         EndComputePass();
-        GetLL()->UploadBuffer(cb);
         BeginComputePass();
 
         LLGI::SafeRelease(cb);

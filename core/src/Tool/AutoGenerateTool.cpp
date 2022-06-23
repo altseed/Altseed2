@@ -1,8 +1,9 @@
-﻿#include <nfd.h>
+﻿#include "Tool.h"
+
+#include <nfd.h>
 
 #include "../Common/StringHelper.h"
 #include "Platform/ImGuiPlatform.h"
-#include "Tool.h"
 #ifdef _WIN32
 #include "Platform/ImGuiPlatformDX12.h"
 #elif __APPLE__
@@ -20,8 +21,8 @@
 #include "../IO/File.h"
 #include "../IO/StaticFile.h"
 #include "../Logger/Log.h"
-#include "../Math/Vector4F.h"
 #include "../System/SynchronizationContext.h"
+#include "../Math/Vector4F.h"
 
 namespace Altseed2 {
 
@@ -497,37 +498,37 @@ void Tool::Text(const char16_t* fmt) {
     ImGui::Text(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, va_list) TextV
+// void (const char *, __va_list_tag *) TextV
 
 void Tool::TextColored(Vector4F col, const char16_t* fmt) {
     ImGui::TextColored(toImVec4(col), utf16_to_utf8(fmt).c_str());
 }
 
-// void (const ImVec4 &, const char *, va_list) TextColoredV
+// void (const ImVec4 &, const char *, __va_list_tag *) TextColoredV
 
 void Tool::TextDisabled(const char16_t* fmt) {
     ImGui::TextDisabled(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, va_list) TextDisabledV
+// void (const char *, __va_list_tag *) TextDisabledV
 
 void Tool::TextWrapped(const char16_t* fmt) {
     ImGui::TextWrapped(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, va_list) TextWrappedV
+// void (const char *, __va_list_tag *) TextWrappedV
 
 void Tool::LabelText(const char16_t* label, const char16_t* fmt) {
     ImGui::LabelText(utf16_to_utf8(label).c_str(), utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, const char *, va_list) LabelTextV
+// void (const char *, const char *, __va_list_tag *) LabelTextV
 
 void Tool::BulletText(const char16_t* fmt) {
     ImGui::BulletText(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, va_list) BulletTextV
+// void (const char *, __va_list_tag *) BulletTextV
 
 bool Tool::Button(const char16_t* label, Vector2F size) {
     return ImGui::Button(utf16_to_utf8(label).c_str(), toImVec2(size));
@@ -771,9 +772,9 @@ bool Tool::TreeNode(const char16_t* str_id, const char16_t* fmt) {
 
 // bool (const void *, const char *, ...) TreeNode
 
-// bool (const char *, const char *, va_list) TreeNodeV
+// bool (const char *, const char *, __va_list_tag *) TreeNodeV
 
-// bool (const void *, const char *, va_list) TreeNodeV
+// bool (const void *, const char *, __va_list_tag *) TreeNodeV
 
 bool Tool::TreeNodeEx(const char16_t* label, ToolTreeNodeFlags flags) {
     return ImGui::TreeNodeEx(utf16_to_utf8(label).c_str(), (ImGuiTreeNodeFlags)flags);
@@ -785,9 +786,9 @@ bool Tool::TreeNodeEx(const char16_t* str_id, ToolTreeNodeFlags flags, const cha
 
 // bool (const void *, ImGuiTreeNodeFlags, const char *, ...) TreeNodeEx
 
-// bool (const char *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+// bool (const char *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
 
-// bool (const void *, ImGuiTreeNodeFlags, const char *, va_list) TreeNodeExV
+// bool (const void *, ImGuiTreeNodeFlags, const char *, __va_list_tag *) TreeNodeExV
 
 void Tool::TreePush(const char16_t* str_id) {
     ImGui::TreePush(utf16_to_utf8(str_id).c_str());
@@ -905,7 +906,7 @@ void Tool::SetTooltip(const char16_t* fmt) {
     ImGui::SetTooltip(utf16_to_utf8(fmt).c_str());
 }
 
-// void (const char *, va_list) SetTooltipV
+// void (const char *, __va_list_tag *) SetTooltipV
 
 bool Tool::BeginPopup(const char16_t* str_id, ToolWindowFlags flags) {
     return ImGui::BeginPopup(utf16_to_utf8(str_id).c_str(), (ImGuiWindowFlags)flags);
@@ -1339,4 +1340,4 @@ void Tool::DestroyPlatformWindows() {
 
 // ImGuiViewport *(void *) FindViewportByPlatformHandle
 
-}  // namespace Altseed2
+}
