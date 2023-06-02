@@ -61,9 +61,9 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
-            wget https://github.com/harfbuzz/harfbuzz/releases/download/2.7.1/harfbuzz-2.7.1.tar.xz
-            tar Jxfv harfbuzz-2.7.1.tar.xz
-            cd harfbuzz-2.7.1
+            wget https://github.com/harfbuzz/harfbuzz/releases/download/7.3.0/harfbuzz-7.3.0.tar.xz
+            tar Jxfv harfbuzz-7.3.0.tar.xz
+            cd harfbuzz-7.3.0
             sudo ./configure --prefix=/usr --with-gobject --with-graphite2 &&
             sudo make
             sudo make install
