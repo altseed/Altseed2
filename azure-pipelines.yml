@@ -53,7 +53,7 @@ jobs:
           targetType: 'inline'
           script: |
             wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
-            sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.1.121-xenial.list http://packages.lunarg.com/vulkan/1.1.121/lunarg-vulkan-1.1.121-xenial.list
+            sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
             sudo apt update
             sudo apt -y install vulkan-sdk clang-format clang-tidy libgraphite2-dev
             
