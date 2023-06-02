@@ -9,6 +9,10 @@ with BufferUsageType as enum_:
     enum_.add('Vertex', 1 << 1)
     enum_.add('Constant', 1 << 2)
     enum_.add('Compute', 1 << 3)
+    enum_.add('MapRead', 1 << 4)
+    enum_.add('MapWrite', 1 << 5)
+    enum_.add('CopySrc', 1 << 6)
+    enum_.add('CopyDst', 1 << 7)
 define.enums.append(BufferUsageType)
 
 ShaderStageType = cbg.Enum('Altseed2', 'ShaderStageType')
