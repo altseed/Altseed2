@@ -63,8 +63,7 @@ int32_t FileSystem::GetFileSize(const std::u16string& path) {
 }
 
 bool FileSystem::CreateDirectory(const std::u16string& path) {
-    const auto path_ = utf16_to_utf8(path).c_str();
-    if (mkdir(path_, 0755) != 0) {
+    if (mkdir(utf16_to_utf8(path).c_str(), 0755) != 0) {
         return false;
     }
 
