@@ -21,8 +21,8 @@
 #include "../IO/File.h"
 #include "../IO/StaticFile.h"
 #include "../Logger/Log.h"
-#include "../System/SynchronizationContext.h"
 #include "../Math/Vector4F.h"
+#include "../System/SynchronizationContext.h"
 
 namespace Altseed2 {
 
@@ -1340,4 +1340,4 @@ void Tool::DestroyPlatformWindows() {
 
 // ImGuiViewport *(void *) FindViewportByPlatformHandle
 
-}
+}  // namespace Altseed2

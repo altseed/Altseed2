@@ -26,6 +26,7 @@ set(core_test_files
     Mouse.cpp
     Movie.cpp
     Joystick.cpp
+    FileSystem.cpp
     main.cpp
 )
 
