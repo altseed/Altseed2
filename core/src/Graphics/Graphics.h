@@ -92,6 +92,9 @@ public:
     void ExecuteCommandList();
     void WaitFinish();
 
+    void ExecuteCommandList(std::shared_ptr<CommandList> commandList);
+    void WaitFinish(std::shared_ptr<CommandList> commandList);
+
 #if !USE_CBG
     std::shared_ptr<LLGIWindow> GetLLGIWindow() const { return llgiWindow_; }
 

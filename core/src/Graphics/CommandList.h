@@ -172,12 +172,14 @@ public:
     void SetVertexBuffer(std::shared_ptr<Buffer> vb, int32_t stride, int32_t offset);
     void SetIndexBuffer(std::shared_ptr<Buffer> ib, int32_t stride, int32_t offset);
     void SetMaterial(std::shared_ptr<Material> material);
+    void SetMaterialWithConstantBuffer(std::shared_ptr<Material> material, std::shared_ptr<Buffer> constantBuffer);
 
     void BeginComputePass();
     void EndComputePass();
 
-    void SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit);
+    void SetComputeBuffer(std::shared_ptr<Buffer> buffer, int32_t stride, int32_t unit, ShaderStageType shaderStage = ShaderStageType::Compute);
     void SetComputePipelineState(std::shared_ptr<ComputePipelineState> computePipelineState);
+    void SetComputePipelineStateWithConstantBuffer(std::shared_ptr<ComputePipelineState> computePipelineState, std::shared_ptr<Buffer> constantBuffer);
     void Dispatch(int32_t x, int32_t y, int32_t z);
 
     void CopyTexture(std::shared_ptr<RenderTexture> src, std::shared_ptr<RenderTexture> dst);

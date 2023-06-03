@@ -1418,6 +1418,13 @@ with CommandList as class_:
         with func_.add_arg(int, 'offset') as arg:
             pass
 
+    with class_.add_func('SetMaterialWithConstantBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(Material, 'material') as arg:
+            pass
+        with func_.add_arg(Buffer, 'constantBuffer') as arg:
+            pass
+
     with class_.add_func('BeginComputePass') as func_:
         pass
 
@@ -1431,6 +1438,15 @@ with CommandList as class_:
         with func_.add_arg(int, 'stride') as arg:
             pass
         with func_.add_arg(int, 'unit') as arg:
+            pass
+        with func_.add_arg(ShaderStageType, 'shaderStage') as arg:
+            pass
+
+    with class_.add_func('SetComputePipelineStateWithConstantBuffer') as func_:
+        func_.is_public = False
+        with func_.add_arg(ComputePipelineState, 'computePipelineState') as arg:
+            pass
+        with func_.add_arg(Buffer, 'constantBuffer') as arg:
             pass
 
     with class_.add_func('Dispatch') as func_:
@@ -1512,10 +1528,20 @@ with Graphics as class_:
         func_.is_static = True
 
     with class_.add_func('ExecuteCommandList') as func_:
-        pass
+        func_.is_overload = True
+
+    with class_.add_func('ExecuteCommandList') as func_:
+        func_.is_overload = True
+        with func_.add_arg(CommandList, 'commandList') as arg:
+            pass
 
     with class_.add_func('WaitFinish') as func_:
-        pass
+        func_.is_overload = True
+
+    with class_.add_func('WaitFinish') as func_:
+        func_.is_overload = True
+        with func_.add_arg(CommandList, 'commandList') as arg:
+            pass
 
     with class_.add_func('SaveScreenshot') as func_:
         with func_.add_arg(ctypes.c_wchar_p, 'path') as arg:
