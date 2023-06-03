@@ -49,7 +49,7 @@ bool Log::Initialize(bool enabledConsoleLogging, bool enabledFileLogging, std::u
         return true;
     } catch (const spdlog::spdlog_ex& ex) {
         std::cout << "Log initialization failed: " << ex.what() << std::endl;
-        // ASD_ASSERT(false, "Log initialization failed: " + std::string(ex.what()));
+        // ASD_ASSERT_FORCE("Log initialization failed: " + std::string(ex.what()));
         return false;
     }
 }
