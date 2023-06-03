@@ -71,7 +71,7 @@ Matrix33F& Matrix33F::SetInverted() {
     return *this;
 }
 
-Matrix33F Matrix33F::GetInverted() {
+Matrix33F Matrix33F::GetInverted() const {
     Matrix33F o = (*this);
     o.SetInverted();
     return o;
@@ -141,7 +141,7 @@ Vector3F Matrix33F::Transform3D(const Vector3F& in) const {
     return o;
 }
 
-Matrix33F Matrix33F::operator*(const Matrix33F& right) {
+Matrix33F Matrix33F::operator*(const Matrix33F& right) const {
     Matrix33F result;
 
     for (int i = 0; i < 3; ++i) {
@@ -156,7 +156,7 @@ Matrix33F Matrix33F::operator*(const Matrix33F& right) {
     return result;
 }
 
-Vector3F Matrix33F::operator*(const Vector3F& right) {
+Vector3F Matrix33F::operator*(const Vector3F& right) const {
     float elements[3] = {0, 0, 0};
     float rop[3] = {right.X, right.Y, right.Z};
 

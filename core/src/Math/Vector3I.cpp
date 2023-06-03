@@ -12,9 +12,9 @@ Vector3I::Vector3I() : X(0), Y(0), Z(0) {}
 
 Vector3I::Vector3I(int32_t x, int32_t y, int32_t z) : X(x), Y(y), Z(z) {}
 
-bool Vector3I::operator==(const Vector3I& o) { return X == o.X && Y == o.Y && Z == o.Z; }
+bool Vector3I::operator==(const Vector3I& o) const { return X == o.X && Y == o.Y && Z == o.Z; }
 
-bool Vector3I::operator!=(const Vector3I& o) { return !(X == o.X && Y == o.Y && Z == o.Z); }
+bool Vector3I::operator!=(const Vector3I& o) const { return !(X == o.X && Y == o.Y && Z == o.Z); }
 
 bool Vector3I::operator>(const Vector3I& o) const {
     if (X != o.X) return X > o.X;
@@ -30,7 +30,7 @@ bool Vector3I::operator<(const Vector3I& o) const {
     return false;
 }
 
-Vector3I Vector3I::operator-() { return Vector3I(-X, -Y, -Z); }
+Vector3I Vector3I::operator-() const { return Vector3I(-X, -Y, -Z); }
 
 Vector3I Vector3I::operator+(const Vector3I& o) const { return Vector3I(X + o.X, Y + o.Y, Z + o.Z); }
 

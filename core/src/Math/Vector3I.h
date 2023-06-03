@@ -18,12 +18,12 @@ public:
     Vector3I();
     Vector3I(int32_t x, int32_t y, int32_t z);
 
-    bool operator==(const Vector3I& o);
-    bool operator!=(const Vector3I& o);
+    bool operator==(const Vector3I& o) const;
+    bool operator!=(const Vector3I& o) const;
     bool operator>(const Vector3I& o) const;
     bool operator<(const Vector3I& o) const;
 
-    Vector3I operator-();
+    Vector3I operator-() const;
 
     Vector3I operator+(const Vector3I& o) const;
 

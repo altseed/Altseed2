@@ -35,7 +35,7 @@ public:
     @brief	逆行列を取得する。
     @return	逆行列
     */
-    Matrix33F GetInverted();
+    Matrix33F GetInverted() const;
 
     Matrix33F& SetTranslation(float x, float y);
 
@@ -57,9 +57,9 @@ public:
     */
     Vector3F Transform3D(const Vector3F& in) const;
 
-    Matrix33F operator*(const Matrix33F& right);
+    Matrix33F operator*(const Matrix33F& right) const;
 
-    Vector3F operator*(const Vector3F& right);
+    Vector3F operator*(const Vector3F& right) const;
 
     operator Matrix33F_C() const;
 };
