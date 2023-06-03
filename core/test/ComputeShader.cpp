@@ -147,9 +147,6 @@ void main(uint3 dtid : SV_DispatchThreadID)
 
         instance->GetCommandList()->EndComputePass();
 
-        instance->GetCommandList()->ReadbackBuffer(output);
-        instance->GetCommandList()->ReadbackBuffer(output2);
-
         instance->GetCommandList()->End();
         instance->ExecuteCommandList();
         instance->WaitFinish();

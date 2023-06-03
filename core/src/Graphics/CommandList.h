@@ -108,10 +108,6 @@ public:
 
     void ResumeRenderPass();
 
-    void UploadBuffer(std::shared_ptr<Buffer> buffer);
-
-    void ReadbackBuffer(std::shared_ptr<Buffer> buffer);
-
     void CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst);
 
     void SetRenderTarget(std::shared_ptr<RenderTexture> target, const RenderPassParameter& renderPassParameter);
