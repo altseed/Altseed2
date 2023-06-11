@@ -31,7 +31,7 @@ namespace Altseed2 {
 
 // pseudo method for binding
 int32_t Easing::Release() {
-    ASD_ASSERT(false, "Easing class is static, cannot call Easing::Release.");
+    ASD_ASSERT_FORCE("Easing class is static, cannot call Easing::Release.");
     return 0;
 }
 
@@ -196,7 +196,7 @@ float Easing::GetEasing(EasingType easing, float t) {
         }
 
         default:
-            ASD_ASSERT(false, "Unexpected EasingType");
+            ASD_ASSERT_FORCE("Unexpected EasingType");
             return -1;
     }
 }

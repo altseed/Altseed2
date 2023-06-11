@@ -1361,16 +1361,6 @@ with CommandList as class_:
     with class_.add_func('ResumeRenderPass') as func_:
         pass
 
-    with class_.add_func('UploadBuffer') as func_:
-        func_.is_public = False
-        with func_.add_arg(Buffer, 'buffer') as arg:
-            pass
-
-    with class_.add_func('ReadbackBuffer') as func_:
-        func_.is_public = False
-        with func_.add_arg(Buffer, 'buffer') as arg:
-            pass
-
     with class_.add_func('CopyBuffer') as func_:
         func_.is_public = False
         with func_.add_arg(Buffer, 'src') as arg:
@@ -1474,6 +1464,18 @@ with CommandList as class_:
             pass
         with func_.add_arg(RenderTexture, 'texture') as arg:
             pass
+
+# 'return_type'
+    """
+    with class_.add_func('UploadBuffer') as func_:
+
+    """
+
+# 'return_type'
+    """
+    with class_.add_func('ReadbackBuffer') as func_:
+
+    """
 
     with class_.add_property(RenderTexture, 'ScreenTexture') as prop_:
         prop_.has_getter = True

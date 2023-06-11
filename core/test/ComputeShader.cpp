@@ -96,20 +96,27 @@ void main(uint3 dtid : SV_DispatchThreadID)
     auto instance = Altseed2::Graphics::GetInstance();
     EXPECT_TRUE(instance != nullptr);
 
+    const auto offset = 100.0f;
+
     auto pipeline1 = Altseed2::ComputePipelineState::Create();
+    EXPECT_TRUE(pipeline1 != nullptr);
+
     auto cs = Altseed2::ShaderCompiler::GetInstance()->Compile("", "CS1", csCode1, Altseed2::ShaderStageType::Compute)->GetValue();
+    EXPECT_TRUE(cs != nullptr);
     pipeline1->SetShader(cs);
-    pipeline1->SetVector4F(u"offset", Altseed2::Vector4F(100, 0, 0, 0));
+    pipeline1->SetVector4F(u"offset", Altseed2::Vector4F(offset, 0, 0, 0));
 
     auto pipeline2 = Altseed2::ComputePipelineState::Create();
+    EXPECT_TRUE(pipeline2 != nullptr);
     auto cs2 = Altseed2::ShaderCompiler::GetInstance()->Compile("", "CS2", csCode2, Altseed2::ShaderStageType::Compute)->GetValue();
+    EXPECT_TRUE(cs2 != nullptr);
     pipeline2->SetShader(cs2);
-    pipeline2->SetVector4F(u"offset", Altseed2::Vector4F(100, 0, 0, 0));
+    pipeline2->SetVector4F(u"offset", Altseed2::Vector4F(offset, 0, 0, 0));
 
     int dataSize = 256;
 
     auto input = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapWrite | Altseed2::BufferUsageType::CopySrc, sizeof(InputData) * dataSize);
-
+    EXPECT_TRUE(input != nullptr);
     {
         auto data = (InputData*)input->Lock();
         for (int i = 0; i < dataSize; i++) {
@@ -120,46 +127,61 @@ void main(uint3 dtid : SV_DispatchThreadID)
     }
 
     auto inputBuffer = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopyDst, sizeof(InputData) * dataSize);
+    EXPECT_TRUE(inputBuffer != nullptr);
 
-    auto output = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
+    auto output1 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
     auto output2 = Altseed2::Buffer::Create(Altseed2::BufferUsageType::Compute | Altseed2::BufferUsageType::CopySrc, sizeof(OutputData) * dataSize);
 
-    while (count++ < 10 && instance->DoEvents()) {
-        Altseed2::RenderPassParameter renderPassParameter;
-        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
-        renderPassParameter.IsColorCleared = true;
-        renderPassParameter.IsDepthCleared = true;
-        instance->GetCommandList()->Begin();
+    EXPECT_TRUE(output1 != nullptr);
+    EXPECT_TRUE(output2 != nullptr);
 
-        instance->GetCommandList()->CopyBuffer(input, inputBuffer);
+    auto output1Dst = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapRead | Altseed2::BufferUsageType::CopyDst, sizeof(OutputData) * dataSize);
+    auto output2Dst = Altseed2::Buffer::Create(Altseed2::BufferUsageType::MapRead | Altseed2::BufferUsageType::CopyDst, sizeof(OutputData) * dataSize);
 
-        instance->GetCommandList()->BeginComputePass();
+    EXPECT_TRUE(output1Dst != nullptr);
+    EXPECT_TRUE(output2Dst != nullptr);
 
-        instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
-        instance->GetCommandList()->SetComputeBuffer(output, sizeof(OutputData), 1);
-        instance->GetCommandList()->SetComputePipelineState(pipeline1);
-        instance->GetCommandList()->Dispatch(dataSize, 1, 1);
+    instance->GetCommandList()->Begin();
 
-        instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
-        instance->GetCommandList()->SetComputeBuffer(output2, sizeof(OutputData), 1);
-        instance->GetCommandList()->SetComputePipelineState(pipeline2);
-        instance->GetCommandList()->Dispatch(dataSize, 1, 1);
+    instance->GetCommandList()->CopyBuffer(input, inputBuffer);
 
-        instance->GetCommandList()->EndComputePass();
+    instance->GetCommandList()->BeginComputePass();
 
-        instance->GetCommandList()->ReadbackBuffer(output);
-        instance->GetCommandList()->ReadbackBuffer(output2);
+    instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
+    instance->GetCommandList()->SetComputeBuffer(output1, sizeof(OutputData), 1);
+    instance->GetCommandList()->SetComputePipelineState(pipeline1);
+    instance->GetCommandList()->Dispatch(dataSize, 1, 1);
 
-        instance->GetCommandList()->End();
-        instance->ExecuteCommandList();
-        instance->WaitFinish();
+    instance->GetCommandList()->SetComputeBuffer(inputBuffer, sizeof(InputData), 0);
+    instance->GetCommandList()->SetComputeBuffer(output2, sizeof(OutputData), 1);
+    instance->GetCommandList()->SetComputePipelineState(pipeline2);
+    instance->GetCommandList()->Dispatch(dataSize, 1, 1);
 
-        renderPassParameter.ClearColor = Altseed2::Color(50, 50, 50, 255);
-        renderPassParameter.IsColorCleared = true;
-        renderPassParameter.IsDepthCleared = true;
-        EXPECT_TRUE(instance->BeginFrame(renderPassParameter));
-        EXPECT_TRUE(instance->EndFrame());
+    instance->GetCommandList()->EndComputePass();
+
+    instance->GetCommandList()->CopyBuffer(output1, output1Dst);
+    instance->GetCommandList()->CopyBuffer(output2, output2Dst);
+
+    instance->GetCommandList()->End();
+    instance->ExecuteCommandList();
+    instance->WaitFinish();
+
+    auto readValues = (InputData*)input->Lock();
+    auto output1Values = (OutputData*)output1Dst->Lock();
+    auto output2Values = (OutputData*)output2Dst->Lock();
+
+    EXPECT_TRUE(readValues != nullptr);
+    EXPECT_TRUE(output1Values != nullptr);
+    EXPECT_TRUE(output2Values != nullptr);
+
+    for (int i = 0; i < dataSize; i++) {
+        EXPECT_EQ(output1Values[i].value, readValues[i].value1 * readValues[i].value2 + offset);
+        EXPECT_EQ(output2Values[i].value, readValues[i].value1 * readValues[i].value2 * offset);
     }
+
+    input->Unlock();
+    output1Dst->Unlock();
+    output2Dst->Unlock();
 
     Altseed2::Core::Terminate();
 }

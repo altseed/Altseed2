@@ -20,7 +20,7 @@ std::shared_ptr<Buffer> Buffer::Create(BufferUsageType usage, int32_t size) {
     auto buffer = graphics->CreateBuffer((LLGI::BufferUsageType)usage, size);
 
     if (buffer == nullptr) {
-        Log::GetInstance()->Error(LogCategory::Core, u"RenderTexture::Create: Failed to CreateTexture");
+        Log::GetInstance()->Error(LogCategory::Core, u"Buffer::Create: Failed to create buffer");
         return nullptr;
     }
 

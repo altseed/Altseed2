@@ -1270,20 +1270,6 @@ CBGEXPORT void CBGSTDCALL cbg_CommandList_ResumeRenderPass(void* cbg_self) {
     cbg_self_->ResumeRenderPass();
 }
 
-CBGEXPORT void CBGSTDCALL cbg_CommandList_UploadBuffer(void* cbg_self, void* buffer) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Buffer> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)buffer);
-    cbg_self_->UploadBuffer(cbg_arg0);
-}
-
-CBGEXPORT void CBGSTDCALL cbg_CommandList_ReadbackBuffer(void* cbg_self, void* buffer) {
-    auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
-
-    std::shared_ptr<Altseed2::Buffer> cbg_arg0 = Altseed2::CreateAndAddSharedPtr<Altseed2::Buffer>((Altseed2::Buffer*)buffer);
-    cbg_self_->ReadbackBuffer(cbg_arg0);
-}
-
 CBGEXPORT void CBGSTDCALL cbg_CommandList_CopyBuffer(void* cbg_self, void* src, void* dst) {
     auto cbg_self_ = (Altseed2::CommandList*)(cbg_self);
 

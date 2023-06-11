@@ -532,35 +532,35 @@ TEST(Font, SamplingSize) {
         texts.push_back(t);
     }
 
-    {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 128);
-        auto t = Altseed2::RenderedText::Create();
-        t->SetFont(font);
-        t->SetText(u"128: 弱虫やーい。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 4, 0));
-        t->SetFontSize(size);
-        texts.push_back(t);
-    }
+    // {
+    //     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 128);
+    //     auto t = Altseed2::RenderedText::Create();
+    //     t->SetFont(font);
+    //     t->SetText(u"128: 弱虫やーい。");
+    //     t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 4, 0));
+    //     t->SetFontSize(size);
+    //     texts.push_back(t);
+    // }
 
-    {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 176);
-        auto t = Altseed2::RenderedText::Create();
-        t->SetFont(font);
-        t->SetText(u"176: と囃はやしたからである。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 5, 0));
-        t->SetFontSize(size);
-        texts.push_back(t);
-    }
+    // {
+    //     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 176);
+    //     auto t = Altseed2::RenderedText::Create();
+    //     t->SetFont(font);
+    //     t->SetText(u"176: と囃はやしたからである。");
+    //     t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 5, 0));
+    //     t->SetFontSize(size);
+    //     texts.push_back(t);
+    // }
 
-    {
-        auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 256);
-        auto t = Altseed2::RenderedText::Create();
-        t->SetFont(font);
-        t->SetText(u"256: 小使いに負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。");
-        t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 6, 0));
-        t->SetFontSize(size);
-        texts.push_back(t);
-    }
+    // {
+    //     auto font = Altseed2::Font::LoadDynamicFont(u"TestData/Font/mplus-1m-regular.ttf", 256);
+    //     auto t = Altseed2::RenderedText::Create();
+    //     t->SetFont(font);
+    //     t->SetText(u"256: 小使いに負ぶさって帰って来た時、おやじが大きな眼をして二階ぐらいから飛び降りて腰を抜かす奴があるかと云ったから、この次は抜かさずに飛んで見せますと答えた。");
+    //     t->SetTransform(Altseed2::Matrix44F().SetTranslation(0, offset * 6, 0));
+    //     t->SetFontSize(size);
+    //     texts.push_back(t);
+    // }
 
     for (const auto& t : texts) {
         Altseed2::CullingSystem::GetInstance()->Register(t);

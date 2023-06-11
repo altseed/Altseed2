@@ -319,12 +319,6 @@ void CommandList::ResumeRenderPass() {
     FrameDebugger::GetInstance()->BeginRenderPass();
 }
 
-void CommandList::UploadBuffer(std::shared_ptr<Buffer> buffer) {
-}
-
-void CommandList::ReadbackBuffer(std::shared_ptr<Buffer> buffer) {
-}
-
 void CommandList::CopyBuffer(std::shared_ptr<Buffer> src, std::shared_ptr<Buffer> dst) {
     currentCommandList_->CopyBuffer(src->GetLL().get(), dst->GetLL().get());
 }

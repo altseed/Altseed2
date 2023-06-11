@@ -172,7 +172,7 @@ std::shared_ptr<Shader> Material::GetShader(ShaderStageType shaderStage) const {
         case ShaderStageType::Pixel:
             return pixelShader_;
         default:
-            ASD_ASSERT(false, "Invalid ShaderStageType in Material::GetShader");
+            ASD_ASSERT_FORCE("Invalid ShaderStageType in Material::GetShader");
     }
 }
 
@@ -187,7 +187,7 @@ void Material::SetShader(const std::shared_ptr<Shader>& shader) {
             pixelShader_ = shader;
             return;
         default:
-            ASD_ASSERT(false, "Invalid ShaderStageType in Material::SetShader");
+            ASD_ASSERT_FORCE("Invalid ShaderStageType in Material::SetShader");
     }
 }
 

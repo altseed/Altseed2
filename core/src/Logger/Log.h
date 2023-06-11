@@ -93,7 +93,7 @@ public:
                 logger->critical(utf16_to_utf8(format).c_str(), args...);
                 break;
             default:
-                ASD_ASSERT(false, "Unexpected LogLevel");
+                ASD_ASSERT_FORCE("Unexpected LogLevel");
                 break;
         }
     }
